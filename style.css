@@ -47,9 +47,10 @@
 #userColors {
   display: flex;
   flex-direction: column;
+  min-width: 100px;
 }
 #userColor, #userBg {
-  height: 60px;
+  height: 88px;
   width: 60px;
   border-radius: 4px;
   margin-right: 8px;
@@ -103,15 +104,15 @@
   cursor: pointer;
 }
 input[type="number"], input[type="text"] {
-  height: 32px;
+  /* height: 32px; */
   width: 60px;
-  padding: 0 8px 0;
+  /* padding: 0 8px 0;
   margin: 0;
   border-radius: 4px;
   -webkit-appearance: none;
   appearance: none;
   border: 1px solid #e1e1e1;
-  font-size: 14px;
+  font-size: 14px; */
 }
 input[type="number"]:focus, input[type="text"]:focus {
   border-color: #1473e6;

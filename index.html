@@ -4,9 +4,21 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://unpkg.com/d3-cam02@0.1.5/build/d3-cam02.js"></script>
   <script src="d3-hsluv.min.js"></script>
+
+  <link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-global.css">
+  <link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-medium-unique.css">
+  <link rel="stylesheet" href="node_modules/@spectrum-css/vars/dist/spectrum-light.css">
+
+  <link rel="stylesheet" href="node_modules/@spectrum-css/page/dist/index-vars.css">
+  <link rel="stylesheet" href="node_modules/@spectrum-css/typography/dist/index-vars.css">
+  <link rel="stylesheet" href="node_modules/@spectrum-css/radio/dist/index-vars.css">
+  <link rel="stylesheet" href="node_modules/@spectrum-css/fieldgroup/dist/index-vars.css">
+  <link rel="stylesheet" href="node_modules/@spectrum-css/textfield/dist/index-vars.css">
+  <link rel="stylesheet" href="node_modules/@spectrum-css/fieldlabel/dist/index-vars.css">
+
   <link rel='stylesheet' href="style.css"/>
 </head>
-<body>
+<body class="spectrum spectrum--light spectrum--medium">
 <!-- <div id="inputs">
   <label for="colorInput1">Color</label>
   <input id="colorInput1" type="text" value="#1473e6"></input>
@@ -14,30 +26,47 @@
 <div class="wrapper">
   <div id="userColors">
     <div id="userColor">
+      <label for="colorField" class="spectrum-FieldLabel">Foreground</label>
       <input type="color" class="colorInput" id="colorField" value="#0000FF" onChange="colorInput()"></input>
     </div>
     <div id="userBg">
+      <label for="bgField" class="spectrum-FieldLabel">Background</label>
       <input type="color" class="colorInput" id="bgField" value="#f5f5f5" onChange="colorInput()" ></input>
   </div>
-    <input id="ratio" type="number" min="1" max="21" step=".005" onChange="ratioUpdate()"></input>
-    <div id="radioGroup">
-      <div class="radioItem">
-        <input type="radio" name="mode" classname="modes" id="JAB" value="JAB" onChange="colorInput()" checked ><label for="JAB">CAM02</label>
+    <label for="ratio" class="spectrum-FieldLabel">Contrast Ratio</label>
+    <input class="spectrum-Textfield" id="ratio" type="number" min="1" max="21" step=".005" onChange="ratioUpdate()"></input>
+
+    <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
+      <label for="radioGroup" class="spectrum-FieldLabel">Color Space</label>
+      <div class="spectrum-Radio">
+        <input type="radio" name="mode" class="spectrum-Radio-input" id="JAB" value="JAB" onChange="colorInput()" checked >
+        <span class="spectrum-Radio-button"></span>
+        <label class="spectrum-Radio-label" for="JAB">CAM02</label>
       </div>
-      <div class="radioItem">
-        <input type="radio" name="mode" classname="modes" id="LAB" value="LAB" onChange="colorInput()" ><label for="LAB">LAB</label>
+      <div class="spectrum-Radio">
+        <input type="radio" name="mode" class="spectrum-Radio-input" id="LAB" value="LAB" onChange="colorInput()" >
+        <span class="spectrum-Radio-button"></span>
+        <label class="spectrum-Radio-label" for="LAB">LAB</label>
       </div>
-      <div class="radioItem">
-        <input type="radio" name="mode" classname="modes" id="LCH" value="LCH" onChange="colorInput()"><label for="LCH">LCH</label>
+      <div class="spectrum-Radio">
+        <input type="radio" name="mode" class="spectrum-Radio-input" id="LCH" value="LCH" onChange="colorInput()">
+        <span class="spectrum-Radio-button"></span>
+        <label class="spectrum-Radio-label" for="LCH">LCH</label>
       </div>
-      <div class="radioItem">
-        <input type="radio" name="mode" classname="modes" id="HSL" value="HSL" onChange="colorInput()"><label for="HSL">HSL</label>
+      <div class="spectrum-Radio">
+        <input type="radio" name="mode" class="spectrum-Radio-input" id="HSL" value="HSL" onChange="colorInput()">
+        <span class="spectrum-Radio-button"></span>
+        <label class="spectrum-Radio-label" for="HSL">HSL</label>
       </div>
-      <div class="radioItem">
-        <input type="radio" name="mode" classname="modes" id="HSLuv" value="HSLuv" onChange="colorInput()"><label for="HSLuv">HSLuv</label>
+      <div class="spectrum-Radio">
+        <input type="radio" name="mode" class="spectrum-Radio-input" id="HSLuv" value="HSLuv" onChange="colorInput()">
+        <span class="spectrum-Radio-button"></span>
+        <label class="spectrum-Radio-label" for="HSLuv">HSLuv</label>
       </div>
     </div>
+
   </div>
+
   <div id="gradientWrapper">
     <div id="colors"></div>
     <div id="sliderWrapper">

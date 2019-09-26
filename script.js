@@ -241,7 +241,7 @@ function colorInput() {
   }
 
   backgroundblock(background);
-  passFail(contrastRatio);
+  // passFail(contrastRatio);
 }
 colorInput(color1);
 
@@ -340,15 +340,3 @@ function ratioUpdate() {
   //   }
   // }
 }
-
-// for (var i = 0; i < colors.length; i++) {
-//   var container = document.getElementById('colors');
-//   var div = document.createElement('div');
-//   div.className = 'block';
-//   div.style.backgroundColor = colors[i];
-
-//   container.appendChild(div);
-// }
-
-// 3. Bezier Curves
-// To do.
