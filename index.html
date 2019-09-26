@@ -1,0 +1,71 @@
+<html>
+<head>
+  <!-- <script src="https://d3js.org/d3-color.v1.min.js"></script> -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://unpkg.com/d3-cam02@0.1.5/build/d3-cam02.js"></script>
+  <script src="d3-hsluv.min.js"></script>
+  <link rel='stylesheet' href="style.css"/>
+</head>
+<body>
+<!-- <div id="inputs">
+  <label for="colorInput1">Color</label>
+  <input id="colorInput1" type="text" value="#1473e6"></input>
+</div> -->
+<div class="wrapper">
+  <div id="userColors">
+    <div id="userColor">
+      <input type="color" class="colorInput" id="colorField" value="#0000FF" onChange="colorInput()"></input>
+    </div>
+    <div id="userBg">
+      <input type="color" class="colorInput" id="bgField" value="#f5f5f5" onChange="colorInput()" ></input>
+  </div>
+    <input id="ratio" type="number" min="1" max="21" step=".005" onChange="ratioUpdate()"></input>
+    <div id="radioGroup">
+      <div class="radioItem">
+        <input type="radio" name="mode" classname="modes" id="JAB" value="JAB" onChange="colorInput()" checked ><label for="JAB">CAM02</label>
+      </div>
+      <div class="radioItem">
+        <input type="radio" name="mode" classname="modes" id="LAB" value="LAB" onChange="colorInput()" ><label for="LAB">LAB</label>
+      </div>
+      <div class="radioItem">
+        <input type="radio" name="mode" classname="modes" id="LCH" value="LCH" onChange="colorInput()"><label for="LCH">LCH</label>
+      </div>
+      <div class="radioItem">
+        <input type="radio" name="mode" classname="modes" id="HSL" value="HSL" onChange="colorInput()"><label for="HSL">HSL</label>
+      </div>
+      <div class="radioItem">
+        <input type="radio" name="mode" classname="modes" id="HSLuv" value="HSLuv" onChange="colorInput()"><label for="HSLuv">HSLuv</label>
+      </div>
+    </div>
+  </div>
+  <div id="gradientWrapper">
+    <div id="colors"></div>
+    <div id="sliderWrapper">
+      <input type="range" min="0" max="100" class="slider" id="Slider" onchange="sliderInput()">
+    </div>
+  </div>
+  <div id="colorWrapper">
+    <div id="color"></div>
+  </div>
+  <div id="demoWrapper">
+      <div id="demo">
+        <h1 id="demoHeading">Ag</h1><span class="largeTextWrapper"></span>
+        <p id="demoText">The quick brown fox jumps over the arbitrary object.</p><span class="smallTextWrapper"></span>
+      </div>
+      <div id="demoInverted">
+        <h1 id="demoHeadingInverted">Ag</h1><span class="largeTextWrapper"></span>
+        <p id="demoTextInverted">The quick brown fox jumps over the arbitrary object.</p><span class="smallTextWrapper"></span>
+      </div>
+  </div>
+</div>
+<span>
+  <p>To do:</p>
+  <ul>
+    <li> Fix HSL & HSLuv output & domain</li>
+    <li> passFail needs to display foreach (only last shown) </li>
+    <li> colorDomainUpdate not rendering colorblock </li>
+    <li> Create function for ratioInput </li>
+  </ul>
+</span>
+<script src="script.js"></script>
+</body>

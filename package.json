@@ -1,0 +1,27 @@
+{
+  "name": "contrast-tool",
+  "version": "1.0.0",
+  "description": "Generate colors based on a desired contrast ratio",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://git.corp.adobe.com:nbaldwin/Color-Tool.git"
+  },
+  "author": "Nate Baldwin <nbaldwin@adobe.com>",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "accessibility",
+    "inclusive",
+    "wcag",
+    "contrast",
+    "color"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "d3": "^5.12.0",
+    "d3-cam02": "^0.1.5",
+    "d3-hsluv": "^0.1.2"
+  }
+}
