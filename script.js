@@ -104,16 +104,14 @@ function colorScale(color, domain, c2, c3) {
       .interpolate(d3.interpolateJab);
   }
   if(colorspace == 'LCH') {
-    if (c2 == '#FFFFFF' || '#ffffff') {
-      var c2 = d3.hcl(NaN, 0, 100);
-    } else {
-      c2 = document.getElementById('colorField2').value;
-    }
-    if (c3 == '#000000') {
-      var c3 = d3.hcl(NaN, 0, 0);
-    } else {
-      c3 = document.getElementById('colorField3').value;
-    }
+    // TODO: if c2 / c2 inputs are pure white/black, redefine
+    // to D3 hcl hack:
+    // if (c2 == '#FFFFFF' || '#ffffff') {
+    //   var c2 = d3.hcl(NaN, 0, 100);
+    // }
+    // if (c3 == '#000000' || 'black') {
+    //   var c3 = d3.hcl(NaN, 0, 0);
+    // }
     return d3.scaleLinear()
       .range([c2, d3.hcl(color), c3])
       .domain([0, domain, swatches])
