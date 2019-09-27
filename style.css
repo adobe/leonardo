@@ -6,13 +6,13 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--spectrum-panel-background-color);
-  width: var(--spectrum-global-dimension-size-3000);
+  min-width: var(--spectrum-global-dimension-size-3000);
   border-right: 2px solid var(--spectrum-panel-border-color);
   padding: 0;
 }
 .spectrum-Panel--custom {
   flex-direction: row;
-  width: var(--spectrum-global-dimension-2000);
+  min-width: var(--spectrum-global-dimension-2000);
 }
 .spectrum-Panel-Item {
   padding: 8px 16px 16px;
@@ -22,7 +22,7 @@ body {
   border: 0;
   display: flex;
   flex-direction: row;
-  width: 140px;
+  min-width: 140px;
 }
 #inputs {
   margin-bottom: 1em;
@@ -166,8 +166,11 @@ input[type=color]:focus {
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
 }
 #demoWrapper {
-  margin-left: 20px;
-  padding-left: 20px;
+  padding: 0 48px 56px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 h1 {
   margin-bottom: 0px;
@@ -177,5 +180,7 @@ p {
 }
 #demo,
 #demoInverted {
-  padding: 20px;
+  max-width: 80ch;
+  padding: 24px 32px;
+  align-self: center;
 }

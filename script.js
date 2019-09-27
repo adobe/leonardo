@@ -5,9 +5,12 @@ var color3 = document.getElementById('colorField3').value;
 var background = document.getElementById('bgField').value;
 var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
+var demoWrapper = document.getElementById('demoWrapper');
 var demoText = document.getElementById('demoText');
 var demoBackgroundText = document.getElementById('demoTextInverted');
 var demoBackgroundBlock = document.getElementById('demoInverted');
+var demoButton = document.getElementById('demoButton');
+var demoButtonInverted = document.getElementById('demoButtonInverted');
 var userColorBlock = document.getElementById('userColor');
 var userBgBlock = document.getElementById('userBg');
 var ratioInput = document.getElementById('ratio');
@@ -21,62 +24,67 @@ function colorblock(c){
   demoBackgroundBlock.style.backgroundColor = c;
   demoText.style.color = c;
   demoHeading.style.color = c;
+  demoButton.style.color = c;
+  demoButton.style.borderColor = c;
 }
 colorblock(color1);
 
 function backgroundblock(b){
-  document.body.style.backgroundColor = b;
+  demoWrapper.style.backgroundColor = b;
   demoBackgroundText.style.color = b;
   demoBackgroundBlock.style.color = b;
+  demoButtonInverted.style.color = b;
+  demoButtonInverted.style.borderColor = b;
 }
 backgroundblock(background);
 
-function passFail(a) {
-  var x = a;
-  var smallText = document.getElementsByClassName('smallTextWrapper');
-  var largeText = document.getElementsByClassName('largeTextWrapper');
-  var passtext = document.createTextNode("pass AA");
-  var fail = document.createElement('div');
-  var failtext = document.createTextNode("fail AA");
-
-  if(x >= 4.5) {
-    // Small text pass
-    for (var i = 0; i < smallText.length; i++) {
-      smallText[i].innerHTML = '';
-      smallText[i].appendChild(passtext);
-    }
-    // Large text pass
-    for (var i = 0; i < largeText.length; i++) {
-      largeText[i].innerHTML = '';
-      largeText[i].appendChild(passtext);
-    }
-    console.log("PASS: Large & Small Text");
-  }
-  if(x > 4.5 && x <= 3) {
-    // Large text pass
-    for (var i = 0; i < largeText.length; i++) {
-      largeText[i].innerHTML = '';
-      largeText[i].appendChild(passtext);
-    }
-    for (var i = 0; i < smallText.length; i++) {
-      smallText[i].innerHTML = '';
-      smallText[i].appendChild(failtext);
-    }
-    console.log("PASS: Large Text only");
-  }
-  if(x < 3) {
-    // all fail
-    for (var i = 0; i < largeText.length; i++) {
-      largeText[i].innerHTML = '';
-      largeText[i].appendChild(failtext);
-    }
-    for (var i = 0; i < smallText.length; i++) {
-      smallText[i].innerHTML = '';
-      smallText[i].appendChild(failtext);
-    }
-    console.log("FAIL: Small and Large Text");
-  }
-}
+// TODO: display pass/fail in demo
+// function passFail(a) {
+//   var x = a;
+//   var smallText = document.getElementsByClassName('smallTextWrapper');
+//   var largeText = document.getElementsByClassName('largeTextWrapper');
+//   var passtext = document.createTextNode("pass AA");
+//   var fail = document.createElement('div');
+//   var failtext = document.createTextNode("fail AA");
+//
+//   if(x >= 4.5) {
+//     // Small text pass
+//     for (var i = 0; i < smallText.length; i++) {
+//       smallText[i].innerHTML = '';
+//       smallText[i].appendChild(passtext);
+//     }
+//     // Large text pass
+//     for (var i = 0; i < largeText.length; i++) {
+//       largeText[i].innerHTML = '';
+//       largeText[i].appendChild(passtext);
+//     }
+//     console.log("PASS: Large & Small Text");
+//   }
+//   if(x > 4.5 && x <= 3) {
+//     // Large text pass
+//     for (var i = 0; i < largeText.length; i++) {
+//       largeText[i].innerHTML = '';
+//       largeText[i].appendChild(passtext);
+//     }
+//     for (var i = 0; i < smallText.length; i++) {
+//       smallText[i].innerHTML = '';
+//       smallText[i].appendChild(failtext);
+//     }
+//     console.log("PASS: Large Text only");
+//   }
+//   if(x < 3) {
+//     // all fail
+//     for (var i = 0; i < largeText.length; i++) {
+//       largeText[i].innerHTML = '';
+//       largeText[i].appendChild(failtext);
+//     }
+//     for (var i = 0; i < smallText.length; i++) {
+//       smallText[i].innerHTML = '';
+//       smallText[i].appendChild(failtext);
+//     }
+//     console.log("FAIL: Small and Large Text");
+//   }
+// }
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
