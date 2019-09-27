@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="spectrum-Panel-Item">
-      <label for="ratio" class="spectrum-FieldLabel">Contrast Ratio</label>
+      <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
       <input class="spectrum-Textfield" id="ratio" type="number" min="-21" max="21" step=".005" onChange="ratioUpdate()"></input>
     </div>
     <div class="spectrum-Panel-Item">
@@ -93,6 +93,10 @@
           <label class="spectrum-Radio-label" for="HSLuv">HSLuv</label>
         </div>
       </div>
+    </div>
+    <div class="spectrum-Panel-Item">
+      <label for="colorOutput" class="spectrum-FieldLabel">Updated color value</label>
+      <input class="spectrum-Textfield spectrum-Textfield--readonly" id="colorOutput" type="text" value="#0000FF" readonly></input>
     </div>
   </div>
 
