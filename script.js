@@ -12,6 +12,7 @@ var userColorBlock = document.getElementById('userColor');
 var userBgBlock = document.getElementById('userBg');
 var ratioInput = document.getElementById('ratio');
 var targetRatio = ratioInput.value;
+var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
 
 var swatches = 300; // in order to make a gradient, this count needs to be massive
 
@@ -288,13 +289,22 @@ function colorInput() {
 colorInput(color1);
 
 function sliderInput() {
+  var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
   var color1 = document.getElementById('colorField1').value;
+  var color2 = document.getElementById('colorField2').value;
+  var color3 = document.getElementById('colorField3').value;
   var slider = document.getElementById('Slider');
   var sliderPos = document.getElementById('Slider').value;
   var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
   var colorDomainUpdate =  swatches - (swatches * sliderPos/100);
 
-  var clr = colorScale(color1, colorDomain);
+  if (scaleNumbers == "1color") {
+    var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
+  }
+  if (scaleNumbers == "3color") {
+    var clr = colorScale(color1, colorDomain, color2, color3);
+  }
+
   var ColorArray = d3.range(swatches).map(function(d) {
     return clr(d)
   });
