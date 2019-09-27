@@ -214,6 +214,9 @@ function colorInput() {
 
   if(mode == "HSL") {
     var colorDomain = swatches * d3.hsl(color1).l; // should be calculated.
+    console.log("HSL L Value: " + d3.hsl(color1).l);
+    console.log("HSL Color Domain: " + colorDomain);
+
     var L2 = d3.hsl(color1).l * 100;
     if (scaleNumbers == "1color") {
       var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
@@ -297,6 +300,7 @@ function colorInput() {
 colorInput(color1);
 
 function sliderInput() {
+  var mode = document.querySelector('input[name="mode"]:checked').value;
   var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
   var color1 = document.getElementById('colorField1').value;
   var color2 = document.getElementById('colorField2').value;
@@ -306,7 +310,9 @@ function sliderInput() {
   var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
   var colorDomainUpdate =  swatches - (swatches * sliderPos/100);
 
-  if (scaleNumbers == "1color") {
+  if (scaleNumbers == "1color" && mode == 'LCH') {
+    var clr = colorScale(color1, colorDomain, d3.hcl(NaN, 0, 100), d3.hcl(NaN, 0, 0));
+  } else if (scaleNumbers == "1color") {
     var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
   }
   if (scaleNumbers == "3color") {
