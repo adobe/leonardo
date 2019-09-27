@@ -1,3 +1,14 @@
+<!--
+Copyright 2019 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+-->
 <html>
 <head>
   <!-- <script src="https://d3js.org/d3-color.v1.min.js"></script> -->
@@ -50,7 +61,7 @@
         </div>
       </div>
       <div id="userColor">
-        <label for="colorField1" class="spectrum-FieldLabel">Foreground</label>
+        <label for="colorField1" class="spectrum-FieldLabel">UI color</label>
         <input type="color" class="colorInput" id="colorField2" value="#EAFAFF" onChange="colorInput()"></input>
         <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
         <input type="color" class="colorInput" id="colorField3" value="#00000F" onChange="colorInput()"></input>
@@ -66,16 +77,16 @@
     </div>
     <div class="spectrum-Panel-Item">
       <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
-        <label for="radioGroup" class="spectrum-FieldLabel">Color Space</label>
+        <label for="radioGroup" class="spectrum-FieldLabel">Color space (interpolation)</label>
         <div class="spectrum-Radio">
           <input type="radio" name="mode" class="spectrum-Radio-input" id="LCH" value="LCH" onChange="colorInput()" checked>
           <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="LCH">LCH</label>
+          <label class="spectrum-Radio-label" for="LCH">LCH (Lab)</label>
         </div>
         <div class="spectrum-Radio">
           <input type="radio" name="mode" class="spectrum-Radio-input" id="LAB" value="LAB" onChange="colorInput()" >
           <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="LAB">LAB</label>
+          <label class="spectrum-Radio-label" for="LAB">Lab</label>
         </div>
         <div class="spectrum-Radio">
           <input type="radio" name="mode" class="spectrum-Radio-input" id="JAB" value="JAB" onChange="colorInput()" >
