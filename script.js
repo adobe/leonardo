@@ -104,6 +104,16 @@ function colorScale(color, domain, c2, c3) {
       .interpolate(d3.interpolateJab);
   }
   if(colorspace == 'LCH') {
+    if (c2 == '#FFFFFF' || '#ffffff') {
+      var c2 = d3.hcl(NaN, 0, 100);
+    } else {
+      c2 = document.getElementById('colorField2').value;
+    }
+    if (c3 == '#000000') {
+      var c3 = d3.hcl(NaN, 0, 0);
+    } else {
+      c3 = document.getElementById('colorField3').value;
+    }
     return d3.scaleLinear()
       .range([c2, d3.hcl(color), c3])
       .domain([0, domain, swatches])
