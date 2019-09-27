@@ -1,5 +1,7 @@
-var colorField = document.getElementById('colorField');
-var color1 = document.getElementById('colorField').value;
+var colorField = document.getElementById('colorField1');
+var color1 = document.getElementById('colorField1').value;
+var color2 = document.getElementById('colorField2').value;
+var color3 = document.getElementById('colorField3').value;
 var background = document.getElementById('bgField').value;
 var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
@@ -91,36 +93,36 @@ function contrast(rgb1, rgb2) {
 }
 
 // Simplifying d3 color Functions for reuse
-function colorScale(color, domain) {
+function colorScale(color, domain, c2, c3) {
   var colorspace = document.querySelector('input[name="mode"]:checked').value;
 
   if(colorspace == 'JAB') {
     return d3.scaleLinear()
-      .range(['#ffffff', d3.jab(color), '#000000'])
+      .range([c2, d3.jab(color), c3])
       .domain([0, domain, swatches])
       .interpolate(d3.interpolateJab);
   }
   if(colorspace == 'LCH') {
     return d3.scaleLinear()
-      .range([d3.hcl(NaN, 0, 100), d3.hcl(color), d3.hcl(NaN, 0, 0)])
+      .range([c2, d3.hcl(color), c3])
       .domain([0, domain, swatches])
       .interpolate(d3.interpolateHcl);
   }
   if(colorspace == 'LAB') {
     return d3.scaleLinear()
-      .range(['#ffffff', d3.lab(color), '#000000'])
+      .range([c2, d3.lab(color), c3])
       .domain([0, domain, swatches])
       .interpolate(d3.interpolateLab);
   }
   if(colorspace == 'HSL') {
     return d3.scaleLinear()
-      .range(['#ffffff', d3.hsl(color), '#000000'])
+      .range([c2, d3.hsl(color), c3])
       .domain([0, domain, swatches])
       .interpolate(d3.interpolateHsl);
   }
   if(colorspace == 'HSLuv') {
     return d3.scaleLinear()
-      .range([d3.hsluv('#ffffff'), d3.hsluv(color), d3.hsluv('#000000')])
+      .range([c2, d3.hsluv(color), c3])
       .domain([0, domain, swatches])
       .interpolate(d3.interpolateHsluv);
   }
@@ -133,14 +135,33 @@ function colorInput() {
   var mode = document.querySelector('input[name="mode"]:checked').value;
   var slider = document.getElementById('Slider');
   var background = document.getElementById('bgField').value;
+  var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
 
-  var color1 = colorField.value;
+  var color1 = colorField1.value;
+  var color2 = colorField2.value;
+  var color3 = colorField3.value;
   colorblock(color1);
+
+  if (scaleNumbers == "1color") {
+    document.getElementById('colorField2').style.display = 'none';
+    document.getElementById('colorField3').style.display = 'none';
+    // domainInput.disabled = true;
+  }
+  if (scaleNumbers == "3color")  {
+    document.getElementById('colorField2').style.display = 'inline-flex';
+    document.getElementById('colorField3').style.display = 'inline-flex';
+    // domainInput.disabled = false;
+  }
 
   if(mode == "JAB") {
     var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
     var L2 = d3.jab(color1).J;
-    var clr = colorScale(color1, colorDomain);
+    if (scaleNumbers == "1color") {
+      var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
+    }
+    if (scaleNumbers == "3color") {
+      var clr = colorScale(color1, colorDomain, color2, color3);
+    }
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -151,7 +172,13 @@ function colorInput() {
   if(mode == "LCH") {
     var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
     var L2 = d3.hcl(color1).l;
-    var clr = colorScale(color1, colorDomain);
+
+    if (scaleNumbers == "1color") {
+      var clr = colorScale(color1, colorDomain, d3.hcl(NaN, 0, 100), d3.hcl(NaN, 0, 0));
+    }
+    if (scaleNumbers == "3color") {
+      var clr = colorScale(color1, colorDomain, color2, color3);
+    }
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -162,7 +189,12 @@ function colorInput() {
   if(mode == "LAB") {
     var colorDomain = swatches - swatches * ((d3.lab(color1).l / 100)); // should be calculated.
     var L2 = d3.lab(color1).l;
-    var clr = colorScale(color1, colorDomain);
+    if (scaleNumbers == "1color") {
+      var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
+    }
+    if (scaleNumbers == "3color") {
+      var clr = colorScale(color1, colorDomain, color2, color3);
+    }
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -174,7 +206,12 @@ function colorInput() {
   if(mode == "HSL") {
     var colorDomain = swatches * d3.hsl(color1).l; // should be calculated.
     var L2 = d3.hsl(color1).l * 100;
-    var clr = colorScale(color1, colorDomain);
+    if (scaleNumbers == "1color") {
+      var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
+    }
+    if (scaleNumbers == "3color") {
+      var clr = colorScale(color1, colorDomain, color2, color3);
+    }
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -185,7 +222,12 @@ function colorInput() {
   if(mode == "HSLuv") {
     var colorDomain = swatches * d3.hsl(color1).l; // should be calculated.
     var L2 = d3.hsluv(color1).l / 10;
-    var clr = colorScale(color1, colorDomain);
+    if (scaleNumbers == "1color") {
+      var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
+    }
+    if (scaleNumbers == "3color") {
+      var clr = colorScale(color1, colorDomain, color2, color3);
+    }
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -232,11 +274,11 @@ function colorInput() {
 
   if (luminance(backgroundR, backgroundG, backgroundB) < 0.3) {
     document.body.style.color = '#ffffff';
-    document.getElementById('colorField').style.borderColor = 'rgba(255, 255, 255, 0.25)';
+    document.getElementById('colorField1').style.borderColor = 'rgba(255, 255, 255, 0.25)';
     document.getElementById('bgField').style.borderColor = 'rgba(255, 255, 255, 0.25)';
   } else {
     document.body.style.color = '#000000';
-    document.getElementById('colorField').style.borderColor = 'rgba(0, 0, 0, 0.25)';
+    document.getElementById('colorField1').style.borderColor = 'rgba(0, 0, 0, 0.25)';
     document.getElementById('bgField').style.borderColor = 'rgba(0, 0, 0, 0.25)';
   }
 
@@ -246,7 +288,7 @@ function colorInput() {
 colorInput(color1);
 
 function sliderInput() {
-  var color1 = document.getElementById('colorField').value;
+  var color1 = document.getElementById('colorField1').value;
   var slider = document.getElementById('Slider');
   var sliderPos = document.getElementById('Slider').value;
   var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
@@ -293,7 +335,7 @@ sliderInput();
 function ratioUpdate() {
   var ratioInput = document.getElementById('ratio');
   var targetRatio = ratioInput.value;
-  var color1 = document.getElementById('colorField').value;
+  var color1 = document.getElementById('colorField1').value;
   // var colorDomain =  swatches - (swatches * sliderPos/100);
   // var clr = colorScale(color1, colorDomain);
   // var ColorArray = d3.range(swatches).map(function(d) {

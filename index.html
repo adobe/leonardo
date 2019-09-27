@@ -25,9 +25,29 @@
 </div> -->
 <div class="wrapper">
   <div id="userColors">
+    <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
+      <label for="radioGroup" class="spectrum-FieldLabel">Number of colors</label>
+      <div class="spectrum-Radio">
+        <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="1color" value="1color" onChange="colorInput()" checked >
+        <span class="spectrum-Radio-button"></span>
+        <label class="spectrum-Radio-label" for="1color">1 Color</label>
+      </div>
+      <!-- <div class="spectrum-Radio">
+        <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="scale2" value="2" onChange="colorInput()">
+        <span class="spectrum-Radio-button"></span>
+        <label class="spectrum-Radio-label" for="scale2">2 Colors</label>
+      </div> -->
+      <div class="spectrum-Radio">
+        <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="3color" value="3color" onChange="colorInput()">
+        <span class="spectrum-Radio-button"></span>
+        <label class="spectrum-Radio-label" for="3color">3 Colors</label>
+      </div>
+    </div>
     <div id="userColor">
-      <label for="colorField" class="spectrum-FieldLabel">Foreground</label>
-      <input type="color" class="colorInput" id="colorField" value="#0000FF" onChange="colorInput()"></input>
+      <label for="colorField1" class="spectrum-FieldLabel">Foreground</label>
+      <input type="color" class="colorInput" id="colorField2" value="#DAFFFF" onChange="colorInput()"></input>
+      <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
+      <input type="color" class="colorInput" id="colorField3" value="#25002F" onChange="colorInput()"></input>
     </div>
     <div id="userBg">
       <label for="bgField" class="spectrum-FieldLabel">Background</label>
@@ -39,9 +59,9 @@
     <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
       <label for="radioGroup" class="spectrum-FieldLabel">Color Space</label>
       <div class="spectrum-Radio">
-        <input type="radio" name="mode" class="spectrum-Radio-input" id="JAB" value="JAB" onChange="colorInput()" checked >
+        <input type="radio" name="mode" class="spectrum-Radio-input" id="LCH" value="LCH" onChange="colorInput()" checked>
         <span class="spectrum-Radio-button"></span>
-        <label class="spectrum-Radio-label" for="JAB">CAM02</label>
+        <label class="spectrum-Radio-label" for="LCH">LCH</label>
       </div>
       <div class="spectrum-Radio">
         <input type="radio" name="mode" class="spectrum-Radio-input" id="LAB" value="LAB" onChange="colorInput()" >
@@ -49,9 +69,9 @@
         <label class="spectrum-Radio-label" for="LAB">LAB</label>
       </div>
       <div class="spectrum-Radio">
-        <input type="radio" name="mode" class="spectrum-Radio-input" id="LCH" value="LCH" onChange="colorInput()">
+        <input type="radio" name="mode" class="spectrum-Radio-input" id="JAB" value="JAB" onChange="colorInput()" >
         <span class="spectrum-Radio-button"></span>
-        <label class="spectrum-Radio-label" for="LCH">LCH</label>
+        <label class="spectrum-Radio-label" for="JAB">CAM02</label>
       </div>
       <div class="spectrum-Radio">
         <input type="radio" name="mode" class="spectrum-Radio-input" id="HSL" value="HSL" onChange="colorInput()">

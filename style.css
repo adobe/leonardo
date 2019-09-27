@@ -49,9 +49,13 @@
   flex-direction: column;
   min-width: 100px;
 }
+#colorField2,
+#colorField3 {
+  display: none;
+}
 #userColor, #userBg {
-  height: 88px;
-  width: 60px;
+  height: 56px;
+  width: 100%;
   border-radius: 4px;
   margin-right: 8px;
   margin-bottom: 8px;
@@ -125,8 +129,8 @@ input[type=color] {
   padding: 0;
   margin: 0;
   background-color: transparent;
-  width: 60px;
-  height: 60px;
+  width: 32px;
+  height: 32px;
   border-collapse: collapse;
   border-width: 1px;
   border-radius: 5px;
