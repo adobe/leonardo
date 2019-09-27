@@ -89,8 +89,11 @@ function luminance(r, g, b) {
 }
 
 function contrast(rgb1, rgb2) {
-    return (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05)
-         / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
+  var cr1 = (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05) / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
+  var cr2 = (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05) / (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05);
+
+  if (cr1 < 1) { return cr2; }
+  if (cr1 >= 1) { return cr1; }
 }
 
 // Simplifying d3 color Functions for reuse
@@ -250,8 +253,6 @@ function colorInput() {
     console.log("HSLuv SliderPos: " + L2);
   }
 
-  slider.value = L2;
-
   // Generate Gradient
   for (var i = 0; i < array.length; i++) {
     var container = document.getElementById('colors');
@@ -278,82 +279,36 @@ function colorInput() {
   ratioInput.value = contrastRatio;
   colorBlock.style.bottom = slider.value + "%";
 
-  if (luminance(colorR, colorG, colorB) < 0.275) {
-    colorBlock.style.color = "#ffffff";
-  } else {
-    colorBlock.style.color = '#000000';
-  }
-
-  if (luminance(backgroundR, backgroundG, backgroundB) < 0.3) {
-    document.body.style.color = '#ffffff';
-    document.getElementById('colorField1').style.borderColor = 'rgba(255, 255, 255, 0.25)';
-    document.getElementById('bgField').style.borderColor = 'rgba(255, 255, 255, 0.25)';
-  } else {
-    document.body.style.color = '#000000';
-    document.getElementById('colorField1').style.borderColor = 'rgba(0, 0, 0, 0.25)';
-    document.getElementById('bgField').style.borderColor = 'rgba(0, 0, 0, 0.25)';
-  }
-
   backgroundblock(background);
   // passFail(contrastRatio);
-}
-colorInput(color1);
 
-function sliderInput() {
-  var mode = document.querySelector('input[name="mode"]:checked').value;
-  var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
-  var color1 = document.getElementById('colorField1').value;
-  var color2 = document.getElementById('colorField2').value;
-  var color3 = document.getElementById('colorField3').value;
-  var slider = document.getElementById('Slider');
+  // Slider updates
   var sliderPos = document.getElementById('Slider').value;
-  var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
   var colorDomainUpdate =  swatches - (swatches * sliderPos/100);
-
-  if (scaleNumbers == "1color" && mode == 'LCH') {
-    var clr = colorScale(color1, colorDomain, d3.hcl(NaN, 0, 100), d3.hcl(NaN, 0, 0));
-  } else if (scaleNumbers == "1color") {
-    var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
-  }
-  if (scaleNumbers == "3color") {
-    var clr = colorScale(color1, colorDomain, color2, color3);
-  }
-
-  var ColorArray = d3.range(swatches).map(function(d) {
-    return clr(d)
-  });
-  var array = ColorArray;
   var newRgb = ColorArray[colorDomainUpdate];
-
-  var background = document.getElementById('bgField').value;
-  var backgroundR = d3.rgb(background).r;
-  var backgroundG = d3.rgb(background).g;
-  var backgroundB = d3.rgb(background).b;
-
   var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
-  var text = document.createTextNode(contrastRatio2);
-
-  colorBlock.innerHTML = '';
-  colorBlock.appendChild(text);
-
 
   colorblock(newRgb);
   colorBlock.style.bottom = sliderPos + "%";
   slider.value = sliderPos;
   ratioInput.value = contrastRatio2;
-
   var colorR = d3.rgb(newRgb).r;
   var colorG = d3.rgb(newRgb).g;
   var colorB = d3.rgb(newRgb).b;
-
   if (luminance(colorR, colorG, colorB) < 0.275) {
     colorBlock.style.color = "#ffffff";
   } else {
     colorBlock.style.color = '#000000';
   }
-}
-sliderInput();
+  var textUpdate = document.createTextNode(contrastRatio2);
 
+  colorBlock.innerHTML = '';
+  colorBlock.appendChild(textUpdate);
+  // TODO: This slider default value isn't working. Should default to L2
+  // value, unless user moves slider.
+  // slider.value = L2;
+}
+colorInput(color1);
 
 // Contrast Input
 function ratioUpdate() {
@@ -367,7 +322,7 @@ function ratioUpdate() {
   // });
   // var colors = ColorArray;
 
-  console.log(targetRatio);
+  // console.log(targetRatio);
 
   // for (var i = 0; colors.length; i++) {
   //   var r = d3.rgb(colors[i]).r;
