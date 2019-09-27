@@ -24,6 +24,10 @@
   <label for="colorInput1">Color</label>
   <input id="colorInput1" type="text" value="#1473e6"></input>
 </div> -->
+<header class="spectrum-AppHeader">
+  <h1 class="spectrum-AppHeader-Title"> Adobe Contrast </h1>
+  <a href="#"> Github </a>
+</header>
 <div class="wrapper">
   <div id="userColors" class="spectrum-Panel">
     <div class="spectrum-Panel-Item">
@@ -53,11 +57,11 @@
       </div>
       <div id="userBg">
         <label for="bgField" class="spectrum-FieldLabel">Background</label>
-        <input type="color" class="colorInput" id="bgField" value="#f5f5f5" onChange="colorInput()" ></input>
+        <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
       </div>
     </div>
     <div class="spectrum-Panel-Item">
-      <label for="ratio" class="spectrum-FieldLabel">Contrast Ratio</label>
+      <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
       <input class="spectrum-Textfield" id="ratio" type="number" min="-21" max="21" step=".005" onChange="ratioUpdate()"></input>
     </div>
     <div class="spectrum-Panel-Item">
@@ -89,6 +93,10 @@
           <label class="spectrum-Radio-label" for="HSLuv">HSLuv</label>
         </div>
       </div>
+    </div>
+    <div class="spectrum-Panel-Item">
+      <label for="colorOutput" class="spectrum-FieldLabel">Updated color value</label>
+      <input class="spectrum-Textfield spectrum-Textfield--readonly" id="colorOutput" type="text" value="#0000FF" readonly></input>
     </div>
   </div>
 

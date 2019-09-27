@@ -16,6 +16,7 @@ var userBgBlock = document.getElementById('userBg');
 var ratioInput = document.getElementById('ratio');
 var targetRatio = ratioInput.value;
 var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
+var colorOutputField = document.getElementById('colorOutput');
 
 var swatches = 300; // in order to make a gradient, this count needs to be massive
 
@@ -312,6 +313,9 @@ function colorInput() {
 
   colorBlock.innerHTML = '';
   colorBlock.appendChild(textUpdate);
+
+  colorOutputField.value = newRgb;
+
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.
   // slider.value = L2;

@@ -1,6 +1,24 @@
+
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+.spectrum-AppHeader {
+  display: flex;
+  flex-direction: row;
+  max-height: var(--spectrum-global-dimension-size-400);
+  border-bottom: 2px solid var(--spectrum-panel-border-color);
+  background-color: var(--spectrum-panel-background-color);
+  margin: 0;
+  padding: var(--spectrum-global-dimension-size-150) var(--spectrum-global-dimension-size-200);
+  align-items: baseline;
+  justify-content: space-between;
+}
+.spectrum-AppHeader-Title {
+  margin: 0;
+  font-size: var(--spectrum-global-dimension-font-size-200);
 }
 .spectrum-Panel {
   display: flex;
@@ -9,14 +27,18 @@ body {
   min-width: var(--spectrum-global-dimension-size-3000);
   border-right: 2px solid var(--spectrum-panel-border-color);
   padding: 0;
+  overflow: scroll;
 }
 .spectrum-Panel--custom {
   flex-direction: row;
-  min-width: var(--spectrum-global-dimension-2000);
+  min-width: 160px;
+  /* min-width: var(--spectrum-global-dimension-2000); */
 }
 .spectrum-Panel-Item {
   padding: 8px 16px 16px;
-  border-bottom: 2px solid var(--spectrum-panel-border-color);
+}
+.spectrum-Panel-Item ~.spectrum-Panel-Item {
+  border-top: 2px solid var(--spectrum-panel-border-color);
 }
 .spectrum-Panel-Item--custom {
   border: 0;
@@ -31,10 +53,11 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - var(--spectrum-global-dimension-size-400));
+  overflow: hidden;
 }
 #gradientWrapper {
-  height: calc(100vh - 16px);
+  height: calc(100vh - 8px - var(--spectrum-global-dimension-size-400));
   width: 56px;
   display: block;
   position: relative;
@@ -42,7 +65,7 @@ body {
 #colors {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - var(--spectrum-global-dimension-size-400));
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
@@ -54,12 +77,13 @@ body {
   align-self: stretch;
 }
 #colorWrapper {
-  height: calc(100vh - 72px);
+  height: calc(100vh - var(--spectrum-global-dimension-size-800) - 68px);
   width: 60px;
   margin-left: 8px;
   display: flex;
   align-self: flex-end;
   position: relative;
+  margin-bottom: 14px;
 }
 #color {
   height: 60px;
@@ -94,13 +118,13 @@ body {
   align-items: center;
   /* overflow: hidden; */
   width: 0px;
-  height: calc(100vh - 16px);
+  height: calc(100vh - var(--spectrum-global-dimension-size-800) - 7px);
   left: 0;
-  bottom: calc(100vh - 16px);
+  bottom: calc(100vh - var(--spectrum-global-dimension-size-800) - 7px);
 }
 .slider {
   -webkit-appearance: none;
-  width: calc(100vh - 17px);
+  width: calc(100vh - var(--spectrum-global-dimension-size-800) - 7px);
   height: 55px;
   transform: rotate(-90deg);
   padding: 0;
@@ -171,6 +195,7 @@ input[type=color]:focus {
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  overflow: scroll;
 }
 h1 {
   margin-bottom: 0px;
@@ -183,4 +208,8 @@ p {
   max-width: 80ch;
   padding: 24px 32px;
   align-self: center;
+}
+
+.spectrum-Textfield--readonly {
+  background-color: var(--spectrum-alias-background-color-default);
 }
