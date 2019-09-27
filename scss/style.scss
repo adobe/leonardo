@@ -9,6 +9,17 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
+@import 'node_modules/@spectrum-css/vars/dist/spectrum-global';
+@import 'node_modules/@spectrum-css/vars/dist/spectrum-medium-unique';
+@import 'node_modules/@spectrum-css/vars/dist/spectrum-light';
+
+@import 'node_modules/@spectrum-css/page/dist/index-vars';
+@import 'node_modules/@spectrum-css/typography/dist/index-vars';
+@import 'node_modules/@spectrum-css/radio/dist/index-vars';
+@import 'node_modules/@spectrum-css/button/dist/index-vars';
+@import 'node_modules/@spectrum-css/fieldgroup/dist/index-vars';
+@import 'node_modules/@spectrum-css/textfield/dist/index-vars';
+@import 'node_modules/@spectrum-css/fieldlabel/dist/index-vars';
 
 body {
   margin: 0;
