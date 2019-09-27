@@ -100,8 +100,8 @@ body {
 }
 .slider {
   -webkit-appearance: none;
-  width: calc(100vh - 16px);
-  height: 56px;
+  width: calc(100vh - 17px);
+  height: 55px;
   transform: rotate(-90deg);
   padding: 0;
   margin: 0;
@@ -110,6 +110,12 @@ body {
   /* display: block; */
   border: none;
   box-shadow: none;
+  border-radius: 3px;
+}
+.slider:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
 }
 .slider::-webkit-slider-thumb {
   width: 24px;
