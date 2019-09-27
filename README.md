@@ -10,7 +10,7 @@ To make it easier for designers and engineers to leverage color science to creat
 3. Slide or input desired contrast ratio
 4. Copy output RGB value
 
-![Image showing Adobe contrast tool with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](https://git.corp.adobe.com/nbaldwin/Contrast-Tool/AdobeContrastScreenshot.png)
+![Image showing Adobe contrast tool with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](https://git.corp.adobe.com/pages/nbaldwin/Contrast-Tool/AdobeContrastScreenshot.jpg)
 
 ### D3 Color
 This project is currently built using [D3 color](https://github.com/d3/d3-color). Although functionality is comparable to [Chroma.js](https://gka.github.io/chroma.js/), the choice of D3 color is based on the additional modules available for state-of-the-art [color appearance models](https://en.wikipedia.org/wiki/Color_appearance_model), such as [CIE CAM02](https://gramaz.io/d3-cam02/).
