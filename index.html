@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="node_modules/@spectrum-css/page/dist/index-vars.css">
   <link rel="stylesheet" href="node_modules/@spectrum-css/typography/dist/index-vars.css">
   <link rel="stylesheet" href="node_modules/@spectrum-css/radio/dist/index-vars.css">
+  <link rel="stylesheet" href="node_modules/@spectrum-css/button/dist/index-vars.css">
   <link rel="stylesheet" href="node_modules/@spectrum-css/fieldgroup/dist/index-vars.css">
   <link rel="stylesheet" href="node_modules/@spectrum-css/textfield/dist/index-vars.css">
   <link rel="stylesheet" href="node_modules/@spectrum-css/fieldlabel/dist/index-vars.css">
@@ -24,77 +25,103 @@
   <input id="colorInput1" type="text" value="#1473e6"></input>
 </div> -->
 <div class="wrapper">
-  <div id="userColors">
-    <div id="userColor">
-      <label for="colorField" class="spectrum-FieldLabel">Foreground</label>
-      <input type="color" class="colorInput" id="colorField" value="#0000FF" onChange="colorInput()"></input>
-    </div>
-    <div id="userBg">
-      <label for="bgField" class="spectrum-FieldLabel">Background</label>
-      <input type="color" class="colorInput" id="bgField" value="#f5f5f5" onChange="colorInput()" ></input>
-  </div>
-    <label for="ratio" class="spectrum-FieldLabel">Contrast Ratio</label>
-    <input class="spectrum-Textfield" id="ratio" type="number" min="1" max="21" step=".005" onChange="ratioUpdate()"></input>
-
-    <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
-      <label for="radioGroup" class="spectrum-FieldLabel">Color Space</label>
-      <div class="spectrum-Radio">
-        <input type="radio" name="mode" class="spectrum-Radio-input" id="JAB" value="JAB" onChange="colorInput()" checked >
-        <span class="spectrum-Radio-button"></span>
-        <label class="spectrum-Radio-label" for="JAB">CAM02</label>
+  <div id="userColors" class="spectrum-Panel">
+    <div class="spectrum-Panel-Item">
+      <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
+        <label for="radioGroup" class="spectrum-FieldLabel">Number of colors</label>
+        <div class="spectrum-Radio">
+          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="1color" value="1color" onChange="colorInput()" checked >
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="1color">1 Color</label>
+        </div>
+        <!-- <div class="spectrum-Radio">
+          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="scale2" value="2" onChange="colorInput()">
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="scale2">2 Colors</label>
+        </div> -->
+        <div class="spectrum-Radio">
+          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="3color" value="3color" onChange="colorInput()">
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="3color">3 Colors</label>
+        </div>
       </div>
-      <div class="spectrum-Radio">
-        <input type="radio" name="mode" class="spectrum-Radio-input" id="LAB" value="LAB" onChange="colorInput()" >
-        <span class="spectrum-Radio-button"></span>
-        <label class="spectrum-Radio-label" for="LAB">LAB</label>
+      <div id="userColor">
+        <label for="colorField1" class="spectrum-FieldLabel">Foreground</label>
+        <input type="color" class="colorInput" id="colorField2" value="#EAFAFF" onChange="colorInput()"></input>
+        <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
+        <input type="color" class="colorInput" id="colorField3" value="#00000F" onChange="colorInput()"></input>
       </div>
-      <div class="spectrum-Radio">
-        <input type="radio" name="mode" class="spectrum-Radio-input" id="LCH" value="LCH" onChange="colorInput()">
-        <span class="spectrum-Radio-button"></span>
-        <label class="spectrum-Radio-label" for="LCH">LCH</label>
-      </div>
-      <div class="spectrum-Radio">
-        <input type="radio" name="mode" class="spectrum-Radio-input" id="HSL" value="HSL" onChange="colorInput()">
-        <span class="spectrum-Radio-button"></span>
-        <label class="spectrum-Radio-label" for="HSL">HSL</label>
-      </div>
-      <div class="spectrum-Radio">
-        <input type="radio" name="mode" class="spectrum-Radio-input" id="HSLuv" value="HSLuv" onChange="colorInput()">
-        <span class="spectrum-Radio-button"></span>
-        <label class="spectrum-Radio-label" for="HSLuv">HSLuv</label>
+      <div id="userBg">
+        <label for="bgField" class="spectrum-FieldLabel">Background</label>
+        <input type="color" class="colorInput" id="bgField" value="#f5f5f5" onChange="colorInput()" ></input>
       </div>
     </div>
-
-  </div>
-
-  <div id="gradientWrapper">
-    <div id="colors"></div>
-    <div id="sliderWrapper">
-      <input type="range" min="0" max="100" class="slider" id="Slider" onchange="sliderInput()">
+    <div class="spectrum-Panel-Item">
+      <label for="ratio" class="spectrum-FieldLabel">Contrast Ratio</label>
+      <input class="spectrum-Textfield" id="ratio" type="number" min="-21" max="21" step=".005" onChange="ratioUpdate()"></input>
+    </div>
+    <div class="spectrum-Panel-Item">
+      <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
+        <label for="radioGroup" class="spectrum-FieldLabel">Color Space</label>
+        <div class="spectrum-Radio">
+          <input type="radio" name="mode" class="spectrum-Radio-input" id="LCH" value="LCH" onChange="colorInput()" checked>
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="LCH">LCH</label>
+        </div>
+        <div class="spectrum-Radio">
+          <input type="radio" name="mode" class="spectrum-Radio-input" id="LAB" value="LAB" onChange="colorInput()" >
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="LAB">LAB</label>
+        </div>
+        <div class="spectrum-Radio">
+          <input type="radio" name="mode" class="spectrum-Radio-input" id="JAB" value="JAB" onChange="colorInput()" >
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="JAB">CAM02</label>
+        </div>
+        <div class="spectrum-Radio">
+          <input type="radio" name="mode" class="spectrum-Radio-input" id="HSL" value="HSL" onChange="colorInput()">
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="HSL">HSL</label>
+        </div>
+        <div class="spectrum-Radio">
+          <input type="radio" name="mode" class="spectrum-Radio-input" id="HSLuv" value="HSLuv" onChange="colorInput()">
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="HSLuv">HSLuv</label>
+        </div>
+      </div>
     </div>
   </div>
-  <div id="colorWrapper">
-    <div id="color"></div>
+
+  <div class="spectrum-Panel spectrum-Panel--custom">
+    <div class="spectrum-Panel-Item spectrum-Panel-Item--custom">
+      <div id="gradientWrapper">
+        <div id="colors"></div>
+        <div id="sliderWrapper">
+          <input type="range" min="0" max="100" class="slider" id="Slider" onchange="colorInput()">
+        </div>
+      </div>
+      <div id="colorWrapper">
+        <div id="color"></div>
+      </div>
+    </div>
   </div>
+
   <div id="demoWrapper">
       <div id="demo">
-        <h1 id="demoHeading">Ag</h1><span class="largeTextWrapper"></span>
-        <p id="demoText">The quick brown fox jumps over the arbitrary object.</p><span class="smallTextWrapper"></span>
+        <h1 id="demoHeading">Welcome to Adobe Contrast</h1>
+        <span class="largeTextWrapper"></span>
+        <p id="demoText">Ensuring that all users can see the colors in your product is of utmost importance. Following standard guidelines on contrast is one such way that we can ensure our designs are accessible. Maintaining the aesthetic appearance of colors while conforming to contrast is a difficult problem to solve. By interpolating various color spaces, you can control how color should change as it brightens or darkens.  Let’s make it easier to follow standards together; and we can do that with Adobe Contrast.</p>
+        <a class="spectrum-Button" id="demoButton" href="#">View on Github</a>
+        <span class="smallTextWrapper"></span>
       </div>
       <div id="demoInverted">
-        <h1 id="demoHeadingInverted">Ag</h1><span class="largeTextWrapper"></span>
-        <p id="demoTextInverted">The quick brown fox jumps over the arbitrary object.</p><span class="smallTextWrapper"></span>
+        <h1 id="demoHeadingInverted">Welcome to Adobe Contrast</h1>
+        <span class="largeTextWrapper"></span>
+        <p id="demoTextInverted">Ensuring that all users can see the colors in your product is of utmost importance. Following standard guidelines on contrast is one such way that we can ensure our designs are accessible. Maintaining the aesthetic appearance of colors while conforming to contrast is a difficult problem to solve. By interpolating various color spaces, you can control how color should change as it brightens or darkens.  Let’s make it easier to follow standards together; and we can do that with Adobe Contrast.</p>
+        <a class="spectrum-Button" id="demoButtonInverted" href="#">View on Github</a>
+        <span class="smallTextWrapper"></span>
       </div>
   </div>
 </div>
-<span>
-  <p>To do:</p>
-  <ul>
-    <li> Fix HSL & HSLuv output & domain</li>
-    <li> passFail needs to display foreach (only last shown) </li>
-    <li> colorDomainUpdate not rendering colorblock </li>
-    <li> Create function for ratioInput </li>
-  </ul>
-</span>
 <script src="script.js"></script>
 </body>
