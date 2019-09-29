@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://git.corp.adobe.com:nbaldwin/Color-Tool.git"
+    "url": "https://git.corp.adobe.com:nbaldwin/Contrast-Tool.git"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
@@ -21,6 +21,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@spectrum-css/button": "^2.0.0-alpha.6",
+    "@spectrum-css/checkbox": "^2.0.0-alpha.6",
     "@spectrum-css/fieldgroup": "^2.0.0-alpha.6",
     "@spectrum-css/fieldlabel": "^2.0.0-alpha.6",
     "@spectrum-css/icon": "^2.0.0-alpha.6",
@@ -29,6 +30,7 @@
     "@spectrum-css/textfield": "^2.0.0-alpha.5",
     "@spectrum-css/typography": "^2.0.0-alpha.5",
     "@spectrum-css/vars": "^2.0.0-alpha.3",
+    "@spectrum/spectrum-icons": "^2.3.0",
     "d3": "^5.12.0",
     "d3-cam02": "^0.1.5",
     "d3-hsluv": "^0.1.2",

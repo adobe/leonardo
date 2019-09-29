@@ -10,8 +10,8 @@
 
 var colorField = document.getElementById('colorField1');
 var color1 = document.getElementById('colorField1').value;
-var color2 = document.getElementById('colorField2').value;
-var color3 = document.getElementById('colorField3').value;
+var colorTint = document.getElementById('colorField2').value;
+var colorShade = document.getElementById('colorField3').value;
 var background = document.getElementById('bgField').value;
 var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
@@ -25,7 +25,7 @@ var userColorBlock = document.getElementById('userColor');
 var userBgBlock = document.getElementById('userBg');
 var ratioInput = document.getElementById('ratio');
 var targetRatio = ratioInput.value;
-var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
+// var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
 var colorOutputField = document.getElementById('colorOutput');
 
 var swatches = 300; // in order to make a gradient, this count needs to be massive
@@ -49,53 +49,6 @@ function backgroundblock(b){
 }
 backgroundblock(background);
 
-// TODO: display pass/fail in demo
-// function passFail(a) {
-//   var x = a;
-//   var smallText = document.getElementsByClassName('smallTextWrapper');
-//   var largeText = document.getElementsByClassName('largeTextWrapper');
-//   var passtext = document.createTextNode("pass AA");
-//   var fail = document.createElement('div');
-//   var failtext = document.createTextNode("fail AA");
-//
-//   if(x >= 4.5) {
-//     // Small text pass
-//     for (var i = 0; i < smallText.length; i++) {
-//       smallText[i].innerHTML = '';
-//       smallText[i].appendChild(passtext);
-//     }
-//     // Large text pass
-//     for (var i = 0; i < largeText.length; i++) {
-//       largeText[i].innerHTML = '';
-//       largeText[i].appendChild(passtext);
-//     }
-//     console.log("PASS: Large & Small Text");
-//   }
-//   if(x > 4.5 && x <= 3) {
-//     // Large text pass
-//     for (var i = 0; i < largeText.length; i++) {
-//       largeText[i].innerHTML = '';
-//       largeText[i].appendChild(passtext);
-//     }
-//     for (var i = 0; i < smallText.length; i++) {
-//       smallText[i].innerHTML = '';
-//       smallText[i].appendChild(failtext);
-//     }
-//     console.log("PASS: Large Text only");
-//   }
-//   if(x < 3) {
-//     // all fail
-//     for (var i = 0; i < largeText.length; i++) {
-//       largeText[i].innerHTML = '';
-//       largeText[i].appendChild(failtext);
-//     }
-//     for (var i = 0; i < smallText.length; i++) {
-//       smallText[i].innerHTML = '';
-//       smallText[i].appendChild(failtext);
-//     }
-//     console.log("FAIL: Small and Large Text");
-//   }
-// }
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
@@ -116,46 +69,64 @@ function contrast(rgb1, rgb2) {
 }
 
 // Simplifying d3 color Functions for reuse
-function colorScale(color, domain, c2, c3) {
+// TODO: update to include white & black whether or not tint and shade defined
+function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomain) {
   var colorspace = document.querySelector('input[name="mode"]:checked').value;
 
   if(colorspace == 'JAB') {
     return d3.scaleLinear()
-      .range([c2, d3.jab(color), c3])
-      .domain([0, domain, swatches])
+      .range(['#ffffff', colorTint, d3.jab(color), colorShade, '#000000'])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateJab);
   }
   if(colorspace == 'LCH') {
-    // TODO: if c2 / c2 inputs are pure white/black, redefine
+    // TODO: if colorTint / colorTint inputs are pure white/black, redefine
     // to D3 hcl hack:
-    // if (c2 == '#FFFFFF' || '#ffffff') {
-    //   var c2 = d3.hcl(NaN, 0, 100);
+    // if (colorTint == '#FFFFFF' || '#ffffff') {
+    //   var colorTint = d3.hcl(NaN, 0, 100);
     // }
-    // if (c3 == '#000000' || 'black') {
-    //   var c3 = d3.hcl(NaN, 0, 0);
+    // if (colorShade == '#000000' || 'black') {
+    //   var colorShade = d3.hcl(NaN, 0, 0);
     // }
     return d3.scaleLinear()
-      .range([c2, d3.hcl(color), c3])
-      .domain([0, domain, swatches])
+      .range([d3.hcl(NaN, 0, 100), colorTint, d3.hcl(color), colorShade, d3.hcl(NaN, 0, 0)])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateHcl);
   }
   if(colorspace == 'LAB') {
     return d3.scaleLinear()
-      .range([c2, d3.lab(color), c3])
+      .range([colorTint, d3.lab(color), colorShade])
       .domain([0, domain, swatches])
       .interpolate(d3.interpolateLab);
   }
   if(colorspace == 'HSL') {
     return d3.scaleLinear()
-      .range([c2, d3.hsl(color), c3])
+      .range([colorTint, d3.hsl(color), colorShade])
       .domain([0, domain, swatches])
       .interpolate(d3.interpolateHsl);
   }
   if(colorspace == 'HSLuv') {
     return d3.scaleLinear()
-      .range([c2, d3.hsluv(color), c3])
+      .range([colorTint, d3.hsluv(color), colorShade])
       .domain([0, domain, swatches])
       .interpolate(d3.interpolateHsluv);
+  }
+}
+
+// TODO: This isn't working :-/
+function toggleTintShade() {
+  var customTintShade = document.getElementById('tintShades');
+
+  document.getElementById('colorField2').disabled = !this.checked;
+  document.getElementById('colorField3').disabled = !this.checked;
+
+  if (customTintShade.checked == true)  {
+    document.getElementById('color2Label').classList.remove = 'is-disabled';
+    document.getElementById('color3Label').classList.remove = 'is-disabled';
+  }
+  if (customTintShade.checked == false) {
+    document.getElementById('color2Label').classList.add = 'is-disabled';
+    document.getElementById('color3Label').classList.add = 'is-disabled';
   }
 }
 
@@ -166,33 +137,20 @@ function colorInput() {
   var mode = document.querySelector('input[name="mode"]:checked').value;
   var slider = document.getElementById('Slider');
   var background = document.getElementById('bgField').value;
-  var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
+  var customTintShade = document.getElementById('tintShades');
 
   var color1 = colorField1.value;
-  var color2 = colorField2.value;
-  var color3 = colorField3.value;
+  var colorTint = colorField2.value;
+  var colorShade = colorField3.value;
   colorblock(color1);
-
-  if (scaleNumbers == "1color") {
-    document.getElementById('colorField2').style.display = 'none';
-    document.getElementById('colorField3').style.display = 'none';
-    // domainInput.disabled = true;
-  }
-  if (scaleNumbers == "3color")  {
-    document.getElementById('colorField2').style.display = 'inline-flex';
-    document.getElementById('colorField3').style.display = 'inline-flex';
-    // domainInput.disabled = false;
-  }
 
   if(mode == "JAB") {
     var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
+    var tintDomain = swatches - ((d3.jab(colorTint).J / 100) * swatches);
+    var shadeDomain = swatches - ((d3.jab(colorShade).J / 100) * swatches);
     var L2 = d3.jab(color1).J;
-    if (scaleNumbers == "1color") {
-      var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
-    }
-    if (scaleNumbers == "3color") {
-      var clr = colorScale(color1, colorDomain, color2, color3);
-    }
+
+    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -203,13 +161,10 @@ function colorInput() {
   if(mode == "LCH") {
     var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
     var L2 = d3.hcl(color1).l;
+    var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
+    var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
 
-    if (scaleNumbers == "1color") {
-      var clr = colorScale(color1, colorDomain, d3.hcl(NaN, 0, 100), d3.hcl(NaN, 0, 0));
-    }
-    if (scaleNumbers == "3color") {
-      var clr = colorScale(color1, colorDomain, color2, color3);
-    }
+    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -219,33 +174,26 @@ function colorInput() {
 
   if(mode == "LAB") {
     var colorDomain = swatches - swatches * ((d3.lab(color1).l / 100)); // should be calculated.
+    var tintDomain = swatches - swatches * ((d3.lab(colorTint).l / 100));
+    var shadeDomain = swatches - swatches * ((d3.lab(colorShade).l / 100));
     var L2 = d3.lab(color1).l;
-    if (scaleNumbers == "1color") {
-      var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
-    }
-    if (scaleNumbers == "3color") {
-      var clr = colorScale(color1, colorDomain, color2, color3);
-    }
+    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
     });
     var array = ColorArray;
-    // console.log(array);
   }
 
   if(mode == "HSL") {
     var colorDomain = swatches * d3.hsl(color1).l; // should be calculated.
-    console.log("HSL L Value: " + d3.hsl(color1).l);
-    console.log("HSL Color Domain: " + colorDomain);
-
+    var tintDomain = swatches * d3.hsl(colorTint).l;
+    var shadeDomain = swatches * d3.hsl(colorShade).l;
+    // console.log("HSL L Value: " + d3.hsl(color1).l);
+    // console.log("HSL Color Domain: " + colorDomain);
     var L2 = d3.hsl(color1).l * 100;
-    if (scaleNumbers == "1color") {
-      var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
-    }
-    if (scaleNumbers == "3color") {
-      var clr = colorScale(color1, colorDomain, color2, color3);
-    }
+
+    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -254,22 +202,20 @@ function colorInput() {
   }
 
   if(mode == "HSLuv") {
-    var colorDomain = swatches * d3.hsl(color1).l; // should be calculated.
+    var colorDomain = swatches * d3.hsluv(color1).l; // should be calculated.
+    var tintDomain = swatches * d3.hsluv(colorTint).l;
+    var shadeDomain = swatches * d3.hsluv(colorShade).l;
     var L2 = d3.hsluv(color1).l / 10;
-    if (scaleNumbers == "1color") {
-      var clr = colorScale(color1, colorDomain, '#ffffff', '#000000');
-    }
-    if (scaleNumbers == "3color") {
-      var clr = colorScale(color1, colorDomain, color2, color3);
-    }
+
+    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
     });
     var array = ColorArray;
 
-    console.log("HSLuv Domain: " + colorDomain);
-    console.log("HSLuv SliderPos: " + L2);
+    // console.log("HSLuv Domain: " + colorDomain);
+    // console.log("HSLuv SliderPos: " + L2);
   }
 
   // Generate Gradient
@@ -383,3 +329,51 @@ function ratioUpdate() {
   //   }
   // }
 }
+
+// TODO: display pass/fail in demo
+// function passFail(a) {
+//   var x = a;
+//   var smallText = document.getElementsByClassName('smallTextWrapper');
+//   var largeText = document.getElementsByClassName('largeTextWrapper');
+//   var passtext = document.createTextNode("pass AA");
+//   var fail = document.createElement('div');
+//   var failtext = document.createTextNode("fail AA");
+//
+//   if(x >= 4.5) {
+//     // Small text pass
+//     for (var i = 0; i < smallText.length; i++) {
+//       smallText[i].innerHTML = '';
+//       smallText[i].appendChild(passtext);
+//     }
+//     // Large text pass
+//     for (var i = 0; i < largeText.length; i++) {
+//       largeText[i].innerHTML = '';
+//       largeText[i].appendChild(passtext);
+//     }
+//     console.log("PASS: Large & Small Text");
+//   }
+//   if(x > 4.5 && x <= 3) {
+//     // Large text pass
+//     for (var i = 0; i < largeText.length; i++) {
+//       largeText[i].innerHTML = '';
+//       largeText[i].appendChild(passtext);
+//     }
+//     for (var i = 0; i < smallText.length; i++) {
+//       smallText[i].innerHTML = '';
+//       smallText[i].appendChild(failtext);
+//     }
+//     console.log("PASS: Large Text only");
+//   }
+//   if(x < 3) {
+//     // all fail
+//     for (var i = 0; i < largeText.length; i++) {
+//       largeText[i].innerHTML = '';
+//       largeText[i].appendChild(failtext);
+//     }
+//     for (var i = 0; i < smallText.length; i++) {
+//       smallText[i].innerHTML = '';
+//       smallText[i].appendChild(failtext);
+//     }
+//     console.log("FAIL: Small and Large Text");
+//   }
+// }

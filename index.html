@@ -30,38 +30,55 @@ governing permissions and limitations under the License.
 <div class="wrapper">
   <div id="userColors" class="spectrum-Panel">
     <div class="spectrum-Panel-Item">
-      <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
+      <!-- <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
         <label for="radioGroup" class="spectrum-FieldLabel">Number of colors</label>
         <div class="spectrum-Radio">
-          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="1color" value="1color" onChange="colorInput()" checked >
+          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="1color" value="1color" onChange="colorInput()" >
           <span class="spectrum-Radio-button"></span>
           <label class="spectrum-Radio-label" for="1color">1 Color</label>
         </div>
-        <!-- <div class="spectrum-Radio">
-          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="scale2" value="2" onChange="colorInput()">
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="scale2">2 Colors</label>
-        </div> -->
         <div class="spectrum-Radio">
-          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="3color" value="3color" onChange="colorInput()">
+          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="3color" value="3color" onChange="colorInput()" checked>
           <span class="spectrum-Radio-button"></span>
           <label class="spectrum-Radio-label" for="3color">3 Colors</label>
         </div>
-      </div>
+      </div> -->
       <div id="userColor">
-        <label for="colorField1" class="spectrum-FieldLabel">UI color</label>
-        <input type="color" class="colorInput" id="colorField2" value="#EAFAFF" onChange="colorInput()"></input>
-        <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
-        <input type="color" class="colorInput" id="colorField3" value="#00000F" onChange="colorInput()"></input>
+        <div class="colorField">
+          <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
+          <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
+        </div>
+        <div class="colorField">
+          <label for="colorField1" class="spectrum-FieldLabel">Color</label>
+          <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
+        </div>
+        <div class="colorField">
+          <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
+          <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
+        </div>
       </div>
+      <label class="spectrum-Checkbox spectrum-Checkbox--quiet">
+        <input type="checkbox" class="spectrum-Checkbox-input" id="tintShades" onChange="toggleTintShade()" checked>
+        <span class="spectrum-Checkbox-box">
+          <svg class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+            <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
+          </svg>
+          <svg class="spectrum-Icon spectrum-UIIcon-DashSmall spectrum-Checkbox-partialCheckmark" focusable="false" aria-hidden="true">
+            <use xlink:href="#spectrum-css-icon-DashSmall" />
+          </svg>
+        </span>
+        <span class="spectrum-Checkbox-label">Custom tint and shade</span>
+      </label>
       <div id="userBg">
-        <label for="bgField" class="spectrum-FieldLabel">Background</label>
-        <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
+        <div class="colorField">
+          <label for="bgField" class="spectrum-FieldLabel">Background</label>
+          <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
+        </div>
       </div>
     </div>
     <div class="spectrum-Panel-Item">
       <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
-      <input class="spectrum-Textfield" id="ratio" type="number" min="-21" max="21" step=".005" onChange="ratioUpdate()"></input>
+      <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".005" onChange="ratioUpdate()"></input>
     </div>
     <div class="spectrum-Panel-Item">
       <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
