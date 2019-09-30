@@ -27,7 +27,7 @@ var ratioInput = document.getElementById('ratio');
 var targetRatio = ratioInput.value;
 // var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
 var colorOutputField = document.getElementById('colorOutput');
-
+var fieldColorOutput = document.getElementById('spectrum-Textfield-swatch');
 var swatches = 500; // in order to make a gradient, this count needs to be massive
 
 function colorblock(c){
@@ -37,6 +37,7 @@ function colorblock(c){
   demoHeading.style.color = c;
   demoButton.style.color = c;
   demoButton.style.borderColor = c;
+  fieldColorOutput.style.backgroundColor = c;
 }
 colorblock(color1);
 
