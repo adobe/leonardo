@@ -119,6 +119,8 @@ function toggleTintShade() {
 
   document.getElementById('colorField2').disabled = !this.checked;
   document.getElementById('colorField3').disabled = !this.checked;
+  document.getElementById('colorField2').value = '#eaeaea';
+  document.getElementById('colorField3').value = '#eaeaea';
 
   if (customTintShade.checked == true)  {
     document.getElementById('color2Label').classList.remove = 'is-disabled';

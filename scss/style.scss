@@ -209,6 +209,10 @@ input[type="color"]::-webkit-color-swatch {
   border: none;
   border-radius: 4px;
 }
+input[type=color]:disabled {
+  // opacity: 0.4;
+  border-color: var(--spectrum-global-color-gray-200);
+}
 .slider:focus,
 input[type=color]:focus {
   outline: none;
