@@ -18,6 +18,7 @@ var demoHeading = document.getElementById('demoHeading');
 var demoWrapper = document.getElementById('demoWrapper');
 var demoText = document.getElementById('demoText');
 var demoBackgroundText = document.getElementById('demoTextInverted');
+var demoBackgroundHeading = document.getElementById('demoHeadingInverted');
 var demoBackgroundBlock = document.getElementById('demoInverted');
 var demoButton = document.getElementById('demoButton');
 var demoButtonInverted = document.getElementById('demoButtonInverted');
@@ -44,6 +45,7 @@ colorblock(color1);
 function backgroundblock(b){
   demoWrapper.style.backgroundColor = b;
   demoBackgroundText.style.color = b;
+  demoBackgroundHeading.style.color = b;
   demoBackgroundBlock.style.color = b;
   demoButtonInverted.style.color = b;
   demoButtonInverted.style.borderColor = b;
@@ -117,6 +119,12 @@ function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomai
       .range([d3.rgb('#ffffff'), colorTint, d3.rgb(color), colorShade, d3.rgb('#000000')])
       .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateRgb);
+  }
+  if(colorspace == 'RGBgamma') {
+    return d3.scaleLinear()
+      .range([d3.rgb('#ffffff'), colorTint, d3.rgb(color), colorShade, d3.rgb('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateRgb.gamma(2.2));
   }
 }
 
@@ -226,7 +234,7 @@ function colorInput() {
     // console.log("HSLuv SliderPos: " + L2);
   }
 
-  if(mode == "RGB") {
+  if(mode == "RGB" || mode == "RGBgamma") {
     // RGB has no concept of luminosity. Using LCH luminosity to calculate domains.
     var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
     var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
@@ -302,7 +310,8 @@ function colorInput() {
   colorBlock.innerHTML = '';
   colorBlock.appendChild(textUpdate);
 
-  colorOutputField.value = newRgb;
+  newHex = d3.rgb(newRgb).formatHex();
+  colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2 + ":1";
 
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.
