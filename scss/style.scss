@@ -15,11 +15,13 @@ governing permissions and limitations under the License.
 
 @import 'node_modules/@spectrum-css/page/dist/index-vars';
 @import 'node_modules/@spectrum-css/typography/dist/index-vars';
+@import 'node_modules/@spectrum-css/icon/dist/index-vars';
 @import 'node_modules/@spectrum-css/radio/dist/index-vars';
 @import 'node_modules/@spectrum-css/button/dist/index-vars';
 @import 'node_modules/@spectrum-css/fieldgroup/dist/index-vars';
 @import 'node_modules/@spectrum-css/textfield/dist/index-vars';
 @import 'node_modules/@spectrum-css/fieldlabel/dist/index-vars';
+@import 'node_modules/@spectrum-css/checkbox/dist/index-vars';
 
 body {
   margin: 0;
@@ -118,15 +120,17 @@ body {
   justify-content: center;
   align-items: center;
 }
-#colorField2,
-#colorField3 {
-  display: none;
-}
+// #colorField2,
+// #colorField3 {
+//   display: none;
+// }
 #userColor, #userBg {
   height: 56px;
   width: 100%;
   border-radius: 4px;
   border: 0;
+  display: flex;
+  flex-direction: row;
 }
 #userColor ~ #userBg {
   margin-top: 8px;
@@ -180,7 +184,7 @@ body {
   cursor: pointer;
 }
 #ratio {
-  width: 72px;
+  width: 88px;
 }
 
 input[type=color] {
@@ -204,6 +208,10 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 input[type="color"]::-webkit-color-swatch {
   border: none;
   border-radius: 4px;
+}
+input[type=color]:disabled {
+  // opacity: 0.4;
+  border-color: var(--spectrum-global-color-gray-200);
 }
 .slider:focus,
 input[type=color]:focus {
@@ -234,4 +242,10 @@ p {
 
 .spectrum-Textfield--readonly {
   background-color: var(--spectrum-alias-background-color-default);
+}
+
+.colorField {
+  display: flex;
+  flex-direction: column;
+  min-width: 40px;
 }
