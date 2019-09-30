@@ -254,6 +254,11 @@ colorOutput-field {
   position: relative;
 }
 
+#colorOutput {
+  height: 72px;
+  width: 100%;
+}
+
 #spectrum-Textfield-swatch {
   position: absolute;
   margin-top: var(--spectrum-global-dimension-size-100);

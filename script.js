@@ -304,7 +304,8 @@ function colorInput() {
   colorBlock.innerHTML = '';
   colorBlock.appendChild(textUpdate);
 
-  colorOutputField.value = newRgb;
+  newHex = d3.rgb(newRgb).formatHex();
+  colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2;
 
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.
