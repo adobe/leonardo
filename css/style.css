@@ -7664,7 +7664,19 @@ p {
   align-self: center; }
 
 .spectrum-Textfield--readonly {
+  padding-left: var(--spectrum-global-dimension-size-400);
   background-color: var(--spectrum-alias-background-color-default); }
+
+colorOutput-field {
+  position: relative; }
+
+#spectrum-Textfield-swatch {
+  position: absolute;
+  margin-top: var(--spectrum-global-dimension-size-100);
+  margin-left: var(--spectrum-global-dimension-size-100);
+  border-radius: 2px;
+  height: var(--spectrum-global-dimension-size-200);
+  width: var(--spectrum-global-dimension-size-200); }
 
 .colorField {
   display: flex;
