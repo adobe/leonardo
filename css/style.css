@@ -7524,7 +7524,9 @@ body {
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.25); }
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background-image: linear-gradient(0deg, black, white);
+  background-repeat: no-repeat; }
 
 .block {
   height: 100%;
@@ -7660,8 +7662,11 @@ p {
 #demo,
 #demoInverted {
   max-width: 80ch;
-  padding: 24px 32px;
+  padding: 16px 32px 48px;
   align-self: center; }
+
+.spectrum-Heading1 {
+  color: inherit; }
 
 .spectrum-Textfield--readonly {
   padding-left: var(--spectrum-global-dimension-size-400);

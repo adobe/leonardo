@@ -18,6 +18,7 @@ var demoHeading = document.getElementById('demoHeading');
 var demoWrapper = document.getElementById('demoWrapper');
 var demoText = document.getElementById('demoText');
 var demoBackgroundText = document.getElementById('demoTextInverted');
+var demoBackgroundHeading = document.getElementById('demoHeadingInverted');
 var demoBackgroundBlock = document.getElementById('demoInverted');
 var demoButton = document.getElementById('demoButton');
 var demoButtonInverted = document.getElementById('demoButtonInverted');
@@ -44,6 +45,7 @@ colorblock(color1);
 function backgroundblock(b){
   demoWrapper.style.backgroundColor = b;
   demoBackgroundText.style.color = b;
+  demoBackgroundHeading.style.color = b;
   demoBackgroundBlock.style.color = b;
   demoButtonInverted.style.color = b;
   demoButtonInverted.style.borderColor = b;
