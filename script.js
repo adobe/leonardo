@@ -28,7 +28,7 @@ var targetRatio = ratioInput.value;
 // var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
 var colorOutputField = document.getElementById('colorOutput');
 
-var swatches = 300; // in order to make a gradient, this count needs to be massive
+var swatches = 500; // in order to make a gradient, this count needs to be massive
 
 function colorblock(c){
   colorBlock.style.backgroundColor = c;
@@ -244,7 +244,7 @@ function colorInput() {
     console.log("shade domain: " + shadeDomain);
   }
 
-  slider.defaultValue = L2;
+  // slider.defaultValue = L2 * 5;
 
   // Generate Gradient
   for (var i = 0; i < array.length; i++) {
@@ -270,19 +270,22 @@ function colorInput() {
   colorBlock.innerHTML = '';
   colorBlock.appendChild(text);
   ratioInput.value = contrastRatio;
-  colorBlock.style.bottom = slider.value + "%";
+  colorBlock.style.bottom = slider.value * 5 + "%";
 
   backgroundblock(background);
   // passFail(contrastRatio);
 
   // Slider updates
   var sliderPos = document.getElementById('Slider').value;
-  var colorDomainUpdate =  swatches - (swatches * sliderPos/100);
+  var colorDomainUpdate =  swatches - (swatches * sliderPos /500);
   var newRgb = ColorArray[colorDomainUpdate];
+  // var contrastRatio2 = 1;
   var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
+  console.log(colorDomainUpdate);
+  console.log(newRgb);
 
   colorblock(newRgb);
-  colorBlock.style.bottom = sliderPos + "%";
+  colorBlock.style.bottom = sliderPos / 5 + "%";
   slider.value = sliderPos;
   ratioInput.value = contrastRatio2;
   var colorR = d3.rgb(newRgb).r;
