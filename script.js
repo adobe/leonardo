@@ -218,6 +218,7 @@ function colorInput() {
   }
 
   if(mode == "HSLuv") {
+    // TODO: HSLuv all messed up...
     var colorDomain = swatches * d3.hsluv(color1).l; // should be calculated.
     var tintDomain = swatches * d3.hsluv(colorTint).l;
     var shadeDomain = swatches * d3.hsluv(colorShade).l;
@@ -229,7 +230,8 @@ function colorInput() {
       return clr(d)
     });
     var array = ColorArray;
-
+    // console.log("----------------------------");
+    // console.log("HSLuv L value: " + d3.hsluv(color1).l / 10);
     // console.log("HSLuv Domain: " + colorDomain);
     // console.log("HSLuv SliderPos: " + L2);
   }
@@ -248,9 +250,6 @@ function colorInput() {
       return clr(d)
     });
     var array = ColorArray;
-    console.log("color domain: " + colorDomain);
-    console.log("tint domain: " + tintDomain);
-    console.log("shade domain: " + shadeDomain);
   }
 
   // slider.defaultValue = L2 * 5;
@@ -288,10 +287,7 @@ function colorInput() {
   var sliderPos = document.getElementById('Slider').value;
   var colorDomainUpdate =  swatches - (swatches * sliderPos /500);
   var newRgb = ColorArray[colorDomainUpdate];
-  // var contrastRatio2 = 1;
   var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
-  console.log(colorDomainUpdate);
-  console.log(newRgb);
 
   colorblock(newRgb);
   colorBlock.style.bottom = sliderPos / 5 + "%";
