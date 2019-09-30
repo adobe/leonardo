@@ -32,12 +32,12 @@ body {
 .spectrum-AppHeader {
   display: flex;
   flex-direction: row;
-  max-height: var(--spectrum-global-dimension-size-400);
+  max-height: var(--spectrum-global-dimension-size-400); // 32px
   border-bottom: 2px solid var(--spectrum-panel-border-color);
   background-color: var(--spectrum-panel-background-color);
   margin: 0;
   padding: var(--spectrum-global-dimension-size-150) var(--spectrum-global-dimension-size-200);
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
 }
 .spectrum-AppHeader-Title {
@@ -238,7 +238,7 @@ p {
 #demo,
 #demoInverted {
   max-width: 80ch;
-  padding: 16px 32px 48px;
+  padding: 16px 48px 48px;
   align-self: center;
 }
 .spectrum-Heading1 {
@@ -274,4 +274,15 @@ colorOutput-field {
   display: flex;
   flex-direction: column;
   min-width: 40px;
+}
+
+a:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
+  border-radius: 4px;
+}
+
+#octocat {
+  height: 24px;
+  width: 24px;
 }
