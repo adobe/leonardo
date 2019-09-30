@@ -61,7 +61,7 @@ governing permissions and limitations under the License.
     </div>
     <div class="spectrum-Panel-Item">
       <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
-      <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".005" onChange="ratioUpdate()"></input>
+      <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onChange="ratioUpdate()"></input>
     </div>
     <div class="spectrum-Panel-Item">
       <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
@@ -95,6 +95,11 @@ governing permissions and limitations under the License.
           <input type="radio" name="mode" class="spectrum-Radio-input" id="RGB" value="RGB" onChange="colorInput()">
           <span class="spectrum-Radio-button"></span>
           <label class="spectrum-Radio-label" for="RGB">RGB</label>
+        </div>
+        <div class="spectrum-Radio">
+          <input type="radio" name="mode" class="spectrum-Radio-input" id="RGBgamma" value="RGBgamma" onChange="colorInput()">
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="RGBgamma">RGB (gamma correction)</label>
         </div>
       </div>
     </div>

@@ -120,6 +120,12 @@ function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomai
       .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateRgb);
   }
+  if(colorspace == 'RGBgamma') {
+    return d3.scaleLinear()
+      .range([d3.rgb('#ffffff'), colorTint, d3.rgb(color), colorShade, d3.rgb('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateRgb.gamma(2.2));
+  }
 }
 
 // TODO: This isn't working :-/
@@ -228,7 +234,7 @@ function colorInput() {
     // console.log("HSLuv SliderPos: " + L2);
   }
 
-  if(mode == "RGB") {
+  if(mode == "RGB" || mode == "RGBgamma") {
     // RGB has no concept of luminosity. Using LCH luminosity to calculate domains.
     var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
     var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
@@ -305,7 +311,7 @@ function colorInput() {
   colorBlock.appendChild(textUpdate);
 
   newHex = d3.rgb(newRgb).formatHex();
-  colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2;
+  colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2 + ":1";
 
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.
