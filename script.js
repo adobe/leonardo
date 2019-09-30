@@ -271,6 +271,7 @@ function colorInput() {
     console.log("HSLuv Domain: " + colorDomain);
     console.log("HSLuv SliderPos: " + L2);
   }
+  slider.defaultValue = L2;
 
   // Generate Gradient
   for (var i = 0; i < array.length; i++) {
