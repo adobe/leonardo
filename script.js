@@ -95,20 +95,20 @@ function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomai
   }
   if(colorspace == 'LAB') {
     return d3.scaleLinear()
-      .range([colorTint, d3.lab(color), colorShade])
-      .domain([0, domain, swatches])
+      .range(['#ffffff', colorTint, d3.lab(color), colorShade, '#000000'])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateLab);
   }
   if(colorspace == 'HSL') {
     return d3.scaleLinear()
-      .range([colorTint, d3.hsl(color), colorShade])
-      .domain([0, domain, swatches])
+      .range(['#ffffff', colorTint, d3.hsl(color), colorShade, '#000000'])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateHsl);
   }
   if(colorspace == 'HSLuv') {
     return d3.scaleLinear()
-      .range([colorTint, d3.hsluv(color), colorShade])
-      .domain([0, domain, swatches])
+      .range(['#ffffff', colorTint, d3.hsluv(color), colorShade, '#000000'])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateHsluv);
   }
 }
@@ -188,11 +188,10 @@ function colorInput() {
   }
 
   if(mode == "HSL") {
-    var colorDomain = swatches * d3.hsl(color1).l; // should be calculated.
-    var tintDomain = swatches * d3.hsl(colorTint).l;
-    var shadeDomain = swatches * d3.hsl(colorShade).l;
-    // console.log("HSL L Value: " + d3.hsl(color1).l);
-    // console.log("HSL Color Domain: " + colorDomain);
+    var colorDomain = swatches - swatches * d3.hsl(color1).l; // should be calculated.
+    var tintDomain = colorDomain / 2;
+    var shadeDomain = colorDomain + ((swatches - colorDomain) / 2);
+
     var L2 = d3.hsl(color1).l * 100;
 
     var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
