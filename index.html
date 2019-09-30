@@ -19,10 +19,6 @@ governing permissions and limitations under the License.
   <link rel='stylesheet' href="css/style.css"/>
 </head>
 <body class="spectrum spectrum--light spectrum--medium">
-<!-- <div id="inputs">
-  <label for="colorInput1">Color</label>
-  <input id="colorInput1" type="text" value="#1473e6"></input>
-</div> -->
 <header class="spectrum-AppHeader">
   <h1 class="spectrum-AppHeader-Title"> Adobe Contrast </h1>
   <a href="#"> Github </a>
@@ -30,19 +26,6 @@ governing permissions and limitations under the License.
 <div class="wrapper">
   <div id="userColors" class="spectrum-Panel">
     <div class="spectrum-Panel-Item">
-      <!-- <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
-        <label for="radioGroup" class="spectrum-FieldLabel">Number of colors</label>
-        <div class="spectrum-Radio">
-          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="1color" value="1color" onChange="colorInput()" >
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="1color">1 Color</label>
-        </div>
-        <div class="spectrum-Radio">
-          <input type="radio" name="scaleNumbers" class="spectrum-Radio-input" id="3color" value="3color" onChange="colorInput()" checked>
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="3color">3 Colors</label>
-        </div>
-      </div> -->
       <div id="userColor">
         <div class="colorField">
           <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
@@ -107,6 +90,11 @@ governing permissions and limitations under the License.
           <input type="radio" name="mode" class="spectrum-Radio-input" id="HSLuv" value="HSLuv" onChange="colorInput()">
           <span class="spectrum-Radio-button"></span>
           <label class="spectrum-Radio-label" for="HSLuv">HSLuv</label>
+        </div>
+        <div class="spectrum-Radio">
+          <input type="radio" name="mode" class="spectrum-Radio-input" id="RGB" value="RGB" onChange="colorInput()">
+          <span class="spectrum-Radio-button"></span>
+          <label class="spectrum-Radio-label" for="RGB">RGB</label>
         </div>
       </div>
     </div>

@@ -111,6 +111,12 @@ function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomai
       .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateHsluv);
   }
+  if(colorspace == 'RGB') {
+    return d3.scaleLinear()
+      .range([d3.rgb('#ffffff'), colorTint, d3.rgb(color), colorShade, d3.rgb('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateRgb);
+  }
 }
 
 // TODO: This isn't working :-/
@@ -188,10 +194,10 @@ function colorInput() {
   }
 
   if(mode == "HSL") {
-    var colorDomain = swatches - swatches * d3.hsl(color1).l; // should be calculated.
-    var tintDomain = colorDomain / 2;
-    var shadeDomain = colorDomain + ((swatches - colorDomain) / 2);
-
+    // HSL Sucks. Using LCH luminosity to calculate domains, otherwise insanity insues.
+    var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
+    var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
+    var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
     var L2 = d3.hsl(color1).l * 100;
 
     var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
@@ -218,6 +224,26 @@ function colorInput() {
     // console.log("HSLuv Domain: " + colorDomain);
     // console.log("HSLuv SliderPos: " + L2);
   }
+
+  if(mode == "RGB") {
+    // RGB has no concept of luminosity. Using LCH luminosity to calculate domains.
+    var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
+    var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
+    var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
+
+    var L2 = d3.hsl(color1).l / 10;
+
+    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
+
+    var ColorArray = d3.range(swatches).map(function(d) {
+      return clr(d)
+    });
+    var array = ColorArray;
+    console.log("color domain: " + colorDomain);
+    console.log("tint domain: " + tintDomain);
+    console.log("shade domain: " + shadeDomain);
+  }
+
   slider.defaultValue = L2;
 
   // Generate Gradient
