@@ -97,8 +97,12 @@ function contrast(rgb1, rgb2) {
 
 // Simplifying d3 color Functions for reuse
 // TODO: update to include white & black whether or not tint and shade defined
-function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomain) {
+function colorScale(color, colorTint, colorShade) {
   var colorspace = document.querySelector('input[name="mode"]:checked').value;
+  // Using HSLuv "v" value as a uniform domain in gradients. 
+  var domain = swatches - swatches * (d3.hsluv(color).v / 100);
+  var tintDomain = swatches - swatches * (d3.hsluv(colorTint).v / 100);
+  var shadeDomain = swatches - swatches * (d3.hsluv(colorShade).v / 100);
 
   if(colorspace == 'CAM02') {
     return d3.scaleLinear()
@@ -191,7 +195,7 @@ function colorInput() {
     var shadeDomain = swatches - ((d3.jab(colorShade).J / 100) * swatches);
     var L2 = d3.jab(color1).J;
 
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
+    var clr = colorScale(color1, colorTint, colorShade);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -205,7 +209,7 @@ function colorInput() {
     var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
     var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
 
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
+    var clr = colorScale(color1, colorTint, colorShade);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -218,7 +222,7 @@ function colorInput() {
     var tintDomain = swatches - swatches * ((d3.lab(colorTint).l / 100));
     var shadeDomain = swatches - swatches * ((d3.lab(colorShade).l / 100));
     var L2 = d3.lab(color1).l;
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
+    var clr = colorScale(color1, colorTint, colorShade);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -233,7 +237,7 @@ function colorInput() {
     var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
     var L2 = d3.hsl(color1).l * 100;
 
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
+    var clr = colorScale(color1, colorTint, colorShaden);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
@@ -248,16 +252,16 @@ function colorInput() {
     var shadeDomain = swatches * d3.hsluv(colorShade).l;
     var L2 = d3.hsluv(color1).l / 10;
 
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
+    var clr = colorScale(color1, colorTint, colorShade);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
     });
     var array = ColorArray;
-    // console.log("----------------------------");
-    // console.log("HSLuv L value: " + d3.hsluv(color1).l / 10);
-    // console.log("HSLuv Domain: " + colorDomain);
-    // console.log("HSLuv SliderPos: " + L2);
+    console.log("----------------------------");
+    console.log("HSLuv L value: " + d3.hsluv(color1).l / 10);
+    console.log("HSLuv Domain: " + colorDomain);
+    console.log("HSLuv SliderPos: " + L2);
   }
 
   if(mode == "RGB" || mode == "RGBgamma") {
@@ -268,7 +272,7 @@ function colorInput() {
 
     var L2 = d3.hsl(color1).l / 10;
 
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
+    var clr = colorScale(color1, colorTint, colorShade);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
