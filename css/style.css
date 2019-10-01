@@ -7702,3 +7702,7 @@ a:focus {
 #octocat {
   height: 24px;
   width: 24px; }
+
+.spectrum-Button#demoButton,
+.spectrum-Button#demoButtonInverted {
+  background-color: transparent; }
