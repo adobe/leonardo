@@ -76,7 +76,7 @@ function contrast(rgb1, rgb2) {
 function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomain) {
   var colorspace = document.querySelector('input[name="mode"]:checked').value;
 
-  if(colorspace == 'JAB') {
+  if(colorspace == 'CAM02') {
     return d3.scaleLinear()
       .range(['#ffffff', colorTint, d3.jab(color), colorShade, '#000000'])
       .domain([0, tintDomain, domain, shadeDomain, swatches])
@@ -193,7 +193,7 @@ function colorInput() {
 
   colorblock(color1);
 
-  if(mode == "JAB") {
+  if(mode == "CAM02") {
     var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
     var tintDomain = swatches - ((d3.jab(colorTint).J / 100) * swatches);
     var shadeDomain = swatches - ((d3.jab(colorShade).J / 100) * swatches);
@@ -459,22 +459,9 @@ function updateParams(c, t, s, r, m) {
   params.set('color', c);
   params.set('tint', t);
   params.set('shade', s);
-  params.set('ratio', r);
-  params.set('mode', m);
+  // TODO: once fixed, uncomment
+  // params.set('ratio', r);
+  // params.set('mode', m);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
-}
-
-function parseParams() {
-  let url = new URL(window.location.href);
-
-  let params = new URLSearchParams(url.search.slice(1));
-
-  var color1 = params.get('color');
-  var colorTint = params.get('tint');
-  var colorShade = params.get('shade');
-  var contrastRatio = params.get('ratio');
-  var mode = params.get('mode');
-
-  console.log(color1);
 }
