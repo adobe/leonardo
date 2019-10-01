@@ -12,6 +12,11 @@ To make it easier for designers and engineers to leverage color science to creat
 
 ![Image showing Adobe contrast tool with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](https://git.corp.adobe.com/pages/nbaldwin/Contrast-Tool/AdobeContrastScreenshot.jpg)
 
+### Local setup
+install dependencies `npm i`
+run local server `python -m SimpleHTTPServer 8001`
+open `http://localhost:8001`
+
 ### Why can't it output exact target ratios?
 You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.
 

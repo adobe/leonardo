@@ -31,6 +31,30 @@ var colorOutputField = document.getElementById('colorOutput');
 var fieldColorOutput = document.getElementById('spectrum-Textfield-swatch');
 var swatches = 500; // in order to make a gradient, this count needs to be massive
 
+function paramSetup() {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  // // If parameters exist, use parameter; else use default html input values
+  if(params.has('color')) {
+    document.getElementById('colorField1').value = "#" + params.get('color');
+  }
+  if(params.has('tint')) {
+    document.getElementById('colorField2').value = "#" + params.get('tint');
+  }
+  if(params.has('shade')) {
+    document.getElementById('colorField3').value = "#" + params.get('shade');
+  }
+  if(params.has('mode')) {
+    document.querySelector('input[name="mode"]:checked').value = params.get('mode');
+  }
+  // // TODO: Won't work until I have ratioUpdate() function working
+  // if(params.has('ratio')) {
+  //   var contrastRatio2 = params.get('ratio');
+  // } else { }
+}
+paramSetup();
+
 function colorblock(c){
   colorBlock.style.backgroundColor = c;
   demoBackgroundBlock.style.backgroundColor = c;
@@ -76,7 +100,7 @@ function contrast(rgb1, rgb2) {
 function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomain) {
   var colorspace = document.querySelector('input[name="mode"]:checked').value;
 
-  if(colorspace == 'JAB') {
+  if(colorspace == 'CAM02') {
     return d3.scaleLinear()
       .range(['#ffffff', colorTint, d3.jab(color), colorShade, '#000000'])
       .domain([0, tintDomain, domain, shadeDomain, swatches])
@@ -151,17 +175,17 @@ function toggleTintShade() {
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
 
-  var mode = document.querySelector('input[name="mode"]:checked').value;
   var slider = document.getElementById('Slider');
   var background = document.getElementById('bgField').value;
   var customTintShade = document.getElementById('tintShades');
-
   var color1 = colorField1.value;
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
+  var mode = document.querySelector('input[name="mode"]:checked').value;
+
   colorblock(color1);
 
-  if(mode == "JAB") {
+  if(mode == "CAM02") {
     var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
     var tintDomain = swatches - ((d3.jab(colorTint).J / 100) * swatches);
     var shadeDomain = swatches - ((d3.jab(colorShade).J / 100) * swatches);
@@ -218,6 +242,7 @@ function colorInput() {
   }
 
   if(mode == "HSLuv") {
+    // TODO: HSLuv all messed up...
     var colorDomain = swatches * d3.hsluv(color1).l; // should be calculated.
     var tintDomain = swatches * d3.hsluv(colorTint).l;
     var shadeDomain = swatches * d3.hsluv(colorShade).l;
@@ -229,7 +254,8 @@ function colorInput() {
       return clr(d)
     });
     var array = ColorArray;
-
+    // console.log("----------------------------");
+    // console.log("HSLuv L value: " + d3.hsluv(color1).l / 10);
     // console.log("HSLuv Domain: " + colorDomain);
     // console.log("HSLuv SliderPos: " + L2);
   }
@@ -248,9 +274,6 @@ function colorInput() {
       return clr(d)
     });
     var array = ColorArray;
-    console.log("color domain: " + colorDomain);
-    console.log("tint domain: " + tintDomain);
-    console.log("shade domain: " + shadeDomain);
   }
 
   // slider.defaultValue = L2 * 5;
@@ -288,10 +311,7 @@ function colorInput() {
   var sliderPos = document.getElementById('Slider').value;
   var colorDomainUpdate =  swatches - (swatches * sliderPos /500);
   var newRgb = ColorArray[colorDomainUpdate];
-  // var contrastRatio2 = 1;
   var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
-  console.log(colorDomainUpdate);
-  console.log(newRgb);
 
   colorblock(newRgb);
   colorBlock.style.bottom = sliderPos / 5 + "%";
@@ -316,6 +336,9 @@ function colorInput() {
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.
   // slider.value = L2;
+
+  // update URL parameters
+  updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
 }
 colorInput(color1);
 
@@ -418,3 +441,19 @@ function ratioUpdate() {
 //     console.log("FAIL: Small and Large Text");
 //   }
 // }
+
+// Passing variable parameters to URL
+// https://googlechrome.github.io/samples/urlsearchparams/?foo=2
+function updateParams(c, t, s, r, m) {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  params.set('color', c);
+  params.set('tint', t);
+  params.set('shade', s);
+  // TODO: once fixed, uncomment
+  // params.set('ratio', r);
+  params.set('mode', m);
+
+  window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+}
