@@ -31,10 +31,7 @@ var colorOutputField = document.getElementById('colorOutput');
 var fieldColorOutput = document.getElementById('spectrum-Textfield-swatch');
 var swatches = 500; // in order to make a gradient, this count needs to be massive
 
-var gitPagePath = 'pages/nbaldwin/Contrast-Tool/';
-
 function paramSetup() {
-  console.log(window.location.pathname);
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
@@ -55,7 +52,6 @@ function paramSetup() {
   // if(params.has('ratio')) {
   //   var contrastRatio2 = params.get('ratio');
   // } else { }
-  console.log(url.pathname);
 }
 paramSetup();
 
@@ -461,8 +457,4 @@ function updateParams(c, t, s, r, m) {
   params.set('mode', m);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
-
-  console.log(window.location);
-  console.log(url);
-  console.log(gitPagePath);
 }

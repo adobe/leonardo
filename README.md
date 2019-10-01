@@ -1,16 +1,24 @@
-# Contrast Tool
-Generate colors based on a desired contrast ratio
+# Adaptive Color
+Generate colors based on a desired contrast ratio, while defining "color" as a value spectrum
 
 ### Project Goals
 To make it easier for designers and engineers to leverage color science to create custom interpolations for a value scale, and to make it easier for designers and engineers to conform to [WCAG minimum contrast standards](https://www.w3.org/TR/WCAG21/#contrast-minimum) by using contrast ratio as the starting point, rather than a post-color-selection auditing process.
 
 ### How to use
-1. Input foreground color
-2. Input background color
+1. Select a color
+2. Add tint or shade if desired
+2. Select background color
 3. Slide or input desired contrast ratio
 4. Copy output RGB value
 
 ![Image showing Adobe contrast tool with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](https://git.corp.adobe.com/pages/nbaldwin/Contrast-Tool/AdobeContrastScreenshot.jpg)
+
+### On "Adaptive Color"
+I've written about this concept in more detail at the following links. The goals of this project are to aid in fulfilling the tooling necessary to make adaptive color palettes available to designers and engineers.
+
+[Part 1: Introducing Adaptive Color Palettes](https://medium.com/thinking-design/introducing-adaptive-color-palettes-111b5842fc88)
+[Part 2: Adaptive Color in Design Systems](https://medium.com/thinking-design/adaptive-color-in-design-systems-7bcd2e664fa0)
+[Part 3: Adaptive Color in Spectrum, Adobe's Design System](https://medium.com/thinking-design/adaptive-color-in-spectrum-adobes-design-system-feeeec89a2c7)
 
 ### Local setup
 install dependencies `npm i`

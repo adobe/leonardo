@@ -1,5 +1,5 @@
 {
-  "name": "contrast-tool",
+  "name": "adaptive-color",
   "version": "1.0.0",
   "description": "Generate colors based on a desired contrast ratio",
   "main": "index.js",
@@ -16,7 +16,19 @@
     "inclusive",
     "wcag",
     "contrast",
-    "color"
+    "color",
+    "contrast-ratio",
+    "a11y",
+    "luminance",
+    "relative-luminance",
+    "accessible",
+    "a11ycolor",
+    "colour",
+    "adaptive",
+    "adaptive-color",
+    "color-generator",
+    "contrast-generator",
+    "color-contrast-generator"
   ],
   "license": "Apache-2.0",
   "dependencies": {
