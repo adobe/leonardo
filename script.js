@@ -34,6 +34,7 @@ var swatches = 500; // in order to make a gradient, this count needs to be massi
 var gitPagePath = 'pages/nbaldwin/Contrast-Tool/';
 
 function paramSetup() {
+  console.log(window.location.pathname);
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
@@ -54,6 +55,7 @@ function paramSetup() {
   // if(params.has('ratio')) {
   //   var contrastRatio2 = params.get('ratio');
   // } else { }
+  console.log(url.pathname);
 }
 paramSetup();
 
@@ -340,7 +342,7 @@ function colorInput() {
   // slider.value = L2;
 
   // update URL parameters
-  updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
+  // updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
 }
 colorInput(color1);
 
