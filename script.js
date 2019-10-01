@@ -32,7 +32,7 @@ var fieldColorOutput = document.getElementById('spectrum-Textfield-swatch');
 var swatches = 500; // in order to make a gradient, this count needs to be massive
 
 function paramSetup() {
-  let url = new URL(window.location.href);
+  let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
   // // If parameters exist, use parameter; else use default html input values
@@ -445,7 +445,7 @@ function ratioUpdate() {
 // Passing variable parameters to URL
 // https://googlechrome.github.io/samples/urlsearchparams/?foo=2
 function updateParams(c, t, s, r, m) {
-  let url = new URL(window.location.href);
+  let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
   params.set('color', c);
