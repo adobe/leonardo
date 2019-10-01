@@ -31,6 +31,30 @@ var colorOutputField = document.getElementById('colorOutput');
 var fieldColorOutput = document.getElementById('spectrum-Textfield-swatch');
 var swatches = 500; // in order to make a gradient, this count needs to be massive
 
+function paramSetup() {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  // // If parameters exist, use parameter; else use default html input values
+  if(params.has('color')) {
+    document.getElementById('colorField1').value = "#" + params.get('color');
+  }
+  if(params.has('tint')) {
+    document.getElementById('colorField2').value = "#" + params.get('tint');
+  }
+  if(params.has('shade')) {
+    document.getElementById('colorField3').value = "#" + params.get('shade');
+  }
+  if(params.has('mode')) {
+    document.querySelector('input[name="mode"]:checked').value = params.get('mode');
+  }
+  // // TODO: Won't work until I have ratioUpdate() function working
+  // if(params.has('ratio')) {
+  //   var contrastRatio2 = params.get('ratio');
+  // } else { }
+}
+paramSetup();
+
 function colorblock(c){
   colorBlock.style.backgroundColor = c;
   demoBackgroundBlock.style.backgroundColor = c;
@@ -150,46 +174,14 @@ function toggleTintShade() {
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
-  let url = new URL(window.location.href);
-  let params = new URLSearchParams(url.search.slice(1));
 
   var slider = document.getElementById('Slider');
   var background = document.getElementById('bgField').value;
   var customTintShade = document.getElementById('tintShades');
-
-
-  // If parameters exist, use parameter; else use default html input values
-  if(params.has('color')) {
-    var color1 = params.get('color');
-    document.getElementById('colorField1').value = color1;
-  } else {
-    var color1 = colorField1.value;
-  }
-  if(params.has('tint')) {
-    var colorTint = params.get('tint');
-    document.getElementById('colorField2').value = colorTint;
-  } else {
-    var colorTint = colorField2.value;
-  }
-  if(params.has('shade')) {
-    var colorShade = params.get('shade');
-    document.getElementById('colorField3').value = colorShade;
-  } else {
-    var colorShade = colorField3.value;
-  }
-  // TODO: This does not correct interpolation mode, nor affect radios. Radios become disabled.
-  if(params.has('mode')) {
-    var mode = params.get('mode');
-    console.log(mode);
-    document.querySelector('input[name="mode"]:checked').value = mode;
-  } else {
-    var mode = document.querySelector('input[name="mode"]:checked').value;
-    console.log(mode);
-  }
-  // TODO: Won't work until I have ratioUpdate() function working
-  if(params.has('ratio')) {
-    var contrastRatio2 = params.get('ratio');
-  } else { }
+  var color1 = colorField1.value;
+  var colorTint = colorField2.value;
+  var colorShade = colorField3.value;
+  var mode = document.querySelector('input[name="mode"]:checked').value;
 
   colorblock(color1);
 
@@ -346,7 +338,7 @@ function colorInput() {
   // slider.value = L2;
 
   // update URL parameters
-  updateParams(color1, colorTint, colorShade, contrastRatio2, mode);
+  updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
 }
 colorInput(color1);
 
@@ -461,7 +453,7 @@ function updateParams(c, t, s, r, m) {
   params.set('shade', s);
   // TODO: once fixed, uncomment
   // params.set('ratio', r);
-  // params.set('mode', m);
+  params.set('mode', m);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
 }
