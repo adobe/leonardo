@@ -447,8 +447,8 @@ function ratioUpdate() {
 // Passing variable parameters to URL
 // https://googlechrome.github.io/samples/urlsearchparams/?foo=2
 function updateParams(c, t, s, r, m) {
-  window.location.pathname = gitPagePath;
-  let url = new URL(window.location.href);
+  // window.location.pathname = gitPagePath;
+  let url = new URL(window.location.href + gitPagePath);
   let params = new URLSearchParams(url.search.slice(1));
 
   params.set('color', c);
