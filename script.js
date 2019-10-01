@@ -99,7 +99,7 @@ function contrast(rgb1, rgb2) {
 // TODO: update to include white & black whether or not tint and shade defined
 function colorScale(color, colorTint, colorShade) {
   var colorspace = document.querySelector('input[name="mode"]:checked').value;
-  // Using HSLuv "v" value as a uniform domain in gradients. 
+  // Using HSLuv "v" value as a uniform domain in gradients.
   var domain = swatches - swatches * (d3.hsluv(color).v / 100);
   var tintDomain = swatches - swatches * (d3.hsluv(colorTint).v / 100);
   var shadeDomain = swatches - swatches * (d3.hsluv(colorShade).v / 100);
@@ -237,7 +237,7 @@ function colorInput() {
     var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
     var L2 = d3.hsl(color1).l * 100;
 
-    var clr = colorScale(color1, colorTint, colorShaden);
+    var clr = colorScale(color1, colorTint, colorShade);
 
     var ColorArray = d3.range(swatches).map(function(d) {
       return clr(d)
