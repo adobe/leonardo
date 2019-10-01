@@ -34,7 +34,7 @@ var swatches = 500; // in order to make a gradient, this count needs to be massi
 var gitPagePath = 'pages/nbaldwin/Contrast-Tool/';
 
 function paramSetup() {
-  let url = new URL(window.location.href);
+  let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
   // // If parameters exist, use parameter; else use default html input values
@@ -447,9 +447,9 @@ function ratioUpdate() {
 // Passing variable parameters to URL
 // https://googlechrome.github.io/samples/urlsearchparams/?foo=2
 function updateParams(c, t, s, r, m) {
-  let url = new URL(window.location.href);
+  let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
-  url.pathname = gitPagePath;
+  // url.pathname = gitPagePath;
 
   params.set('color', c);
   params.set('tint', t);
@@ -459,4 +459,8 @@ function updateParams(c, t, s, r, m) {
   params.set('mode', m);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+
+  console.log(window.location);
+  console.log(url);
+  console.log(gitPagePath);
 }
