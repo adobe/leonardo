@@ -150,15 +150,47 @@ function toggleTintShade() {
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search.slice(1));
 
-  var mode = document.querySelector('input[name="mode"]:checked').value;
   var slider = document.getElementById('Slider');
   var background = document.getElementById('bgField').value;
   var customTintShade = document.getElementById('tintShades');
 
-  var color1 = colorField1.value;
-  var colorTint = colorField2.value;
-  var colorShade = colorField3.value;
+
+  // If parameters exist, use parameter; else use default html input values
+  if(params.has('color')) {
+    var color1 = params.get('color');
+    document.getElementById('colorField1').value = color1;
+  } else {
+    var color1 = colorField1.value;
+  }
+  if(params.has('tint')) {
+    var colorTint = params.get('tint');
+    document.getElementById('colorField2').value = colorTint;
+  } else {
+    var colorTint = colorField2.value;
+  }
+  if(params.has('shade')) {
+    var colorShade = params.get('shade');
+    document.getElementById('colorField3').value = colorShade;
+  } else {
+    var colorShade = colorField3.value;
+  }
+  // TODO: This does not correct interpolation mode, nor affect radios. Radios become disabled.
+  if(params.has('mode')) {
+    var mode = params.get('mode');
+    console.log(mode);
+    document.querySelector('input[name="mode"]:checked').value = mode;
+  } else {
+    var mode = document.querySelector('input[name="mode"]:checked').value;
+    console.log(mode);
+  }
+  // TODO: Won't work until I have ratioUpdate() function working
+  if(params.has('ratio')) {
+    var contrastRatio2 = params.get('ratio');
+  } else { }
+
   colorblock(color1);
 
   if(mode == "JAB") {
@@ -312,6 +344,9 @@ function colorInput() {
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.
   // slider.value = L2;
+
+  // update URL parameters
+  updateParams(color1, colorTint, colorShade, contrastRatio2, mode);
 }
 colorInput(color1);
 
@@ -414,3 +449,32 @@ function ratioUpdate() {
 //     console.log("FAIL: Small and Large Text");
 //   }
 // }
+
+// Passing variable parameters to URL
+// https://googlechrome.github.io/samples/urlsearchparams/?foo=2
+function updateParams(c, t, s, r, m) {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  params.set('color', c);
+  params.set('tint', t);
+  params.set('shade', s);
+  params.set('ratio', r);
+  params.set('mode', m);
+
+  window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+}
+
+function parseParams() {
+  let url = new URL(window.location.href);
+
+  let params = new URLSearchParams(url.search.slice(1));
+
+  var color1 = params.get('color');
+  var colorTint = params.get('tint');
+  var colorShade = params.get('shade');
+  var contrastRatio = params.get('ratio');
+  var mode = params.get('mode');
+
+  console.log(color1);
+}
