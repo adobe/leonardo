@@ -97,8 +97,12 @@ function contrast(rgb1, rgb2) {
 
 // Simplifying d3 color Functions for reuse
 // TODO: update to include white & black whether or not tint and shade defined
-function colorScale(color, domain, colorTint, tintDomain, colorShade, shadeDomain) {
+function colorScale(color, colorTint, colorShade) {
   var colorspace = document.querySelector('input[name="mode"]:checked').value;
+  // Using HSLuv "v" value as a uniform domain in gradients.
+  var domain = swatches - swatches * (d3.hsluv(color).v / 100);
+  var tintDomain = swatches - swatches * (d3.hsluv(colorTint).v / 100);
+  var shadeDomain = swatches - swatches * (d3.hsluv(colorShade).v / 100);
 
   if(colorspace == 'CAM02') {
     return d3.scaleLinear()
@@ -185,105 +189,28 @@ function colorInput() {
 
   colorblock(color1);
 
-  if(mode == "CAM02") {
-    var colorDomain =  swatches - ((d3.jab(color1).J / 100) * swatches); // should be calculated.
-    var tintDomain = swatches - ((d3.jab(colorTint).J / 100) * swatches);
-    var shadeDomain = swatches - ((d3.jab(colorShade).J / 100) * swatches);
-    var L2 = d3.jab(color1).J;
+  var clr = colorScale(color1, colorTint, colorShade);
 
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
+  var ColorArray = d3.range(swatches).map(function(d) {
+    return clr(d)
+  });
 
-    var ColorArray = d3.range(swatches).map(function(d) {
-      return clr(d)
-    });
-    var array = ColorArray;
-  }
+  var colors = ColorArray;
 
-  if(mode == "LCH") {
-    var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
-    var L2 = d3.hcl(color1).l;
-    var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
-    var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
+  colorsArray = colors.filter(function (el) {
+    return el != null;
+  });
 
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
-
-    var ColorArray = d3.range(swatches).map(function(d) {
-      return clr(d)
-    });
-    var array = ColorArray;
-  }
-
-  if(mode == "LAB") {
-    var colorDomain = swatches - swatches * ((d3.lab(color1).l / 100)); // should be calculated.
-    var tintDomain = swatches - swatches * ((d3.lab(colorTint).l / 100));
-    var shadeDomain = swatches - swatches * ((d3.lab(colorShade).l / 100));
-    var L2 = d3.lab(color1).l;
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
-
-    var ColorArray = d3.range(swatches).map(function(d) {
-      return clr(d)
-    });
-    var array = ColorArray;
-  }
-
-  if(mode == "HSL") {
-    // HSL Sucks. Using LCH luminosity to calculate domains, otherwise insanity insues.
-    var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
-    var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
-    var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
-    var L2 = d3.hsl(color1).l * 100;
-
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
-
-    var ColorArray = d3.range(swatches).map(function(d) {
-      return clr(d)
-    });
-    var array = ColorArray;
-  }
-
-  if(mode == "HSLuv") {
-    // TODO: HSLuv all messed up...
-    var colorDomain = swatches * d3.hsluv(color1).l; // should be calculated.
-    var tintDomain = swatches * d3.hsluv(colorTint).l;
-    var shadeDomain = swatches * d3.hsluv(colorShade).l;
-    var L2 = d3.hsluv(color1).l / 10;
-
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
-
-    var ColorArray = d3.range(swatches).map(function(d) {
-      return clr(d)
-    });
-    var array = ColorArray;
-    // console.log("----------------------------");
-    // console.log("HSLuv L value: " + d3.hsluv(color1).l / 10);
-    // console.log("HSLuv Domain: " + colorDomain);
-    // console.log("HSLuv SliderPos: " + L2);
-  }
-
-  if(mode == "RGB" || mode == "RGBgamma") {
-    // RGB has no concept of luminosity. Using LCH luminosity to calculate domains.
-    var colorDomain = swatches - swatches * ((d3.hcl(color1).l / 100)); // should be calculated.
-    var tintDomain = swatches - swatches * ((d3.hcl(colorTint).l / 100));
-    var shadeDomain = swatches - swatches * ((d3.hcl(colorShade).l / 100));
-
-    var L2 = d3.hsl(color1).l / 10;
-
-    var clr = colorScale(color1, colorDomain, colorTint, tintDomain, colorShade, shadeDomain);
-
-    var ColorArray = d3.range(swatches).map(function(d) {
-      return clr(d)
-    });
-    var array = ColorArray;
-  }
+  // console.log(colorsArray);
 
   // slider.defaultValue = L2 * 5;
 
   // Generate Gradient
-  for (var i = 0; i < array.length; i++) {
+  for (var i = 0; i < colors.length; i++) {
     var container = document.getElementById('colors');
     var div = document.createElement('div');
     div.className = 'block';
-    div.style.backgroundColor = array[i];
+    div.style.backgroundColor = colors[i];
 
     container.appendChild(div);
   }
@@ -305,7 +232,6 @@ function colorInput() {
   colorBlock.style.bottom = slider.value * 5 + "%";
 
   backgroundblock(background);
-  // passFail(contrastRatio);
 
   // Slider updates
   var sliderPos = document.getElementById('Slider').value;
@@ -345,109 +271,54 @@ colorInput(color1);
 // Contrast Input
 function ratioUpdate() {
   var ratioInput = document.getElementById('ratio');
-  var targetRatio = ratioInput.value;
-  var color1 = document.getElementById('colorField1').value;
-  // var colorDomain =  swatches - (swatches * sliderPos/100);
-  // var clr = colorScale(color1, colorDomain);
-  // var ColorArray = d3.range(swatches).map(function(d) {
-  //   return clr(d)
-  // });
-  // var colors = ColorArray;
+  targetRatio = ratioInput.value;
 
-  // console.log(targetRatio);
+  for (let i = 0; i < colorsArray.length; i++) {
+    var r = d3.rgb(colorsArray[i]).r;
+    var g = d3.rgb(colorsArray[i]).g;
+    var b = d3.rgb(colorsArray[i]).b;
 
-  // for (var i = 0; colors.length; i++) {
-  //   var r = d3.rgb(colors[i]).r;
-  //   var g = d3.rgb(colors[i]).g;
-  //   var b = d3.rgb(colors[i]).b;
-  //
-  //   var bR = d3.rgb(background).r;
-  //   var bG = d3.rgb(background).g;
-  //   var bB = d3.rgb(background).b;
-  //
-  //   var ratio = contrast([r, g, b], [bR, bG, bB]);
-  //
-  //   if (targetRatio == ratio) {
-  //     console.log('Exact Match! ' + targetRatio + ' = ' + ratio + ', '+ colors[i]);
-  //
-  //     var lch = d3.hex(colors[i]).lch();
-  //     var d = lch[0];
-  //     // var text = document.createTextNode(contrast);
-  //     // var slider = document.getElementById('Slider');
-  //     //
-  //     // colorBlock.innerHTML = '';
-  //     // colorBlock.appendChild(text);
-  //     // colorBlock.style.backgroundColor = colors[i];
-  //     colorBlock(colors[i])
-  //     slider.value = d;
-  //
-  //     if (d < 50) {
-  //       colorBlock.style.color = "#ffffff";
-  //     } else {
-  //       colorBlock.style.color = '#000000';
-  //     }
-  //
-  //     break;
-  //   } else {
-  //     continue;
-  //   }
-  // }
+    var bR = d3.rgb(background).r;
+    var bG = d3.rgb(background).g;
+    var bB = d3.rgb(background).b;
+
+    var ratio = contrast([r, g, b], [bR, bG, bB]).toFixed(2);
+
+    if (targetRatio == ratio) {
+      colorblock(colorsArray[i]);
+
+      break;
+    }
+    else {
+      continue;
+      // var nextBest = closest (targetRatio, colorsArray);
+      // console.log("Your next best bet is: " + nextBest);
+    }
+  }
 }
 
-// TODO: display pass/fail in demo
-// function passFail(a) {
-//   var x = a;
-//   var smallText = document.getElementsByClassName('smallTextWrapper');
-//   var largeText = document.getElementsByClassName('largeTextWrapper');
-//   var passtext = document.createTextNode("pass AA");
-//   var fail = document.createElement('div');
-//   var failtext = document.createTextNode("fail AA");
-//
-//   if(x >= 4.5) {
-//     // Small text pass
-//     for (var i = 0; i < smallText.length; i++) {
-//       smallText[i].innerHTML = '';
-//       smallText[i].appendChild(passtext);
-//     }
-//     // Large text pass
-//     for (var i = 0; i < largeText.length; i++) {
-//       largeText[i].innerHTML = '';
-//       largeText[i].appendChild(passtext);
-//     }
-//     console.log("PASS: Large & Small Text");
-//   }
-//   if(x > 4.5 && x <= 3) {
-//     // Large text pass
-//     for (var i = 0; i < largeText.length; i++) {
-//       largeText[i].innerHTML = '';
-//       largeText[i].appendChild(passtext);
-//     }
-//     for (var i = 0; i < smallText.length; i++) {
-//       smallText[i].innerHTML = '';
-//       smallText[i].appendChild(failtext);
-//     }
-//     console.log("PASS: Large Text only");
-//   }
-//   if(x < 3) {
-//     // all fail
-//     for (var i = 0; i < largeText.length; i++) {
-//       largeText[i].innerHTML = '';
-//       largeText[i].appendChild(failtext);
-//     }
-//     for (var i = 0; i < smallText.length; i++) {
-//       smallText[i].innerHTML = '';
-//       smallText[i].appendChild(failtext);
-//     }
-//     console.log("FAIL: Small and Large Text");
-//   }
-// }
+function closest (num, arr) {
+    var mid;
+    var lo = 0;
+    var hi = arr.length - 1;
+    while (hi - lo > 1) {
+        mid = Math.floor ((lo + hi) / 2);
+        if (arr[mid] < num) {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    if (num - arr[lo] <= arr[hi] - num) {
+        return arr[lo];
+    }
+    return arr[hi];
+}
 
-// Passing variable parameters to URL
-// https://googlechrome.github.io/samples/urlsearchparams/?foo=2
+// Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
 function updateParams(c, t, s, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
-  // url.pathname = gitPagePath;
 
   params.set('color', c);
   params.set('tint', t);
