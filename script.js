@@ -201,6 +201,8 @@ function colorInput() {
     return el != null;
   });
 
+  contrastArray = colorsArray.map(ratio);
+
   // console.log(colorsArray);
 
   // slider.defaultValue = L2 * 5;
@@ -263,10 +265,27 @@ function colorInput() {
   // value, unless user moves slider.
   // slider.value = L2;
 
+  console.log(sliderPos);
+
   // update URL parameters
   // updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
 }
 colorInput(color1);
+
+
+// Ratio function
+function ratio(x) {
+  var r = d3.rgb(x).r;
+  var g = d3.rgb(x).g;
+  var b = d3.rgb(x).b;
+
+  var bR = d3.rgb(background).r;
+  var bG = d3.rgb(background).g;
+  var bB = d3.rgb(background).b;
+
+  return contrast([r, g, b], [bR, bG, bB]).toFixed(2);
+  console.log(contrast);
+}
 
 // Contrast Input
 function ratioUpdate() {
@@ -286,6 +305,7 @@ function ratioUpdate() {
 
     if (targetRatio == ratio) {
       colorblock(colorsArray[i]);
+      console.log('Match!');
 
       break;
     }
