@@ -46,7 +46,7 @@ function paramSetup() {
     document.getElementById('colorField3').value = "#" + params.get('shade');
   }
   if(params.has('mode')) {
-    document.querySelector('input[name="mode"]:checked').value = params.get('mode');
+    document.querySelector('select[name="mode"]').value = params.get('mode');
   }
   // // TODO: Won't work until I have ratioUpdate() function working
   // if(params.has('ratio')) {
@@ -98,7 +98,7 @@ function contrast(rgb1, rgb2) {
 // Simplifying d3 color Functions for reuse
 // TODO: update to include white & black whether or not tint and shade defined
 function colorScale(color, colorTint, colorShade) {
-  var colorspace = document.querySelector('input[name="mode"]:checked').value;
+  var colorspace = document.querySelector('select[name="mode"]').value;
   // Using HSLuv "v" value as a uniform domain in gradients.
   var domain = swatches - swatches * (d3.hsluv(color).v / 100);
   var tintDomain = swatches - swatches * (d3.hsluv(colorTint).v / 100);
@@ -156,25 +156,6 @@ function colorScale(color, colorTint, colorShade) {
   }
 }
 
-// TODO: This isn't working :-/
-function toggleTintShade() {
-  var customTintShade = document.getElementById('tintShades');
-
-  document.getElementById('colorField2').disabled = !this.checked;
-  document.getElementById('colorField3').disabled = !this.checked;
-  document.getElementById('colorField2').value = '#eaeaea';
-  document.getElementById('colorField3').value = '#eaeaea';
-
-  if (customTintShade.checked == true)  {
-    document.getElementById('color2Label').classList.remove = 'is-disabled';
-    document.getElementById('color3Label').classList.remove = 'is-disabled';
-  }
-  if (customTintShade.checked == false) {
-    document.getElementById('color2Label').classList.add = 'is-disabled';
-    document.getElementById('color3Label').classList.add = 'is-disabled';
-  }
-}
-
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
@@ -185,7 +166,7 @@ function colorInput() {
   var color1 = colorField1.value;
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
-  var mode = document.querySelector('input[name="mode"]:checked').value;
+  var mode = document.querySelector('select[name="mode"]').value;
 
   colorblock(color1);
 

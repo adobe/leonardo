@@ -52,39 +52,15 @@ governing permissions and limitations under the License.
       <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
     </div>
     <div class="spectrum-Panel-Item">
-      <div id="radioGroup" class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
-        <label for="radioGroup" class="spectrum-FieldLabel">Color space (interpolation)</label>
-        <div class="spectrum-Radio">
-          <input type="radio" name="mode" class="spectrum-Radio-input" id="LCH" value="LCH" onChange="colorInput()" checked>
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="LCH">LCH</label>
-        </div>
-        <div class="spectrum-Radio">
-          <input type="radio" name="mode" class="spectrum-Radio-input" id="LAB" value="LAB" onChange="colorInput()" >
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="LAB">Lab</label>
-        </div>
-        <div class="spectrum-Radio">
-          <input type="radio" name="mode" class="spectrum-Radio-input" id="CAM02" value="CAM02" onChange="colorInput()" >
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="CAM02">CAM02</label>
-        </div>
-        <div class="spectrum-Radio">
-          <input type="radio" name="mode" class="spectrum-Radio-input" id="HSL" value="HSL" onChange="colorInput()">
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="HSL">HSL</label>
-        </div>
-        <div class="spectrum-Radio">
-          <input type="radio" name="mode" class="spectrum-Radio-input" id="HSLuv" value="HSLuv" onChange="colorInput()">
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="HSLuv">HSLuv</label>
-        </div>
-        <div class="spectrum-Radio">
-          <input type="radio" name="mode" class="spectrum-Radio-input" id="RGB" value="RGB" onChange="colorInput()">
-          <span class="spectrum-Radio-button"></span>
-          <label class="spectrum-Radio-label" for="RGB">RGB</label>
-        </div>
-      </div>
+      <label for="lifestory" class="spectrum-FieldLabel">Color space (interpolation mode)</label>
+      <select id="mode" name="mode" onChange="colorInput()">
+        <option value="LCH">LCH</option>
+        <option value="LAB">Lab</option>
+        <option value="CAM02">CIECAM02</option>
+        <option value="HSL">HSL</option>
+        <option value="HSLuv">HSLuv</option>
+        <option value="RGB">RGB</option>
+      </select>
     </div>
     <div class="spectrum-Panel-Item">
       <label for="colorOutput" class="spectrum-FieldLabel">Updated color value</label>
