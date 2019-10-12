@@ -7729,6 +7729,9 @@ colorOutput-field {
     border-bottom-style: solid;
     border-bottom-color: rgba(0, 0, 0, 0.25); }
 
+input[type="color"]#bgField {
+  border-radius: 5px; }
+
 input[type="color"]#bgField::-webkit-color-swatch {
   border-radius: 5px;
   border-width: 1px;
