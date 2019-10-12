@@ -20,39 +20,36 @@ governing permissions and limitations under the License.
 </head>
 <body class="spectrum spectrum--light spectrum--medium">
 <header class="spectrum-AppHeader">
-  <h1 class="spectrum-AppHeader-Title"> Adaptive Color App </h1>
+  <h1 class="spectrum-AppHeader-Title"> Adaptive Color Tool </h1>
   <a href="#"> <img id="octocat" src="./GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
 </header>
 <div class="wrapper">
   <div id="userColors" class="spectrum-Panel">
     <div class="spectrum-Panel-Item">
-      <div id="userColor">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">Color Config</h3>
+      </div>
+      <div class="spectrum-Panel-Item--row spacing-100">
         <div class="colorField">
-          <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
-          <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
-        </div>
-        <div class="colorField">
-          <label for="colorField1" class="spectrum-FieldLabel">Color</label>
+          <label for="colorField1" class="spectrum-FieldLabel">UI color</label>
           <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
         </div>
-        <div class="colorField">
-          <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
-          <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
+        <div class="tintShades-wrapper">
+          <div class="colorField colorField--horizontal">
+            <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
+            <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
+          </div>
+          <div class="colorField colorField--horizontal">
+            <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
+            <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
+          </div>
         </div>
-      </div>
-      <div id="userBg">
         <div class="colorField">
           <label for="bgField" class="spectrum-FieldLabel">Background</label>
           <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
         </div>
       </div>
-    </div>
-    <div class="spectrum-Panel-Item">
-      <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
-      <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
-    </div>
-    <div class="spectrum-Panel-Item">
-      <label for="lifestory" class="spectrum-FieldLabel">Color space (interpolation mode)</label>
+      <label for="lifestory" class="spectrum-FieldLabel">Color space (mode)</label>
       <select id="mode" name="mode" onChange="colorInput()">
         <option value="LCH">LCH</option>
         <option value="LAB">Lab</option>
@@ -63,15 +60,36 @@ governing permissions and limitations under the License.
       </select>
     </div>
     <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">Contrast Ratio Swatches</h3>
+      </div>
+      <div class="spectrum-Panel-Item--row spacing-100">
+        <div id="gradientWrapper">
+          <div id="colors"></div>
+          <div id="sliderWrapper">
+            <input type="range" min="0" max="500" class="slider" id="Slider" onchange="colorInput()">
+          </div>
+        </div>
+        <div id="colorWrapper">
+          <div id="color"></div>
+        </div>
+
+        <div id="ratios">
+          <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
+          <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="spectrum-Panel-Item">
       <label for="colorOutput" class="spectrum-FieldLabel">Updated color value</label>
       <div class="colorOutput-field">
         <span id="spectrum-Textfield-swatch"></span>
         <textarea class="spectrum-Textfield spectrum-Textfield--readonly" id="colorOutput" readonly></textarea>
       </div>
-    </div>
+    </div> -->
   </div>
 
-  <div class="spectrum-Panel spectrum-Panel--custom">
+  <!-- <div class="spectrum-Panel spectrum-Panel--custom">
     <div class="spectrum-Panel-Item spectrum-Panel-Item--custom">
       <div id="gradientWrapper">
         <div id="colors"></div>
@@ -83,7 +101,7 @@ governing permissions and limitations under the License.
         <div id="color"></div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div id="demoWrapper">
       <div id="demo" class="spectrum-Typography">
@@ -101,6 +119,20 @@ governing permissions and limitations under the License.
         <span class="smallTextWrapper"></span>
       </div>
   </div>
+
+  <div id="outputs" class="spectrum-Panel spectrum-Panel--right">
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">Generated Colors</h3>
+      </div>
+      <label for="colorOutput" class="spectrum-FieldLabel">Updated color value</label>
+      <div class="colorOutput-field">
+        <span id="spectrum-Textfield-swatch"></span>
+        <textarea class="spectrum-Textfield spectrum-Textfield--readonly" id="colorOutput" readonly></textarea>
+      </div>
+    </div>
+  </div>
+
 </div>
 <script src="script.js"></script>
 </body>
