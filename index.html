@@ -27,27 +27,30 @@ governing permissions and limitations under the License.
   <div id="userColors" class="spectrum-Panel">
     <div class="spectrum-Panel-Item">
       <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Color Config</h3>
+        <h3 class="spectrum-Heading6">Color Pair</h3>
       </div>
       <div class="spectrum-Panel-Item--row spacing-100">
         <div class="colorField">
-          <label for="colorField1" class="spectrum-FieldLabel">UI color</label>
-          <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
-        </div>
-        <div class="tintShades-wrapper">
-          <div class="colorField colorField--horizontal">
-            <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
-            <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
-          </div>
-          <div class="colorField colorField--horizontal">
-            <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
-            <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
-          </div>
-        </div>
-        <div class="colorField">
-          <label for="bgField" class="spectrum-FieldLabel">Background</label>
+          <label for="bgField" class="spectrum-FieldLabel">Base color</label>
           <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
         </div>
+        <div class="colorField" id="variableColorField">
+          <label for="colorField1" class="spectrum-FieldLabel">Variable color</label>
+          <div class="variableColor-wrapper">
+            <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
+            <div class="tintShades-wrapper">
+              <div class="colorField colorField--horizontal">
+                <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
+                <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
+              </div>
+              <div class="colorField colorField--horizontal">
+                <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
+                <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       <label for="lifestory" class="spectrum-FieldLabel">Color space (mode)</label>
       <select id="mode" name="mode" onChange="colorInput()">
@@ -76,7 +79,26 @@ governing permissions and limitations under the License.
 
         <div id="ratios">
           <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
-          <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
+          <div class="ratio-Item">
+            <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
+            <button class="spectrum-ActionButton">
+              <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                <use xlink:href="#spectrum-icon-18-Lock" /> <!-- TODO: identify correct icon -->
+              </svg>
+            </button>
+            <button class="spectrum-ActionButton">
+              <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                <use xlink:href="#spectrum-icon-18-Delete" /> <!-- TODO: identify correct icon -->
+              </svg>
+            </button>
+          </div>
+
+          <button class="spectrum-ActionButton">
+            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-icon-18-Edit" />
+            </svg>
+            <span class="spectrum-ActionButton-label">Add Swatch</span>
+          </button>
         </div>
       </div>
     </div>
