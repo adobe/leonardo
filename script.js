@@ -76,7 +76,6 @@ function backgroundblock(b){
 }
 backgroundblock(background);
 
-
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
       v /= 255;
@@ -86,6 +85,10 @@ function luminance(r, g, b) {
   });
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
+
+// function percievedLum(r, g, b) {
+//   return (0.299*r + 0.587*g + 0.114*b);
+// }
 
 function contrast(rgb1, rgb2) {
   var cr1 = (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05) / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
@@ -182,7 +185,7 @@ function colorInput() {
     return el != null;
   });
 
-  contrastArray = colorsArray.map(ratio);
+  // contrastArray = colorsArray.map(ratio);
 
   // console.log(colorsArray);
 
@@ -222,6 +225,19 @@ function colorInput() {
   var newRgb = ColorArray[colorDomainUpdate];
   var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
 
+  newHex = d3.rgb(newRgb).formatHex();
+  // colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2 + ":1";
+  var colorOutputWrapper = document.getElementById('colorOutputs');
+  var colorOutput = document.createElement('div');
+  var colorOutputVal = newHex;
+  var colorOutputText = document.createTextNode(colorOutputVal);
+  colorOutputWrapper.innerHTML = '';
+  colorOutputWrapper.appendChild(colorOutput);
+  colorOutput.className = 'colorOutputBlock';
+  colorOutput.style.backgroundColor = color1;
+  colorOutput.style.backgroundColor = newRgb;
+  colorOutput.appendChild(colorOutputText);
+
   colorblock(newRgb);
   colorBlock.style.bottom = sliderPos / 5 + "%";
   slider.value = sliderPos;
@@ -231,16 +247,16 @@ function colorInput() {
   var colorB = d3.rgb(newRgb).b;
   if (luminance(colorR, colorG, colorB) < 0.275) {
     colorBlock.style.color = "#ffffff";
+    colorOutput.style.color = "#ffffff";
   } else {
     colorBlock.style.color = '#000000';
+    colorOutput.style.color = '#000000';
   }
   var textUpdate = document.createTextNode(contrastRatio2);
 
   colorBlock.innerHTML = '';
   colorBlock.appendChild(textUpdate);
 
-  newHex = d3.rgb(newRgb).formatHex();
-  colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2 + ":1";
 
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.

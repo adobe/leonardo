@@ -113,6 +113,7 @@ body {
 }
 #gradientWrapper {
   padding-top: 8px;
+  margin-right: 18px;
   height: var(--gradient-height);
   width: 56px;
   display: block;
@@ -135,10 +136,11 @@ body {
   align-self: stretch;
 }
 #colorWrapper {
+  display: none;
   height: var(--colors-wrapper-height);
   width: 48px;
   margin-left: 8px;
-  display: flex;
+  // display: flex;
   align-self: flex-end;
   position: relative;
   // margin-bottom: 14px;
@@ -401,7 +403,28 @@ a:focus {
 }
 
 .ratio-Item {
+  position: relative;
   display: flex;
   flex-direction: row;
-  margin-bottom: var(--spectrum-global-dimension-size-100)
+  margin-bottom: var(--spectrum-global-dimension-size-100);
+
+  .spectrum-Textfield {
+    padding-left: var(--spectrum-global-dimension-size-400);
+  }
+}
+
+.colorOutputBlock {
+  padding: 10px 16px 2px;
+  // width: 100%;
+  min-height: var(--spectrum-global-dimension-size-400);
+  border-radius: 0px;
+
+  &:first-of-type {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  &:first-of-type {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
 }

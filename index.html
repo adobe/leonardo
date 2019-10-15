@@ -15,19 +15,20 @@ governing permissions and limitations under the License.
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://unpkg.com/d3-cam02@0.1.5/build/d3-cam02.js"></script>
   <script src="libs/d3-hsluv.min.js"></script>
+  <script src="index.js"></script>
 
   <link rel='stylesheet' href="css/style.css"/>
 </head>
 <body class="spectrum spectrum--light spectrum--medium">
 <header class="spectrum-AppHeader">
-  <h1 class="spectrum-AppHeader-Title"> Adaptive Color Tool </h1>
+  <h1 class="spectrum-AppHeader-Title"> Adaptive Color App </h1>
   <a href="#"> <img id="octocat" src="./GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
 </header>
 <div class="wrapper">
   <div id="userColors" class="spectrum-Panel">
     <div class="spectrum-Panel-Item">
       <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Color Pair</h3>
+        <h3 class="spectrum-Heading6">Contrast Color Pair</h3>
       </div>
       <div class="spectrum-Panel-Item--row spacing-100">
         <div class="colorField">
@@ -70,7 +71,7 @@ governing permissions and limitations under the License.
         <div id="gradientWrapper">
           <div id="colors"></div>
           <div id="sliderWrapper">
-            <input type="range" min="0" max="500" class="slider" id="Slider" onchange="colorInput()">
+            <input type="range" min="0" max="500" class="slider" id="Slider" oninput="colorInput()">
           </div>
         </div>
         <div id="colorWrapper">
@@ -80,6 +81,7 @@ governing permissions and limitations under the License.
         <div id="ratios">
           <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
           <div class="ratio-Item">
+            <span id="spectrum-Textfield-swatch"></span>
             <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
             <button class="spectrum-ActionButton">
               <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
@@ -102,13 +104,6 @@ governing permissions and limitations under the License.
         </div>
       </div>
     </div>
-    <!-- <div class="spectrum-Panel-Item">
-      <label for="colorOutput" class="spectrum-FieldLabel">Updated color value</label>
-      <div class="colorOutput-field">
-        <span id="spectrum-Textfield-swatch"></span>
-        <textarea class="spectrum-Textfield spectrum-Textfield--readonly" id="colorOutput" readonly></textarea>
-      </div>
-    </div> -->
   </div>
 
   <!-- <div class="spectrum-Panel spectrum-Panel--custom">
@@ -147,14 +142,15 @@ governing permissions and limitations under the License.
       <div class="spectrum-Panel-Title">
         <h3 class="spectrum-Heading6">Generated Colors</h3>
       </div>
-      <label for="colorOutput" class="spectrum-FieldLabel">Updated color value</label>
-      <div class="colorOutput-field">
-        <span id="spectrum-Textfield-swatch"></span>
-        <textarea class="spectrum-Textfield spectrum-Textfield--readonly" id="colorOutput" readonly></textarea>
+      <div id="colorOutputs">
       </div>
     </div>
   </div>
 
 </div>
 <script src="script.js"></script>
+<script src="node_modules/loadicons/index.js"></script>
+<script>
+  loadIcons('node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg');
+</script>
 </body>
