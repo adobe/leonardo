@@ -53,7 +53,7 @@ governing permissions and limitations under the License.
         </div>
 
       </div>
-      <label for="lifestory" class="spectrum-FieldLabel">Color space (mode)</label>
+      <label for="lifestory" class="spectrum-FieldLabel">Color space (interpolation mode)</label>
       <select id="mode" name="mode" onChange="colorInput()">
         <option value="LCH">LCH</option>
         <option value="LAB">Lab</option>
@@ -106,20 +106,6 @@ governing permissions and limitations under the License.
     </div>
   </div>
 
-  <!-- <div class="spectrum-Panel spectrum-Panel--custom">
-    <div class="spectrum-Panel-Item spectrum-Panel-Item--custom">
-      <div id="gradientWrapper">
-        <div id="colors"></div>
-        <div id="sliderWrapper">
-          <input type="range" min="0" max="500" class="slider" id="Slider" onchange="colorInput()">
-        </div>
-      </div>
-      <div id="colorWrapper">
-        <div id="color"></div>
-      </div>
-    </div>
-  </div> -->
-
   <div id="demoWrapper">
       <div id="demo" class="spectrum-Typography">
         <h1 class="spectrum-Heading2" id="demoHeading">Generate accessible color</h1>
@@ -145,8 +131,31 @@ governing permissions and limitations under the License.
       <div id="colorOutputs">
       </div>
     </div>
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">W3C Contrast Guidelines <a href="https://www.w3.org/TR/WCAG21/#contrast-minimum" target="_blank">View</a></h3>
+      </div>
+      <div class="w3c-guideline">
+        <h4 class="spectrum-Subheading">Level AA</h4>
+        <p class="spectrum-Body4">Text and images of text: <strong>4.5:1</strong> </p>
+        <p class="spectrum-Body4">Large text: <strong>3:1</strong> </p>
+        <p class="spectrum-Body4">UI Component (exceptions): <strong>3:1</strong> </p>
+      </div>
+      <div class="w3c-guideline">
+        <h4 class="spectrum-Subheading">Level AAA</h4>
+        <p class="spectrum-Body4">Text and images of text: <strong>7:1</strong> </p>
+        <p class="spectrum-Body4">Large text: <strong>4.5:1</strong> </p>
+      </div>
+    </div>
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">Function Parameters</h3>
+      </div>
+      <div id="functionParams">
+        <span class="spectrum-Code5"> adaptcolor()</span>
+      </div>
+    </div>
   </div>
-
 </div>
 <script src="script.js"></script>
 <script src="node_modules/loadicons/index.js"></script>

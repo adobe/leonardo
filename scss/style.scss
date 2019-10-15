@@ -428,3 +428,22 @@ a:focus {
     border-bottom-right-radius: 4px;
   }
 }
+.w3c-guideline {
+  margin-top: 8px;
+
+  & + .w3c-guideline {
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+}
+.spectrum-Subheading {
+  color: var(--spectrum-global-color-gray-700);
+}
+
+#functionParams {
+  background-color: var(--spectrum-global-color-gray-50);
+  border: 1px solid var(--spectrum-global-color-gray-200);
+  border-radius: 4px;
+  padding: 8px;
+  margin: 0 -8px;
+}
