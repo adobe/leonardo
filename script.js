@@ -46,7 +46,7 @@ function paramSetup() {
     document.getElementById('colorField3').value = "#" + params.get('shade');
   }
   if(params.has('mode')) {
-    document.querySelector('input[name="mode"]:checked').value = params.get('mode');
+    document.querySelector('select[name="mode"]').value = params.get('mode');
   }
   // // TODO: Won't work until I have ratioUpdate() function working
   // if(params.has('ratio')) {
@@ -76,7 +76,6 @@ function backgroundblock(b){
 }
 backgroundblock(background);
 
-
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
       v /= 255;
@@ -86,6 +85,10 @@ function luminance(r, g, b) {
   });
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
+
+// function percievedLum(r, g, b) {
+//   return (0.299*r + 0.587*g + 0.114*b);
+// }
 
 function contrast(rgb1, rgb2) {
   var cr1 = (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05) / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
@@ -98,7 +101,7 @@ function contrast(rgb1, rgb2) {
 // Simplifying d3 color Functions for reuse
 // TODO: update to include white & black whether or not tint and shade defined
 function colorScale(color, colorTint, colorShade) {
-  var colorspace = document.querySelector('input[name="mode"]:checked').value;
+  var colorspace = document.querySelector('select[name="mode"]').value;
   // Using HSLuv "v" value as a uniform domain in gradients.
   var domain = swatches - swatches * (d3.hsluv(color).v / 100);
   var tintDomain = swatches - swatches * (d3.hsluv(colorTint).v / 100);
@@ -156,25 +159,6 @@ function colorScale(color, colorTint, colorShade) {
   }
 }
 
-// TODO: This isn't working :-/
-function toggleTintShade() {
-  var customTintShade = document.getElementById('tintShades');
-
-  document.getElementById('colorField2').disabled = !this.checked;
-  document.getElementById('colorField3').disabled = !this.checked;
-  document.getElementById('colorField2').value = '#eaeaea';
-  document.getElementById('colorField3').value = '#eaeaea';
-
-  if (customTintShade.checked == true)  {
-    document.getElementById('color2Label').classList.remove = 'is-disabled';
-    document.getElementById('color3Label').classList.remove = 'is-disabled';
-  }
-  if (customTintShade.checked == false) {
-    document.getElementById('color2Label').classList.add = 'is-disabled';
-    document.getElementById('color3Label').classList.add = 'is-disabled';
-  }
-}
-
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
@@ -185,7 +169,7 @@ function colorInput() {
   var color1 = colorField1.value;
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
-  var mode = document.querySelector('input[name="mode"]:checked').value;
+  var mode = document.querySelector('select[name="mode"]').value;
 
   colorblock(color1);
 
@@ -200,6 +184,8 @@ function colorInput() {
   colorsArray = colors.filter(function (el) {
     return el != null;
   });
+
+  // contrastArray = colorsArray.map(ratio);
 
   // console.log(colorsArray);
 
@@ -239,6 +225,19 @@ function colorInput() {
   var newRgb = ColorArray[colorDomainUpdate];
   var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
 
+  newHex = d3.rgb(newRgb).formatHex();
+  // colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2 + ":1";
+  var colorOutputWrapper = document.getElementById('colorOutputs');
+  var colorOutput = document.createElement('div');
+  var colorOutputVal = newHex;
+  var colorOutputText = document.createTextNode(colorOutputVal);
+  colorOutputWrapper.innerHTML = '';
+  colorOutputWrapper.appendChild(colorOutput);
+  colorOutput.className = 'colorOutputBlock';
+  colorOutput.style.backgroundColor = color1;
+  colorOutput.style.backgroundColor = newRgb;
+  colorOutput.appendChild(colorOutputText);
+
   colorblock(newRgb);
   colorBlock.style.bottom = sliderPos / 5 + "%";
   slider.value = sliderPos;
@@ -248,25 +247,41 @@ function colorInput() {
   var colorB = d3.rgb(newRgb).b;
   if (luminance(colorR, colorG, colorB) < 0.275) {
     colorBlock.style.color = "#ffffff";
+    colorOutput.style.color = "#ffffff";
   } else {
     colorBlock.style.color = '#000000';
+    colorOutput.style.color = '#000000';
   }
   var textUpdate = document.createTextNode(contrastRatio2);
 
   colorBlock.innerHTML = '';
   colorBlock.appendChild(textUpdate);
 
-  newHex = d3.rgb(newRgb).formatHex();
-  colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2 + ":1";
-
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.
   // slider.value = L2;
+
+  console.log(sliderPos);
 
   // update URL parameters
   // updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
 }
 colorInput(color1);
+
+
+// Ratio function
+function ratio(x) {
+  var r = d3.rgb(x).r;
+  var g = d3.rgb(x).g;
+  var b = d3.rgb(x).b;
+
+  var bR = d3.rgb(background).r;
+  var bG = d3.rgb(background).g;
+  var bB = d3.rgb(background).b;
+
+  return contrast([r, g, b], [bR, bG, bB]).toFixed(2);
+  console.log(contrast);
+}
 
 // Contrast Input
 function ratioUpdate() {
@@ -286,6 +301,7 @@ function ratioUpdate() {
 
     if (targetRatio == ratio) {
       colorblock(colorsArray[i]);
+      console.log('Match!');
 
       break;
     }

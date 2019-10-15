@@ -49,6 +49,7 @@
     "gulp-sass": "^4.0.2"
   },
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "loadicons": "^1.0.0"
   }
 }
