@@ -76,20 +76,31 @@ function adaptcolor(base = '#ffffff', color = '#ff00ff', ratios = [3, 4.5], {
     return el != null;
   });
 
+  // contrasts = colors.map(contrastD3);
+  // var Contrasts = d3.range(swatches).map(function(d) {
+  //   return contrastD3(scale(d), base).toFixed(2);
+  // });
+  // contrasts = Contrasts.filter(function (el) {
+  //   return el != null;
+  // })
+
+  // return contrasts;
   // return colors;
-  // for (var j=0; ratio.length; j++) {
-  //   console.log(ratio[i]);
-  //   // for (var i = 0; colors.length; i++) {
-  //   //   contrast = contrastD3(color, base).toFixed(2);
-  //   //
-  //   //   if (ratios == contrast) {
-  //   //     console.log('Exact Match!');
-  //   //
-  //   //     break;
-  //   //   } else {
-  //   //     continue;
-  //   //   }
-  //   // }
+
+  // for (var i=0; ratios.length; i++) {
+  //   console.log(ratios[i]);
+    // for (var i = 0; colors.length; i++) {
+    //   contrast = contrastD3(color, base).toFixed(2);
+    //
+    //   if (ratios == contrast) {
+    //     console.log('Exact Match!');
+    //
+    //     break;
+    //   } else {
+    //     continue;
+    //   }
+    // }
+  //   break;
   // }
 }
 

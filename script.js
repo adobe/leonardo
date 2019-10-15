@@ -257,7 +257,6 @@ function colorInput() {
   colorBlock.innerHTML = '';
   colorBlock.appendChild(textUpdate);
 
-
   // TODO: This slider default value isn't working. Should default to L2
   // value, unless user moves slider.
   // slider.value = L2;
