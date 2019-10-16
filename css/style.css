@@ -7466,7 +7466,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  overflow: hidden; }
+  overflow: hidden;
+  font-family: 'Adobe Clean'; }
 
 .spectrum-AppHeader {
   display: flex;
@@ -7480,8 +7481,7 @@ body {
   justify-content: space-between; }
 
 .spectrum-AppHeader-Title {
-  margin: 0;
-  font-size: var(--spectrum-global-dimension-font-size-200); }
+  margin: 0; }
 
 .spectrum-Panel {
   display: flex;
@@ -7641,7 +7641,7 @@ body {
   cursor: pointer; }
 
 #ratio {
-  width: 88px;
+  width: 100%;
   margin-right: 8px; }
 
 input[type=color] {
@@ -7831,3 +7831,8 @@ a:focus {
   border-radius: 4px;
   padding: 8px;
   margin: 0 -8px; }
+
+#ratios {
+  display: flex;
+  flex-direction: column;
+  width: 100%; }

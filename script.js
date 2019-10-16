@@ -173,6 +173,9 @@ function colorInput() {
 
   colorblock(color1);
 
+  // TODO: This should be called rather than colorScale function.
+  // Returns 'scale' var and can replace 'clr' in ColorArray var.
+  // adaptcolor(background, color1, {tint: colorTint, shade: colorShade, colorspace: mode});
   var clr = colorScale(color1, colorTint, colorShade);
 
   var ColorArray = d3.range(swatches).map(function(d) {

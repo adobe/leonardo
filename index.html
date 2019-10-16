@@ -21,7 +21,7 @@ governing permissions and limitations under the License.
 </head>
 <body class="spectrum spectrum--light spectrum--medium">
 <header class="spectrum-AppHeader">
-  <h1 class="spectrum-AppHeader-Title"> Adaptive Color App </h1>
+  <h1 class="spectrum-Heading5 spectrum-AppHeader-Title"> Adaptive Color App </h1>
   <a href="#"> <img id="octocat" src="./GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
 </header>
 <div class="wrapper">
@@ -54,7 +54,7 @@ governing permissions and limitations under the License.
 
       </div>
       <label for="lifestory" class="spectrum-FieldLabel">Color space (interpolation mode)</label>
-      <select id="mode" name="mode" onChange="colorInput()">
+      <select id="mode" name="mode" onInput="colorInput()">
         <option value="LCH">LCH</option>
         <option value="LAB">Lab</option>
         <option value="CAM02">CIECAM02</option>
@@ -83,11 +83,11 @@ governing permissions and limitations under the License.
           <div class="ratio-Item">
             <span id="spectrum-Textfield-swatch"></span>
             <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
-            <button class="spectrum-ActionButton">
+            <!-- <button class="spectrum-ActionButton">
               <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-                <use xlink:href="#spectrum-icon-18-Lock" /> <!-- TODO: identify correct icon -->
+                <use xlink:href="#spectrum-icon-18-Lock" />
               </svg>
-            </button>
+            </button> -->
             <button class="spectrum-ActionButton">
               <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
                 <use xlink:href="#spectrum-icon-18-Delete" /> <!-- TODO: identify correct icon -->

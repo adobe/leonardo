@@ -15,6 +15,8 @@ function adaptcolor(base = '#ffffff', color = '#ff00ff', ratios = [3, 4.5], {
     lib = 'd3'
   } = {}) {
 
+  console.log(tint);
+
   // Using HSLuv "v" value as a uniform domain in gradients.
   // This should be uniform regardless of library / colorspace.
   // TODO: investigate alternative luminosity/brightness calculations.
@@ -105,7 +107,7 @@ function adaptcolor(base = '#ffffff', color = '#ff00ff', ratios = [3, 4.5], {
 }
 
 // Test script:
-// adaptcolor('#ffffff', '#ff00ff', [3, 4.5], {tint: '#fefefe', shade: '#010101', colorspace: 'LCH', lib: 'd3'});
+// adaptcolor('#f5f5f5', '#2451FF', [3, 4.5], {tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB', lib: 'd3'});
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
