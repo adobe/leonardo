@@ -98,66 +98,6 @@ function contrast(rgb1, rgb2) {
   if (cr1 >= 1) { return cr1; }
 }
 
-// Simplifying d3 color Functions for reuse
-// TODO: update to include white & black whether or not tint and shade defined
-function colorScale(color, colorTint, colorShade) {
-  var colorspace = document.querySelector('select[name="mode"]').value;
-  // Using HSLuv "v" value as a uniform domain in gradients.
-  var domain = swatches - swatches * (d3.hsluv(color).v / 100);
-  var tintDomain = swatches - swatches * (d3.hsluv(colorTint).v / 100);
-  var shadeDomain = swatches - swatches * (d3.hsluv(colorShade).v / 100);
-
-  if(colorspace == 'CAM02') {
-    return d3.scaleLinear()
-      .range(['#ffffff', colorTint, d3.jab(color), colorShade, '#000000'])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateJab);
-  }
-  if(colorspace == 'LCH') {
-    // TODO: if colorTint / colorTint inputs are pure white/black, redefine
-    // to D3 hcl hack:
-    // if (colorTint == '#FFFFFF' || '#ffffff') {
-    //   var colorTint = d3.hcl(NaN, 0, 100);
-    // }
-    // if (colorShade == '#000000' || 'black') {
-    //   var colorShade = d3.hcl(NaN, 0, 0);
-    // }
-    return d3.scaleLinear()
-      .range([d3.hcl(NaN, 0, 100), colorTint, d3.hcl(color), colorShade, d3.hcl(NaN, 0, 0)])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateHcl);
-  }
-  if(colorspace == 'LAB') {
-    return d3.scaleLinear()
-      .range(['#ffffff', colorTint, d3.lab(color), colorShade, '#000000'])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateLab);
-  }
-  if(colorspace == 'HSL') {
-    return d3.scaleLinear()
-      .range(['#ffffff', colorTint, d3.hsl(color), colorShade, '#000000'])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateHsl);
-  }
-  if(colorspace == 'HSLuv') {
-    return d3.scaleLinear()
-      .range(['#ffffff', colorTint, d3.hsluv(color), colorShade, '#000000'])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateHsluv);
-  }
-  if(colorspace == 'RGB') {
-    return d3.scaleLinear()
-      .range([d3.rgb('#ffffff'), colorTint, d3.rgb(color), colorShade, d3.rgb('#000000')])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateRgb);
-  }
-  if(colorspace == 'RGBgamma') {
-    return d3.scaleLinear()
-      .range([d3.rgb('#ffffff'), colorTint, d3.rgb(color), colorShade, d3.rgb('#000000')])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateRgb.gamma(2.2));
-  }
-}
 
 // Calculate Color and generate Scales
 function colorInput() {
@@ -175,11 +115,12 @@ function colorInput() {
 
   // TODO: This should be called rather than colorScale function.
   // Returns 'scale' var and can replace 'clr' in ColorArray var.
-  // adaptcolor(background, color1, {tint: colorTint, shade: colorShade, colorspace: mode});
-  var clr = colorScale(color1, colorTint, colorShade);
+
+  adaptcolor(background, color1, {tint: colorTint, shade: colorShade, colorspace: mode});
+  // var clr = colorScale(color1, colorTint, colorShade);
 
   var ColorArray = d3.range(swatches).map(function(d) {
-    return clr(d)
+    return scale(d)
   });
 
   var colors = ColorArray;
@@ -264,7 +205,7 @@ function colorInput() {
   // value, unless user moves slider.
   // slider.value = L2;
 
-  console.log(sliderPos);
+  // console.log(sliderPos);
 
   // update URL parameters
   // updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
@@ -316,23 +257,23 @@ function ratioUpdate() {
   }
 }
 
-function closest (num, arr) {
-    var mid;
-    var lo = 0;
-    var hi = arr.length - 1;
-    while (hi - lo > 1) {
-        mid = Math.floor ((lo + hi) / 2);
-        if (arr[mid] < num) {
-            lo = mid;
-        } else {
-            hi = mid;
-        }
-    }
-    if (num - arr[lo] <= arr[hi] - num) {
-        return arr[lo];
-    }
-    return arr[hi];
-}
+// function closest (num, arr) {
+//     var mid;
+//     var lo = 0;
+//     var hi = arr.length - 1;
+//     while (hi - lo > 1) {
+//         mid = Math.floor ((lo + hi) / 2);
+//         if (arr[mid] < num) {
+//             lo = mid;
+//         } else {
+//             hi = mid;
+//         }
+//     }
+//     if (num - arr[lo] <= arr[hi] - num) {
+//         return arr[lo];
+//     }
+//     return arr[hi];
+// }
 
 // Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
 function updateParams(c, t, s, r, m) {
@@ -347,4 +288,118 @@ function updateParams(c, t, s, r, m) {
   params.set('mode', m);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+}
+
+// TODO: Modularize this function. This is THE tool.
+
+function adaptcolor(base = '#ffffff', color = '#ff00ff', ratios = [3, 4.5], {
+    tint = '#fefefe',
+    shade = '#010101',
+    colorspace = 'LCH',
+    lib = 'd3'
+  } = { }) {
+
+  console.log(tint);
+
+  // Using HSLuv "v" value as a uniform domain in gradients.
+  // This should be uniform regardless of library / colorspace.
+  // TODO: investigate alternative luminosity/brightness calculations.
+  swatches = 500; // should be 2000 if able to render every possible decimal value of contrast.
+  domain = swatches - swatches * (d3.hsluv(color).v / 100);
+  tintDomain = swatches - swatches * (d3.hsluv(tint).v / 100);
+  shadeDomain = swatches - swatches * (d3.hsluv(shade).v / 100);
+
+  if(lib == 'd3') {
+    if(colorspace == 'CAM02') {
+      scale = d3.scaleLinear()
+        .range(['#ffffff', tint, d3.jab(color), shade, '#000000'])
+        .domain([0, tintDomain, domain, shadeDomain, swatches])
+        .interpolate(d3.interpolateJab);
+    }
+    if(colorspace == 'LCH') {
+      scale = d3.scaleLinear()
+        .range([d3.hcl(NaN, 0, 100), tint, d3.hcl(color), shade, d3.hcl(NaN, 0, 0)])
+        .domain([0, tintDomain, domain, shadeDomain, swatches])
+        .interpolate(d3.interpolateHcl);
+    }
+    if(colorspace == 'LAB') {
+      scale = d3.scaleLinear()
+        .range(['#ffffff', tint, d3.lab(color), shade, '#000000'])
+        .domain([0, tintDomain, domain, shadeDomain, swatches])
+        .interpolate(d3.interpolateLab);
+    }
+    if(colorspace == 'HSL') {
+      scale = d3.scaleLinear()
+        .range(['#ffffff', tint, d3.hsl(color), shade, '#000000'])
+        .domain([0, tintDomain, domain, shadeDomain, swatches])
+        .interpolate(d3.interpolateHsl);
+    }
+    if(colorspace == 'HSLuv') {
+      scale = d3.scaleLinear()
+        .range(['#ffffff', tint, d3.hsluv(color), shade, '#000000'])
+        .domain([0, tintDomain, domain, shadeDomain, swatches])
+        .interpolate(d3.interpolateHsluv);
+    }
+    if(colorspace == 'RGB') {
+      scale = d3.scaleLinear()
+        .range([d3.rgb('#ffffff'), tint, d3.rgb(color), shade, d3.rgb('#000000')])
+        .domain([0, tintDomain, domain, shadeDomain, swatches])
+        .interpolate(d3.interpolateRgb);
+    }
+    if(colorspace == 'RGBgamma') {
+      scale = d3.scaleLinear()
+        .range([d3.rgb('#ffffff'), tint, d3.rgb(color), shade, d3.rgb('#000000')])
+        .domain([0, tintDomain, domain, shadeDomain, swatches])
+        .interpolate(d3.interpolateRgb.gamma(2.2));
+    }
+  }
+
+  var Colors = d3.range(swatches).map(function(d) {
+    return scale(d)
+  });
+
+  colors = Colors.filter(function (el) {
+    return el != null;
+  });
+
+  // contrasts = colors.map(contrastD3);
+  // var Contrasts = d3.range(swatches).map(function(d) {
+  //   return contrastD3(scale(d), base).toFixed(2);
+  // });
+  // contrasts = Contrasts.filter(function (el) {
+  //   return el != null;
+  // })
+
+  // return contrasts;
+  // return colors;
+
+  // for (var i=0; ratios.length; i++) {
+  //   console.log(ratios[i]);
+    // for (var i = 0; colors.length; i++) {
+    //   contrast = contrastD3(color, base).toFixed(2);
+    //
+    //   if (ratios == contrast) {
+    //     console.log('Exact Match!');
+    //
+    //     break;
+    //   } else {
+    //     continue;
+    //   }
+    // }
+  //   break;
+  // }
+}
+
+// Test script:
+// adaptcolor('#f5f5f5', '#2451FF', [3, 4.5], {tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB', lib: 'd3'});
+
+
+/// TESTING TESTING TESTING
+function repeat(a = 'A', b = 'B', { c = 'C', d = 'D'} = { }) {
+  console.log(a);
+  console.log(b);
+  console.log(c);
+  console.log(d);
+
+  console.log(a + b + c + d);
 }
