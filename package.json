@@ -9,6 +9,7 @@
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
+    "serve": "python -m SimpleHTTPServer 8001",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
