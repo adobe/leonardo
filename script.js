@@ -278,7 +278,7 @@ function updateParams(c, b, t, s, r, m, l) {
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
-  var z = 'adaptcolor({color: #' + c + ', base: #'+ c + ', ratios: [' + r + '], ' + 'tint: #' + t + ', shade: #' + s + ', ' + ' colorspace: ' + m + ', lib: ' + l + '});';
+  var z = 'adaptcolor({color: "#' + c + '", base: "#'+ b + '", ratios: [' + r + '], ' + 'tint: "#' + t + '", shade: "#' + s + '", ' + ' colorspace: "' + m + '", lib: "' + l + '"});';
   text = document.createTextNode(z);
   p.appendChild(text);
 }
