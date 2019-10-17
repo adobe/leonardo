@@ -1,15 +1,14 @@
-// This file should be where the actual function is authored;
-// independant from the web app.
-
-// base = static color value that generated colors are contrasted against
-// variable = color that you wish to adapt based on contrast ratio with base
-// tint = lighter value of variable for scale
-// shade = darker value of variable for scale
-// colorspace = interpolation mode to be used
-// [ratios] = array of ratio values to generated colors from
+// Copyright 2019 Adobe. All rights reserved.
+// This file is licensed to you under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License. You may obtain a copy
+// of the License at http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under
+// the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+// OF ANY KIND, either express or implied. See the License for the specific language
+// governing permissions and limitations under the License.
 
 function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], tint = '#fefefe', shade = '#010101', colorspace = 'LCH', lib = 'd3'} = {}) {
-  console.log(tint);
 
   // Using HSLuv "v" value as a uniform domain in gradients.
   // This should be uniform regardless of library / colorspace.
@@ -84,8 +83,7 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   // console.log(ratios.length);
 
 
-  // TODO: Why doesn't this work?
-  // Need to add "if does not exist, choose next number of increased value"
+  // TODO: Need to add "if does not exist, choose next number of increased value"
   // ie -> if contrasts = [3.05, 3.01, 2.89] and ratio is 3 -> return 3.01
   for(i=0; i < ratios.length; i++){
     var r = binarySearch(contrasts, ratios[i]);
@@ -106,6 +104,10 @@ function luminance(r, g, b) {
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
 
+// function percievedLum(r, g, b) {
+//   return (0.299*r + 0.587*g + 0.114*b);
+// }
+
 function contrast(rgb1, rgb2) {
   var cr1 = (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05) / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
   var cr2 = (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05) / (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05);
@@ -123,7 +125,7 @@ function contrastD3(rgb1, rgb2) {
 }
 
 // Binary search to find index of contrast ratio that is input
-// scraped from here: https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
+// https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
 function binarySearch (list, value) {
   // initial values for start, middle and end
   let start = 0
@@ -132,6 +134,7 @@ function binarySearch (list, value) {
 
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {
+    // Value greater than since array is ordered descending
     if (value > list[middle]) {
       stop = middle - 1
     } else {

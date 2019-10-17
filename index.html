@@ -82,12 +82,7 @@ governing permissions and limitations under the License.
           <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
           <div class="ratio-Item">
             <span id="spectrum-Textfield-swatch"></span>
-            <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
-            <!-- <button class="spectrum-ActionButton">
-              <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-                <use xlink:href="#spectrum-icon-18-Lock" />
-              </svg>
-            </button> -->
+            <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="colorInput()"></input>
             <button class="spectrum-ActionButton">
               <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
                 <use xlink:href="#spectrum-icon-18-Delete" /> <!-- TODO: identify correct icon -->
@@ -95,7 +90,7 @@ governing permissions and limitations under the License.
             </button>
           </div>
 
-          <button class="spectrum-ActionButton">
+          <button id="addRatio" onclick="" class="spectrum-ActionButton">
             <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
               <use xlink:href="#spectrum-icon-18-Edit" />
             </svg>

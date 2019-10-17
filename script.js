@@ -79,29 +79,6 @@ function backgroundblock(b){
 }
 backgroundblock(background);
 
-function luminance(r, g, b) {
-  var a = [r, g, b].map(function (v) {
-      v /= 255;
-      return v <= 0.03928
-          ? v / 12.92
-          : Math.pow( (v + 0.055) / 1.055, 2.4 );
-  });
-  return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
-}
-
-// function percievedLum(r, g, b) {
-//   return (0.299*r + 0.587*g + 0.114*b);
-// }
-
-function contrast(rgb1, rgb2) {
-  var cr1 = (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05) / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
-  var cr2 = (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05) / (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05);
-
-  if (cr1 < 1) { return cr2; }
-  if (cr1 >= 1) { return cr1; }
-}
-
-
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
@@ -116,25 +93,18 @@ function colorInput() {
 
   colorblock(color1);
 
-  // TODO: This should be called rather than colorScale function.
-  // Returns 'scale' var and can replace 'clr' in ColorArray var.
-
   adaptcolor({color: color1, base: background, tint: colorTint, shade: colorShade, colorspace: mode});
-  // var clr = colorScale(color1, colorTint, colorShade);
 
+  // This is already handled in the adaptcolor function.
+  // TODO: remove and pull the array from what's returned ?
   var ColorArray = d3.range(swatches).map(function(d) {
     return scale(d)
   });
-
   var colors = ColorArray;
-
   colorsArray = colors.filter(function (el) {
     return el != null;
   });
-
-  // contrastArray = colorsArray.map(ratio);
-
-  // console.log(colorsArray);
+  // End to remove ^
 
   // slider.defaultValue = L2 * 5;
 
@@ -216,49 +186,35 @@ function colorInput() {
 colorInput(color1);
 
 
-// Ratio function
-function ratio(x) {
-  var r = d3.rgb(x).r;
-  var g = d3.rgb(x).g;
-  var b = d3.rgb(x).b;
-
-  var bR = d3.rgb(background).r;
-  var bG = d3.rgb(background).g;
-  var bB = d3.rgb(background).b;
-
-  return contrast([r, g, b], [bR, bG, bB]).toFixed(2);
-  console.log(contrast);
-}
-
 // Contrast Input
-function ratioUpdate() {
-  var ratioInput = document.getElementById('ratio');
-  targetRatio = ratioInput.value;
-
-  for (let i = 0; i < colorsArray.length; i++) {
-    var r = d3.rgb(colorsArray[i]).r;
-    var g = d3.rgb(colorsArray[i]).g;
-    var b = d3.rgb(colorsArray[i]).b;
-
-    var bR = d3.rgb(background).r;
-    var bG = d3.rgb(background).g;
-    var bB = d3.rgb(background).b;
-
-    var ratio = contrast([r, g, b], [bR, bG, bB]).toFixed(2);
-
-    if (targetRatio == ratio) {
-      colorblock(colorsArray[i]);
-      console.log('Match!');
-
-      break;
-    }
-    else {
-      continue;
-      // var nextBest = closest (targetRatio, colorsArray);
-      // console.log("Your next best bet is: " + nextBest);
-    }
-  }
-}
+// function ratioUpdate() {
+//   var ratioInput = document.getElementById('ratio');
+//   targetRatio = ratioInput.value;
+//
+//   for (let i = 0; i < colorsArray.length; i++) {
+//     var r = d3.rgb(colorsArray[i]).r;
+//     var g = d3.rgb(colorsArray[i]).g;
+//     var b = d3.rgb(colorsArray[i]).b;
+//
+//     var bR = d3.rgb(background).r;
+//     var bG = d3.rgb(background).g;
+//     var bB = d3.rgb(background).b;
+//
+//     var ratio = contrast([r, g, b], [bR, bG, bB]).toFixed(2);
+//
+//     if (targetRatio == ratio) {
+//       colorblock(colorsArray[i]);
+//       console.log('Match!');
+//
+//       break;
+//     }
+//     else {
+//       continue;
+//       // var nextBest = closest (targetRatio, colorsArray);
+//       // console.log("Your next best bet is: " + nextBest);
+//     }
+//   }
+// }
 
 // Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
 function updateParams(c, b, t, s, r, m, l) {
