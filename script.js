@@ -39,6 +39,9 @@ function paramSetup() {
   if(params.has('color')) {
     document.getElementById('colorField1').value = "#" + params.get('color');
   }
+  if(params.has('base')) {
+    document.getElementById('bgField').value = "#" + params.get('base');
+  }
   if(params.has('tint')) {
     document.getElementById('colorField2').value = "#" + params.get('tint');
   }
@@ -75,15 +78,6 @@ function backgroundblock(b){
   demoButtonInverted.style.borderColor = b;
 }
 backgroundblock(background);
-
-// function paramOutput(b, c, r, t, s, m, l) {
-//   var p = document.getElementById('params');
-//   p.innerHTML = " ";
-//
-//   text = document.createTextNode('adaptcolor(' + b + c + '[' + r + ']' + '{' + 'tint: ' + t + ', shade: ' + s + ', ' + 'colorspace: ' + m + 'lib: ' + l '});');
-//   p.appendChild(text);
-// }
-// paramOutput();
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
@@ -125,7 +119,7 @@ function colorInput() {
   // TODO: This should be called rather than colorScale function.
   // Returns 'scale' var and can replace 'clr' in ColorArray var.
 
-  adaptcolor(background, color1, {tint: colorTint, shade: colorShade, colorspace: mode});
+  adaptcolor({color: color1, base: background, tint: colorTint, shade: colorShade, colorspace: mode});
   // var clr = colorScale(color1, colorTint, colorShade);
 
   var ColorArray = d3.range(swatches).map(function(d) {
@@ -217,7 +211,7 @@ function colorInput() {
   // console.log(sliderPos);
 
   // update URL parameters
-  updateParams(background.substr(1), color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode, 'd3');
+  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode, 'd3');
 }
 colorInput(color1);
 
@@ -267,32 +261,24 @@ function ratioUpdate() {
 }
 
 // Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
-function updateParams(b, c, t, s, r, m, l) {
+function updateParams(c, b, t, s, r, m, l) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
+  params.set('base', b);
   params.set('color', c);
+  params.set('ratio', r);
   params.set('tint', t);
   params.set('shade', s);
-  // TODO: once fixed, uncomment
-  params.set('ratio', r);
   params.set('mode', m);
+  // TODO: uncomment when integrated with library options
+  // params.set('lib', l);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
-  var z = 'adaptcolor( #' + b + ', #'+ c + ', [' + r + ']' + '{' + 'tint: #' + t + ', shade: #' + s + ', ' + ' colorspace: ' + m + ', lib: ' + l + '});';
+  var z = 'adaptcolor({color: #' + c + ', base: #'+ c + ', ratios: [' + r + '], ' + 'tint: #' + t + ', shade: #' + s + ', ' + ' colorspace: ' + m + ', lib: ' + l + '});';
   text = document.createTextNode(z);
   p.appendChild(text);
-}
-
-/// TESTING TESTING TESTING
-function repeat(a = 'A', b = 'B', { c = 'C', d = 'D'} = { }) {
-  console.log(a);
-  console.log(b);
-  console.log(c);
-  console.log(d);
-
-  console.log(a + b + c + d);
 }

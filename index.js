@@ -8,13 +8,7 @@
 // colorspace = interpolation mode to be used
 // [ratios] = array of ratio values to generated colors from
 
-function adaptcolor(base = '#ffffff', color = '#ff00ff', ratios = [3, 4.5], {
-    tint = '#fefefe',
-    shade = '#010101',
-    colorspace = 'LCH',
-    lib = 'd3'
-  } = {}) {
-
+function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5], tint = '#fefefe', shade = '#010101', colorspace = 'LCH', lib = 'd3'} = {}) {
   console.log(tint);
 
   // Using HSLuv "v" value as a uniform domain in gradients.
@@ -134,35 +128,3 @@ function contrastD3(rgb1, rgb2) {
   if (cr1 < 1) { return cr2; }
   if (cr1 >= 1) { return cr1; }
 }
-
-
-// Leo junk
-// var bg = bgVal;
-// var step = -1;
-// if (bVal <= 127 ){
-//   step = 1;
-//   l = 0;
-// }
-//
-// for (var i=0;i<100;i++){
-//   var rgb = hsl2rgb(h, s, l);
-//   //var color = 'rgb(' + rgb.join(', ') + ')';
-//   var c = contrast(rgb, bg); // target value defined above
-//
-//   out:
-//   for (var j=0;j<_ratios.length;j++){
-//     var r = _ratios[j];
-//     if ( c <= r ){
-//       var shifted = colorShift(h,s,l,bg, rgb, c);
-//
-//       rgb = shifted.rgb;
-//       c = shifted.contrast;
-//
-//       array[j] = 'rgb(' + rgb.join(', ') + ')';
-//       cons[j] = Math.round(c *100) / 100;
-//
-//       break out;
-//     }
-//   }
-//   l = l + step;
-// }
