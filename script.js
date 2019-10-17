@@ -49,9 +49,9 @@ function paramSetup() {
     document.querySelector('select[name="mode"]').value = params.get('mode');
   }
   // // TODO: Won't work until I have ratioUpdate() function working
-  // if(params.has('ratio')) {
-  //   var contrastRatio2 = params.get('ratio');
-  // } else { }
+  if(params.has('ratio')) {
+    var contrastRatio2 = params.get('ratio');
+  } else { }
 }
 paramSetup();
 
@@ -75,6 +75,15 @@ function backgroundblock(b){
   demoButtonInverted.style.borderColor = b;
 }
 backgroundblock(background);
+
+// function paramOutput(b, c, r, t, s, m, l) {
+//   var p = document.getElementById('params');
+//   p.innerHTML = " ";
+//
+//   text = document.createTextNode('adaptcolor(' + b + c + '[' + r + ']' + '{' + 'tint: ' + t + ', shade: ' + s + ', ' + 'colorspace: ' + m + 'lib: ' + l '});');
+//   p.appendChild(text);
+// }
+// paramOutput();
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
@@ -208,7 +217,7 @@ function colorInput() {
   // console.log(sliderPos);
 
   // update URL parameters
-  // updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
+  updateParams(background.substr(1), color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode, 'd3');
 }
 colorInput(color1);
 
@@ -257,26 +266,8 @@ function ratioUpdate() {
   }
 }
 
-// function closest (num, arr) {
-//     var mid;
-//     var lo = 0;
-//     var hi = arr.length - 1;
-//     while (hi - lo > 1) {
-//         mid = Math.floor ((lo + hi) / 2);
-//         if (arr[mid] < num) {
-//             lo = mid;
-//         } else {
-//             hi = mid;
-//         }
-//     }
-//     if (num - arr[lo] <= arr[hi] - num) {
-//         return arr[lo];
-//     }
-//     return arr[hi];
-// }
-
 // Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
-function updateParams(c, t, s, r, m) {
+function updateParams(b, c, t, s, r, m, l) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
@@ -284,115 +275,17 @@ function updateParams(c, t, s, r, m) {
   params.set('tint', t);
   params.set('shade', s);
   // TODO: once fixed, uncomment
-  // params.set('ratio', r);
+  params.set('ratio', r);
   params.set('mode', m);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+
+  var p = document.getElementById('params');
+  p.innerHTML = " ";
+  var z = 'adaptcolor( #' + b + ', #'+ c + ', [' + r + ']' + '{' + 'tint: #' + t + ', shade: #' + s + ', ' + ' colorspace: ' + m + ', lib: ' + l + '});';
+  text = document.createTextNode(z);
+  p.appendChild(text);
 }
-
-// TODO: Modularize this function. This is THE tool.
-
-function adaptcolor(base = '#ffffff', color = '#ff00ff', ratios = [3, 4.5], {
-    tint = '#fefefe',
-    shade = '#010101',
-    colorspace = 'LCH',
-    lib = 'd3'
-  } = { }) {
-
-  console.log(tint);
-
-  // Using HSLuv "v" value as a uniform domain in gradients.
-  // This should be uniform regardless of library / colorspace.
-  // TODO: investigate alternative luminosity/brightness calculations.
-  swatches = 500; // should be 2000 if able to render every possible decimal value of contrast.
-  domain = swatches - swatches * (d3.hsluv(color).v / 100);
-  tintDomain = swatches - swatches * (d3.hsluv(tint).v / 100);
-  shadeDomain = swatches - swatches * (d3.hsluv(shade).v / 100);
-
-  if(lib == 'd3') {
-    if(colorspace == 'CAM02') {
-      scale = d3.scaleLinear()
-        .range(['#ffffff', tint, d3.jab(color), shade, '#000000'])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateJab);
-    }
-    if(colorspace == 'LCH') {
-      scale = d3.scaleLinear()
-        .range([d3.hcl(NaN, 0, 100), tint, d3.hcl(color), shade, d3.hcl(NaN, 0, 0)])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateHcl);
-    }
-    if(colorspace == 'LAB') {
-      scale = d3.scaleLinear()
-        .range(['#ffffff', tint, d3.lab(color), shade, '#000000'])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateLab);
-    }
-    if(colorspace == 'HSL') {
-      scale = d3.scaleLinear()
-        .range(['#ffffff', tint, d3.hsl(color), shade, '#000000'])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateHsl);
-    }
-    if(colorspace == 'HSLuv') {
-      scale = d3.scaleLinear()
-        .range(['#ffffff', tint, d3.hsluv(color), shade, '#000000'])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateHsluv);
-    }
-    if(colorspace == 'RGB') {
-      scale = d3.scaleLinear()
-        .range([d3.rgb('#ffffff'), tint, d3.rgb(color), shade, d3.rgb('#000000')])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateRgb);
-    }
-    if(colorspace == 'RGBgamma') {
-      scale = d3.scaleLinear()
-        .range([d3.rgb('#ffffff'), tint, d3.rgb(color), shade, d3.rgb('#000000')])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateRgb.gamma(2.2));
-    }
-  }
-
-  var Colors = d3.range(swatches).map(function(d) {
-    return scale(d)
-  });
-
-  colors = Colors.filter(function (el) {
-    return el != null;
-  });
-
-  // contrasts = colors.map(contrastD3);
-  // var Contrasts = d3.range(swatches).map(function(d) {
-  //   return contrastD3(scale(d), base).toFixed(2);
-  // });
-  // contrasts = Contrasts.filter(function (el) {
-  //   return el != null;
-  // })
-
-  // return contrasts;
-  // return colors;
-
-  // for (var i=0; ratios.length; i++) {
-  //   console.log(ratios[i]);
-    // for (var i = 0; colors.length; i++) {
-    //   contrast = contrastD3(color, base).toFixed(2);
-    //
-    //   if (ratios == contrast) {
-    //     console.log('Exact Match!');
-    //
-    //     break;
-    //   } else {
-    //     continue;
-    //   }
-    // }
-  //   break;
-  // }
-}
-
-// Test script:
-// adaptcolor('#f5f5f5', '#2451FF', [3, 4.5], {tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB', lib: 'd3'});
-
 
 /// TESTING TESTING TESTING
 function repeat(a = 'A', b = 'B', { c = 'C', d = 'D'} = { }) {
