@@ -54,6 +54,8 @@ function paramSetup() {
   // // TODO: Won't work until I have ratioUpdate() function working
   if(params.has('ratio')) {
     var contrastRatio2 = params.get('ratio');
+
+    console.log(constrastRatio2);
   } else { }
 }
 paramSetup();
@@ -80,12 +82,55 @@ function backgroundblock(b){
 backgroundblock(background);
 
 // Add ratio inputs
-function addRatio() {
+function addRatio(v) {
+  var ratios = document.getElementById('ratios');
+  var div = document.createElement('div');
+  div.className = 'ratio-Item';
+  div.id = randomId();
+  var sw = document.createElement('span');
+  sw.className = 'spectrum-Textfield-swatch';
+  var input = document.createElement('input');
+  input.className = 'spectrum-Textfield ratioField';
+  input.type = "number";
+  input.min = '1';
+  input.max = '21';
+  input.step = '.01'
+  input.id = randomId();
+  input.value = v;
+  input.onchange = colorInput;
+  var button = document.createElement('button');
+  button.className = 'spectrum-ActionButton';
+  var icon = document.createElement('svg');
+  icon.className = 'spectrum-Icon spectrum-Icon--sizeS';
+  icon.arialabel = 'Delete';
+  icon.ariahidden = 'true';
+  icon.focusable = 'false';
+  var xlink = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  xlink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#spectrum-icon-18-Delete'); // this doesn't work
 
+  // TODO: create new slider
+
+  icon.appendChild(xlink);
+  button.appendChild(icon);
+  // button.addEventListener('click', deleteRatio('test_01'));
+  button.onclick = deleteRatio;
+  div.appendChild(sw);
+  div.appendChild(input);
+  div.appendChild(button);
+  ratios.appendChild(div);
 }
-// Delete ratio input
-function deleteRatio() {
+addRatio(3);
+addRatio(4.5);
 
+// Delete ratio input
+function deleteRatio(e) {
+  var id = e.target.parentNode.id;
+  var self = document.getElementById(id);
+  self.remove();
+}
+// random id's
+function randomId() {
+   return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
 
 // Calculate Color and generate Scales
@@ -99,23 +144,23 @@ function colorInput() {
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
   var mode = document.querySelector('select[name="mode"]').value;
+  // TODO: gather input values for each input. Add those into array.
+  var ratioFields = document.getElementsByClassName('ratioField');
+  var ratioInputs = [];
 
-  colorblock(color1);
+  // For each ratio input field, push the value into the args array for adaptcolor
+  for(i=0; i < ratioFields.length; i++) {
+    ratioInputs.push(ratioFields[i].value);
+  }
 
-  adaptcolor({color: color1, base: background, tint: colorTint, shade: colorShade, colorspace: mode});
+  // colorblock(color1);
 
-  // This is already handled in the adaptcolor function.
-  // TODO: remove and pull the array from what's returned ?
-  var ColorArray = d3.range(swatches).map(function(d) {
-    return scale(d)
-  });
-  var colors = ColorArray;
-  colorsArray = colors.filter(function (el) {
-    return el != null;
-  });
-  // End to remove ^
+  adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode});
+  console.log(newColors);
 
-  // slider.defaultValue = L2 * 5;
+  for(i=0; i<newColors.length; i++) {
+    colorblock(newColors[i])
+  }
 
   // Generate Gradient
   for (var i = 0; i < colors.length; i++) {
@@ -135,20 +180,20 @@ function colorInput() {
   var backgroundG = d3.rgb(background).g;
   var backgroundB = d3.rgb(background).b;
 
-  var contrastRatio = contrast([backgroundR, backgroundG, backgroundB], [colorR, colorG, colorB]).toFixed(2);
-  var text = document.createTextNode(contrastRatio);
+  // var contrastRatio = contrast([backgroundR, backgroundG, backgroundB], [colorR, colorG, colorB]).toFixed(2);
+  // var text = document.createTextNode(contrastRatio);
 
-  colorBlock.innerHTML = '';
-  colorBlock.appendChild(text);
-  ratioInput.value = contrastRatio;
-  colorBlock.style.bottom = slider.value * 5 + "%";
+  // colorBlock.innerHTML = '';
+  // colorBlock.appendChild(text);
+  // ratioInput.value = contrastRatio;
+  // colorBlock.style.bottom = slider.value * 5 + "%";
 
   backgroundblock(background);
 
   // Slider updates
   var sliderPos = document.getElementById('Slider').value;
   var colorDomainUpdate =  swatches - (swatches * sliderPos /500);
-  var newRgb = ColorArray[colorDomainUpdate];
+  var newRgb = colors[colorDomainUpdate];
   var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
 
   newHex = d3.rgb(newRgb).formatHex();
@@ -183,47 +228,11 @@ function colorInput() {
   colorBlock.innerHTML = '';
   colorBlock.appendChild(textUpdate);
 
-  // TODO: This slider default value isn't working. Should default to L2
-  // value, unless user moves slider.
-  // slider.value = L2;
-
-  // console.log(sliderPos);
-
   // update URL parameters
   // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode, 'd3');
 }
 colorInput(color1);
 
-
-// Contrast Input
-// function ratioUpdate() {
-//   var ratioInput = document.getElementById('ratio');
-//   targetRatio = ratioInput.value;
-//
-//   for (let i = 0; i < colorsArray.length; i++) {
-//     var r = d3.rgb(colorsArray[i]).r;
-//     var g = d3.rgb(colorsArray[i]).g;
-//     var b = d3.rgb(colorsArray[i]).b;
-//
-//     var bR = d3.rgb(background).r;
-//     var bG = d3.rgb(background).g;
-//     var bB = d3.rgb(background).b;
-//
-//     var ratio = contrast([r, g, b], [bR, bG, bB]).toFixed(2);
-//
-//     if (targetRatio == ratio) {
-//       colorblock(colorsArray[i]);
-//       console.log('Match!');
-//
-//       break;
-//     }
-//     else {
-//       continue;
-//       // var nextBest = closest (targetRatio, colorsArray);
-//       // console.log("Your next best bet is: " + nextBest);
-//     }
-//   }
-// }
 
 // Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
 function updateParams(c, b, t, s, r, m, l) {

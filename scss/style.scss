@@ -223,10 +223,7 @@ body {
   box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.15);
   cursor: pointer;
 }
-#ratio {
-  width: 100%;
-  margin-right: 8px;
-}
+
 
 input[type=color] {
   -webkit-appearance: none;
@@ -411,6 +408,8 @@ a:focus {
 
   .spectrum-Textfield {
     padding-left: var(--spectrum-global-dimension-size-400);
+    width: 100%;
+    margin-right: 8px;
   }
 }
 
@@ -449,8 +448,13 @@ a:focus {
   margin: 0 -8px;
 }
 
-#ratios {
+#ratiosWrapper, #ratios {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+#ratiosWrapper {
+  max-height: 100%;
+  overflow: scroll;
 }

@@ -16,6 +16,7 @@ governing permissions and limitations under the License.
   <script src="https://unpkg.com/d3-cam02@0.1.5/build/d3-cam02.js"></script>
   <script src="libs/d3-hsluv.min.js"></script>
   <script src="index.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 
   <link rel='stylesheet' href="css/style.css"/>
 </head>
@@ -77,20 +78,20 @@ governing permissions and limitations under the License.
         <div id="colorWrapper">
           <div id="color"></div>
         </div>
-
-        <div id="ratios">
-          <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
-          <div class="ratio-Item">
-            <span id="spectrum-Textfield-swatch"></span>
-            <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="colorInput()"></input>
-            <button class="spectrum-ActionButton">
-              <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-                <use xlink:href="#spectrum-icon-18-Delete" /> <!-- TODO: identify correct icon -->
-              </svg>
-            </button>
+        <div id="ratiosWrapper">
+          <div id="ratios">
+            <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
+            <div class="ratio-Item" id="test_00">
+              <span id="spectrum-Textfield-swatch"></span>
+              <input class="spectrum-Textfield" id="ratio" type="number" min="1" max="21" step=".01" onInput="colorInput()"></input>
+              <button class="spectrum-ActionButton" onclick="deleteRatio('test_00')">
+                <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                  <use xlink:href="#spectrum-icon-18-Delete" /> <!-- TODO: identify correct icon -->
+                </svg>
+              </button>
+            </div>
           </div>
-
-          <button id="addRatio" onclick="" class="spectrum-ActionButton">
+          <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton">
             <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
               <use xlink:href="#spectrum-icon-18-Edit" />
             </svg>
@@ -105,14 +106,14 @@ governing permissions and limitations under the License.
       <div id="demo" class="spectrum-Typography">
         <h1 class="spectrum-Heading2" id="demoHeading">Generate accessible color</h1>
         <span class="largeTextWrapper"></span>
-        <p class="spectrum-Body3" id="demoText">Adaptive color palettes are accessible-first systems for generating colors based on contrast ratio. Color is defined as a scale, with controls for refining the color’s path through color space.</p>
+        <p class="spectrum-Body3" id="demoText">Adaptive color palettes are accessible-first systems for generating colors based on contrast ratio.</p>
         <button class="spectrum-Button" id="demoButton">View on Github</button>
         <span class="smallTextWrapper"></span>
       </div>
       <div id="demoInverted" class="spectrum-Typography">
         <h1 class="spectrum-Heading2" id="demoHeadingInverted">Generate accessible color</h1>
         <span class="largeTextWrapper"></span>
-        <p class="spectrum-Body3" id="demoTextInverted">Adaptive color palettes are accessible-first systems for generating colors based on contrast ratio. Color is defined as a scale, with controls for refining the color’s path through color space.</p>
+        <p class="spectrum-Body3" id="demoTextInverted">Adaptive color palettes are accessible-first systems for generating colors based on contrast ratio.</p>
         <button class="spectrum-Button" id="demoButtonInverted">View on Github</button>
         <span class="smallTextWrapper"></span>
       </div>
@@ -126,7 +127,7 @@ governing permissions and limitations under the License.
       <div id="colorOutputs">
       </div>
     </div>
-    <div class="spectrum-Panel-Item">
+    <!-- <div class="spectrum-Panel-Item">
       <div class="spectrum-Panel-Title">
         <h3 class="spectrum-Heading6">W3C Contrast Guidelines <a href="https://www.w3.org/TR/WCAG21/#contrast-minimum" target="_blank">View</a></h3>
       </div>
@@ -141,7 +142,7 @@ governing permissions and limitations under the License.
         <p class="spectrum-Body4">Text and images of text: <strong>7:1</strong> </p>
         <p class="spectrum-Body4">Large text: <strong>4.5:1</strong> </p>
       </div>
-    </div>
+    </div> -->
     <div class="spectrum-Panel-Item">
       <div class="spectrum-Panel-Title">
         <h3 class="spectrum-Heading6">Function Parameters</h3>

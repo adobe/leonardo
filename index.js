@@ -13,7 +13,7 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   // Using HSLuv "v" value as a uniform domain in gradients.
   // This should be uniform regardless of library / colorspace.
   // TODO: investigate alternative luminosity/brightness calculations.
-  swatches = 500; // should be 2000 if able to render every possible decimal value of contrast.
+  swatches = 2000; // should be 2000 if able to render every possible decimal value of contrast.
   domain = swatches - swatches * (d3.hsluv(color).v / 100);
   tintDomain = swatches - swatches * (d3.hsluv(tint).v / 100);
   shadeDomain = swatches - swatches * (d3.hsluv(shade).v / 100);
@@ -66,12 +66,10 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   var Colors = d3.range(swatches).map(function(d) {
     return scale(d)
   });
-
   colors = Colors.filter(function (el) {
     return el != null;
   });
 
-  // contrasts = colors.map(contrastD3);
   var Contrasts = d3.range(swatches).map(function(d) {
     var ca = contrastD3(scale(d), base).toFixed(2);
     return Number(ca);
@@ -79,20 +77,22 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   contrasts = Contrasts.filter(function (el) {
     return el != null;
   })
-  console.log(contrasts);
-  // console.log(ratios.length);
 
+  var baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
 
-  // TODO: Need to add "if does not exist, choose next number of increased value"
-  // ie -> if contrasts = [3.05, 3.01, 2.89] and ratio is 3 -> return 3.01
+  newColors = [];
+
+  // Return color matching target ratio, or closest number
   for(i=0; i < ratios.length; i++){
-    var r = binarySearch(contrasts, ratios[i]);
-    console.log(ratios[i] + " should equal color: " + colors[r]);
+    var r = binarySearch(contrasts, ratios[i], baseLum);
+    newColors.push(colors[r]);
   }
+
+  return newColors;
 }
 
 // Test script:
-// adaptcolor('#f5f5f5', '#2451FF', [3, 4.5], {tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB', lib: 'd3'});
+// adaptcolor({color: '#2451FF', base: '#f5f5f5', ratios: [3, 4.5], tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB', lib: 'd3'});
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
@@ -125,8 +125,8 @@ function contrastD3(rgb1, rgb2) {
 }
 
 // Binary search to find index of contrast ratio that is input
-// https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
-function binarySearch (list, value) {
+// Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
+function binarySearch (list, value, baseLum) {
   // initial values for start, middle and end
   let start = 0
   let stop = list.length - 1
@@ -135,17 +135,30 @@ function binarySearch (list, value) {
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {
     // Value greater than since array is ordered descending
-    if (value > list[middle]) {
-      stop = middle - 1
-    } else {
-      start = middle + 1
+    if(baseLum > 0.5) {  // if base is light, ratios ordered ascending
+      if (value < list[middle]) {
+        stop = middle - 1
+      } else {
+        start = middle + 1
+      }
+    } else { // order descending
+      if (value > list[middle]) {
+        stop = middle - 1
+      } else {
+        start = middle + 1
+      }
     }
-
     // recalculate middle on every iteration
     middle = Math.floor((start + stop) / 2)
   }
 
+  // If no match, find next closest value
+  if(baseLum > 0.5) {  // if base is light, ratios ordered ascending
+    closest = list.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+  } else {
+    closest = list.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+  }
+
   // if the current middle item is what we're looking for return it's index, else return -1
-  // TODO: Rather than return -1, find nearest greater value.
-  return (list[middle] !== value) ? -1 : middle
+  return (list[middle] == !value) ? -1 : middle // how it was originally expressed
 }
