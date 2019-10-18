@@ -81,11 +81,37 @@ backgroundblock(background);
 
 // Add ratio inputs
 function addRatio() {
+  var ratios = document.getElementById('ratios');
+  var div = document.createElement('div');
+  div.className = 'ratio-Item';
+  var sw = document.createElement('span');
+  sw.className = 'spectrum-Textfield-swatch';
+  var input = document.createElement('input');
+  input.className = 'spectrum-Textfield';
+  input.type = "number";
+  input.min = '1';
+  input.max = '21';
+  input.step = '.01'
+  var button = document.createElement('button');
+  button.className = 'spectrum-ActionButton';
+  var icon = document.createElement('svg');
+  icon.className = 'spectrum-Icon spectrum-Icon--sizeS';
+  icon.arialabel = 'Delete';
+  icon.ariahidden = 'true';
+  icon.focusable = 'false';
+  var xlink = document.createElement('use');
+  xlink.xlinkhref = '#spectrum-icon-18-Delete';
 
+  icon.appendChild(xlink);
+  button.appendChild(icon);
+  div.appendChild(sw);
+  div.appendChild(input);
+  div.appendChild(button);
+  ratios.appendChild(div);
 }
 // Delete ratio input
 function deleteRatio() {
-
+  this.delete // I know this won't work but whatevs.
 }
 
 // Calculate Color and generate Scales
