@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Test</h2>
+<p>Default tint is '#fefefe'</p>
+<p>Output should show override as 'tint'</p>
+<p><strong>Output:</strong></p>
+<p id="demo"></p>
+
+<script>
+function adaptcolor({color = '#ff00ff', base = '#ffffff', ratios = [3, 4.5], tint = '#fefefe', shade = '#010101', mode = 'LCH', lib = 'd3'} = {}) {
+  return tint;
+}
+document.getElementById("demo").innerHTML = adaptcolor({tint: 'tint'});
+</script>
+
+</body>
+</html>

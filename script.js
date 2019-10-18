@@ -39,6 +39,9 @@ function paramSetup() {
   if(params.has('color')) {
     document.getElementById('colorField1').value = "#" + params.get('color');
   }
+  if(params.has('base')) {
+    document.getElementById('bgField').value = "#" + params.get('base');
+  }
   if(params.has('tint')) {
     document.getElementById('colorField2').value = "#" + params.get('tint');
   }
@@ -49,9 +52,9 @@ function paramSetup() {
     document.querySelector('select[name="mode"]').value = params.get('mode');
   }
   // // TODO: Won't work until I have ratioUpdate() function working
-  // if(params.has('ratio')) {
-  //   var contrastRatio2 = params.get('ratio');
-  // } else { }
+  if(params.has('ratio')) {
+    var contrastRatio2 = params.get('ratio');
+  } else { }
 }
 paramSetup();
 
@@ -76,87 +79,13 @@ function backgroundblock(b){
 }
 backgroundblock(background);
 
-function luminance(r, g, b) {
-  var a = [r, g, b].map(function (v) {
-      v /= 255;
-      return v <= 0.03928
-          ? v / 12.92
-          : Math.pow( (v + 0.055) / 1.055, 2.4 );
-  });
-  return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
+// Add ratio inputs
+function addRatio() {
+
 }
+// Delete ratio input
+function deleteRatio() {
 
-// function percievedLum(r, g, b) {
-//   return (0.299*r + 0.587*g + 0.114*b);
-// }
-
-function contrast(rgb1, rgb2) {
-  var cr1 = (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05) / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
-  var cr2 = (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05) / (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05);
-
-  if (cr1 < 1) { return cr2; }
-  if (cr1 >= 1) { return cr1; }
-}
-
-// Simplifying d3 color Functions for reuse
-// TODO: update to include white & black whether or not tint and shade defined
-function colorScale(color, colorTint, colorShade) {
-  var colorspace = document.querySelector('select[name="mode"]').value;
-  // Using HSLuv "v" value as a uniform domain in gradients.
-  var domain = swatches - swatches * (d3.hsluv(color).v / 100);
-  var tintDomain = swatches - swatches * (d3.hsluv(colorTint).v / 100);
-  var shadeDomain = swatches - swatches * (d3.hsluv(colorShade).v / 100);
-
-  if(colorspace == 'CAM02') {
-    return d3.scaleLinear()
-      .range(['#ffffff', colorTint, d3.jab(color), colorShade, '#000000'])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateJab);
-  }
-  if(colorspace == 'LCH') {
-    // TODO: if colorTint / colorTint inputs are pure white/black, redefine
-    // to D3 hcl hack:
-    // if (colorTint == '#FFFFFF' || '#ffffff') {
-    //   var colorTint = d3.hcl(NaN, 0, 100);
-    // }
-    // if (colorShade == '#000000' || 'black') {
-    //   var colorShade = d3.hcl(NaN, 0, 0);
-    // }
-    return d3.scaleLinear()
-      .range([d3.hcl(NaN, 0, 100), colorTint, d3.hcl(color), colorShade, d3.hcl(NaN, 0, 0)])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateHcl);
-  }
-  if(colorspace == 'LAB') {
-    return d3.scaleLinear()
-      .range(['#ffffff', colorTint, d3.lab(color), colorShade, '#000000'])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateLab);
-  }
-  if(colorspace == 'HSL') {
-    return d3.scaleLinear()
-      .range(['#ffffff', colorTint, d3.hsl(color), colorShade, '#000000'])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateHsl);
-  }
-  if(colorspace == 'HSLuv') {
-    return d3.scaleLinear()
-      .range(['#ffffff', colorTint, d3.hsluv(color), colorShade, '#000000'])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateHsluv);
-  }
-  if(colorspace == 'RGB') {
-    return d3.scaleLinear()
-      .range([d3.rgb('#ffffff'), colorTint, d3.rgb(color), colorShade, d3.rgb('#000000')])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateRgb);
-  }
-  if(colorspace == 'RGBgamma') {
-    return d3.scaleLinear()
-      .range([d3.rgb('#ffffff'), colorTint, d3.rgb(color), colorShade, d3.rgb('#000000')])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
-      .interpolate(d3.interpolateRgb.gamma(2.2));
-  }
 }
 
 // Calculate Color and generate Scales
@@ -173,21 +102,18 @@ function colorInput() {
 
   colorblock(color1);
 
-  var clr = colorScale(color1, colorTint, colorShade);
+  adaptcolor({color: color1, base: background, tint: colorTint, shade: colorShade, colorspace: mode});
 
+  // This is already handled in the adaptcolor function.
+  // TODO: remove and pull the array from what's returned ?
   var ColorArray = d3.range(swatches).map(function(d) {
-    return clr(d)
+    return scale(d)
   });
-
   var colors = ColorArray;
-
   colorsArray = colors.filter(function (el) {
     return el != null;
   });
-
-  // contrastArray = colorsArray.map(ratio);
-
-  // console.log(colorsArray);
+  // End to remove ^
 
   // slider.defaultValue = L2 * 5;
 
@@ -261,87 +187,63 @@ function colorInput() {
   // value, unless user moves slider.
   // slider.value = L2;
 
-  console.log(sliderPos);
+  // console.log(sliderPos);
 
   // update URL parameters
-  // updateParams(color1.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode);
+  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode, 'd3');
 }
 colorInput(color1);
 
 
-// Ratio function
-function ratio(x) {
-  var r = d3.rgb(x).r;
-  var g = d3.rgb(x).g;
-  var b = d3.rgb(x).b;
-
-  var bR = d3.rgb(background).r;
-  var bG = d3.rgb(background).g;
-  var bB = d3.rgb(background).b;
-
-  return contrast([r, g, b], [bR, bG, bB]).toFixed(2);
-  console.log(contrast);
-}
-
 // Contrast Input
-function ratioUpdate() {
-  var ratioInput = document.getElementById('ratio');
-  targetRatio = ratioInput.value;
-
-  for (let i = 0; i < colorsArray.length; i++) {
-    var r = d3.rgb(colorsArray[i]).r;
-    var g = d3.rgb(colorsArray[i]).g;
-    var b = d3.rgb(colorsArray[i]).b;
-
-    var bR = d3.rgb(background).r;
-    var bG = d3.rgb(background).g;
-    var bB = d3.rgb(background).b;
-
-    var ratio = contrast([r, g, b], [bR, bG, bB]).toFixed(2);
-
-    if (targetRatio == ratio) {
-      colorblock(colorsArray[i]);
-      console.log('Match!');
-
-      break;
-    }
-    else {
-      continue;
-      // var nextBest = closest (targetRatio, colorsArray);
-      // console.log("Your next best bet is: " + nextBest);
-    }
-  }
-}
-
-function closest (num, arr) {
-    var mid;
-    var lo = 0;
-    var hi = arr.length - 1;
-    while (hi - lo > 1) {
-        mid = Math.floor ((lo + hi) / 2);
-        if (arr[mid] < num) {
-            lo = mid;
-        } else {
-            hi = mid;
-        }
-    }
-    if (num - arr[lo] <= arr[hi] - num) {
-        return arr[lo];
-    }
-    return arr[hi];
-}
+// function ratioUpdate() {
+//   var ratioInput = document.getElementById('ratio');
+//   targetRatio = ratioInput.value;
+//
+//   for (let i = 0; i < colorsArray.length; i++) {
+//     var r = d3.rgb(colorsArray[i]).r;
+//     var g = d3.rgb(colorsArray[i]).g;
+//     var b = d3.rgb(colorsArray[i]).b;
+//
+//     var bR = d3.rgb(background).r;
+//     var bG = d3.rgb(background).g;
+//     var bB = d3.rgb(background).b;
+//
+//     var ratio = contrast([r, g, b], [bR, bG, bB]).toFixed(2);
+//
+//     if (targetRatio == ratio) {
+//       colorblock(colorsArray[i]);
+//       console.log('Match!');
+//
+//       break;
+//     }
+//     else {
+//       continue;
+//       // var nextBest = closest (targetRatio, colorsArray);
+//       // console.log("Your next best bet is: " + nextBest);
+//     }
+//   }
+// }
 
 // Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
-function updateParams(c, t, s, r, m) {
+function updateParams(c, b, t, s, r, m, l) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
+  params.set('base', b);
   params.set('color', c);
+  params.set('ratio', r);
   params.set('tint', t);
   params.set('shade', s);
-  // TODO: once fixed, uncomment
-  // params.set('ratio', r);
   params.set('mode', m);
+  // TODO: uncomment when integrated with library options
+  // params.set('lib', l);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+
+  var p = document.getElementById('params');
+  p.innerHTML = " ";
+  var z = 'adaptcolor({color: "#' + c + '", base: "#'+ b + '", ratios: [' + r + '], ' + 'tint: "#' + t + '", shade: "#' + s + '", ' + ' colorspace: "' + m + '", lib: "' + l + '"});';
+  text = document.createTextNode(z);
+  p.appendChild(text);
 }

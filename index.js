@@ -1,19 +1,14 @@
-// This file should be where the actual function is authored;
-// independant from the web app.
+// Copyright 2019 Adobe. All rights reserved.
+// This file is licensed to you under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License. You may obtain a copy
+// of the License at http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under
+// the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+// OF ANY KIND, either express or implied. See the License for the specific language
+// governing permissions and limitations under the License.
 
-// base = static color value that generated colors are contrasted against
-// variable = color that you wish to adapt based on contrast ratio with base
-// tint = lighter value of variable for scale
-// shade = darker value of variable for scale
-// colorspace = interpolation mode to be used
-// [ratios] = array of ratio values to generated colors from
-
-function adaptcolor(base = '#ffffff', color = '#ff00ff', ratios = [3, 4.5], {
-    tint = '#fefefe',
-    shade = '#010101',
-    colorspace = 'LCH',
-    lib = 'd3'
-  } = {}) {
+function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], tint = '#fefefe', shade = '#010101', colorspace = 'LCH', lib = 'd3'} = {}) {
 
   // Using HSLuv "v" value as a uniform domain in gradients.
   // This should be uniform regardless of library / colorspace.
@@ -77,35 +72,27 @@ function adaptcolor(base = '#ffffff', color = '#ff00ff', ratios = [3, 4.5], {
   });
 
   // contrasts = colors.map(contrastD3);
-  // var Contrasts = d3.range(swatches).map(function(d) {
-  //   return contrastD3(scale(d), base).toFixed(2);
-  // });
-  // contrasts = Contrasts.filter(function (el) {
-  //   return el != null;
-  // })
+  var Contrasts = d3.range(swatches).map(function(d) {
+    var ca = contrastD3(scale(d), base).toFixed(2);
+    return Number(ca);
+  });
+  contrasts = Contrasts.filter(function (el) {
+    return el != null;
+  })
+  console.log(contrasts);
+  // console.log(ratios.length);
 
-  // return contrasts;
-  // return colors;
 
-  // for (var i=0; ratios.length; i++) {
-  //   console.log(ratios[i]);
-    // for (var i = 0; colors.length; i++) {
-    //   contrast = contrastD3(color, base).toFixed(2);
-    //
-    //   if (ratios == contrast) {
-    //     console.log('Exact Match!');
-    //
-    //     break;
-    //   } else {
-    //     continue;
-    //   }
-    // }
-  //   break;
-  // }
+  // TODO: Need to add "if does not exist, choose next number of increased value"
+  // ie -> if contrasts = [3.05, 3.01, 2.89] and ratio is 3 -> return 3.01
+  for(i=0; i < ratios.length; i++){
+    var r = binarySearch(contrasts, ratios[i]);
+    console.log(ratios[i] + " should equal color: " + colors[r]);
+  }
 }
 
 // Test script:
-// adaptcolor('#ffffff', '#ff00ff', [3, 4.5], {tint: '#fefefe', shade: '#010101', colorspace: 'LCH', lib: 'd3'});
+// adaptcolor('#f5f5f5', '#2451FF', [3, 4.5], {tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB', lib: 'd3'});
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
@@ -116,6 +103,10 @@ function luminance(r, g, b) {
   });
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
+
+// function percievedLum(r, g, b) {
+//   return (0.299*r + 0.587*g + 0.114*b);
+// }
 
 function contrast(rgb1, rgb2) {
   var cr1 = (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05) / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
@@ -133,34 +124,28 @@ function contrastD3(rgb1, rgb2) {
   if (cr1 >= 1) { return cr1; }
 }
 
+// Binary search to find index of contrast ratio that is input
+// https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
+function binarySearch (list, value) {
+  // initial values for start, middle and end
+  let start = 0
+  let stop = list.length - 1
+  let middle = Math.floor((start + stop) / 2)
 
-// Leo junk
-// var bg = bgVal;
-// var step = -1;
-// if (bVal <= 127 ){
-//   step = 1;
-//   l = 0;
-// }
-//
-// for (var i=0;i<100;i++){
-//   var rgb = hsl2rgb(h, s, l);
-//   //var color = 'rgb(' + rgb.join(', ') + ')';
-//   var c = contrast(rgb, bg); // target value defined above
-//
-//   out:
-//   for (var j=0;j<_ratios.length;j++){
-//     var r = _ratios[j];
-//     if ( c <= r ){
-//       var shifted = colorShift(h,s,l,bg, rgb, c);
-//
-//       rgb = shifted.rgb;
-//       c = shifted.contrast;
-//
-//       array[j] = 'rgb(' + rgb.join(', ') + ')';
-//       cons[j] = Math.round(c *100) / 100;
-//
-//       break out;
-//     }
-//   }
-//   l = l + step;
-// }
+  // While the middle is not what we're looking for and the list does not have a single item
+  while (list[middle] !== value && start < stop) {
+    // Value greater than since array is ordered descending
+    if (value > list[middle]) {
+      stop = middle - 1
+    } else {
+      start = middle + 1
+    }
+
+    // recalculate middle on every iteration
+    middle = Math.floor((start + stop) / 2)
+  }
+
+  // if the current middle item is what we're looking for return it's index, else return -1
+  // TODO: Rather than return -1, find nearest greater value.
+  return (list[middle] !== value) ? -1 : middle
+}

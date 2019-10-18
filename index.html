@@ -21,7 +21,7 @@ governing permissions and limitations under the License.
 </head>
 <body class="spectrum spectrum--light spectrum--medium">
 <header class="spectrum-AppHeader">
-  <h1 class="spectrum-AppHeader-Title"> Adaptive Color App </h1>
+  <h1 class="spectrum-Heading5 spectrum-AppHeader-Title"> Adaptive Color App </h1>
   <a href="#"> <img id="octocat" src="./GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
 </header>
 <div class="wrapper">
@@ -53,8 +53,8 @@ governing permissions and limitations under the License.
         </div>
 
       </div>
-      <label for="lifestory" class="spectrum-FieldLabel">Color space (mode)</label>
-      <select id="mode" name="mode" onChange="colorInput()">
+      <label for="lifestory" class="spectrum-FieldLabel">Color space (interpolation mode)</label>
+      <select id="mode" name="mode" onInput="colorInput()">
         <option value="LCH">LCH</option>
         <option value="LAB">Lab</option>
         <option value="CAM02">CIECAM02</option>
@@ -82,12 +82,7 @@ governing permissions and limitations under the License.
           <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
           <div class="ratio-Item">
             <span id="spectrum-Textfield-swatch"></span>
-            <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="ratioUpdate()"></input>
-            <button class="spectrum-ActionButton">
-              <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-                <use xlink:href="#spectrum-icon-18-Lock" /> <!-- TODO: identify correct icon -->
-              </svg>
-            </button>
+            <input class="spectrum-Textfield" id="ratio" type="number" min="3" max="21" step=".01" onInput="colorInput()"></input>
             <button class="spectrum-ActionButton">
               <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
                 <use xlink:href="#spectrum-icon-18-Delete" /> <!-- TODO: identify correct icon -->
@@ -95,7 +90,7 @@ governing permissions and limitations under the License.
             </button>
           </div>
 
-          <button class="spectrum-ActionButton">
+          <button id="addRatio" onclick="" class="spectrum-ActionButton">
             <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
               <use xlink:href="#spectrum-icon-18-Edit" />
             </svg>
@@ -105,20 +100,6 @@ governing permissions and limitations under the License.
       </div>
     </div>
   </div>
-
-  <!-- <div class="spectrum-Panel spectrum-Panel--custom">
-    <div class="spectrum-Panel-Item spectrum-Panel-Item--custom">
-      <div id="gradientWrapper">
-        <div id="colors"></div>
-        <div id="sliderWrapper">
-          <input type="range" min="0" max="500" class="slider" id="Slider" onchange="colorInput()">
-        </div>
-      </div>
-      <div id="colorWrapper">
-        <div id="color"></div>
-      </div>
-    </div>
-  </div> -->
 
   <div id="demoWrapper">
       <div id="demo" class="spectrum-Typography">
@@ -145,8 +126,31 @@ governing permissions and limitations under the License.
       <div id="colorOutputs">
       </div>
     </div>
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">W3C Contrast Guidelines <a href="https://www.w3.org/TR/WCAG21/#contrast-minimum" target="_blank">View</a></h3>
+      </div>
+      <div class="w3c-guideline">
+        <h4 class="spectrum-Subheading">Level AA</h4>
+        <p class="spectrum-Body4">Text and images of text: <strong>4.5:1</strong> </p>
+        <p class="spectrum-Body4">Large text: <strong>3:1</strong> </p>
+        <p class="spectrum-Body4">UI Component (exceptions): <strong>3:1</strong> </p>
+      </div>
+      <div class="w3c-guideline">
+        <h4 class="spectrum-Subheading">Level AAA</h4>
+        <p class="spectrum-Body4">Text and images of text: <strong>7:1</strong> </p>
+        <p class="spectrum-Body4">Large text: <strong>4.5:1</strong> </p>
+      </div>
+    </div>
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">Function Parameters</h3>
+      </div>
+      <div id="functionParams">
+        <span id="params" class="spectrum-Code5"></span>
+      </div>
+    </div>
   </div>
-
 </div>
 <script src="script.js"></script>
 <script src="node_modules/loadicons/index.js"></script>

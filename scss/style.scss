@@ -44,6 +44,7 @@ body {
   padding: 0;
   height: 100vh;
   overflow: hidden;
+  font-family: 'Adobe Clean'; // local update since no typekit support currently.
 }
 .spectrum-AppHeader {
   display: flex;
@@ -58,7 +59,7 @@ body {
 }
 .spectrum-AppHeader-Title {
   margin: 0;
-  font-size: var(--spectrum-global-dimension-font-size-200);
+  // font-size: var(--spectrum-global-dimension-font-size-200);
 }
 .spectrum-Panel {
   display: flex;
@@ -223,7 +224,7 @@ body {
   cursor: pointer;
 }
 #ratio {
-  width: 88px;
+  width: 100%;
   margin-right: 8px;
 }
 
@@ -427,4 +428,29 @@ a:focus {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
   }
+}
+.w3c-guideline {
+  margin-top: 8px;
+
+  & + .w3c-guideline {
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+}
+.spectrum-Subheading {
+  color: var(--spectrum-global-color-gray-700);
+}
+
+#functionParams {
+  background-color: var(--spectrum-global-color-gray-50);
+  border: 1px solid var(--spectrum-global-color-gray-200);
+  border-radius: 4px;
+  padding: 8px;
+  margin: 0 -8px;
+}
+
+#ratios {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
