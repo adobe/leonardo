@@ -27,13 +27,16 @@ Sometimes it's easier to express what you can do by showing you. Take a look at 
 ### What is adaptive color?
 I've written about this concept in more detail at the following links. The goals of this project are to aid in fulfilling the tooling necessary to make adaptive color palettes available to designers and engineers.
 
-[Part 1: Adaptive Color in Design Systems](https://medium.com/thinking-design/adaptive-color-in-design-systems-7bcd2e664fa0)
-[Part 2: Introducing Adaptive Color Palettes](https://medium.com/thinking-design/introducing-adaptive-color-palettes-111b5842fc88)
-[Part 3: Adaptive Color in Spectrum, Adobe's Design System](https://medium.com/thinking-design/adaptive-color-in-spectrum-adobes-design-system-feeeec89a2c7)
+- [Part 1: Adaptive Color in Design Systems](https://medium.com/thinking-design/adaptive-color-in-design-systems-7bcd2e664fa0)
+- [Part 2: Introducing Adaptive Color Palettes](https://medium.com/thinking-design/introducing-adaptive-color-palettes-111b5842fc88)
+- [Part 3: Adaptive Color in Spectrum, Adobe's Design System](https://medium.com/thinking-design/adaptive-color-in-spectrum-adobes-design-system-feeeec89a2c7)
 
 ### Using Adaptive Color
 #### Installing
-`npm i adaptive-color` (coming soon)
+```
+npm i adaptive-color
+```
+(coming soon)
 
 Pass your colors and desired ratios. See additional options here.
 ```
@@ -41,12 +44,16 @@ adaptcolor(color: "#ff00ff", base: "#ffffff", ratios: [4.5]); // returns rgb val
 ```
 
 #### Local setup
-install dependencies `npm i`
-run local server `npm run serve`
-open `http://localhost:8001`
+- install dependencies `npm i`
+- run local server `npm run serve`
+- open `http://localhost:8001`
+
 
 ### API Reference
-`adaptcolor(base, color, ratios, tint, shade, colorspace, lib)`
+```
+adaptcolor(base, color, ratios, tint, shade, colorspace, lib)
+```
+
 Parameters are destructured and need to be explicitly called, such as `color: "#f26322"`.
 
 **color** *string* is the original color that you want to adapt to match various contrast ratios. This color becomes **variable**, and is represented by a linear color scale from black, to color, to white.
@@ -65,12 +72,12 @@ Parameters are destructured and need to be explicitly called, such as `color: "#
 | ----------- | --- | ------ |
 | Lab         | [x] | [x]    |
 | Lch         | [x] | [x]    |
-| CAM02       | [x] | [ ]    |
+| CAM02       | [x] |        |
 | RGB         | [x] | [x]    |
 | HSL         | [x] | [x]    |
-| HSLuv       | [x] | [ ]    |
+| HSLuv       | [x] |        |
 
-**lib** *enum* options are `d3` (default) and `chroma`.
+**lib** *string* options are `d3` (default) and `chroma`.
 
 ### Why are not all contrast ratios available?
 You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.
