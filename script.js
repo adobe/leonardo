@@ -79,6 +79,15 @@ function backgroundblock(b){
 }
 backgroundblock(background);
 
+// Add ratio inputs
+function addRatio() {
+
+}
+// Delete ratio input
+function deleteRatio() {
+
+}
+
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
@@ -181,7 +190,7 @@ function colorInput() {
   // console.log(sliderPos);
 
   // update URL parameters
-  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode, 'd3');
+  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), contrastRatio2, mode, 'd3');
 }
 colorInput(color1);
 
