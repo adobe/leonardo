@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://git.corp.adobe.com:nbaldwin/Contrast-Tool.git"
+    "url": "https://git.corp.adobe.com:nbaldwin/adaptive-color.git"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
