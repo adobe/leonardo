@@ -13,7 +13,7 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   // Using HSLuv "v" value as a uniform domain in gradients.
   // This should be uniform regardless of library / colorspace.
   // TODO: investigate alternative luminosity/brightness calculations.
-  swatches = 500; // should be 2000 if able to render every possible decimal value of contrast.
+  swatches = 1000; // should be 2000 if able to render every possible decimal value of contrast.
   domain = swatches - swatches * (d3.hsluv(color).v / 100);
   tintDomain = swatches - swatches * (d3.hsluv(tint).v / 100);
   shadeDomain = swatches - swatches * (d3.hsluv(shade).v / 100);
@@ -79,14 +79,11 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   contrasts = Contrasts.filter(function (el) {
     return el != null;
   })
-  console.log(contrasts);
-  // console.log(ratios.length);
 
+  var baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
 
-  // TODO: Need to add "if does not exist, choose next number of increased value"
-  // ie -> if contrasts = [3.05, 3.01, 2.89] and ratio is 3 -> return 3.01
   for(i=0; i < ratios.length; i++){
-    var r = binarySearch(contrasts, ratios[i]);
+    var r = binarySearch(contrasts, ratios[i], baseLum);
     console.log(ratios[i] + " should equal color: " + colors[r]);
   }
 }
@@ -126,7 +123,7 @@ function contrastD3(rgb1, rgb2) {
 
 // Binary search to find index of contrast ratio that is input
 // https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
-function binarySearch (list, value) {
+function binarySearch (list, value, baseLum) {
   // initial values for start, middle and end
   let start = 0
   let stop = list.length - 1
@@ -135,17 +132,29 @@ function binarySearch (list, value) {
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {
     // Value greater than since array is ordered descending
-    if (value > list[middle]) {
-      stop = middle - 1
-    } else {
-      start = middle + 1
+    if(baseLum > 0.5) {  // if base is light, ratios ordered ascending
+      if (value < list[middle]) {
+        stop = middle - 1
+      } else {
+        start = middle + 1
+      }
+    } else { // order descending
+      if (value > list[middle]) {
+        stop = middle - 1
+      } else {
+        start = middle + 1
+      }
     }
-
     // recalculate middle on every iteration
     middle = Math.floor((start + stop) / 2)
   }
 
+  if(baseLum > 0.5) {  // if base is light, ratios ordered ascending
+    closest = list.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+  } else {
+    closest = list.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+  }
+
   // if the current middle item is what we're looking for return it's index, else return -1
-  // TODO: Rather than return -1, find nearest greater value.
-  return (list[middle] !== value) ? -1 : middle
+  return (list[middle] == !value) ? -1 : middle // how it was originally expressed
 }

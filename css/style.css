@@ -7830,7 +7830,11 @@ a:focus {
   padding: 8px;
   margin: 0 -8px; }
 
-#ratios {
+#ratiosWrapper, #ratios {
   display: flex;
   flex-direction: column;
   width: 100%; }
+
+#ratiosWrapper {
+  max-height: 100%;
+  overflow: scroll; }

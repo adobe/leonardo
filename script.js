@@ -54,6 +54,8 @@ function paramSetup() {
   // // TODO: Won't work until I have ratioUpdate() function working
   if(params.has('ratio')) {
     var contrastRatio2 = params.get('ratio');
+
+    console.log(constrastRatio2);
   } else { }
 }
 paramSetup();
@@ -80,10 +82,11 @@ function backgroundblock(b){
 backgroundblock(background);
 
 // Add ratio inputs
-function addRatio() {
+function addRatio(v) {
   var ratios = document.getElementById('ratios');
   var div = document.createElement('div');
   div.className = 'ratio-Item';
+  div.id = randomId();
   var sw = document.createElement('span');
   sw.className = 'spectrum-Textfield-swatch';
   var input = document.createElement('input');
@@ -92,6 +95,8 @@ function addRatio() {
   input.min = '1';
   input.max = '21';
   input.step = '.01'
+  input.id = randomId();
+  input.value = v;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
   var icon = document.createElement('svg');
@@ -99,19 +104,31 @@ function addRatio() {
   icon.arialabel = 'Delete';
   icon.ariahidden = 'true';
   icon.focusable = 'false';
-  var xlink = document.createElement('use');
-  xlink.xlinkhref = '#spectrum-icon-18-Delete';
+  var xlink = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  xlink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#spectrum-icon-18-Delete'); // this doesn't work
+
+  // TODO: create new slider
 
   icon.appendChild(xlink);
   button.appendChild(icon);
+  // button.addEventListener('click', deleteRatio('test_01'));
+  button.onclick = deleteRatio;
   div.appendChild(sw);
   div.appendChild(input);
   div.appendChild(button);
   ratios.appendChild(div);
 }
+addRatio(3);
+
 // Delete ratio input
-function deleteRatio() {
-  this.delete // I know this won't work but whatevs.
+function deleteRatio(e) {
+  var id = e.target.parentNode.id;
+  var self = document.getElementById(id);
+  self.remove();
+}
+// random id's
+function randomId() {
+   return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
 
 // Calculate Color and generate Scales
