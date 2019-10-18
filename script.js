@@ -95,9 +95,12 @@ function addRatio(v) {
   input.min = '1';
   input.max = '21';
   input.step = '.01'
-  input.id = randomId();
+  var randId = randomId();
+  input.id = randId;
   input.value = v;
   input.onchange = colorInput;
+  input.onfocus = showSlider;
+  input.onblur = hideSlider;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
   var icon = document.createElement('svg');
@@ -109,6 +112,7 @@ function addRatio(v) {
   xlink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#spectrum-icon-18-Delete'); // this doesn't work
 
   // TODO: create new slider
+  createSlider(randId);
 
   icon.appendChild(xlink);
   button.appendChild(icon);
@@ -119,8 +123,8 @@ function addRatio(v) {
   div.appendChild(button);
   ratios.appendChild(div);
 }
-addRatio(3);
-addRatio(4.5);
+addRatio(3); // For testing
+addRatio(4.5); // For testing
 
 // Delete ratio input
 function deleteRatio(e) {
@@ -131,6 +135,37 @@ function deleteRatio(e) {
 // random id's
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
+}
+
+function createSlider(x) {
+  var sliderWrapper = document.getElementById('sliderWrapper');
+  var slider = document.createElement('input');
+  slider.type = 'range';
+  slider.min = '0';
+  slider.max = '500';
+  slider.oninput = colorInput;
+  slider.className = 'slider'
+  slider.id = x;
+  slider.style.display = 'none';
+
+  sliderWrapper.appendChild(slider);
+}
+
+function showSlider() {
+  var id = this.id;
+  var slider = document.getElementById(id);
+  if (this.focus) {
+    slider.style.display = 'block';
+  } else {
+    slider.style.display = 'none';
+  }
+}
+function hideSlider() {
+  var id = this.id;
+  var slider = document.getElementById(id);
+  if (this.focus !== true) {
+    slider.style.display = 'none';
+  }
 }
 
 // Calculate Color and generate Scales
@@ -144,7 +179,7 @@ function colorInput() {
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
   var mode = document.querySelector('select[name="mode"]').value;
-  // TODO: gather input values for each input. Add those into array.
+  // Gather input values for each input. Add those into array.
   var ratioFields = document.getElementsByClassName('ratioField');
   var ratioInputs = [];
 
@@ -152,8 +187,6 @@ function colorInput() {
   for(i=0; i < ratioFields.length; i++) {
     ratioInputs.push(ratioFields[i].value);
   }
-
-  // colorblock(color1);
 
   adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode});
   console.log(newColors);
@@ -172,21 +205,9 @@ function colorInput() {
     container.appendChild(div);
   }
 
-  var colorR = d3.rgb(color1).r;
-  var colorG = d3.rgb(color1).g;
-  var colorB = d3.rgb(color1).b;
-
   var backgroundR = d3.rgb(background).r;
   var backgroundG = d3.rgb(background).g;
   var backgroundB = d3.rgb(background).b;
-
-  // var contrastRatio = contrast([backgroundR, backgroundG, backgroundB], [colorR, colorG, colorB]).toFixed(2);
-  // var text = document.createTextNode(contrastRatio);
-
-  // colorBlock.innerHTML = '';
-  // colorBlock.appendChild(text);
-  // ratioInput.value = contrastRatio;
-  // colorBlock.style.bottom = slider.value * 5 + "%";
 
   backgroundblock(background);
 
