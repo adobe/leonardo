@@ -7494,7 +7494,7 @@ body {
 
 .spectrum-Panel--right {
   border-right: 0;
-  min-width: var(--spectrum-global-dimension-size-3000);
+  width: var(--spectrum-global-dimension-size-3000);
   border-left: 2px solid var(--spectrum-panel-border-color); }
 
 .spectrum-Panel--custom {
@@ -7678,8 +7678,8 @@ h1 {
 p {
   margin-top: 0px; }
 
-#demo,
-#demoInverted {
+.demo,
+.demoInverted {
   max-width: 80ch;
   padding: 16px 48px 48px;
   align-self: center; }
@@ -7700,7 +7700,7 @@ colorOutput-field {
   width: 100%;
   resize: none; }
 
-#spectrum-Textfield-swatch {
+.spectrum-Textfield-swatch {
   position: absolute;
   margin-top: var(--spectrum-global-dimension-size-100);
   margin-left: var(--spectrum-global-dimension-size-100);
@@ -7786,8 +7786,8 @@ a:focus {
   height: 24px;
   width: 24px; }
 
-.spectrum-Button#demoButton,
-.spectrum-Button#demoButtonInverted {
+.spectrum-Button.demoButton,
+.spectrum-Button.demoButtonInverted {
   background-color: transparent; }
 
 .spacing-100 {
@@ -7804,13 +7804,15 @@ a:focus {
     margin-right: 8px; }
 
 .colorOutputBlock {
+  display: flex;
+  justify-content: space-between;
   padding: 10px 16px 2px;
   min-height: var(--spectrum-global-dimension-size-400);
   border-radius: 0px; }
   .colorOutputBlock:first-of-type {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px; }
-  .colorOutputBlock:first-of-type {
+  .colorOutputBlock:last-of-type {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px; }
 
@@ -7838,3 +7840,8 @@ a:focus {
 #ratiosWrapper {
   max-height: 100%;
   overflow: scroll; }
+
+.demoItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }

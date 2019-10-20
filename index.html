@@ -72,7 +72,7 @@ governing permissions and limitations under the License.
         <div id="gradientWrapper">
           <div id="colors"></div>
           <div id="sliderWrapper">
-            <input type="range" min="0" max="500" class="slider" id="Slider" oninput="colorInput()">
+            <!-- <input type="range" min="0" max="500" class="slider" id="Slider" oninput="colorInput()"> -->
           </div>
         </div>
         <div id="colorWrapper">
@@ -81,15 +81,15 @@ governing permissions and limitations under the License.
         <div id="ratiosWrapper">
           <div id="ratios">
             <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
-            <div class="ratio-Item" id="test_00">
-              <span id="spectrum-Textfield-swatch"></span>
+            <!-- <div class="ratio-Item" id="test_00">
+              <span class="spectrum-Textfield-swatch"></span>
               <input class="spectrum-Textfield" id="ratio" type="number" min="1" max="21" step=".01" onInput="colorInput()"></input>
               <button class="spectrum-ActionButton" onclick="deleteRatio('test_00')">
                 <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-                  <use xlink:href="#spectrum-icon-18-Delete" /> <!-- TODO: identify correct icon -->
+                  <use xlink:href="#spectrum-icon-18-Delete" />
                 </svg>
               </button>
-            </div>
+            </div> -->
           </div>
           <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton">
             <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
@@ -103,20 +103,18 @@ governing permissions and limitations under the License.
   </div>
 
   <div id="demoWrapper">
+    <div class="demoItem">
       <div id="demo" class="spectrum-Typography">
-        <h1 class="spectrum-Heading2" id="demoHeading">Generate accessible color</h1>
-        <span class="largeTextWrapper"></span>
-        <p class="spectrum-Body3" id="demoText">Adaptive color palettes are accessible-first systems for generating colors based on contrast ratio.</p>
-        <button class="spectrum-Button" id="demoButton">View on Github</button>
-        <span class="smallTextWrapper"></span>
+        <h1 class="spectrum-Heading2" id="demoHeading">Large text.</h1>
+        <p class="spectrum-Body3" id="demoText">Small text demonstration.</p>
+        <button class="spectrum-Button" id="demoButton">Button</button>
       </div>
       <div id="demoInverted" class="spectrum-Typography">
-        <h1 class="spectrum-Heading2" id="demoHeadingInverted">Generate accessible color</h1>
-        <span class="largeTextWrapper"></span>
-        <p class="spectrum-Body3" id="demoTextInverted">Adaptive color palettes are accessible-first systems for generating colors based on contrast ratio.</p>
-        <button class="spectrum-Button" id="demoButtonInverted">View on Github</button>
-        <span class="smallTextWrapper"></span>
+        <h1 class="spectrum-Heading2" id="demoHeadingInverted">Large text.</h1>
+        <p class="spectrum-Body3" id="demoTextInverted">Small text demonstration.</p>
+        <button class="spectrum-Button" id="demoButtonInverted">Button</button>
       </div>
+    </div>
   </div>
 
   <div id="outputs" class="spectrum-Panel spectrum-Panel--right">
