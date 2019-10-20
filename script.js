@@ -66,7 +66,10 @@ function paramSetup() {
   if(params.has('mode')) {
     document.querySelector('select[name="mode"]').value = params.get('mode');
   }
-  else { }
+  else {
+    addRatio(3);
+    addRatio(4.5);
+  }
 }
 paramSetup();
 
