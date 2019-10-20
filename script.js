@@ -355,7 +355,7 @@ function colorInput() {
   }
 
   // update URL parameters
-  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode, 'd3');
+  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode, 'd3');
 }
 colorInput(color1);
 
