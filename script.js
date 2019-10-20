@@ -48,20 +48,21 @@ function paramSetup() {
   if(params.has('shade')) {
     document.getElementById('colorField3').value = "#" + params.get('shade');
   }
-  if(params.has('ratios') !== true) {
-    addRatio(3);
-    addRatio(4.5);
+  if(params.has('ratios')) {
+    // transform parameter values into array of numbers
+    rat = params.get('ratios');
+    ratios = rat.split(',');
+    ratios = ratios.map(Number);
+
+    if(ratios[0] == 0) { // if no parameter value, default to [3, 4.5]
+      ratios = [3, 4.5];
+    } else { }
+
+    for(i=0; i<ratios.length; i++) {
+      addRatio(ratios[i]);
+      console.log(ratios[i]);
+    }
   }
-  // if(params.has('ratios')) {
-  //   rat = params.get('ratios');
-  //   ratios = [];
-  //   ratios.push(rat);
-  //
-  //   for(i=0; i>ratios.length; i++) {
-  //     addRatio(ratios[i]);
-  //     // console.log(ratios[i]);
-  //   }
-  // }
   if(params.has('mode')) {
     document.querySelector('select[name="mode"]').value = params.get('mode');
   }
@@ -92,7 +93,7 @@ function backgroundblock(b){
 backgroundblock(background);
 
 // Add ratio inputs
-function addRatio(v = 1) {
+function addRatio(v = 1, s = '#cacaca') {
   var ratios = document.getElementById('ratios');
   var div = document.createElement('div');
   var randId = randomId();
@@ -101,6 +102,7 @@ function addRatio(v = 1) {
   var sw = document.createElement('span');
   sw.className = 'spectrum-Textfield-swatch';
   sw.id = randId + '-sw';
+  sw.style.backgroundColor = s;
   var input = document.createElement('input');
   input.className = 'spectrum-Textfield ratioField';
   input.type = "number";
@@ -132,9 +134,16 @@ function addRatio(v = 1) {
   div.appendChild(input);
   div.appendChild(button);
   ratios.appendChild(div);
+
+  // Can I increment these id's? Need a way to assign swatch
+  // background color to the output, which is not dependent upon
+  // any of these ids.
+  // var list = document.getElementsByClassName("something");
+  // for (var i = 0; i < list.length; i++) {
+  //  list[i].setAttribute("id", "box" + i);
+  // }
 }
-// addRatio(3); // For testing
-// addRatio(4.5); // For testing
+
 
 // Delete ratio input
 function deleteRatio(e) {

@@ -9,7 +9,7 @@
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
-    "serve": "python -m SimpleHTTPServer 8001",
+    "serve": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "gulp": "^4.0.2",
+    "http-server": "^0.11.1",
     "loadicons": "^1.0.0"
   }
 }
