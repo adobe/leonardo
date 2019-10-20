@@ -153,12 +153,11 @@ function binarySearch (list, value, baseLum) {
   }
 
   // If no match, find next closest value
-  if(baseLum > 0.5) {  // if base is light, ratios ordered ascending
-    closest = list.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
-  } else {
-    closest = list.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
-  }
+  // closest = list.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
 
-  // if the current middle item is what we're looking for return it's index, else return -1
-  return (list[middle] == !value) ? -1 : middle // how it was originally expressed
+  // If no match, find closest item greater than value
+  closest = list.reduce((prev, curr) => curr > value ? curr : prev);
+
+  // if the current middle item is what we're looking for return it's index, else closest
+  return (list[middle] == !value) ? closest : middle // how it was originally expressed
 }
