@@ -13,7 +13,7 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   // Using HSLuv "v" value as a uniform domain in gradients.
   // This should be uniform regardless of library / colorspace.
   // TODO: investigate alternative luminosity/brightness calculations.
-  swatches = 2000; // should be 2000 if able to render every possible decimal value of contrast.
+  swatches = 4000; // should be 2000 if able to render every possible decimal value of contrast.
   domain = swatches - swatches * (d3.hsluv(color).v / 100);
   tintDomain = swatches - swatches * (d3.hsluv(tint).v / 100);
   shadeDomain = swatches - swatches * (d3.hsluv(shade).v / 100);
@@ -110,8 +110,9 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   return newColors;
 }
 
-// Test script:
+// Test scripts:
 // adaptcolor({color: '#2451FF', base: '#f5f5f5', ratios: [3, 4.5], tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB', lib: 'd3'});
+// adaptcolor({color: "#0000ff",base: "#323232",ratios: [-1.25,4.5],tint: "#fefefe",shade: "#010101", colorspace: "LCH",lib: "d3"});
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
@@ -135,7 +136,7 @@ function contrast(rgb1, rgb2) {
   // if (cr1 >= 1) { return cr1; }
   if (cr1 >= 1) { return cr1 * -1; } // Return as whole negative number
 }
-// test script:
+// test scripts:
 // contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number
 
 function contrastD3(rgb1, rgb2) {

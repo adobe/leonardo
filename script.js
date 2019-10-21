@@ -126,18 +126,13 @@ function addRatio(v = 1, s = '#cacaca') {
   input.onblur = hideSlider;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
-  var icon = document.createElement('svg');
-  icon.className = 'spectrum-Icon spectrum-Icon--sizeS';
-  icon.arialabel = 'Delete';
-  icon.ariahidden = 'true';
-  icon.focusable = 'false';
-  var xlink = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-  xlink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#spectrum-icon-18-Delete'); // this doesn't work
+  button.innerHTML = `
+  <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
+    <use xlink:href="#spectrum-icon-18-Delete" />
+  </svg>`;
 
   createSlider(randId, v);
 
-  icon.appendChild(xlink);
-  button.appendChild(icon);
   button.onclick = deleteRatio;
   div.appendChild(sw);
   div.appendChild(input);

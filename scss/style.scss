@@ -20,6 +20,7 @@ governing permissions and limitations under the License.
 @import 'node_modules/@spectrum-css/button/dist/index-vars';
 @import 'node_modules/@spectrum-css/fieldgroup/dist/index-vars';
 @import 'node_modules/@spectrum-css/textfield/dist/index-vars';
+@import 'node_modules/@spectrum-css/dropdown/dist/index-vars';
 @import 'node_modules/@spectrum-css/fieldlabel/dist/index-vars';
 @import 'node_modules/@spectrum-css/checkbox/dist/index-vars';
 
@@ -67,6 +68,7 @@ body {
 }
 #octo-link {
   margin-left: 16px;
+  padding: 4px;
 }
 .spectrum-Panel {
   display: flex;
@@ -472,4 +474,18 @@ a:focus {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+#libraryDropdown {
+  width: 116px;
+}
+#modeDropdown {
+  width: 100%;
+}
+#addRatio {
+  justify-content: center;
+
+  > .spectrum-ActionButton-label {
+    width: auto;
+  }
 }
