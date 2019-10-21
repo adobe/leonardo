@@ -7480,8 +7480,15 @@ body {
   align-items: center;
   justify-content: space-between; }
 
+.spectrum-AppHeader--right {
+  display: flex;
+  flex-direction: row; }
+
 .spectrum-AppHeader-Title {
   margin: 0; }
+
+#octo-link {
+  margin-left: 16px; }
 
 .spectrum-Panel {
   display: flex;

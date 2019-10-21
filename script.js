@@ -31,6 +31,9 @@ var colorOutputField = document.getElementById('colorOutput');
 // var fieldColorOutput = document.getElementById('spectrum-Textfield-swatch');
 var swatches = 500; // in order to make a gradient, this count needs to be massive
 
+var lib = document.getElementById('library')
+// lib.addEventListener('change', colorInput());
+
 function paramSetup() {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
@@ -65,6 +68,9 @@ function paramSetup() {
   }
   if(params.has('mode')) {
     document.querySelector('select[name="mode"]').value = params.get('mode');
+  }
+  if(params.has('lib')) {
+    document.getElementById('library').value = params.get('lib');
   }
   else {
     addRatio(3);
@@ -272,6 +278,39 @@ function createDemo(c, z) {
   bIn.style.borderColor = z;
 }
 
+function colorspaceOptions() {
+  lib = document.getElementById('library').value;
+  colorspace = document.getElementById('mode');
+  colorspace.options.length = 0;
+
+  d3Opts = {
+    'LCH': 'Lch',
+    'LAB': 'Lab',
+    'CAM02': 'CIECAM02',
+    'HSL': 'HSL',
+    'HSLuv': 'HSLuv',
+    'RGB': 'RGB'
+  };
+  chromaOpts = {
+    'LCH': 'Lch',
+    'LAB': 'Lab',
+    'HSL': 'HSL',
+    'RGB': 'RGB'
+  };
+
+  if (lib == 'd3') {
+    for(index in d3Opts) {
+      colorspace.options[colorspace.options.length] = new Option(d3Opts[index], index);
+    }
+  }
+  if (lib == 'chroma') {
+    for(index in chromaOpts) {
+      colorspace.options[colorspace.options.length] = new Option(chromaOpts[index], index);
+    }
+  }
+}
+colorspaceOptions();
+
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
@@ -282,6 +321,7 @@ function colorInput() {
   var color1 = colorField1.value;
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
+  var lib = document.querySelector('select[name="library"]').value;
   var mode = document.querySelector('select[name="mode"]').value;
   // Gather input values for each input. Add those into array.
   var ratioFields = document.getElementsByClassName('ratioField');
@@ -293,7 +333,7 @@ function colorInput() {
   }
   console.log(ratioInputs);
 
-  adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode});
+  adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode, lib: lib});
 
   for(i=0; i<newColors.length; i++) {
     colorblock(newColors[i])
@@ -372,7 +412,7 @@ function updateParams(c, b, t, s, r, m, l) {
   params.set('ratios', r);
   params.set('mode', m);
   // TODO: uncomment when integrated with library options
-  // params.set('lib', l);
+  params.set('lib', l);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
 
