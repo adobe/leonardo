@@ -55,12 +55,12 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
         .domain([0, tintDomain, domain, shadeDomain, swatches])
         .interpolate(d3.interpolateRgb);
     }
-    if(colorspace == 'RGBgamma') {
-      scale = d3.scaleLinear()
-        .range([d3.rgb('#ffffff'), tint, d3.rgb(color), shade, d3.rgb('#000000')])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateRgb.gamma(2.2));
-    }
+    // if(colorspace == 'RGBgamma') {
+    //   scale = d3.scaleLinear()
+    //     .range([d3.rgb('#ffffff'), tint, d3.rgb(color), shade, d3.rgb('#000000')])
+    //     .domain([0, tintDomain, domain, shadeDomain, swatches])
+    //     .interpolate(d3.interpolateRgb.gamma(2.2));
+    // }
   }
 
   var Colors = d3.range(swatches).map(function(d) {
@@ -113,15 +113,19 @@ function contrast(rgb1, rgb2) {
   var cr2 = (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05) / (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05);
 
   if (cr1 < 1) { return cr2; }
-  if (cr1 >= 1) { return cr1; }
+  // if (cr1 >= 1) { return cr1; }
+  if (cr1 >= 1) { return cr1 * -1; } // Return as whole negative number
 }
+// test script:
+// contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number
 
 function contrastD3(rgb1, rgb2) {
   var cr1 = (luminance(d3.rgb(rgb1).r, d3.rgb(rgb1).g, d3.rgb(rgb1).b) + 0.05) / (luminance(d3.rgb(rgb2).r, d3.rgb(rgb2).g, d3.rgb(rgb2).b) + 0.05);
   var cr2 = (luminance(d3.rgb(rgb2).r, d3.rgb(rgb2).g, d3.rgb(rgb2).b) + 0.05) / (luminance(d3.rgb(rgb1).r, d3.rgb(rgb1).g, d3.rgb(rgb1).b) + 0.05);
 
   if (cr1 < 1) { return cr2; }
-  if (cr1 >= 1) { return cr1; }
+  // if (cr1 >= 1) { return cr1; }
+  if (cr1 >= 1) { return cr1 * -1; }
 }
 
 // Binary search to find index of contrast ratio that is input

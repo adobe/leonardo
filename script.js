@@ -109,7 +109,7 @@ function addRatio(v = 1, s = '#cacaca') {
   var input = document.createElement('input');
   input.className = 'spectrum-Textfield ratioField';
   input.type = "number";
-  input.min = '1';
+  input.min = '-10';
   input.max = '21';
   input.step = '.01';
   input.placeholder = 4.5;
@@ -355,7 +355,7 @@ function colorInput() {
   }
 
   // update URL parameters
-  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode, 'd3');
+  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode, 'd3');
 }
 colorInput(color1);
 
