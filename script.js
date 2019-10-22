@@ -63,7 +63,7 @@ function paramSetup() {
 
     for(i=0; i<ratios.length; i++) {
       addRatio(ratios[i]);
-      console.log(ratios[i]);
+      // console.log(ratios[i]);
     }
   }
   if(params.has('mode')) {
@@ -81,13 +81,6 @@ paramSetup();
 
 function colorblock(c){
   colorBlock.style.backgroundColor = c;
-  // demoBackgroundBlock.style.backgroundColor = c;
-  // demoText.style.color = c;
-  // demoHeading.style.color = c;
-  // demoButton.style.color = c;
-  // demoButton.style.borderColor = c;
-  // document.getElementById(inputId + '-sw');
-  // fieldColorOutput.style.backgroundColor = c;
 }
 colorblock(color1);
 
@@ -123,7 +116,7 @@ function addRatio(v = 1, s = '#cacaca') {
   input.value = v;
   input.oninput = colorInput;
   input.onfocus = showSlider;
-  input.onblur = hideSlider;
+  // input.addEventListener('blur', hideSlider);
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
   button.innerHTML = `
@@ -132,6 +125,8 @@ function addRatio(v = 1, s = '#cacaca') {
   </svg>`;
 
   createSlider(randId, v);
+  slider = document.getElementById(randId + "-sl");
+  slider.addEventListener('blur', hideSlider);
 
   button.onclick = deleteRatio;
   div.appendChild(sw);
@@ -158,7 +153,7 @@ function deleteRatio(e) {
 
   self.remove();
 }
-// random id's
+
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
@@ -189,12 +184,12 @@ function showSlider() {
   }
 }
 function hideSlider() {
-  var id = this.id;
-  var slider = document.getElementById(id + '-sl');
-  if (this.focus !== true && slider.focus !== true) {
-    slider.style.display = 'none';
+  // var id = this.id;
+  // var slider = document.getElementById(id + '-sl');
+  if (this.focus) {
+    this.style.display = 'none';
   } else {
-    slider.style.display = 'block';
+    this.style.display = 'block';
   }
 }
 function syncVal() {
@@ -326,7 +321,6 @@ function colorInput() {
   for(i=0; i < ratioFields.length; i++) {
     ratioInputs.push(ratioFields[i].value);
   }
-  console.log(ratioInputs);
 
   adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode, lib: lib});
 

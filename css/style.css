@@ -7990,7 +7990,3 @@ a:focus {
   justify-content: center; }
   #addRatio > .spectrum-ActionButton-label {
     width: auto; }
-
-.spectrum-ActionButton:focus {
-  border-color: var(--spectrum-alias-border-color-focus);
-  box-shadow: 0 0 0 1px var(--spectrum-alias-border-color-focus); }

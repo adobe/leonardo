@@ -88,14 +88,20 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   colors = Colors.filter(function (el) {
     return el != null;
   });
+  // Throw an error here if colors is empty or undefined.
+
+  // console.log(colors);
 
   var Contrasts = d3.range(swatches).map(function(d) {
-    var ca = contrastD3(scale(d), base).toFixed(2);
+    var rgbArray = [d3.rgb(scale(d)).r, d3.rgb(scale(d)).g, d3.rgb(scale(d)).b];
+    var baseRgbArray = [d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b];
+    var ca = contrast(rgbArray, baseRgbArray).toFixed(2);
+
     return Number(ca);
   });
   contrasts = Contrasts.filter(function (el) {
     return el != null;
-  })
+  });
 
   var baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
 
@@ -104,6 +110,7 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   // Return color matching target ratio, or closest number
   for(i=0; i < ratios.length; i++){
     var r = binarySearch(contrasts, ratios[i], baseLum);
+
     newColors.push(colors[r]);
   }
 
@@ -128,25 +135,25 @@ function luminance(r, g, b) {
 //   return (0.299*r + 0.587*g + 0.114*b);
 // }
 
-function contrast(rgb1, rgb2) {
-  var cr1 = (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05) / (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05);
-  var cr2 = (luminance(rgb2[0], rgb2[1], rgb2[2]) + 0.05) / (luminance(rgb1[0], rgb1[1], rgb1[2]) + 0.05);
+function contrast(color, base) {
+  var colorLum = luminance(color[0], color[1], color[2]);
+  var baseLum = luminance(base[0], base[1], base[2]);
 
-  if (cr1 < 1) { return cr2; }
-  // if (cr1 >= 1) { return cr1; }
-  if (cr1 >= 1) { return cr1 * -1; } // Return as whole negative number
+  var cr1 = (colorLum + 0.05) / (baseLum + 0.05);
+  var cr2 = (baseLum + 0.05) / (colorLum + 0.05);
+
+  // Only works for dark backgrounds now.
+  if(baseLum < 0.5) {
+    if (cr1 >= 1) { return cr1; }
+    else { return cr2 * -1; } // Return as whole negative number
+  } else {
+    if (cr1 < 1) { return cr2; }
+    else { return cr1 * -1; } // Return as whole negative number
+  }
+
 }
 // test scripts:
 // contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number
-
-function contrastD3(rgb1, rgb2) {
-  var cr1 = (luminance(d3.rgb(rgb1).r, d3.rgb(rgb1).g, d3.rgb(rgb1).b) + 0.05) / (luminance(d3.rgb(rgb2).r, d3.rgb(rgb2).g, d3.rgb(rgb2).b) + 0.05);
-  var cr2 = (luminance(d3.rgb(rgb2).r, d3.rgb(rgb2).g, d3.rgb(rgb2).b) + 0.05) / (luminance(d3.rgb(rgb1).r, d3.rgb(rgb1).g, d3.rgb(rgb1).b) + 0.05);
-
-  if (cr1 < 1) { return cr2; }
-  // if (cr1 >= 1) { return cr1; }
-  if (cr1 >= 1) { return cr1 * -1; }
-}
 
 // Binary search to find index of contrast ratio that is input
 // Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
