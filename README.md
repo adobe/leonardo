@@ -1,10 +1,10 @@
-# Adaptive Color
-Generate colors based on a desired contrast ratio, while defining "color" as a value spectrum
+# Leonardo
+Authoring adaptive color palettes for generating color based on a desired contrast ratio.
 
 ### Project Goals
 To make it easier for designers and engineers to leverage color science to create custom interpolations for a value scale, and to make it easier for designers and engineers to conform to [WCAG minimum contrast standards](https://www.w3.org/TR/WCAG21/#contrast-minimum) by using contrast ratio as the starting point, rather than a post-color-selection auditing process.
 
-1. [The Adaptive Color App](#adaptive-color-app)
+1. [Leonardo web application](leonardo-web-application)
 2. [Show me a demo](#show-me-a-demo)
 3. [What is "adaptive color"?](#what-is-adaptive-color)
 4. [Using Adaptive Color](#using-adaptive-color)
@@ -15,8 +15,8 @@ To make it easier for designers and engineers to leverage color science to creat
 9. [Licensing](#licensing)
 
 
-### Adaptive Color App
-The Adaptive Color App (adaptivecolor.app) is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to the `adaptivecolor` API and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
+### Leonardo web application
+The Leonardo web application is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to the `adaptcolor()` API and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
 
 ![Image showing Adobe contrast tool with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](https://git.corp.adobe.com/pages/nbaldwin/adaptive-color/AdobeContrastScreenshot.jpg)
 
@@ -34,7 +34,7 @@ I've written about this concept in more detail at the following links. The goals
 ### Using Adaptive Color
 #### Installing
 ```
-npm i adaptive-color
+npm i @adobe/leonardo-adaptive-color
 ```
 (coming soon)
 
@@ -51,7 +51,7 @@ adaptcolor(color: "#ff00ff", base: "#ffffff", ratios: [4.5]); // returns rgb val
 
 ### API Reference
 ```
-adaptcolor(base, color, ratios, tint, shade, colorspace, lib)
+adaptcolor(base, color, ratios, tint, shade, colorspace)
 ```
 
 Parameters are destructured and need to be explicitly called, such as `color: "#f26322"`.
@@ -66,18 +66,15 @@ Parameters are destructured and need to be explicitly called, such as `color: "#
 
 **shade** *string* is an optional color value to modify the path of the variable color's scale as it approaches **black**.
 
-**colorspace** *string* is the colorspace in which the variable color's scale will be interpolated within. Below are the available options per library.
+**colorspace** *string* is the colorspace in which the variable color's scale will be interpolated within. Below are the available options:
 
-| color space | d3  | chroma |
-| ----------- | --- | ------ |
-| Lab         | [x] | [x]    |
-| Lch         | [x] | [x]    |
-| CAM02       | [x] |        |
-| RGB         | [x] | [x]    |
-| HSL         | [x] | [x]    |
-| HSLuv       | [x] |        |
+- [Lab](https://en.wikipedia.org/wiki/CIELAB_color_space)
+- [Lch](https://en.wikipedia.org/wiki/HCL_color_space)
+- [CAM02](https://en.wikipedia.org/wiki/CIECAM02)
+- [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
+- [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV)
+- [HSLuv](https://en.wikipedia.org/wiki/HSLuv)
 
-**lib** *string* options are `d3` (default) and `chroma`.
 
 ### Why are not all contrast ratios available?
 You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.
