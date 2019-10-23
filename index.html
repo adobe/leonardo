@@ -130,22 +130,6 @@ governing permissions and limitations under the License.
       <div id="colorOutputs">
       </div>
     </div>
-    <!-- <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">W3C Contrast Guidelines <a href="https://www.w3.org/TR/WCAG21/#contrast-minimum" target="_blank">View</a></h3>
-      </div>
-      <div class="w3c-guideline">
-        <h4 class="spectrum-Subheading">Level AA</h4>
-        <p class="spectrum-Body4">Text and images of text: <strong>4.5:1</strong> </p>
-        <p class="spectrum-Body4">Large text: <strong>3:1</strong> </p>
-        <p class="spectrum-Body4">UI Component (exceptions): <strong>3:1</strong> </p>
-      </div>
-      <div class="w3c-guideline">
-        <h4 class="spectrum-Subheading">Level AAA</h4>
-        <p class="spectrum-Body4">Text and images of text: <strong>7:1</strong> </p>
-        <p class="spectrum-Body4">Large text: <strong>4.5:1</strong> </p>
-      </div>
-    </div> -->
     <div class="spectrum-Panel-Item">
       <div class="spectrum-Panel-Title">
         <h3 class="spectrum-Heading6">Function Parameters</h3>
@@ -153,12 +137,6 @@ governing permissions and limitations under the License.
       <div id="functionParams">
         <span id="params" class="spectrum-Code5"></span>
       </div>
-    </div>
-    <!-- Temporary for testing -->
-    <div class="spectrum-Panel-Item">
-      <button id="runTest" onclick="test()" class="spectrum-ActionButton">
-        <span class="spectrum-ActionButton-label">Run test</span>
-      </button>
     </div>
   </div>
 </div>
@@ -168,12 +146,6 @@ governing permissions and limitations under the License.
   // loadIcons('https://unpkg.com/@adobe/spectrum-css@2.7.1/dist/icons/spectrum-css-icons.svg');
   loadIcons('node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg');
   loadIcons('node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg');
-
-  function test() {
-    test = adaptcolor({color: "#0000ff",base: "#090909",ratios: [2,5],tint: "#fefefe",shade: "#010101", colorspace: "LCH",lib: "d3"});
-    // test = contrast([207, 207, 207], [255, 255, 255]);
-    console.log(test);
-  }
 </script>
 </body>
 </html>
