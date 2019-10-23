@@ -116,7 +116,7 @@ function addRatio(v = 1, s = '#cacaca') {
   input.id = randId;
   input.value = v;
   input.oninput = colorInput;
-  input.onfocus = showSlider;
+  // input.onfocus = showSlider;
   // input.addEventListener('blur', hideSlider);
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
@@ -125,9 +125,9 @@ function addRatio(v = 1, s = '#cacaca') {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  createSlider(randId, v);
-  slider = document.getElementById(randId + "-sl");
-  slider.addEventListener('blur', hideSlider);
+  // createSlider(randId, v);
+  // slider = document.getElementById(randId + "-sl");
+  // slider.addEventListener('blur', hideSlider);
 
   button.onclick = deleteRatio;
   div.appendChild(sw);
@@ -163,36 +163,37 @@ function createSlider(x, v) {
   var sliderWrapper = document.getElementById('sliderWrapper');
   var slider = document.createElement('input');
   slider.type = 'range';
-  slider.min = '1';
-  slider.max = '20';
+  slider.min = '0';
+  slider.max = '100';
   slider.value = v;
   slider.step = '.01';
   slider.oninput = syncInputVal;
   slider.className = 'slider'
   slider.id = x + "-sl";
-  slider.style.display = 'none';
+  // slider.style.display = 'none';
 
   sliderWrapper.appendChild(slider);
 }
 
-function showSlider() {
-  var id = this.id;
-  var slider = document.getElementById(id + '-sl');
-  if (this.focus || slider.focus) {
-    slider.style.display = 'block';
-  } else {
-    slider.style.display = 'none';
-  }
-}
-function hideSlider() {
-  // var id = this.id;
-  // var slider = document.getElementById(id + '-sl');
-  if (this.focus) {
-    this.style.display = 'none';
-  } else {
-    this.style.display = 'block';
-  }
-}
+
+// function showSlider() {
+//   var id = this.id;
+//   var slider = document.getElementById(id + '-sl');
+//   if (this.focus || slider.focus) {
+//     slider.style.display = 'block';
+//   } else {
+//     slider.style.display = 'none';
+//   }
+// }
+// function hideSlider() {
+//   // var id = this.id;
+//   // var slider = document.getElementById(id + '-sl');
+//   if (this.focus) {
+//     this.style.display = 'none';
+//   } else {
+//     this.style.display = 'block';
+//   }
+// }
 function syncVal() {
   id = this.id;
   slider = document.getElementById(id + '-sl');
@@ -324,9 +325,13 @@ function colorInput() {
   }
 
   adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode, lib: lib});
-
+  document.getElementById('sliderWrapper').innerHTML = ' ';
+  
   for(i=0; i<newColors.length; i++) {
     colorblock(newColors[i])
+    // Calculate value of color and apply to slider position/value
+    var val = d3.hsluv(newColors[i]).v;
+    createSlider(randomId(), val);
   }
 
   // Generate Gradient
