@@ -66,11 +66,12 @@ function paramSetup() {
       // console.log(ratios[i]);
     }
   }
-  if(params.has('mode')) {
-    document.querySelector('select[name="mode"]').value = params.get('mode');
-  }
   if(params.has('lib')) {
     document.getElementById('library').value = params.get('lib');
+    colorspaceOptions();
+  }
+  if(params.has('mode')) {
+    document.querySelector('select[name="mode"]').value = params.get('mode');
   }
   else {
     addRatio(3);
@@ -299,7 +300,7 @@ function colorspaceOptions() {
     }
   }
 }
-colorspaceOptions();
+// colorspaceOptions();
 
 // Calculate Color and generate Scales
 function colorInput() {
