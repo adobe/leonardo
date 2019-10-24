@@ -171,7 +171,7 @@ function createSlider(x, v) {
   slider.max = '100';
   slider.value = v;
   slider.step = '.01';
-  slider.oninput = syncInputVal;
+  // slider.oninput = syncInputVal;
   slider.className = 'slider'
   slider.id = x + "-sl";
   // slider.style.display = 'none';
@@ -345,14 +345,6 @@ function colorInput() {
 
   backgroundblock(background);
 
-  // Slider updates
-  // var sliderPos = document.getElementById('Slider').value;
-  // var colorDomainUpdate =  swatches - (swatches * sliderPos /500);
-  // var newRgb = colors[colorDomainUpdate];
-  // var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
-
-  // newHex = d3.rgb(newRgb).formatHex();
-  // colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2 + ":1";
   var colorOutputWrapper = document.getElementById('colorOutputs');
   colorOutputWrapper.innerHTML = '';
   wrap = document.getElementById('demoWrapper');
