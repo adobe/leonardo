@@ -306,6 +306,10 @@ function colorInput() {
   var mode = document.querySelector('select[name="mode"]').value;
   // Gather input values for each input. Add those into array.
   var ratioFields = document.getElementsByClassName('ratioField');
+  var rfIds = []
+  for (i=0; i<ratioFields.length; i++) {
+    rfIds.push(ratioFields[i].id);
+  }
   var ratioInputs = [];
 
   // For each ratio input field, push the value into the args array for adaptcolor
@@ -320,7 +324,9 @@ function colorInput() {
     colorblock(newColors[i])
     // Calculate value of color and apply to slider position/value
     var val = d3.hsluv(newColors[i]).v;
-    // createSlider(randomId(), val);
+    // Find corresponding input/slider id
+    var slider = document.getElementById(rfIds[i] + '-sl')
+    slider.value = val;
   }
 
   // Generate Gradient

@@ -7760,8 +7760,7 @@ body {
   background: transparent;
   border: 2px solid #fff;
   border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
   -webkit-appearance: none;
   appearance: none; }
 
@@ -7771,8 +7770,7 @@ body {
   background: transparent;
   border: 2px solid #fff;
   border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.15);
-  cursor: pointer; }
+  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3); }
 
 input[type=color] {
   -webkit-appearance: none;
@@ -7990,11 +7988,3 @@ a:focus {
   justify-content: center; }
   #addRatio > .spectrum-ActionButton-label {
     width: auto; }
-
-.dot {
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: 2px solid #fff;
-  border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.15); }
