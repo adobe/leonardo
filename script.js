@@ -25,16 +25,11 @@ var demoButtonInverted = document.getElementById('demoButtonInverted');
 var userColorBlock = document.getElementById('userColor');
 var userBgBlock = document.getElementById('userBg');
 var ratioInput = document.getElementById('ratio');
-// var targetRatio = ratioInput.value;
-// var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
 var colorOutputField = document.getElementById('colorOutput');
-// var fieldColorOutput = document.getElementById('spectrum-Textfield-swatch');
-var swatches = 500; // in order to make a gradient, this count needs to be massive
-
-var lib = document.getElementById('library')
-// lib.addEventListener('change', colorInput());
 
 function paramSetup() {
+  colorspaceOptions();
+
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
@@ -65,10 +60,6 @@ function paramSetup() {
       addRatio(ratios[i]);
       // console.log(ratios[i]);
     }
-  }
-  if(params.has('lib')) {
-    document.getElementById('library').value = params.get('lib');
-    colorspaceOptions();
   }
   if(params.has('mode')) {
     document.querySelector('select[name="mode"]').value = params.get('mode');
@@ -125,7 +116,7 @@ function addRatio(v = 1, s = '#cacaca') {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  // createSlider(randId, v);
+  createSlider(randId, v);
   // slider = document.getElementById(randId + "-sl");
   // slider.addEventListener('blur', hideSlider);
 
@@ -271,11 +262,10 @@ function createDemo(c, z) {
 }
 
 function colorspaceOptions() {
-  lib = document.getElementById('library').value;
   colorspace = document.getElementById('mode');
   colorspace.options.length = 0;
 
-  d3Opts = {
+  opts = {
     'LCH': 'Lch',
     'LAB': 'Lab',
     'CAM02': 'CIECAM02',
@@ -283,22 +273,9 @@ function colorspaceOptions() {
     'HSLuv': 'HSLuv',
     'RGB': 'RGB'
   };
-  chromaOpts = {
-    'LCH': 'Lch',
-    'LAB': 'Lab',
-    'HSL': 'HSL',
-    'RGB': 'RGB'
-  };
 
-  if (lib == 'd3') {
-    for(index in d3Opts) {
-      colorspace.options[colorspace.options.length] = new Option(d3Opts[index], index);
-    }
-  }
-  if (lib == 'chroma') {
-    for(index in chromaOpts) {
-      colorspace.options[colorspace.options.length] = new Option(chromaOpts[index], index);
-    }
+  for(index in opts) {
+    colorspace.options[colorspace.options.length] = new Option(opts[index], index);
   }
 }
 // colorspaceOptions();
@@ -313,7 +290,6 @@ function colorInput() {
   var color1 = colorField1.value;
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
-  var lib = document.querySelector('select[name="library"]').value;
   var mode = document.querySelector('select[name="mode"]').value;
   // Gather input values for each input. Add those into array.
   var ratioFields = document.getElementsByClassName('ratioField');
@@ -324,14 +300,14 @@ function colorInput() {
     ratioInputs.push(ratioFields[i].value);
   }
 
-  adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode, lib: lib});
-  document.getElementById('sliderWrapper').innerHTML = ' ';
-  
+  adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode});
+  // document.getElementById('sliderWrapper').innerHTML = ' ';
+
   for(i=0; i<newColors.length; i++) {
     colorblock(newColors[i])
     // Calculate value of color and apply to slider position/value
     var val = d3.hsluv(newColors[i]).v;
-    createSlider(randomId(), val);
+    // createSlider(randomId(), val);
   }
 
   // Generate Gradient
@@ -390,13 +366,13 @@ function colorInput() {
   }
 
   // update URL parameters
-  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode, 'd3');
+  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
 }
 colorInput(color1);
 
 
 // Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
-function updateParams(c, b, t, s, r, m, l) {
+function updateParams(c, b, t, s, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
@@ -406,8 +382,6 @@ function updateParams(c, b, t, s, r, m, l) {
   params.set('shade', s);
   params.set('ratios', r);
   params.set('mode', m);
-  // TODO: uncomment when integrated with library options
-  params.set('lib', l);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
 
@@ -420,7 +394,6 @@ function updateParams(c, b, t, s, r, m, l) {
   var ptin = 'tint: "#' + t + '",';
   var psha = 'shade: "#' + s + '",';
   var pmod = ' colorspace: "' + m + '",';
-  var plib = 'lib: "' + l + '"});';
   text1 = document.createTextNode(call);
   text2 = document.createTextNode(pcol);
   text3 = document.createTextNode(pbas);
@@ -428,7 +401,6 @@ function updateParams(c, b, t, s, r, m, l) {
   text5 = document.createTextNode(ptin);
   text6 = document.createTextNode(psha);
   text7 = document.createTextNode(pmod);
-  text8 = document.createTextNode(plib);
   p.appendChild(text1);
   p.appendChild(text2);
   p.appendChild(text3);
@@ -436,5 +408,4 @@ function updateParams(c, b, t, s, r, m, l) {
   p.appendChild(text5);
   p.appendChild(text6);
   p.appendChild(text7);
-  p.appendChild(text8);
 }

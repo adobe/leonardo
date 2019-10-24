@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], tint = '#fefefe', shade = '#010101', colorspace = 'LCH', lib = 'd3'} = {}) {
+function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], tint = '#fefefe', shade = '#010101', colorspace = 'LCH'} = {}) {
 
   // Using HSLuv "v" value as a uniform domain in gradients.
   // This should be uniform regardless of library / colorspace.
@@ -18,72 +18,46 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   tintDomain = swatches - swatches * (d3.hsluv(tint).v / 100);
   shadeDomain = swatches - swatches * (d3.hsluv(shade).v / 100);
 
-  if(lib == 'd3') {
-    if(colorspace == 'CAM02') {
-      scale = d3.scaleLinear()
-        .range([d3.jab('#ffffff'), d3.jab(tint), d3.jab(color), d3.jab(shade), d3.jab('#000000')])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateJab);
-    }
-    if(colorspace == 'LCH') {
-      scale = d3.scaleLinear()
-        .range([d3.hcl(NaN, 0, 100), d3.hcl(tint), d3.hcl(color), d3.hcl(shade), d3.hcl(NaN, 0, 0)])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateHcl);
-    }
-    if(colorspace == 'LAB') {
-      scale = d3.scaleLinear()
-        .range([d3.lab('#ffffff'), d3.lab(tint), d3.lab(color), d3.lab(shade), d3.lab('#000000')])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateLab);
-    }
-    if(colorspace == 'HSL') {
-      scale = d3.scaleLinear()
-        .range([d3.hsl('#ffffff'), d3.hsl(tint), d3.hsl(color), d3.hsl(shade), d3.hsl('#000000')])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateHsl);
-    }
-    if(colorspace == 'HSLuv') {
-      scale = d3.scaleLinear()
-        .range([d3.hsluv('#ffffff'), d3.hsluv(tint), d3.hsluv(color), d3.hsluv(shade), d3.hsluv('#000000')])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateHsluv);
-    }
-    if(colorspace == 'RGB') {
-      scale = d3.scaleLinear()
-        .range([d3.rgb('#ffffff'), d3.rgb(tint), d3.rgb(color), d3.rgb(shade), d3.rgb('#000000')])
-        .domain([0, tintDomain, domain, shadeDomain, swatches])
-        .interpolate(d3.interpolateRgb);
-    }
-    var Colors = d3.range(swatches).map(function(d) {
-      return scale(d)
-    });
+  if(colorspace == 'CAM02') {
+    scale = d3.scaleLinear()
+      .range([d3.jab('#ffffff'), d3.jab(tint), d3.jab(color), d3.jab(shade), d3.jab('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateJab);
+  }
+  if(colorspace == 'LCH') {
+    scale = d3.scaleLinear()
+      .range([d3.hcl(NaN, 0, 100), d3.hcl(tint), d3.hcl(color), d3.hcl(shade), d3.hcl(NaN, 0, 0)])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateHcl);
+  }
+  if(colorspace == 'LAB') {
+    scale = d3.scaleLinear()
+      .range([d3.lab('#ffffff'), d3.lab(tint), d3.lab(color), d3.lab(shade), d3.lab('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateLab);
+  }
+  if(colorspace == 'HSL') {
+    scale = d3.scaleLinear()
+      .range([d3.hsl('#ffffff'), d3.hsl(tint), d3.hsl(color), d3.hsl(shade), d3.hsl('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateHsl);
+  }
+  if(colorspace == 'HSLuv') {
+    scale = d3.scaleLinear()
+      .range([d3.hsluv('#ffffff'), d3.hsluv(tint), d3.hsluv(color), d3.hsluv(shade), d3.hsluv('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateHsluv);
+  }
+  if(colorspace == 'RGB') {
+    scale = d3.scaleLinear()
+      .range([d3.rgb('#ffffff'), d3.rgb(tint), d3.rgb(color), d3.rgb(shade), d3.rgb('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateRgb);
   }
 
-  // Well, this isn't working...
-  if(lib == 'chroma') {
-    if(colorspace=="LCH") {
-      scale = chroma.scale([chroma.hex('#ffffff').lch(), chroma.hex(tint).lch(), chroma.hex(color).lch(), chroma.hex(shade).lch(), chroma.hex('#000000').lch()])
-        .mode('lch')
-        .domain([0, tintDomain, domain, shadeDomain, swatches]);
-    }
-    if(colorspace=="LAB") {
-      scale = chroma.scale([chroma.hex('#ffffff').lab(), chroma.hex(tint).lab(), chroma.hex(color).lab(), chroma.hex(shade).lab(), chroma.hex('#000000').lab()])
-        .mode('lab')
-        .domain([0, tintDomain, domain, shadeDomain, swatches]);
-    }
-    if(colorspace=="HSL") {
-      scale = chroma.scale([chroma.hex('#ffffff').hsl(), chroma.hex(tint).hsl(), chroma.hex(color).hsl(), chroma.hex(shade).hsl(), chroma.hex('#000000').hsl()])
-        .mode('hsl')
-        .domain([0, tintDomain, domain, shadeDomain, swatches]);
-    }
-    if(colorspace=="RGB") {
-      scale = chroma.scale([chroma.hex('#ffffff').rgb(), chroma.hex(tint).rgb(), chroma.hex(color).rgb(), chroma.hex(shade).rgb(), chroma.hex('#000000').rgb()])
-        .mode('rgb')
-        .domain([0, tintDomain, domain, shadeDomain, swatches]);
-    }
-    var Colors = scale.colors(swatches);
-  }
+  var Colors = d3.range(swatches).map(function(d) {
+    return scale(d)
+  });
 
   colors = Colors.filter(function (el) {
     return el != null;
