@@ -87,7 +87,7 @@ function backgroundblock(b){
 backgroundblock(background);
 
 // Add ratio inputs
-function addRatio(v = 1, s = '#cacaca') {
+function addRatio(v = 3, s = '#cacaca') {
   var ratios = document.getElementById('ratios');
   var div = document.createElement('div');
   var randId = randomId();
@@ -133,6 +133,7 @@ function addRatio(v = 1, s = '#cacaca') {
   // for (var i = 0; i < list.length; i++) {
   //  list[i].setAttribute("id", "box" + i);
   // }
+  colorInput();
 }
 
 
