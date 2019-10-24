@@ -29,7 +29,6 @@ var colorOutputField = document.getElementById('colorOutput');
 
 function paramSetup() {
   colorspaceOptions();
-
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
@@ -87,7 +86,21 @@ function backgroundblock(b){
 backgroundblock(background);
 
 // Add ratio inputs
-function addRatio(v = 3, s = '#cacaca') {
+function addRatio(v = 1, s = '#cacaca') {
+  // Gather values of other inputs so we can
+  // increment by default
+  // var vals = document.getElementsByClassName('ratioField');
+  //
+  // if(v == undefined) {
+  //   var Array = [];
+  //   for(i=0; i<vals.length; i++) {
+  //     // place all existing values into array
+  //     Array.push(vals[i].value);
+  //   }
+  //   console.log(Array);
+  //   // TODO: find highest & lowest value in array
+  //   // TODO: if(highVal < 20) {v = highVal + 1} else (v=highVal)
+  // }
   var ratios = document.getElementById('ratios');
   var div = document.createElement('div');
   var randId = randomId();
@@ -133,7 +146,6 @@ function addRatio(v = 3, s = '#cacaca') {
   // for (var i = 0; i < list.length; i++) {
   //  list[i].setAttribute("id", "box" + i);
   // }
-  colorInput();
 }
 
 
