@@ -386,6 +386,11 @@ function colorInput() {
     createChart(arrayX2, yAxis);
     createChart(arrayX3, yAxis);
   }
+  if (mode=="CAM02" || mode=="LAB" || mode=="RGB") {
+    createChart(arrayX1, yAxis);
+    createChart(arrayX2, yAxis);
+    createChart(arrayX3, yAxis);
+  }
   // createChart(arrayX1, yAxis);
 
   // update URL parameters
@@ -439,50 +444,50 @@ function createData() {
   arrayX2 = [];
   arrayX3 = [];
   if(mode=="LCH") {
-    for(i=0; i<newColors.length; i++) {
-      arrayX1.push(d3.hcl(newColors[i]).h) // arrayX1 = Hue
-      arrayX2.push(d3.hcl(newColors[i]).c) // arrayX2 = Chroma
-      arrayX3.push(d3.hcl(newColors[i]).l) // arrayX3 = Luminosity
+    for(i=2; i<colors.length -2; i++) { // Clip array to eliminate NaN values
+      arrayX1.push(d3.hcl(colors[i]).h) // arrayX1 = Hue
+      arrayX2.push(d3.hcl(colors[i]).c) // arrayX2 = Chroma
+      arrayX3.push(d3.hcl(colors[i]).l) // arrayX3 = Luminosity
     }
     yAxis = [0, 100];
   }
   if(mode=="CAM02") {
-    for(i=0; i<newColors.length; i++) {
-      arrayX1.push(d3.jab(newColors[i]).J) // arrayX1 = J / L
-      arrayX2.push(d3.jab(newColors[i]).a) // arrayX2 = A
-      arrayX3.push(d3.jab(newColors[i]).b) // arrayX3 = B
+    for(i=0; i<colors.length; i++) {
+      arrayX1.push(d3.jab(colors[i]).J) // arrayX1 = J / L
+      arrayX2.push(d3.jab(colors[i]).a) // arrayX2 = A
+      arrayX3.push(d3.jab(colors[i]).b) // arrayX3 = B
     }
     yAxis = [0, 100];
   }
   if(mode=="LAB") {
-    for(i=0; i<newColors.length; i++) {
-      arrayX1.push(d3.lab(newColors[i]).l) // arrayX1 = J / L
-      arrayX2.push(d3.lab(newColors[i]).a) // arrayX2 = A
-      arrayX3.push(d3.lab(newColors[i]).b) // arrayX3 = B
+    for(i=0; i<colors.length; i++) {
+      arrayX1.push(d3.lab(colors[i]).l) // arrayX1 = J / L
+      arrayX2.push(d3.lab(colors[i]).a) // arrayX2 = A
+      arrayX3.push(d3.lab(colors[i]).b) // arrayX3 = B
     }
     yAxis = [0, 100];
   }
   if(mode=="HSL") {
-    for(i=0; i<newColors.length; i++) {
-      arrayX1.push(d3.hsl(newColors[i]).h) // arrayX1 = Hue
-      arrayX2.push(d3.hsl(newColors[i]).s) // arrayX2 = Saturation
-      arrayX3.push(d3.hsl(newColors[i]).l) // arrayX3 = Luminosity
+    for(i=2; i<colors.length  -2; i++) {
+      arrayX1.push(d3.hsl(colors[i]).h) // arrayX1 = Hue
+      arrayX2.push(d3.hsl(colors[i]).s) // arrayX2 = Saturation
+      arrayX3.push(d3.hsl(colors[i]).l) // arrayX3 = Luminosity
     }
     yAxis = [0, 1];
   }
   if(mode=="HSLuv") {
-    for(i=0; i<newColors.length; i++) {
-      arrayX1.push(d3.hsluv(newColors[i]).h) // arrayX1 = L
-      arrayX2.push(d3.hsluv(newColors[i]).u) // arrayX2 = U
-      arrayX3.push(d3.hsluv(newColors[i]).v) // arrayX3 = Value
+    for(i=0; i<colors.length; i++) {
+      arrayX1.push(d3.hsluv(colors[i]).l) // arrayX1 = L
+      arrayX2.push(d3.hsluv(colors[i]).u) // arrayX2 = U
+      arrayX3.push(d3.hsluv(colors[i]).v) // arrayX3 = Value
     }
     yAxis = [0, 100];
   }
   if(mode=="RGB") {
-    for(i=0; i<newColors.length; i++) {
-      arrayX1.push(d3.rgb(newColors[i]).r) // arrayX1 = Red
-      arrayX2.push(d3.rgb(newColors[i]).g) // arrayX2 = Green
-      arrayX3.push(d3.rgb(newColors[i]).b) // arrayX3 = Blue
+    for(i=0; i<colors.length; i++) {
+      arrayX1.push(d3.rgb(colors[i]).r) // arrayX1 = Red
+      arrayX2.push(d3.rgb(colors[i]).g) // arrayX2 = Green
+      arrayX3.push(d3.rgb(colors[i]).b) // arrayX3 = Blue
     }
     yAxis = [0, 255];
   }

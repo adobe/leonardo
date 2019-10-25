@@ -92,8 +92,8 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
 }
 
 // Test scripts:
-// adaptcolor({color: '#2451FF', base: '#f5f5f5', ratios: [3, 4.5], tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB', lib: 'd3'});
-// adaptcolor({color: "#0000ff",base: "#323232",ratios: [-1.25,4.5],tint: "#fefefe",shade: "#010101", colorspace: "LCH",lib: "d3"});
+// adaptcolor({color: '#2451FF', base: '#f5f5f5', ratios: [3, 4.5], tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB'});
+// adaptcolor({color: "#0000ff",base: "#323232",ratios: [-1.25,4.5],tint: "#fefefe",shade: "#010101", colorspace: "LCH"});
 
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
