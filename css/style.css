@@ -7987,3 +7987,25 @@ a:focus {
   justify-content: center; }
   #addRatio > .spectrum-ActionButton-label {
     width: auto; }
+
+/* Temp for charts */
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges; }
+
+.grid path,
+.grid line {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.25);
+  shape-rendering: crispEdges; }
+
+.x.axis path {
+  display: none; }
+
+.line {
+  fill: none;
+  stroke-width: 2.5px; }
+
+/* end temp for charts */
