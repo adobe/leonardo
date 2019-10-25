@@ -7581,12 +7581,13 @@ a.spectrum-ActionButton {
   color: var(--spectrum-checkbox-text-color-error-down, var(--spectrum-global-color-red-700)); }
 
 :root {
-  --gradient-height-offset: 316px;
+  --gradient-height-offset: 324px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: calc(100vh - var(--gradient-height-offset));
   --color-size: 32px;
   --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
-  --gradient-slider-height: calc(100vh - var(--gradient-height-offset)); }
+  --gradient-slider-height: calc(100vh - var(--gradient-height-offset));
+  --slider-thumb-size: 8px; }
 
 body {
   margin: 0;
@@ -7730,7 +7731,7 @@ body {
 #sliderWrapper {
   position: relative;
   display: flex;
-  padding: 0px 29px;
+  padding: 0px 0px;
   margin-top: -1px;
   justify-content: center;
   align-items: center;
@@ -7755,22 +7756,20 @@ body {
   border-radius: 3px; }
 
 .slider::-webkit-slider-thumb {
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: 2px solid #fff;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: #ffffff;
   border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
   -webkit-appearance: none;
   appearance: none; }
 
 .slider::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: 2px solid #fff;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: #ffffff;
   border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3); }
 
 input[type=color] {
   -webkit-appearance: none;

@@ -33,6 +33,7 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
+    "@adobe/focus-ring-polyfill": "^0.1.5",
     "@adobe/spectrum-css-workflow-icons": "^1.0.0-beta.7",
     "@spectrum-css/button": "^2.0.0-alpha.6",
     "@spectrum-css/checkbox": "^2.0.0-alpha.6",

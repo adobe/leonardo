@@ -121,7 +121,6 @@ function addRatio(v = 1, s = '#cacaca') {
   input.value = v;
   input.oninput = colorInput;
   // input.onfocus = showSlider;
-  // input.addEventListener('blur', hideSlider);
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
   button.innerHTML = `
@@ -174,30 +173,32 @@ function createSlider(x, v) {
   // slider.oninput = syncInputVal;
   slider.className = 'slider'
   slider.id = x + "-sl";
+  slider.disabled = true;
   // slider.style.display = 'none';
+  // slider.addEventListener('blur', hideSlider);
 
   sliderWrapper.appendChild(slider);
 }
 
 
-// function showSlider() {
-//   var id = this.id;
-//   var slider = document.getElementById(id + '-sl');
-//   if (this.focus || slider.focus) {
-//     slider.style.display = 'block';
-//   } else {
-//     slider.style.display = 'none';
-//   }
-// }
-// function hideSlider() {
-//   // var id = this.id;
-//   // var slider = document.getElementById(id + '-sl');
-//   if (this.focus) {
-//     this.style.display = 'none';
-//   } else {
-//     this.style.display = 'block';
-//   }
-// }
+function showSlider() {
+  var id = this.id;
+  var slider = document.getElementById(id + '-sl');
+  if (this.focus || slider.focus) {
+    slider.style.zIndex = '100';
+  } else {
+    slider.style.zIndex = '0';
+  }
+}
+function hideSlider() {
+  // var id = this.id;
+  // var slider = document.getElementById(id + '-sl');
+  if (this.focus) {
+    slider.style.zIndex = '0';
+  } else {
+    slider.style.zIndex = '100';
+  }
+}
 function syncVal() {
   id = this.id;
   slider = document.getElementById(id + '-sl');

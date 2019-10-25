@@ -32,12 +32,13 @@ governing permissions and limitations under the License.
   // --gradient-slider-height: calc(100vh - var(--spectrum-global-dimension-size-800) - 7px);
 
   // Smaller, subpanel location of gradient uses these vars
-  --gradient-height-offset: 316px;
+  --gradient-height-offset: 324px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: calc(100vh - var(--gradient-height-offset));
   --color-size: 32px;
   --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
   --gradient-slider-height: calc(100vh - var(--gradient-height-offset));
+  --slider-thumb-size: 8px; // 24px
 }
 
 body {
@@ -187,7 +188,8 @@ body {
 #sliderWrapper {
   position: relative;
   display: flex;
-  padding: 0px 29px;
+  // padding: 0px 21px;
+  padding: 0px 0px;
   margin-top: -1px;
   justify-content: center;
   align-items: center;
@@ -213,23 +215,27 @@ body {
 }
 
 .slider::-webkit-slider-thumb {
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: 2px solid #fff;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: #ffffff;
+  // background: transparent;
+  // border: 2px solid #fff;
   border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  // box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
   // cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
 }
 .slider::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: 2px solid #fff;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: #ffffff;
+  // background: transparent;
+  // border: 2px solid #fff;
   border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  // box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
   // cursor: pointer;
 }
 
