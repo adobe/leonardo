@@ -297,6 +297,7 @@ function colorspaceOptions() {
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
+  document.getElementById('charts').innerHTML = ' ';
 
   // var slider = document.getElementById('Slider');
   background = document.getElementById('bgField').value;
@@ -304,7 +305,7 @@ function colorInput() {
   var color1 = colorField1.value;
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
-  var mode = document.querySelector('select[name="mode"]').value;
+  mode = document.querySelector('select[name="mode"]').value;
   // Gather input values for each input. Add those into array.
   var ratioFields = document.getElementsByClassName('ratioField');
   var rfIds = []
@@ -377,6 +378,16 @@ function colorInput() {
     createDemo(newColors[i], background);
   }
 
+  createData();
+
+  if (mode=="LCH" || mode=="HSL" || mode=="HSLuv") {
+    // hue chart needs 0-360 range
+    createChart(arrayX1, [0, 360]);
+    createChart(arrayX2, yAxis);
+    createChart(arrayX3, yAxis);
+  }
+  // createChart(arrayX1, yAxis);
+
   // update URL parameters
   updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
 }
@@ -422,14 +433,73 @@ function updateParams(c, b, t, s, r, m) {
   p.appendChild(text7);
 }
 
+// Create data based on colorspace
+function createData() {
+  arrayX1 = [];
+  arrayX2 = [];
+  arrayX3 = [];
+  if(mode=="LCH") {
+    for(i=0; i<newColors.length; i++) {
+      arrayX1.push(d3.hcl(newColors[i]).h) // arrayX1 = Hue
+      arrayX2.push(d3.hcl(newColors[i]).c) // arrayX2 = Chroma
+      arrayX3.push(d3.hcl(newColors[i]).l) // arrayX3 = Luminosity
+    }
+    yAxis = [0, 100];
+  }
+  if(mode=="CAM02") {
+    for(i=0; i<newColors.length; i++) {
+      arrayX1.push(d3.jab(newColors[i]).J) // arrayX1 = J / L
+      arrayX2.push(d3.jab(newColors[i]).a) // arrayX2 = A
+      arrayX3.push(d3.jab(newColors[i]).b) // arrayX3 = B
+    }
+    yAxis = [0, 100];
+  }
+  if(mode=="LAB") {
+    for(i=0; i<newColors.length; i++) {
+      arrayX1.push(d3.lab(newColors[i]).l) // arrayX1 = J / L
+      arrayX2.push(d3.lab(newColors[i]).a) // arrayX2 = A
+      arrayX3.push(d3.lab(newColors[i]).b) // arrayX3 = B
+    }
+    yAxis = [0, 100];
+  }
+  if(mode=="HSL") {
+    for(i=0; i<newColors.length; i++) {
+      arrayX1.push(d3.hsl(newColors[i]).h) // arrayX1 = Hue
+      arrayX2.push(d3.hsl(newColors[i]).s) // arrayX2 = Saturation
+      arrayX3.push(d3.hsl(newColors[i]).l) // arrayX3 = Luminosity
+    }
+    yAxis = [0, 1];
+  }
+  if(mode=="HSLuv") {
+    for(i=0; i<newColors.length; i++) {
+      arrayX1.push(d3.hsluv(newColors[i]).h) // arrayX1 = L
+      arrayX2.push(d3.hsluv(newColors[i]).u) // arrayX2 = U
+      arrayX3.push(d3.hsluv(newColors[i]).v) // arrayX3 = Value
+    }
+    yAxis = [0, 100];
+  }
+  if(mode=="RGB") {
+    for(i=0; i<newColors.length; i++) {
+      arrayX1.push(d3.rgb(newColors[i]).r) // arrayX1 = Red
+      arrayX2.push(d3.rgb(newColors[i]).g) // arrayX2 = Green
+      arrayX3.push(d3.rgb(newColors[i]).b) // arrayX3 = Blue
+    }
+    yAxis = [0, 255];
+  }
+  console.log(arrayX1);
+  console.log(arrayX2);
+  console.log(arrayX3);
+}
 // Let's test making a chart, shall we?
-function createChart(data) {
-  var data = [ { label: "Data Set 1",
-               x: [0, 1, 2, 3, 4],
-               y: [0, 1, 2, 3, 4] },
-             { label: "Data Set 2",
-               x: [0, 1, 2, 3, 4],
-               y: [0, 1, 4, 9, 16] } ] ;
+function createChart(dataX, dataY) {
+  // var dataX = [0, 1, 2, 3, 4];
+  // var dataY= [0, 1, 2, 3, 4];
+  var data = [
+              {
+                x: dataX,
+                y: dataY
+              }
+           ];
   var xy_chart = d3_xy_chart()
       .width(300)
       .height(200)
@@ -569,4 +639,4 @@ function createChart(data) {
       return chart;
   }
 }
-createChart();
+// createChart();

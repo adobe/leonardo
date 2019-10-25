@@ -7627,9 +7627,11 @@ body {
   padding: 0;
   overflow: scroll; }
 
+.spectrum-Panel--small {
+  min-width: var(--spectrum-global-dimension-size-3000); }
+
 .spectrum-Panel--right {
   border-right: 0;
-  width: var(--spectrum-global-dimension-size-3000);
   border-left: 2px solid var(--spectrum-panel-border-color); }
 
 .spectrum-Panel--custom {
