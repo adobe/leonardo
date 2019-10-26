@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <meta property="og:image" content="http://connorgr.github.io/d3-cam02/static/mediathumb.png" />
+  <meta property="og:description" content="d3-cam02: a D3.js library to support CIECAM02 and CIECAM02-UCS color appearence models." />
+  <meta property="og:url"content="http://connorgr.github.io/d3-cam02" />
+  <meta property="og:title" content="d3-cam02" />
+
+<style>
+body {
+  font: 16px/1.5em "Helvetica Neue", Helvetica, sans-serif;
+  margin: 0em 0em 4em 0em;
+}
+
+section {
+  padding: 0 1em;
+  text-align: left;
+}
+
+h1 {
+  color: #ccc;
+  line-height: 64px;
+  font-size: 64px;
+  font-weight: 200;
+  letter-spacing: -2px;
+  margin-bottom: 15px;
+  /*white-space: nowrap;*/
+  /*margin-top: 20px;*/
+}
+
+h1,
+h2 {
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: steelblue;
+  cursor: pointer;
+}
+a:not(:hover) {
+  text-decoration: none;
+}
+
+h2 {
+  border-bottom: 1px dotted #eee;
+  border-top: 5px solid #eee;
+  color: #000;
+  padding: 15px 0 15px 0;
+}
+p {
+  color: #333;
+}
+strong {
+  color: #000;
+}
+
+code {
+  background: #eee;
+  border: 1px dotted #ccc;
+  border-radius: 3px;
+  padding: 4px 8px;
+}
+
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+.header {
+  background: #333;
+  margin: 0 auto;
+  padding: 100px 0;
+  text-align: center;
+}
+.caption {
+  font-size: 12px;
+  line-spacing: 12px;
+}
+
+.aside {
+  position: relative;
+  padding-bottom: 5px;
+}
+.aside::before {
+  background: repeating-linear-gradient(
+    -55deg,
+    #eee,
+    #eee 3px,
+    #ddd 3px,
+    #ddd 6px
+  );
+  display: block;
+  margin-right: 5px;
+  padding: 5px 0 5px 0;
+  position: absolute;
+  width: 40px;
+  content: "\00a0";
+  top:0;
+  bottom:0;
+  left:0;
+}
+
+.aside > * {
+  margin-left: 50px;
+}
+
+.line {
+  fill: none;
+  stroke-width: 4px;
+}
+</style>
+
+<style type="text/css">
+  .st0{fill:none;stroke:#000000;stroke-miterlimit:10;}
+  .st1{fill:none;stroke:#999999;stroke-miterlimit:10;}
+  .st2{font-family:'Helvetica';}
+  .st3{font-size:14px;}
+  .st4{font-family:'Helvetica-Bold';}
+</style>
+
+</head>
+<body>
+  <section class="header">
+  <svg width="96" height="91">
+    <clipPath id="clip">
+      <path d="M0,0h7.75a45.5,45.5 0 1 1 0,91h-7.75v-20h7.75a25.5,25.5 0 1 0 0,-51h-7.75zm36.2510,0h32a27.75,27.75 0 0 1 21.331,45.5a27.75,27.75 0 0 1 -21.331,45.5h-32a53.6895,53.6895 0 0 0 18.7464,-20h13.2526a7.75,7.75 0 1 0 0,-15.5h-7.75a53.6895,53.6895 0 0 0 0,-20h7.75a7.75,7.75 0 1 0 0,-15.5h-13.2526a53.6895,53.6895 0 0 0 -18.7464,-20z"/>
+    </clipPath>
+    <linearGradient id="gradient-1" gradientUnits="userSpaceOnUse" x1="7" y1="64" x2="50" y2="107">
+      <stop offset="0" stop-color="#f9a03c"/>
+      <stop offset="1" stop-color="#f7974e"/>
+    </linearGradient>
+    <linearGradient id="gradient-2" gradientUnits="userSpaceOnUse" x1="2" y1="-2" x2="87" y2="84">
+      <stop offset="0" stop-color="#f26d58"/>
+      <stop offset="1" stop-color="#f9a03c"/>
+    </linearGradient>
+    <linearGradient id="gradient-3" gradientUnits="userSpaceOnUse" x1="45" y1="-10" x2="108" y2="53">
+      <stop offset="0" stop-color="#b84e51"/>
+      <stop offset="1" stop-color="#f68e48"/>
+    </linearGradient>
+    <g clip-path="url(#clip)">
+      <path d="M-100,-102m-27,0v300h300z" fill="url(#gradient-1)"/>
+      <path d="M-100,-102m27,0h300v300z" fill="url(#gradient-3)"/>
+      <path d="M-100,-102l300,300" fill="none" stroke="url(#gradient-2)" stroke-width="40"/>
+    </g>
+  </svg>
+  <br />
+  <svg id="seqLogo" width="250" height="25" style="background: red; margin-top: 50px; border: 1px solid rgb(0, 0, 0); opacity: 0;">
+    <rect x="0" y="0" width="25" height="25" style="fill: rgb(173, 195, 189);"></rect>
+    <rect x="25" y="0" width="25" height="25" style="fill: rgb(156, 177, 179);"></rect>
+    <rect x="50" y="0" width="25" height="25" style="fill: rgb(138, 159, 169);"></rect>
+    <rect x="75" y="0" width="25" height="25" style="fill: rgb(120, 143, 162);"></rect>
+    <rect x="100" y="0" width="25" height="25" style="fill: rgb(101, 127, 155);"></rect>
+    <rect x="125" y="0" width="25" height="25" style="fill: rgb(83, 111, 151);"></rect>
+    <rect x="150" y="0" width="25" height="25" style="fill: rgb(65, 95, 148);"></rect>
+    <rect x="175" y="0" width="25" height="25" style="fill: rgb(48, 78, 149);"></rect>
+    <rect x="200" y="0" width="25" height="25" style="fill: rgb(31, 58, 153);"></rect>
+    <rect x="225" y="0" width="25" height="25" style="fill: rgb(25, 25, 166);"></rect>
+  </svg>
+
+  <h1>
+    CIECAM02 Color
+  </h1>
+  <a href="http://gramaz.io">Connor Gramazio</a>
+</section>
+
+<div class="container">
+<section>
+  <p><strong>d3-cam02</strong> is a beta-release
+    <a href="http://d3js.org">D3</a> extension
+    that supports CIECAM02-UCS Jab and CIECAM02 JCh color specifications.</p>
+
+  <p>d3-cam02 is open sourced
+    <a href="https://github.com/connorgr/d3-cam02">here</a>. If you want to take
+    a look at the extension in full, check it out on
+    <a href="https://unpkg.com/d3-cam02">unpkg</a>.</p>
+
+  <strong>Known Issues</strong>
+  <ul>
+    <li>There is undefined behavior when converting colors that substantially
+        fall outside of the sRGB gamut from CIECAM02 or CIECAM02-UCS to sRGB
+        (e.g., <code>d3.jch(12,90,90).rgb()</code>).
+        This behavior is, strangely, consistent with other CIECAM02 to XYZ to
+        RGB conversion implementations.
+        If you know why this happens, I'd love to know!
+    </li>
+  </ul>
+
+  <strong>Table of contents</strong>
+  <ol>
+    <li>
+      <a href="#installation">Installation</a>
+    </li>
+    <li>
+      <a href="#ciecam02">What is CIECAM02?</a>
+      <ol>
+        <li><a href="#perceptualUniformity">Perceptual Uniformity</a></li>
+        <li><a href="#cam02vsucs">CIECAM02 vs. CIECAM02-UCS</a></li>
+        <li><a href="#cam02vsLab">CIECAM02-UCS vs. CIELAB</a></li>
+      </ol>
+    </li>
+    <li><a href="#examples">Examples</a></li>
+    <li><a href="#furtherReading">Further reading</a></li>
+  </ol>
+</section>
+
+<h2>Installation <a name="installation" href="#installation">📎</a></h2>
+<section>
+  <p>To access the latest version of d3-cam02, grab it on
+    <a href="https://unpkg.com/d3-cam02">unpkg</a>. Be sure to load d3-cam02
+    after d3-color is loaded (be it through d3.v4.js, d3-color.js, or
+    otherwise).</p>
+  <p>If installing and building from scratch, download the repo either through
+      <a href="https://github.com/connorgr/d3-cam02">GitHub</a> or through
+      <a href="https://npmjs.com/d3-cam02">npm</a>.
+      Once you've downloaded it, just run <code>npm install</code>, which will
+      install the required dependencies.
+      Note that building requires
+      <a href="https://nodejs.org/en/">node.js</a> and
+      <a href="https://www.npmjs.com/">npm</a>.</p>
+
+  <p>D3 module dependencies:
+    <a href="https://github.com/d3/d3-color">d3-color</a>.</p>
+</section>
+
+<h2>What is CIECAM02? <a name="ciecam02" href="#ciecam02">📎</a></h2>
+<section>
+  <p>CIECAM02 is a color appearence model designed by the International
+    Commision on Illumination to accurately model human
+    color perception [<a href="#cam02wiki">1</a>]. d3-cam02
+    exposes two color specifications. One is CIECAM02 JCh, which defines color
+    in terms of lightness,
+    <a href="https://en.wikipedia.org/wiki/Chroma#Color">chroma</a>, and hue.
+    The second is CIECAM02-UCS Jab, which defines color in terms of human
+    opponent color processing: lightness (J), redness-to-greenness (a), and
+    blueness-to-yellowness (b).
+    The lightness of JCh and Jab are not equivalent given that Jab is put
+    through a lightness transform when defined by JCh color.
+  </p>
+
+  <div class="aside">
+    <strong>Aside for color scientists</strong>
+    <p>Given the variance in display output we assume average viewing
+      conditions when calculating CIECAM02, but include dim and dark transforms
+      in the source code.</p>
+    <p>While there are always precision concerns when defining color for online
+      audiences, Maureen Stone <em>et al</em> found that display color variance
+      was still small enough to preserve the utility of using CIELAB color
+      online [<a href="#stoneCIELAB">2</a>].
+      We make the assumption that this also holds true of CIECAM02 and
+      CIECAM02-UCS color.
+    </p>
+  </div>
+
+    <h3>Perceptual uniformity
+      <a name="perceptualUniformity" href="#perceptualUniformity">📎</a>
+    </h3>
+    <p><em>Perceptual uniformity</em> is the idea that Euclidean distance
+      between colors in color space should match human color perception distance
+      judgements. For example, a blue and red that are distance <em>d</em> apart
+      should look as discriminable as a green and purple that are distance
+      <em>d</em> apart.</p>
+
+    <p>Perceptual uniformity is important for visualization because color
+      distance often encodes meaning, and a visualization's effectiveness is
+      largely derived from its ability to accurately convey underlying data.</p>
+
+    <p>Digital color spaces like RGB and CYM <em>are not</em> perceptually
+      uniform, and should therefore not be used when creating visualization
+      color scales or palettes. Instead, designers should utilize spaces that
+      are modeled after human color perception such as CIELAB or CIECAM02-UCS
+      (see <a href="#cielabVsCam02ucs">below</a> for a comparison).</p>
+
+  <h3>CIECAM02 vs. CIECAM02-UCS
+    <a name="cam02vsucs" href="#cam02vsucs">📎</a>
+  </h3>
+  <p>CIECAM02 is a color appearence model that was designed to better simulate
+    typical human color vision. The goal of such models is to define color space
+    such that linearly changing color specifications like chroma or hue also
+    produces linear changes in human perception of chroma or hue. To achieve
+    this, CIECAM02 defines color by simulating responses of human long, medium,
+    and short cone cells with CIECAT02 [<a href="#lmsColorSpace">3</a>] and
+    translates those responses into familiar color terms (e.g., hue).</p>
+
+  <p>CIECAM02-UCS is a manipulation of CIECAM02 that makes the original space
+    perceptually uniform [<a href="#cam02ucsPaper">4</a>].
+    To calculate perceptual/color distance, you can use
+    <em>color</em>.de(<em>color</em>), which calculates an adjusted
+    Euclidean distance between the two colors. This distance is commonly
+    referred to as ∆E or DE [<a href="#deWiki">5</a>].</p>
+
+  <p>Because CIECAM02-UCS is a transform of CIECAM02, lightness (J) is not
+    equivalent between the two spaces.</p>
+
+  <h3 id="#cielabVsCam02ucs">
+    CIECAM02-UCS vs. CIELAB
+    <a name="cam02vsLab" href="#cam02vsLab">📎</a>
+  </h3>
+  <p>Perhaps the most common perceptually uniform color space that is currently
+    used by designers is CIELAB color space characterized with CIE Standard
+    Illuminant D65. If you've ever used d3.lab, you've used this color space.
+    So how does CIECAM02-UCS differ from CIELAB? Maybe the best way is to see
+    color interpolation differences:</p>
+
+  <div id="interpolationContainer"></div>
+
+  <p>As evident, even though CAM02-UCS and CIELAB are both perceptually
+    uniform approximations, they define color in different ways.
+    Also note how each compares to RGB, which is not perceptually grounded.
+    You can see the assymetry between CIELAB and CIECAM02-UCS in Li, Cuo, and
+    Luo's plot comparing uniformity results using colors from the Optical
+    Society of America, where more grid-like meshes reflect greater perceptual
+    uniformity:</p>
+
+  <div>
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       viewBox="0 0 525 280" style="enable-background:new 0 0 525 280;" xml:space="preserve">
+      <g>
+        <line class="st0" x1="127" y1="25.5" x2="127" y2="274.5"/>
+        <line class="st0" x1="4.8" y1="150" x2="249.4" y2="150"/>
+        <line class="st0" x1="147.5" y1="150" x2="147.5" y2="155.2"/>
+        <line class="st0" x1="167.9" y1="150" x2="167.9" y2="155.2"/>
+        <line class="st0" x1="188.3" y1="150" x2="188.3" y2="155.2"/>
+        <line class="st0" x1="208.8" y1="150" x2="208.8" y2="155.2"/>
+        <line class="st0" x1="229" y1="150" x2="229" y2="155.2"/>
+        <line class="st0" x1="249.4" y1="150" x2="249.4" y2="155.2"/>
+        <line class="st0" x1="4.8" y1="150" x2="4.8" y2="155.2"/>
+        <line class="st0" x1="25.2" y1="150" x2="25.2" y2="155.2"/>
+        <line class="st0" x1="45.6" y1="150" x2="45.6" y2="155.2"/>
+        <line class="st0" x1="66" y1="150" x2="66" y2="155.2"/>
+        <line class="st0" x1="86.2" y1="150" x2="86.2" y2="155.2"/>
+        <line class="st0" x1="106.7" y1="150" x2="106.7" y2="155.2"/>
+        <line class="st0" x1="127" y1="170.9" x2="121.8" y2="170.9"/>
+        <line class="st0" x1="127" y1="191.5" x2="121.8" y2="191.5"/>
+        <line class="st0" x1="127" y1="212.5" x2="121.8" y2="212.5"/>
+        <line class="st0" x1="127" y1="233" x2="121.8" y2="233"/>
+        <line class="st0" x1="127" y1="254" x2="121.8" y2="254"/>
+        <line class="st0" x1="127" y1="274.5" x2="121.8" y2="274.5"/>
+        <line class="st0" x1="127" y1="25.5" x2="121.8" y2="25.5"/>
+        <line class="st0" x1="127" y1="45.9" x2="121.8" y2="45.9"/>
+        <line class="st0" x1="127" y1="66.3" x2="121.8" y2="66.3"/>
+        <line class="st0" x1="127" y1="87.2" x2="121.8" y2="87.2"/>
+        <line class="st0" x1="127" y1="108.2" x2="121.8" y2="108.2"/>
+        <line class="st0" x1="127" y1="129.8" x2="121.8" y2="129.8"/>
+      </g>
+      <g id="Layer_2">
+        <path class="st1" d="M204.5,193.5c0,0-20.5-58-4.5-168c0,0-79.5,9-130.5,8c0,0-14.5,127.5,34,192"/>
+        <path class="st1" d="M140,247.5c0,0-28.5-38.5-39-95.5S99,33.2,99,33.2"/>
+        <path class="st1" d="M160.7,245.7c0,0-26.7-42.7-33.7-95.3s-2-103.7,0-118.5"/>
+        <path class="st1" d="M170.3,221c0,0-17.3-46-19.3-73s-4-78.7,1.7-118"/>
+        <path class="st1" d="M190.7,218.7c0,0-17-42-18.7-98s5.7-92.9,5.7-92.9"/>
+        <path class="st1" d="M224,190.3c0,0-13-38.7-6-131.7"/>
+        <path class="st1" d="M238.3,55.7c-4.7,64,0,108,0,108"/>
+        <path class="st1" d="M45.7,153.7c-12.3-47-8.7-84.3-8.7-84.3"/>
+        <path class="st1" d="M37,69.3c0,0,122.3-0.3,201.3-13.7"/>
+        <path class="st1" d="M236.7,86c0,0-81,12.7-199.7,13.5"/>
+        <path class="st1" d="M40.1,127.3c0,0,115.4-0.9,196.2-14.6"/>
+        <path class="st1" d="M45.7,153.7c0,0,112.8-1.9,191-14.9"/>
+        <path class="st1" d="M80.5,178.1c0,0,117.2-5.4,157.8-14.4"/>
+        <path class="st1" d="M224,190.3c0,0-65.6,10.8-134.5,11.6"/>
+        <path class="st1" d="M103.5,225.5c0,0,73.8-3.8,87.2-6.8"/>
+        <path class="st1" d="M140,247.5c0,0,12.7,0.8,20.7-1.8"/>
+      </g>
+      <g>
+        <path class="st1" d="M323,78.7c0,0-14.7,66.3-12.3,77.7"/>
+        <path class="st1" d="M350,52.3c0,0-4,39.3-12,63s-12.3,73.3,3.3,116.3"/>
+        <path class="st1" d="M373.7,52.3c0,0,3.7,14.7-8,67.7s-11.7,49.3,2.7,129"/>
+        <path class="st1" d="M398.5,52.3c0,0,2,25.9,1.5,43.2s0.1,2.2-0.7,24.8S394.8,249,394.8,249"/>
+        <path class="st1" d="M424.5,228.5c0,0,6.8-28.5,9-49c0,0-2.1-46.5-6-60.5c-0.9-3.1-3.5-60.3-6-66.7"/>
+        <path class="st1" d="M443.8,54.2c0,0,10.2,81.5,11.8,89.2s3.5,44.5-4.8,75.8"/>
+        <path class="st1" d="M474.5,188.8c0,0,4.5-25.2-2-70s-7.2-57.5-9.2-63.2"/>
+        <path class="st1" d="M491,181.2c0,0,3.5-24-1.5-63.8s-3.5-35.5-5-39.8"/>
+        <path class="st1" d="M506.2,156.3c0,0-1.2-62.6-5-78.6"/>
+        <path class="st1" d="M350,52.3c0,0,57-0.8,113.2,1.9"/>
+        <path class="st1" d="M323,78.7c0,0,21.2-6.2,77.1-4.7s92.9,3.2,101.2,3.8"/>
+        <path class="st1" d="M317.8,103c0,0,23.2-6.5,52.8-7.8s55.2,1,55.2,1s75.8,1.2,77.8,1.2"/>
+        <path class="st1" d="M313.1,129.5c0,0,22.6-7.7,52.6-9.7c13-0.9,31.7,0.2,33.6,0c8.5-0.7,105.6-2.7,105.6-2.7"/>
+        <path class="st1" d="M310.4,156.3c0,0,40.1-1.8,87.8-7.3s103.6-11,107.4-13.2"/>
+        <path class="st1" d="M331.2,185.5c0,0,46.5,8.2,65.5,4.5s45-12.8,48.8-14.8s49.2-17.8,60.8-18.9"/>
+        <path class="st1" d="M335.2,211c0,0,41.5,8.2,60.5,4c0,0,39-8.2,48-13.2s45-17.8,47.2-20.5"/>
+        <path class="st1" d="M341.3,231.7c0,0,33.4,5.6,53.4,2.3s46.9-9,55.6-14.8"/>
+        <path class="st1" d="M368.3,249c0,0,20.7,1.2,26.4,0"/>
+      </g>
+      <g>
+        <line class="st0" x1="398.5" y1="25.6" x2="398.5" y2="272.5"/>
+        <line class="st0" x1="519.2" y1="148.9" x2="277.2" y2="148.9"/>
+        <line class="st0" x1="277.2" y1="149.2" x2="277.2" y2="154.4"/>
+        <line class="st0" x1="307.4" y1="148.9" x2="307.4" y2="154"/>
+        <line class="st0" x1="337.8" y1="148.9" x2="337.8" y2="154"/>
+        <line class="st0" x1="368.1" y1="148.9" x2="368.1" y2="154"/>
+        <line class="st0" x1="428.5" y1="148.9" x2="428.5" y2="154"/>
+        <line class="st0" x1="458.8" y1="148.9" x2="458.8" y2="154"/>
+        <line class="st0" x1="489" y1="148.9" x2="489" y2="154"/>
+        <line class="st0" x1="519.2" y1="148.9" x2="519.2" y2="154"/>
+        <line class="st0" x1="398.2" y1="180" x2="393.1" y2="180"/>
+        <line class="st0" x1="398.2" y1="210.7" x2="393.1" y2="210.7"/>
+        <line class="st0" x1="398.2" y1="241.5" x2="393.1" y2="241.5"/>
+        <line class="st0" x1="398.4" y1="272.5" x2="393.2" y2="272.5"/>
+        <line class="st0" x1="398.5" y1="118" x2="393.3" y2="118"/>
+        <line class="st0" x1="398.5" y1="87" x2="393.3" y2="87"/>
+        <line class="st0" x1="398.5" y1="56.2" x2="393.3" y2="56.2"/>
+        <line class="st0" x1="398.5" y1="25.6" x2="393.3" y2="25.6"/>
+      </g>
+      <text transform="matrix(1 0 0 1 13.1667 225.5001)" class="st2 st3">x: a*</text>
+      <text transform="matrix(1 0 0 1 13.1667 247.1001)" class="st2 st3">y: b*</text>
+      <text transform="matrix(1 0 0 1 13.1667 268.7001)" class="st2 st3">tick: 10 units</text>
+      <text transform="matrix(1 0 0 1 100.9446 14)" class="st4 st3">CIELAB</text>
+      <text transform="matrix(1 0 0 1 344.9331 14)" class="st4 st3">CIECAM02-UCS</text>
+    </svg>
+
+
+    <p class="caption">CIELAB and CIECAM02-UCS comparison reconstructed from Li, Cui, and Luo
+      2006 [<a href="#uniformColorPaper">6</a>]. Non-skewed grids reflect
+      perceptual uniformity. Data based on fitting perceptually uniform colors
+      as determined by the Optical Society of America.</p>
+
+  <p>So, is it worth using CIECAM02-UCS instead of CIELAB? As with most design
+    decisions, there isn't a definite answer. Although CIECAM02 gives a more
+    uniform approximation, it is unclear what the actual magnitude of difference
+    would be on average for online audiences given the diaspora of displays that
+    an audience could use. But, greater precision never hurts either.
+    Ultimately, by even considering perceptual uniform spaces to begin with you
+    are taking a step in the right direction, regardless of which you
+    select.</p>
+</section>
+
+<h2>Examples <a name="examples" href="#examples">📎</a></h2>
+<section>
+  <p><a href="http://bl.ocks.org/connorgr/0a299fe77d5c7feccd22e02f2ac5d69b">Interactive CIECAM02 and CIECAM02-UCS color picker</a></p>
+</section>
+
+<h2>Further reading <a name="furtherReading" href="#furtherReading">📎</a></h2>
+<section>
+  <h3>Citations</h3>
+  <ol>
+    <li><a href="https://en.wikipedia.org/wiki/CIECAM02" id="cam02wiki">Wikipedia entry on CIECAM02 color</a></li>
+    <li><a href="https://research.tableau.com/paper/engineering-model-color-difference-function-size" id="stoneCIELAB">Stone, Szafir, Setlur. "An Engineering Model for Color Difference as a Function of Size," <em>22nd IS&amp;T Color and Imaging Conference</em>. 2014.</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/LMS_color_space" id="lmsColorSpace">Wikipedia entry on LMS color space</a></li>
+    <li><a href="https://scholar.google.com/scholar?q=CIECAM02+and+Its+Recent+Developments+luo" id="cam02ucsPaper">Luo and Li. "CIECAM02 and its recent developments," <em>Advanced Color Image Processing and Analysis</em>. 2013.</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Color_difference" id="deWiki">Wikipedia entry on color difference (∆E or DE)</a></li>
+    <li><a href="http://dx.doi.org/10.1002/col.20227" id="uniformColorPaper">Luo, Cui, and Li. "Uniform Colour Spaces Based on CIECAM02 Colour Appearance Model," <em>Color Research &amp; Application</em>. 2006.</a></li>
+  </ol>
+
+  <h3>Other useful links</h3>
+</section>
+</div>
+
+<p style="width: 100%; text-align: center; margin-top: 100px;color: #aaa;">Provided free-to-use and open-sourced. See Github for specific licensing information.</p>
+  <script src="https://d3js.org/d3-selection.v1.min.js"></script>
+
+  <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+  <script src="https://d3js.org/d3-color.v1.min.js"></script>
+
+  <script src="https://d3js.org/d3-scale.v1.min.js"></script>
+
+  <script src="https://d3js.org/d3-ease.v1.min.js"></script>
+  <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+  <script src="https://d3js.org/d3-timer.v1.min.js"></script>
+  <script src="https://d3js.org/d3-transition.v1.min.js"></script>
+
+  <script src="https://unpkg.com/d3-cam02"></script>
+  <script>
+  // Discretizes the interpolation as rectangles equal to the number of divisions
+  function interpolationFill(container, w, h, start, end) {
+    container = container.append('div').style('display', 'inline-block');
+    container.append('p')
+        .text(start + ' to ' + end)
+        .style('color', 'black')
+        .style('margin-bottom', 0)
+        .style('text-align', 'left');
+    var svg = container.append('svg')
+        .attr('width', w.toString() + 'px')
+        .attr('height', h.toString() + 'px');
+
+    var marginRight = 100,
+        divisions = w - marginRight;
+
+    var rectW = (w-100)/(divisions+1),
+        jab = d3.scaleLinear().domain([0, divisions-1])
+            .interpolate(d3.interpolateJab)
+            .range([d3.rgb(start), d3.rgb(end)]),
+        lab = d3.scaleLinear().domain([0, divisions-1])
+            .interpolate(d3.interpolateLab)
+            .range([d3.rgb(start), d3.rgb(end)]),
+        rgb = d3.scaleLinear().domain([0, divisions-1])
+            .interpolate(d3.interpolateRgb)
+            .range([d3.rgb(start), d3.rgb(end)]);
+
+    for(var x = 0; x < divisions; x++) {
+      svg.append('rect')
+          .attr('x', x*rectW)
+          .attr('y', 0)
+          .attr('width', rectW+rectW/2)
+          .attr('height', h/3)
+          .style('fill', jab(x));
+      svg.append('rect')
+          .attr('x', x*rectW)
+          .attr('y', h/3)
+          .attr('width', rectW+rectW/2)
+          .attr('height', h/3)
+          .style('fill', lab(x));
+      svg.append('rect')
+          .attr('x', x*rectW)
+          .attr('y', 2*h/3)
+          .attr('width', rectW+rectW/2)
+          .attr('height', h/3)
+          .style('fill', rgb(x));
+    }
+
+    svg.append('text')
+        .attr('x', w - marginRight)
+        .attr('y', h/3)
+        .style('font-size', 14)
+        .text('CAM02-UCS');
+    svg.append('text')
+        .attr('x', w - marginRight)
+        .attr('y', 2*h/3)
+        .style('font-size', 14)
+        .text('CIELAB');
+    svg.append('text')
+        .attr('x', w - marginRight)
+        .attr('y', h)
+        .style('font-size', 14)
+        .text('RGB');
+  }
+
+
+  function initJabSequence() {
+    function randChannel() { return Math.random()*255; }
+    var svg = d3.select('#seqLogo'),
+        start = '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6),
+        end = '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6),
+
+    start = d3.jab(start);
+    end = d3.jab(end);
+
+    var interp = d3.scaleLinear().domain([0, 9])
+            .interpolate(d3.interpolateJab)
+            .range([d3.rgb(start), d3.rgb(end)]);
+
+    d3.inter
+    svg.selectAll('rect').each(function(d,i) {
+      d3.select(this).style('fill', interp(i));
+    });
+
+    svg.transition()
+      .duration(2000)
+      .style('opacity', 1);
+  }
+
+  (function() {
+    initJabSequence();
+
+    // bg is an L*=50 gray for a neutral color
+    var container = d3.select('#interpolationContainer')
+            .style('background-color', d3.jab(50,0,0))
+        .append('div')
+            .style("margin", "0 auto")
+            .style('text-align', 'center')
+            .style('width', '100%')
+            .style('padding', '15px');
+
+    interpolationFill(container, 300, 50, 'white', 'blue');
+    interpolationFill(container, 300, 50, 'DeepSkyBlue', 'DarkOrange');
+    interpolationFill(container, 300, 50, 'red', 'blue');
+    interpolationFill(container, 300, 50, 'white', 'black');
+
+    container.selectAll('svg').style('display', 'block');
+
+  })();
+
+  </script>
+</body>
+</html>
