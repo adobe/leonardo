@@ -114,7 +114,7 @@ governing permissions and limitations under the License.
       </div> -->
       <!-- end test -->
 
-      <label for="mode" class="spectrum-FieldLabel">Color space (interpolation mode)</label>
+      <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
       <div class="spectrum-Dropdown" id="modeDropdown">
         <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
         </select>
@@ -122,6 +122,12 @@ governing permissions and limitations under the License.
           <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
         </svg>
       </div>
+      <button id="toggleMetrics" onclick="toggleGraphs()" class="spectrum-ActionButton">
+        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+          <use xlink:href="#spectrum-icon-18-Visibility" />
+        </svg>
+        <span class="spectrum-ActionButton-label">Color Graphs</span>
+      </button>
 
     </div>
     <div class="spectrum-Panel-Item">
@@ -153,10 +159,10 @@ governing permissions and limitations under the License.
     </div>
   </div>
 
-  <div class="spectrum-Panel spectrum-Panel--small">
+  <div class="spectrum-Panel spectrum-Panel--small" id="colorMetrics">
     <div class="spectrum-Panel-Item">
       <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Color Metrics</h3>
+        <h3 class="spectrum-Heading6">Color Graphs</h3>
       </div>
       <div id="charts">
       </div>

@@ -380,13 +380,16 @@ function colorInput() {
 
   createData();
 
-  console.log(camData);
-  createChartHeader('CAM02');
-  createChart(camData);
-  createChartHeader('LAB');
-  createChart(labData);
   createChartHeader('LCH');
   createChart(lchData);
+  createChartHeader('LAB');
+  createChart(labData);
+  createChartHeader('CAM02');
+  createChart(camData);
+  createChartHeader('HSL');
+  createChart(hslData);
+  createChartHeader('HSLuv');
+  createChart(hsluvData);
   createChartHeader('RGB');
   createChart(rgbData);
 
@@ -446,6 +449,12 @@ function createData() {
   LCH_L = [];
   LCH_C = [];
   LCH_H = [];
+  HSL_H = [];
+  HSL_S = [];
+  HSL_L = [];
+  HSLuv_L = [];
+  HSLuv_U = [];
+  HSLuv_V = [];
   RGB_R = [];
   RGB_G = [];
   RGB_B = [];
@@ -464,6 +473,12 @@ function createData() {
     RGB_R.push(d3.rgb(colors[i]).r);
     RGB_G.push(d3.rgb(colors[i]).g);
     RGB_B.push(d3.rgb(colors[i]).b);
+    HSL_H.push(d3.hsl(colors[i]).h);
+    HSL_S.push(d3.hsl(colors[i]).s);
+    HSL_L.push(d3.hsl(colors[i]).l);
+    HSLuv_L.push(d3.hsluv(colors[i]).l);
+    HSLuv_U.push(d3.hsluv(colors[i]).u);
+    HSLuv_V.push(d3.hsluv(colors[i]).v);
   }
 
   CAMArrayJ = [];
@@ -478,9 +493,15 @@ function createData() {
   RGBArrayR = [];
   RGBArrayG = [];
   RGBArrayB = [];
+  HSLArrayH = [];
+  HSLArrayS = [];
+  HSLArrayL = [];
+  HSLuvArrayL = [];
+  HSLuvArrayU = [];
+  HSLuvArrayV = [];
 
   // Shorten the numbers in the array for chart purposes
-  var maxVal = 10;
+  var maxVal = 50;
   var delta = Math.floor( CAM_J.length / maxVal );
 
   for (i = 0; i < CAM_J.length; i=i+delta) {
@@ -519,8 +540,32 @@ function createData() {
   for (i = 0; i < RGB_B.length; i=i+delta) {
     RGBArrayB.push(RGB_B[i]);
   }
+  for (i = 0; i < HSL_H.length; i=i+delta) {
+    HSLArrayH.push(HSL_H[i]);
+  }
+  for (i = 0; i < HSL_S.length; i=i+delta) {
+    HSLArrayS.push(HSL_S[i]);
+  }
+  for (i = 0; i < HSL_L.length; i=i+delta) {
+    HSLArrayL.push(HSL_L[i]);
+  }
+  for (i = 0; i < HSLuv_L.length; i=i+delta) {
+    HSLuvArrayL.push(HSLuv_L[i]);
+  }
+  for (i = 0; i < HSLuv_U.length; i=i+delta) {
+    HSLuvArrayU.push(HSLuv_U[i]);
+  }
+  for (i = 0; i < HSLuv_V.length; i=i+delta) {
+    HSLuvArrayV.push(HSLuv_V[i]);
+  }
 
-  dataX = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  const fillRange = (start, end) => {
+    return Array(end - start + 1).fill().map((item, index) => start + index);
+  };
+
+  dataX = fillRange(0, CAMArrayJ.length - 1);
+
+  // dataX = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   camData = [
     {
@@ -578,6 +623,34 @@ function createData() {
       y: RGBArrayB
     }
   ];
+  hslData = [
+    // {
+    //   x: dataX,
+    //   y: HSLArrayH
+    // },
+    {
+      x: dataX,
+      y: HSLArrayS
+    },
+    {
+      x: dataX,
+      y: HSLArrayL
+    }
+  ];
+  hsluvData = [
+    {
+      x: dataX,
+      y: HSLuvArrayL
+    },
+    {
+      x: dataX,
+      y: HSLuvArrayU
+    },
+    {
+      x: dataX,
+      y: HSLuvArrayV
+    }
+  ];
 }
 
 function createChartHeader(x) {
@@ -594,7 +667,7 @@ function createChart(data) {
   var data = data;
   var xy_chart = d3_xy_chart()
       .width(208)
-      .height(140)
+      .height(120)
       .xlabel("X Axis")
       .ylabel("Y Axis") ;
   var svg = d3.select("#charts").append("svg")
@@ -603,7 +676,7 @@ function createChart(data) {
 
   function d3_xy_chart() {
       var width = 180,
-          height = 120,
+          height = 100,
           xlabel = "X Axis Label",
           ylabel = "Y Axis Label" ;
 
@@ -612,7 +685,7 @@ function createChart(data) {
               //
               // Create the plot.
               //
-              var margin = {top: 8, right: 0, bottom: 32, left: 0},
+              var margin = {top: 8, right: 0, bottom: 20, left: 0},
                   innerwidth = width - margin.left - margin.right,
                   innerheight = height - margin.top - margin.bottom ;
 
@@ -642,7 +715,7 @@ function createChart(data) {
                   .tickFormat("") ;
 
               var draw_line = d3.line()
-                  .curve(d3.curveBasis)
+                  .curve(d3.curveLinear)
                   .x(function(d) { return x_scale(d[0]); })
                   .y(function(d) { return y_scale(d[1]); }) ;
 
@@ -731,4 +804,12 @@ function createChart(data) {
       return chart;
   }
 }
-// createChart();
+
+// Hide using style attribute to enable toggle to work:
+// document.getElementById('colorMetrics').style.display = 'none';
+function toggleGraphs() {
+  var panel = document.getElementById('colorMetrics');
+  var toggle = document.getElementById('toggleMetrics');
+  panel.classList.toggle('visible');
+  toggle.classList.toggle('is-selected');
+}

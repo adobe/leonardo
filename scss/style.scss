@@ -489,8 +489,12 @@ a:focus {
   width: 116px;
 }
 #modeDropdown {
-  width: 100%;
+  width: 104px;
+  ~ .spectrum-ActionButton {
+    margin-left: 8px;
+  }
 }
+
 #addRatio {
   justify-content: center;
 
@@ -502,6 +506,9 @@ a:focus {
 /* charts */
 #charts > svg {
   color: var(--spectrum-global-color-gray-600);
+}
+#charts .spectrum-Subheading {
+  margin-top: 4px;
 }
 .axis path,
 .axis line {
@@ -526,4 +533,14 @@ a:focus {
   stroke-width: 2px;
 }
 
-/* end temp for charts */
+.tick > text {
+  display: none;
+}
+
+#colorMetrics {
+  display: none; // hidden by default
+
+  &.visible {
+    display: flex;
+  }
+}
