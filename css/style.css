@@ -7739,7 +7739,7 @@ body {
   justify-content: center;
   align-items: center;
   /* overflow: hidden; */
-  width: 0px;
+  width: 40px;
   height: var(--gradient-slider-height);
   left: 0;
   bottom: var(--gradient-slider-height); }
