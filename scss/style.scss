@@ -544,3 +544,13 @@ a:focus {
     display: flex;
   }
 }
+// Hack overrides for d3 category10 colors
+g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+  stroke: #0F4F87;
+}
+g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+  stroke: #449CAD;
+}
+g.d3_xy_chart_line path.line {
+  stroke: #76D0C5;
+}
