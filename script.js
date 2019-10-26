@@ -380,18 +380,15 @@ function colorInput() {
 
   createData();
 
-  if (mode=="LCH" || mode=="HSL" || mode=="HSLuv") {
-    // hue chart needs 0-360 range
-    createChart(arrayX1, [0, 360]);
-    createChart(arrayX2, yAxis);
-    createChart(arrayX3, yAxis);
-  }
-  if (mode=="CAM02" || mode=="LAB" || mode=="RGB") {
-    createChart(arrayX1, yAxis);
-    createChart(arrayX2, yAxis);
-    createChart(arrayX3, yAxis);
-  }
-  // createChart(arrayX1, yAxis);
+  console.log(camData);
+  createChartHeader('CAM02');
+  createChart(camData);
+  createChartHeader('LAB');
+  createChart(labData);
+  createChartHeader('LCH');
+  createChart(lchData);
+  createChartHeader('RGB');
+  createChart(rgbData);
 
   // update URL parameters
   updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
@@ -440,74 +437,164 @@ function updateParams(c, b, t, s, r, m) {
 
 // Create data based on colorspace
 function createData() {
-  arrayX1 = [];
-  arrayX2 = [];
-  arrayX3 = [];
-  if(mode=="LCH") {
-    for(i=2; i<colors.length -2; i++) { // Clip array to eliminate NaN values
-      arrayX1.push(d3.hcl(colors[i]).h) // arrayX1 = Hue
-      arrayX2.push(d3.hcl(colors[i]).c) // arrayX2 = Chroma
-      arrayX3.push(d3.hcl(colors[i]).l) // arrayX3 = Luminosity
-    }
-    yAxis = [0, 100];
+  CAM_J = [];
+  CAM_A = [];
+  CAM_B = [];
+  LAB_L = [];
+  LAB_A = [];
+  LAB_B = [];
+  LCH_L = [];
+  LCH_C = [];
+  LCH_H = [];
+  RGB_R = [];
+  RGB_G = [];
+  RGB_B = [];
+  // What to do for HSL...?
+
+  for(i=4; i<colors.length -8; i++) { // Clip array to eliminate NaN values
+    CAM_J.push(d3.jab(colors[i]).J);
+    CAM_A.push(d3.jab(colors[i]).a);
+    CAM_B.push(d3.jab(colors[i]).b);
+    LAB_L.push(d3.lab(colors[i]).l);
+    LAB_A.push(d3.lab(colors[i]).a);
+    LAB_B.push(d3.lab(colors[i]).b);
+    LCH_L.push(d3.hcl(colors[i]).l);
+    LCH_C.push(d3.hcl(colors[i]).c);
+    LCH_H.push(d3.hcl(colors[i]).h);
+    RGB_R.push(d3.rgb(colors[i]).r);
+    RGB_G.push(d3.rgb(colors[i]).g);
+    RGB_B.push(d3.rgb(colors[i]).b);
   }
-  if(mode=="CAM02") {
-    for(i=0; i<colors.length; i++) {
-      arrayX1.push(d3.jab(colors[i]).J) // arrayX1 = J / L
-      arrayX2.push(d3.jab(colors[i]).a) // arrayX2 = A
-      arrayX3.push(d3.jab(colors[i]).b) // arrayX3 = B
-    }
-    yAxis = [0, 100];
+
+  CAMArrayJ = [];
+  CAMArrayA = [];
+  CAMArrayB = [];
+  LABArrayL = [];
+  LABArrayA = [];
+  LABArrayB = [];
+  LCHArrayL = [];
+  LCHArrayC = [];
+  LCHArrayH = [];
+  RGBArrayR = [];
+  RGBArrayG = [];
+  RGBArrayB = [];
+
+  // Shorten the numbers in the array for chart purposes
+  var maxVal = 10;
+  var delta = Math.floor( CAM_J.length / maxVal );
+
+  for (i = 0; i < CAM_J.length; i=i+delta) {
+    CAMArrayJ.push(CAM_J[i]);
   }
-  if(mode=="LAB") {
-    for(i=0; i<colors.length; i++) {
-      arrayX1.push(d3.lab(colors[i]).l) // arrayX1 = J / L
-      arrayX2.push(d3.lab(colors[i]).a) // arrayX2 = A
-      arrayX3.push(d3.lab(colors[i]).b) // arrayX3 = B
-    }
-    yAxis = [0, 100];
+  for (i = 0; i < CAM_A.length; i=i+delta) {
+    CAMArrayA.push(CAM_A[i]);
   }
-  if(mode=="HSL") {
-    for(i=2; i<colors.length  -2; i++) {
-      arrayX1.push(d3.hsl(colors[i]).h) // arrayX1 = Hue
-      arrayX2.push(d3.hsl(colors[i]).s) // arrayX2 = Saturation
-      arrayX3.push(d3.hsl(colors[i]).l) // arrayX3 = Luminosity
-    }
-    yAxis = [0, 1];
+  for (i = 0; i < CAM_B.length; i=i+delta) {
+    CAMArrayB.push(CAM_B[i]);
   }
-  if(mode=="HSLuv") {
-    for(i=0; i<colors.length; i++) {
-      arrayX1.push(d3.hsluv(colors[i]).l) // arrayX1 = L
-      arrayX2.push(d3.hsluv(colors[i]).u) // arrayX2 = U
-      arrayX3.push(d3.hsluv(colors[i]).v) // arrayX3 = Value
-    }
-    yAxis = [0, 100];
+  for (i = 0; i < LAB_L.length; i=i+delta) {
+    LABArrayL.push(LAB_L[i]);
   }
-  if(mode=="RGB") {
-    for(i=0; i<colors.length; i++) {
-      arrayX1.push(d3.rgb(colors[i]).r) // arrayX1 = Red
-      arrayX2.push(d3.rgb(colors[i]).g) // arrayX2 = Green
-      arrayX3.push(d3.rgb(colors[i]).b) // arrayX3 = Blue
-    }
-    yAxis = [0, 255];
+  for (i = 0; i < LAB_A.length; i=i+delta) {
+    LABArrayA.push(LAB_A[i]);
   }
-  console.log(arrayX1);
-  console.log(arrayX2);
-  console.log(arrayX3);
+  for (i = 0; i < LAB_B.length; i=i+delta) {
+    LABArrayB.push(LAB_B[i]);
+  }
+  for (i = 0; i < LCH_L.length; i=i+delta) {
+    LCHArrayL.push(LCH_L[i]);
+  }
+  for (i = 0; i < LCH_C.length; i=i+delta) {
+    LCHArrayC.push(LCH_C[i]);
+  }
+  for (i = 0; i < LCH_H.length; i=i+delta) {
+    LCHArrayH.push(LCH_H[i]);
+  }
+  for (i = 0; i < RGB_R.length; i=i+delta) {
+    RGBArrayR.push(RGB_R[i]);
+  }
+  for (i = 0; i < RGB_G.length; i=i+delta) {
+    RGBArrayG.push(RGB_G[i]);
+  }
+  for (i = 0; i < RGB_B.length; i=i+delta) {
+    RGBArrayB.push(RGB_B[i]);
+  }
+
+  dataX = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+  camData = [
+    {
+      x: dataX,
+      y: CAMArrayJ
+    },
+    {
+      x: dataX,
+      y: CAMArrayA
+    },
+    {
+      x: dataX,
+      y: CAMArrayB
+    }
+  ];
+  labData = [
+    {
+      x: dataX,
+      y: LABArrayL
+    },
+    {
+      x: dataX,
+      y: LABArrayA
+    },
+    {
+      x: dataX,
+      y: LABArrayB
+    }
+  ];
+  lchData = [
+    {
+      x: dataX,
+      y: LCHArrayL
+    },
+    {
+      x: dataX,
+      y: LCHArrayC
+    },
+    {
+      x: dataX,
+      y: LCHArrayH
+    }
+  ];
+  rgbData = [
+    {
+      x: dataX,
+      y: RGBArrayR
+    },
+    {
+      x: dataX,
+      y: RGBArrayG
+    },
+    {
+      x: dataX,
+      y: RGBArrayB
+    }
+  ];
 }
+
+function createChartHeader(x) {
+  container = document.getElementById('charts');
+  subhead = document.createElement('h6');
+  subhead.className = 'spectrum-Subheading';
+  title = document.createTextNode(x);
+  subhead.appendChild(title);
+  container.appendChild(subhead);
+}
+
 // Let's test making a chart, shall we?
-function createChart(dataX, dataY) {
-  // var dataX = [0, 1, 2, 3, 4];
-  // var dataY= [0, 1, 2, 3, 4];
-  var data = [
-              {
-                x: dataX,
-                y: dataY
-              }
-           ];
+function createChart(data) {
+  var data = data;
   var xy_chart = d3_xy_chart()
-      .width(300)
-      .height(200)
+      .width(208)
+      .height(140)
       .xlabel("X Axis")
       .ylabel("Y Axis") ;
   var svg = d3.select("#charts").append("svg")
@@ -515,8 +602,8 @@ function createChart(dataX, dataY) {
       .call(xy_chart) ;
 
   function d3_xy_chart() {
-      var width = 300,
-          height = 180,
+      var width = 180,
+          height = 120,
           xlabel = "X Axis Label",
           ylabel = "Y Axis Label" ;
 
@@ -525,7 +612,7 @@ function createChart(dataX, dataY) {
               //
               // Create the plot.
               //
-              var margin = {top: 20, right: 80, bottom: 30, left: 50},
+              var margin = {top: 8, right: 0, bottom: 32, left: 0},
                   innerwidth = width - margin.left - margin.right,
                   innerheight = height - margin.top - margin.bottom ;
 

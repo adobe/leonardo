@@ -81,6 +81,7 @@ body {
   overflow: scroll;
 }
 .spectrum-Panel--small {
+  width: var(--spectrum-global-dimension-size-3000);
   min-width: var(--spectrum-global-dimension-size-3000);
 }
 .spectrum-Panel--right {
@@ -268,7 +269,7 @@ input[type=color]:focus {
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
 }
 #demoWrapper {
-  padding: 0 48px 56px 48px;
+  padding: 0 0 56px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -498,18 +499,21 @@ a:focus {
   }
 }
 
-/* Temp for charts */
+/* charts */
+#charts > svg {
+  color: var(--spectrum-global-color-gray-600);
+}
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: var(--spectrum-global-color-gray-600);
   shape-rendering: crispEdges;
 }
 
 .grid path,
 .grid line {
-  fill: none;
-  stroke: rgba(0, 0, 0, 0.25);
+  fill: var(--spectrum-global-color-gray-50);
+  stroke: var(--spectrum-global-color-gray-300);
   shape-rendering: crispEdges;
 }
 
@@ -519,7 +523,7 @@ a:focus {
 
 .line {
   fill: none;
-  stroke-width: 2.5px;
+  stroke-width: 2px;
 }
 
 /* end temp for charts */
