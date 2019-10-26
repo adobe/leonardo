@@ -44,7 +44,7 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   }
   if(colorspace == 'HSLuv') {
     scale = d3.scaleLinear()
-      .range([d3.hsluv('#ffffff'), d3.hsluv(tint), d3.hsluv(color), d3.hsluv(shade), d3.hsluv('#000000')])
+      .range([d3.hsluv(NaN, NaN, 100), d3.hsluv(tint), d3.hsluv(color), d3.hsluv(shade), d3.hsluv(NaN, NaN, 0)])
       .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateHsluv);
   }
