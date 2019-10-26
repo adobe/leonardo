@@ -394,7 +394,7 @@ function colorInput() {
   createChart(rgbData);
 
   // update URL parameters
-  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
+  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
 }
 colorInput(color1);
 
