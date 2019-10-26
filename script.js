@@ -25,13 +25,10 @@ var demoButtonInverted = document.getElementById('demoButtonInverted');
 var userColorBlock = document.getElementById('userColor');
 var userBgBlock = document.getElementById('userBg');
 var ratioInput = document.getElementById('ratio');
-// var targetRatio = ratioInput.value;
-// var scaleNumbers = document.querySelector('input[name="scaleNumbers"]:checked').value;
 var colorOutputField = document.getElementById('colorOutput');
-// var fieldColorOutput = document.getElementById('spectrum-Textfield-swatch');
-var swatches = 500; // in order to make a gradient, this count needs to be massive
 
 function paramSetup() {
+  colorspaceOptions();
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
@@ -60,7 +57,7 @@ function paramSetup() {
 
     for(i=0; i<ratios.length; i++) {
       addRatio(ratios[i]);
-      console.log(ratios[i]);
+      // console.log(ratios[i]);
     }
   }
   if(params.has('mode')) {
@@ -75,13 +72,6 @@ paramSetup();
 
 function colorblock(c){
   colorBlock.style.backgroundColor = c;
-  // demoBackgroundBlock.style.backgroundColor = c;
-  // demoText.style.color = c;
-  // demoHeading.style.color = c;
-  // demoButton.style.color = c;
-  // demoButton.style.borderColor = c;
-  // document.getElementById(inputId + '-sw');
-  // fieldColorOutput.style.backgroundColor = c;
 }
 colorblock(color1);
 
@@ -97,6 +87,20 @@ backgroundblock(background);
 
 // Add ratio inputs
 function addRatio(v = 1, s = '#cacaca') {
+  // Gather values of other inputs so we can
+  // increment by default
+  // var vals = document.getElementsByClassName('ratioField');
+  //
+  // if(v == undefined) {
+  //   var Array = [];
+  //   for(i=0; i<vals.length; i++) {
+  //     // place all existing values into array
+  //     Array.push(vals[i].value);
+  //   }
+  //   console.log(Array);
+  //   // TODO: find highest & lowest value in array
+  //   // TODO: if(highVal < 20) {v = highVal + 1} else (v=highVal)
+  // }
   var ratios = document.getElementById('ratios');
   var div = document.createElement('div');
   var randId = randomId();
@@ -109,29 +113,25 @@ function addRatio(v = 1, s = '#cacaca') {
   var input = document.createElement('input');
   input.className = 'spectrum-Textfield ratioField';
   input.type = "number";
-  input.min = '1';
+  input.min = '-10';
   input.max = '21';
   input.step = '.01';
   input.placeholder = 4.5;
   input.id = randId;
   input.value = v;
   input.oninput = colorInput;
-  input.onfocus = showSlider;
-  input.onblur = hideSlider;
+  // input.onfocus = showSlider;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
-  var icon = document.createElement('svg');
-  icon.className = 'spectrum-Icon spectrum-Icon--sizeS';
-  icon.arialabel = 'Delete';
-  icon.ariahidden = 'true';
-  icon.focusable = 'false';
-  var xlink = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-  xlink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#spectrum-icon-18-Delete'); // this doesn't work
+  button.innerHTML = `
+  <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
+    <use xlink:href="#spectrum-icon-18-Delete" />
+  </svg>`;
 
   createSlider(randId, v);
+  // slider = document.getElementById(randId + "-sl");
+  // slider.addEventListener('blur', hideSlider);
 
-  icon.appendChild(xlink);
-  button.appendChild(icon);
   button.onclick = deleteRatio;
   div.appendChild(sw);
   div.appendChild(input);
@@ -157,7 +157,7 @@ function deleteRatio(e) {
 
   self.remove();
 }
-// random id's
+
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
@@ -166,34 +166,37 @@ function createSlider(x, v) {
   var sliderWrapper = document.getElementById('sliderWrapper');
   var slider = document.createElement('input');
   slider.type = 'range';
-  slider.min = '1';
-  slider.max = '20';
+  slider.min = '0';
+  slider.max = '100';
   slider.value = v;
   slider.step = '.01';
-  slider.oninput = syncInputVal;
+  // slider.oninput = syncInputVal;
   slider.className = 'slider'
   slider.id = x + "-sl";
-  slider.style.display = 'none';
+  slider.disabled = true;
+  // slider.style.display = 'none';
+  // slider.addEventListener('blur', hideSlider);
 
   sliderWrapper.appendChild(slider);
 }
+
 
 function showSlider() {
   var id = this.id;
   var slider = document.getElementById(id + '-sl');
   if (this.focus || slider.focus) {
-    slider.style.display = 'block';
+    slider.style.zIndex = '100';
   } else {
-    slider.style.display = 'none';
+    slider.style.zIndex = '0';
   }
 }
 function hideSlider() {
-  var id = this.id;
-  var slider = document.getElementById(id + '-sl');
-  if (this.focus !== true && slider.focus !== true) {
-    slider.style.display = 'none';
+  // var id = this.id;
+  // var slider = document.getElementById(id + '-sl');
+  if (this.focus) {
+    slider.style.zIndex = '0';
   } else {
-    slider.style.display = 'block';
+    slider.style.zIndex = '100';
   }
 }
 function syncVal() {
@@ -272,9 +275,29 @@ function createDemo(c, z) {
   bIn.style.borderColor = z;
 }
 
+function colorspaceOptions() {
+  colorspace = document.getElementById('mode');
+  colorspace.options.length = 0;
+
+  opts = {
+    'LCH': 'Lch',
+    'LAB': 'Lab',
+    'CAM02': 'CIECAM02',
+    'HSL': 'HSL',
+    'HSLuv': 'HSLuv',
+    'RGB': 'RGB'
+  };
+
+  for(index in opts) {
+    colorspace.options[colorspace.options.length] = new Option(opts[index], index);
+  }
+}
+// colorspaceOptions();
+
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
+  document.getElementById('charts').innerHTML = ' ';
 
   // var slider = document.getElementById('Slider');
   background = document.getElementById('bgField').value;
@@ -282,21 +305,30 @@ function colorInput() {
   var color1 = colorField1.value;
   var colorTint = colorField2.value;
   var colorShade = colorField3.value;
-  var mode = document.querySelector('select[name="mode"]').value;
+  mode = document.querySelector('select[name="mode"]').value;
   // Gather input values for each input. Add those into array.
   var ratioFields = document.getElementsByClassName('ratioField');
+  var rfIds = []
+  for (i=0; i<ratioFields.length; i++) {
+    rfIds.push(ratioFields[i].id);
+  }
   var ratioInputs = [];
 
   // For each ratio input field, push the value into the args array for adaptcolor
   for(i=0; i < ratioFields.length; i++) {
     ratioInputs.push(ratioFields[i].value);
   }
-  console.log(ratioInputs);
 
   adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode});
+  // document.getElementById('sliderWrapper').innerHTML = ' ';
 
   for(i=0; i<newColors.length; i++) {
     colorblock(newColors[i])
+    // Calculate value of color and apply to slider position/value
+    var val = d3.hsluv(newColors[i]).v;
+    // Find corresponding input/slider id
+    var slider = document.getElementById(rfIds[i] + '-sl')
+    slider.value = val;
   }
 
   // Generate Gradient
@@ -315,14 +347,6 @@ function colorInput() {
 
   backgroundblock(background);
 
-  // Slider updates
-  // var sliderPos = document.getElementById('Slider').value;
-  // var colorDomainUpdate =  swatches - (swatches * sliderPos /500);
-  // var newRgb = colors[colorDomainUpdate];
-  // var contrastRatio2 = contrast([backgroundR, backgroundG, backgroundB], [d3.rgb(newRgb).r, d3.rgb(newRgb).g, d3.rgb(newRgb).b]).toFixed(2);
-
-  // newHex = d3.rgb(newRgb).formatHex();
-  // colorOutputField.value = newRgb + '\n' + newHex + '\n' + contrastRatio2 + ":1";
   var colorOutputWrapper = document.getElementById('colorOutputs');
   colorOutputWrapper.innerHTML = '';
   wrap = document.getElementById('demoWrapper');
@@ -354,14 +378,29 @@ function colorInput() {
     createDemo(newColors[i], background);
   }
 
+  createData();
+
+  createChartHeader('LCH');
+  createChart(lchData);
+  createChartHeader('LAB');
+  createChart(labData);
+  createChartHeader('CAM02');
+  createChart(camData);
+  createChartHeader('HSL');
+  createChart(hslData);
+  createChartHeader('HSLuv');
+  createChart(hsluvData);
+  createChartHeader('RGB');
+  createChart(rgbData);
+
   // update URL parameters
-  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode, 'd3');
+  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
 }
 colorInput(color1);
 
 
 // Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
-function updateParams(c, b, t, s, r, m, l) {
+function updateParams(c, b, t, s, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
@@ -371,8 +410,6 @@ function updateParams(c, b, t, s, r, m, l) {
   params.set('shade', s);
   params.set('ratios', r);
   params.set('mode', m);
-  // TODO: uncomment when integrated with library options
-  // params.set('lib', l);
 
   window.history.replaceState({}, '', '/?' + params); // update the page's URL.
 
@@ -385,7 +422,6 @@ function updateParams(c, b, t, s, r, m, l) {
   var ptin = 'tint: "#' + t + '",';
   var psha = 'shade: "#' + s + '",';
   var pmod = ' colorspace: "' + m + '",';
-  var plib = 'lib: "' + l + '"});';
   text1 = document.createTextNode(call);
   text2 = document.createTextNode(pcol);
   text3 = document.createTextNode(pbas);
@@ -393,7 +429,6 @@ function updateParams(c, b, t, s, r, m, l) {
   text5 = document.createTextNode(ptin);
   text6 = document.createTextNode(psha);
   text7 = document.createTextNode(pmod);
-  text8 = document.createTextNode(plib);
   p.appendChild(text1);
   p.appendChild(text2);
   p.appendChild(text3);
@@ -401,5 +436,380 @@ function updateParams(c, b, t, s, r, m, l) {
   p.appendChild(text5);
   p.appendChild(text6);
   p.appendChild(text7);
-  p.appendChild(text8);
+}
+
+// Create data based on colorspace
+function createData() {
+  CAM_J = [];
+  CAM_A = [];
+  CAM_B = [];
+  LAB_L = [];
+  LAB_A = [];
+  LAB_B = [];
+  LCH_L = [];
+  LCH_C = [];
+  LCH_H = [];
+  HSL_H = [];
+  HSL_S = [];
+  HSL_L = [];
+  HSLuv_L = [];
+  HSLuv_U = [];
+  HSLuv_V = [];
+  RGB_R = [];
+  RGB_G = [];
+  RGB_B = [];
+  // What to do for HSL...?
+
+  for(i=4; i<colors.length -8; i++) { // Clip array to eliminate NaN values
+    CAM_J.push(d3.jab(colors[i]).J);
+    CAM_A.push(d3.jab(colors[i]).a);
+    CAM_B.push(d3.jab(colors[i]).b);
+    LAB_L.push(d3.lab(colors[i]).l);
+    LAB_A.push(d3.lab(colors[i]).a);
+    LAB_B.push(d3.lab(colors[i]).b);
+    LCH_L.push(d3.hcl(colors[i]).l);
+    LCH_C.push(d3.hcl(colors[i]).c);
+    LCH_H.push(d3.hcl(colors[i]).h);
+    RGB_R.push(d3.rgb(colors[i]).r);
+    RGB_G.push(d3.rgb(colors[i]).g);
+    RGB_B.push(d3.rgb(colors[i]).b);
+    HSL_H.push(d3.hsl(colors[i]).h);
+    HSL_S.push(d3.hsl(colors[i]).s);
+    HSL_L.push(d3.hsl(colors[i]).l);
+    HSLuv_L.push(d3.hsluv(colors[i]).l);
+    HSLuv_U.push(d3.hsluv(colors[i]).u);
+    HSLuv_V.push(d3.hsluv(colors[i]).v);
+  }
+
+  CAMArrayJ = [];
+  CAMArrayA = [];
+  CAMArrayB = [];
+  LABArrayL = [];
+  LABArrayA = [];
+  LABArrayB = [];
+  LCHArrayL = [];
+  LCHArrayC = [];
+  LCHArrayH = [];
+  RGBArrayR = [];
+  RGBArrayG = [];
+  RGBArrayB = [];
+  HSLArrayH = [];
+  HSLArrayS = [];
+  HSLArrayL = [];
+  HSLuvArrayL = [];
+  HSLuvArrayU = [];
+  HSLuvArrayV = [];
+
+  // Shorten the numbers in the array for chart purposes
+  var maxVal = 50;
+  var delta = Math.floor( CAM_J.length / maxVal );
+
+  for (i = 0; i < CAM_J.length; i=i+delta) {
+    CAMArrayJ.push(CAM_J[i]);
+  }
+  for (i = 0; i < CAM_A.length; i=i+delta) {
+    CAMArrayA.push(CAM_A[i]);
+  }
+  for (i = 0; i < CAM_B.length; i=i+delta) {
+    CAMArrayB.push(CAM_B[i]);
+  }
+  for (i = 0; i < LAB_L.length; i=i+delta) {
+    LABArrayL.push(LAB_L[i]);
+  }
+  for (i = 0; i < LAB_A.length; i=i+delta) {
+    LABArrayA.push(LAB_A[i]);
+  }
+  for (i = 0; i < LAB_B.length; i=i+delta) {
+    LABArrayB.push(LAB_B[i]);
+  }
+  for (i = 0; i < LCH_L.length; i=i+delta) {
+    LCHArrayL.push(LCH_L[i]);
+  }
+  for (i = 0; i < LCH_C.length; i=i+delta) {
+    LCHArrayC.push(LCH_C[i]);
+  }
+  for (i = 0; i < LCH_H.length; i=i+delta) {
+    LCHArrayH.push(LCH_H[i]);
+  }
+  for (i = 0; i < RGB_R.length; i=i+delta) {
+    RGBArrayR.push(RGB_R[i]);
+  }
+  for (i = 0; i < RGB_G.length; i=i+delta) {
+    RGBArrayG.push(RGB_G[i]);
+  }
+  for (i = 0; i < RGB_B.length; i=i+delta) {
+    RGBArrayB.push(RGB_B[i]);
+  }
+  for (i = 0; i < HSL_H.length; i=i+delta) {
+    HSLArrayH.push(HSL_H[i]);
+  }
+  for (i = 0; i < HSL_S.length; i=i+delta) {
+    HSLArrayS.push(HSL_S[i]);
+  }
+  for (i = 0; i < HSL_L.length; i=i+delta) {
+    HSLArrayL.push(HSL_L[i]);
+  }
+  for (i = 0; i < HSLuv_L.length; i=i+delta) {
+    HSLuvArrayL.push(HSLuv_L[i]);
+  }
+  for (i = 0; i < HSLuv_U.length; i=i+delta) {
+    HSLuvArrayU.push(HSLuv_U[i]);
+  }
+  for (i = 0; i < HSLuv_V.length; i=i+delta) {
+    HSLuvArrayV.push(HSLuv_V[i]);
+  }
+
+  const fillRange = (start, end) => {
+    return Array(end - start + 1).fill().map((item, index) => start + index);
+  };
+
+  dataX = fillRange(0, CAMArrayJ.length - 1);
+
+  // dataX = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  camData = [
+    {
+      x: dataX,
+      y: CAMArrayJ
+    },
+    {
+      x: dataX,
+      y: CAMArrayA
+    },
+    {
+      x: dataX,
+      y: CAMArrayB
+    }
+  ];
+  labData = [
+    {
+      x: dataX,
+      y: LABArrayL
+    },
+    {
+      x: dataX,
+      y: LABArrayA
+    },
+    {
+      x: dataX,
+      y: LABArrayB
+    }
+  ];
+  lchData = [
+    {
+      x: dataX,
+      y: LCHArrayL
+    },
+    {
+      x: dataX,
+      y: LCHArrayC
+    },
+    {
+      x: dataX,
+      y: LCHArrayH
+    }
+  ];
+  rgbData = [
+    {
+      x: dataX,
+      y: RGBArrayR
+    },
+    {
+      x: dataX,
+      y: RGBArrayG
+    },
+    {
+      x: dataX,
+      y: RGBArrayB
+    }
+  ];
+  hslData = [
+    // {
+    //   x: dataX,
+    //   y: HSLArrayH
+    // },
+    {
+      x: dataX,
+      y: HSLArrayS
+    },
+    {
+      x: dataX,
+      y: HSLArrayL
+    }
+  ];
+  hsluvData = [
+    {
+      x: dataX,
+      y: HSLuvArrayL
+    },
+    {
+      x: dataX,
+      y: HSLuvArrayU
+    },
+    {
+      x: dataX,
+      y: HSLuvArrayV
+    }
+  ];
+}
+
+function createChartHeader(x) {
+  container = document.getElementById('charts');
+  subhead = document.createElement('h6');
+  subhead.className = 'spectrum-Subheading';
+  title = document.createTextNode(x);
+  subhead.appendChild(title);
+  container.appendChild(subhead);
+}
+
+// Let's test making a chart, shall we?
+function createChart(data) {
+  var data = data;
+  var xy_chart = d3_xy_chart()
+      .width(208)
+      .height(120)
+      .xlabel("X Axis")
+      .ylabel("Y Axis") ;
+  var svg = d3.select("#charts").append("svg")
+      .datum(data)
+      .call(xy_chart) ;
+
+  function d3_xy_chart() {
+      var width = 180,
+          height = 100,
+          xlabel = "X Axis Label",
+          ylabel = "Y Axis Label" ;
+
+      function chart(selection) {
+          selection.each(function(datasets) {
+              //
+              // Create the plot.
+              //
+              var margin = {top: 8, right: 0, bottom: 20, left: 0},
+                  innerwidth = width - margin.left - margin.right,
+                  innerheight = height - margin.top - margin.bottom ;
+
+              var x_scale = d3.scaleLinear()
+                  .range([0, innerwidth])
+                  .domain([ d3.min(datasets, function(d) { return d3.min(d.x); }),
+                            d3.max(datasets, function(d) { return d3.max(d.x); }) ]) ;
+
+              var y_scale = d3.scaleLinear()
+                  .range([innerheight, 0])
+                  .domain([ d3.min(datasets, function(d) { return d3.min(d.y); }),
+                            d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
+
+              var color_scale = d3.scaleOrdinal(d3.schemeCategory10)
+                  .domain(d3.range(datasets.length)) ;
+
+              var x_axis = d3.axisBottom(x_scale);
+
+              var y_axis = d3.axisLeft(y_scale);
+
+              var x_grid = d3.axisBottom(x_scale)
+                  .tickSize(-innerheight)
+                  .tickFormat("") ;
+
+              var y_grid = d3.axisLeft(y_scale)
+                  .tickSize(-innerwidth)
+                  .tickFormat("") ;
+
+              var draw_line = d3.line()
+                  .curve(d3.curveLinear)
+                  .x(function(d) { return x_scale(d[0]); })
+                  .y(function(d) { return y_scale(d[1]); }) ;
+
+              var svg = d3.select(this)
+                  .attr("width", width)
+                  .attr("height", height)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")") ;
+
+              svg.append("g")
+                  .attr("class", "x grid")
+                  .attr("transform", "translate(0," + innerheight + ")")
+                  .call(x_grid) ;
+
+              svg.append("g")
+                  .attr("class", "y grid")
+                  .call(y_grid) ;
+
+              svg.append("g")
+                  .attr("class", "x axis")
+                  .attr("transform", "translate(0," + innerheight + ")")
+                  .call(x_axis)
+                  .append("text")
+                  .attr("dy", "-.71em")
+                  .attr("x", innerwidth)
+                  .style("text-anchor", "end")
+                  .text(xlabel) ;
+
+              svg.append("g")
+                  .attr("class", "y axis")
+                  .call(y_axis)
+                  .append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 6)
+                  .attr("dy", "0.71em")
+                  .style("text-anchor", "end")
+                  .text(ylabel) ;
+
+              var data_lines = svg.selectAll(".d3_xy_chart_line")
+                  .data(datasets.map(function(d) {return d3.zip(d.x, d.y);}))
+                  .enter().append("g")
+                  .attr("class", "d3_xy_chart_line") ;
+
+              data_lines.append("path")
+                  .attr("class", "line")
+                  .attr("d", function(d) {return draw_line(d); })
+                  .attr("stroke", function(_, i) {return color_scale(i);}) ;
+
+              data_lines.append("text")
+                  .datum(function(d, i) { return {name: datasets[i].label, final: d[d.length-1]}; })
+                  .attr("transform", function(d) {
+                      return ( "translate(" + x_scale(d.final[0]) + "," +
+                               y_scale(d.final[1]) + ")" ) ; })
+                  .attr("x", 3)
+                  .attr("dy", ".35em")
+                  .attr("fill", function(_, i) { return color_scale(i); })
+                  .text(function(d) { return d.name; }) ;
+
+          }) ;
+      }
+
+      chart.width = function(value) {
+          if (!arguments.length) return width;
+          width = value;
+          return chart;
+      };
+
+      chart.height = function(value) {
+          if (!arguments.length) return height;
+          height = value;
+          return chart;
+      };
+
+      chart.xlabel = function(value) {
+          if(!arguments.length) return xlabel ;
+          xlabel = value ;
+          return chart ;
+      } ;
+
+      chart.ylabel = function(value) {
+          if(!arguments.length) return ylabel ;
+          ylabel = value ;
+          return chart ;
+      } ;
+
+      return chart;
+  }
+}
+
+// Hide using style attribute to enable toggle to work:
+// document.getElementById('colorMetrics').style.display = 'none';
+function toggleGraphs() {
+  var panel = document.getElementById('colorMetrics');
+  var toggle = document.getElementById('toggleMetrics');
+  panel.classList.toggle('visible');
+  toggle.classList.toggle('is-selected');
 }

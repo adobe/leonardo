@@ -20,6 +20,7 @@ governing permissions and limitations under the License.
 @import 'node_modules/@spectrum-css/button/dist/index-vars';
 @import 'node_modules/@spectrum-css/fieldgroup/dist/index-vars';
 @import 'node_modules/@spectrum-css/textfield/dist/index-vars';
+@import 'node_modules/@spectrum-css/dropdown/dist/index-vars';
 @import 'node_modules/@spectrum-css/fieldlabel/dist/index-vars';
 @import 'node_modules/@spectrum-css/checkbox/dist/index-vars';
 
@@ -31,12 +32,13 @@ governing permissions and limitations under the License.
   // --gradient-slider-height: calc(100vh - var(--spectrum-global-dimension-size-800) - 7px);
 
   // Smaller, subpanel location of gradient uses these vars
-  --gradient-height-offset: 316px;
+  --gradient-height-offset: 324px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: calc(100vh - var(--gradient-height-offset));
   --color-size: 32px;
   --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
   --gradient-slider-height: calc(100vh - var(--gradient-height-offset));
+  --slider-thumb-size: 8px; // 24px
 }
 
 body {
@@ -57,9 +59,17 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+.spectrum-AppHeader--right {
+  display: flex;
+  flex-direction: row;
+}
 .spectrum-AppHeader-Title {
   margin: 0;
   // font-size: var(--spectrum-global-dimension-font-size-200);
+}
+#octo-link {
+  margin-left: 16px;
+  padding: 4px;
 }
 .spectrum-Panel {
   display: flex;
@@ -70,9 +80,12 @@ body {
   padding: 0;
   overflow: scroll;
 }
+.spectrum-Panel--small {
+  width: var(--spectrum-global-dimension-size-3000);
+  min-width: var(--spectrum-global-dimension-size-3000);
+}
 .spectrum-Panel--right {
   border-right: 0;
-  width: var(--spectrum-global-dimension-size-3000);
   border-left: 2px solid var(--spectrum-panel-border-color);
 }
 .spectrum-Panel--custom {
@@ -178,12 +191,13 @@ body {
 #sliderWrapper {
   position: relative;
   display: flex;
-  padding: 0px 29px;
+  // padding: 0px 21px;
+  padding: 0px 0px;
   margin-top: -1px;
   justify-content: center;
   align-items: center;
   /* overflow: hidden; */
-  width: 0px;
+  width: 40px;
   height: var(--gradient-slider-height);
   left: 0;
   bottom: var(--gradient-slider-height);
@@ -204,24 +218,28 @@ body {
 }
 
 .slider::-webkit-slider-thumb {
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: 2px solid #fff;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: #ffffff;
+  // background: transparent;
+  // border: 2px solid #fff;
   border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
+  // box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  // cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
 }
 .slider::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: 2px solid #fff;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: #ffffff;
+  // background: transparent;
+  // border: 2px solid #fff;
   border-radius: 32px;
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
+  // box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  // cursor: pointer;
 }
 
 
@@ -251,7 +269,7 @@ input[type=color]:focus {
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
 }
 #demoWrapper {
-  padding: 0 48px 56px 48px;
+  padding: 0 0 56px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -465,4 +483,64 @@ a:focus {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+#libraryDropdown {
+  width: 116px;
+}
+#modeDropdown {
+  width: 104px;
+  ~ .spectrum-ActionButton {
+    margin-left: 8px;
+  }
+}
+
+#addRatio {
+  justify-content: center;
+
+  > .spectrum-ActionButton-label {
+    width: auto;
+  }
+}
+
+/* charts */
+#charts > svg {
+  color: var(--spectrum-global-color-gray-600);
+}
+#charts .spectrum-Subheading {
+  margin-top: 4px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: var(--spectrum-global-color-gray-600);
+  shape-rendering: crispEdges;
+}
+
+.grid path,
+.grid line {
+  fill: var(--spectrum-global-color-gray-50);
+  stroke: var(--spectrum-global-color-gray-300);
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+.tick > text {
+  display: none;
+}
+
+#colorMetrics {
+  display: none; // hidden by default
+
+  &.visible {
+    display: flex;
+  }
 }

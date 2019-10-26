@@ -1,5 +1,5 @@
 {
-  "name": "adaptive-color",
+  "name": "@adobe/adaptive-color",
   "version": "1.0.0",
   "description": "Generate colors based on a desired contrast ratio",
   "main": "index.js",
@@ -33,8 +33,11 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
+    "@adobe/focus-ring-polyfill": "^0.1.5",
+    "@adobe/spectrum-css-workflow-icons": "^1.0.0-beta.7",
     "@spectrum-css/button": "^2.0.0-alpha.6",
     "@spectrum-css/checkbox": "^2.0.0-alpha.6",
+    "@spectrum-css/dropdown": "^2.0.0",
     "@spectrum-css/fieldgroup": "^2.0.0-alpha.6",
     "@spectrum-css/fieldlabel": "^2.0.0-alpha.6",
     "@spectrum-css/icon": "^2.0.0-alpha.6",
@@ -44,6 +47,7 @@
     "@spectrum-css/typography": "^2.0.0-alpha.5",
     "@spectrum-css/vars": "^2.0.0-alpha.3",
     "@spectrum/spectrum-icons": "^2.3.0",
+    "chroma-js": "^2.0.6",
     "d3": "^5.12.0",
     "d3-cam02": "^0.1.5",
     "d3-hsluv": "^0.1.2",
