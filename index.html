@@ -145,6 +145,17 @@ governing permissions and limitations under the License.
           <div id="color"></div>
         </div>
         <div id="ratiosWrapper">
+          <label for="distribute" class="spectrum-FieldLabel">Distribute ratios</label>
+          <div class="spectrum-Dropdown" id="distributeDropdown">
+            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="distribute" onInput="distribute()" id="distribute">
+              <option value="manual">Manual</option>
+              <option value="linear">Linear</option>
+              <option value="exponential">Exponential</option>
+            </select>
+            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </div>
           <div id="ratios">
             <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
           </div>

@@ -307,12 +307,12 @@ function colorInput() {
   var colorShade = colorField3.value;
   mode = document.querySelector('select[name="mode"]').value;
   // Gather input values for each input. Add those into array.
-  var ratioFields = document.getElementsByClassName('ratioField');
+  ratioFields = document.getElementsByClassName('ratioField');
   var rfIds = []
   for (i=0; i<ratioFields.length; i++) {
     rfIds.push(ratioFields[i].id);
   }
-  var ratioInputs = [];
+  ratioInputs = [];
 
   // For each ratio input field, push the value into the args array for adaptcolor
   for(i=0; i < ratioFields.length; i++) {
@@ -394,7 +394,7 @@ function colorInput() {
   createChart(rgbData);
 
   // update URL parameters
-  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
+  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
 }
 colorInput(color1);
 
@@ -812,4 +812,51 @@ function toggleGraphs() {
   var toggle = document.getElementById('toggleMetrics');
   panel.classList.toggle('visible');
   toggle.classList.toggle('is-selected');
+}
+
+// Redistribute contrast swatches
+function distribute() {
+  console.log(ratioInputs);
+  var dist = document.getElementById('distribute').value;
+  var start = 0;
+  var end = ratioInputs.length -1;
+
+  if(dist=="linear") {
+    // TODO: find largest/smallest numbers in array and redestribute
+    var newScale = d3.scaleLinear()
+      .domain([start, end]) // number of ratios
+      .range([ratioInputs[0], ratioInputs[end]])  // range of ratio inputs
+  }
+  if(dist=="exponential") {
+    var Lums = []
+    for(i=0; i<newColors.length; i++) {
+      Lums.push(d3.hsluv(newColors[i]).v);
+    }
+    var Min = (Math.min.apply(Math, Lums));
+    var Max = (Math.max.apply(Math, Lums));
+    var diff = Max - Min;
+    console.log(diff);
+
+    var newScale = d3.scalePow()
+      // TODO: Exponent needs to be variable based on lightness of color.
+      // This would require knowing lum value of brightest color in contrast ratio
+      // and darkest value to dynamically change exponent.
+      // .exponent(1.5) // starting with blue 3:1 tint, this looks good
+      // .exponent(2.25) // starting with gray 1:1 (white) to 12:1, this looks better
+      .exponent(2.25) 
+      .domain([start, end]) // number of ratios
+      .range([ratioInputs[0], ratioInputs[end]])  // range of ratio inputs
+  }
+  if(dist=="manual") {
+    var newScale = function(i) {
+      return ratioInputs[i];
+    }
+  }
+
+  // Update ratio inputs with new values
+  for (i=0; i<ratioInputs.length; i++) {
+    ratioFields[i].value = parseFloat(Number(newScale(i)).toFixed(2));
+  }
+
+  colorInput();
 }
