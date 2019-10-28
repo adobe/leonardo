@@ -385,19 +385,30 @@ function colorInput() {
   }
 
   createData();
-
-  createChartHeader('LCH');
-  createChart(lchData);
-  createChartHeader('LAB');
-  createChart(labData);
-  createChartHeader('CAM02');
-  createChart(camData);
-  createChartHeader('HSL');
-  createChart(hslData);
-  createChartHeader('HSLuv');
-  createChart(hsluvData);
-  createChartHeader('RGB');
-  createChart(rgbData);
+  if(mode=="LCH") {
+    createChartHeader('LCH');
+    createChart(lchData);
+  }
+  if(mode=="LAB") {
+    createChartHeader('LAB');
+    createChart(labData);
+  }
+  if(mode=="CAM02") {
+    createChartHeader('CAM02');
+    createChart(camData);
+  }
+  if(mode=="HSL") {
+    createChartHeader('HSL');
+    createChart(hslData);
+  }
+  if(mode=="HSLuv") {
+    createChartHeader('HSLuv');
+    createChart(hsluvData);
+  }
+  if(mode=="RGB") {
+    createChartHeader('RGB');
+    createChart(rgbData);
+  }
 
   // update URL parameters
   updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
@@ -673,7 +684,8 @@ function createChart(data) {
   var data = data;
   var xy_chart = d3_xy_chart()
       .width(208)
-      .height(120)
+      // .height(120)
+      .height(180)
       .xlabel("X Axis")
       .ylabel("Y Axis") ;
   var svg = d3.select("#charts").append("svg")
@@ -682,7 +694,8 @@ function createChart(data) {
 
   function d3_xy_chart() {
       var width = 180,
-          height = 100,
+          height = 160,
+        // height = 100,
           xlabel = "X Axis Label",
           ylabel = "Y Axis Label" ;
 

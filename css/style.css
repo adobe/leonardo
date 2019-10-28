@@ -7624,7 +7624,7 @@ body {
   background-color: var(--spectrum-panel-background-color);
   min-width: calc(var(--spectrum-global-dimension-size-3000) + 32px);
   border-right: 2px solid var(--spectrum-panel-border-color);
-  padding: 0;
+  padding: 0 0 24px;
   overflow: scroll; }
 
 .spectrum-Panel--small {
@@ -7633,7 +7633,8 @@ body {
 
 .spectrum-Panel--right {
   border-right: 0;
-  border-left: 2px solid var(--spectrum-panel-border-color); }
+  border-left: 2px solid var(--spectrum-panel-border-color);
+  justify-content: space-between; }
 
 .spectrum-Panel--custom {
   flex-direction: row;
