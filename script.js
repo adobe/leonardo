@@ -86,21 +86,21 @@ function backgroundblock(b){
 backgroundblock(background);
 
 // Add ratio inputs
-function addRatio(v = 1, s = '#cacaca') {
-  // Gather values of other inputs so we can
+function addRatio(v, s = '#cacaca') {
   // increment by default
-  // var vals = document.getElementsByClassName('ratioField');
-  //
-  // if(v == undefined) {
-  //   var Array = [];
-  //   for(i=0; i<vals.length; i++) {
-  //     // place all existing values into array
-  //     Array.push(vals[i].value);
-  //   }
-  //   console.log(Array);
-  //   // TODO: find highest & lowest value in array
-  //   // TODO: if(highVal < 20) {v = highVal + 1} else (v=highVal)
-  // }
+  if(v == undefined) {
+    // find highest value
+    var hi = Math.max(...ratioInputs);
+    var lo = Math.min(...ratioInputs);
+
+    if(hi < 20) {
+      v = hi + 1;
+    }
+    if(hi == 21) {
+      v = lo - 1;
+    }
+  }
+
   var ratios = document.getElementById('ratios');
   var div = document.createElement('div');
   var randId = randomId();
@@ -147,6 +147,11 @@ function addRatio(v = 1, s = '#cacaca') {
   // }
 }
 
+function addNewRatio() {
+  addRatio();
+  colorInput();
+}
+
 
 // Delete ratio input
 function deleteRatio(e) {
@@ -156,6 +161,7 @@ function deleteRatio(e) {
   var slider = document.getElementById(sliderid);
 
   self.remove();
+  colorInput();
 }
 
 function randomId() {
@@ -814,49 +820,68 @@ function toggleGraphs() {
   toggle.classList.toggle('is-selected');
 }
 
-// Redistribute contrast swatches
-function distribute() {
-  console.log(ratioInputs);
-  var dist = document.getElementById('distribute').value;
-  var start = 0;
-  var end = ratioInputs.length -1;
-
-  if(dist=="linear") {
-    // TODO: find largest/smallest numbers in array and redestribute
-    var newScale = d3.scaleLinear()
-      .domain([start, end]) // number of ratios
-      .range([ratioInputs[0], ratioInputs[end]])  // range of ratio inputs
-  }
-  if(dist=="exponential") {
-    var Lums = []
-    for(i=0; i<newColors.length; i++) {
-      Lums.push(d3.hsluv(newColors[i]).v);
-    }
-    var Min = (Math.min.apply(Math, Lums));
-    var Max = (Math.max.apply(Math, Lums));
-    var diff = Max - Min;
-    console.log(diff);
-
-    var newScale = d3.scalePow()
-      // TODO: Exponent needs to be variable based on lightness of color.
-      // This would require knowing lum value of brightest color in contrast ratio
-      // and darkest value to dynamically change exponent.
-      // .exponent(1.5) // starting with blue 3:1 tint, this looks good
-      // .exponent(2.25) // starting with gray 1:1 (white) to 12:1, this looks better
-      .exponent(2.25) 
-      .domain([start, end]) // number of ratios
-      .range([ratioInputs[0], ratioInputs[end]])  // range of ratio inputs
-  }
-  if(dist=="manual") {
-    var newScale = function(i) {
-      return ratioInputs[i];
-    }
-  }
+// Sort swatches in UI
+function sort() {
+  ratioInputs.sort(function(a, b){return a-b});
 
   // Update ratio inputs with new values
   for (i=0; i<ratioInputs.length; i++) {
-    ratioFields[i].value = parseFloat(Number(newScale(i)).toFixed(2));
+    ratioFields[i].value = ratioInputs[i];
   }
-
   colorInput();
+}
+
+// if(dist=="linear") {
+//   // TODO: find largest/smallest numbers in array and redestribute
+//   var newScale = d3.scaleLinear()
+//     .domain([start, end]) // number of ratios
+//     .range([ratioInputs[0], ratioInputs[end]])  // range of ratio inputs
+// }
+
+// Redistribute contrast swatches
+function distributeExp() {
+  var start = 0;
+  var end = ratioInputs.length -1;
+  var Lums = []
+  for(i=0; i<newColors.length; i++) {
+    Lums.push(Number((100 - d3.hsluv(newColors[i]).v).toFixed(1) / 100) * 9);
+  }
+  // var Min = (Math.min.apply(Math, Lums));
+  // var Max = (Math.max.apply(Math, Lums));
+  // var diff = Max - Min;
+  console.log(Lums);
+
+  var newRatio = d3.scalePow()
+    .exponent(4.2) // Pretty close
+    .domain([0, 10]) // number of ratios
+    .range([1, 21])  // range of ratio inputs
+
+  // y = 0.1605e0.5303x
+  // var x = 0; // start 0, end 9 -> base 10 represents luminosity values
+  // newRatio = function(x) {
+  //   var newRat = 0.8 + (0.15 * Math.exp(0.545 * x));
+  //   if(newRat > 21) {
+  //     newRat = 21;
+  //   }
+  //   if(newRat < 1 && newRat > -1) {
+  //     newRat = 1;
+  //   }
+  //   return newRat;
+  // }
+  //
+  // for(i=0; i<Lums.length; i++) {
+  //   console.log(newRatio(Lums[i]));
+  // }
+  // if hsluv(color).v = 100 (white), x = 0
+  // if hsluv(color).v = 0 (black), x = 9
+  // How do I compute this?
+
+
+  // Update ratio inputs with new values
+  for (i=0; i<ratioInputs.length; i++) {
+    // newRatio.range([ratioInputs[0], ratioInputs[ratioInputs.length]])
+    // ratioFields[i].value = parseFloat(Number(newRatio([i])).toFixed(2));
+  }
+  //
+  // colorInput();
 }
