@@ -103,9 +103,12 @@ function addRatio(v, s = '#cacaca') {
 
   var ratios = document.getElementById('ratios');
   var div = document.createElement('div');
+  var sliderWrapper = document.getElementById('sliderWrapper');
+  var slider = document.createElement('input');
+
   var randId = randomId();
   div.className = 'ratio-Item';
-  div.id = randomId();
+  div.id = randId + '-item';
   var sw = document.createElement('span');
   sw.className = 'spectrum-Textfield-swatch';
   sw.id = randId + '-sw';
@@ -128,7 +131,20 @@ function addRatio(v, s = '#cacaca') {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  createSlider(randId, v);
+  slider.type = 'range';
+  slider.min = '0';
+  slider.max = '100';
+  slider.value = v;
+  slider.step = '.01';
+  // slider.oninput = syncInputVal;
+  slider.className = 'slider'
+  slider.id = randId + "-sl";
+  slider.disabled = true;
+  // slider.style.display = 'none';
+  // slider.addEventListener('blur', hideSlider);
+
+  sliderWrapper.appendChild(slider);
+  // createSlider(randId, v);
   // slider = document.getElementById(randId + "-sl");
   // slider.addEventListener('blur', hideSlider);
 
@@ -158,10 +174,12 @@ function addNewRatio() {
 function deleteRatio(e) {
   var id = e.target.parentNode.id;
   var self = document.getElementById(id);
-  var sliderid = id + '-slider';
+  var sliderid = id.replace('-item', '') + '-sl';
   var slider = document.getElementById(sliderid);
+  console.log(sliderid);
 
   self.remove();
+  slider.remove();
   colorInput();
 }
 
@@ -169,23 +187,23 @@ function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
 
-function createSlider(x, v) {
-  var sliderWrapper = document.getElementById('sliderWrapper');
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = '0';
-  slider.max = '100';
-  slider.value = v;
-  slider.step = '.01';
-  // slider.oninput = syncInputVal;
-  slider.className = 'slider'
-  slider.id = x + "-sl";
-  slider.disabled = true;
-  // slider.style.display = 'none';
-  // slider.addEventListener('blur', hideSlider);
-
-  sliderWrapper.appendChild(slider);
-}
+// function createSlider(x, v) {
+//   var sliderWrapper = document.getElementById('sliderWrapper');
+//   var slider = document.createElement('input');
+//   slider.type = 'range';
+//   slider.min = '0';
+//   slider.max = '100';
+//   slider.value = v;
+//   slider.step = '.01';
+//   // slider.oninput = syncInputVal;
+//   slider.className = 'slider'
+//   slider.id = x + "-sl";
+//   slider.disabled = true;
+//   // slider.style.display = 'none';
+//   // slider.addEventListener('blur', hideSlider);
+//
+//   sliderWrapper.appendChild(slider);
+// }
 
 
 function showSlider() {
@@ -324,7 +342,7 @@ function colorInput() {
       ratioFields[i].value = (10 / (val * 10)).toFixed(2) * -1;
     } else { }
   }
-  
+
   var rfIds = []
   for (i=0; i<ratioFields.length; i++) {
     rfIds.push(ratioFields[i].id);

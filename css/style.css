@@ -7810,12 +7810,16 @@ input[type=color]:focus {
   border: none;
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus); }
 
+main {
+  display: flex; }
+
 #demoWrapper {
   padding: 0 0 56px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  height: 100%;
   overflow: scroll; }
 
 h1 {
