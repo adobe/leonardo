@@ -32,7 +32,7 @@ governing permissions and limitations under the License.
   // --gradient-slider-height: calc(100vh - var(--spectrum-global-dimension-size-800) - 7px);
 
   // Smaller, subpanel location of gradient uses these vars
-  --gradient-height-offset: 324px;
+  --gradient-height-offset: 332px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: calc(100vh - var(--gradient-height-offset));
   --color-size: 32px;
@@ -47,8 +47,17 @@ body {
   height: 100vh;
   overflow: hidden;
   font-family: 'Adobe Clean'; // local update since no typekit support currently.
+  display: grid;
+  grid-template-columns: 304px auto 240px;
+  grid-template-rows: 58px auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    "header header header"
+    "leftPanel . rightPanel";
 }
 .spectrum-AppHeader {
+  grid-area: header;
   display: flex;
   flex-direction: row;
   max-height: var(--spectrum-global-dimension-size-400); // 32px
@@ -74,6 +83,7 @@ body {
 .spectrum-Panel {
   display: flex;
   flex-direction: column;
+
   background-color: var(--spectrum-panel-background-color);
   min-width: calc(var(--spectrum-global-dimension-size-3000) + 32px);
   border-right: 2px solid var(--spectrum-panel-border-color);
@@ -85,8 +95,10 @@ body {
   min-width: var(--spectrum-global-dimension-size-3000);
 }
 .spectrum-Panel--right {
+  grid-area: rightPanel;
   border-right: 0;
   border-left: 2px solid var(--spectrum-panel-border-color);
+  justify-content: space-between;
 }
 .spectrum-Panel--custom {
   flex-direction: row;
@@ -176,6 +188,9 @@ body {
 #colorField1 {
   border: none;
   border-radius: 5px 0px 0px 5px;
+}
+#userColors {
+  grid-area: leftPanel;
 }
 #userColor, #userBg {
   height: 56px;
@@ -268,12 +283,16 @@ input[type=color]:focus {
   border: none;
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
 }
+main {
+  display: flex;
+}
 #demoWrapper {
   padding: 0 0 56px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  height: 100%;
   overflow: scroll;
 }
 h1 {
@@ -284,8 +303,9 @@ p {
 }
 .demo,
 .demoInverted {
-  max-width: 80ch;
-  padding: 16px 48px 48px;
+  // max-width: 80ch;
+  width: 100%;
+  padding: 8px 40px 32px;
   align-self: center;
 }
 .spectrum-Heading1 {
@@ -535,6 +555,10 @@ a:focus {
 
 .tick > text {
   display: none;
+}
+
+#contrastConfigs {
+
 }
 
 #colorMetrics {

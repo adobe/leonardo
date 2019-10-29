@@ -31,6 +31,7 @@ function paramSetup() {
   colorspaceOptions();
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
+  pathName = url.pathname;
 
   // // If parameters exist, use parameter; else use default html input values
   if(params.has('color')) {
@@ -86,26 +87,29 @@ function backgroundblock(b){
 backgroundblock(background);
 
 // Add ratio inputs
-function addRatio(v = 1, s = '#cacaca') {
-  // Gather values of other inputs so we can
+function addRatio(v, s = '#cacaca') {
   // increment by default
-  // var vals = document.getElementsByClassName('ratioField');
-  //
-  // if(v == undefined) {
-  //   var Array = [];
-  //   for(i=0; i<vals.length; i++) {
-  //     // place all existing values into array
-  //     Array.push(vals[i].value);
-  //   }
-  //   console.log(Array);
-  //   // TODO: find highest & lowest value in array
-  //   // TODO: if(highVal < 20) {v = highVal + 1} else (v=highVal)
-  // }
+  if(v == undefined) {
+    // find highest value
+    var hi = Math.max(...ratioInputs);
+    var lo = Math.min(...ratioInputs);
+
+    if(hi < 20) {
+      v = hi + 1;
+    }
+    if(hi == 21) {
+      v = lo - 1;
+    }
+  }
+
   var ratios = document.getElementById('ratios');
   var div = document.createElement('div');
+  var sliderWrapper = document.getElementById('sliderWrapper');
+  var slider = document.createElement('input');
+
   var randId = randomId();
   div.className = 'ratio-Item';
-  div.id = randomId();
+  div.id = randId + '-item';
   var sw = document.createElement('span');
   sw.className = 'spectrum-Textfield-swatch';
   sw.id = randId + '-sw';
@@ -128,7 +132,20 @@ function addRatio(v = 1, s = '#cacaca') {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  createSlider(randId, v);
+  slider.type = 'range';
+  slider.min = '0';
+  slider.max = '100';
+  slider.value = v;
+  slider.step = '.01';
+  // slider.oninput = syncInputVal;
+  slider.className = 'slider'
+  slider.id = randId + "-sl";
+  slider.disabled = true;
+  // slider.style.display = 'none';
+  // slider.addEventListener('blur', hideSlider);
+
+  sliderWrapper.appendChild(slider);
+  // createSlider(randId, v);
   // slider = document.getElementById(randId + "-sl");
   // slider.addEventListener('blur', hideSlider);
 
@@ -147,38 +164,47 @@ function addRatio(v = 1, s = '#cacaca') {
   // }
 }
 
+// When adding new ratios in UI, run colorinput as well
+function addNewRatio() {
+  addRatio();
+  colorInput();
+}
+
 
 // Delete ratio input
 function deleteRatio(e) {
   var id = e.target.parentNode.id;
   var self = document.getElementById(id);
-  var sliderid = id + '-slider';
+  var sliderid = id.replace('-item', '') + '-sl';
   var slider = document.getElementById(sliderid);
+  console.log(sliderid);
 
   self.remove();
+  slider.remove();
+  colorInput();
 }
 
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
 
-function createSlider(x, v) {
-  var sliderWrapper = document.getElementById('sliderWrapper');
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = '0';
-  slider.max = '100';
-  slider.value = v;
-  slider.step = '.01';
-  // slider.oninput = syncInputVal;
-  slider.className = 'slider'
-  slider.id = x + "-sl";
-  slider.disabled = true;
-  // slider.style.display = 'none';
-  // slider.addEventListener('blur', hideSlider);
-
-  sliderWrapper.appendChild(slider);
-}
+// function createSlider(x, v) {
+//   var sliderWrapper = document.getElementById('sliderWrapper');
+//   var slider = document.createElement('input');
+//   slider.type = 'range';
+//   slider.min = '0';
+//   slider.max = '100';
+//   slider.value = v;
+//   slider.step = '.01';
+//   // slider.oninput = syncInputVal;
+//   slider.className = 'slider'
+//   slider.id = x + "-sl";
+//   slider.disabled = true;
+//   // slider.style.display = 'none';
+//   // slider.addEventListener('blur', hideSlider);
+//
+//   sliderWrapper.appendChild(slider);
+// }
 
 
 function showSlider() {
@@ -217,6 +243,10 @@ function syncInputVal() {
 }
 
 function createDemo(c, z) {
+  var smallText = 'Small text demo';
+  var largeText = 'Large text';
+  var buttonText = 'Button';
+
   wrap = document.getElementById('demoWrapper');
   item = document.createElement('div');
   item.className = 'demoItem';
@@ -224,13 +254,13 @@ function createDemo(c, z) {
   demo.className = 'spectrum-Typography demo';
   h = document.createElement('h4');
   h.className = 'spectrum-Heading2 demoHeading';
-  title = document.createTextNode('Large text');
+  title = document.createTextNode(largeText);
   p = document.createElement('p');
   p.className = 'spectrum-Body3 demoText';
-  text = document.createTextNode('Small text demonstration');
+  text = document.createTextNode(smallText);
   b = document.createElement('button');
   b.className = 'spectrum-Button demoButton';
-  label = document.createTextNode('Button');
+  label = document.createTextNode(buttonText);
 
   h.appendChild(title);
   p.appendChild(text);
@@ -248,8 +278,8 @@ function createDemo(c, z) {
   bIn = document.createElement('button');
   bIn.className = 'spectrum-Button demoButton';
   titleIn = document.createTextNode('Large text');
-  textIn = document.createTextNode('Small text demonstration');
-  labelIn = document.createTextNode('Button');
+  textIn = document.createTextNode(smallText);
+  labelIn = document.createTextNode(buttonText);
 
   hIn.appendChild(titleIn);
   pIn.appendChild(textIn);
@@ -307,12 +337,22 @@ function colorInput() {
   var colorShade = colorField3.value;
   mode = document.querySelector('select[name="mode"]').value;
   // Gather input values for each input. Add those into array.
-  var ratioFields = document.getElementsByClassName('ratioField');
+  ratioFields = document.getElementsByClassName('ratioField');
+
+  // Clamp ratios convert decimal numbers to whole negatives and disallow
+  // inputs less than 1 and greater than -1.
+  for(i=0; i<ratioFields.length; i++) {
+    val = ratioFields[i].value;
+    if (val < 1 && val > -1) {
+      ratioFields[i].value = (10 / (val * 10)).toFixed(2) * -1;
+    } else { }
+  }
+
   var rfIds = []
   for (i=0; i<ratioFields.length; i++) {
     rfIds.push(ratioFields[i].id);
   }
-  var ratioInputs = [];
+  ratioInputs = [];
 
   // For each ratio input field, push the value into the args array for adaptcolor
   for(i=0; i < ratioFields.length; i++) {
@@ -379,22 +419,33 @@ function colorInput() {
   }
 
   createData();
-
-  createChartHeader('LCH');
-  createChart(lchData);
-  createChartHeader('LAB');
-  createChart(labData);
-  createChartHeader('CAM02');
-  createChart(camData);
-  createChartHeader('HSL');
-  createChart(hslData);
-  createChartHeader('HSLuv');
-  createChart(hsluvData);
-  createChartHeader('RGB');
-  createChart(rgbData);
+  if(mode=="LCH") {
+    createChartHeader('LCH');
+    createChart(lchData);
+  }
+  if(mode=="LAB") {
+    createChartHeader('LAB');
+    createChart(labData);
+  }
+  if(mode=="CAM02") {
+    createChartHeader('CAM02');
+    createChart(camData);
+  }
+  if(mode=="HSL") {
+    createChartHeader('HSL');
+    createChart(hslData);
+  }
+  if(mode=="HSLuv") {
+    createChartHeader('HSLuv');
+    createChart(hsluvData);
+  }
+  if(mode=="RGB") {
+    createChartHeader('RGB');
+    createChart(rgbData);
+  }
 
   // update URL parameters
-  // updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
+  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
 }
 colorInput(color1);
 
@@ -411,7 +462,7 @@ function updateParams(c, b, t, s, r, m) {
   params.set('ratios', r);
   params.set('mode', m);
 
-  window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+  window.history.replaceState({}, '', pathName + '/?' + params); // update the page's URL.
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
@@ -667,7 +718,8 @@ function createChart(data) {
   var data = data;
   var xy_chart = d3_xy_chart()
       .width(208)
-      .height(120)
+      // .height(120)
+      .height(180)
       .xlabel("X Axis")
       .ylabel("Y Axis") ;
   var svg = d3.select("#charts").append("svg")
@@ -676,7 +728,8 @@ function createChart(data) {
 
   function d3_xy_chart() {
       var width = 180,
-          height = 100,
+          height = 160,
+        // height = 100,
           xlabel = "X Axis Label",
           ylabel = "Y Axis Label" ;
 
@@ -812,4 +865,70 @@ function toggleGraphs() {
   var toggle = document.getElementById('toggleMetrics');
   panel.classList.toggle('visible');
   toggle.classList.toggle('is-selected');
+}
+
+// Sort swatches in UI
+function sort() {
+  ratioInputs.sort(function(a, b){return a-b});
+
+  // Update ratio inputs with new values
+  for (i=0; i<ratioInputs.length; i++) {
+    ratioFields[i].value = ratioInputs[i];
+  }
+  colorInput();
+}
+
+// if(dist=="linear") {
+//   // TODO: find largest/smallest numbers in array and redestribute
+//   var newScale = d3.scaleLinear()
+//     .domain([start, end]) // number of ratios
+//     .range([ratioInputs[0], ratioInputs[end]])  // range of ratio inputs
+// }
+
+// Redistribute contrast swatches
+function distributeExp() {
+  var start = 0;
+  var end = ratioInputs.length -1;
+  var Lums = []
+  for(i=0; i<newColors.length; i++) {
+    Lums.push(Number((100 - d3.hsluv(newColors[i]).v).toFixed(1) / 100) * 9);
+  }
+  // var Min = (Math.min.apply(Math, Lums));
+  // var Max = (Math.max.apply(Math, Lums));
+  // var diff = Max - Min;
+  console.log(Lums);
+
+  var newRatio = d3.scalePow()
+    .exponent(4.2) // Pretty close
+    .domain([0, 10]) // number of ratios
+    .range([1, 21])  // range of ratio inputs
+
+  // y = 0.1605e0.5303x
+  // var x = 0; // start 0, end 9 -> base 10 represents luminosity values
+  // newRatio = function(x) {
+  //   var newRat = 0.8 + (0.15 * Math.exp(0.545 * x));
+  //   if(newRat > 21) {
+  //     newRat = 21;
+  //   }
+  //   if(newRat < 1 && newRat > -1) {
+  //     newRat = 1;
+  //   }
+  //   return newRat;
+  // }
+  //
+  // for(i=0; i<Lums.length; i++) {
+  //   console.log(newRatio(Lums[i]));
+  // }
+  // if hsluv(color).v = 100 (white), x = 0
+  // if hsluv(color).v = 0 (black), x = 9
+  // How do I compute this?
+
+
+  // Update ratio inputs with new values
+  for (i=0; i<ratioInputs.length; i++) {
+    // newRatio.range([ratioInputs[0], ratioInputs[ratioInputs.length]])
+    // ratioFields[i].value = parseFloat(Number(newRatio([i])).toFixed(2));
+  }
+  //
+  // colorInput();
 }
