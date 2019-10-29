@@ -7581,7 +7581,7 @@ a.spectrum-ActionButton {
   color: var(--spectrum-checkbox-text-color-error-down, var(--spectrum-global-color-red-700)); }
 
 :root {
-  --gradient-height-offset: 324px;
+  --gradient-height-offset: 332px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: calc(100vh - var(--gradient-height-offset));
   --color-size: 32px;
@@ -7631,7 +7631,7 @@ body {
   background-color: var(--spectrum-panel-background-color);
   min-width: calc(var(--spectrum-global-dimension-size-3000) + 32px);
   border-right: 2px solid var(--spectrum-panel-border-color);
-  padding: 0 0 24px;
+  padding: 0;
   overflow: scroll; }
 
 .spectrum-Panel--small {
@@ -7831,7 +7831,7 @@ p {
 .demo,
 .demoInverted {
   max-width: 80ch;
-  padding: 16px 48px 48px;
+  padding: 0 40px 32px;
   align-self: center; }
 
 .spectrum-Heading1 {

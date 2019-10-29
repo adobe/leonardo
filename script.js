@@ -242,6 +242,10 @@ function syncInputVal() {
 }
 
 function createDemo(c, z) {
+  var smallText = 'Small text demo';
+  var largeText = 'Large text';
+  var buttonText = 'Button';
+
   wrap = document.getElementById('demoWrapper');
   item = document.createElement('div');
   item.className = 'demoItem';
@@ -249,13 +253,13 @@ function createDemo(c, z) {
   demo.className = 'spectrum-Typography demo';
   h = document.createElement('h4');
   h.className = 'spectrum-Heading2 demoHeading';
-  title = document.createTextNode('Large text');
+  title = document.createTextNode(largeText);
   p = document.createElement('p');
   p.className = 'spectrum-Body3 demoText';
-  text = document.createTextNode('Small text demonstration');
+  text = document.createTextNode(smallText);
   b = document.createElement('button');
   b.className = 'spectrum-Button demoButton';
-  label = document.createTextNode('Button');
+  label = document.createTextNode(buttonText);
 
   h.appendChild(title);
   p.appendChild(text);
@@ -273,8 +277,8 @@ function createDemo(c, z) {
   bIn = document.createElement('button');
   bIn.className = 'spectrum-Button demoButton';
   titleIn = document.createTextNode('Large text');
-  textIn = document.createTextNode('Small text demonstration');
-  labelIn = document.createTextNode('Button');
+  textIn = document.createTextNode(smallText);
+  labelIn = document.createTextNode(buttonText);
 
   hIn.appendChild(titleIn);
   pIn.appendChild(textIn);
