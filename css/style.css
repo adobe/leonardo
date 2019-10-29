@@ -7830,8 +7830,8 @@ p {
 
 .demo,
 .demoInverted {
-  max-width: 80ch;
-  padding: 0 40px 32px;
+  width: 100%;
+  padding: 8px 40px 32px;
   align-self: center; }
 
 .spectrum-Heading1 {

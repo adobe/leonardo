@@ -31,6 +31,7 @@ function paramSetup() {
   colorspaceOptions();
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
+  pathName = url.pathname;
 
   // // If parameters exist, use parameter; else use default html input values
   if(params.has('color')) {
@@ -461,7 +462,7 @@ function updateParams(c, b, t, s, r, m) {
   params.set('ratios', r);
   params.set('mode', m);
 
-  window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+  window.history.replaceState({}, '', pathName + '/?' + params); // update the page's URL.
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
