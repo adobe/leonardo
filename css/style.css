@@ -7594,9 +7594,16 @@ body {
   padding: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: 'Adobe Clean'; }
+  font-family: 'Adobe Clean';
+  display: grid;
+  grid-template-columns: 304px auto 240px;
+  grid-template-rows: 58px auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas: "header header header" "leftPanel . rightPanel"; }
 
 .spectrum-AppHeader {
+  grid-area: header;
   display: flex;
   flex-direction: row;
   max-height: var(--spectrum-global-dimension-size-400);
@@ -7632,6 +7639,7 @@ body {
   min-width: var(--spectrum-global-dimension-size-3000); }
 
 .spectrum-Panel--right {
+  grid-area: rightPanel;
   border-right: 0;
   border-left: 2px solid var(--spectrum-panel-border-color);
   justify-content: space-between; }
@@ -7720,6 +7728,9 @@ body {
 #colorField1 {
   border: none;
   border-radius: 5px 0px 0px 5px; }
+
+#userColors {
+  grid-area: leftPanel; }
 
 #userColor, #userBg {
   height: 56px;

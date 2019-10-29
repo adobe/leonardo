@@ -22,199 +22,197 @@ governing permissions and limitations under the License.
   <link rel='stylesheet' href="css/style.css"/>
   <!-- <link rel='stylesheet' href="components/colorcontrols.css"/> -->
 </head>
-<body class="spectrum spectrum--light spectrum--medium">
+<body class="spectrum spectrum spectrum--light spectrum--medium">
 <header class="spectrum-AppHeader">
   <h1 class="spectrum-Heading5 spectrum-AppHeader-Title">Leonardo</h1>
   <div class="spectrum-AppHeader--right">
     <a href="#" id="octo-link"> <img id="octocat" src="./GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
   </div>
 </header>
-<div class="wrapper">
-  <div id="userColors" class="spectrum-Panel">
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Contrast Color Pair</h3>
+<div id="userColors" class="spectrum-Panel">
+  <div class="spectrum-Panel-Item">
+    <div class="spectrum-Panel-Title">
+      <h3 class="spectrum-Heading6">Contrast Color Pair</h3>
+    </div>
+    <div class="spectrum-Panel-Item--row spacing-100">
+      <div class="colorField">
+        <label for="bgField" class="spectrum-FieldLabel">Base color</label>
+        <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
       </div>
-      <div class="spectrum-Panel-Item--row spacing-100">
-        <div class="colorField">
-          <label for="bgField" class="spectrum-FieldLabel">Base color</label>
-          <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
-        </div>
-        <div class="colorField" id="variableColorField">
-          <label for="colorField1" class="spectrum-FieldLabel">Variable color</label>
-          <div class="variableColor-wrapper">
-            <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
-            <div class="tintShades-wrapper">
-              <div class="colorField colorField--horizontal">
-                <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
-                <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
-              </div>
-              <div class="colorField colorField--horizontal">
-                <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
-                <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
-              </div>
+      <div class="colorField" id="variableColorField">
+        <label for="colorField1" class="spectrum-FieldLabel">Variable color</label>
+        <div class="variableColor-wrapper">
+          <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
+          <div class="tintShades-wrapper">
+            <div class="colorField colorField--horizontal">
+              <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
+              <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
+            </div>
+            <div class="colorField colorField--horizontal">
+              <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
+              <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- test -->
-      <!-- <template id="spectrum-ColorWheel">
-        <svg class="spectrum-ColorWheel-wheel" viewBox="0 0 160 160">
-          <defs>
-            <mask id="mask">
-              <circle cx="80" cy="80" r="80" fill="white" />
-              <circle cx="80" cy="80" r="56" fill="black" />
-            </mask>
-          </defs>
-          <g class="spectrum-ColorWheel-segment js-segments" mask="url(#mask)"></g>
-          <circle cx="80" cy="80" r="79.5" class="spectrum-ColorWheel-outerCircle js-track" />
-          <circle cx="80" cy="80" r="56" class="spectrum-ColorWheel-innerCircle" />
-        </svg>
-        <div class="spectrum-ColorWheel-handleContainer js-handleContainer">
-          <spectrum-colorhandle class="spectrum-ColorWheel-handle js-handle"></spectrum-colorhandle>
-        </div>
-        <input type="range" class="spectrum-ColorWheel-slider js-slider" min="0" max="360" step="1">
-        <input type="hidden" class="spectrum-ColorWheel-input js-input">
-      </template>
-
-      <template id="spectrum-ColorArea">
-        <div class="spectrum-ColorArea-gradient js-track"></div>
-        <spectrum-colorhandle class="spectrum-ColorArea-handle js-handle"></spectrum-colorhandle>
-        <input type="hidden" class="spectrum-ColorArea-value js-input">
-        <input type="range" class="spectrum-ColorArea-slider js-sSlider" min="0" max="1" step="0.01">
-        <input type="range" class="spectrum-ColorArea-slider js-vSlider" min="0" max="1" step="0.01">
-      </template>
-
-      <template id="spectrum-ColorSlider">
-        <div class="spectrum-ColorSlider-gradient js-track"></div>
-        <spectrum-colorhandle class="spectrum-ColorSlider-handle js-handle"></spectrum-colorhandle>
-        <input type="hidden" class="spectrum-ColorSlider-value js-input">
-        <input type="range" class="spectrum-ColorSlider-slider js-slider" min="0" max="100" step="1">
-      </template>
-
-      <template id="spectrum-ColorPicker">
-        <spectrum-colorwheel class="js-colorWheel"></spectrum-colorwheel>
-        <spectrum-colorarea class="js-colorArea" size="small"></spectrum-colorarea>
-      </template>
-
-      <template id="spectrum-ColorHandle">
-        <svg style="width: 50px; height: 66px;" class="spectrum-ColorHandle-loupe js-loupe">
-          <g transform="translate(1 1)">
-            <path class="spectrum-ColorHandle-loupeInner js-loupeInner" d="M24,0A24,24,0,0,1,48,24c0,16.255-24,40-24,40S0,40.255,0,24A24,24,0,0,1,24,0Z"/>
-            <path class="spectrum-ColorHandle-loupeOuter" d="M24,2A21.98,21.98,0,0,0,2,24c0,6.2,4,14.794,11.568,24.853A144.233,144.233,0,0,0,24,61.132,144.085,144.085,0,0,0,34.4,48.893C41.99,38.816,46,30.209,46,24A21.98,21.98,0,0,0,24,2m0-2A24,24,0,0,1,48,24c0,16.255-24,40-24,40S0,40.255,0,24A24,24,0,0,1,24,0Z"/>
-          </g>
-        </svg>
-      </template>
-
-
-      <div class="spectrum--medium">
-        <spectrum-colorpicker value="hsl(320, 80%, 40%)">
-        </spectrum-colorpicker>
-      </div> -->
-      <!-- end test -->
-
-      <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
-      <div class="spectrum-Dropdown" id="modeDropdown">
-        <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
-        </select>
-        <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-          <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-        </svg>
-      </div>
-      <button id="toggleMetrics" onclick="toggleGraphs()" class="spectrum-ActionButton">
-        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-          <use xlink:href="#spectrum-icon-18-Visibility" />
-        </svg>
-        <span class="spectrum-ActionButton-label">Color Graphs</span>
-      </button>
-
     </div>
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Contrast Ratio Swatches</h3>
+
+    <!-- test -->
+    <!-- <template id="spectrum-ColorWheel">
+      <svg class="spectrum-ColorWheel-wheel" viewBox="0 0 160 160">
+        <defs>
+          <mask id="mask">
+            <circle cx="80" cy="80" r="80" fill="white" />
+            <circle cx="80" cy="80" r="56" fill="black" />
+          </mask>
+        </defs>
+        <g class="spectrum-ColorWheel-segment js-segments" mask="url(#mask)"></g>
+        <circle cx="80" cy="80" r="79.5" class="spectrum-ColorWheel-outerCircle js-track" />
+        <circle cx="80" cy="80" r="56" class="spectrum-ColorWheel-innerCircle" />
+      </svg>
+      <div class="spectrum-ColorWheel-handleContainer js-handleContainer">
+        <spectrum-colorhandle class="spectrum-ColorWheel-handle js-handle"></spectrum-colorhandle>
       </div>
-      <div class="spectrum-Panel-Item--row spacing-100">
-        <div id="gradientWrapper">
-          <div id="colors"></div>
-          <div id="sliderWrapper">
-            <!-- <input type="range" min="0" max="500" class="slider" id="Slider" oninput="colorInput()"> -->
-          </div>
-        </div>
-        <div id="colorWrapper">
-          <div id="color"></div>
-        </div>
-        <div id="ratiosWrapper">
-          <div id="contrastConfigs">
-            <button id="sort" onclick="sort()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-              <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Edit">
-                <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
-              </svg>
-              <span class="spectrum-ActionButton-label">Sort</span>
-            </button>
-            <!-- <button id="sort" onclick="distributeExp()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-              <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-                <use xlink:href="#spectrum-icon-24-DistributeVertically" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter
-              </svg>
-              <span class="spectrum-ActionButton-label">Distribute</span>
-            </button> -->
+      <input type="range" class="spectrum-ColorWheel-slider js-slider" min="0" max="360" step="1">
+      <input type="hidden" class="spectrum-ColorWheel-input js-input">
+    </template>
 
-          </div>
+    <template id="spectrum-ColorArea">
+      <div class="spectrum-ColorArea-gradient js-track"></div>
+      <spectrum-colorhandle class="spectrum-ColorArea-handle js-handle"></spectrum-colorhandle>
+      <input type="hidden" class="spectrum-ColorArea-value js-input">
+      <input type="range" class="spectrum-ColorArea-slider js-sSlider" min="0" max="1" step="0.01">
+      <input type="range" class="spectrum-ColorArea-slider js-vSlider" min="0" max="1" step="0.01">
+    </template>
 
-          <div id="ratios">
-            <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
-          </div>
-          <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
-            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-              <use xlink:href="#spectrum-icon-18-Add" />
+    <template id="spectrum-ColorSlider">
+      <div class="spectrum-ColorSlider-gradient js-track"></div>
+      <spectrum-colorhandle class="spectrum-ColorSlider-handle js-handle"></spectrum-colorhandle>
+      <input type="hidden" class="spectrum-ColorSlider-value js-input">
+      <input type="range" class="spectrum-ColorSlider-slider js-slider" min="0" max="100" step="1">
+    </template>
+
+    <template id="spectrum-ColorPicker">
+      <spectrum-colorwheel class="js-colorWheel"></spectrum-colorwheel>
+      <spectrum-colorarea class="js-colorArea" size="small"></spectrum-colorarea>
+    </template>
+
+    <template id="spectrum-ColorHandle">
+      <svg style="width: 50px; height: 66px;" class="spectrum-ColorHandle-loupe js-loupe">
+        <g transform="translate(1 1)">
+          <path class="spectrum-ColorHandle-loupeInner js-loupeInner" d="M24,0A24,24,0,0,1,48,24c0,16.255-24,40-24,40S0,40.255,0,24A24,24,0,0,1,24,0Z"/>
+          <path class="spectrum-ColorHandle-loupeOuter" d="M24,2A21.98,21.98,0,0,0,2,24c0,6.2,4,14.794,11.568,24.853A144.233,144.233,0,0,0,24,61.132,144.085,144.085,0,0,0,34.4,48.893C41.99,38.816,46,30.209,46,24A21.98,21.98,0,0,0,24,2m0-2A24,24,0,0,1,48,24c0,16.255-24,40-24,40S0,40.255,0,24A24,24,0,0,1,24,0Z"/>
+        </g>
+      </svg>
+    </template>
+
+
+    <div class="spectrum--medium">
+      <spectrum-colorpicker value="hsl(320, 80%, 40%)">
+      </spectrum-colorpicker>
+    </div> -->
+    <!-- end test -->
+
+    <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
+    <div class="spectrum-Dropdown" id="modeDropdown">
+      <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
+      </select>
+      <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+        <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+      </svg>
+    </div>
+    <button id="toggleMetrics" onclick="toggleGraphs()" class="spectrum-ActionButton">
+      <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+        <use xlink:href="#spectrum-icon-18-Visibility" />
+      </svg>
+      <span class="spectrum-ActionButton-label">Color Graphs</span>
+    </button>
+
+  </div>
+  <div class="spectrum-Panel-Item">
+    <div class="spectrum-Panel-Title">
+      <h3 class="spectrum-Heading6">Contrast Ratio Swatches</h3>
+    </div>
+    <div class="spectrum-Panel-Item--row spacing-100">
+      <div id="gradientWrapper">
+        <div id="colors"></div>
+        <div id="sliderWrapper">
+          <!-- <input type="range" min="0" max="500" class="slider" id="Slider" oninput="colorInput()"> -->
+        </div>
+      </div>
+      <div id="colorWrapper">
+        <div id="color"></div>
+      </div>
+      <div id="ratiosWrapper">
+        <div id="contrastConfigs">
+          <button id="sort" onclick="sort()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
             </svg>
-            <span class="spectrum-ActionButton-label">Add Swatch</span>
+            <span class="spectrum-ActionButton-label">Sort</span>
           </button>
+          <!-- <button id="sort" onclick="distributeExp()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-icon-24-DistributeVertically" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter
+            </svg>
+            <span class="spectrum-ActionButton-label">Distribute</span>
+          </button> -->
+
         </div>
+
+        <div id="ratios">
+          <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
+        </div>
+        <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
+          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add Swatch</span>
+        </button>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="spectrum-Panel spectrum-Panel--small" id="colorMetrics">
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Color Graphs</h3>
-      </div>
-      <div id="charts">
-      </div>
+<div class="spectrum-Panel spectrum-Panel--small" id="colorMetrics">
+  <div class="spectrum-Panel-Item">
+    <div class="spectrum-Panel-Title">
+      <h3 class="spectrum-Heading6">Color Graphs</h3>
+    </div>
+    <div id="charts">
     </div>
   </div>
+</div>
 
-  <div id="demoWrapper">
-    <div class="demoItem">
-      <div id="demo" class="spectrum-Typography">
-        <h1 class="spectrum-Heading2" id="demoHeading">Large text.</h1>
-        <p class="spectrum-Body3" id="demoText">Small text demonstration.</p>
-        <button class="spectrum-Button" id="demoButton">Button</button>
-      </div>
-      <div id="demoInverted" class="spectrum-Typography">
-        <h1 class="spectrum-Heading2" id="demoHeadingInverted">Large text.</h1>
-        <p class="spectrum-Body3" id="demoTextInverted">Small text demonstration.</p>
-        <button class="spectrum-Button" id="demoButtonInverted">Button</button>
-      </div>
+<div id="demoWrapper">
+  <div class="demoItem">
+    <div id="demo" class="spectrum-Typography">
+      <h1 class="spectrum-Heading2" id="demoHeading">Large text.</h1>
+      <p class="spectrum-Body3" id="demoText">Small text demonstration.</p>
+      <button class="spectrum-Button" id="demoButton">Button</button>
+    </div>
+    <div id="demoInverted" class="spectrum-Typography">
+      <h1 class="spectrum-Heading2" id="demoHeadingInverted">Large text.</h1>
+      <p class="spectrum-Body3" id="demoTextInverted">Small text demonstration.</p>
+      <button class="spectrum-Button" id="demoButtonInverted">Button</button>
     </div>
   </div>
+</div>
 
-  <div id="outputs" class="spectrum-Panel spectrum-Panel--small spectrum-Panel--right">
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Generated Colors</h3>
-      </div>
-      <div id="colorOutputs">
-      </div>
+<div id="outputs" class="spectrum-Panel spectrum-Panel--small spectrum-Panel--right">
+  <div class="spectrum-Panel-Item">
+    <div class="spectrum-Panel-Title">
+      <h3 class="spectrum-Heading6">Generated Colors</h3>
     </div>
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Function Parameters</h3>
-      </div>
-      <div id="functionParams">
-        <span id="params" class="spectrum-Code5"></span>
-      </div>
+    <div id="colorOutputs">
+    </div>
+  </div>
+  <div class="spectrum-Panel-Item">
+    <div class="spectrum-Panel-Title">
+      <h3 class="spectrum-Heading6">Function Parameters</h3>
+    </div>
+    <div id="functionParams">
+      <span id="params" class="spectrum-Code5"></span>
     </div>
   </div>
 </div>

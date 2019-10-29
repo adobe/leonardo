@@ -147,6 +147,7 @@ function addRatio(v, s = '#cacaca') {
   // }
 }
 
+// When adding new ratios in UI, run colorinput as well
 function addNewRatio() {
   addRatio();
   colorInput();
@@ -314,6 +315,16 @@ function colorInput() {
   mode = document.querySelector('select[name="mode"]').value;
   // Gather input values for each input. Add those into array.
   ratioFields = document.getElementsByClassName('ratioField');
+
+  // Clamp ratios convert decimal numbers to whole negatives and disallow
+  // inputs less than 1 and greater than -1.
+  for(i=0; i<ratioFields.length; i++) {
+    val = ratioFields[i].value;
+    if (val < 1 && val > -1) {
+      ratioFields[i].value = (10 / (val * 10)).toFixed(2) * -1;
+    } else { }
+  }
+  
   var rfIds = []
   for (i=0; i<ratioFields.length; i++) {
     rfIds.push(ratioFields[i].id);
