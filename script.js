@@ -419,12 +419,12 @@ function updateParams(c, b, t, s, r, m) {
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
-  var call = 'adaptcolor({';
-  var pcol = 'color: "#' + c + '",';
-  var pbas = 'base: "#'+ b + '",';
-  var prat = 'ratios: [' + r + '],';
-  var ptin = 'tint: "#' + t + '",';
-  var psha = 'shade: "#' + s + '",';
+  var call = 'adaptcolor({ ';
+  var pcol = 'color: "#' + c + '", ';
+  var pbas = 'base: "#'+ b + '", ';
+  var prat = 'ratios: [' + r + '], ';
+  var ptin = 'tint: "#' + t + '", ';
+  var psha = 'shade: "#' + s + '", ';
   var pmod = ' colorspace: "' + m + '"});';
   text1 = document.createTextNode(call);
   text2 = document.createTextNode(pcol);
