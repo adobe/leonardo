@@ -344,28 +344,52 @@ function colorInput() {
 
   createData();
   if(mode=="LCH") {
-    createChartHeader('LCH');
-    createChart(lchData);
+    createChartHeader('Luminosity');
+    createChart(lchDataL);
+    createChartHeader('Chroma');
+    createChart(lchDataC);
+    createChartHeader('Hue');
+    createChart(lchDataH);
   }
   if(mode=="LAB") {
-    createChartHeader('LAB');
-    createChart(labData);
+    createChartHeader('Luminosity');
+    createChart(labDataL);
+    createChartHeader('A');
+    createChart(labDataA);
+    createChartHeader('B');
+    createChart(labDataB);
   }
   if(mode=="CAM02") {
-    createChartHeader('CAM02');
-    createChart(camData);
+    createChartHeader('Luminosity');
+    createChart(camDataJ);
+    createChartHeader('A');
+    createChart(camDataA);
+    createChartHeader('B');
+    createChart(camDataB);
   }
   if(mode=="HSL") {
-    createChartHeader('HSL');
-    createChart(hslData);
+    createChartHeader('Hue');
+    createChart(hslDataH);
+    createChartHeader('Saturation');
+    createChart(hslDataS);
+    createChartHeader('Luminosity');
+    createChart(hslDataL);
   }
   if(mode=="HSLuv") {
-    createChartHeader('HSLuv');
-    createChart(hsluvData);
+    createChartHeader('Luminosity');
+    createChart(hsluvDataL);
+    createChartHeader('U');
+    createChart(hsluvDataU);
+    createChartHeader('Value');
+    createChart(hsluvDataV);
   }
   if(mode=="RGB") {
-    createChartHeader('RGB');
-    createChart(rgbData);
+    createChartHeader('Red');
+    createChart(rgbDataR);
+    createChartHeader('Green');
+    createChart(rgbDataG);
+    createChartHeader('Blue');
+    createChart(rgbDataB);
   }
 
   // update URL parameters
@@ -543,86 +567,195 @@ function createData() {
   };
 
   dataX = fillRange(0, CAMArrayJ.length - 1);
+  dataXcyl = fillRange(0, LCHArrayL.length - 1);
 
-  camData = [
+  // camData = [
+  //   {
+  //     x: dataX,
+  //     y: CAMArrayJ
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: CAMArrayA
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: CAMArrayB
+  //   }
+  // ];
+  // labData = [
+  //   {
+  //     x: dataX,
+  //     y: LABArrayL
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: LABArrayA
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: LABArrayB
+  //   }
+  // ];
+  // lchData = [
+  //   {
+  //     x: dataX,
+  //     y: LCHArrayL
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: LCHArrayC
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: LCHArrayH
+  //   }
+  // ];
+  // rgbData = [
+  //   {
+  //     x: dataX,
+  //     y: RGBArrayR
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: RGBArrayG
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: RGBArrayB
+  //   }
+  // ];
+  // hslData = [
+  //   // {
+  //   //   x: dataX,
+  //   //   y: HSLArrayH
+  //   // },
+  //   {
+  //     x: dataX,
+  //     y: HSLArrayS
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: HSLArrayL
+  //   }
+  // ];
+  // hsluvData = [
+  //   {
+  //     x: dataX,
+  //     y: HSLuvArrayL
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: HSLuvArrayU
+  //   },
+  //   {
+  //     x: dataX,
+  //     y: HSLuvArrayV
+  //   }
+  // ];
+  camDataJ = [
     {
       x: dataX,
       y: CAMArrayJ
-    },
+    }
+  ];
+  camDataA = [
     {
       x: dataX,
       y: CAMArrayA
-    },
+    }
+  ];
+  camDataB = [
     {
       x: dataX,
       y: CAMArrayB
     }
   ];
-  labData = [
+  labDataL = [
     {
       x: dataX,
       y: LABArrayL
-    },
+    }
+  ];
+  labDataA = [
     {
       x: dataX,
       y: LABArrayA
-    },
+    }
+  ];
+  labDataB = [
     {
       x: dataX,
       y: LABArrayB
     }
   ];
-  lchData = [
+  lchDataL = [
     {
       x: dataX,
       y: LCHArrayL
-    },
+    }
+  ];
+  lchDataC = [
     {
       x: dataX,
       y: LCHArrayC
-    },
+    }
+  ];
+  lchDataH = [
     {
-      x: dataX,
+      x: dataXcyl,
       y: LCHArrayH
     }
   ];
-  rgbData = [
+  rgbDataR = [
     {
       x: dataX,
       y: RGBArrayR
-    },
+    }
+  ];
+  rgbDataG = [
     {
       x: dataX,
       y: RGBArrayG
-    },
+    }
+  ];
+  rgbDataB = [
     {
       x: dataX,
       y: RGBArrayB
     }
   ];
-  hslData = [
-    // {
-    //   x: dataX,
-    //   y: HSLArrayH
-    // },
+  hslDataH = [
+    {
+      x: dataXcyl,
+      y: HSLArrayH
+    }
+  ];
+  hslDataS = [
     {
       x: dataX,
       y: HSLArrayS
-    },
+    }
+  ];
+  hslDataL = [
     {
       x: dataX,
       y: HSLArrayL
     }
   ];
-  hsluvData = [
+  hsluvDataL = [
     {
       x: dataX,
       y: HSLuvArrayL
-    },
+    }
+  ];
+  hsluvDataU = [
     {
       x: dataX,
       y: HSLuvArrayU
-    },
+    }
+  ];
+  hsluvDataV = [
     {
       x: dataX,
       y: HSLuvArrayV
