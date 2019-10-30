@@ -95,6 +95,8 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
 // adaptcolor({color: '#2451FF', base: '#f5f5f5', ratios: [3, 4.5], tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB'});
 // adaptcolor({color: "#0000ff",base: "#323232",ratios: [-1.25,4.5],tint: "#fefefe",shade: "#010101", colorspace: "LCH"});
 
+// TODO: see if there's a luminance package?
+// Separate files in a lib folder as well.
 function luminance(r, g, b) {
   var a = [r, g, b].map(function (v) {
       v /= 255;
@@ -109,6 +111,7 @@ function luminance(r, g, b) {
 //   return (0.299*r + 0.587*g + 0.114*b);
 // }
 
+// Separate files in a lib folder as well.
 function contrast(color, base) {
   var colorLum = luminance(color[0], color[1], color[2]);
   var baseLum = luminance(base[0], base[1], base[2]);
@@ -124,14 +127,15 @@ function contrast(color, base) {
     if (cr1 < 1) { return cr2; }
     else { return cr1 * -1; } // Return as whole negative number
   }
-
 }
 // test scripts:
 // contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number
 
+
+// TODO: Find binary search package to use instead of this. -> use its own file
 // Binary search to find index of contrast ratio that is input
 // Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
-function binarySearch (list, value, baseLum) {
+function binarySearch(list, value, baseLum) {
   // initial values for start, middle and end
   let start = 0
   let stop = list.length - 1
@@ -156,9 +160,6 @@ function binarySearch (list, value, baseLum) {
     // recalculate middle on every iteration
     middle = Math.floor((start + stop) / 2)
   }
-
-  // If no match, find next closest value
-  // closest = list.reduce((prev, curr) => Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
 
   // If no match, find closest item greater than value
   closest = list.reduce((prev, curr) => curr > value ? curr : prev);

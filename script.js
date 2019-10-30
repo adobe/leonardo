@@ -58,7 +58,6 @@ function paramSetup() {
 
     for(i=0; i<ratios.length; i++) {
       addRatio(ratios[i]);
-      // console.log(ratios[i]);
     }
   }
   if(params.has('mode')) {
@@ -95,10 +94,10 @@ function addRatio(v, s = '#cacaca') {
     var lo = Math.min(...ratioInputs);
 
     if(hi < 20) {
-      v = hi + 1;
+      v = Number(hi + 1).toFixed(2);
     }
     if(hi == 21) {
-      v = lo - 1;
+      v = Number(hi - 1).toFixed(2);
     }
   }
 
@@ -137,31 +136,16 @@ function addRatio(v, s = '#cacaca') {
   slider.max = '100';
   slider.value = v;
   slider.step = '.01';
-  // slider.oninput = syncInputVal;
   slider.className = 'slider'
   slider.id = randId + "-sl";
   slider.disabled = true;
-  // slider.style.display = 'none';
-  // slider.addEventListener('blur', hideSlider);
-
   sliderWrapper.appendChild(slider);
-  // createSlider(randId, v);
-  // slider = document.getElementById(randId + "-sl");
-  // slider.addEventListener('blur', hideSlider);
 
   button.onclick = deleteRatio;
   div.appendChild(sw);
   div.appendChild(input);
   div.appendChild(button);
   ratios.appendChild(div);
-
-  // Can I increment these id's? Need a way to assign swatch
-  // background color to the output, which is not dependent upon
-  // any of these ids.
-  // var list = document.getElementsByClassName("something");
-  // for (var i = 0; i < list.length; i++) {
-  //  list[i].setAttribute("id", "box" + i);
-  // }
 }
 
 // When adding new ratios in UI, run colorinput as well
@@ -170,14 +154,12 @@ function addNewRatio() {
   colorInput();
 }
 
-
 // Delete ratio input
 function deleteRatio(e) {
   var id = e.target.parentNode.id;
   var self = document.getElementById(id);
   var sliderid = id.replace('-item', '') + '-sl';
   var slider = document.getElementById(sliderid);
-  console.log(sliderid);
 
   self.remove();
   slider.remove();
@@ -186,60 +168,6 @@ function deleteRatio(e) {
 
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
-}
-
-// function createSlider(x, v) {
-//   var sliderWrapper = document.getElementById('sliderWrapper');
-//   var slider = document.createElement('input');
-//   slider.type = 'range';
-//   slider.min = '0';
-//   slider.max = '100';
-//   slider.value = v;
-//   slider.step = '.01';
-//   // slider.oninput = syncInputVal;
-//   slider.className = 'slider'
-//   slider.id = x + "-sl";
-//   slider.disabled = true;
-//   // slider.style.display = 'none';
-//   // slider.addEventListener('blur', hideSlider);
-//
-//   sliderWrapper.appendChild(slider);
-// }
-
-
-function showSlider() {
-  var id = this.id;
-  var slider = document.getElementById(id + '-sl');
-  if (this.focus || slider.focus) {
-    slider.style.zIndex = '100';
-  } else {
-    slider.style.zIndex = '0';
-  }
-}
-function hideSlider() {
-  // var id = this.id;
-  // var slider = document.getElementById(id + '-sl');
-  if (this.focus) {
-    slider.style.zIndex = '0';
-  } else {
-    slider.style.zIndex = '100';
-  }
-}
-function syncVal() {
-  id = this.id;
-  slider = document.getElementById(id + '-sl');
-  c = this.value;
-  slider.value = c;
-}
-function syncInputVal() {
-  id = this.id;
-  inputId = id.substring(0, id.length - 3);
-  input = document.getElementById(inputId);
-  // TODO: this should not be done this way.
-  // Slider should use previous method of deterimining
-  // position relative to color domain of swatches.
-  // In this function, then calculate ratio & return ratio as value input?
-  input.value = this.value;
 }
 
 function createDemo(c, z) {
@@ -322,7 +250,6 @@ function colorspaceOptions() {
     colorspace.options[colorspace.options.length] = new Option(opts[index], index);
   }
 }
-// colorspaceOptions();
 
 // Calculate Color and generate Scales
 function colorInput() {
@@ -360,7 +287,6 @@ function colorInput() {
   }
 
   adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode});
-  // document.getElementById('sliderWrapper').innerHTML = ' ';
 
   for(i=0; i<newColors.length; i++) {
     colorblock(newColors[i])
@@ -450,7 +376,7 @@ function colorInput() {
 colorInput(color1);
 
 
-// Passing variable parameters to URL https://googlechrome.github.io/samples/urlsearchparams/?foo=2
+// Passing variable parameters to URL
 function updateParams(c, b, t, s, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
@@ -462,7 +388,12 @@ function updateParams(c, b, t, s, r, m) {
   params.set('ratios', r);
   params.set('mode', m);
 
-  window.history.replaceState({}, '', pathName + '/?' + params); // update the page's URL.
+  // retain pathname if present
+  if(pathName == '/') {
+    window.history.replaceState({}, '', '/?' + params); // update the page's URL.
+  } else {
+    window.history.replaceState({}, '', pathName + '/?' + params); // update the page's URL.
+  }
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
@@ -509,7 +440,6 @@ function createData() {
   RGB_R = [];
   RGB_G = [];
   RGB_B = [];
-  // What to do for HSL...?
 
   for(i=4; i<colors.length -8; i++) { // Clip array to eliminate NaN values
     CAM_J.push(d3.jab(colors[i]).J);
@@ -616,8 +546,6 @@ function createData() {
 
   dataX = fillRange(0, CAMArrayJ.length - 1);
 
-  // dataX = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
   camData = [
     {
       x: dataX,
@@ -713,7 +641,7 @@ function createChartHeader(x) {
   container.appendChild(subhead);
 }
 
-// Let's test making a chart, shall we?
+// Make color charts
 function createChart(data) {
   var data = data;
   var xy_chart = d3_xy_chart()
@@ -858,8 +786,6 @@ function createChart(data) {
   }
 }
 
-// Hide using style attribute to enable toggle to work:
-// document.getElementById('colorMetrics').style.display = 'none';
 function toggleGraphs() {
   var panel = document.getElementById('colorMetrics');
   var toggle = document.getElementById('toggleMetrics');
@@ -875,60 +801,49 @@ function sort() {
   for (i=0; i<ratioInputs.length; i++) {
     ratioFields[i].value = ratioInputs[i];
   }
+}
+
+function sortRatios() {
+  sort();
   colorInput();
 }
 
-// if(dist=="linear") {
-//   // TODO: find largest/smallest numbers in array and redestribute
-//   var newScale = d3.scaleLinear()
-//     .domain([start, end]) // number of ratios
-//     .range([ratioInputs[0], ratioInputs[end]])  // range of ratio inputs
-// }
+// Exponential curve for approximating perceptually balanced swatch distribution
+function returnRatio(lum) {
+  var a = 22.11002659220650;
+  var b = -0.03236668196111;
+  var r = a * Math.exp(b * lum);
+  if (r > 1) {
+    return r;
+  }
+  if (r < 1 && r >= 0) {
+    return 1;
+  }
+}
 
 // Redistribute contrast swatches
 function distributeExp() {
-  var start = 0;
+  sort();
+  var start = 1;
   var end = ratioInputs.length -1;
   var Lums = []
   for(i=0; i<newColors.length; i++) {
-    Lums.push(Number((100 - d3.hsluv(newColors[i]).v).toFixed(1) / 100) * 9);
+    Lums.push(d3.hsluv(newColors[i]).v);
   }
-  // var Min = (Math.min.apply(Math, Lums));
-  // var Max = (Math.max.apply(Math, Lums));
-  // var diff = Max - Min;
-  console.log(Lums);
 
-  var newRatio = d3.scalePow()
-    .exponent(4.2) // Pretty close
-    .domain([0, 10]) // number of ratios
-    .range([1, 21])  // range of ratio inputs
+  var startLum = Math.min(...Lums);
+  var endLum = Math.max(...Lums);
+  var diff = (endLum - startLum) / (Lums.length - 1);
 
-  // y = 0.1605e0.5303x
-  // var x = 0; // start 0, end 9 -> base 10 represents luminosity values
-  // newRatio = function(x) {
-  //   var newRat = 0.8 + (0.15 * Math.exp(0.545 * x));
-  //   if(newRat > 21) {
-  //     newRat = 21;
-  //   }
-  //   if(newRat < 1 && newRat > -1) {
-  //     newRat = 1;
-  //   }
-  //   return newRat;
-  // }
-  //
-  // for(i=0; i<Lums.length; i++) {
-  //   console.log(newRatio(Lums[i]));
-  // }
-  // if hsluv(color).v = 100 (white), x = 0
-  // if hsluv(color).v = 0 (black), x = 9
-  // How do I compute this?
+  for (i=1; i<Lums.length -1; i++) {
+    Lums[i] = startLum + diff * i;
 
-
-  // Update ratio inputs with new values
-  for (i=0; i<ratioInputs.length; i++) {
-    // newRatio.range([ratioInputs[0], ratioInputs[ratioInputs.length]])
-    // ratioFields[i].value = parseFloat(Number(newRatio([i])).toFixed(2));
   }
-  //
-  // colorInput();
+  Lums.sort(function(a, b){return b-a});
+
+  for(i=1; i<Lums.length -1; i++) {
+    ratioFields[i].value = returnRatio(Lums[i]).toFixed(2);
+  }
+
+  colorInput();
 }
