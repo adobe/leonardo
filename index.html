@@ -151,19 +151,21 @@ governing permissions and limitations under the License.
     <!-- end test -->
 
     <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
-    <div class="spectrum-Dropdown" id="modeDropdown">
-      <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
-      </select>
-      <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-        <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-      </svg>
+    <div id="modeContainer">
+      <div class="spectrum-Dropdown" id="modeDropdown">
+        <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
+        </select>
+        <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+          <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+        </svg>
+      </div>
+      <button id="toggleMetrics" onclick="toggleGraphs()" class="spectrum-ActionButton">
+        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+          <use xlink:href="#spectrum-icon-18-Visibility" />
+        </svg>
+        <span class="spectrum-ActionButton-label">Color Graphs</span>
+      </button>
     </div>
-    <button id="toggleMetrics" onclick="toggleGraphs()" class="spectrum-ActionButton">
-      <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-        <use xlink:href="#spectrum-icon-18-Visibility" />
-      </svg>
-      <span class="spectrum-ActionButton-label">Color Graphs</span>
-    </button>
 
   </div>
   <div class="spectrum-Panel-Item">
@@ -257,7 +259,6 @@ governing permissions and limitations under the License.
 <script src="script.js"></script>
 <script src="node_modules/loadicons/index.js"></script>
 <script>
-  // loadIcons('https://unpkg.com/@adobe/spectrum-css@2.7.1/dist/icons/spectrum-css-icons.svg');
   loadIcons('node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg');
   loadIcons('node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg');
 </script>

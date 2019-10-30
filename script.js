@@ -16,12 +16,6 @@ var background = document.getElementById('bgField').value;
 // var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
 var demoWrapper = document.getElementById('demoWrapper');
-var demoText = document.getElementById('demoText');
-var demoBackgroundText = document.getElementById('demoTextInverted');
-var demoBackgroundHeading = document.getElementById('demoHeadingInverted');
-var demoBackgroundBlock = document.getElementById('demoInverted');
-var demoButton = document.getElementById('demoButton');
-var demoButtonInverted = document.getElementById('demoButtonInverted');
 var userColorBlock = document.getElementById('userColor');
 var userBgBlock = document.getElementById('userBg');
 var ratioInput = document.getElementById('ratio');
@@ -69,16 +63,6 @@ function paramSetup() {
   }
 }
 paramSetup();
-
-function backgroundblock(b){
-  demoWrapper.style.backgroundColor = b;
-  demoBackgroundText.style.color = b;
-  demoBackgroundHeading.style.color = b;
-  demoBackgroundBlock.style.color = b;
-  demoButtonInverted.style.color = b;
-  demoButtonInverted.style.borderColor = b;
-}
-backgroundblock(background);
 
 // Add ratio inputs
 function addRatio(v, s = '#cacaca') {
@@ -183,14 +167,19 @@ function createDemo(c, z) {
   text = document.createTextNode(smallText);
   b = document.createElement('button');
   b.className = 'spectrum-Button demoButton';
+  bF = document.createElement('button');
+  bF.className = 'spectrum-Button demoButton';
   label = document.createTextNode(buttonText);
+  label2 = document.createTextNode(buttonText);
 
   h.appendChild(title);
   p.appendChild(text);
   b.appendChild(label);
+  bF.appendChild(label2);
   demo.appendChild(h);
   demo.appendChild(p);
   demo.appendChild(b);
+  demo.appendChild(bF);
 
   demoIn = document.createElement('div');
   demoIn.className = 'spectrum-Typography demoInverted';
@@ -200,16 +189,21 @@ function createDemo(c, z) {
   pIn.className = 'spectrum-Body3 demoText';
   bIn = document.createElement('button');
   bIn.className = 'spectrum-Button demoButton';
+  bFIn = document.createElement('button');
+  bFIn.className = 'spectrum-Button demoButton';
   titleIn = document.createTextNode('Large text');
   textIn = document.createTextNode(smallText);
   labelIn = document.createTextNode(buttonText);
+  labelIn2 = document.createTextNode(buttonText);
 
   hIn.appendChild(titleIn);
   pIn.appendChild(textIn);
   bIn.appendChild(labelIn);
+  bFIn.appendChild(labelIn2);
   demoIn.appendChild(hIn);
   demoIn.appendChild(pIn);
   demoIn.appendChild(bIn);
+  demoIn.appendChild(bFIn);
 
   item.appendChild(demo);
   item.appendChild(demoIn);
@@ -221,11 +215,19 @@ function createDemo(c, z) {
   p.style.color = c;
   h.style.color = c;
   b.style.color = c;
+  bF.style.backgroundColor = c;
+  bF.style.borderColor = c;
+  bF.style.color = z;
+  bFIn.style.color = c;
+  bFIn.style.backgroundColor = z;
+  bFIn.style.borderColor = z;
   b.style.borderColor = c;
   pIn.style.color = z;
   hIn.style.color = z;
   bIn.style.color = z;
   bIn.style.borderColor = z;
+
+  demoWrapper.style.backgroundColor = z;
 }
 
 function colorspaceOptions() {
@@ -309,8 +311,6 @@ function colorInput() {
   var backgroundG = d3.rgb(background).g;
   var backgroundB = d3.rgb(background).b;
 
-  backgroundblock(background);
-
   var colorOutputWrapper = document.getElementById('colorOutputs');
   colorOutputWrapper.innerHTML = '';
   wrap = document.getElementById('demoWrapper');
@@ -344,7 +344,7 @@ function colorInput() {
 
   createData();
   if(mode=="LCH") {
-    createChartHeader('Luminosity');
+    createChartHeader('Lightness');
     createChart(lchDataL);
     createChartHeader('Chroma');
     createChart(lchDataC);
@@ -352,19 +352,19 @@ function colorInput() {
     createChart(lchDataH);
   }
   if(mode=="LAB") {
-    createChartHeader('Luminosity');
+    createChartHeader('Lightness');
     createChart(labDataL);
-    createChartHeader('A');
+    createChartHeader('Green / Red');
     createChart(labDataA);
-    createChartHeader('B');
+    createChartHeader('Blue / Yellow');
     createChart(labDataB);
   }
   if(mode=="CAM02") {
-    createChartHeader('Luminosity');
+    createChartHeader('Lightness');
     createChart(camDataJ);
-    createChartHeader('A');
+    createChartHeader('Green / Red');
     createChart(camDataA);
-    createChartHeader('B');
+    createChartHeader('Blue / Yellow');
     createChart(camDataB);
   }
   if(mode=="HSL") {
@@ -372,15 +372,15 @@ function colorInput() {
     createChart(hslDataH);
     createChartHeader('Saturation');
     createChart(hslDataS);
-    createChartHeader('Luminosity');
+    createChartHeader('Lightness');
     createChart(hslDataL);
   }
   if(mode=="HSLuv") {
-    createChartHeader('Luminosity');
+    createChartHeader('Hue');
     createChart(hsluvDataL);
-    createChartHeader('U');
+    createChartHeader('Saturation');
     createChart(hsluvDataU);
-    createChartHeader('Value');
+    createChartHeader('Lightness');
     createChart(hsluvDataV);
   }
   if(mode=="RGB") {
@@ -569,90 +569,6 @@ function createData() {
   dataX = fillRange(0, CAMArrayJ.length - 1);
   dataXcyl = fillRange(0, LCHArrayL.length - 1);
 
-  // camData = [
-  //   {
-  //     x: dataX,
-  //     y: CAMArrayJ
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: CAMArrayA
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: CAMArrayB
-  //   }
-  // ];
-  // labData = [
-  //   {
-  //     x: dataX,
-  //     y: LABArrayL
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: LABArrayA
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: LABArrayB
-  //   }
-  // ];
-  // lchData = [
-  //   {
-  //     x: dataX,
-  //     y: LCHArrayL
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: LCHArrayC
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: LCHArrayH
-  //   }
-  // ];
-  // rgbData = [
-  //   {
-  //     x: dataX,
-  //     y: RGBArrayR
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: RGBArrayG
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: RGBArrayB
-  //   }
-  // ];
-  // hslData = [
-  //   // {
-  //   //   x: dataX,
-  //   //   y: HSLArrayH
-  //   // },
-  //   {
-  //     x: dataX,
-  //     y: HSLArrayS
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: HSLArrayL
-  //   }
-  // ];
-  // hsluvData = [
-  //   {
-  //     x: dataX,
-  //     y: HSLuvArrayL
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: HSLuvArrayU
-  //   },
-  //   {
-  //     x: dataX,
-  //     y: HSLuvArrayV
-  //   }
-  // ];
   camDataJ = [
     {
       x: dataX,

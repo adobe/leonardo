@@ -7587,7 +7587,8 @@ a.spectrum-ActionButton {
   --color-size: 32px;
   --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
   --gradient-slider-height: calc(100vh - var(--gradient-height-offset));
-  --slider-thumb-size: 8px; }
+  --slider-thumb-size: 8px;
+  --header-height: 58px; }
 
 body {
   margin: 0;
@@ -7597,7 +7598,7 @@ body {
   font-family: 'Adobe Clean';
   display: grid;
   grid-template-columns: 304px auto 240px;
-  grid-template-rows: 58px auto;
+  grid-template-rows: var(--header-height) auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas: "header header header" "leftPanel . rightPanel"; }
@@ -7828,7 +7829,6 @@ main {
   padding: 0 0 56px 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 100%;
   height: 100%;
   max-height: calc(100vh - 56px);
@@ -7861,6 +7861,10 @@ colorOutput-field {
   height: 74px;
   width: 100%;
   resize: none; }
+
+#colorOutputs {
+  max-height: calc(100vh - var(--header-height) - 234px);
+  overflow: scroll; }
 
 .spectrum-Textfield-swatch {
   position: absolute;
@@ -8003,21 +8007,31 @@ a:focus {
   max-height: 100%;
   overflow: scroll; }
 
+#ratios {
+  max-height: calc(var(--gradient-height) - 64px);
+  overflow: scroll; }
+
 .demoItem {
   display: flex;
   flex-direction: row;
   justify-content: center; }
+  .demoItem:first-of-type {
+    margin-top: auto; }
+  .demoItem:last-of-type {
+    margin-bottom: auto; }
 
 #libraryDropdown {
   width: 116px; }
 
 #modeDropdown {
-  width: 104px; }
+  width: 104px;
+  flex-grow: 1; }
   #modeDropdown ~ .spectrum-ActionButton {
     margin-left: 8px; }
 
 #addRatio {
-  justify-content: center; }
+  justify-content: center;
+  margin-top: 8px; }
   #addRatio > .spectrum-ActionButton-label {
     width: auto; }
 
@@ -8063,3 +8077,7 @@ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
 
 g.d3_xy_chart_line path.line {
   stroke: #76D0C5; }
+
+#modeContainer {
+  display: flex;
+  flex-direction: row; }
