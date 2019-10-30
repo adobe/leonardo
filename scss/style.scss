@@ -76,6 +76,16 @@ body {
   margin: 0;
   // font-size: var(--spectrum-global-dimension-font-size-200);
 }
+#headerLogo {
+  height: 24px;
+  width: 24px;
+}
+#logoTitle {
+  display: inline-flex;
+}
+#headerLogo ~ .spectrum-AppHeader-Title {
+    margin-left: 8px;
+}
 #octo-link {
   margin-left: 16px;
   padding: 4px;
@@ -95,6 +105,7 @@ body {
   min-width: var(--spectrum-global-dimension-size-3000);
 }
 .spectrum-Panel--right {
+  max-height: calc(100vh - 56px);
   grid-area: rightPanel;
   border-right: 0;
   border-left: 2px solid var(--spectrum-panel-border-color);
