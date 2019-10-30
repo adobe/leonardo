@@ -105,6 +105,7 @@ body {
   min-width: var(--spectrum-global-dimension-size-3000);
 }
 .spectrum-Panel--right {
+  max-height: calc(100vh - 56px);
   grid-area: rightPanel;
   border-right: 0;
   border-left: 2px solid var(--spectrum-panel-border-color);
