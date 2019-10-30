@@ -13,7 +13,7 @@ var color1 = document.getElementById('colorField1').value;
 var colorTint = document.getElementById('colorField2').value;
 var colorShade = document.getElementById('colorField3').value;
 var background = document.getElementById('bgField').value;
-var colorBlock = document.getElementById('color');
+// var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
 var demoWrapper = document.getElementById('demoWrapper');
 var demoText = document.getElementById('demoText');
@@ -69,11 +69,6 @@ function paramSetup() {
   }
 }
 paramSetup();
-
-function colorblock(c){
-  colorBlock.style.backgroundColor = c;
-}
-colorblock(color1);
 
 function backgroundblock(b){
   demoWrapper.style.backgroundColor = b;
@@ -289,12 +284,15 @@ function colorInput() {
   adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode});
 
   for(i=0; i<newColors.length; i++) {
-    colorblock(newColors[i])
     // Calculate value of color and apply to slider position/value
     var val = d3.hsluv(newColors[i]).v;
     // Find corresponding input/slider id
     var slider = document.getElementById(rfIds[i] + '-sl')
     slider.value = val;
+
+    // apply color to subsequent swatch
+    var swatch = document.getElementById(rfIds[i] + '-sw')
+    swatch.style.backgroundColor = newColors[i];
   }
 
   // Generate Gradient
