@@ -344,53 +344,56 @@ function colorInput() {
 
   createData();
   if(mode=="LCH") {
-    createChartHeader('Lightness');
-    createChart(lchDataL);
-    createChartHeader('Chroma');
-    createChart(lchDataC);
-    createChartHeader('Hue');
-    createChart(lchDataH);
+    createChartHeader('Lightness', 'charts');
+    createChart(lchDataL, "#charts");
+    createChartHeader('Chroma', 'charts');
+    createChart(lchDataC, "#charts");
+    createChartHeader('Hue', 'charts');
+    createChart(lchDataH, "#charts");
   }
   if(mode=="LAB") {
-    createChartHeader('Lightness');
-    createChart(labDataL);
-    createChartHeader('Green / Red');
-    createChart(labDataA);
-    createChartHeader('Blue / Yellow');
-    createChart(labDataB);
+    createChartHeader('Lightness', 'charts');
+    createChart(labDataL, "#charts");
+    createChartHeader('Green / Red', 'charts');
+    createChart(labDataA, "#charts");
+    createChartHeader('Blue / Yellow', 'charts');
+    createChart(labDataB, "#charts");
   }
   if(mode=="CAM02") {
-    createChartHeader('Lightness');
-    createChart(camDataJ);
-    createChartHeader('Green / Red');
-    createChart(camDataA);
-    createChartHeader('Blue / Yellow');
-    createChart(camDataB);
+    createChartHeader('Lightness', 'charts');
+    createChart(camDataJ, "#charts");
+    createChartHeader('Green / Red', 'charts');
+    createChart(camDataA, "#charts");
+    createChartHeader('Blue / Yellow', 'charts');
+    createChart(camDataB, "#charts");
   }
   if(mode=="HSL") {
-    createChartHeader('Hue');
-    createChart(hslDataH);
-    createChartHeader('Saturation');
-    createChart(hslDataS);
-    createChartHeader('Lightness');
-    createChart(hslDataL);
+    createChartHeader('Hue', 'charts');
+    createChart(hslDataH, "#charts");
+    createChartHeader('Saturation', 'charts');
+    createChart(hslDataS, "#charts");
+    createChartHeader('Lightness', 'charts');
+    createChart(hslDataL, "#charts");
   }
   if(mode=="HSLuv") {
-    createChartHeader('Hue');
-    createChart(hsluvDataL);
-    createChartHeader('Saturation');
-    createChart(hsluvDataU);
-    createChartHeader('Lightness');
-    createChart(hsluvDataV);
+    createChartHeader('Hue', 'charts');
+    createChart(hsluvDataL, "#charts");
+    createChartHeader('Saturation', 'charts');
+    createChart(hsluvDataU, "#charts");
+    createChartHeader('Lightness', 'charts');
+    createChart(hsluvDataV, "#charts");
   }
   if(mode=="RGB") {
-    createChartHeader('Red');
-    createChart(rgbDataR);
-    createChartHeader('Green');
-    createChart(rgbDataG);
-    createChartHeader('Blue');
-    createChart(rgbDataB);
+    createChartHeader('Red', 'charts');
+    createChart(rgbDataR, "#charts");
+    createChartHeader('Green', 'charts');
+    createChart(rgbDataG, "#charts");
+    createChartHeader('Blue', 'charts');
+    createChart(rgbDataB, "#charts");
   }
+
+  createChartHeader('Contrast Swatches', 'contrastChart');
+  createChart(contrastData, "#contrastChart");
 
   // update URL parameters
   updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
@@ -568,6 +571,7 @@ function createData() {
 
   dataX = fillRange(0, CAMArrayJ.length - 1);
   dataXcyl = fillRange(0, LCHArrayL.length - 1);
+  dataXcontrast = fillRange(0, ratioInputs.length - 1);
 
   camDataJ = [
     {
@@ -677,10 +681,18 @@ function createData() {
       y: HSLuvArrayV
     }
   ];
+  contrastData = [
+    {
+      x: dataXcontrast,
+      y: ratioInputs
+    }
+  ]
 }
 
-function createChartHeader(x) {
-  container = document.getElementById('charts');
+
+
+function createChartHeader(x, dest) {
+  container = document.getElementById(dest);
   subhead = document.createElement('h6');
   subhead.className = 'spectrum-Subheading';
   title = document.createTextNode(x);
@@ -689,21 +701,21 @@ function createChartHeader(x) {
 }
 
 // Make color charts
-function createChart(data) {
+function createChart(data, dest) {
   var data = data;
   var xy_chart = d3_xy_chart()
       .width(208)
       // .height(120)
-      .height(180)
+      .height(140)
       .xlabel("X Axis")
       .ylabel("Y Axis") ;
-  var svg = d3.select("#charts").append("svg")
+  var svg = d3.select(dest).append("svg")
       .datum(data)
       .call(xy_chart) ;
 
   function d3_xy_chart() {
       var width = 180,
-          height = 160,
+          height = 100,
         // height = 100,
           xlabel = "X Axis Label",
           ylabel = "Y Axis Label" ;

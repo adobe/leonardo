@@ -8065,7 +8065,9 @@ a:focus {
   display: none; }
 
 #colorMetrics {
-  display: none; }
+  display: none;
+  overflow-y: scroll;
+  max-height: calc(100vh - var(--header-height)); }
   #colorMetrics.visible {
     display: flex; }
 

@@ -591,6 +591,8 @@ a:focus {
 
 #colorMetrics {
   display: none; // hidden by default
+  overflow-y: scroll;
+  max-height: calc(100vh - var(--header-height));
 
   &.visible {
     display: flex;
