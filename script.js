@@ -252,6 +252,7 @@ function colorspaceOptions() {
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
   document.getElementById('charts').innerHTML = ' ';
+  document.getElementById('contrastChart').innerHTML = ' ';
 
   // var slider = document.getElementById('Slider');
   background = document.getElementById('bgField').value;
