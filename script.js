@@ -104,7 +104,7 @@ function addRatio(v, s = '#cacaca') {
   input.oninput = colorInput;
   // input.onfocus = showSlider;
   var button = document.createElement('button');
-  button.className = 'spectrum-ActionButton';
+  button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
     <use xlink:href="#spectrum-icon-18-Delete" />

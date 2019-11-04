@@ -7966,7 +7966,7 @@ a:focus {
   margin-bottom: var(--spectrum-global-dimension-size-100); }
   .ratio-Item .spectrum-Textfield {
     padding-left: var(--spectrum-global-dimension-size-400);
-    width: 100%;
+    width: 70%;
     margin-right: 8px; }
 
 .colorOutputBlock {

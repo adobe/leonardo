@@ -464,7 +464,8 @@ a:focus {
 
   .spectrum-Textfield {
     padding-left: var(--spectrum-global-dimension-size-400);
-    width: 100%;
+    // width: calc(10ch + var(--spectrum-global-dimension-size-200)); if adding name field, use this
+    width: 70%;
     margin-right: 8px;
   }
 }
