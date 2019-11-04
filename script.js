@@ -16,12 +16,6 @@ var background = document.getElementById('bgField').value;
 // var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
 var demoWrapper = document.getElementById('demoWrapper');
-var demoText = document.getElementById('demoText');
-var demoBackgroundText = document.getElementById('demoTextInverted');
-var demoBackgroundHeading = document.getElementById('demoHeadingInverted');
-var demoBackgroundBlock = document.getElementById('demoInverted');
-var demoButton = document.getElementById('demoButton');
-var demoButtonInverted = document.getElementById('demoButtonInverted');
 var userColorBlock = document.getElementById('userColor');
 var userBgBlock = document.getElementById('userBg');
 var ratioInput = document.getElementById('ratio');
@@ -69,16 +63,6 @@ function paramSetup() {
   }
 }
 paramSetup();
-
-function backgroundblock(b){
-  demoWrapper.style.backgroundColor = b;
-  demoBackgroundText.style.color = b;
-  demoBackgroundHeading.style.color = b;
-  demoBackgroundBlock.style.color = b;
-  demoButtonInverted.style.color = b;
-  demoButtonInverted.style.borderColor = b;
-}
-backgroundblock(background);
 
 // Add ratio inputs
 function addRatio(v, s = '#cacaca') {
@@ -183,14 +167,19 @@ function createDemo(c, z) {
   text = document.createTextNode(smallText);
   b = document.createElement('button');
   b.className = 'spectrum-Button demoButton';
+  bF = document.createElement('button');
+  bF.className = 'spectrum-Button demoButton';
   label = document.createTextNode(buttonText);
+  label2 = document.createTextNode(buttonText);
 
   h.appendChild(title);
   p.appendChild(text);
   b.appendChild(label);
+  bF.appendChild(label2);
   demo.appendChild(h);
   demo.appendChild(p);
   demo.appendChild(b);
+  demo.appendChild(bF);
 
   demoIn = document.createElement('div');
   demoIn.className = 'spectrum-Typography demoInverted';
@@ -200,16 +189,21 @@ function createDemo(c, z) {
   pIn.className = 'spectrum-Body3 demoText';
   bIn = document.createElement('button');
   bIn.className = 'spectrum-Button demoButton';
+  bFIn = document.createElement('button');
+  bFIn.className = 'spectrum-Button demoButton';
   titleIn = document.createTextNode('Large text');
   textIn = document.createTextNode(smallText);
   labelIn = document.createTextNode(buttonText);
+  labelIn2 = document.createTextNode(buttonText);
 
   hIn.appendChild(titleIn);
   pIn.appendChild(textIn);
   bIn.appendChild(labelIn);
+  bFIn.appendChild(labelIn2);
   demoIn.appendChild(hIn);
   demoIn.appendChild(pIn);
   demoIn.appendChild(bIn);
+  demoIn.appendChild(bFIn);
 
   item.appendChild(demo);
   item.appendChild(demoIn);
@@ -221,11 +215,19 @@ function createDemo(c, z) {
   p.style.color = c;
   h.style.color = c;
   b.style.color = c;
+  bF.style.backgroundColor = c;
+  bF.style.borderColor = c;
+  bF.style.color = z;
+  bFIn.style.color = c;
+  bFIn.style.backgroundColor = z;
+  bFIn.style.borderColor = z;
   b.style.borderColor = c;
   pIn.style.color = z;
   hIn.style.color = z;
   bIn.style.color = z;
   bIn.style.borderColor = z;
+
+  demoWrapper.style.backgroundColor = z;
 }
 
 function colorspaceOptions() {
@@ -250,6 +252,7 @@ function colorspaceOptions() {
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
   document.getElementById('charts').innerHTML = ' ';
+  document.getElementById('contrastChart').innerHTML = ' ';
 
   // var slider = document.getElementById('Slider');
   background = document.getElementById('bgField').value;
@@ -309,8 +312,6 @@ function colorInput() {
   var backgroundG = d3.rgb(background).g;
   var backgroundB = d3.rgb(background).b;
 
-  backgroundblock(background);
-
   var colorOutputWrapper = document.getElementById('colorOutputs');
   colorOutputWrapper.innerHTML = '';
   wrap = document.getElementById('demoWrapper');
@@ -344,29 +345,56 @@ function colorInput() {
 
   createData();
   if(mode=="LCH") {
-    createChartHeader('LCH');
-    createChart(lchData);
+    createChartHeader('Lightness', 'charts');
+    createChart(lchDataL, "#charts");
+    createChartHeader('Chroma', 'charts');
+    createChart(lchDataC, "#charts");
+    createChartHeader('Hue', 'charts');
+    createChart(lchDataH, "#charts");
   }
   if(mode=="LAB") {
-    createChartHeader('LAB');
-    createChart(labData);
+    createChartHeader('Lightness', 'charts');
+    createChart(labDataL, "#charts");
+    createChartHeader('Green / Red', 'charts');
+    createChart(labDataA, "#charts");
+    createChartHeader('Blue / Yellow', 'charts');
+    createChart(labDataB, "#charts");
   }
   if(mode=="CAM02") {
-    createChartHeader('CAM02');
-    createChart(camData);
+    createChartHeader('Lightness', 'charts');
+    createChart(camDataJ, "#charts");
+    createChartHeader('Green / Red', 'charts');
+    createChart(camDataA, "#charts");
+    createChartHeader('Blue / Yellow', 'charts');
+    createChart(camDataB, "#charts");
   }
   if(mode=="HSL") {
-    createChartHeader('HSL');
-    createChart(hslData);
+    createChartHeader('Hue', 'charts');
+    createChart(hslDataH, "#charts");
+    createChartHeader('Saturation', 'charts');
+    createChart(hslDataS, "#charts");
+    createChartHeader('Lightness', 'charts');
+    createChart(hslDataL, "#charts");
   }
   if(mode=="HSLuv") {
-    createChartHeader('HSLuv');
-    createChart(hsluvData);
+    createChartHeader('Hue', 'charts');
+    createChart(hsluvDataL, "#charts");
+    createChartHeader('Saturation', 'charts');
+    createChart(hsluvDataU, "#charts");
+    createChartHeader('Lightness', 'charts');
+    createChart(hsluvDataV, "#charts");
   }
   if(mode=="RGB") {
-    createChartHeader('RGB');
-    createChart(rgbData);
+    createChartHeader('Red', 'charts');
+    createChart(rgbDataR, "#charts");
+    createChartHeader('Green', 'charts');
+    createChart(rgbDataG, "#charts");
+    createChartHeader('Blue', 'charts');
+    createChart(rgbDataB, "#charts");
   }
+
+  createChartHeader('Contrast Swatches', 'contrastChart');
+  createChart(contrastData, "#contrastChart");
 
   // update URL parameters
   updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
@@ -395,13 +423,13 @@ function updateParams(c, b, t, s, r, m) {
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
-  var call = 'adaptcolor({';
-  var pcol = 'color: "#' + c + '",';
-  var pbas = 'base: "#'+ b + '",';
-  var prat = 'ratios: [' + r + '],';
-  var ptin = 'tint: "#' + t + '",';
-  var psha = 'shade: "#' + s + '",';
-  var pmod = ' colorspace: "' + m + '",';
+  var call = 'adaptcolor({ ';
+  var pcol = 'color: "#' + c + '", ';
+  var pbas = 'base: "#'+ b + '", ';
+  var prat = 'ratios: [' + r + '], ';
+  var ptin = 'tint: "#' + t + '", ';
+  var psha = 'shade: "#' + s + '", ';
+  var pmod = ' colorspace: "' + m + '"});';
   text1 = document.createTextNode(call);
   text2 = document.createTextNode(pcol);
   text3 = document.createTextNode(pbas);
@@ -543,95 +571,129 @@ function createData() {
   };
 
   dataX = fillRange(0, CAMArrayJ.length - 1);
+  dataXcyl = fillRange(0, LCHArrayL.length - 1);
+  dataXcontrast = fillRange(0, ratioInputs.length - 1);
 
-  camData = [
+  camDataJ = [
     {
       x: dataX,
       y: CAMArrayJ
-    },
+    }
+  ];
+  camDataA = [
     {
       x: dataX,
       y: CAMArrayA
-    },
+    }
+  ];
+  camDataB = [
     {
       x: dataX,
       y: CAMArrayB
     }
   ];
-  labData = [
+  labDataL = [
     {
       x: dataX,
       y: LABArrayL
-    },
+    }
+  ];
+  labDataA = [
     {
       x: dataX,
       y: LABArrayA
-    },
+    }
+  ];
+  labDataB = [
     {
       x: dataX,
       y: LABArrayB
     }
   ];
-  lchData = [
+  lchDataL = [
     {
       x: dataX,
       y: LCHArrayL
-    },
+    }
+  ];
+  lchDataC = [
     {
       x: dataX,
       y: LCHArrayC
-    },
+    }
+  ];
+  lchDataH = [
     {
-      x: dataX,
+      x: dataXcyl,
       y: LCHArrayH
     }
   ];
-  rgbData = [
+  rgbDataR = [
     {
       x: dataX,
       y: RGBArrayR
-    },
+    }
+  ];
+  rgbDataG = [
     {
       x: dataX,
       y: RGBArrayG
-    },
+    }
+  ];
+  rgbDataB = [
     {
       x: dataX,
       y: RGBArrayB
     }
   ];
-  hslData = [
-    // {
-    //   x: dataX,
-    //   y: HSLArrayH
-    // },
+  hslDataH = [
+    {
+      x: dataXcyl,
+      y: HSLArrayH
+    }
+  ];
+  hslDataS = [
     {
       x: dataX,
       y: HSLArrayS
-    },
+    }
+  ];
+  hslDataL = [
     {
       x: dataX,
       y: HSLArrayL
     }
   ];
-  hsluvData = [
+  hsluvDataL = [
     {
       x: dataX,
       y: HSLuvArrayL
-    },
+    }
+  ];
+  hsluvDataU = [
     {
       x: dataX,
       y: HSLuvArrayU
-    },
+    }
+  ];
+  hsluvDataV = [
     {
       x: dataX,
       y: HSLuvArrayV
     }
   ];
+  contrastData = [
+    {
+      x: dataXcontrast,
+      y: ratioInputs
+    }
+  ]
 }
 
-function createChartHeader(x) {
-  container = document.getElementById('charts');
+
+
+function createChartHeader(x, dest) {
+  container = document.getElementById(dest);
   subhead = document.createElement('h6');
   subhead.className = 'spectrum-Subheading';
   title = document.createTextNode(x);
@@ -640,21 +702,21 @@ function createChartHeader(x) {
 }
 
 // Make color charts
-function createChart(data) {
+function createChart(data, dest) {
   var data = data;
   var xy_chart = d3_xy_chart()
       .width(208)
       // .height(120)
-      .height(180)
+      .height(140)
       .xlabel("X Axis")
       .ylabel("Y Axis") ;
-  var svg = d3.select("#charts").append("svg")
+  var svg = d3.select(dest).append("svg")
       .datum(data)
       .call(xy_chart) ;
 
   function d3_xy_chart() {
       var width = 180,
-          height = 160,
+          height = 100,
         // height = 100,
           xlabel = "X Axis Label",
           ylabel = "Y Axis Label" ;
@@ -807,10 +869,28 @@ function sortRatios() {
 }
 
 // Exponential curve for approximating perceptually balanced swatch distribution
-function returnRatio(lum) {
+function returnRatioExp(lum) {
   var a = 22.11002659220650;
   var b = -0.03236668196111;
   var r = a * Math.exp(b * lum);
+  if (r > 1) {
+    return r;
+  }
+  if (r < 1 && r >= 0) {
+    return 1;
+  }
+}
+// Inverse tangental curve for approximating perceptually balanced swatch distribution
+// with smaller difference between swatches in darker values
+function returnRatioTan(lum) {
+  // Formula needs to be based on Luminosity
+  var a = -7.7;
+  var b = 0.075;
+  // var c = 3.55;
+  var c = 3.35;
+  var d = 11.15;
+  var r = a * Math.atan(b * lum - c) + d;
+
   if (r > 1) {
     return r;
   }
@@ -840,7 +920,38 @@ function distributeExp() {
   Lums.sort(function(a, b){return b-a});
 
   for(i=1; i<Lums.length -1; i++) {
-    ratioFields[i].value = returnRatio(Lums[i]).toFixed(2);
+    ratioFields[i].value = returnRatioExp(Lums[i]).toFixed(2);
+  }
+
+  colorInput();
+}
+
+// Redistribute contrast swatches
+function distributeTan() {
+  sort();
+  var start = 1;
+  var end = ratioInputs.length -1;
+  var Lums = []
+  for(i=0; i<newColors.length; i++) {
+    Lums.push(d3.hsluv(newColors[i]).v);
+  }
+  console.log(Lums);
+
+  var startLum = Math.min(...Lums);
+  var endLum = Math.max(...Lums);
+  var diff = (endLum - startLum) / (Lums.length +2);
+  console.log(Lums);
+  console.log(diff);
+
+  for (i=1; i<Lums.length -1; i++) {
+    Lums[i] = endLum - diff * i;
+  }
+  // Lums.sort(function(a, b){return b-a});
+  console.log(Lums);
+
+  for(i=1; i<Lums.length -1; i++) {
+    ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
+    // console.log(returnRatioTan(Lums[i]).toFixed(2));
   }
 
   colorInput();
