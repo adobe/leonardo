@@ -869,10 +869,28 @@ function sortRatios() {
 }
 
 // Exponential curve for approximating perceptually balanced swatch distribution
-function returnRatio(lum) {
+function returnRatioExp(lum) {
   var a = 22.11002659220650;
   var b = -0.03236668196111;
   var r = a * Math.exp(b * lum);
+  if (r > 1) {
+    return r;
+  }
+  if (r < 1 && r >= 0) {
+    return 1;
+  }
+}
+// Inverse tangental curve for approximating perceptually balanced swatch distribution
+// with smaller difference between swatches in darker values
+function returnRatioTan(lum) {
+  // Formula needs to be based on Luminosity
+  var a = -7.7;
+  var b = 0.075;
+  // var c = 3.55;
+  var c = 3.35;
+  var d = 11.15;
+  var r = a * Math.atan(b * lum - c) + d;
+
   if (r > 1) {
     return r;
   }
@@ -902,7 +920,38 @@ function distributeExp() {
   Lums.sort(function(a, b){return b-a});
 
   for(i=1; i<Lums.length -1; i++) {
-    ratioFields[i].value = returnRatio(Lums[i]).toFixed(2);
+    ratioFields[i].value = returnRatioExp(Lums[i]).toFixed(2);
+  }
+
+  colorInput();
+}
+
+// Redistribute contrast swatches
+function distributeTan() {
+  sort();
+  var start = 1;
+  var end = ratioInputs.length -1;
+  var Lums = []
+  for(i=0; i<newColors.length; i++) {
+    Lums.push(d3.hsluv(newColors[i]).v);
+  }
+  console.log(Lums);
+
+  var startLum = Math.min(...Lums);
+  var endLum = Math.max(...Lums);
+  var diff = (endLum - startLum) / (Lums.length +2);
+  console.log(Lums);
+  console.log(diff);
+
+  for (i=1; i<Lums.length -1; i++) {
+    Lums[i] = endLum - diff * i;
+  }
+  // Lums.sort(function(a, b){return b-a});
+  console.log(Lums);
+
+  for(i=1; i<Lums.length -1; i++) {
+    ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
+    // console.log(returnRatioTan(Lums[i]).toFixed(2));
   }
 
   colorInput();
