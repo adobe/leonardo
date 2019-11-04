@@ -49,7 +49,8 @@
     "@spectrum/spectrum-icons": "^2.3.0",
     "d3": "^5.12.0",
     "d3-cam02": "^0.1.5",
-    "d3-hsluv": "^0.1.2"
+    "d3-hsluv": "^0.1.2",
+    "d3-hsv": "^0.1.0"
   },
   "devDependencies": {
     "gulp": "^4.0.2",

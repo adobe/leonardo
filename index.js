@@ -54,6 +54,12 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
       .domain([0, tintDomain, domain, shadeDomain, swatches])
       .interpolate(d3.interpolateRgb);
   }
+  if(colorspace == 'HSV') {
+    scale = d3.scaleLinear()
+      .range([d3.hsv('#ffffff'), d3.hsv(tint), d3.hsv(color), d3.hsv(shade), d3.hsv('#000000')])
+      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .interpolate(d3.interpolateHsv);
+  }
 
   var Colors = d3.range(swatches).map(function(d) {
     return scale(d)

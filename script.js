@@ -240,6 +240,7 @@ function colorspaceOptions() {
     'CAM02': 'CIECAM02',
     'HSL': 'HSL',
     'HSLuv': 'HSLuv',
+    'HSV': 'HSV',
     'RGB': 'RGB'
   };
 
