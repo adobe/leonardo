@@ -884,7 +884,13 @@ function returnRatioExp(lum) {
 // with smaller difference between swatches in darker values
 function returnRatioTan(lum) {
   // Formula needs to be based on Luminosity
-  var r = 7.7 * Math.atan(0.075 * lum - 4.55) + 11.25;
+  var a = -7.7;
+  var b = 0.075;
+  // var c = 3.55;
+  var c = 3.35;
+  var d = 11.15;
+  var r = a * Math.atan(b * lum - c) + d;
+
   if (r > 1) {
     return r;
   }
@@ -933,17 +939,19 @@ function distributeTan() {
 
   var startLum = Math.min(...Lums);
   var endLum = Math.max(...Lums);
-  var diff = (endLum - startLum) / (Lums.length - 1);
+  var diff = (endLum - startLum) / (Lums.length +2);
+  console.log(Lums);
+  console.log(diff);
 
   for (i=1; i<Lums.length -1; i++) {
-    Lums[i] = startLum + diff * i;
+    Lums[i] = endLum - diff * i;
   }
-  Lums.sort(function(a, b){return b-a});
+  // Lums.sort(function(a, b){return b-a});
   console.log(Lums);
 
   for(i=1; i<Lums.length -1; i++) {
     ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
-    console.log(returnRatioTan(Lums[i]).toFixed(2));
+    // console.log(returnRatioTan(Lums[i]).toFixed(2));
   }
 
   colorInput();
