@@ -933,6 +933,9 @@ function interpolateLumArray() {
 
 // Redistribute contrast swatches
 function distributeExp() {
+  sort();
+  colorInput(); // for some reason without this, dist function needs called 2x to get proper output.
+
   interpolateLumArray();
 
   for(i=1; i<Lums.length -1; i++) {
