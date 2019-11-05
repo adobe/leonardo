@@ -8076,7 +8076,7 @@ a:focus {
 #colorMetrics {
   display: none;
   overflow-y: scroll;
-  max-height: calc(100vh - var(--header-height)); }
+  height: calc(100vh - var(--header-height)); }
   #colorMetrics.visible {
     display: flex; }
 

@@ -25,13 +25,6 @@ governing permissions and limitations under the License.
 @import 'node_modules/@spectrum-css/checkbox/dist/index-vars';
 
 :root {
-  // Original placement of gradient uses these vars
-  // --gradient-height: calc(100vh - 8px - var(--spectrum-global-dimension-size-400));
-  // --colors-height: calc(100% - var(--spectrum-global-dimension-size-400));
-  // --colors-wrapper-height: calc(100vh - var(--spectrum-global-dimension-size-800) - 68px);
-  // --gradient-slider-height: calc(100vh - var(--spectrum-global-dimension-size-800) - 7px);
-
-  // Smaller, subpanel location of gradient uses these vars
   --gradient-height-offset: 332px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: calc(100vh - var(--gradient-height-offset));
@@ -604,7 +597,7 @@ a:focus {
 #colorMetrics {
   display: none; // hidden by default
   overflow-y: scroll;
-  max-height: calc(100vh - var(--header-height));
+  height: calc(100vh - var(--header-height));
 
   &.visible {
     display: flex;

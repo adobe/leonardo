@@ -394,7 +394,7 @@ function colorInput() {
     createChart(rgbDataB, "#charts");
   }
 
-  createChartHeader('Contrast Swatches', 'contrastChart');
+  // createChartHeader('Contrast Swatches', 'contrastChart');
   createChart(contrastData, "#contrastChart");
 
   // update URL parameters
@@ -706,9 +706,9 @@ function createChartHeader(x, dest) {
 function createChart(data, dest) {
   var data = data;
   var xy_chart = d3_xy_chart()
-      .width(208)
+      .width(240)
       // .height(120)
-      .height(140)
+      .height(180)
       .xlabel("X Axis")
       .ylabel("Y Axis") ;
   var svg = d3.select(dest).append("svg")
@@ -716,8 +716,8 @@ function createChart(data, dest) {
       .call(xy_chart) ;
 
   function d3_xy_chart() {
-      var width = 180,
-          height = 100,
+      var width = 260,
+          height = 180,
         // height = 100,
           xlabel = "X Axis Label",
           ylabel = "Y Axis Label" ;
