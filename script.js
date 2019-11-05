@@ -871,9 +871,15 @@ function sortRatios() {
 
 // Exponential curve for approximating perceptually balanced swatch distribution
 function returnRatioExp(lum) {
-  var a = 22.11002659220650;
-  var b = -0.03236668196111;
-  var r = a * Math.exp(b * lum);
+  // var a = 22.11002659220650;
+  // var b = -0.03236668196111;
+
+  // Test update
+  var a = 21.2;
+  var b = -0.035;
+  var c = 0.25;
+
+  var r = a * Math.exp(b * lum) + c;
   if (r > 1) {
     return r;
   }
@@ -885,11 +891,18 @@ function returnRatioExp(lum) {
 // with smaller difference between swatches in darker values
 function returnRatioTan(lum) {
   // Formula needs to be based on Luminosity
-  var a = -7.7;
-  var b = 0.075;
+  // var a = -7.7;
+  // var b = 0.075;
   // var c = 3.55;
-  var c = 3.35;
-  var d = 11.15;
+  // var c = 3.35;
+  // var d = 11.15;
+
+  // Test again
+  var a = -8.2;
+  var b = 0.09;
+  var c = 1.5;
+  var d = 12.75;
+
   var r = a * Math.atan(b * lum - c) + d;
 
   if (r > 1) {
@@ -900,25 +913,27 @@ function returnRatioTan(lum) {
   }
 }
 
-// Redistribute contrast swatches
-function distributeExp() {
-  sort();
-  var start = 1;
-  var end = ratioInputs.length -1;
-  var Lums = []
+function interpolateLumArray() {
+  Lums = [];
+
   for(i=0; i<newColors.length; i++) {
     Lums.push(d3.hsluv(newColors[i]).v);
   }
-
   var startLum = Math.min(...Lums);
   var endLum = Math.max(...Lums);
-  var diff = (endLum - startLum) / (Lums.length - 1);
+  var interpolator = d3.interpolateNumber(startLum, endLum);
 
-  for (i=1; i<Lums.length -1; i++) {
-    Lums[i] = startLum + diff * i;
-
+  for (i=1; i<Lums.length - 1; i++) {
+    Lums[i] = interpolator((i)/(Lums.length));
   }
   Lums.sort(function(a, b){return b-a});
+  console.log(Lums);
+  return Lums;
+}
+
+// Redistribute contrast swatches
+function distributeExp() {
+  interpolateLumArray();
 
   for(i=1; i<Lums.length -1; i++) {
     ratioFields[i].value = returnRatioExp(Lums[i]).toFixed(2);
@@ -930,30 +945,49 @@ function distributeExp() {
 // Redistribute contrast swatches
 // TODO: It's still broken.
 function distributeTan() {
-  sort();
-  var start = 1;
-  var end = ratioInputs.length -1;
-  var Lums = []
-  for(i=0; i<newColors.length; i++) {
-    Lums.push(d3.hsluv(newColors[i]).v);
-  }
-  console.log(Lums);
-
-  var startLum = Math.min(...Lums);
-  var endLum = Math.max(...Lums);
-  var diff = (endLum - startLum) / (Lums.length +2);
-  console.log(Lums);
-  console.log(diff);
-
-  for (i=1; i<Lums.length -1; i++) {
-    Lums[i] = endLum - diff * i;
-  }
-  // Lums.sort(function(a, b){return b-a});
-  console.log(Lums);
+  interpolateLumArray();
 
   for(i=1; i<Lums.length -1; i++) {
     ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
     // console.log(returnRatioTan(Lums[i]).toFixed(2));
+  }
+
+  colorInput();
+}
+
+// Function to distribute swatches based on linear interpolation between HSLuv
+// lightness values. Does not work.
+function distributeOptical() {
+  interpolateLumArray();
+  // Returns array of HSLUV lightness value of each current color
+
+  var NewContrast = [];
+
+  for(i=1; i<newColors.length -1; i++) {
+    console.log(newColors[i]);
+
+    // Color is RGB. Convert to HSLuv
+    // Re-assign V value as Lums[i]
+    var L = d3.hsluv(newColors[i]).l;
+    var U = d3.hsluv(newColors[i]).u;
+    var V = Lums[i];
+    var NewRGB = d3.rgb(L, U, V);
+    var rgbArray = [d3.rgb(NewRGB).r, d3.rgb(NewRGB).g, d3.rgb(NewRGB).b];
+    var baseRgbArray = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
+
+    NewContrast.push(contrast(rgbArray, baseRgbArray));
+
+    console.log(d3.hsluv(newColors[i]));
+    // console.log(L);
+    // console.log(U);
+    // console.log(V);
+    console.log(d3.rgb(L, U, V).toString());
+  }
+  console.log(Lums[i]);
+  // console.log(NewContrast);
+
+  for(i=1; i<NewContrast.length -1; i++) {
+    ratioFields[i].value = NewContrast[i].toFixed(2);
   }
 
   colorInput();
