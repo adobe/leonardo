@@ -7665,6 +7665,8 @@ body {
   padding: 8px 16px 16px; }
 
 .spectrum-Panel-Title {
+  display: flex;
+  justify-content: space-between;
   padding: 8px 0 4px; }
 
 .spectrum-Panel-Title + .spectrum-Panel-Item {
@@ -7969,6 +7971,10 @@ a:focus {
     width: 70%;
     margin-right: 8px; }
 
+#toggleMetrics {
+  margin-top: -8px;
+  margin-right: -8px; }
+
 .colorOutputBlock {
   display: flex;
   justify-content: space-between;
@@ -8024,10 +8030,13 @@ a:focus {
   width: 116px; }
 
 #modeDropdown {
-  width: 104px;
-  flex-grow: 1; }
+  width: 120px; }
   #modeDropdown ~ .spectrum-ActionButton {
     margin-left: 8px; }
+
+#contrastConfigs {
+  display: flex;
+  flex-direction: row; }
 
 #addRatio {
   justify-content: center;

@@ -928,6 +928,7 @@ function distributeExp() {
 }
 
 // Redistribute contrast swatches
+// TODO: It's still broken.
 function distributeTan() {
   sort();
   var start = 1;
