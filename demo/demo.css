@@ -1,0 +1,80 @@
+/*
+Copyright 2019 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+/*
+// Blues:
+// http://localhost:8080/?color=2a77a7&base=ffffff&tint=71b4ca&shade=331f4f&ratios=1.3%2C3%2C4.5&mode=CAM02
+// Reds:
+// http://localhost:8080/?color=cb1404&base=ffffff&tint=ffbbb9&shade=b10000&ratios=1.3%2C3.5%2C5&mode=LAB
+// Grays:
+// http://localhost:8080/?color=707080&base=fafafb&tint=cacad0&shade=333351&ratios=1%2C1.25%2C1.94%2C3%2C3.99%2C5.22%2C6.96%2C9.3%2C12.45%2C15&mode=LAB
+ */
+
+:root {
+  /* Define variables to use in the app. These will have values replaced via Leonardo */
+  --blue100: #d4e4e9;
+  --blue200: #599ebc;
+  --blue300: #337eaa;
+
+  --red100: #ffd8d7;
+  --red200: #e35f46;
+  --red300: #d2311a;
+
+  --gray100: #fafafb;
+  --gray200: #d1d1d7;
+  --gray300: #a9a9b2;
+  --gray400: #868593;
+  --gray500: #707080;
+  --gray700: #5f5e73;
+  --gray800: #4c4c64;
+  --gray900: #393955;
+  --gray1000: #262539;
+  --gray1100: #16151e;
+
+
+  /* Alias global values for contextual use */
+  --blueBackground: var(--blue100);
+  --blueLargeText: var(--blue200);
+  --blueSmallText: var(--blue300);
+
+  --errorBackground: var(--red100);
+  --errorLargeText: var(--red200);
+  --errorSmallText: var(--red300);
+
+  --backgroundDefault: var(--gray100);
+  --largeText: var(--gray400);
+  --smallText: var(--gray700);
+
+  --borderColor: var(--gray200);
+  --shadowColor: var(gray1100);
+  /* --shadow: 2px 2px 2px var(--shadowColor); */
+}
+
+body {
+  background-color: var(--backgroundDefault);
+  color: var(--smallText);
+}
+.tabs {
+  display: flex;
+  width: 100%;
+}
+.tabs > ul {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  margin: 8px 0;
+  padding: 0;
+}
+.tabs > ul > li {
+  list-style: none;
+  margin-right: 16px;
+  cursor: pointer;
+}

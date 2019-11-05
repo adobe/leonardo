@@ -86,11 +86,11 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   var baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
 
   newColors = [];
+  ratios = ratios.map(Number);
 
   // Return color matching target ratio, or closest number
   for(i=0; i < ratios.length; i++){
     var r = binarySearch(contrasts, ratios[i], baseLum);
-
     newColors.push(colors[r]);
   }
 
@@ -125,7 +125,6 @@ function contrast(color, base) {
   var cr1 = (colorLum + 0.05) / (baseLum + 0.05);
   var cr2 = (baseLum + 0.05) / (colorLum + 0.05);
 
-  // Only works for dark backgrounds now.
   if(baseLum < 0.5) {
     if (cr1 >= 1) { return cr1; }
     else { return cr2 * -1; } // Return as whole negative number
@@ -146,6 +145,9 @@ function binarySearch(list, value, baseLum) {
   let start = 0
   let stop = list.length - 1
   let middle = Math.floor((start + stop) / 2)
+
+  var minContrast = Math.min(...list);
+  var maxContrast = Math.max(...list);
 
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {

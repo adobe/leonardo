@@ -33,7 +33,7 @@ I've written about this concept in more detail at the following links. The goals
 - [Part 2: Introducing Adaptive Color Palettes](https://medium.com/thinking-design/introducing-adaptive-color-palettes-111b5842fc88)
 - [Part 3: Adaptive Color in Spectrum, Adobe's Design System](https://medium.com/thinking-design/adaptive-color-in-spectrum-adobes-design-system-feeeec89a2c7)
 
-### Using Adaptive Color
+### Using Leonardo Adaptive Color
 #### Installing
 ```
 npm i @adobe/leonardo-adaptive-color
@@ -70,13 +70,13 @@ Parameters are destructured and need to be explicitly called, such as `color: "#
 
 **colorspace** *string* is the colorspace in which the variable color's scale will be interpolated within. Below are the available options:
 
-- [Lab](https://en.wikipedia.org/wiki/CIELAB_color_space)
 - [Lch](https://en.wikipedia.org/wiki/HCL_color_space)
+- [Lab](https://en.wikipedia.org/wiki/CIELAB_color_space)
 - [CAM02](https://en.wikipedia.org/wiki/CIECAM02)
-- [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
 - [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV)
 - [HSLuv](https://en.wikipedia.org/wiki/HSLuv)
-
+- [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)
+- [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
 
 ### Why are not all contrast ratios available?
 You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.
