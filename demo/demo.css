@@ -59,9 +59,45 @@ governing permissions and limitations under the License.
 }
 
 body {
+  margin: 0;
+  padding; 0;
   background-color: var(--backgroundDefault);
   color: var(--smallText);
 }
+header {
+  color: #000000;
+  height: 32px;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+header h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+.form-Item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+label {
+  padding: 0 4px;
+}
+#controls {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Demo App Styles */
+#demoApp {
+  padding: 24px 32px;
+}
+
 .tabs {
   display: flex;
   width: 100%;
@@ -77,4 +113,18 @@ body {
   list-style: none;
   margin-right: 16px;
   cursor: pointer;
+}
+
+h3 {
+  color: var(--gray500);
+  padding: 0;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+h3 ~ h1 {
+  margin-top: 0;
 }

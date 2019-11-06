@@ -29,12 +29,19 @@ governing permissions and limitations under the License.
 <body class="demo">
   <header>
     <h2>Demo App</h2>
-    <!-- Switch for "Dark mode" -->
-    <input id="sliderBrightness" type="range" min="0" max="0.875" step="0.01" onInput="adapt()" value="1"></input>
-    <input id="sliderContrast" type="range" min="1" max="2" step="0.05" onInput="adapt()" value="1"></input>
-    <input id="darkMode" name="darkMode" type="checkbox"  onInput="adapt()"/><label for="darkMode">Dark Mode</label>
-    <!-- Slider for Brightness -->
-    <!-- Slider for Contrast -->
+    <div id="controls">
+      <div class="form-Item">
+        <label for="sliderBrightness">Brightness</label>
+        <input id="sliderBrightness" name="sliderBrightness" type="range" min="0" max="0.875" step="0.01" onInput="adapt()" value="1"></input>
+      </div>
+      <div class="form-Item">
+        <label for="sliderContrast">Contrast</label>
+        <input id="sliderContrast" name="sliderContrast" type="range" min="1" max="2" step="0.05" onInput="adapt()" value="1"></input>
+      </div>
+      <div class="form-Item">
+        <input id="darkMode" name="darkMode" type="checkbox"  onInput="adapt()"/><label for="darkMode">Dark Mode</label>
+      </div>
+    </div>
   </header>
   <main id="demoApp">
     <h3>Demo overline</h3>
