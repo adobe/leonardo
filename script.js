@@ -927,7 +927,6 @@ function interpolateLumArray() {
     Lums[i] = interpolator((i)/(Lums.length));
   }
   Lums.sort(function(a, b){return b-a});
-  console.log(Lums);
   return Lums;
 }
 
@@ -959,39 +958,43 @@ function distributeTan() {
 }
 
 // Function to distribute swatches based on linear interpolation between HSLuv
-// lightness values. Does not work.
-// function distributeOptical() {
-//   interpolateLumArray();
-//   // Returns array of HSLUV lightness value of each current color
-//
-//   var NewContrast = [];
-//
-//   for(i=1; i<newColors.length -1; i++) {
-//     console.log(newColors[i]);
-//
-//     // Color is RGB. Convert to HSLuv
-//     // Re-assign V value as Lums[i]
-//     var L = d3.hsluv(newColors[i]).l;
-//     var U = d3.hsluv(newColors[i]).u;
-//     var V = Lums[i];
-//     var NewRGB = d3.rgb(L, U, V);
-//     var rgbArray = [d3.rgb(NewRGB).r, d3.rgb(NewRGB).g, d3.rgb(NewRGB).b];
-//     var baseRgbArray = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
-//
-//     NewContrast.push(contrast(rgbArray, baseRgbArray));
-//
-//     console.log(d3.hsluv(newColors[i]));
-//     // console.log(L);
-//     // console.log(U);
-//     // console.log(V);
-//     console.log(d3.rgb(L, U, V).toString());
-//   }
-//   console.log(Lums[i]);
-//   // console.log(NewContrast);
-//
-//   for(i=1; i<NewContrast.length -1; i++) {
-//     ratioFields[i].value = NewContrast[i].toFixed(2);
-//   }
-//
-//   colorInput();
-// }
+// lightness values.
+function distributeLum() {
+  interpolateLumArray();
+  var NewContrast = [];
+
+  for(i=1; i<newColors.length -1; i++) {
+    // Re-assign V value as Lums[i]
+    var L = d3.hsluv(newColors[i]).l;
+    var U = d3.hsluv(newColors[i]).u;
+    var V = Lums[i];
+    var NewRGB = d3.hsluv(L, U, V);
+
+    var rgbArray = [d3.rgb(NewRGB).r, d3.rgb(NewRGB).g, d3.rgb(NewRGB).b];
+    var baseRgbArray = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
+
+    NewContrast.push(contrast(rgbArray, baseRgbArray).toFixed(2));
+
+    // console.log(NewRGB.toString());
+  }
+  console.log(NewContrast);
+
+  // Concatenate first and last contrast array with new contrast array (middle)
+  newRatios = [];
+  newRatios = newRatios.concat(ratioInputs[0], NewContrast, ratioInputs[ratioInputs.length-1]);
+
+  // Delete all ratios
+  ratioItems = document.getElementsByClassName('ratio-Item');
+  while(ratioItems.length > 0){
+      ratioItems[0].parentNode.removeChild(ratioItems[0]);
+  }
+  var sliders = document.getElementById('sliderWrapper');
+  sliders.innerHTML = ' ';
+
+  // Add all new
+  for(i=0; i<newRatios.length; i++) {
+    addRatio(newRatios[i]);
+  }
+
+  colorInput();
+}

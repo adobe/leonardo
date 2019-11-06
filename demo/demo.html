@@ -32,7 +32,7 @@ governing permissions and limitations under the License.
     <div id="controls">
       <div class="form-Item">
         <label for="sliderBrightness">Brightness</label>
-        <input id="sliderBrightness" name="sliderBrightness" type="range" min="0" max="0.875" step="0.01" onInput="adapt()" value="1"></input>
+        <input id="sliderBrightness" name="sliderBrightness" type="range" min="0" max="0.875" step="0.01" onInput="adapt()" value="0.75"></input>
       </div>
       <div class="form-Item">
         <label for="sliderContrast">Contrast</label>
@@ -48,14 +48,28 @@ governing permissions and limitations under the License.
     <h1>Demo Page Title</h1>
     <nav class="tabs">
       <ul>
-        <li>Tab Item</li>
+        <li class="active">Tab Item</li>
         <li>Tab Item</li>
         <li>Tab Item</li>
       </ul>
     </nav>
     <div class="container">
-      <!-- Visualization -->
-      <!-- Table / content -->
+      <p> This is some demo text that holds the place of real text, which is not to be confused with actual text because actual text is not written is such enormously long running sentences that seem to have no end, and at some point become extremely difficult to comprehend the tone and duration at which the sentence will continue, gathering such accelleration into the unknown that it's unintelligible nature becomes a wonder in and of its self. </p>
+      <div class="well">
+        <p> And this is what we call a well. Why, because, well... </p>
+      </div>
+
+      <form>
+        <div class="form-Item">
+          <label> Full Name: </label>
+          <input type="text" placeholder="eg. Jane Doe">
+        </div>
+        <div class="form-Item">
+          <label> Favorite Color </label>
+          <input type="text" placeholder="eg. All of them">
+        </div>
+        
+      </form>
     </div>
   </main>
 <script src="demo.js"></script>

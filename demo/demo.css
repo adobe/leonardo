@@ -28,6 +28,7 @@ governing permissions and limitations under the License.
   --red200: #e35f46;
   --red300: #d2311a;
 
+  --gray50: #ffffff;
   --gray100: #fafafb;
   --gray200: #d1d1d7;
   --gray300: #a9a9b2;
@@ -109,22 +110,67 @@ label {
   margin: 8px 0;
   padding: 0;
 }
-.tabs > ul > li {
+.tabs li {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-right: 16px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 4px;
   cursor: pointer;
+  color: var(--smallText);
+  position: relative;
+}
+.tabs li:hover,
+.tabs li:active {
+  color: var(--gray1100);
+  background-color: var(--gray200);
+}
+
+.tabs li.active {
+  color: var(--blueSmallText);
+}
+.tabs li.active:hover,
+.tabs li.active:active {
+  color: var(--blueSmallText);
+}
+
+li.active::after {
+  content: " ";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 1px;
+  bottom: -2px;
+  background-color: var(--blueSmallText);
 }
 
 h3 {
   color: var(--gray500);
   padding: 0;
-  margin: 0;
+  margin: 24px 0 0;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 h3 ~ h1 {
   margin-top: 0;
+}
+
+h1 {
+  color: var(--blueLargeText);
+}
+
+.well {
+  display: flex;
+  padding: 16px;
+  background-color: var(--gray50);
+  border: 1px solid var(--gray200);
+  border-radius: 4px;
 }
