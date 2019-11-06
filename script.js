@@ -887,21 +887,14 @@ function returnRatioExp(lum) {
     return 1;
   }
 }
+
 // Inverse tangental curve for approximating perceptually balanced swatch distribution
 // with smaller difference between swatches in darker values
 function returnRatioTan(lum) {
-  // Formula needs to be based on Luminosity
-  // var a = -7.7;
-  // var b = 0.075;
-  // var c = 3.55;
-  // var c = 3.35;
-  // var d = 11.15;
-
-  // Test again
-  var a = -8.2;
-  var b = 0.09;
-  var c = 1.5;
-  var d = 12.75;
+  var a = -8.25;
+  var b = 0.0685;
+  var c = 1.65;
+  var d = 12.25;
 
   var r = a * Math.atan(b * lum - c) + d;
 
@@ -951,7 +944,6 @@ function distributeTan() {
 
   for(i=1; i<Lums.length -1; i++) {
     ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
-    // console.log(returnRatioTan(Lums[i]).toFixed(2));
   }
 
   colorInput();
