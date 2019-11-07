@@ -372,6 +372,12 @@ colorOutput-field {
     border-bottom-style: solid;
     border-bottom-color: rgba(0, 0, 0, 0.25);
   }
+  textarea {
+    height: 64px;
+  }
+}
+.colorField ~ .colorField {
+    margin-left: 16px;
 }
 input[type="color"]#bgField {
   border-radius: 5px;

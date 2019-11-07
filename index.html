@@ -83,7 +83,13 @@ governing permissions and limitations under the License.
         <label for="bgField" class="spectrum-FieldLabel">Base color</label>
         <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
       </div>
-      <div class="colorField" id="variableColorField">
+      <div class="colorField">
+        <label for="variableColors" class="spectrum-FieldLabel">Colors</label>
+        <textarea class="spectrum-Textfield" id="variableColors" name="variableColors" value="#ff0000, #00ff00, #0000ff" onChange="colorInput()">
+        </textarea>
+      </div>
+      <!-- Old field -->
+      <!-- <div class="colorField" id="variableColorField">
         <label for="colorField1" class="spectrum-FieldLabel">Variable color</label>
         <div class="variableColor-wrapper">
           <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
@@ -98,7 +104,7 @@ governing permissions and limitations under the License.
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- test -->

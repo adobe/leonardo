@@ -8,10 +8,8 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-var colorField = document.getElementById('colorField1');
-var color1 = document.getElementById('colorField1').value;
-var colorTint = document.getElementById('colorField2').value;
-var colorShade = document.getElementById('colorField3').value;
+// var colorField = document.getElementById('colorField1');
+
 var background = document.getElementById('bgField').value;
 // var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
@@ -29,16 +27,11 @@ function paramSetup() {
 
   // // If parameters exist, use parameter; else use default html input values
   if(params.has('color')) {
-    document.getElementById('colorField1').value = "#" + params.get('color');
+    // document.getElementById('inputColors').value = "#" + params.get('color');
+    document.getElementById('variableColors').value = params.get('color');
   }
   if(params.has('base')) {
     document.getElementById('bgField').value = "#" + params.get('base');
-  }
-  if(params.has('tint')) {
-    document.getElementById('colorField2').value = "#" + params.get('tint');
-  }
-  if(params.has('shade')) {
-    document.getElementById('colorField3').value = "#" + params.get('shade');
   }
   if(params.has('ratios')) {
     // transform parameter values into array of numbers
@@ -255,14 +248,10 @@ function colorInput() {
   document.getElementById('charts').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
 
-  // var slider = document.getElementById('Slider');
-  background = document.getElementById('bgField').value;
-  var customTintShade = document.getElementById('tintShades');
-  var color1 = colorField1.value;
-  var colorTint = colorField2.value;
-  var colorShade = colorField3.value;
-  mode = document.querySelector('select[name="mode"]').value;
-  // Gather input values for each input. Add those into array.
+  var inputs = document.getElementById('variableColors').value;
+  var inputColors = inputs.split(" ");
+  var background = document.getElementById('bgField').value;
+  var mode = document.querySelector('select[name="mode"]').value;
   ratioFields = document.getElementsByClassName('ratioField');
 
   // Clamp ratios convert decimal numbers to whole negatives and disallow
@@ -285,7 +274,14 @@ function colorInput() {
     ratioInputs.push(ratioFields[i].value);
   }
 
-  adaptcolor({color: color1, base: background, ratios: ratioInputs, tint: colorTint, shade: colorShade, colorspace: mode});
+  // Convert input value into a split array of hex values.
+  var tempArgs = [];
+  // remove any whitespace from inputColors
+  tempArgs.push(inputColors);
+  colorArgs = tempArgs.join("").split(',').filter(String);
+  console.log(colorArgs);
+
+  adaptcolor({color: colorArgs, base: background, ratios: ratioInputs, colorspace: mode});
 
   for(i=0; i<newColors.length; i++) {
     // Calculate value of color and apply to slider position/value
@@ -343,8 +339,16 @@ function colorInput() {
     }
     createDemo(newColors[i], background);
   }
+  // console.log(newColors);
+  // createData();
+  // createAllCharts();
 
-  createData();
+  // update URL parameters
+  updateParams(inputColors, background.substr(1), ratioInputs, mode);
+}
+colorInput();
+
+function createAllCharts() {
   if(mode=="LCH") {
     createChartHeader('Lightness', 'charts');
     createChart(lchDataL, "#charts");
@@ -393,25 +397,15 @@ function colorInput() {
     createChartHeader('Blue', 'charts');
     createChart(rgbDataB, "#charts");
   }
-
-  // createChartHeader('Contrast Swatches', 'contrastChart');
   createChart(contrastData, "#contrastChart");
-
-  // update URL parameters
-  updateParams(color1.substr(1), background.substr(1), colorTint.substr(1), colorShade.substr(1), ratioInputs, mode);
 }
-colorInput(color1);
-
-
 // Passing variable parameters to URL
-function updateParams(c, b, t, s, r, m) {
+function updateParams(c, b, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
   params.set('color', c);
   params.set('base', b);
-  params.set('tint', t);
-  params.set('shade', s);
   params.set('ratios', r);
   params.set('mode', m);
 
@@ -425,25 +419,19 @@ function updateParams(c, b, t, s, r, m) {
   var p = document.getElementById('params');
   p.innerHTML = " ";
   var call = 'adaptcolor({ ';
-  var pcol = 'color: "#' + c + '", ';
+  var pcol = 'colors: [' + c + '], ';
   var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';
-  var ptin = 'tint: "#' + t + '", ';
-  var psha = 'shade: "#' + s + '", ';
   var pmod = ' colorspace: "' + m + '"});';
   text1 = document.createTextNode(call);
   text2 = document.createTextNode(pcol);
   text3 = document.createTextNode(pbas);
   text4 = document.createTextNode(prat);
-  text5 = document.createTextNode(ptin);
-  text6 = document.createTextNode(psha);
   text7 = document.createTextNode(pmod);
   p.appendChild(text1);
   p.appendChild(text2);
   p.appendChild(text3);
   p.appendChild(text4);
-  p.appendChild(text5);
-  p.appendChild(text6);
   p.appendChild(text7);
 }
 
