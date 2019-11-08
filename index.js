@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
-  swatches = 100;
+  swatches = 3000;
   var Domains = [];
 
   for(i=0; i < color.length; i++){

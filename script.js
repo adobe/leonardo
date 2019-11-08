@@ -327,6 +327,9 @@ function colorInput() {
   document.getElementById('colors').innerHTML = '';
   document.getElementById('charts').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
+  var shiftInputValue = document.getElementById('shiftInputValue');
+  shiftInputValue.innerHTML = ' ';
+
 
   var inputs = document.getElementsByClassName('inputColorField');
   // var inputColors = inputs.split(" ");
@@ -365,6 +368,7 @@ function colorInput() {
   colorArgs = tempArgs.join("").split(',').filter(String);
   // console.log(colorArgs);
   var shift = document.getElementById('shiftInput').value;
+  shiftInputValue.innerHTML = shift;
 
   adaptcolor({color: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   // scaleColors({color: colorArgs, colorspace: mode});
