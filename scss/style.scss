@@ -36,6 +36,8 @@ governing permissions and limitations under the License.
   --gradient-slider-height: calc(100vh - var(--gradient-height-offset));
   --slider-thumb-size: 8px; // 24px
   --header-height: 58px;
+  --spectrum-panel-border-color: var(--spectrum-global-color-gray-300, #e1e1e1);
+  --spectrum-panel-background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
 }
 
 body {
@@ -646,6 +648,8 @@ a:focus {
   border-radius: 4px;
   padding: 8px;
   margin: 0 -8px;
+  width: 100%;
+  overflow: scroll;
 }
 
 
@@ -694,7 +698,8 @@ a:focus {
   flex-direction: row;
 }
 
-#addRatio {
+#addRatio,
+#addColor {
   justify-content: center;
   margin-top: 8px;
 

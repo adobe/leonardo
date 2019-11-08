@@ -528,7 +528,7 @@ function createAllCharts() {
 function updateParams(c, b, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
-
+  
   params.set('color', c);
   params.set('base', b);
   params.set('ratios', r);
