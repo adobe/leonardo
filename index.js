@@ -9,7 +9,7 @@
 // governing permissions and limitations under the License.
 
 function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
-  swatches = 4000;
+  swatches = 100;
   var Domains = [];
 
   for(i=0; i < color.length; i++){
@@ -50,6 +50,17 @@ function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff'
   }).sort(function(c1, c2) {
     // Sort by lightness
     return c2.color[2] - c1.color[2];
+  }).map(function(data) {
+    // Retrieve original RGB color
+    return color[data.index];
+  });
+
+  var inverseSortedColor = color.map(function(c, i) {
+    // Convert to HSLuv and keep track of original indices
+    return {color: cArray(c), index: i};
+  }).sort(function(c1, c2) {
+    // Sort by lightness
+    return c1.color[2] - c2.color[2];
   }).map(function(data) {
     // Retrieve original RGB color
     return color[data.index];
@@ -138,8 +149,12 @@ function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff'
   colors = Colors.filter(function (el) {
     return el != null;
   });
-  // Throw an error here if colors is empty or undefined.
 
+  // Return colors as hex values for interpolators.
+  colorsHex = [];
+  for (i=0; i<colors.length; i++) {
+    colorsHex.push(d3.rgb(colors[i]).formatHex());
+  }
 
   var Contrasts = d3.range(swatches).map(function(d) {
     var rgbArray = [d3.rgb(scale(d)).r, d3.rgb(scale(d)).g, d3.rgb(scale(d)).b];
