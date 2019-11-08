@@ -23,6 +23,7 @@ governing permissions and limitations under the License.
 @import 'node_modules/@spectrum-css/dropdown/dist/index-vars';
 @import 'node_modules/@spectrum-css/fieldlabel/dist/index-vars';
 @import 'node_modules/@spectrum-css/checkbox/dist/index-vars';
+@import 'node_modules/@spectrum-css/tabs/dist/index-vars';
 
 :root {
   --gradient-height-offset: 332px;
@@ -457,7 +458,7 @@ a:focus {
   margin-bottom: 8px;
 }
 
-.ratio-Item {
+.color-Item {
   position: relative;
   display: flex;
   flex-direction: row;

@@ -69,15 +69,23 @@ governing permissions and limitations under the License.
 </header>
 <div id="userColors" class="spectrum-Panel">
   <div class="spectrum-Panel-Item">
-    <div class="spectrum-Panel-Title">
+    <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--compact spectrum-Tabs--quiet">
+      <div class="spectrum-Tabs-item is-selected" tabindex="0">
+        <label class="spectrum-Tabs-itemLabel">Color Scale</label>
+      </div>
+      <div class="spectrum-Tabs-item" tabindex="0">
+        <label class="spectrum-Tabs-itemLabel">Swatches</label>
+      </div>
+    </div>
+    <!-- <div class="spectrum-Panel-Title">
       <h3 class="spectrum-Heading6">Contrast Color Pair</h3>
       <button id="toggleMetrics" onclick="toggleGraphs()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
         <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
           <use xlink:href="#spectrum-icon-18-Settings" />
-        </svg>
+        </svg> -->
         <!-- <span class="spectrum-ActionButton-label"></span> -->
-      </button>
-    </div>
+      <!-- </button>
+    </div> -->
     <div class="spectrum-Panel-Item--row spacing-100">
       <div class="colorField">
         <label for="bgField" class="spectrum-FieldLabel">Base color</label>
@@ -163,34 +171,37 @@ governing permissions and limitations under the License.
     </div>
     <!-- end test -->
 
-    <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
-    <div id="modeContainer">
-      <div class="spectrum-Dropdown" id="modeDropdown">
-        <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
-        </select>
-        <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-          <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-        </svg>
-      </div>
-    </div>
-
-  </div>
-  <div class="spectrum-Panel-Item">
-    <div class="spectrum-Panel-Title">
-      <h3 class="spectrum-Heading6">Contrast Ratio Swatches</h3>
-    </div>
     <div class="spectrum-Panel-Item--row spacing-100">
       <div id="gradientWrapper">
         <div id="colors"></div>
         <div id="sliderWrapper">
-          <!-- <input type="range" min="0" max="500" class="slider" id="Slider" oninput="colorInput()"> -->
         </div>
       </div>
-      <div id="colorWrapper">
-        <div id="color"></div>
+      <!-- First tab -->
+      <div id="scaleWrapper">
+        <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
+        <div id="modeContainer">
+          <div class="spectrum-Dropdown" id="modeDropdown">
+            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
+            </select>
+            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </div>
+        </div>
+        <div id="colorInputs">
+          <label for="colorInputs" class="spectrum-FieldLabel">Color inputs</label>
+        </div>
+        <button id="addColor" onclick="addNewColor()" class="spectrum-ActionButton">
+          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add Color</span>
+        </button>
+
       </div>
+      <!-- Second tab -->
       <div id="ratiosWrapper">
-        <!-- <label for="" class="spectrum-FieldLabel">Contrast Distribution</label> -->
         <div id="contrastConfigs">
           <button id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
             <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
@@ -200,30 +211,10 @@ governing permissions and limitations under the License.
           </button>
           <button id="sort" onclick="distributeTan()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
             <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
-            <!-- width="18px" height="18px" viewBox="0 0 18 18" style="enable-background:new 0 0 18 18;" xml:space="preserve"> -->
-              <!-- <g>
-              	<polygon class="st0" points="18,18 0,18 0,0 2,0 2,16 18,16 	"/>
-              </g>
-              <g>
-              	<path class="st0" d="M1,18v-2c9.4,0,15-5.9,15-15.9h2C18,8.7,13.5,18,1,18z"/>
-              </g> -->
               <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
             </svg>
             <span class="spectrum-ActionButton-label">Distribute</span>
           </button>
-          <!-- <button id="sortTan" onclick="distributeTan()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Distribute Tangentally" width="18px"
-              	 height="18px" viewBox="0 0 18 18" style="enable-background:new 0 0 18 18;" xml:space="preserve">
-               <g>
-               	<polygon class="st0" points="18,18 0,18 0,0 2,0 2,16 18,16 	"/>
-               </g>
-               <g>
-               	<path class="st0" d="M1,18v-2c4.8,0,6-4.2,8-8.3C11,3.9,13.9,0.1,18,0.1v2c-2.8,0-5.4,3-7.2,6.5C8.6,13,7,18,1,18z"/>
-               </g> -->
-              <!-- <use xlink:href="#spectrum-icon-24-DistributeVertically" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
-            <!-- </svg>
-            <span class="spectrum-ActionButton-label"></span>
-          </button> -->
         </div>
 
         <div id="ratios">

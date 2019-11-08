@@ -43,6 +43,7 @@
     "@spectrum-css/icon": "^2.0.0-alpha.6",
     "@spectrum-css/page": "^2.0.0-alpha.4",
     "@spectrum-css/radio": "^2.0.0-alpha.6",
+    "@spectrum-css/tabs": "^2.1.0",
     "@spectrum-css/textfield": "^2.0.0-alpha.5",
     "@spectrum-css/typography": "^2.0.0-alpha.5",
     "@spectrum-css/vars": "^2.0.0-alpha.3",

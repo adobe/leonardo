@@ -79,7 +79,7 @@ function addRatio(v, s = '#cacaca') {
   var slider = document.createElement('input');
 
   var randId = randomId();
-  div.className = 'ratio-Item';
+  div.className = 'color-Item';
   div.id = randId + '-item';
   var sw = document.createElement('span');
   sw.className = 'spectrum-Textfield-swatch';
@@ -120,9 +120,61 @@ function addRatio(v, s = '#cacaca') {
   ratios.appendChild(div);
 }
 
+function addColor(v, s = '#cacaca') {
+  // increment by default
+  // if(v == undefined) {
+  //   // find highest value
+  //   var hi = Math.max(...colorInputs);
+  //   var lo = Math.min(...colorInputs);
+  //
+  //   if(hi < 20) {
+  //     v = Number(hi + 1).toFixed(2);
+  //   }
+  //   if(hi == 21) {
+  //     v = Number(hi - 1).toFixed(2);
+  //   }
+  // }
+
+  var colorInputs = document.getElementById('colorInputs');
+  var div = document.createElement('div');
+
+  var randId = randomId();
+  div.className = 'color-Item';
+  div.id = randId + '-item';
+  var sw = document.createElement('span');
+  sw.className = 'spectrum-Textfield-swatch';
+  sw.id = randId + '-sw';
+  sw.style.backgroundColor = s;
+  var input = document.createElement('input');
+  input.className = 'spectrum-Textfield ratioField';
+  input.type = "text";
+  input.placeholder = '#ff00ff';
+  input.id = randId;
+  input.value = v;
+  input.oninput = colorInput;
+  var button = document.createElement('button');
+  button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
+  button.innerHTML = `
+  <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
+    <use xlink:href="#spectrum-icon-18-Delete" />
+  </svg>`;
+
+  button.onclick = deleteRatio;
+  div.appendChild(sw);
+  div.appendChild(input);
+  div.appendChild(button);
+  colorInputs.appendChild(div);
+}
+
+
 // When adding new ratios in UI, run colorinput as well
 function addNewRatio() {
   addRatio();
+  colorInput();
+}
+
+function addNewColor() {
+  addColor();
   colorInput();
 }
 
@@ -282,20 +334,13 @@ function colorInput() {
   // console.log(colorArgs);
 
   adaptcolor({color: colorArgs, base: background, ratios: ratioInputs, colorspace: mode});
+  // scaleColors({color: colorArgs, colorspace: mode});
+  // getContrast({base: background, ratios: ratioInputs});
 
   var qrtVals = d3.scalePow()
     .exponent(0.5)
-    .domain([100, 0])
-    .range([100, 0]);
-
-  // qrtVals = domains.map(function(d) {
-  //   // return m * Math.log(d) + b;
-  //   if(sqrtDomains(d) < 0) {
-  //     return 0;
-  //   } else {
-  //     return sqrtDomains(d);
-  //   }
-  // })
+    .domain([0, newColors.length])
+    .range([0, newColors.length]);
 
   for(i=0; i<newColors.length; i++) {
     // Calculate value of color and apply to slider position/value
@@ -303,7 +348,7 @@ function colorInput() {
 
     var newVal = qrtVals(d3.hsluv(newColors[i]).v);
 
-    val = newVal;
+    // val = newVal;
     // Find corresponding input/slider id
     var slider = document.getElementById(rfIds[i] + '-sl')
     slider.value = val;
@@ -994,7 +1039,7 @@ function distributeLum() {
   newRatios = newRatios.concat(ratioInputs[0], NewContrast, ratioInputs[ratioInputs.length-1]);
 
   // Delete all ratios
-  ratioItems = document.getElementsByClassName('ratio-Item');
+  ratioItems = document.getElementsByClassName('color-Item');
   while(ratioItems.length > 0){
       ratioItems[0].parentNode.removeChild(ratioItems[0]);
   }
