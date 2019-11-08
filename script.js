@@ -279,13 +279,31 @@ function colorInput() {
   // remove any whitespace from inputColors
   tempArgs.push(inputColors);
   colorArgs = tempArgs.join("").split(',').filter(String);
-  console.log(colorArgs);
+  // console.log(colorArgs);
 
   adaptcolor({color: colorArgs, base: background, ratios: ratioInputs, colorspace: mode});
+
+  var qrtVals = d3.scalePow()
+    .exponent(0.5)
+    .domain([100, 0])
+    .range([100, 0]);
+
+  // qrtVals = domains.map(function(d) {
+  //   // return m * Math.log(d) + b;
+  //   if(sqrtDomains(d) < 0) {
+  //     return 0;
+  //   } else {
+  //     return sqrtDomains(d);
+  //   }
+  // })
 
   for(i=0; i<newColors.length; i++) {
     // Calculate value of color and apply to slider position/value
     var val = d3.hsluv(newColors[i]).v;
+
+    var newVal = qrtVals(d3.hsluv(newColors[i]).v);
+
+    val = newVal;
     // Find corresponding input/slider id
     var slider = document.getElementById(rfIds[i] + '-sl')
     slider.value = val;
@@ -879,10 +897,22 @@ function returnRatioExp(lum) {
 // Inverse tangental curve for approximating perceptually balanced swatch distribution
 // with smaller difference between swatches in darker values
 function returnRatioTan(lum) {
-  var a = -8.25;
-  var b = 0.0685;
-  var c = 1.65;
-  var d = 12.25;
+  // var a = -8.25;
+  // var b = 0.0685;
+  // var c = 1.65;
+  // var d = 12.25;
+
+  // Test tangent curve for general use
+  var a = -11;
+  var b = 0.0475;
+  var c = 0.5;
+  var d = 15.45;
+
+  // Test tangent curve for diverging palettes
+  // var a = -11;
+  // var b = 0.04;
+  // var c = 0.65;
+  // var d = 14.875;
 
   var r = a * Math.atan(b * lum - c) + d;
 
