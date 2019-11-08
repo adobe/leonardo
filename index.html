@@ -69,13 +69,14 @@ governing permissions and limitations under the License.
 </header>
 <div id="userColors" class="spectrum-Panel">
   <div class="spectrum-Panel-Item">
-    <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--compact spectrum-Tabs--quiet">
-      <div class="spectrum-Tabs-item is-selected" tabindex="0">
+    <div id="tabsPanel" class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--compact spectrum-Tabs--quiet">
+      <div id="tabColorScale" class="spectrum-Tabs-item" tabindex="0" onclick="openTab(event, 'scaleWrapper')">
         <label class="spectrum-Tabs-itemLabel">Color Scale</label>
       </div>
-      <div class="spectrum-Tabs-item" tabindex="0">
+      <div id="tabSwatches" class="spectrum-Tabs-item" tabindex="0" onclick="openTab(event, 'ratiosWrapper')">
         <label class="spectrum-Tabs-itemLabel">Swatches</label>
       </div>
+      <div class="spectrum-Tabs-selectionIndicator" style="width: 27px; left: 0px;"></div>
     </div>
 
     <!-- test -->
@@ -141,20 +142,24 @@ governing permissions and limitations under the License.
         </div>
       </div>
       <!-- First tab -->
-      <div id="scaleWrapper">
+      <div id="scaleWrapper" class="tabcontent">
         <div id="scaleConfigs">
-          <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
-          <div class="spectrum-Dropdown" id="modeDropdown">
-            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
-            </select>
-            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-            </svg>
-          </div>
-
-          <label for="shiftInput" class="spectrum-FieldLabel">Shift scale</label>
-          <input type="range" value="1" min="0.25" max="1.5" step="0.01" id="shiftInput" name="shiftInput" onInput="colorInput()"></input>
-
+          <form class="spectrum-Form spectrum-Form--labelsAbove">
+            <div class="spectrum-Form-item">
+              <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
+              <div class="spectrum-Dropdown" id="modeDropdown">
+                <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
+                </select>
+                <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                  <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                </svg>
+              </div>
+            </div>
+            <div class="spectrum-Form-item">
+              <label for="shiftInput" class="spectrum-FieldLabel">Shift scale</label>
+              <input type="range" value="1" min="0.25" max="1.5" step="0.01" id="shiftInput" name="shiftInput" onInput="colorInput()"></input>
+            </div>
+          </form>
         </div>
         <div id="colorInputs">
           <label for="colorInputs" class="spectrum-FieldLabel">Color inputs</label>
@@ -168,7 +173,7 @@ governing permissions and limitations under the License.
 
       </div>
       <!-- Second tab -->
-      <div id="ratiosWrapper" style="display:none;">
+      <div id="ratiosWrapper" class="tabcontent">
         <div class="colorField">
           <label for="bgField" class="spectrum-FieldLabel">Base color</label>
           <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
