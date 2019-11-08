@@ -370,18 +370,43 @@ function colorInput() {
   // scaleColors({color: colorArgs, colorspace: mode});
   // getContrast({base: background, ratios: ratioInputs});
 
-  var qrtVals = d3.scalePow()
-    .exponent(0.5)
-    .domain([0, newColors.length])
-    .range([0, newColors.length]);
+  Values = [];
+  maxVal = 100;
+
+  for(i=0; i < newColors.length; i++){
+    Values.push(maxVal * (d3.hsluv(newColors[i]).v / 100)) // wrong direction. Needs inversed.
+    // Values.push(maxVal * (d3.hsluv(newColors[i]).v / 100))
+  }
+  // Values.sort(function(a, b){return a-b});
+  // Values.sort(function(a, b){return a-b});
+
+  var values = [];
+  values = values.concat(0, Values, maxVal);
+  values.sort(function(a, b){return a+b});
+  var reverseShift = 1 / shift;
+
+  var sqrtValues = d3.scalePow()
+    .exponent(reverseShift)
+    .domain([1, maxVal])
+    .range([1, maxVal]);
+
+  sqrtValues = values.map(function(d) {
+    if(sqrtValues(d) < 0) {
+      return 0;
+    } else {
+      return sqrtValues(d);
+    }
+  })
+
+  // Then, remove first and last value from sqrtValues array to get slider values
 
   for(i=0; i<newColors.length; i++) {
     // Calculate value of color and apply to slider position/value
     var val = d3.hsluv(newColors[i]).v;
 
-    var newVal = qrtVals(d3.hsluv(newColors[i]).v);
+    var newVal = sqrtValues[i+1];
 
-    // val = newVal;
+    val = newVal;
     // Find corresponding input/slider id
     var slider = document.getElementById(rfIds[i] + '-sl')
     slider.value = val;
