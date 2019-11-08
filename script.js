@@ -28,7 +28,17 @@ function paramSetup() {
   // // If parameters exist, use parameter; else use default html input values
   if(params.has('color')) {
     // document.getElementById('inputColors').value = "#" + params.get('color');
-    document.getElementById('variableColors').value = params.get('color');
+    // document.getElementById('variableColors').value = params.get('color');
+    cr = params.get('color');
+    crs = cr.split(',');
+
+    if(crs[0] == 0) {
+      crs = ['#ffff00', '#f26322'];
+    } else { }
+
+    for (i=0; i<crs.length; i++) {
+      addColor(crs[i]);
+    }
   }
   if(params.has('base')) {
     document.getElementById('bgField').value = "#" + params.get('base');
@@ -120,21 +130,7 @@ function addRatio(v, s = '#cacaca') {
   ratios.appendChild(div);
 }
 
-function addColor(v, s = '#cacaca') {
-  // increment by default
-  // if(v == undefined) {
-  //   // find highest value
-  //   var hi = Math.max(...colorInputs);
-  //   var lo = Math.min(...colorInputs);
-  //
-  //   if(hi < 20) {
-  //     v = Number(hi + 1).toFixed(2);
-  //   }
-  //   if(hi == 21) {
-  //     v = Number(hi - 1).toFixed(2);
-  //   }
-  // }
-
+function addColor(s = '#cacaca') {
   var colorInputs = document.getElementById('colorInputs');
   var div = document.createElement('div');
 
@@ -146,11 +142,11 @@ function addColor(v, s = '#cacaca') {
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
   var input = document.createElement('input');
-  input.className = 'spectrum-Textfield ratioField';
+  input.className = 'spectrum-Textfield inputColorField';
   input.type = "text";
   input.placeholder = '#ff00ff';
   input.id = randId;
-  input.value = v;
+  input.value = s;
   input.oninput = colorInput;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
@@ -159,7 +155,7 @@ function addColor(v, s = '#cacaca') {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  button.onclick = deleteRatio;
+  button.onclick = deleteColor;
   div.appendChild(sw);
   div.appendChild(input);
   div.appendChild(button);
@@ -187,6 +183,13 @@ function deleteRatio(e) {
 
   self.remove();
   slider.remove();
+  colorInput();
+}
+function deleteColor(e) {
+  var id = e.target.parentNode.id;
+  var self = document.getElementById(id);
+
+  self.remove();
   colorInput();
 }
 
@@ -300,8 +303,8 @@ function colorInput() {
   document.getElementById('charts').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
 
-  var inputs = document.getElementById('variableColors').value;
-  var inputColors = inputs.split(" ");
+  var inputs = document.getElementsByClassName('inputColorField');
+  // var inputColors = inputs.split(" ");
   var background = document.getElementById('bgField').value;
   var mode = document.querySelector('select[name="mode"]').value;
   ratioFields = document.getElementsByClassName('ratioField');
@@ -320,10 +323,14 @@ function colorInput() {
     rfIds.push(ratioFields[i].id);
   }
   ratioInputs = [];
+  inputColors = [];
 
   // For each ratio input field, push the value into the args array for adaptcolor
   for(i=0; i < ratioFields.length; i++) {
     ratioInputs.push(ratioFields[i].value);
+  }
+  for(i=0; i<inputs.length; i++) {
+    inputColors.push(inputs[i].value);
   }
 
   // Convert input value into a split array of hex values.
@@ -332,8 +339,9 @@ function colorInput() {
   tempArgs.push(inputColors);
   colorArgs = tempArgs.join("").split(',').filter(String);
   // console.log(colorArgs);
+  var shift = document.getElementById('shiftInput').value;
 
-  adaptcolor({color: colorArgs, base: background, ratios: ratioInputs, colorspace: mode});
+  adaptcolor({color: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   // scaleColors({color: colorArgs, colorspace: mode});
   // getContrast({base: background, ratios: ratioInputs});
 

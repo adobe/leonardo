@@ -7767,7 +7767,7 @@ a.spectrum-ActionButton {
   background-color: var(--spectrum-tabs-quiet-selection-indicator-color, var(--spectrum-global-color-gray-900)); }
 
 :root {
-  --gradient-height-offset: 332px;
+  --gradient-height-offset: 120px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: calc(100vh - var(--gradient-height-offset));
   --color-size: 32px;
@@ -8011,7 +8011,15 @@ input[type=color]:focus {
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus); }
 
 main {
-  display: flex; }
+  display: flex;
+  flex-direction: column; }
+
+#contentTabWrapper {
+  width: 100%;
+  display: flex;
+  height: 48px;
+  padding: 0 16px;
+  border-bottom: 2px solid var(--spectrum-panel-border-color); }
 
 #demoWrapper {
   padding: 0 0 56px 0;
@@ -8280,6 +8288,6 @@ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
 g.d3_xy_chart_line path.line {
   stroke: #76D0C5; }
 
-#modeContainer {
+#scaleConfigs {
   display: flex;
-  flex-direction: row; }
+  flex-direction: column; }

@@ -77,43 +77,6 @@ governing permissions and limitations under the License.
         <label class="spectrum-Tabs-itemLabel">Swatches</label>
       </div>
     </div>
-    <!-- <div class="spectrum-Panel-Title">
-      <h3 class="spectrum-Heading6">Contrast Color Pair</h3>
-      <button id="toggleMetrics" onclick="toggleGraphs()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-          <use xlink:href="#spectrum-icon-18-Settings" />
-        </svg> -->
-        <!-- <span class="spectrum-ActionButton-label"></span> -->
-      <!-- </button>
-    </div> -->
-    <div class="spectrum-Panel-Item--row spacing-100">
-      <div class="colorField">
-        <label for="bgField" class="spectrum-FieldLabel">Base color</label>
-        <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
-      </div>
-      <div class="colorField">
-        <label for="variableColors" class="spectrum-FieldLabel">Colors</label>
-        <textarea class="spectrum-Textfield" id="variableColors" name="variableColors" value="#ff0000, #00ff00, #0000ff" onChange="colorInput()">
-        </textarea>
-      </div>
-      <!-- Old field -->
-      <!-- <div class="colorField" id="variableColorField">
-        <label for="colorField1" class="spectrum-FieldLabel">Variable color</label>
-        <div class="variableColor-wrapper">
-          <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
-          <div class="tintShades-wrapper">
-            <div class="colorField colorField--horizontal">
-              <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
-              <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
-            </div>
-            <div class="colorField colorField--horizontal">
-              <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
-              <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
-            </div>
-          </div>
-        </div>
-      </div> -->
-    </div>
 
     <!-- test -->
     <template id="spectrum-ColorWheel">
@@ -179,8 +142,8 @@ governing permissions and limitations under the License.
       </div>
       <!-- First tab -->
       <div id="scaleWrapper">
-        <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
-        <div id="modeContainer">
+        <div id="scaleConfigs">
+          <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
           <div class="spectrum-Dropdown" id="modeDropdown">
             <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
             </select>
@@ -188,6 +151,10 @@ governing permissions and limitations under the License.
               <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
             </svg>
           </div>
+
+          <label for="shiftInput" class="spectrum-FieldLabel">Shift scale</label>
+          <input type="range" value="1" min="0.25" max="1.5" step="0.01" id="shiftInput" name="shiftInput" onInput="colorInput()"></input>
+
         </div>
         <div id="colorInputs">
           <label for="colorInputs" class="spectrum-FieldLabel">Color inputs</label>
@@ -201,7 +168,11 @@ governing permissions and limitations under the License.
 
       </div>
       <!-- Second tab -->
-      <div id="ratiosWrapper">
+      <div id="ratiosWrapper" style="display:none;">
+        <div class="colorField">
+          <label for="bgField" class="spectrum-FieldLabel">Base color</label>
+          <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
+        </div>
         <div id="contrastConfigs">
           <button id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
             <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
@@ -231,6 +202,21 @@ governing permissions and limitations under the License.
   </div>
 </div>
 <main>
+  <div id="contentTabWrapper">
+    <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+      <div class="spectrum-Tabs-item is-selected" tabindex="0">
+        <label class="spectrum-Tabs-itemLabel">Color metrics</label>
+      </div>
+      <div class="spectrum-Tabs-item" tabindex="0">
+        <label class="spectrum-Tabs-itemLabel">UI Demo</label>
+      </div>
+      <div class="spectrum-Tabs-item" tabindex="0">
+        <label class="spectrum-Tabs-itemLabel">Datavis Demo</label>
+      </div>
+      <div class="spectrum-Tabs-selectionIndicator" style="width: 27px; left: 0px;"></div>
+    </div>
+  </div>
+
   <div class="spectrum-Panel" id="colorMetrics">
     <div class="spectrum-Panel-Item">
       <div class="spectrum-Panel-Title">
@@ -247,6 +233,7 @@ governing permissions and limitations under the License.
       </div>
     </div>
   </div>
+
 
   <div id="demoWrapper">
     <div class="demoItem">

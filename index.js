@@ -8,7 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB'} = {}) {
+function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
   swatches = 4000;
   var Domains = [];
 
@@ -22,7 +22,7 @@ function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff'
 
   // Test logarithmic domain (for non-contrast-based scales)
   var sqrtDomains = d3.scalePow()
-    .exponent(0.5)
+    .exponent(shift)
     .domain([1, swatches])
     .range([1, swatches]);
 
@@ -35,7 +35,7 @@ function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff'
   })
 
   // Transform square root in order to smooth gradient
-  // domains = sqrtDomains;
+  domains = sqrtDomains;
 
   function cArray(c) {
     var L = d3.hsluv(c).l;
