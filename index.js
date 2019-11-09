@@ -8,51 +8,138 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], tint = '#fefefe', shade = '#010101', colorspace = 'LCH'} = {}) {
+function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
+  swatches = 3000;
+  var Domains = [];
 
-  // Using HSLuv "v" value as a uniform domain in gradients.
-  // This should be uniform regardless of library / colorspace.
-  // TODO: investigate alternative luminosity/brightness calculations.
-  swatches = 4000; // should be 2000 if able to render every possible decimal value of contrast.
-  domain = swatches - swatches * (d3.hsluv(color).v / 100);
-  tintDomain = swatches - swatches * (d3.hsluv(tint).v / 100);
-  shadeDomain = swatches - swatches * (d3.hsluv(shade).v / 100);
+  for(i=0; i < color.length; i++){
+    Domains.push(swatches - swatches * (d3.hsluv(color[i]).v / 100))
+  }
+  Domains.sort(function(a, b){return a-b});
+
+  var domains = [];
+  domains = domains.concat(0, Domains, swatches);
+
+  // Test logarithmic domain (for non-contrast-based scales)
+  var sqrtDomains = d3.scalePow()
+    .exponent(shift)
+    .domain([1, swatches])
+    .range([1, swatches]);
+
+  sqrtDomains = domains.map(function(d) {
+    if(sqrtDomains(d) < 0) {
+      return 0;
+    } else {
+      return sqrtDomains(d);
+    }
+  })
+
+  // Transform square root in order to smooth gradient
+  domains = sqrtDomains;
+
+  function cArray(c) {
+    var L = d3.hsluv(c).l;
+    var U = d3.hsluv(c).u;
+    var V = d3.hsluv(c).v;
+
+    return new Array( L, U, V);
+  }
+  var sortedColor = color.map(function(c, i) {
+    // Convert to HSLuv and keep track of original indices
+    return {color: cArray(c), index: i};
+  }).sort(function(c1, c2) {
+    // Sort by lightness
+    return c2.color[2] - c1.color[2];
+  }).map(function(data) {
+    // Retrieve original RGB color
+    return color[data.index];
+  });
+
+  var inverseSortedColor = color.map(function(c, i) {
+    // Convert to HSLuv and keep track of original indices
+    return {color: cArray(c), index: i};
+  }).sort(function(c1, c2) {
+    // Sort by lightness
+    return c1.color[2] - c2.color[2];
+  }).map(function(data) {
+    // Retrieve original RGB color
+    return color[data.index];
+  });
+
+  ColorsArray = [];
+  console.log(ColorsArray);
 
   if(colorspace == 'CAM02') {
+    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    ColorsArray = ColorsArray.map(function(d) {
+      return d3.jab(d);
+    });
+
     scale = d3.scaleLinear()
-      .range([d3.jab('#ffffff'), d3.jab(tint), d3.jab(color), d3.jab(shade), d3.jab('#000000')])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .range(ColorsArray)
+      .domain(domains)
       .interpolate(d3.interpolateJab);
   }
   if(colorspace == 'LCH') {
+    ColorsArray = ColorsArray.map(function(d) {
+      return d3.hcl(d);
+    });
+    ColorsArray = ColorsArray.concat(d3.hcl(NaN, 0, 100), sortedColor, d3.hcl(NaN, 0, 0));
     scale = d3.scaleLinear()
-      .range([d3.hcl(NaN, 0, 100), d3.hcl(tint), d3.hcl(color), d3.hcl(shade), d3.hcl(NaN, 0, 0)])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .range(ColorsArray)
+      .domain(domains)
       .interpolate(d3.interpolateHcl);
   }
   if(colorspace == 'LAB') {
+    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    ColorsArray = ColorsArray.map(function(d) {
+      return d3.lab(d);
+    });
+
     scale = d3.scaleLinear()
-      .range([d3.lab('#ffffff'), d3.lab(tint), d3.lab(color), d3.lab(shade), d3.lab('#000000')])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .range(ColorsArray)
+      .domain(domains)
       .interpolate(d3.interpolateLab);
   }
   if(colorspace == 'HSL') {
+    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    ColorsArray = ColorsArray.map(function(d) {
+      return d3.hsl(d);
+    });
     scale = d3.scaleLinear()
-      .range([d3.hsl('#ffffff'), d3.hsl(tint), d3.hsl(color), d3.hsl(shade), d3.hsl('#000000')])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .range(ColorsArray)
+      .domain(domains)
       .interpolate(d3.interpolateHsl);
   }
   if(colorspace == 'HSLuv') {
+    ColorsArray = ColorsArray.map(function(d) {
+      return d3.hsluv(d);
+    });
+    ColorsArray = ColorsArray.concat(d3.hsluv(NaN, NaN, 100), sortedColor, d3.hsluv(NaN, NaN, 0));
     scale = d3.scaleLinear()
-      .range([d3.hsluv(NaN, NaN, 100), d3.hsluv(tint), d3.hsluv(color), d3.hsluv(shade), d3.hsluv(NaN, NaN, 0)])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .range(ColorsArray)
+      .domain(domains)
       .interpolate(d3.interpolateHsluv);
   }
   if(colorspace == 'RGB') {
+    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    ColorsArray = ColorsArray.map(function(d) {
+      return d3.rgb(d);
+    });
     scale = d3.scaleLinear()
-      .range([d3.rgb('#ffffff'), d3.rgb(tint), d3.rgb(color), d3.rgb(shade), d3.rgb('#000000')])
-      .domain([0, tintDomain, domain, shadeDomain, swatches])
+      .range(ColorsArray)
+      .domain(domains)
       .interpolate(d3.interpolateRgb);
+  }
+  if(colorspace == 'HSV') {
+    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    ColorsArray = ColorsArray.map(function(d) {
+      return d3.hsv(d);
+    });
+    scale = d3.scaleLinear()
+      .range(ColorsArray)
+      .domain(domains)
+      .interpolate(d3.interpolateHsv);
   }
 
   var Colors = d3.range(swatches).map(function(d) {
@@ -62,9 +149,12 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   colors = Colors.filter(function (el) {
     return el != null;
   });
-  // Throw an error here if colors is empty or undefined.
 
-  // console.log(colors);
+  // Return colors as hex values for interpolators.
+  colorsHex = [];
+  for (i=0; i<colors.length; i++) {
+    colorsHex.push(d3.rgb(colors[i]).formatHex());
+  }
 
   var Contrasts = d3.range(swatches).map(function(d) {
     var rgbArray = [d3.rgb(scale(d)).r, d3.rgb(scale(d)).g, d3.rgb(scale(d)).b];
@@ -80,19 +170,19 @@ function adaptcolor({color = '#0000ff', base = '#ffffff', ratios = [3, 4.5, 7], 
   var baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
 
   newColors = [];
+  ratios = ratios.map(Number);
 
   // Return color matching target ratio, or closest number
   for(i=0; i < ratios.length; i++){
     var r = binarySearch(contrasts, ratios[i], baseLum);
-
-    newColors.push(colors[r]);
+    newColors.push(d3.rgb(colors[r]).hex());
   }
 
   return newColors;
 }
 
 // Test scripts:
-// adaptcolor({color: '#2451FF', base: '#f5f5f5', ratios: [3, 4.5], tint: '#C9FEFE', shade: '#012676', colorspace: 'RGB'});
+// adaptcolor({color: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'});
 // adaptcolor({color: "#0000ff",base: "#323232",ratios: [-1.25,4.5],tint: "#fefefe",shade: "#010101", colorspace: "LCH"});
 
 // TODO: see if there's a luminance package?
@@ -119,7 +209,6 @@ function contrast(color, base) {
   var cr1 = (colorLum + 0.05) / (baseLum + 0.05);
   var cr2 = (baseLum + 0.05) / (colorLum + 0.05);
 
-  // Only works for dark backgrounds now.
   if(baseLum < 0.5) {
     if (cr1 >= 1) { return cr1; }
     else { return cr2 * -1; } // Return as whole negative number
@@ -140,6 +229,9 @@ function binarySearch(list, value, baseLum) {
   let start = 0
   let stop = list.length - 1
   let middle = Math.floor((start + stop) / 2)
+
+  var minContrast = Math.min(...list);
+  var maxContrast = Math.max(...list);
 
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {

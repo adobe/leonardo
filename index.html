@@ -48,6 +48,7 @@ governing permissions and limitations under the License.
   <script src="./node_modules/d3/dist/d3.min.js"></script>
   <script src="./node_modules/d3-cam02/build/d3-cam02.min.js"></script>
   <script src="./node_modules/d3-hsluv/build/d3-hsluv.min.js"></script>
+  <script src="./node_modules/d3-hsv/build/d3-hsv.min.js"></script>
   <script src="./node_modules/@adobe/focus-ring-polyfill/index.js"></script>
   <script src="./components/colorcontrols.js"></script>
   <script src="index.js"></script>
@@ -68,34 +69,18 @@ governing permissions and limitations under the License.
 </header>
 <div id="userColors" class="spectrum-Panel">
   <div class="spectrum-Panel-Item">
-    <div class="spectrum-Panel-Title">
-      <h3 class="spectrum-Heading6">Contrast Color Pair</h3>
-    </div>
-    <div class="spectrum-Panel-Item--row spacing-100">
-      <div class="colorField">
-        <label for="bgField" class="spectrum-FieldLabel">Base color</label>
-        <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
+    <div id="tabsPanel" class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--compact spectrum-Tabs--quiet">
+      <div id="tabColorScale" class="spectrum-Tabs-item panel-Tab-item" tabindex="0" onclick="panelTab(event, 'scaleWrapper')">
+        <label class="spectrum-Tabs-itemLabel">Color Scale</label>
       </div>
-      <div class="colorField" id="variableColorField">
-        <label for="colorField1" class="spectrum-FieldLabel">Variable color</label>
-        <div class="variableColor-wrapper">
-          <input type="color" class="colorInput" id="colorField1" value="#0000FF" onChange="colorInput()"></input>
-          <div class="tintShades-wrapper">
-            <div class="colorField colorField--horizontal">
-              <input type="color" class="colorInput" id="colorField2" value="#FEFEFE" onChange="colorInput()"></input>
-              <label for="colorField2" id="color2Label" class="spectrum-FieldLabel">Tint</label>
-            </div>
-            <div class="colorField colorField--horizontal">
-              <input type="color" class="colorInput" id="colorField3" value="#010101" onChange="colorInput()"></input>
-              <label for="colorField3" id="color3Label" class="spectrum-FieldLabel">Shade</label>
-            </div>
-          </div>
-        </div>
+      <div id="tabSwatches" class="spectrum-Tabs-item panel-Tab-item" tabindex="0" onclick="panelTab(event, 'ratiosWrapper')">
+        <label class="spectrum-Tabs-itemLabel">Contrast Swatches</label>
       </div>
+      <!-- <div class="spectrum-Tabs-selectionIndicator" style="width: 27px; left: 0px;"></div> -->
     </div>
 
     <!-- test -->
-    <template id="spectrum-ColorWheel">
+    <!-- <template id="spectrum-ColorWheel">
       <svg class="spectrum-ColorWheel-wheel" viewBox="0 0 160 160">
         <defs>
           <mask id="mask">
@@ -143,70 +128,77 @@ governing permissions and limitations under the License.
       </svg>
     </template>
 
-
     <div class="spectrum--medium">
       <spectrum-colorpicker value="hsl(320, 80%, 40%)">
       </spectrum-colorpicker>
-    </div>
+    </div> -->
     <!-- end test -->
 
-    <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
-    <div id="modeContainer">
-      <div class="spectrum-Dropdown" id="modeDropdown">
-        <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
-        </select>
-        <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-          <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-        </svg>
-      </div>
-      <button id="toggleMetrics" onclick="toggleGraphs()" class="spectrum-ActionButton">
-        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-          <use xlink:href="#spectrum-icon-18-Visibility" />
-        </svg>
-        <span class="spectrum-ActionButton-label">Color Graphs</span>
-      </button>
-    </div>
-
-  </div>
-  <div class="spectrum-Panel-Item">
-    <div class="spectrum-Panel-Title">
-      <h3 class="spectrum-Heading6">Contrast Ratio Swatches</h3>
-    </div>
     <div class="spectrum-Panel-Item--row spacing-100">
       <div id="gradientWrapper">
         <div id="colors"></div>
         <div id="sliderWrapper">
-          <!-- <input type="range" min="0" max="500" class="slider" id="Slider" oninput="colorInput()"> -->
         </div>
       </div>
-      <div id="colorWrapper">
-        <div id="color"></div>
+      <!-- First tab -->
+      <div id="scaleWrapper" class="paneltabcontent">
+        <div id="scaleConfigs">
+          <form class="spectrum-Form spectrum-Form--labelsAbove">
+            <div class="spectrum-Form-item">
+              <label for="mode" class="spectrum-FieldLabel">Color space interpolation</label>
+              <div class="spectrum-Dropdown" id="modeDropdown">
+                <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
+                </select>
+                <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                  <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                </svg>
+              </div>
+            </div>
+            <div class="spectrum-Form-item">
+              <div class="spectrum-Slider">
+                <div class="spectrum-Slider-labelContainer">
+                  <label class="spectrum-Slider-label" id="shiftInputLabel" for="shiftInput">Shift scale</label>
+                  <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="shiftInputLabel" id="shiftInputValue">14</div>
+                </div>
+                <input class="spectrum-Slider-controls" type="range" value="1" min="0.25" max="1.5" step="0.01" id="shiftInput" name="shiftInput" onInput="colorInput()"></input>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div id="colorInputs">
+          <label for="colorInputs" class="spectrum-FieldLabel">Color inputs</label>
+        </div>
+        <button id="addColor" onclick="addNewColor()" class="spectrum-ActionButton">
+          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add Color</span>
+        </button>
+
       </div>
-      <div id="ratiosWrapper">
+      <!-- Second tab -->
+      <div id="ratiosWrapper" class="paneltabcontent">
+        <div class="colorField">
+          <label for="bgField" class="spectrum-FieldLabel">Base color</label>
+          <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
+        </div>
         <div id="contrastConfigs">
           <button id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-            <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
               <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
             </svg>
             <span class="spectrum-ActionButton-label">Sort</span>
           </button>
-          <button id="sort" onclick="distributeExp()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-              <use xlink:href="#spectrum-icon-24-DistributeVertically" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
+          <button id="sort" onclick="distributeTan()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
+              <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
             </svg>
-            <span class="spectrum-ActionButton-label">Exp</span>
+            <span class="spectrum-ActionButton-label">Distribute</span>
           </button>
-          <button id="sortTan" onclick="distributeTan()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-              <use xlink:href="#spectrum-icon-24-DistributeVertically" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
-            </svg>
-            <span class="spectrum-ActionButton-label">Tan</span>
-          </button>
-
         </div>
 
         <div id="ratios">
-          <label for="ratio" class="spectrum-FieldLabel">Contrast ratio</label>
+          <label for="ratio" class="spectrum-FieldLabel">Contrast ratios</label>
         </div>
         <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
           <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
@@ -219,24 +211,36 @@ governing permissions and limitations under the License.
   </div>
 </div>
 <main>
-  <div class="spectrum-Panel spectrum-Panel--small" id="colorMetrics">
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Color Graphs</h3>
+  <div id="contentTabWrapper">
+    <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+      <div id="tabDemo" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'demoWrapper')">
+        <label class="spectrum-Tabs-itemLabel">UI Demo</label>
       </div>
-      <div id="charts">
+      <div id="tabMetrics" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'metricsWrapper')">
+        <label class="spectrum-Tabs-itemLabel">Color metrics</label>
       </div>
-    </div>
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Contrast Ratio Distribution</h3>
-      </div>
-      <div id="contrastChart">
-      </div>
+      <!-- <div id="tabDatavis" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'datavisWrapper')">
+        <label class="spectrum-Tabs-itemLabel">Datavis Demo</label>
+      </div> -->
+      <!-- <div class="spectrum-Tabs-selectionIndicator" style="width: 27px; left: 0px;"></div> -->
     </div>
   </div>
 
-  <div id="demoWrapper">
+
+  <div class="tabcontent" id="metricsWrapper">
+    <!-- <h3 class="spectrum-Heading6">Color Graphs</h3> -->
+    <div class="charts">
+      <div id="chart1"></div>
+      <div id="chart2"></div>
+    </div>
+    <div class="charts">
+      <div id="chart3"></div>
+    </div>
+    <h3 class="spectrum-Heading6">Contrast Ratio Distribution</h3>
+    <div id="contrastChart"></div>
+  </div>
+
+  <div class="tabcontent" id="demoWrapper">
     <div class="demoItem">
       <div id="demo" class="spectrum-Typography">
         <h1 class="spectrum-Heading2" id="demoHeading">Large text.</h1>
@@ -250,6 +254,7 @@ governing permissions and limitations under the License.
       </div>
     </div>
   </div>
+
 </main>
 
 <div id="outputs" class="spectrum-Panel spectrum-Panel--small spectrum-Panel--right">

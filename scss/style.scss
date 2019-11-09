@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 @import 'node_modules/@spectrum-css/vars/dist/spectrum-global';
-@import 'node_modules/@spectrum-css/vars/dist/spectrum-medium-unique';
+@import 'node_modules/@spectrum-css/vars/dist/spectrum-medium';
 @import 'node_modules/@spectrum-css/vars/dist/spectrum-light';
 
 @import 'node_modules/@spectrum-css/page/dist/index-vars';
@@ -23,16 +23,12 @@ governing permissions and limitations under the License.
 @import 'node_modules/@spectrum-css/dropdown/dist/index-vars';
 @import 'node_modules/@spectrum-css/fieldlabel/dist/index-vars';
 @import 'node_modules/@spectrum-css/checkbox/dist/index-vars';
+@import 'node_modules/@spectrum-css/slider/dist/index-vars';
+@import 'node_modules/@spectrum-css/tabs/dist/vars';
+@import 'node_modules/@spectrum-css/tabs/dist/index';
 
 :root {
-  // Original placement of gradient uses these vars
-  // --gradient-height: calc(100vh - 8px - var(--spectrum-global-dimension-size-400));
-  // --colors-height: calc(100% - var(--spectrum-global-dimension-size-400));
-  // --colors-wrapper-height: calc(100vh - var(--spectrum-global-dimension-size-800) - 68px);
-  // --gradient-slider-height: calc(100vh - var(--spectrum-global-dimension-size-800) - 7px);
-
-  // Smaller, subpanel location of gradient uses these vars
-  --gradient-height-offset: 332px;
+  --gradient-height-offset: 128px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: calc(100vh - var(--gradient-height-offset));
   --color-size: 32px;
@@ -40,6 +36,8 @@ governing permissions and limitations under the License.
   --gradient-slider-height: calc(100vh - var(--gradient-height-offset));
   --slider-thumb-size: 8px; // 24px
   --header-height: 58px;
+  --spectrum-panel-border-color: var(--spectrum-global-color-gray-300, #e1e1e1);
+  --spectrum-panel-background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
 }
 
 body {
@@ -91,6 +89,26 @@ body {
   margin-left: 16px;
   padding: 4px;
 }
+/* Tabs aren't inheriting all styles properly. Remapping here */
+.spectrum-Tabs {
+  border-color: transparent;
+  padding: 0;
+}
+.spectrum-Tabs-item {
+  color: var(--spectrum-tabs-text-color, var(--spectrum-alias-label-text-color));
+}
+.spectrum-Tabs-item.is-selected {
+  color: var(--spectrum-tabs-text-color-selected, var(--spectrum-alias-heading-text-color));
+  border-bottom: 2px solid var(--spectrum-tabs-selection-indicator-color);
+}
+.spectrum-Tabs-selectionIndicator {
+  display: none; /* simplifying design to speed up development */
+  // background-color: var(--spectrum-tabs-selection-indicator-color);
+}
+.spectrum-Tabs--compact .spectrum-Tabs-item {
+  height: 32px;
+}
+
 .spectrum-Panel {
   display: flex;
   flex-direction: column;
@@ -121,6 +139,8 @@ body {
   padding: 8px 16px 16px;
 }
 .spectrum-Panel-Title {
+  display: flex;
+  justify-content: space-between;
   padding: 8px 0 4px;
 }
 .spectrum-Panel-Title + .spectrum-Panel-Item {
@@ -139,6 +159,10 @@ body {
   flex-direction: row;
   min-width: 140px;
 }
+.spectrum-Panel-Title ~ #colorOutputs {
+  margin-top: 8px;
+}
+
 #inputs {
   margin-bottom: 1em;
 }
@@ -150,7 +174,7 @@ body {
   overflow: hidden;
 }
 #gradientWrapper {
-  padding-top: 8px;
+  // padding-top: 8px;
   margin-right: 18px;
   height: var(--gradient-height);
   width: 56px;
@@ -197,24 +221,24 @@ body {
   justify-content: center;
   align-items: center;
 }
-#colorField1 {
-  border: none;
-  border-radius: 5px 0px 0px 5px;
-}
-#userColors {
-  grid-area: leftPanel;
-}
-#userColor, #userBg {
-  height: 56px;
-  width: 100%;
-  border-radius: 4px;
-  border: 0;
-  display: flex;
-  flex-direction: row;
-}
-#userColor ~ #userBg {
-  margin-top: 8px;
-}
+// #colorField1 {
+//   border: none;
+//   border-radius: 5px 0px 0px 5px;
+// }
+// #userColors {
+//   grid-area: leftPanel;
+// }
+// #userColor, #userBg {
+//   height: 56px;
+//   width: 100%;
+//   border-radius: 4px;
+//   border: 0;
+//   display: flex;
+//   flex-direction: row;
+// }
+// #userColor ~ #userBg {
+//   margin-top: 8px;
+// }
 #sliderWrapper {
   position: relative;
   display: flex;
@@ -268,7 +292,9 @@ body {
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
   // cursor: pointer;
 }
-
+#colorInputs {
+  margin-top: 8px;
+}
 
 input[type=color] {
   -webkit-appearance: none;
@@ -295,8 +321,124 @@ input[type=color]:focus {
   border: none;
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
 }
+
+.spectrum-Slider {
+  input[type=range] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 100%; /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+
+  input[type=range]:focus {
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+  }
+
+  input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+
+    /* Hides the slider so custom styles can be added */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  /* THUMB */
+  @mixin thumb {
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    background-color: var(--spectrum-global-color-gray-100);
+    margin: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2) 0 0 calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2);
+    border-width: var(--spectrum-slider-handle-border-size, var(--spectrum-alias-border-size-thick));
+    border-style: solid;
+    border-radius: var(--spectrum-slider-handle-border-radius, var(--spectrum-alias-border-radius-medium));
+    transition: border-width var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
+    outline: none;
+    cursor: grab;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    @include thumb;
+    margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  }
+
+  /* All the same stuff for Firefox */
+  input[type=range]::-moz-range-thumb {
+    @include thumb;
+  }
+
+  /* All the same stuff for IE */
+  input[type=range]::-ms-thumb {
+    @include thumb;
+  }
+
+  /* TRACK */
+  @mixin track {
+    width: 100%;
+    height: var(--spectrum-slider-track-height, var(--spectrum-alias-border-size-thick));
+    box-sizing: border-box;
+    z-index: 1;
+    background-color: var(--spectrum-global-color-gray-300);
+    top: calc(var(--spectrum-slider-height, var(--spectrum-alias-single-line-height)) / 2);
+    margin-top: calc(var(--spectrum-slider-fill-track-height, var(--spectrum-alias-border-size-thick)) / -2);
+    pointer-events: none;
+    padding: 0 var(--spectrum-slider-handle-gap, var(--spectrum-alias-border-size-thicker)) 0 0;
+    margin-left: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / 2 * -1);
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    @include track;
+  }
+
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #367ebd;
+  }
+
+  input[type=range]::-moz-range-track {
+    @include track;
+  }
+
+  input[type=range]::-ms-track {
+    @include track;
+
+    background: transparent;
+    border-color: transparent;
+    border-width: 2px 0;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background-color: var(--spectrum-global-color-gray-300);
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background-color: var(--spectrum-global-color-blue-400);
+  }
+  input[type=range]::-ms-fill-upper {
+    background-color: var(--spectrum-global-color-gray-300);
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background-color: var(--spectrum-global-color-blue-400);
+  }
+}
+
 main {
   display: flex;
+  flex-direction: column;
+}
+#contentTabWrapper {
+  width: 100%;
+  display: flex;
+  height: 47px;
+  padding: 0 16px;
+  box-shadow: 0 -2px inset var(--spectrum-panel-border-color);
+
+  .spectrum-Tabs {
+    margin-bottom: -1px;
+  }
 }
 #demoWrapper {
   padding: 0 0 56px 0;
@@ -308,6 +450,30 @@ main {
   max-height: calc(100vh - 56px);
   overflow: scroll;
 }
+
+#metricsWrapper {
+  background-color: var(--spectrum-global-color-gray-50, #ffffff);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 32px 48px;
+
+  .spectrum-Heading6 {
+    margin-top: 32px;
+  }
+}
+
+.charts {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+#chart2 {
+  margin-left: 32px;
+}
+
 h1 {
   margin-bottom: 0px;
 }
@@ -377,6 +543,12 @@ colorOutput-field {
     border-bottom-style: solid;
     border-bottom-color: rgba(0, 0, 0, 0.25);
   }
+  textarea {
+    height: 64px;
+  }
+}
+.colorField ~ .colorField {
+    margin-left: 16px;
 }
 input[type="color"]#bgField {
   border-radius: 5px;
@@ -453,10 +625,10 @@ a:focus {
 }
 
 .spacing-100 {
-  margin-bottom: 8px;
+  margin-top: 8px;
 }
 
-.ratio-Item {
+.color-Item {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -464,9 +636,14 @@ a:focus {
 
   .spectrum-Textfield {
     padding-left: var(--spectrum-global-dimension-size-400);
-    width: 100%;
+    // width: calc(10ch + var(--spectrum-global-dimension-size-200)); if adding name field, use this
+    width: 70%;
     margin-right: 8px;
   }
+}
+#toggleMetrics {
+  margin-top: -8px;
+  margin-right: -8px;
 }
 
 .colorOutputBlock {
@@ -504,10 +681,12 @@ a:focus {
   border-radius: 4px;
   padding: 8px;
   margin: 0 -8px;
+  width: 100%;
+  overflow: scroll;
 }
 
-#ratiosWrapper, #ratios {
-  display: flex;
+
+#scaleWrapper, #ratiosWrapper, #ratios {
   flex-direction: column;
   width: 100%;
 }
@@ -520,6 +699,7 @@ a:focus {
 #ratios {
   max-height: calc(var(--gradient-height) - 64px);
   overflow: scroll;
+  display: flex;
 }
 
 .demoItem {
@@ -537,16 +717,22 @@ a:focus {
 #libraryDropdown {
   width: 116px;
 }
+
 #modeDropdown {
-  width: 104px;
-  flex-grow: 1;
+  width: 120px;
 
   ~ .spectrum-ActionButton {
     margin-left: 8px;
   }
 }
 
-#addRatio {
+#contrastConfigs {
+  display: flex;
+  flex-direction: row;
+}
+
+#addRatio,
+#addColor {
   justify-content: center;
   margin-top: 8px;
 
@@ -556,10 +742,10 @@ a:focus {
 }
 
 /* charts */
-#charts > svg {
+.charts > svg {
   color: var(--spectrum-global-color-gray-600);
 }
-#charts .spectrum-Subheading {
+.charts .spectrum-Subheading {
   margin-top: 4px;
 }
 .axis path,
@@ -592,7 +778,7 @@ a:focus {
 #colorMetrics {
   display: none; // hidden by default
   overflow-y: scroll;
-  max-height: calc(100vh - var(--header-height));
+  height: calc(100vh - var(--header-height));
 
   &.visible {
     display: flex;
@@ -609,7 +795,11 @@ g.d3_xy_chart_line path.line {
   stroke: #76D0C5;
 }
 
-#modeContainer {
+#scaleConfigs {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.tabcontent {
+  display: none;
 }
