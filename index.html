@@ -70,17 +70,17 @@ governing permissions and limitations under the License.
 <div id="userColors" class="spectrum-Panel">
   <div class="spectrum-Panel-Item">
     <div id="tabsPanel" class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--compact spectrum-Tabs--quiet">
-      <div id="tabColorScale" class="spectrum-Tabs-item" tabindex="0" onclick="openTab(event, 'scaleWrapper')">
+      <div id="tabColorScale" class="spectrum-Tabs-item panel-Tab-item" tabindex="0" onclick="panelTab(event, 'scaleWrapper')">
         <label class="spectrum-Tabs-itemLabel">Color Scale</label>
       </div>
-      <div id="tabSwatches" class="spectrum-Tabs-item" tabindex="0" onclick="openTab(event, 'ratiosWrapper')">
-        <label class="spectrum-Tabs-itemLabel">Swatches</label>
+      <div id="tabSwatches" class="spectrum-Tabs-item panel-Tab-item" tabindex="0" onclick="panelTab(event, 'ratiosWrapper')">
+        <label class="spectrum-Tabs-itemLabel">Contrast Swatches</label>
       </div>
-      <div class="spectrum-Tabs-selectionIndicator" style="width: 27px; left: 0px;"></div>
+      <!-- <div class="spectrum-Tabs-selectionIndicator" style="width: 27px; left: 0px;"></div> -->
     </div>
 
     <!-- test -->
-    <template id="spectrum-ColorWheel">
+    <!-- <template id="spectrum-ColorWheel">
       <svg class="spectrum-ColorWheel-wheel" viewBox="0 0 160 160">
         <defs>
           <mask id="mask">
@@ -128,11 +128,10 @@ governing permissions and limitations under the License.
       </svg>
     </template>
 
-
     <div class="spectrum--medium">
       <spectrum-colorpicker value="hsl(320, 80%, 40%)">
       </spectrum-colorpicker>
-    </div>
+    </div> -->
     <!-- end test -->
 
     <div class="spectrum-Panel-Item--row spacing-100">
@@ -142,7 +141,7 @@ governing permissions and limitations under the License.
         </div>
       </div>
       <!-- First tab -->
-      <div id="scaleWrapper" class="tabcontent">
+      <div id="scaleWrapper" class="paneltabcontent">
         <div id="scaleConfigs">
           <form class="spectrum-Form spectrum-Form--labelsAbove">
             <div class="spectrum-Form-item">
@@ -178,7 +177,7 @@ governing permissions and limitations under the License.
 
       </div>
       <!-- Second tab -->
-      <div id="ratiosWrapper" class="tabcontent">
+      <div id="ratiosWrapper" class="paneltabcontent">
         <div class="colorField">
           <label for="bgField" class="spectrum-FieldLabel">Base color</label>
           <input type="color" class="colorInput" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
@@ -214,38 +213,34 @@ governing permissions and limitations under the License.
 <main>
   <div id="contentTabWrapper">
     <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
-      <div class="spectrum-Tabs-item is-selected" tabindex="0">
-        <label class="spectrum-Tabs-itemLabel">Color metrics</label>
-      </div>
-      <div class="spectrum-Tabs-item" tabindex="0">
+      <div id="tabDemo" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'demoWrapper')">
         <label class="spectrum-Tabs-itemLabel">UI Demo</label>
       </div>
-      <div class="spectrum-Tabs-item" tabindex="0">
+      <div id="tabMetrics" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'metricsWrapper')">
+        <label class="spectrum-Tabs-itemLabel">Color metrics</label>
+      </div>
+      <!-- <div id="tabDatavis" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'datavisWrapper')">
         <label class="spectrum-Tabs-itemLabel">Datavis Demo</label>
-      </div>
-      <div class="spectrum-Tabs-selectionIndicator" style="width: 27px; left: 0px;"></div>
-    </div>
-  </div>
-
-  <div class="spectrum-Panel" id="colorMetrics">
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Color Graphs</h3>
-      </div>
-      <div id="charts">
-      </div>
-    </div>
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Contrast Ratio Distribution</h3>
-      </div>
-      <div id="contrastChart">
-      </div>
+      </div> -->
+      <!-- <div class="spectrum-Tabs-selectionIndicator" style="width: 27px; left: 0px;"></div> -->
     </div>
   </div>
 
 
-  <div id="demoWrapper">
+  <div class="tabcontent" id="metricsWrapper">
+    <!-- <h3 class="spectrum-Heading6">Color Graphs</h3> -->
+    <div class="charts">
+      <div id="chart1"></div>
+      <div id="chart2"></div>
+    </div>
+    <div class="charts">
+      <div id="chart3"></div>
+    </div>
+    <h3 class="spectrum-Heading6">Contrast Ratio Distribution</h3>
+    <div id="contrastChart"></div>
+  </div>
+
+  <div class="tabcontent" id="demoWrapper">
     <div class="demoItem">
       <div id="demo" class="spectrum-Typography">
         <h1 class="spectrum-Heading2" id="demoHeading">Large text.</h1>
@@ -259,6 +254,7 @@ governing permissions and limitations under the License.
       </div>
     </div>
   </div>
+
 </main>
 
 <div id="outputs" class="spectrum-Panel spectrum-Panel--small spectrum-Panel--right">

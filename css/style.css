@@ -5981,6 +5981,44 @@ a.spectrum-ActionButton {
   background: var(--spectrum-slider-fill-track-color-disabled, var(--spectrum-global-color-gray-300)); }
 
 .spectrum-Tabs {
+  --spectrum-tabs-focus-ring-padding-x: var(--spectrum-global-dimension-size-100);
+  --spectrum-tabs-height: var(--spectrum-global-dimension-size-600);
+  --spectrum-tabs-rule-height: var(--spectrum-alias-border-size-thick);
+  --spectrum-tabs-icon-gap: var(--spectrum-global-dimension-size-100);
+  --spectrum-tabs-focus-ring-height: var(--spectrum-alias-single-line-height);
+  --spectrum-tabs-focus-ring-size: var(--spectrum-alias-border-size-thick);
+  --spectrum-tabs-focus-ring-border-radius: undefined;
+  --spectrum-tabs-text-size: var(--spectrum-alias-font-size-default);
+  --spectrum-tabs-text-font-weight: var(--spectrum-alias-body-text-font-weight);
+  --spectrum-tabs-selection-indicator-animation-duration: var(--spectrum-global-animation-duration-100);
+  --spectrum-tabs-rule-border-radius: var(--spectrum-global-dimension-static-size-10);
+  --spectrum-tabs-quiet-compact-height: var(--spectrum-global-dimension-size-400);
+  --spectrum-tabs-item-gap: var(--spectrum-global-dimension-size-300);
+  --spectrum-tabs-vertical-rule-width: var(--spectrum-alias-border-size-thick);
+  --spectrum-tabs-vertical-item-height: var(--spectrum-global-dimension-size-550);
+  --spectrum-tabs-vertical-item-margin-left: var(--spectrum-global-dimension-size-150);
+  --spectrum-tabs-vertical-item-gap: var(--spectrum-global-dimension-size-50);
+  --spectrum-tabs-compact-vertical-item-height: var(--spectrum-global-dimension-size-400);
+  --spectrum-tabs-compact-vertical-item-gap: var(--spectrum-global-dimension-size-50);
+  --spectrum-tabs-rule-color: var(--spectrum-global-color-gray-200);
+  --spectrum-tabs-vertical-rule-color: var(--spectrum-global-color-gray-200);
+  --spectrum-tabs-selection-indicator-color: var(--spectrum-global-color-gray-900);
+  --spectrum-tabs-text-color: var(--spectrum-alias-label-text-color);
+  --spectrum-tabs-icon-color: var(--spectrum-alias-icon-color);
+  --spectrum-tabs-text-color-hover: var(--spectrum-alias-text-color-hover);
+  --spectrum-tabs-icon-color-hover: var(--spectrum-alias-icon-color-hover);
+  --spectrum-tabs-text-color-selected: var(--spectrum-global-color-gray-900);
+  --spectrum-tabs-icon-color-selected: var(--spectrum-global-color-gray-900);
+  --spectrum-tabs-text-color-key-focus: var(--spectrum-alias-text-color-hover);
+  --spectrum-tabs-focus-ring-color: var(--spectrum-alias-border-color-focus);
+  --spectrum-tabs-icon-color-key-focus: var(--spectrum-alias-icon-color-focus);
+  --spectrum-tabs-text-color-disabled: var(--spectrum-alias-text-color-disabled);
+  --spectrum-tabs-icon-color-disabled: var(--spectrum-alias-icon-color-disabled);
+  --spectrum-tabs-quiet-rule-color: var(--spectrum-alias-border-color-transparent);
+  --spectrum-tabs-quiet-selection-indicator-color: var(--spectrum-global-color-gray-900);
+  --spectrum-tabs-quiet-vertical-rule-color: var(--spectrum-alias-border-color-transparent); }
+
+.spectrum-Tabs {
   display: -ms-flexbox;
   display: flex;
   position: relative;
@@ -6185,6 +6223,9 @@ body {
   display: none;
   /* simplifying design to speed up development */ }
 
+.spectrum-Tabs--compact .spectrum-Tabs-item {
+  height: 32px; }
+
 .spectrum-Panel {
   display: flex;
   flex-direction: column;
@@ -6233,6 +6274,9 @@ body {
   display: flex;
   flex-direction: row;
   min-width: 140px; }
+
+.spectrum-Panel-Title ~ #colorOutputs {
+  margin-top: 8px; }
 
 #inputs {
   margin-bottom: 1em; }
@@ -6475,9 +6519,11 @@ main {
 #contentTabWrapper {
   width: 100%;
   display: flex;
-  height: 48px;
+  height: 47px;
   padding: 0 16px;
-  border-bottom: 2px solid var(--spectrum-panel-border-color); }
+  box-shadow: 0 -2px inset var(--spectrum-panel-border-color); }
+  #contentTabWrapper .spectrum-Tabs {
+    margin-bottom: -1px; }
 
 #demoWrapper {
   padding: 0 0 56px 0;
@@ -6487,6 +6533,25 @@ main {
   height: 100%;
   max-height: calc(100vh - 56px);
   overflow: scroll; }
+
+#metricsWrapper {
+  background-color: var(--spectrum-global-color-gray-50, #ffffff);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 32px 48px; }
+  #metricsWrapper .spectrum-Heading6 {
+    margin-top: 32px; }
+
+.charts {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  max-width: 100%; }
+
+#chart2 {
+  margin-left: 32px; }
 
 h1 {
   margin-bottom: 0px; }
@@ -6706,10 +6771,10 @@ a:focus {
     width: auto; }
 
 /* charts */
-#charts > svg {
+.charts > svg {
   color: var(--spectrum-global-color-gray-600); }
 
-#charts .spectrum-Subheading {
+.charts .spectrum-Subheading {
   margin-top: 4px; }
 
 .axis path,

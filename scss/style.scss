@@ -24,7 +24,7 @@ governing permissions and limitations under the License.
 @import 'node_modules/@spectrum-css/fieldlabel/dist/index-vars';
 @import 'node_modules/@spectrum-css/checkbox/dist/index-vars';
 @import 'node_modules/@spectrum-css/slider/dist/index-vars';
-// @import 'node_modules/@spectrum-css/tabs/dist/vars';
+@import 'node_modules/@spectrum-css/tabs/dist/vars';
 @import 'node_modules/@spectrum-css/tabs/dist/index';
 
 :root {
@@ -105,6 +105,9 @@ body {
   display: none; /* simplifying design to speed up development */
   // background-color: var(--spectrum-tabs-selection-indicator-color);
 }
+.spectrum-Tabs--compact .spectrum-Tabs-item {
+  height: 32px;
+}
 
 .spectrum-Panel {
   display: flex;
@@ -156,6 +159,10 @@ body {
   flex-direction: row;
   min-width: 140px;
 }
+.spectrum-Panel-Title ~ #colorOutputs {
+  margin-top: 8px;
+}
+
 #inputs {
   margin-bottom: 1em;
 }
@@ -425,9 +432,13 @@ main {
 #contentTabWrapper {
   width: 100%;
   display: flex;
-  height: 48px;
+  height: 47px;
   padding: 0 16px;
-  border-bottom: 2px solid var(--spectrum-panel-border-color);
+  box-shadow: 0 -2px inset var(--spectrum-panel-border-color);
+
+  .spectrum-Tabs {
+    margin-bottom: -1px;
+  }
 }
 #demoWrapper {
   padding: 0 0 56px 0;
@@ -440,6 +451,28 @@ main {
   overflow: scroll;
 }
 
+#metricsWrapper {
+  background-color: var(--spectrum-global-color-gray-50, #ffffff);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 32px 48px;
+
+  .spectrum-Heading6 {
+    margin-top: 32px;
+  }
+}
+
+.charts {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+#chart2 {
+  margin-left: 32px;
+}
 
 h1 {
   margin-bottom: 0px;
@@ -709,10 +742,10 @@ a:focus {
 }
 
 /* charts */
-#charts > svg {
+.charts > svg {
   color: var(--spectrum-global-color-gray-600);
 }
-#charts .spectrum-Subheading {
+.charts .spectrum-Subheading {
   margin-top: 4px;
 }
 .axis path,

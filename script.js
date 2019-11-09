@@ -193,6 +193,27 @@ function deleteColor(e) {
   colorInput();
 }
 
+function panelTab(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("paneltabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+  tablinks = document.getElementsByClassName("panel-Tab-item");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "flex";
+  evt.currentTarget.className += " is-selected";
+}
+
 function openTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
@@ -204,7 +225,7 @@ function openTab(evt, tabName) {
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("spectrum-Tabs-item");
+  tablinks = document.getElementsByClassName("main-Tabs-item");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
   }
@@ -216,6 +237,7 @@ function openTab(evt, tabName) {
 
 // Open default tabs
 document.getElementById("tabColorScale").click();
+document.getElementById("tabDemo").click();
 
 
 function randomId() {
@@ -325,7 +347,9 @@ function colorspaceOptions() {
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
-  document.getElementById('charts').innerHTML = ' ';
+  document.getElementById('chart1').innerHTML = ' ';
+  document.getElementById('chart2').innerHTML = ' ';
+  document.getElementById('chart3').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
   var shiftInputValue = document.getElementById('shiftInputValue');
   shiftInputValue.innerHTML = ' ';
@@ -334,7 +358,7 @@ function colorInput() {
   var inputs = document.getElementsByClassName('inputColorField');
   // var inputColors = inputs.split(" ");
   var background = document.getElementById('bgField').value;
-  var mode = document.querySelector('select[name="mode"]').value;
+  mode = document.querySelector('select[name="mode"]').value;
   ratioFields = document.getElementsByClassName('ratioField');
 
   // Clamp ratios convert decimal numbers to whole negatives and disallow
@@ -465,8 +489,8 @@ function colorInput() {
     createDemo(newColors[i], background);
   }
   // console.log(newColors);
-  // createData();
-  // createAllCharts();
+  createData();
+  createAllCharts();
 
   // update URL parameters
   updateParams(inputColors, background.substr(1), ratioInputs, mode);
@@ -475,52 +499,52 @@ colorInput();
 
 function createAllCharts() {
   if(mode=="LCH") {
-    createChartHeader('Lightness', 'charts');
-    createChart(lchDataL, "#charts");
-    createChartHeader('Chroma', 'charts');
-    createChart(lchDataC, "#charts");
-    createChartHeader('Hue', 'charts');
-    createChart(lchDataH, "#charts");
+    createChartHeader('Lightness', 'chart1');
+    createChart(lchDataL, "#chart1");
+    createChartHeader('Chroma', 'chart2');
+    createChart(lchDataC, "#chart2");
+    createChartHeader('Hue', 'chart3');
+    createChart(lchDataH, "#chart3");
   }
   if(mode=="LAB") {
-    createChartHeader('Lightness', 'charts');
-    createChart(labDataL, "#charts");
-    createChartHeader('Green / Red', 'charts');
-    createChart(labDataA, "#charts");
-    createChartHeader('Blue / Yellow', 'charts');
-    createChart(labDataB, "#charts");
+    createChartHeader('Lightness', 'chart1');
+    createChart(labDataL, "#chart1");
+    createChartHeader('Green / Red', 'chart2');
+    createChart(labDataA, "#chart2");
+    createChartHeader('Blue / Yellow', 'chart3');
+    createChart(labDataB, "#chart3");
   }
   if(mode=="CAM02") {
-    createChartHeader('Lightness', 'charts');
-    createChart(camDataJ, "#charts");
-    createChartHeader('Green / Red', 'charts');
-    createChart(camDataA, "#charts");
-    createChartHeader('Blue / Yellow', 'charts');
-    createChart(camDataB, "#charts");
+    createChartHeader('Lightness', 'chart1');
+    createChart(camDataJ, "#chart1");
+    createChartHeader('Green / Red', 'chart2');
+    createChart(camDataA, "#chart2");
+    createChartHeader('Blue / Yellow', 'chart3');
+    createChart(camDataB, "#chart3");
   }
   if(mode=="HSL") {
-    createChartHeader('Hue', 'charts');
-    createChart(hslDataH, "#charts");
-    createChartHeader('Saturation', 'charts');
-    createChart(hslDataS, "#charts");
-    createChartHeader('Lightness', 'charts');
-    createChart(hslDataL, "#charts");
+    createChartHeader('Hue', 'chart1');
+    createChart(hslDataH, "#chart1");
+    createChartHeader('Saturation', 'chart2');
+    createChart(hslDataS, "#chart2");
+    createChartHeader('Lightness', 'chart3');
+    createChart(hslDataL, "#chart3");
   }
   if(mode=="HSLuv") {
-    createChartHeader('Hue', 'charts');
-    createChart(hsluvDataL, "#charts");
-    createChartHeader('Saturation', 'charts');
-    createChart(hsluvDataU, "#charts");
-    createChartHeader('Lightness', 'charts');
-    createChart(hsluvDataV, "#charts");
+    createChartHeader('Hue', 'chart1');
+    createChart(hsluvDataL, "#chart1");
+    createChartHeader('Saturation', 'chart2');
+    createChart(hsluvDataU, "#chart2");
+    createChartHeader('Lightness', 'chart3');
+    createChart(hsluvDataV, "#chart3");
   }
   if(mode=="RGB") {
-    createChartHeader('Red', 'charts');
-    createChart(rgbDataR, "#charts");
-    createChartHeader('Green', 'charts');
-    createChart(rgbDataG, "#charts");
-    createChartHeader('Blue', 'charts');
-    createChart(rgbDataB, "#charts");
+    createChartHeader('Red', 'chart1');
+    createChart(rgbDataR, "#chart1");
+    createChartHeader('Green', 'chart2');
+    createChart(rgbDataG, "#chart2");
+    createChartHeader('Blue', 'chart3');
+    createChart(rgbDataB, "#chart3");
   }
   createChart(contrastData, "#contrastChart");
 }
@@ -528,7 +552,7 @@ function createAllCharts() {
 function updateParams(c, b, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
-  
+
   params.set('color', c);
   params.set('base', b);
   params.set('ratios', r);
