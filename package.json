@@ -50,6 +50,7 @@
     "@spectrum-css/typography": "^2.0.2",
     "@spectrum-css/vars": "^2.0.0-alpha.3",
     "@spectrum/spectrum-icons": "^2.3.0",
+    "clipboard": "^2.0.4",
     "d3": "^5.12.0",
     "d3-cam02": "^0.1.5",
     "d3-hsluv": "^0.1.2",

@@ -155,7 +155,7 @@ function newColor(e) {
     self.value = v;
   }
 
-  sw.value = v; 
+  sw.value = v;
 
   colorInput();
 }
@@ -512,6 +512,7 @@ function colorInput() {
     colorOutput.className = 'colorOutputBlock';
     colorOutput.style.backgroundColor = colorOutputVal;
     s1.appendChild(colorOutputText);
+    s1.className = 'colorOutputValue';
     s2.appendChild(ratioText);
     colorOutput.appendChild(s1);
     colorOutput.appendChild(s2);
@@ -1174,3 +1175,5 @@ function distributeLum() {
 
   colorInput();
 }
+
+new ClipboardJS('.copyButton');

@@ -6331,6 +6331,10 @@ body {
   justify-content: center;
   align-items: center; }
 
+.copyButton {
+  margin-top: -7px;
+  margin-bottom: 4px; }
+
 #sliderWrapper {
   position: relative;
   display: flex;
