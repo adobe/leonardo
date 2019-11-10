@@ -146,7 +146,8 @@ function newColor(e) {
   var id = parent.replace('-item', '');
   var self = document.getElementById(id);
   var v = self.value;
-  var sw = parent.replace('-item', '-sw');
+  var swId = parent.replace('-item', '-sw');
+  var sw = document.getElementById(swId);
 
   if (v.startsWith("#") !== true && v.length == 6) {
     h = '#';
@@ -154,8 +155,8 @@ function newColor(e) {
     self.value = v;
   }
 
-  sw.value = v; // TODO: get this to update the color input value.
-  
+  sw.value = v; 
+
   colorInput();
 }
 
