@@ -42,7 +42,7 @@ npm i @adobe/leonardo-adaptive-color
 
 Pass your colors and desired ratios. See additional options here.
 ```
-adaptcolor(color: "#ff00ff", base: "#ffffff", ratios: [4.5]); // returns rgb value
+adaptcolor(color: ["#ff00ff"], base: "#ffffff", ratios: [4.5]); // returns rgb value
 ```
 
 #### Local setup
