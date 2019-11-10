@@ -511,6 +511,7 @@ function colorInput() {
     colorOutputWrapper.appendChild(colorOutput);
     colorOutput.className = 'colorOutputBlock';
     colorOutput.style.backgroundColor = colorOutputVal;
+    colorOutput.setAttribute('data-clipboard-text', colorOutputVal);
     s1.appendChild(colorOutputText);
     s1.className = 'colorOutputValue';
     s2.appendChild(ratioText);
@@ -524,6 +525,10 @@ function colorInput() {
     }
     createDemo(newColors[i], background);
   }
+
+  var copyColors = document.getElementById('copyAllColors');
+  copyColors.setAttribute('data-clipboard-text', newColors);
+
   // console.log(newColors);
   createData();
   createAllCharts();
@@ -535,44 +540,52 @@ colorInput();
 
 function createAllCharts() {
   if(mode=="LCH") {
-    createChartHeader('Lightness', 'chart1');
-    createChart(lchDataL, "#chart1");
-    createChartHeader('Chroma', 'chart2');
-    createChart(lchDataC, "#chart2");
-    createChartHeader('Hue', 'chart3');
-    createChart(lchDataH, "#chart3");
+    // createChartHeader('Lightness', 'chart1');
+    // createChart(lchDataL, "#chart1");
+    createChartHeader('Chroma', 'chart1');
+    createChart(lchDataC, "#chart1");
+    createChartHeader('Hue', 'chart2');
+    createChart(lchDataH, "#chart2");
   }
   if(mode=="LAB") {
-    createChartHeader('Lightness', 'chart1');
-    createChart(labDataL, "#chart1");
-    createChartHeader('Green / Red', 'chart2');
-    createChart(labDataA, "#chart2");
-    createChartHeader('Blue / Yellow', 'chart3');
-    createChart(labDataB, "#chart3");
+    // createChartHeader('Lightness', 'chart1');
+    // createChart(labDataL, "#chart1");
+    createChartHeader('Green / Red', 'chart1');
+    createChart(labDataA, "#chart1");
+    createChartHeader('Blue / Yellow', 'chart2');
+    createChart(labDataB, "#chart2");
   }
   if(mode=="CAM02") {
-    createChartHeader('Lightness', 'chart1');
-    createChart(camDataJ, "#chart1");
-    createChartHeader('Green / Red', 'chart2');
-    createChart(camDataA, "#chart2");
-    createChartHeader('Blue / Yellow', 'chart3');
-    createChart(camDataB, "#chart3");
+    // createChartHeader('Lightness', 'chart1');
+    // createChart(camDataJ, "#chart1");
+    createChartHeader('Green / Red', 'chart1');
+    createChart(camDataA, "#chart1");
+    createChartHeader('Blue / Yellow', 'chart2');
+    createChart(camDataB, "#chart2");
   }
   if(mode=="HSL") {
     createChartHeader('Hue', 'chart1');
     createChart(hslDataH, "#chart1");
     createChartHeader('Saturation', 'chart2');
     createChart(hslDataS, "#chart2");
-    createChartHeader('Lightness', 'chart3');
-    createChart(hslDataL, "#chart3");
+    // createChartHeader('Lightness', 'chart3');
+    // createChart(hslDataL, "#chart3");
   }
   if(mode=="HSLuv") {
     createChartHeader('Hue', 'chart1');
     createChart(hsluvDataL, "#chart1");
     createChartHeader('Saturation', 'chart2');
     createChart(hsluvDataU, "#chart2");
-    createChartHeader('Lightness', 'chart3');
-    createChart(hsluvDataV, "#chart3");
+    // createChartHeader('Lightness', 'chart3');
+    // createChart(hsluvDataV, "#chart3");
+  }
+  if(mode=="HSV") {
+    createChartHeader('Hue', 'chart1');
+    createChart(hsvDataH, "#chart1");
+    createChartHeader('Saturation', 'chart2');
+    createChart(hsvDataS, "#chart2");
+    // createChartHeader('Lightness', 'chart3');
+    // createChart(hsvDataL, "#chart3");
   }
   if(mode=="RGB") {
     createChartHeader('Red', 'chart1');
@@ -634,6 +647,9 @@ function createData() {
   HSL_H = [];
   HSL_S = [];
   HSL_L = [];
+  HSV_H = [];
+  HSV_S = [];
+  HSV_L = [];
   HSLuv_L = [];
   HSLuv_U = [];
   HSLuv_V = [];
@@ -657,6 +673,9 @@ function createData() {
     HSL_H.push(d3.hsl(colors[i]).h);
     HSL_S.push(d3.hsl(colors[i]).s);
     HSL_L.push(d3.hsl(colors[i]).l);
+    HSV_H.push(d3.hsl(colors[i]).h);
+    HSV_S.push(d3.hsl(colors[i]).s);
+    HSV_L.push(d3.hsl(colors[i]).l);
     HSLuv_L.push(d3.hsluv(colors[i]).l);
     HSLuv_U.push(d3.hsluv(colors[i]).u);
     HSLuv_V.push(d3.hsluv(colors[i]).v);
@@ -677,6 +696,9 @@ function createData() {
   HSLArrayH = [];
   HSLArrayS = [];
   HSLArrayL = [];
+  HSVArrayH = [];
+  HSVArrayS = [];
+  HSVArrayL = [];
   HSLuvArrayL = [];
   HSLuvArrayU = [];
   HSLuvArrayV = [];
@@ -729,6 +751,15 @@ function createData() {
   }
   for (i = 0; i < HSL_L.length; i=i+delta) {
     HSLArrayL.push(HSL_L[i]);
+  }
+  for (i = 0; i < HSV_H.length; i=i+delta) {
+    HSVArrayH.push(HSV_H[i]);
+  }
+  for (i = 0; i < HSV_S.length; i=i+delta) {
+    HSVArrayS.push(HSV_S[i]);
+  }
+  for (i = 0; i < HSV_L.length; i=i+delta) {
+    HSVArrayL.push(HSV_L[i]);
   }
   for (i = 0; i < HSLuv_L.length; i=i+delta) {
     HSLuvArrayL.push(HSLuv_L[i]);
@@ -836,6 +867,24 @@ function createData() {
     {
       x: dataX,
       y: HSLArrayL
+    }
+  ];
+  hsvDataH = [
+    {
+      x: dataXcyl,
+      y: HSVArrayH
+    }
+  ];
+  hsvDataS = [
+    {
+      x: dataX,
+      y: HSVArrayS
+    }
+  ];
+  hsvDataL = [
+    {
+      x: dataX,
+      y: HSVArrayL
     }
   ];
   hsluvDataL = [
@@ -1177,3 +1226,4 @@ function distributeLum() {
 }
 
 new ClipboardJS('.copyButton');
+new ClipboardJS('colorOutputBlock');
