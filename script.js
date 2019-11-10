@@ -146,12 +146,16 @@ function newColor(e) {
   var id = parent.replace('-item', '');
   var self = document.getElementById(id);
   var v = self.value;
+  var sw = parent.replace('-item', '-sw');
 
   if (v.startsWith("#") !== true && v.length == 6) {
     h = '#';
-    self.value = h.concat(v);
+    v = h.concat(v);
+    self.value = v;
   }
 
+  sw.value = v; // TODO: get this to update the color input value.
+  
   colorInput();
 }
 
