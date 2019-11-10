@@ -304,6 +304,11 @@ input[type=color] {
   background-color: transparent;
   border-collapse: collapse;
   outline: none;
+
+  &.spectrum-Textfield-swatch {
+    margin-top: var(--spectrum-global-dimension-size-100);
+    margin-left: var(--spectrum-global-dimension-size-100);
+  }
 }
 input[type="color"]::-webkit-color-swatch-wrapper {
   padding: 0;

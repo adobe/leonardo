@@ -130,6 +130,17 @@ function addRatio(v, s = '#cacaca') {
   ratios.appendChild(div);
 }
 
+function updateVal(e) {
+  var parent = e.target.parentNode.id;
+  var id = parent.replace('-item', '');
+  var sw = parent.replace('-item', '-sw');
+  var input = document.getElementById(id);
+  v = document.getElementById(sw).value
+
+  input.value = v;
+  colorInput();
+}
+
 function addColor(s = '#cacaca') {
   var colorInputs = document.getElementById('colorInputs');
   var div = document.createElement('div');
@@ -137,7 +148,12 @@ function addColor(s = '#cacaca') {
   var randId = randomId();
   div.className = 'color-Item';
   div.id = randId + '-item';
-  var sw = document.createElement('span');
+  // var sw = document.createElement('span');
+  var sw = document.createElement('input');
+  sw.type = "color";
+  sw.value = s;
+  sw.oninput = updateVal;
+
   sw.className = 'spectrum-Textfield-swatch';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
