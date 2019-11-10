@@ -56,7 +56,7 @@ adaptcolor(color: ["#ff00ff"], base: "#ffffff", ratios: [4.5]); // returns rgb v
 adaptcolor(color, base, ratios, colorspace)
 ```
 
-Parameters are destructured and need to be explicitly called, such as `color: "#f26322"`.
+Parameters are destructured and need to be explicitly called, such as `color: ["#f26322"]`.
 
 **color** *[array]* is the original color that you want to adapt to match various contrast ratios. This color becomes **variable**, and is represented by a linear color scale from black, to color, to white. Multiple values can be passed in order to clarify the path of color as it gets lighter or darker. Colors are automatically distributed by lightness in creating the color scale.
 
