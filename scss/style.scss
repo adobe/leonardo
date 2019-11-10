@@ -553,14 +553,15 @@ colorOutput-field {
   display: flex;
   flex-direction: column;
   min-width: 40px;
+  margin-bottom: 8px;
 
   input[type='color']{
-    width: 64px;
-    height: 65px;
-    border-radius: 5px 0 0 5px;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px 0 0 4px;
   }
   input[type="color"]::-webkit-color-swatch {
-    border-radius: 5px 0 0 5px;
+    border-radius: 4px 0 0 4px;
     border-left-width: 1px;
     border-left-style: solid;
     border-left-color: rgba(0, 0, 0, 0.25);
