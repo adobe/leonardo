@@ -6443,6 +6443,10 @@ input[type=color]:focus {
     cursor: grab;
     margin-top: -8px;
     /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */ }
+  .spectrum-Slider input[type=range]:focus::-webkit-slider-thumb {
+    background-color: var(--spectrum-alias-border-color-focus);
+    border-color: var(--spectrum-alias-border-color-focus);
+    transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out; }
   .spectrum-Slider input[type=range]::-moz-range-thumb {
     box-sizing: border-box;
     width: 16px;
@@ -6455,6 +6459,10 @@ input[type=color]:focus {
     transition: border-width var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
     outline: none;
     cursor: grab; }
+  .spectrum-Slider input[type=range]:focus::-moz-range-thumb {
+    background-color: var(--spectrum-alias-border-color-focus);
+    border-color: var(--spectrum-alias-border-color-focus);
+    transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out; }
   .spectrum-Slider input[type=range]::-ms-thumb {
     box-sizing: border-box;
     width: 16px;
@@ -6467,6 +6475,10 @@ input[type=color]:focus {
     transition: border-width var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
     outline: none;
     cursor: grab; }
+  .spectrum-Slider input[type=range]:focus::-ms-thumb {
+    background-color: var(--spectrum-alias-border-color-focus);
+    border-color: var(--spectrum-alias-border-color-focus);
+    transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out; }
   .spectrum-Slider input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
     height: var(--spectrum-slider-track-height, var(--spectrum-alias-border-size-thick));
@@ -6479,7 +6491,7 @@ input[type=color]:focus {
     padding: 0 var(--spectrum-slider-handle-gap, var(--spectrum-alias-border-size-thicker)) 0 0;
     margin-left: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / 2 * -1); }
   .spectrum-Slider input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #367ebd; }
+    background: var(--spectrum-alias-border-color-focus); }
   .spectrum-Slider input[type=range]::-moz-range-track {
     width: 100%;
     height: var(--spectrum-slider-track-height, var(--spectrum-alias-border-size-thick));

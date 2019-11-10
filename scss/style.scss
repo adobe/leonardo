@@ -366,10 +366,19 @@ input[type=color]:focus {
     cursor: grab;
   }
 
+  @mixin thumbFocus {
+    background-color: var(--spectrum-alias-border-color-focus);
+    border-color: var(--spectrum-alias-border-color-focus);
+    transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
+  }
+
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     @include thumb;
     margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  }
+  input[type=range]:focus::-webkit-slider-thumb {
+    @include thumbFocus;
   }
 
   /* All the same stuff for Firefox */
@@ -377,9 +386,17 @@ input[type=color]:focus {
     @include thumb;
   }
 
+  input[type=range]:focus::-moz-range-thumb {
+    @include thumbFocus;
+  }
+
   /* All the same stuff for IE */
   input[type=range]::-ms-thumb {
     @include thumb;
+  }
+
+  input[type=range]:focus::-ms-thumb {
+    @include thumbFocus;
   }
 
   /* TRACK */
@@ -401,7 +418,7 @@ input[type=color]:focus {
   }
 
   input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #367ebd;
+    background: var(--spectrum-alias-border-color-focus);
   }
 
   input[type=range]::-moz-range-track {
