@@ -53,20 +53,16 @@ adaptcolor(color: "#ff00ff", base: "#ffffff", ratios: [4.5]); // returns rgb val
 
 ### API Reference
 ```
-adaptcolor(base, color, ratios, tint, shade, colorspace)
+adaptcolor(color, base, ratios, colorspace)
 ```
 
 Parameters are destructured and need to be explicitly called, such as `color: "#f26322"`.
 
-**color** *string* is the original color that you want to adapt to match various contrast ratios. This color becomes **variable**, and is represented by a linear color scale from black, to color, to white.
+**color** *[array]* is the original color that you want to adapt to match various contrast ratios. This color becomes **variable**, and is represented by a linear color scale from black, to color, to white. Multiple values can be passed in order to clarify the path of color as it gets lighter or darker. Colors are automatically distributed by lightness in creating the color scale.
 
 **base** *string* references the color value that the color is to be generated from.
 
 **ratios** *[array]* is list of numbers to be used as target contrast ratios.
-
-**tint** *string* is an optional color value to modify the path of the variable color's scale as it approaches **white**.
-
-**shade** *string* is an optional color value to modify the path of the variable color's scale as it approaches **black**.
 
 **colorspace** *string* is the colorspace in which the variable color's scale will be interpolated within. Below are the available options:
 
