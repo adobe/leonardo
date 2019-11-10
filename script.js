@@ -141,6 +141,20 @@ function updateVal(e) {
   colorInput();
 }
 
+function newColor(e) {
+  var parent = e.target.parentNode.id;
+  var id = parent.replace('-item', '');
+  var self = document.getElementById(id);
+  var v = self.value;
+
+  if (v.startsWith("#") !== true && v.length == 6) {
+    h = '#';
+    self.value = h.concat(v);
+  }
+
+  colorInput();
+}
+
 function addColor(s = '#cacaca') {
   var colorInputs = document.getElementById('colorInputs');
   var div = document.createElement('div');
@@ -163,7 +177,7 @@ function addColor(s = '#cacaca') {
   input.placeholder = '#ff00ff';
   input.id = randId;
   input.value = s;
-  input.oninput = colorInput;
+  input.onchange = newColor;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   button.innerHTML = `
