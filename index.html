@@ -50,6 +50,7 @@ governing permissions and limitations under the License.
   <script src="./node_modules/d3-hsluv/build/d3-hsluv.min.js"></script>
   <script src="./node_modules/d3-hsv/build/d3-hsv.min.js"></script>
   <script src="./node_modules/@adobe/focus-ring-polyfill/index.js"></script>
+  <script src="./node_modules/clipboard/dist/clipboard.min.js"></script>
   <script src="./components/colorcontrols.js"></script>
   <script src="index.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
@@ -154,7 +155,7 @@ governing permissions and limitations under the License.
                 </svg>
               </div>
             </div>
-            <div class="spectrum-Form-item">
+            <div class="spectrum-Form-item" style="display: none;">
               <div class="spectrum-Slider">
                 <div class="spectrum-Slider-labelContainer">
                   <label class="spectrum-Slider-label" id="shiftInputLabel" for="shiftInput">Shift scale</label>
@@ -261,6 +262,9 @@ governing permissions and limitations under the License.
   <div class="spectrum-Panel-Item">
     <div class="spectrum-Panel-Title">
       <h3 class="spectrum-Heading6">Generated Colors</h3>
+      <button id="copyAllColors" class="spectrum-ActionButton copyButton">
+        <span class="spectrum-ActionButton-label">Copy</span>
+      </button>
     </div>
     <div id="colorOutputs">
     </div>
@@ -268,6 +272,9 @@ governing permissions and limitations under the License.
   <div class="spectrum-Panel-Item">
     <div class="spectrum-Panel-Title">
       <h3 class="spectrum-Heading6">Function Parameters</h3>
+      <button data-clipboard-target="#params" class="spectrum-ActionButton copyButton">
+        <span class="spectrum-ActionButton-label">Copy</span>
+      </button>
     </div>
     <div id="functionParams">
       <span id="params" class="spectrum-Code5"></span>

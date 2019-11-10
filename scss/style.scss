@@ -221,6 +221,12 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.copyButton {
+  margin-top: -7px;
+  margin-bottom: 4px;
+}
+
 // #colorField1 {
 //   border: none;
 //   border-radius: 5px 0px 0px 5px;
@@ -304,6 +310,11 @@ input[type=color] {
   background-color: transparent;
   border-collapse: collapse;
   outline: none;
+
+  &.spectrum-Textfield-swatch {
+    margin-top: var(--spectrum-global-dimension-size-100);
+    margin-left: var(--spectrum-global-dimension-size-100);
+  }
 }
 input[type="color"]::-webkit-color-swatch-wrapper {
   padding: 0;
@@ -361,10 +372,19 @@ input[type=color]:focus {
     cursor: grab;
   }
 
+  @mixin thumbFocus {
+    background-color: var(--spectrum-alias-border-color-focus);
+    border-color: var(--spectrum-alias-border-color-focus);
+    transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
+  }
+
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     @include thumb;
     margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  }
+  input[type=range]:focus::-webkit-slider-thumb {
+    @include thumbFocus;
   }
 
   /* All the same stuff for Firefox */
@@ -372,9 +392,17 @@ input[type=color]:focus {
     @include thumb;
   }
 
+  input[type=range]:focus::-moz-range-thumb {
+    @include thumbFocus;
+  }
+
   /* All the same stuff for IE */
   input[type=range]::-ms-thumb {
     @include thumb;
+  }
+
+  input[type=range]:focus::-ms-thumb {
+    @include thumbFocus;
   }
 
   /* TRACK */
@@ -396,7 +424,7 @@ input[type=color]:focus {
   }
 
   input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #367ebd;
+    background: var(--spectrum-alias-border-color-focus);
   }
 
   input[type=range]::-moz-range-track {
@@ -525,14 +553,15 @@ colorOutput-field {
   display: flex;
   flex-direction: column;
   min-width: 40px;
+  margin-bottom: 8px;
 
   input[type='color']{
-    width: 64px;
-    height: 65px;
-    border-radius: 5px 0 0 5px;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px 0 0 4px;
   }
   input[type="color"]::-webkit-color-swatch {
-    border-radius: 5px 0 0 5px;
+    border-radius: 4px 0 0 4px;
     border-left-width: 1px;
     border-left-style: solid;
     border-left-color: rgba(0, 0, 0, 0.25);
