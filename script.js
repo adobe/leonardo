@@ -787,6 +787,14 @@ function createData() {
   dataXcyl = fillRange(0, LCHArrayL.length - 1);
   dataXcontrast = fillRange(0, ratioInputs.length - 1);
 
+  labFullData = [
+    {
+      x: LABArrayL,
+      y: LABArrayA,
+      z: LABArrayB
+    }
+  ];
+
   camDataJ = [
     {
       x: dataX,

@@ -544,6 +544,11 @@ main {
   }
 }
 
+#3dchart {
+  width: 545px;
+  height: 500px;
+}
+
 h1 {
   margin-bottom: 0px;
 }
@@ -853,6 +858,16 @@ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
 g.d3_xy_chart_line path.line {
   stroke: #76D0C5;
 }
+// Overrides for grid
+._3d.grid {
+  stroke: #6e6e6e;
+  stroke-width: 0.3;
+  fill: #e1e1e1;
+  fill-opacity: 0.9;
+}
+
+
+
 
 #scaleConfigs {
   display: flex;
