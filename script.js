@@ -171,12 +171,13 @@ function addColor(s = '#cacaca') {
   var sw = document.createElement('input');
   sw.type = "color";
   sw.value = s;
-  sw.oninput = updateVal;
+  sw.oninput = colorInput;
 
   sw.className = 'colorInput inputColorField';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
-  var input = document.createElement('input');
+
+  input = document.createElement('input');
   input.className = 'spectrum-Textfield inputColorField';
   input.type = "text";
   input.placeholder = '#ff00ff';
