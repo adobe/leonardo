@@ -95,15 +95,6 @@ governing permissions and limitations under the License.
             </svg>
           </div>
         </div>
-        <div class="spectrum-Form-item" style="display: none;">
-          <div class="spectrum-Slider">
-            <div class="spectrum-Slider-labelContainer">
-              <label class="spectrum-Slider-label" id="shiftInputLabel" for="shiftInput">Shift scale</label>
-              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="shiftInputLabel" id="shiftInputValue">14</div>
-            </div>
-            <input class="spectrum-Slider-controls" type="range" value="1" min="0.25" max="1.5" step="0.01" id="shiftInput" name="shiftInput" onInput="colorInput()"></input>
-          </div>
-        </div>
       </form>
     </div>
 
@@ -177,35 +168,68 @@ governing permissions and limitations under the License.
       <div id="sliderWrapper">
       </div>
     </div>
-    <div id="ratiosWrapper" class="paneltabcontent">
-      <div class="colorField">
-        <input type="color" class="" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
-        <label for="bgField" class="spectrum-FieldLabel">Base color</label>
+    <div class="">
+      <form class="spectrum-Form">
+        <div class="spectrum-Form-item">
+          <label for="paletteType_Dropdown" class="spectrum-FieldLabel">Palette Type</label>
+          <div class="spectrum-Dropdown" id="paletteType_Dropdown">
+            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="paletteType" onInput="changePalette()" id="paletteType">
+            </select>
+            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </div>
+        </div>
+      </form>
+      <div id="sequentialWrapper">
+        <form class="spectrum-Form spectrum-Form--labelsAbove">
+          <div class="spectrum-Form-item">
+            <label for="sequenceAmount" class="spectrum-Form-itemLabel">Number of swatches</label>
+            <div class="spectrum-Form-itemField">
+              <input type="number" id="swatchAmmount" value="8" name="swatchAmmount" class="spectrum-Textfield" onInput="colorInput()"></input>
+            </div>
+          </div>
+          <div class="spectrum-Form-item">
+            <div class="spectrum-Slider">
+              <div class="spectrum-Slider-labelContainer">
+                <label class="spectrum-Slider-label" id="shiftInputLabel" for="shiftInput">Shift scale</label>
+                <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="shiftInputLabel" id="shiftInputValue">14</div>
+              </div>
+              <input class="spectrum-Slider-controls" type="range" value="1" min="0.25" max="1.5" step="0.01" id="shiftInput" name="shiftInput" onInput="colorInput()"></input>
+            </div>
+          </div>
+        </form>
       </div>
-      <div id="contrastConfigs">
-        <button id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-          <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
-            <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
-          </svg>
-          <span class="spectrum-ActionButton-label">Sort</span>
-        </button>
-        <button id="sort" onclick="distributeTan()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
-            <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
-          </svg>
-          <span class="spectrum-ActionButton-label">Distribute</span>
-        </button>
-      </div>
+      <div id="ratiosWrapper" class="paneltabcontent">
+        <div class="colorField">
+          <input type="color" class="" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
+          <label for="bgField" class="spectrum-FieldLabel">Base color</label>
+        </div>
+        <div id="contrastConfigs">
+          <button id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
+              <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
+            </svg>
+            <span class="spectrum-ActionButton-label">Sort</span>
+          </button>
+          <button id="sort" onclick="distributeTan()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
+              <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
+            </svg>
+            <span class="spectrum-ActionButton-label">Distribute</span>
+          </button>
+        </div>
 
-      <div id="ratios">
-        <label for="ratio" class="spectrum-FieldLabel">Contrast ratios</label>
+        <div id="ratios">
+          <label for="ratio" class="spectrum-FieldLabel">Contrast ratios</label>
+        </div>
+        <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
+          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add Swatch</span>
+        </button>
       </div>
-      <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
-        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-          <use xlink:href="#spectrum-icon-18-Add" />
-        </svg>
-        <span class="spectrum-ActionButton-label">Add Swatch</span>
-      </button>
     </div>
   </div>
 </div>

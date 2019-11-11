@@ -257,7 +257,7 @@ body {
   justify-content: center;
   align-items: center;
   /* overflow: hidden; */
-  width: 40px;
+  width: 54px;
   height: var(--gradient-slider-height);
   left: 0;
   bottom: var(--gradient-slider-height);
@@ -477,6 +477,16 @@ input[type=color]:focus {
 .spectrum-Form,
 .spectrum-Form-item {
   position: relative;
+}
+
+.spectrum-Form {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+
+  .spectrum-Slider {
+    padding-right: 8px;
+  }
 }
 
 main {
@@ -743,12 +753,16 @@ a:focus {
   width: 100%;
 }
 
-#ratiosWrapper {
+#ratiosWrapper,
+#sequentialWrapper {
   max-height: 100%;
   margin-top: 6px;
   padding: 2px; /* This ensures focus rings are visible */
   overflow: scroll;
 }
+ #sequentialWrapper {
+   display: none;
+ }
 
 #ratios {
   max-height: calc(var(--gradient-height) - 110px);

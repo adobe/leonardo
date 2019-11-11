@@ -21,6 +21,7 @@ var colorOutputField = document.getElementById('colorOutput');
 
 function paramSetup() {
   colorspaceOptions();
+  paletteTypeOptions();
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   pathName = url.pathname;
@@ -380,6 +381,42 @@ function colorspaceOptions() {
   }
 }
 
+function paletteTypeOptions() {
+  paletteType = document.getElementById('paletteType');
+  paletteType.options.length = 0;
+
+  opts = {
+    'Contrast': 'Contrast Based',
+    'Sequential': 'Sequential'
+  };
+
+  for(index in opts) {
+    paletteType.options[paletteType.options.length] = new Option(opts[index], index);
+  }
+
+  paletteType.value = 'Contrast';
+}
+
+function changePalette() {
+  var paletteType = document.getElementById('paletteType').value;
+  var wrapSequence = document.getElementById('sequentialWrapper');
+  var wrapRatio = document.getElementById('ratiosWrapper');
+  var sliders = document.getElementById('sliderWrapper');
+
+  if (paletteType == 'Contrast') {
+    wrapSequence.style.display = 'none';
+    wrapRatio.style.display = 'flex';
+    sliders.style.display = 'flex';
+  }
+  if (paletteType == 'Sequential') {
+    wrapSequence.style.display = 'flex';
+    wrapRatio.style.display = 'none';
+    sliders.style.display = 'none';
+  }
+
+  colorInput();
+}
+
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
@@ -387,6 +424,8 @@ function colorInput() {
   document.getElementById('chart2').innerHTML = ' ';
   document.getElementById('chart3').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
+  var paletteType = document.getElementById('paletteType').value;
+  var swatchAmmount = document.getElementById('swatchAmmount').value;
   var shiftInputValue = document.getElementById('shiftInputValue');
   shiftInputValue.innerHTML = ' ';
 
@@ -429,9 +468,13 @@ function colorInput() {
   var shift = document.getElementById('shiftInput').value;
   shiftInputValue.innerHTML = shift;
 
-  generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
-  // scaleColors({color: colorArgs, colorspace: mode});
-  // getContrast({base: background, ratios: ratioInputs});
+  if (paletteType == 'Contrast') {
+    generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  }
+  if (paletteType == 'Sequential') {
+    newColors = createScale({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  }
+  // generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
 
   Values = [];
   maxVal = 100;
@@ -462,32 +505,47 @@ function colorInput() {
   })
 
   // Then, remove first and last value from sqrtValues array to get slider values
+  if (paletteType == 'Contrast') {    
+    for(i=0; i<newColors.length; i++) {
+      // Calculate value of color and apply to slider position/value
+      var val = d3.hsluv(newColors[i]).v;
 
-  for(i=0; i<newColors.length; i++) {
-    // Calculate value of color and apply to slider position/value
-    var val = d3.hsluv(newColors[i]).v;
+      var newVal = sqrtValues[i+1];
 
-    var newVal = sqrtValues[i+1];
+      val = newVal;
+      // Find corresponding input/slider id
+      var slider = document.getElementById(rfIds[i] + '-sl')
+      slider.value = val;
 
-    val = newVal;
-    // Find corresponding input/slider id
-    var slider = document.getElementById(rfIds[i] + '-sl')
-    slider.value = val;
-
-    // apply color to subsequent swatch
-    var swatch = document.getElementById(rfIds[i] + '-sw')
-    swatch.style.backgroundColor = newColors[i];
+      // apply color to subsequent swatch
+      var swatch = document.getElementById(rfIds[i] + '-sw')
+      swatch.style.backgroundColor = newColors[i];
+    }
   }
 
   // Generate Gradient
-  for (var i = 0; i < colors.length; i++) {
-    var container = document.getElementById('colors');
-    var div = document.createElement('div');
-    div.className = 'block';
-    div.style.backgroundColor = colors[i];
+  if (paletteType == 'Sequential') {
+    var gradientColors = createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
-    container.appendChild(div);
+    for (var i = 0; i < gradientColors.length; i++) {
+      var container = document.getElementById('colors');
+      var div = document.createElement('div');
+      div.className = 'block';
+      div.style.backgroundColor = gradientColors[i];
+
+      container.appendChild(div);
+    }
+  } else {
+    for (var i = 0; i < colors.length; i++) {
+      var container = document.getElementById('colors');
+      var div = document.createElement('div');
+      div.className = 'block';
+      div.style.backgroundColor = colors[i];
+
+      container.appendChild(div);
+    }
   }
+
 
   var backgroundR = d3.rgb(background).r;
   var backgroundG = d3.rgb(background).g;

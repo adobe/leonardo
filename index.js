@@ -8,8 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
-  swatches = 3000;
+function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace = 'LAB', shift = 1} = {}) {
   var Domains = [];
 
   for(i=0; i < colorKeys.length; i++){
@@ -155,6 +154,14 @@ function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], 
   for (i=0; i<colors.length; i++) {
     colorsHex.push(d3.rgb(colors[i]).formatHex());
   }
+
+  return colors;
+}
+
+function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
+  swatches = 3000;
+
+  createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift});
 
   var Contrasts = d3.range(swatches).map(function(d) {
     var rgbArray = [d3.rgb(scale(d)).r, d3.rgb(scale(d)).g, d3.rgb(scale(d)).b];
