@@ -32,14 +32,14 @@ governing permissions and limitations under the License.
     <div id="controls">
       <div class="form-Item">
         <label for="sliderBrightness">Brightness</label>
-        <input id="sliderBrightness" name="sliderBrightness" type="range" min="0" max="0.875" step="0.01" onInput="adapt()" value="0.75"></input>
+        <input id="sliderBrightness" name="sliderBrightness" type="range" min="0" max="1.25" step="0.01" onInput="createColors()" value="0.75"></input>
       </div>
       <div class="form-Item">
         <label for="sliderContrast">Contrast</label>
-        <input id="sliderContrast" name="sliderContrast" type="range" min="1" max="2" step="0.05" onInput="adapt()" value="1"></input>
+        <input id="sliderContrast" name="sliderContrast" type="range" min="1" max="5" step="0.05" onInput="createColors()" value="1"></input>
       </div>
       <div class="form-Item">
-        <input id="darkMode" name="darkMode" type="checkbox"  onInput="adapt()"/><label for="darkMode">Dark Mode</label>
+        <input id="darkMode" name="darkMode" type="checkbox"  onInput="createColors()"/><label for="darkMode">Dark Mode</label>
       </div>
     </div>
   </header>
@@ -68,7 +68,7 @@ governing permissions and limitations under the License.
           <label> Favorite Color </label>
           <input type="text" placeholder="eg. All of them">
         </div>
-        
+
       </form>
     </div>
   </main>

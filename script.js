@@ -161,7 +161,7 @@ function newColor(e) {
 }
 
 function addColor(s = '#cacaca') {
-  var colorInputs = document.getElementById('colorInputs');
+  var colorInputs = document.getElementById('colorInputWrapper');
   var div = document.createElement('div');
 
   var randId = randomId();
@@ -173,7 +173,7 @@ function addColor(s = '#cacaca') {
   sw.value = s;
   sw.oninput = updateVal;
 
-  sw.className = 'spectrum-Textfield-swatch';
+  sw.className = 'colorInput inputColorField';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
   var input = document.createElement('input');
@@ -184,7 +184,7 @@ function addColor(s = '#cacaca') {
   input.value = s;
   input.onchange = newColor;
   var button = document.createElement('button');
-  button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
+  button.className = 'spectrum-ActionButton';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
     <use xlink:href="#spectrum-icon-18-Delete" />
@@ -192,7 +192,7 @@ function addColor(s = '#cacaca') {
 
   button.onclick = deleteColor;
   div.appendChild(sw);
-  div.appendChild(input);
+  // div.appendChild(input);
   div.appendChild(button);
   colorInputs.appendChild(div);
 }
@@ -228,26 +228,26 @@ function deleteColor(e) {
   colorInput();
 }
 
-function panelTab(evt, tabName) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("paneltabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("panel-Tab-item");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
-}
+// function panelTab(evt, tabName) {
+//   // Declare all variables
+//   var i, tabcontent, tablinks;
+//
+//   // Get all elements with class="tabcontent" and hide them
+//   tabcontent = document.getElementsByClassName("paneltabcontent");
+//   for (i = 0; i < tabcontent.length; i++) {
+//     tabcontent[i].style.display = "none";
+//   }
+//
+//   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+//   tablinks = document.getElementsByClassName("panel-Tab-item");
+//   for (i = 0; i < tablinks.length; i++) {
+//     tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+//   }
+//
+//   // Show the current tab, and add an "active" class to the button that opened the tab
+//   document.getElementById(tabName).style.display = "flex";
+//   evt.currentTarget.className += " is-selected";
+// }
 
 function openTab(evt, tabName) {
   // Declare all variables
@@ -271,7 +271,7 @@ function openTab(evt, tabName) {
 }
 
 // Open default tabs
-document.getElementById("tabColorScale").click();
+// document.getElementById("tabColorScale").click();
 document.getElementById("tabDemo").click();
 
 
@@ -388,7 +388,6 @@ function colorInput() {
   document.getElementById('contrastChart').innerHTML = ' ';
   var shiftInputValue = document.getElementById('shiftInputValue');
   shiftInputValue.innerHTML = ' ';
-
 
   var inputs = document.getElementsByClassName('inputColorField');
   // var inputColors = inputs.split(" ");
@@ -539,6 +538,8 @@ function colorInput() {
 colorInput();
 
 function createAllCharts() {
+  var chart3 = document.getElementById('chart3Wrapper');
+
   if(mode=="LCH") {
     // createChartHeader('Lightness', 'chart1');
     // createChart(lchDataL, "#chart1");
@@ -546,6 +547,7 @@ function createAllCharts() {
     createChart(lchDataC, "#chart1");
     createChartHeader('Hue', 'chart2');
     createChart(lchDataH, "#chart2");
+    chart3.style.display = 'none';
   }
   if(mode=="LAB") {
     // createChartHeader('Lightness', 'chart1');
@@ -554,6 +556,7 @@ function createAllCharts() {
     createChart(labDataA, "#chart1");
     createChartHeader('Blue / Yellow', 'chart2');
     createChart(labDataB, "#chart2");
+    chart3.style.display = 'none';
   }
   if(mode=="CAM02") {
     // createChartHeader('Lightness', 'chart1');
@@ -562,6 +565,7 @@ function createAllCharts() {
     createChart(camDataA, "#chart1");
     createChartHeader('Blue / Yellow', 'chart2');
     createChart(camDataB, "#chart2");
+    chart3.style.display = 'none';
   }
   if(mode=="HSL") {
     createChartHeader('Hue', 'chart1');
@@ -570,6 +574,7 @@ function createAllCharts() {
     createChart(hslDataS, "#chart2");
     // createChartHeader('Lightness', 'chart3');
     // createChart(hslDataL, "#chart3");
+    chart3.style.display = 'none';
   }
   if(mode=="HSLuv") {
     createChartHeader('Hue', 'chart1');
@@ -578,6 +583,7 @@ function createAllCharts() {
     createChart(hsluvDataU, "#chart2");
     // createChartHeader('Lightness', 'chart3');
     // createChart(hsluvDataV, "#chart3");
+    chart3.style.display = 'none';
   }
   if(mode=="HSV") {
     createChartHeader('Hue', 'chart1');
@@ -586,6 +592,7 @@ function createAllCharts() {
     createChart(hsvDataS, "#chart2");
     // createChartHeader('Lightness', 'chart3');
     // createChart(hsvDataL, "#chart3");
+    chart3.style.display = 'none';
   }
   if(mode=="RGB") {
     createChartHeader('Red', 'chart1');
@@ -928,9 +935,9 @@ function createChartHeader(x, dest) {
 function createChart(data, dest) {
   var data = data;
   var xy_chart = d3_xy_chart()
-      .width(240)
+      .width(createChartWidth())
       // .height(120)
-      .height(180)
+      .height(createChartHeight())
       .xlabel("X Axis")
       .ylabel("Y Axis") ;
   var svg = d3.select(dest).append("svg")
@@ -938,8 +945,8 @@ function createChart(data, dest) {
       .call(xy_chart) ;
 
   function d3_xy_chart() {
-      var width = 260,
-          height = 180,
+      var width = createChartWidth(),
+          height = createChartHeight(),
         // height = 100,
           xlabel = "X Axis Label",
           ylabel = "Y Axis Label" ;
@@ -1226,4 +1233,50 @@ function distributeLum() {
 }
 
 new ClipboardJS('.copyButton');
-new ClipboardJS('colorOutputBlock');
+new ClipboardJS('.colorOutputBlock');
+
+function createChartWidth() {
+  var leftPanel = 304;
+  var rightPanel = 240;
+  var paddings = 156;
+  var offset = leftPanel + rightPanel + paddings;
+  var viewportWidth = getViewport()[0];
+
+  return (viewportWidth - offset) / 2;
+}
+
+function createChartHeight() {
+  var headerHeight = 58;
+  var tabHeight = 48;
+  var paddings = 164;
+  var offset = headerHeight + tabHeight + paddings;
+  var viewportHeight = getViewport()[1];
+
+  return (viewportHeight - offset) / 2;
+}
+
+function getViewport() {
+ var viewPortWidth;
+ var viewPortHeight;
+
+ // the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
+ if (typeof window.innerWidth != 'undefined') {
+   viewPortWidth = window.innerWidth,
+   viewPortHeight = window.innerHeight
+ }
+
+// IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
+ else if (typeof document.documentElement != 'undefined'
+ && typeof document.documentElement.clientWidth !=
+ 'undefined' && document.documentElement.clientWidth != 0) {
+    viewPortWidth = document.documentElement.clientWidth,
+    viewPortHeight = document.documentElement.clientHeight
+ }
+
+ // older versions of IE
+ else {
+   viewPortWidth = document.getElementsByTagName('body')[0].clientWidth,
+   viewPortHeight = document.getElementsByTagName('body')[0].clientHeight
+ }
+ return [viewPortWidth, viewPortHeight];
+}

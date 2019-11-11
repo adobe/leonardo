@@ -1,4 +1,4 @@
-function adapt() {
+function createColors() {
   var br = document.getElementById('sliderBrightness');
   var con = document.getElementById('sliderContrast');
   var mode = document.getElementById('darkMode');
@@ -33,9 +33,9 @@ function adapt() {
   // console.log(grayRatios);
 
   // adaptColor();
-  grayArray = adaptcolor({ color: "#707080", base: base, ratios: grayRatios, tint: "#cacad0", shade: "#333351", colorspace: "LAB"});
-  redArray = adaptcolor({ color: "#cb1404", base: base, ratios: redRatios, tint: "#ffbbb9", shade: "#b10000", colorspace: "LAB"});
-  blueArray = adaptcolor({ color: "#2a77a7", base: base, ratios: blueRatios, tint: "#71b4ca", shade: "#331f4f", colorspace: "CAM02"});
+  grayArray = adaptcolor({ color: ["#707080"], base: base, ratios: grayRatios, tint: "#cacad0", shade: "#333351", colorspace: "LAB"});
+  redArray = adaptcolor({ color: ["#cb1404"], base: base, ratios: redRatios, tint: "#ffbbb9", shade: "#b10000", colorspace: "LAB"});
+  blueArray = adaptcolor({ color: ["#2a77a7"], base: base, ratios: blueRatios, tint: "#71b4ca", shade: "#331f4f", colorspace: "CAM02"});
 
   document.documentElement.style
     .setProperty('--gray50', grayArray[0]);
@@ -69,4 +69,4 @@ function adapt() {
   document.documentElement.style
     .setProperty('--blue300', blueArray[2]);
 }
-adapt();
+createColors();
