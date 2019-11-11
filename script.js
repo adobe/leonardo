@@ -594,7 +594,7 @@ function colorInput() {
   var copyColors = document.getElementById('copyAllColors');
   copyColors.setAttribute('data-clipboard-text', newColors);
 
-  // console.log(newColors);
+  colors = colors;
   createData();
   createAllCharts();
 
@@ -669,6 +669,8 @@ function createAllCharts() {
     createChart(rgbDataB, "#chart3");
   }
   createChart(contrastData, "#contrastChart");
+
+  init3dChart();
 }
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
@@ -851,6 +853,14 @@ function createData() {
   dataX = fillRange(0, CAMArrayJ.length - 1);
   dataXcyl = fillRange(0, LCHArrayL.length - 1);
   dataXcontrast = fillRange(0, ratioInputs.length - 1);
+
+  labFullData = [
+    {
+      x: LABArrayL,
+      y: LABArrayA,
+      z: LABArrayB
+    }
+  ];
 
   camDataJ = [
     {
@@ -1315,7 +1325,8 @@ function createChartHeight() {
   var offset = headerHeight + tabHeight + paddings;
   var viewportHeight = getViewport()[1];
 
-  return (viewportHeight - offset) / 2;
+  // return (viewportHeight - offset) / 2;
+  return 180;
 }
 
 function getViewport() {
