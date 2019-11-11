@@ -4,7 +4,7 @@ var svg    = d3.select(dest).call(d3.drag().on('drag', dragged).on('start', drag
 // var color  = d3.scaleOrdinal(d3.schemeCategory10);
 var color = d3.scaleLinear()
               .range(colors)
-              .domain([0, 10]);
+              .domain([-10, 10]);
 
 var mx, my, mouseX, mouseY;
 
