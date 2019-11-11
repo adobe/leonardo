@@ -26,10 +26,10 @@ function paramSetup() {
   pathName = url.pathname;
 
   // // If parameters exist, use parameter; else use default html input values
-  if(params.has('color')) {
+  if(params.has('colorKeys')) {
     // document.getElementById('inputColors').value = "#" + params.get('color');
     // document.getElementById('variableColors').value = params.get('color');
-    cr = params.get('color');
+    cr = params.get('colorKeys');
     crs = cr.split(',');
 
     if(crs[0] == 0) {
@@ -610,7 +610,7 @@ function updateParams(c, b, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
-  params.set('color', c);
+  params.set('colorKeys', c);
   params.set('base', b);
   params.set('ratios', r);
   params.set('mode', m);
@@ -625,7 +625,7 @@ function updateParams(c, b, r, m) {
   var p = document.getElementById('params');
   p.innerHTML = " ";
   var call = 'generateContrastColors({ ';
-  var pcol = 'colors: [' + c + '], ';
+  var pcol = 'colorKeys: [' + c + '], ';
   var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';
   var pmod = ' colorspace: "' + m + '"});';
