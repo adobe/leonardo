@@ -412,7 +412,7 @@ function colorInput() {
   ratioInputs = [];
   inputColors = [];
 
-  // For each ratio input field, push the value into the args array for adaptcolor
+  // For each ratio input field, push the value into the args array for generateContrastColors
   for(i=0; i < ratioFields.length; i++) {
     ratioInputs.push(ratioFields[i].value);
   }
@@ -429,7 +429,7 @@ function colorInput() {
   var shift = document.getElementById('shiftInput').value;
   shiftInputValue.innerHTML = shift;
 
-  adaptcolor({color: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   // scaleColors({color: colorArgs, colorspace: mode});
   // getContrast({base: background, ratios: ratioInputs});
 
@@ -624,7 +624,7 @@ function updateParams(c, b, r, m) {
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
-  var call = 'adaptcolor({ ';
+  var call = 'generateContrastColors({ ';
   var pcol = 'colors: [' + c + '], ';
   var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';

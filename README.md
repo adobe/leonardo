@@ -9,7 +9,7 @@ To make it easier for designers and engineers to leverage color science to creat
 1. [Leonardo web application](leonardo-web-application)
 2. [Show me a demo](#show-me-a-demo)
 3. [What is "adaptive color"?](#what-is-adaptive-color)
-4. [Using Adaptive Color](#using-adaptive-color)
+4. [Using Leonardo](#using-leonardo)
 5. [API Reference](#api-reference)
 6. [Why are not all contrast ratios available?](#why-are-not-all-contrast-ratios-available)
 7. [D3 Color](#d3-color)
@@ -18,13 +18,13 @@ To make it easier for designers and engineers to leverage color science to creat
 
 
 ### Leonardo web application
-The Leonardo web application is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to the `adaptcolor()` API and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
+The Leonardo web application is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to the `generateContrastColors()` API and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
 
 ![Leonardo web app with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](https://git.corp.adobe.com/pages/nbaldwin/leonardo-adaptive-color/Leonardo_Screenshot.png)
 
 ### Show me a demo
 *(coming soon)*
-Sometimes it's easier to express what you can do by showing you. Take a look at this demo app and play around with the brightness and contrast controls. These are dynamically regenerating the color palette using `adaptcolor()` functions, which allows for more aesthetically pleasing changes to the entire UI color system as the end user (you) adjusts their settings.
+Sometimes it's easier to express what you can do by showing you. Take a look at this demo app and play around with the brightness and contrast controls. These are dynamically regenerating the color palette using `generateContrastColors()` functions, which allows for more aesthetically pleasing changes to the entire UI color system as the end user (you) adjusts their settings.
 
 ### What is adaptive color?
 I've written about this concept in more detail at the following links. The goals of this project are to aid in fulfilling the tooling necessary to make adaptive color palettes available to designers and engineers.
@@ -33,16 +33,16 @@ I've written about this concept in more detail at the following links. The goals
 - [Part 2: Introducing Adaptive Color Palettes](https://medium.com/thinking-design/introducing-adaptive-color-palettes-111b5842fc88)
 - [Part 3: Adaptive Color in Spectrum, Adobe's Design System](https://medium.com/thinking-design/adaptive-color-in-spectrum-adobes-design-system-feeeec89a2c7)
 
-### Using Leonardo Adaptive Color
+### Using Leonardo
 #### Installing
 ```
-npm i @adobe/leonardo-adaptive-color
+npm i @adobe/leonardo-contrast-colors
 ```
 (coming soon)
 
 Pass your colors and desired ratios. See additional options here.
 ```
-adaptcolor(color: ["#ff00ff"], base: "#ffffff", ratios: [4.5]); // returns rgb value
+generateContrastColors(colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]); // returns rgb value
 ```
 
 #### Local setup
@@ -53,18 +53,18 @@ adaptcolor(color: ["#ff00ff"], base: "#ffffff", ratios: [4.5]); // returns rgb v
 
 ### API Reference
 ```
-adaptcolor(color, base, ratios, colorspace)
+generateContrastColors(colorKeys, base, ratios, colorspace)
 ```
 
-Parameters are destructured and need to be explicitly called, such as `color: ["#f26322"]`.
+Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`.
 
-**color** *[array]* is the original color that you want to adapt to match various contrast ratios. This color becomes **variable**, and is represented by a linear color scale from black, to color, to white. Multiple values can be passed in order to clarify the path of color as it gets lighter or darker. Colors are automatically distributed by lightness in creating the color scale.
+**colorKeys** *[array]*: list of colors referenced to generate a lightness scale. Much like [key frames](https://en.wikipedia.org/wiki/Key_frame), key colors are single points by which additional colors will be interpolated between.
 
-**base** *string* references the color value that the color is to be generated from.
+**base** *string*: references the color value that the color is to be generated from.
 
-**ratios** *[array]* is list of numbers to be used as target contrast ratios.
+**ratios** *[array]*: list of numbers to be used as target contrast ratios.
 
-**colorspace** *string* is the colorspace in which the variable color's scale will be interpolated within. Below are the available options:
+**colorspace** *string*: the colorspace in which the key colors will be interpolated within. Below are the available options:
 
 - [Lch](https://en.wikipedia.org/wiki/HCL_color_space)
 - [Lab](https://en.wikipedia.org/wiki/CIELAB_color_space)
