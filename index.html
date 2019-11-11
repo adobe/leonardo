@@ -85,7 +85,7 @@ governing permissions and limitations under the License.
     </div>
     <div id="scaleConfigs">
       <form class="spectrum-Form">
-        <div class="spectrum-Form-item spectrum-Tooltip-Target">
+        <div class="spectrum-Form-item">
           <label for="mode" class="spectrum-FieldLabel spectrum-FieldLabel--left">Color space interpolation</label>
           <div class="spectrum-Dropdown" id="modeDropdown">
             <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
@@ -232,11 +232,15 @@ governing permissions and limitations under the License.
       <div id="chart1"></div>
       <div id="chart2"></div>
     </div>
-    <div class="charts">
+    <div class="charts" id="chart3Wrapper">
       <div id="chart3"></div>
     </div>
-    <h3 class="spectrum-Heading6">Contrast Ratio Distribution</h3>
-    <div id="contrastChart"></div>
+    <div class="charts">
+      <div class="chartGroup">
+        <h3 class="spectrum-Heading6">Contrast Ratio Distribution</h3>
+        <div id="contrastChart"></div>
+      </div>
+    </div>
   </div>
 
   <div class="tabcontent" id="demoWrapper">
