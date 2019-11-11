@@ -8,12 +8,12 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
+function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
   swatches = 3000;
   var Domains = [];
 
-  for(i=0; i < color.length; i++){
-    Domains.push(swatches - swatches * (d3.hsluv(color[i]).v / 100))
+  for(i=0; i < colorKeys.length; i++){
+    Domains.push(swatches - swatches * (d3.hsluv(colorKeys[i]).v / 100))
   }
   Domains.sort(function(a, b){return a-b});
 
@@ -44,26 +44,26 @@ function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff'
 
     return new Array( L, U, V);
   }
-  var sortedColor = color.map(function(c, i) {
+  var sortedColor = colorKeys.map(function(c, i) {
     // Convert to HSLuv and keep track of original indices
-    return {color: cArray(c), index: i};
+    return {colorKeys: cArray(c), index: i};
   }).sort(function(c1, c2) {
     // Sort by lightness
-    return c2.color[2] - c1.color[2];
+    return c2.colorKeys[2] - c1.colorKeys[2];
   }).map(function(data) {
     // Retrieve original RGB color
-    return color[data.index];
+    return colorKeys[data.index];
   });
 
-  var inverseSortedColor = color.map(function(c, i) {
+  var inverseSortedColor = colorKeys.map(function(c, i) {
     // Convert to HSLuv and keep track of original indices
-    return {color: cArray(c), index: i};
+    return {colorKeys: cArray(c), index: i};
   }).sort(function(c1, c2) {
     // Sort by lightness
-    return c1.color[2] - c2.color[2];
+    return c1.colorKeys[2] - c2.colorKeys[2];
   }).map(function(data) {
     // Retrieve original RGB color
-    return color[data.index];
+    return colorKeys[data.index];
   });
 
   ColorsArray = [];
@@ -182,8 +182,8 @@ function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff'
 }
 
 // Test scripts:
-// adaptcolor({color: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'});
-// adaptcolor({color: "#0000ff",base: "#323232",ratios: [-1.25,4.5],tint: "#fefefe",shade: "#010101", colorspace: "LCH"});
+// generateContrastColors({color: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'});
+// generateContrastColors({color: "#0000ff",base: "#323232",ratios: [-1.25,4.5],tint: "#fefefe",shade: "#010101", colorspace: "LCH"});
 
 // TODO: see if there's a luminance package?
 // Separate files in a lib folder as well.

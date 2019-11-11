@@ -26,10 +26,10 @@ function paramSetup() {
   pathName = url.pathname;
 
   // // If parameters exist, use parameter; else use default html input values
-  if(params.has('color')) {
+  if(params.has('colorKeys')) {
     // document.getElementById('inputColors').value = "#" + params.get('color');
     // document.getElementById('variableColors').value = params.get('color');
-    cr = params.get('color');
+    cr = params.get('colorKeys');
     crs = cr.split(',');
 
     if(crs[0] == 0) {
@@ -412,7 +412,7 @@ function colorInput() {
   ratioInputs = [];
   inputColors = [];
 
-  // For each ratio input field, push the value into the args array for adaptcolor
+  // For each ratio input field, push the value into the args array for generateContrastColors
   for(i=0; i < ratioFields.length; i++) {
     ratioInputs.push(ratioFields[i].value);
   }
@@ -429,7 +429,7 @@ function colorInput() {
   var shift = document.getElementById('shiftInput').value;
   shiftInputValue.innerHTML = shift;
 
-  adaptcolor({color: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   // scaleColors({color: colorArgs, colorspace: mode});
   // getContrast({base: background, ratios: ratioInputs});
 
@@ -610,7 +610,7 @@ function updateParams(c, b, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
 
-  params.set('color', c);
+  params.set('colorKeys', c);
   params.set('base', b);
   params.set('ratios', r);
   params.set('mode', m);
@@ -624,8 +624,8 @@ function updateParams(c, b, r, m) {
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
-  var call = 'adaptcolor({ ';
-  var pcol = 'colors: [' + c + '], ';
+  var call = 'generateContrastColors({ ';
+  var pcol = 'colorKeys: [' + c + '], ';
   var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';
   var pmod = ' colorspace: "' + m + '"});';
