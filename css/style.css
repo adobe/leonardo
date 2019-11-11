@@ -7116,3 +7116,8 @@ g.d3_xy_chart_line path.line {
   content: attr(data-title);
   position: absolute;
   top: 0px; }
+
+#3dchartWrapper {
+  display: flex;
+  max-width: fit-content;
+  align-self: center; }

@@ -887,3 +887,9 @@ g.d3_xy_chart_line path.line {
 	position: absolute;
 	top: 0px;
 }
+
+#3dchartWrapper {
+  display: flex;
+  max-width: fit-content;
+  align-self: center;
+}

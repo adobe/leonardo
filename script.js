@@ -604,6 +604,8 @@ function createAllCharts() {
     createChart(rgbDataB, "#chart3");
   }
   createChart(contrastData, "#contrastChart");
+
+  init3dChart();
 }
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
@@ -1261,7 +1263,8 @@ function createChartHeight() {
   var offset = headerHeight + tabHeight + paddings;
   var viewportHeight = getViewport()[1];
 
-  return (viewportHeight - offset) / 2;
+  // return (viewportHeight - offset) / 2;
+  return 180;
 }
 
 function getViewport() {

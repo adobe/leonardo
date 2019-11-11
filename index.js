@@ -67,7 +67,6 @@ function adaptcolor({color = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff'
   });
 
   ColorsArray = [];
-  console.log(ColorsArray);
 
   if(colorspace == 'CAM02') {
     ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
