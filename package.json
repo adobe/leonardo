@@ -47,6 +47,7 @@
     "@spectrum-css/slider": "^2.0.2",
     "@spectrum-css/tabs": "^2.1.1",
     "@spectrum-css/textfield": "^2.0.2",
+    "@spectrum-css/tooltip": "^2.0.2",
     "@spectrum-css/typography": "^2.0.2",
     "@spectrum-css/vars": "^2.0.0-alpha.3",
     "@spectrum/spectrum-icons": "^2.3.0",

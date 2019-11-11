@@ -4154,7 +4154,7 @@ a.spectrum-ActionButton {
   border-width: 0;
   cursor: default; }
 
-.spectrum-FieldButton.is-open {
+.spectrum-FieldButton.is-open, .spectrum-FieldButton.spectrum-Tooltip-Target:hover:after {
   border-width: var(--spectrum-dropdown-border-size, var(--spectrum-alias-border-size-thin)); }
 
 .spectrum-FieldButton--quiet {
@@ -5399,6 +5399,238 @@ a.spectrum-ActionButton {
 .spectrum-Checkbox.is-invalid:active .spectrum-Checkbox-label {
   color: var(--spectrum-checkbox-text-color-error-down, var(--spectrum-global-color-red-700)); }
 
+.spectrum-Tooltip, .spectrum-Tooltip-Target:hover:after {
+  visibility: hidden;
+  opacity: 0;
+  transition: transform var(--spectrum-global-animation-duration-100, 130ms) ease-in-out, opacity var(--spectrum-global-animation-duration-100, 130ms) ease-in-out, visibility 0ms linear var(--spectrum-global-animation-duration-100, 130ms);
+  pointer-events: none; }
+
+.spectrum-Tooltip.is-open, .spectrum-Tooltip-Target:hover:after {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0ms;
+  pointer-events: auto; }
+
+.spectrum-Tooltip--bottom.is-open, .spectrum-Tooltip--bottom.spectrum-Tooltip-Target:hover:after {
+  transform: translateY(var(--spectrum-dropdown-flyout-menu-offset-y, var(--spectrum-global-dimension-size-75))); }
+
+.spectrum-Tooltip--top.is-open, .spectrum-Tooltip-Target:hover:after {
+  transform: translateY(calc(-1 * var(--spectrum-dropdown-flyout-menu-offset-y, var(--spectrum-global-dimension-size-75)))); }
+
+.spectrum-Tooltip--right.is-open, .spectrum-Tooltip--right.spectrum-Tooltip-Target:hover:after {
+  transform: translateX(var(--spectrum-dropdown-flyout-menu-offset-y, var(--spectrum-global-dimension-size-75))); }
+
+.spectrum-Tooltip--left.is-open, .spectrum-Tooltip--left.spectrum-Tooltip-Target:hover:after {
+  transform: translateX(calc(-1 * var(--spectrum-dropdown-flyout-menu-offset-y, var(--spectrum-global-dimension-size-75)))); }
+
+.spectrum-Tooltip, .spectrum-Tooltip-Target:hover:after {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  vertical-align: top;
+  width: auto;
+  padding: var(--spectrum-tooltip-padding-top, var(--spectrum-global-dimension-size-50)) var(--spectrum-tooltip-padding-x, var(--spectrum-global-dimension-size-125));
+  border-radius: var(--spectrum-tooltip-border-radius, var(--spectrum-global-dimension-size-50));
+  min-height: var(--spectrum-tooltip-min-height, var(--spectrum-global-dimension-size-300));
+  font-size: var(--spectrum-tooltip-text-size, var(--spectrum-global-dimension-font-size-75));
+  font-weight: var(--spectrum-tooltip-text-font-weight, var(--spectrum-global-font-weight-regular));
+  line-height: var(--spectrum-tooltip-text-line-height, var(--spectrum-global-dimension-font-size-200));
+  word-break: break-word;
+  -webkit-font-smoothing: antialiased; }
+
+.spectrum-Tooltip, .spectrum-Tooltip-Target:hover:after {
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+.spectrum-Tooltip p, .spectrum-Tooltip-Target:hover:after p {
+  margin: 0; }
+
+.spectrum-Tooltip-tip {
+  position: absolute;
+  height: 0;
+  width: 0;
+  border-width: var(--spectrum-tooltip-tip-height, var(--spectrum-global-dimension-size-50));
+  border-style: solid;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent; }
+
+.spectrum-Tooltip--right .spectrum-Tooltip-tip, .spectrum-Tooltip--left .spectrum-Tooltip-tip {
+  top: 50%;
+  margin-top: calc(-1 * var(--spectrum-tooltip-tip-height, var(--spectrum-global-dimension-size-50))); }
+
+.spectrum-Tooltip--right {
+  margin-left: 3px; }
+
+.spectrum-Tooltip--right .spectrum-Tooltip-tip {
+  right: 100%;
+  transform: rotate(90deg); }
+
+.spectrum-Tooltip--left {
+  margin-right: 3px; }
+
+.spectrum-Tooltip--left .spectrum-Tooltip-tip {
+  left: 100%;
+  transform: rotate(-90deg); }
+
+.spectrum-Tooltip--top, .spectrum-Tooltip-Target:hover:after {
+  margin-bottom: 3px; }
+
+.spectrum-Tooltip--top .spectrum-Tooltip-tip, .spectrum-Tooltip-Target:hover:after .spectrum-Tooltip-tip {
+  top: 100%; }
+
+.spectrum-Tooltip--bottom {
+  margin-top: 3px; }
+
+.spectrum-Tooltip--bottom .spectrum-Tooltip-tip {
+  bottom: 100%;
+  transform: rotate(-180deg); }
+
+.spectrum-Tooltip--bottom .spectrum-Tooltip-tip, .spectrum-Tooltip--top .spectrum-Tooltip-tip, .spectrum-Tooltip-Target:hover:after .spectrum-Tooltip-tip {
+  left: 50%;
+  margin-left: calc(-1 * var(--spectrum-tooltip-tip-height, var(--spectrum-global-dimension-size-50))); }
+
+.spectrum-Tooltip-typeIcon {
+  margin-left: calc(var(--spectrum-tooltip-icon-margin-x, var(--spectrum-global-dimension-size-100)) - var(--spectrum-tooltip-padding-x, var(--spectrum-global-dimension-size-125)));
+  margin-right: var(--spectrum-tooltip-icon-margin-x, var(--spectrum-global-dimension-size-100));
+  width: var(--spectrum-tooltip-icon-size, var(--spectrum-global-dimension-size-175));
+  height: var(--spectrum-tooltip-icon-size, var(--spectrum-global-dimension-size-175));
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+  margin-top: 1px; }
+
+.spectrum-Tooltip-label {
+  max-width: var(--spectrum-tooltip-content-max-width);
+  line-height: var(--spectrum-tooltip-text-line-height, var(--spectrum-global-dimension-font-size-200)); }
+
+.u-tooltip-showOnHover {
+  display: inline-block;
+  position: relative; }
+
+.u-tooltip-showOnHover .spectrum-Tooltip, .u-tooltip-showOnHover .spectrum-Tooltip-Target:hover:after {
+  position: absolute;
+  white-space: nowrap;
+  visibility: visible !important;
+  transition: transform var(--spectrum-global-animation-duration-100, 130ms) ease-in-out;
+  top: -100%; }
+
+.u-tooltip-showOnHover .spectrum-Tooltip-label {
+  max-width: none; }
+
+.u-tooltip-showOnHover .spectrum-Tooltip--right,
+.u-tooltip-showOnHover .spectrum-Tooltip--left {
+  top: 50%; }
+
+.u-tooltip-showOnHover .spectrum-Tooltip--right .spectrum-Tooltip-tip, .u-tooltip-showOnHover .spectrum-Tooltip--left .spectrum-Tooltip-tip {
+  top: 50%; }
+
+.u-tooltip-showOnHover .spectrum-Tooltip--right {
+  left: 100%;
+  transform: translate(0, -50%); }
+
+.u-tooltip-showOnHover .spectrum-Tooltip--left {
+  transform: translate(-100%, -50%); }
+
+.u-tooltip-showOnHover .spectrum-Tooltip--bottom,
+.u-tooltip-showOnHover .spectrum-Tooltip--top,
+.u-tooltip-showOnHover .spectrum-Tooltip-Target:hover:after {
+  left: 50%; }
+
+.u-tooltip-showOnHover .spectrum-Tooltip--bottom .spectrum-Tooltip-tip, .u-tooltip-showOnHover .spectrum-Tooltip--top .spectrum-Tooltip-tip, .u-tooltip-showOnHover .spectrum-Tooltip-Target:hover:after .spectrum-Tooltip-tip {
+  left: 50%; }
+
+.u-tooltip-showOnHover .spectrum-Tooltip--bottom {
+  top: 100%;
+  transform: translate(-50%, calc(-1 * var(--spectrum-tooltip-tip-margin, var(--spectrum-global-dimension-size-50)))); }
+
+
+.u-tooltip-showOnHover .spectrum-Tooltip--top,
+.u-tooltip-showOnHover .spectrum-Tooltip-Target:hover:after {
+  transform: translate(-50%, var(--spectrum-tooltip-tip-margin, var(--spectrum-global-dimension-size-50))); }
+
+.u-tooltip-showOnHover:hover .spectrum-Tooltip, .u-tooltip-showOnHover:hover .spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip-Target:hover:after {
+  opacity: 1; }
+
+.u-tooltip-showOnHover:hover .spectrum-Tooltip.spectrum-Tooltip--bottom, .u-tooltip-showOnHover:hover .spectrum-Tooltip--bottom.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip.spectrum-Tooltip--bottom,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip--bottom.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip.spectrum-Tooltip--bottom,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip--bottom.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip.spectrum-Tooltip--bottom,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip--bottom.spectrum-Tooltip-Target:hover:after {
+  transform: translate(-50%, 0); }
+
+.u-tooltip-showOnHover:hover .spectrum-Tooltip.spectrum-Tooltip--top, .u-tooltip-showOnHover:hover .spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip.spectrum-Tooltip--top,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip.spectrum-Tooltip--top,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip.spectrum-Tooltip--top,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip-Target:hover:after {
+  transform: translate(-50%, calc(-1 * var(--spectrum-tooltip-tip-margin, var(--spectrum-global-dimension-size-50)))); }
+
+.u-tooltip-showOnHover:hover .spectrum-Tooltip.spectrum-Tooltip--left, .u-tooltip-showOnHover:hover .spectrum-Tooltip--left.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip.spectrum-Tooltip--left,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip--left.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip.spectrum-Tooltip--left,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip--left.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip.spectrum-Tooltip--left,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip--left.spectrum-Tooltip-Target:hover:after {
+  transform: translate(calc(-100% - var(--spectrum-tooltip-tip-margin, var(--spectrum-global-dimension-size-50))), -50%); }
+
+.u-tooltip-showOnHover:hover .spectrum-Tooltip.spectrum-Tooltip--right, .u-tooltip-showOnHover:hover .spectrum-Tooltip--right.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip.spectrum-Tooltip--right,
+.u-tooltip-showOnHover:focus .spectrum-Tooltip--right.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip.spectrum-Tooltip--right,
+.u-tooltip-showOnHover.is-focused .spectrum-Tooltip--right.spectrum-Tooltip-Target:hover:after,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip.spectrum-Tooltip--right,
+.u-tooltip-showOnHover *:focus .spectrum-Tooltip--right.spectrum-Tooltip-Target:hover:after {
+  transform: translate(var(--spectrum-tooltip-tip-margin, var(--spectrum-global-dimension-size-50)), -50%); }
+
+.spectrum-Tooltip, .spectrum-Tooltip-Target:hover:after {
+  background-color: var(--spectrum-tooltip-background-color, var(--spectrum-global-color-static-gray-700));
+  color: var(--spectrum-tooltip-text-color, var(--spectrum-global-color-static-white)); }
+
+.spectrum-Tooltip-tip {
+  border-top-color: var(--spectrum-tooltip-background-color, var(--spectrum-global-color-static-gray-700)); }
+
+.spectrum-Tooltip--negative,
+.spectrum-Tooltip--error {
+  background-color: var(--spectrum-tooltip-negative-background-color, var(--spectrum-global-color-static-red-700)); }
+
+.spectrum-Tooltip--negative .spectrum-Tooltip-tip, .spectrum-Tooltip--error .spectrum-Tooltip-tip {
+  border-top-color: var(--spectrum-tooltip-negative-background-color, var(--spectrum-global-color-static-red-700)); }
+
+.spectrum-Tooltip--info,
+.spectrum-Tooltip--help {
+  background-color: var(--spectrum-tooltip-info-background-color, var(--spectrum-global-color-static-blue-700)); }
+
+.spectrum-Tooltip--info .spectrum-Tooltip-tip, .spectrum-Tooltip--help .spectrum-Tooltip-tip {
+  border-top-color: var(--spectrum-tooltip-info-background-color, var(--spectrum-global-color-static-blue-700)); }
+
+.spectrum-Tooltip--positive,
+.spectrum-Tooltip--success {
+  background-color: var(--spectrum-tooltip-positive-background-color, var(--spectrum-global-color-static-green-700)); }
+
+.spectrum-Tooltip--positive .spectrum-Tooltip-tip, .spectrum-Tooltip--success .spectrum-Tooltip-tip {
+  border-top-color: var(--spectrum-tooltip-positive-background-color, var(--spectrum-global-color-static-green-700)); }
+
 .spectrum-Slider,
 .spectrum-Dial {
   position: relative;
@@ -6150,12 +6382,12 @@ a.spectrum-ActionButton {
   left: -2px; }
 
 :root {
-  --gradient-height-offset: 128px;
+  --gradient-height-offset: 284px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
-  --colors-height: calc(100vh - var(--gradient-height-offset));
+  --colors-height: var(--gradient-height);
   --color-size: 32px;
   --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
-  --gradient-slider-height: calc(100vh - var(--gradient-height-offset));
+  --gradient-slider-height: var(--gradient-height);
   --slider-thumb-size: 8px;
   --header-height: 58px;
   --spectrum-panel-border-color: var(--spectrum-global-color-gray-300, #e1e1e1);
@@ -6258,6 +6490,9 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 8px 0 4px; }
+  .spectrum-Panel-Title .spectrum-ActionButton {
+    margin-top: -7px;
+    margin-bottom: 4px; }
 
 .spectrum-Panel-Title + .spectrum-Panel-Item {
   padding-top: 0px; }
@@ -6289,6 +6524,7 @@ body {
   overflow: hidden; }
 
 #gradientWrapper {
+  margin-top: 8px;
   margin-right: 18px;
   height: var(--gradient-height);
   width: 56px;
@@ -6330,10 +6566,6 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.25);
   justify-content: center;
   align-items: center; }
-
-.copyButton {
-  margin-top: -7px;
-  margin-bottom: 4px; }
 
 #sliderWrapper {
   position: relative;
@@ -6381,26 +6613,44 @@ body {
 #colorInputs {
   margin-top: 8px; }
 
-input[type=color] {
+input[type="color"] {
   -webkit-appearance: none;
+  height: 32px;
+  width: 32px;
   border: 0;
   padding: 0;
   margin: 0;
   background-color: transparent;
+  border: none;
   border-collapse: collapse;
-  outline: none; }
-  input[type=color].spectrum-Textfield-swatch {
+  outline: none;
+  border-radius: 4px; }
+  input[type="color"].spectrum-Textfield-swatch {
     margin-top: var(--spectrum-global-dimension-size-100);
     margin-left: var(--spectrum-global-dimension-size-100); }
 
 input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0; }
-
-input[type="color"]::-webkit-color-swatch {
+  padding: 0px;
   border: none; }
 
-input[type=color]:disabled {
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px; }
+
+input[type="color"]:disabled {
   border-color: var(--spectrum-global-color-gray-200); }
+
+input[type="color"].colorInput {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+input[type="color"].colorInput::-webkit-color-swatch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+input[type="color"].colorInput + .spectrum-ActionButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
 
 .slider:focus,
 input[type=color]:focus {
@@ -6531,6 +6781,10 @@ input[type=color]:focus {
   .spectrum-Slider input[type=range]:focus::-ms-fill-upper {
     background-color: var(--spectrum-global-color-blue-400); }
 
+.spectrum-Form,
+.spectrum-Form-item {
+  position: relative; }
+
 main {
   display: flex;
   flex-direction: column; }
@@ -6614,15 +6868,17 @@ colorOutput-field {
 
 .colorField {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   min-width: 40px;
   margin-bottom: 8px; }
   .colorField input[type='color'] {
     width: 32px;
     height: 32px;
-    border-radius: 4px 0 0 4px; }
+    border-radius: 4px;
+    margin-right: 8px; }
   .colorField input[type="color"]::-webkit-color-swatch {
-    border-radius: 4px 0 0 4px;
+    border-radius: 4px;
     border-left-width: 1px;
     border-left-style: solid;
     border-left-color: rgba(0, 0, 0, 0.25);
@@ -6638,10 +6894,10 @@ colorOutput-field {
 .colorField ~ .colorField {
   margin-left: 16px; }
 
-input[type="color"]#bgField {
+input[type="color"] {
   border-radius: 5px; }
 
-input[type="color"]#bgField::-webkit-color-swatch {
+input[type="color"]::-webkit-color-swatch {
   border-radius: 5px;
   border-width: 1px;
   border-style: solid;
@@ -6660,32 +6916,16 @@ input[type="color"]#bgField::-webkit-color-swatch {
   display: flex;
   flex-direction: row; }
 
-.tintShades-wrapper {
+#colorInputWrapper {
   display: flex;
-  flex-direction: column; }
-  .tintShades-wrapper input[type='color'],
-  .tintShades-wrapper input[type="color"]::-webkit-color-swatch {
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 0;
-    border-width: 0; }
-  .tintShades-wrapper input[type="color"]#colorField2::-webkit-color-swatch {
-    border-top-right-radius: 5px;
-    border-right-width: 1px;
-    border-right-style: solid;
-    border-right-color: rgba(0, 0, 0, 0.25);
-    border-top-width: 1px;
-    border-top-style: solid;
-    border-top-color: rgba(0, 0, 0, 0.25); }
-  .tintShades-wrapper input[type="color"]#colorField3::-webkit-color-swatch {
-    border-bottom-right-radius: 5px;
-    border-right-width: 1px;
-    border-right-style: solid;
-    border-right-color: rgba(0, 0, 0, 0.25);
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: rgba(0, 0, 0, 0.25); }
+  flex-direction: row;
+  padding: 2px;
+  /* To ensure focus rings are visible */
+  margin: -2px;
+  flex-wrap: wrap;
+  min-height: 80px;
+  max-height: 88px;
+  overflow: scroll; }
 
 a:focus {
   outline: none;
@@ -6707,11 +6947,13 @@ a:focus {
   position: relative;
   display: flex;
   flex-direction: row;
-  margin-bottom: var(--spectrum-global-dimension-size-100); }
-  .color-Item .spectrum-Textfield {
-    padding-left: var(--spectrum-global-dimension-size-400);
-    width: 70%;
-    margin-right: 8px; }
+  margin-bottom: var(--spectrum-global-dimension-size-100);
+  margin-right: var(--spectrum-global-dimension-size-100); }
+
+.ratioField {
+  padding-left: var(--spectrum-global-dimension-size-400);
+  width: 70%;
+  margin-right: 8px; }
 
 #toggleMetrics {
   margin-top: -8px;
@@ -6754,6 +6996,9 @@ a:focus {
 
 #ratiosWrapper {
   max-height: 100%;
+  margin-top: 6px;
+  padding: 2px;
+  /* This ensures focus rings are visible */
   overflow: scroll; }
 
 #ratios {
@@ -6784,11 +7029,14 @@ a:focus {
 
 #addRatio,
 #addColor {
-  justify-content: center;
-  margin-top: 8px; }
+  justify-content: center; }
   #addRatio > .spectrum-ActionButton-label,
   #addColor > .spectrum-ActionButton-label {
     width: auto; }
+
+#addRatio {
+  margin-top: 8px;
+  width: 100%; }
 
 /* charts */
 .charts > svg {
@@ -6841,3 +7089,8 @@ g.d3_xy_chart_line path.line {
 
 .tabcontent {
   display: none; }
+
+.spectrum-Tooltip-Target:hover:after {
+  content: attr(data-title);
+  position: absolute;
+  top: 0px; }

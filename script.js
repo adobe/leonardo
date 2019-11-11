@@ -161,7 +161,7 @@ function newColor(e) {
 }
 
 function addColor(s = '#cacaca') {
-  var colorInputs = document.getElementById('colorInputs');
+  var colorInputs = document.getElementById('colorInputWrapper');
   var div = document.createElement('div');
 
   var randId = randomId();
@@ -173,7 +173,7 @@ function addColor(s = '#cacaca') {
   sw.value = s;
   sw.oninput = updateVal;
 
-  sw.className = 'spectrum-Textfield-swatch';
+  sw.className = 'colorInput inputColorField';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
   var input = document.createElement('input');
@@ -184,7 +184,7 @@ function addColor(s = '#cacaca') {
   input.value = s;
   input.onchange = newColor;
   var button = document.createElement('button');
-  button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
+  button.className = 'spectrum-ActionButton';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
     <use xlink:href="#spectrum-icon-18-Delete" />
@@ -192,7 +192,7 @@ function addColor(s = '#cacaca') {
 
   button.onclick = deleteColor;
   div.appendChild(sw);
-  div.appendChild(input);
+  // div.appendChild(input);
   div.appendChild(button);
   colorInputs.appendChild(div);
 }
@@ -228,26 +228,26 @@ function deleteColor(e) {
   colorInput();
 }
 
-function panelTab(evt, tabName) {
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("paneltabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("panel-Tab-item");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
-}
+// function panelTab(evt, tabName) {
+//   // Declare all variables
+//   var i, tabcontent, tablinks;
+//
+//   // Get all elements with class="tabcontent" and hide them
+//   tabcontent = document.getElementsByClassName("paneltabcontent");
+//   for (i = 0; i < tabcontent.length; i++) {
+//     tabcontent[i].style.display = "none";
+//   }
+//
+//   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+//   tablinks = document.getElementsByClassName("panel-Tab-item");
+//   for (i = 0; i < tablinks.length; i++) {
+//     tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+//   }
+//
+//   // Show the current tab, and add an "active" class to the button that opened the tab
+//   document.getElementById(tabName).style.display = "flex";
+//   evt.currentTarget.className += " is-selected";
+// }
 
 function openTab(evt, tabName) {
   // Declare all variables
@@ -271,7 +271,7 @@ function openTab(evt, tabName) {
 }
 
 // Open default tabs
-document.getElementById("tabColorScale").click();
+// document.getElementById("tabColorScale").click();
 document.getElementById("tabDemo").click();
 
 
@@ -388,7 +388,6 @@ function colorInput() {
   document.getElementById('contrastChart').innerHTML = ' ';
   var shiftInputValue = document.getElementById('shiftInputValue');
   shiftInputValue.innerHTML = ' ';
-
 
   var inputs = document.getElementsByClassName('inputColorField');
   // var inputColors = inputs.split(" ");
@@ -1226,4 +1225,4 @@ function distributeLum() {
 }
 
 new ClipboardJS('.copyButton');
-new ClipboardJS('colorOutputBlock');
+new ClipboardJS('.colorOutputBlock');
