@@ -479,9 +479,7 @@ function colorInput() {
       noClamp = true;
     }
     newColors = createScale({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: noClamp});
-
   }
-  // generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
 
   Values = [];
   maxVal = 100;
