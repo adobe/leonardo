@@ -529,7 +529,7 @@ function colorInput() {
   var copyColors = document.getElementById('copyAllColors');
   copyColors.setAttribute('data-clipboard-text', newColors);
 
-  // console.log(newColors);
+  colors = colors;
   createData();
   createAllCharts();
 

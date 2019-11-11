@@ -2,9 +2,7 @@ var origin = [300, 300], j = 10, scale = 20, scatter = [], yLine = [], xGrid = [
 var dest = document.getElementById('3dchart');
 var svg    = d3.select(dest).call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
 // var color  = d3.scaleOrdinal(d3.schemeCategory10);
-var color = d3.scaleLinear()
-              .range(colors)
-              .domain([-10, 10]);
+var color  = d3.scaleOrdinal(tempColors);
 
 var mx, my, mouseX, mouseY;
 
