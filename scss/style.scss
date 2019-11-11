@@ -301,9 +301,7 @@ body {
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
   // cursor: pointer;
 }
-#colorInputs {
-  margin-top: 8px;
-}
+
 
 input[type="color"] {
   -webkit-appearance: none;
@@ -753,7 +751,7 @@ a:focus {
 }
 
 #ratios {
-  max-height: calc(var(--gradient-height) - 64px);
+  max-height: calc(var(--gradient-height) - 110px);
   overflow: scroll;
   display: flex;
 }
