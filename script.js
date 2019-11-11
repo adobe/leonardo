@@ -460,7 +460,7 @@ function colorInput() {
   }
 
   // Convert input value into a split array of hex values.
-  var tempArgs = [];
+  tempArgs = [];
   // remove any whitespace from inputColors
   tempArgs.push(inputColors);
   colorArgs = tempArgs.join("").split(',').filter(String);
@@ -472,7 +472,14 @@ function colorInput() {
     generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   }
   if (paletteType == 'Sequential') {
-    newColors = createScale({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift});
+    var clamping = document.getElementById('sequentialClamp').checked;
+    if (clamping == true) {
+      noClamp = false;
+    } else {
+      noClamp = true;
+    }
+    newColors = createScale({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: noClamp});
+
   }
   // generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
 
@@ -505,7 +512,7 @@ function colorInput() {
   })
 
   // Then, remove first and last value from sqrtValues array to get slider values
-  if (paletteType == 'Contrast') {    
+  if (paletteType == 'Contrast') {
     for(i=0; i<newColors.length; i++) {
       // Calculate value of color and apply to slider position/value
       var val = d3.hsluv(newColors[i]).v;
@@ -1266,10 +1273,7 @@ function distributeLum() {
     var baseRgbArray = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
 
     NewContrast.push(contrast(rgbArray, baseRgbArray).toFixed(2));
-
-    // console.log(NewRGB.toString());
   }
-  console.log(NewContrast);
 
   // Concatenate first and last contrast array with new contrast array (middle)
   newRatios = [];
