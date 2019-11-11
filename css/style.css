@@ -6864,7 +6864,7 @@ colorOutput-field {
   resize: none; }
 
 #colorOutputs {
-  max-height: calc(100vh - var(--header-height) - 234px);
+  max-height: calc(100vh - var(--header-height) - 250px);
   overflow: scroll; }
 
 .spectrum-Textfield-swatch {
