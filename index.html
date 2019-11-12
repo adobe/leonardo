@@ -269,6 +269,18 @@ governing permissions and limitations under the License.
 
   <div class="tabcontent" id="metricsWrapper">
     <!-- <h3 class="spectrum-Heading6">Color Graphs</h3> -->
+      <form class="spectrum-Form">
+        <div class="spectrum-Form-item">
+          <label for="paletteType_Dropdown" class="spectrum-FieldLabel spectrum-FieldLabel--left">3d Colorspace</label>
+          <div class="spectrum-Dropdown spectrum-Dropdown--quiet" id="chart3dColorspace_dropdown">
+            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="chart3dColorspace" onInput="update3dChart()" id="chart3dColorspace">
+            </select>
+            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </div>
+        </div>
+      </form>
     <div id="chart3dWrapper">
       <svg id="3dchart" width="800" height="420" style="min-height: 420px;"></svg>
     </div>

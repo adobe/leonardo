@@ -6792,7 +6792,8 @@ input[type=color]:focus {
 main {
   display: flex;
   flex-direction: column;
-  overflow: scroll; }
+  max-height: calc(100vh - 56px);
+  overflow: hidden; }
 
 #contentTabWrapper {
   display: flex;
@@ -6803,7 +6804,7 @@ main {
     margin-bottom: -1px; }
 
 #demoWrapper {
-  padding: 0 0 56px 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -6817,14 +6818,16 @@ main {
   flex-direction: column;
   width: fit-content;
   height: 100%;
-  padding: 32px; }
+  padding: 16px;
+  overflow: scroll; }
 
 .charts {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   max-width: fit-content;
-  margin-bottom: 24px; }
+  margin-bottom: 24px;
+  padding: 0 16px; }
 
 #chart1,
 #chart2,
@@ -6846,6 +6849,9 @@ main {
   display: flex;
   max-width: fit-content;
   align-self: center; }
+
+#chart3dColorspace {
+  width: 7.5em; }
 
 #3dchart {
   width: 545px;
@@ -7116,9 +7122,9 @@ g.d3_xy_chart_line path.line {
   stroke: #76D0C5; }
 
 ._3d.grid {
-  stroke: #6e6e6e;
+  stroke: #cacaca;
   stroke-width: 0.3;
-  fill: #e1e1e1;
+  fill: #eaeaea;
   fill-opacity: 0.9; }
 
 #scaleConfigs {

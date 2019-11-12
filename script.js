@@ -364,7 +364,9 @@ function createDemo(c, z) {
 
 function colorspaceOptions() {
   colorspace = document.getElementById('mode');
+  chart3dColorspace = document.getElementById('chart3dColorspace');
   colorspace.options.length = 0;
+  chart3dColorspace.options.length = 0;
 
   opts = {
     'LCH': 'Lch',
@@ -378,7 +380,9 @@ function colorspaceOptions() {
 
   for(index in opts) {
     colorspace.options[colorspace.options.length] = new Option(opts[index], index);
+    chart3dColorspace.options[colorspace.options.length] = new Option(opts[index], index);
   }
+  chart3dColorspace.value = 'CAM02';
 }
 
 function paletteTypeOptions() {
@@ -417,6 +421,12 @@ function changePalette() {
   colorInput();
 }
 
+function update3dChart() {
+  spaceOpt = document.getElementById('chart3dColorspace').value;
+
+  init3dChart();
+}
+
 // Calculate Color and generate Scales
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
@@ -424,6 +434,7 @@ function colorInput() {
   document.getElementById('chart2').innerHTML = ' ';
   document.getElementById('chart3').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
+  spaceOpt = document.getElementById('chart3dColorspace').value;
   var paletteType = document.getElementById('paletteType').value;
   var swatchAmmount = document.getElementById('swatchAmmount').value;
   var shiftInputValue = document.getElementById('shiftInputValue');

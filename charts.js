@@ -112,6 +112,7 @@ function posPointY(d){
     return d.projected.y;
 }
 
+var pi = Math.PI;
 function init3dChart(){
     // console.log(labFullData.z);
 
@@ -128,8 +129,40 @@ function init3dChart(){
             // colorPlot.push({x: LABArrayA[j]/10, y: LABArrayL[j]/10 * -1, z: LABArrayB[j]/10, id: 'point_' + cnt++});
         }
     }
-    for(i=0; i<CAMArrayA.length; i++) {
-      colorPlot.push({x: CAMArrayA[i]/10, y: CAMArrayJ[i]/10 * -1, z: CAMArrayB[i]/10, id: 'point_' + cnt++});
+    if(spaceOpt == 'CAM02') {
+      for(i=0; i<CAMArrayA.length; i++) {
+        colorPlot.push({x: CAMArrayA[i]/10, y: CAMArrayJ[i]/10 * -1, z: CAMArrayB[i]/10, id: 'point_' + cnt++});
+      }
+    }
+    if(spaceOpt == 'LCH') {
+      for(i=0; i<LCHArrayC.length; i++) {
+        colorPlot.push({x: LCHArrayC[i]/10 - 7, y: LCHArrayL[i]/10 * -1, z: LCHArrayH[i]/(10*pi) - 10, id: 'point_' + cnt++});
+      }
+    }
+    if(spaceOpt == 'LAB') {
+      for(i=0; i<LABArrayA.length; i++) {
+        colorPlot.push({x: LABArrayA[i]/10, y: LABArrayL[i]/10 * -1, z: LABArrayB[i]/10, id: 'point_' + cnt++});
+      }
+    }
+    if(spaceOpt == 'HSL') {
+      for(i=0; i<HSLArrayL.length; i++) {
+        colorPlot.push({x: HSLArrayH[i]/(10*pi) - 7, y: HSLArrayL[i]*10 * -1, z: HSLArrayS[i]*10 - 7, id: 'point_' + cnt++});
+      }
+    }
+    if(spaceOpt == 'HSLuv') {
+      for(i=0; i<HSLuvArrayL.length; i++) {
+        colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayV[i]/10 -7, id: 'point_' + cnt++});
+      }
+    }
+    if(spaceOpt == 'HSV') {
+      for(i=0; i<HSVArrayL.length; i++) {
+        colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
+      }
+    }
+    if(spaceOpt == 'RGB') {
+      for(i=0; i<RGBArrayR.length; i++) {
+        colorPlot.push({x: RGBArrayR[i]/25.5 - 7, y: RGBArrayG[i]/25.5 * -1, z: RGBArrayB[i]/25.5 - 10, id: 'point_' + cnt++});
+      }
     }
 
     d3.range(-1, 11, 1).forEach(function(d){ yLine.push([-j, -d, -j]); });
