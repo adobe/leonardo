@@ -618,7 +618,7 @@ function colorInput() {
   getChartColors();
   createAllCharts();
 
-  init3dChart();
+  // init3dChart();
 }
 colorInput();
 
@@ -700,7 +700,7 @@ function createAllCharts() {
   }
   createChart(contrastData, "#contrastChart");
 
-  // init3dChart();
+  init3dChart();
 }
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {

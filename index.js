@@ -190,16 +190,6 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
 function generateContrastColors({colorKeys, base, ratios, colorspace = 'LAB', shift = 1} = {}) {
   swatches = 3000;
 
-  // try {
-  //   if(base == "") throw "base is undefined";
-  //   if(ratios == "") throw "ratios are undefined";
-  //   if(colorKeys == "") throw "color keys are undefined"
-  //   // if(isNaN(ratios)) throw "ratios are not a number";
-  // }
-  // catch(err) {
-  //   console.log = "Error: " + err;
-  // }
-
   createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift});
 
   var Contrasts = d3.range(swatches).map(function(d) {
