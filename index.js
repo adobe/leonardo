@@ -187,8 +187,18 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
 // Test script
 // createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
-function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
+function generateContrastColors({colorKeys, base, ratios, colorspace = 'LAB', shift = 1} = {}) {
   swatches = 3000;
+
+  // try {
+  //   if(base == "") throw "base is undefined";
+  //   if(ratios == "") throw "ratios are undefined";
+  //   if(colorKeys == "") throw "color keys are undefined"
+  //   // if(isNaN(ratios)) throw "ratios are not a number";
+  // }
+  // catch(err) {
+  //   console.log = "Error: " + err;
+  // }
 
   createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift});
 
@@ -218,8 +228,12 @@ function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], 
 }
 
 // Test scripts:
-// generateContrastColors({color: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'});
-// generateContrastColors({color: "#0000ff",base: "#323232",ratios: [-1.25,4.5],tint: "#fefefe",shade: "#010101", colorspace: "LCH"});
+// generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'});
+// generateContrastColors({colorKeys: ["#0000ff"], base: "#323232",ratios: [-1.25,4.5], colorspace: "LCH"});
+// Error Tests:
+// generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'}) // no colors
+// generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', colorspace: 'RGB'}) // no ratios
+
 
 // TODO: see if there's a luminance package?
 // Separate files in a lib folder as well.
