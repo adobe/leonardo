@@ -35,7 +35,6 @@ function paramSetup() {
     // document.getElementById('variableColors').value = params.get('color');
     cr = params.get('colorKeys');
     crs = cr.split(',');
-    console.log(crs);
 
     if(crs[0] == 0) {
       crs = ['#707070'];

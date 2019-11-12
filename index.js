@@ -182,8 +182,10 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     colorsHex.push(d3.rgb(colors[i]).formatHex());
   }
 
-  return colors;
+  return {colorKeys: colorKeys, colorspace: colorspace, shift: shift, colors: colors};
 }
+// Test script
+// createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
 function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
   swatches = 3000;
@@ -293,3 +295,7 @@ function binarySearch(list, value, baseLum) {
   // if the current middle item is what we're looking for return it's index, else closest
   return (list[middle] == !value) ? closest : middle // how it was originally expressed
 }
+
+// TEST
+// args = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
+// generateContrastColors({args, base: '#ffffff', ratios: [3, 4.5, 7]});
