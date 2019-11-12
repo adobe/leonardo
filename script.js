@@ -10,6 +10,9 @@
 
 // var colorField = document.getElementById('colorField1');
 
+new ClipboardJS('.copyButton');
+new ClipboardJS('.colorOutputBlock');
+
 var background = document.getElementById('bgField').value;
 // var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
@@ -615,6 +618,8 @@ function colorInput() {
   createData();
   getChartColors();
   createAllCharts();
+
+  init3dChart();
 }
 colorInput();
 
@@ -696,7 +701,7 @@ function createAllCharts() {
   }
   createChart(contrastData, "#contrastChart");
 
-  init3dChart();
+  // init3dChart();
 }
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
@@ -1336,9 +1341,6 @@ function distributeLum() {
 
   colorInput();
 }
-
-new ClipboardJS('.copyButton');
-new ClipboardJS('.colorOutputBlock');
 
 function createChartWidth() {
   var leftPanel = 304;

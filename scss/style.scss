@@ -120,7 +120,7 @@ body {
   min-width: calc(var(--spectrum-global-dimension-size-3000) + 32px);
   border-right: 2px solid var(--spectrum-panel-border-color);
   padding: 0;
-  overflow: scroll;
+  overflow: hidden;
 }
 .spectrum-Panel--small {
   width: var(--spectrum-global-dimension-size-3000);
@@ -614,7 +614,7 @@ colorOutput-field {
 }
 
 #colorOutputs {
-  max-height: calc(100vh - var(--header-height) - 250px);
+  max-height: calc(100vh - var(--header-height) - 258px);
   overflow: scroll;
 }
 
@@ -785,7 +785,7 @@ a:focus {
   border-radius: 4px;
   padding: 8px;
   margin: 0 -8px;
-  width: 100%;
+  width: calc(100% - 4px);
   overflow: scroll;
 }
 
@@ -921,6 +921,7 @@ g.d3_xy_chart_line path.line {
 #scaleConfigs {
   display: flex;
   flex-direction: column;
+  padding-top: 8px;
 }
 
 .tabcontent {

@@ -115,7 +115,7 @@ function posPointY(d){
 var pi = Math.PI;
 function init3dChart(){
     // console.log(labFullData.z);
-
+    
     var cnt = 0;
     xGrid = [], scatter = [], yLine = [], colorPlot = [];
     // Taking J from origin argument...
