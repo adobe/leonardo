@@ -465,7 +465,7 @@ function colorInput() {
   tempArgs.push(inputColors);
   colorArgs = tempArgs.join("").split(',').filter(String);
   // console.log(colorArgs);
-  var shift = document.getElementById('shiftInput').value;
+  shift = document.getElementById('shiftInput').value;
   shiftInputValue.innerHTML = shift;
 
   if (paletteType == 'Contrast') {
@@ -592,14 +592,25 @@ function colorInput() {
   var copyColors = document.getElementById('copyAllColors');
   copyColors.setAttribute('data-clipboard-text', newColors);
 
-  colors = colors;
-  createData();
-  createAllCharts();
-
   // update URL parameters
   updateParams(inputColors, background.substr(1), ratioInputs, mode);
+
+  createData();
+  getChartColors();
+  createAllCharts();
 }
 colorInput();
+
+function getChartColors() {
+  chartColorArray = [];
+  var chartRGB = createScale({swatches: 51, colorKeys: colorArgs, colorspace: mode, shift: shift});
+
+  for (i=0; i<colorsHex.length; i++) {
+    chartColorArray.push(colorsHex[i]);
+  }
+
+  return chartColorArray;
+}
 
 function createAllCharts() {
   var chart3 = document.getElementById('chart3Wrapper');
@@ -668,7 +679,7 @@ function createAllCharts() {
   }
   createChart(contrastData, "#contrastChart");
 
-  init3dChart();
+  // init3dChart();
 }
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
@@ -1241,8 +1252,8 @@ function interpolateLumArray() {
 // Redistribute contrast swatches
 function distributeExp() {
   sort();
-  colorInput(); // for some reason without this, dist function needs called 2x to get proper output.
 
+  // colorInput(); // for some reason without this, dist function needs called 2x to get proper output.
   interpolateLumArray();
 
   for(i=1; i<Lums.length -1; i++) {
@@ -1255,13 +1266,19 @@ function distributeExp() {
 // Redistribute contrast swatches
 // TODO: It's still broken.
 function distributeTan() {
-  interpolateLumArray();
+  sort();
 
-  for(i=1; i<Lums.length -1; i++) {
-    ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
-  }
+  setTimeout(function() {
+    interpolateLumArray();
 
-  colorInput();
+    for(i=1; i<Lums.length -1; i++) {
+      ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
+    }
+  }, 300)
+
+  setTimeout(function() {
+    colorInput();
+  }, 450)
 }
 
 // Function to distribute swatches based on linear interpolation between HSLuv

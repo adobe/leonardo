@@ -6842,9 +6842,17 @@ main {
 .chartGroup .spectrum-Heading6 {
   margin-bottom: 8px; }
 
+#chart3dWrapper {
+  display: flex;
+  max-width: fit-content;
+  align-self: center; }
+
 #3dchart {
   width: 545px;
   height: 500px; }
+
+._3d.yText {
+  color: #6e6e6e; }
 
 h1 {
   margin-bottom: 0px; }
@@ -7124,8 +7132,3 @@ g.d3_xy_chart_line path.line {
   content: attr(data-title);
   position: absolute;
   top: 0px; }
-
-#3dchartWrapper {
-  display: flex;
-  max-width: fit-content;
-  align-self: center; }

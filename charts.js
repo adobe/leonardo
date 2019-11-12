@@ -1,8 +1,8 @@
-var origin = [300, 300], j = 10, scale = 20, scatter = [], yLine = [], xGrid = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/8;
+var origin = [420, 340], j = 10, scale = 30, scatter = [], yLine = [], xGrid = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
 var dest = document.getElementById('3dchart');
 var svg    = d3.select(dest).call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
 // var color  = d3.scaleOrdinal(d3.schemeCategory10);
-var color  = d3.scaleOrdinal(tempColors);
+var color = d3.scaleOrdinal(colors);
 
 var mx, my, mouseX, mouseY;
 
@@ -57,7 +57,7 @@ function processData(data, tt){
         .attr('cy', posPointY)
         .merge(points)
         .transition().duration(tt)
-        .attr('r', 3)
+        .attr('r', 5)
         // .attr('stroke', function(d){ return d3.color(color(d.id)).darker(3); })
         .attr('fill', function(d){ return color(d.id); })
         .attr('opacity', 1)
@@ -75,7 +75,7 @@ function processData(data, tt){
         .append('path')
         .attr('class', '_3d yScale')
         .merge(yScale)
-        .attr('stroke', 'black')
+        .attr('stroke', '#6e6e6e')
         .attr('stroke-width', .5)
         .attr('d', yScale3d.draw);
 
@@ -96,7 +96,8 @@ function processData(data, tt){
         })
         .attr('x', function(d){ return d.projected.x; })
         .attr('y', function(d){ return d.projected.y; })
-        .text(function(d){ return d[1] <= 0 ? d[1] : ''; });
+        .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; });
+        // .text(function(d) {return d;});
 
     yText.exit().remove();
 
