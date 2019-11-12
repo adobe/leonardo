@@ -425,6 +425,9 @@ function colorInput() {
   mode = document.querySelector('select[name="mode"]').value;
   ratioFields = document.getElementsByClassName('ratioField');
 
+  var chartModeLabel = document.getElementById('colorspaceLabel');
+  chartModeLabel.innerHTML = mode;
+
   // Clamp ratios convert decimal numbers to whole negatives and disallow
   // inputs less than 1 and greater than -1.
   for(i=0; i<ratioFields.length; i++) {
