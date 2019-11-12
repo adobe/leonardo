@@ -5,7 +5,7 @@ function createColors() {
   br.min= "-15";
   br.max= "0";
 
-  var brVal = 0 - br.value;
+  var brVal = br.value * -1; // convert br.value to positive number to use as index
   var conVal = con.value;
 
   // TEST -> Define colors as configs and scales.
@@ -31,13 +31,10 @@ function createColors() {
 
   if(mode.checked == true) {
     // brVal = brVal * 1.5;
-    br.value = -80;
-    brVal = 80;
-    br.min= "-100";
-    br.max= "-70";
-    var base = grayScale.colors[brVal];
+    br.min= "100";
+    br.max= "70";
+    var base = grayScale.colors[80];
   } else {
-    // brVal = brVal * 0.5;
     br.min= "-15";
     br.max= "0";
     var base = grayScale.colors[brVal];
