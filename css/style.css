@@ -6848,14 +6848,16 @@ main {
 #chart3dWrapper {
   display: flex;
   max-width: fit-content;
-  align-self: center; }
+  align-self: center;
+  cursor: move; }
 
 #chart3dColorspace {
   width: 7.5em; }
 
 #3dchart {
   width: 545px;
-  height: 500px; }
+  height: 500px;
+  cursor: move; }
 
 ._3d.yText {
   color: #6e6e6e; }

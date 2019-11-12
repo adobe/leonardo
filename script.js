@@ -230,27 +230,6 @@ function deleteColor(e) {
   colorInput();
 }
 
-// function panelTab(evt, tabName) {
-//   // Declare all variables
-//   var i, tabcontent, tablinks;
-//
-//   // Get all elements with class="tabcontent" and hide them
-//   tabcontent = document.getElementsByClassName("paneltabcontent");
-//   for (i = 0; i < tabcontent.length; i++) {
-//     tabcontent[i].style.display = "none";
-//   }
-//
-//   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-//   tablinks = document.getElementsByClassName("panel-Tab-item");
-//   for (i = 0; i < tablinks.length; i++) {
-//     tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
-//   }
-//
-//   // Show the current tab, and add an "active" class to the button that opened the tab
-//   document.getElementById(tabName).style.display = "flex";
-//   evt.currentTarget.className += " is-selected";
-// }
-
 function openTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
@@ -690,7 +669,7 @@ function createAllCharts() {
   }
   createChart(contrastData, "#contrastChart");
 
-  // init3dChart();
+  init3dChart();
 }
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {

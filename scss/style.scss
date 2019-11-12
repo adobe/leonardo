@@ -560,6 +560,7 @@ main {
   display: flex;
   max-width: fit-content;
   align-self: center;
+  cursor: move;
 }
 
 #chart3dColorspace {
@@ -569,6 +570,7 @@ main {
 #3dchart {
   width: 545px;
   height: 500px;
+  cursor: move;
 }
 
 ._3d.yText {
