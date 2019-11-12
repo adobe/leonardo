@@ -32,9 +32,10 @@ function paramSetup() {
     // document.getElementById('variableColors').value = params.get('color');
     cr = params.get('colorKeys');
     crs = cr.split(',');
+    console.log(crs);
 
     if(crs[0] == 0) {
-      crs = ['#ffff00', '#f26322'];
+      crs = ['#707070'];
     } else { }
 
     for (i=0; i<crs.length; i++) {
@@ -161,7 +162,7 @@ function newColor(e) {
   colorInput();
 }
 
-function addColor(s = '#cacaca') {
+function addColor(s) {
   var colorInputs = document.getElementById('colorInputWrapper');
   var div = document.createElement('div');
 
@@ -210,6 +211,25 @@ function addNewColor() {
   addColor();
   colorInput();
 }
+
+function addBulk() {
+  document.getElementById('bulkColors').style.display = 'block';
+}
+
+function bulkColorInput() {
+  bulkInputs = document.getElementById('bulkColors');
+  bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").split("\n");
+
+  // console.log(bulkValues);
+  for(i=0; i<bulkValues.length; i++) {
+    console.log(bulkValues[i]);
+    addColor(bulkValues[i]);
+  }
+  bulkInputs.style.display = 'none';
+
+  colorInput();
+}
+document.getElementById('bulkColors').addEventListener('blur', bulkColorInput)
 
 // Delete ratio input
 function deleteRatio(e) {

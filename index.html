@@ -73,16 +73,22 @@ governing permissions and limitations under the License.
   <div class="spectrum-Panel-Item">
     <div class="spectrum-Panel-Title">
       <h3 class="spectrum-Heading6">Key Colors</h3>
-      <button id="addColor" onclick="addNewColor()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
-          <use xlink:href="#spectrum-icon-18-Add" />
-        </svg>
-        <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
-      </button>
+      <div class="panelButtons">
+        <button id="copyAllColors" onClick="addBulk()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+          <span class="spectrum-ActionButton-label">Add Bulk</span>
+        </button>
+        <button id="addColor" onclick="addNewColor()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
+        </button>
+      </div>
     </div>
     <div id="colorInputs">
       <!-- <label for="colorInputs" class="spectrum-FieldLabel">Color inputs</label> -->
       <div id="colorInputWrapper"></div>
+      <textarea id="bulkColors" class="spectrum-Textfield spectrum-Textfield--multiline"></textarea>
     </div>
     <div id="scaleConfigs">
       <form class="spectrum-Form">

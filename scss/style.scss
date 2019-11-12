@@ -697,6 +697,20 @@ input[type="color"]::-webkit-color-swatch {
   overflow: scroll;
 }
 
+#colorInputs {
+  position: relative;
+}
+
+#bulkColors {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  resize: none;
+  display: none;
+}
+
 a:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
