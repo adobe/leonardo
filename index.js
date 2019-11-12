@@ -8,8 +8,7 @@
 // OF ANY KIND, either express or implied. See the License for the specific language
 // governing permissions and limitations under the License.
 
-function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
-  swatches = 3000;
+function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace = 'LAB', shift = 1, fullScale = true} = {}) {
   var Domains = [];
 
   for(i=0; i < colorKeys.length; i++){
@@ -67,10 +66,13 @@ function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], 
   });
 
   ColorsArray = [];
-  console.log(ColorsArray);
 
   if(colorspace == 'CAM02') {
-    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    if(fullScale == true) {
+      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    } else {
+      ColorsArray = ColorsArray.concat(sortedColor);
+    }
     ColorsArray = ColorsArray.map(function(d) {
       return d3.jab(d);
     });
@@ -84,14 +86,22 @@ function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], 
     ColorsArray = ColorsArray.map(function(d) {
       return d3.hcl(d);
     });
-    ColorsArray = ColorsArray.concat(d3.hcl(NaN, 0, 100), sortedColor, d3.hcl(NaN, 0, 0));
+    if(fullScale == true) {
+      ColorsArray = ColorsArray.concat(d3.hcl(NaN, 0, 100), sortedColor, d3.hcl(NaN, 0, 0));
+    } else {
+      ColorsArray = ColorsArray.concat(sortedColor);
+    }
     scale = d3.scaleLinear()
       .range(ColorsArray)
       .domain(domains)
       .interpolate(d3.interpolateHcl);
   }
   if(colorspace == 'LAB') {
-    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    if(fullScale == true) {
+      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    } else {
+      ColorsArray = ColorsArray.concat(sortedColor);
+    }
     ColorsArray = ColorsArray.map(function(d) {
       return d3.lab(d);
     });
@@ -102,7 +112,11 @@ function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], 
       .interpolate(d3.interpolateLab);
   }
   if(colorspace == 'HSL') {
-    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    if(fullScale == true) {
+      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    } else {
+      ColorsArray = ColorsArray.concat(sortedColor);
+    }
     ColorsArray = ColorsArray.map(function(d) {
       return d3.hsl(d);
     });
@@ -115,14 +129,22 @@ function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], 
     ColorsArray = ColorsArray.map(function(d) {
       return d3.hsluv(d);
     });
-    ColorsArray = ColorsArray.concat(d3.hsluv(NaN, NaN, 100), sortedColor, d3.hsluv(NaN, NaN, 0));
+    if(fullScale == true) {
+      ColorsArray = ColorsArray.concat(d3.hsluv(NaN, NaN, 100), sortedColor, d3.hsluv(NaN, NaN, 0));
+    } else {
+      ColorsArray = ColorsArray.concat(sortedColor);
+    }
     scale = d3.scaleLinear()
       .range(ColorsArray)
       .domain(domains)
       .interpolate(d3.interpolateHsluv);
   }
   if(colorspace == 'RGB') {
-    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    if(fullScale == true) {
+      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    } else {
+      ColorsArray = ColorsArray.concat(sortedColor);
+    }
     ColorsArray = ColorsArray.map(function(d) {
       return d3.rgb(d);
     });
@@ -132,7 +154,11 @@ function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], 
       .interpolate(d3.interpolateRgb);
   }
   if(colorspace == 'HSV') {
-    ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    if(fullScale == true) {
+      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
+    } else {
+      ColorsArray = ColorsArray.concat(sortedColor);
+    }
     ColorsArray = ColorsArray.map(function(d) {
       return d3.hsv(d);
     });
@@ -155,6 +181,14 @@ function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], 
   for (i=0; i<colors.length; i++) {
     colorsHex.push(d3.rgb(colors[i]).formatHex());
   }
+
+  return colors;
+}
+
+function generateContrastColors({colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], base = '#ffffff', ratios = [3, 4.5, 7], colorspace = 'LAB', shift = 1} = {}) {
+  swatches = 3000;
+
+  createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift});
 
   var Contrasts = d3.range(swatches).map(function(d) {
     var rgbArray = [d3.rgb(scale(d)).r, d3.rgb(scale(d)).g, d3.rgb(scale(d)).b];

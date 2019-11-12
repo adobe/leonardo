@@ -21,6 +21,7 @@ var colorOutputField = document.getElementById('colorOutput');
 
 function paramSetup() {
   colorspaceOptions();
+  paletteTypeOptions();
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   pathName = url.pathname;
@@ -229,27 +230,6 @@ function deleteColor(e) {
   colorInput();
 }
 
-// function panelTab(evt, tabName) {
-//   // Declare all variables
-//   var i, tabcontent, tablinks;
-//
-//   // Get all elements with class="tabcontent" and hide them
-//   tabcontent = document.getElementsByClassName("paneltabcontent");
-//   for (i = 0; i < tabcontent.length; i++) {
-//     tabcontent[i].style.display = "none";
-//   }
-//
-//   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-//   tablinks = document.getElementsByClassName("panel-Tab-item");
-//   for (i = 0; i < tablinks.length; i++) {
-//     tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
-//   }
-//
-//   // Show the current tab, and add an "active" class to the button that opened the tab
-//   document.getElementById(tabName).style.display = "flex";
-//   evt.currentTarget.className += " is-selected";
-// }
-
 function openTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
@@ -363,7 +343,9 @@ function createDemo(c, z) {
 
 function colorspaceOptions() {
   colorspace = document.getElementById('mode');
+  chart3dColorspace = document.getElementById('chart3dColorspace');
   colorspace.options.length = 0;
+  chart3dColorspace.options.length = 0;
 
   opts = {
     'LCH': 'Lch',
@@ -377,7 +359,51 @@ function colorspaceOptions() {
 
   for(index in opts) {
     colorspace.options[colorspace.options.length] = new Option(opts[index], index);
+    chart3dColorspace.options[colorspace.options.length] = new Option(opts[index], index);
   }
+  chart3dColorspace.value = 'CAM02';
+}
+
+function paletteTypeOptions() {
+  paletteType = document.getElementById('paletteType');
+  paletteType.options.length = 0;
+
+  opts = {
+    'Contrast': 'Contrast Based',
+    'Sequential': 'Sequential'
+  };
+
+  for(index in opts) {
+    paletteType.options[paletteType.options.length] = new Option(opts[index], index);
+  }
+
+  paletteType.value = 'Contrast';
+}
+
+function changePalette() {
+  var paletteType = document.getElementById('paletteType').value;
+  var wrapSequence = document.getElementById('sequentialWrapper');
+  var wrapRatio = document.getElementById('ratiosWrapper');
+  var sliders = document.getElementById('sliderWrapper');
+
+  if (paletteType == 'Contrast') {
+    wrapSequence.style.display = 'none';
+    wrapRatio.style.display = 'flex';
+    sliders.style.display = 'flex';
+  }
+  if (paletteType == 'Sequential') {
+    wrapSequence.style.display = 'flex';
+    wrapRatio.style.display = 'none';
+    sliders.style.display = 'none';
+  }
+
+  colorInput();
+}
+
+function update3dChart() {
+  spaceOpt = document.getElementById('chart3dColorspace').value;
+
+  init3dChart();
 }
 
 // Calculate Color and generate Scales
@@ -387,6 +413,9 @@ function colorInput() {
   document.getElementById('chart2').innerHTML = ' ';
   document.getElementById('chart3').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
+  spaceOpt = document.getElementById('chart3dColorspace').value;
+  var paletteType = document.getElementById('paletteType').value;
+  var swatchAmmount = document.getElementById('swatchAmmount').value;
   var shiftInputValue = document.getElementById('shiftInputValue');
   shiftInputValue.innerHTML = ' ';
 
@@ -421,17 +450,26 @@ function colorInput() {
   }
 
   // Convert input value into a split array of hex values.
-  var tempArgs = [];
+  tempArgs = [];
   // remove any whitespace from inputColors
   tempArgs.push(inputColors);
   colorArgs = tempArgs.join("").split(',').filter(String);
   // console.log(colorArgs);
-  var shift = document.getElementById('shiftInput').value;
+  shift = document.getElementById('shiftInput').value;
   shiftInputValue.innerHTML = shift;
 
-  generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
-  // scaleColors({color: colorArgs, colorspace: mode});
-  // getContrast({base: background, ratios: ratioInputs});
+  if (paletteType == 'Contrast') {
+    generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  }
+  if (paletteType == 'Sequential') {
+    var clamping = document.getElementById('sequentialClamp').checked;
+    if (clamping == true) {
+      noClamp = false;
+    } else {
+      noClamp = true;
+    }
+    newColors = createScale({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: noClamp});
+  }
 
   Values = [];
   maxVal = 100;
@@ -462,32 +500,47 @@ function colorInput() {
   })
 
   // Then, remove first and last value from sqrtValues array to get slider values
+  if (paletteType == 'Contrast') {
+    for(i=0; i<newColors.length; i++) {
+      // Calculate value of color and apply to slider position/value
+      var val = d3.hsluv(newColors[i]).v;
 
-  for(i=0; i<newColors.length; i++) {
-    // Calculate value of color and apply to slider position/value
-    var val = d3.hsluv(newColors[i]).v;
+      var newVal = sqrtValues[i+1];
 
-    var newVal = sqrtValues[i+1];
+      val = newVal;
+      // Find corresponding input/slider id
+      var slider = document.getElementById(rfIds[i] + '-sl')
+      slider.value = val;
 
-    val = newVal;
-    // Find corresponding input/slider id
-    var slider = document.getElementById(rfIds[i] + '-sl')
-    slider.value = val;
-
-    // apply color to subsequent swatch
-    var swatch = document.getElementById(rfIds[i] + '-sw')
-    swatch.style.backgroundColor = newColors[i];
+      // apply color to subsequent swatch
+      var swatch = document.getElementById(rfIds[i] + '-sw')
+      swatch.style.backgroundColor = newColors[i];
+    }
   }
 
   // Generate Gradient
-  for (var i = 0; i < colors.length; i++) {
-    var container = document.getElementById('colors');
-    var div = document.createElement('div');
-    div.className = 'block';
-    div.style.backgroundColor = colors[i];
+  if (paletteType == 'Sequential') {
+    var gradientColors = createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
-    container.appendChild(div);
+    for (var i = 0; i < gradientColors.length; i++) {
+      var container = document.getElementById('colors');
+      var div = document.createElement('div');
+      div.className = 'block';
+      div.style.backgroundColor = gradientColors[i];
+
+      container.appendChild(div);
+    }
+  } else {
+    for (var i = 0; i < colors.length; i++) {
+      var container = document.getElementById('colors');
+      var div = document.createElement('div');
+      div.className = 'block';
+      div.style.backgroundColor = colors[i];
+
+      container.appendChild(div);
+    }
   }
+
 
   var backgroundR = d3.rgb(background).r;
   var backgroundG = d3.rgb(background).g;
@@ -529,14 +582,25 @@ function colorInput() {
   var copyColors = document.getElementById('copyAllColors');
   copyColors.setAttribute('data-clipboard-text', newColors);
 
-  // console.log(newColors);
-  createData();
-  createAllCharts();
-
   // update URL parameters
   updateParams(inputColors, background.substr(1), ratioInputs, mode);
+
+  createData();
+  getChartColors();
+  createAllCharts();
 }
 colorInput();
+
+function getChartColors() {
+  chartColorArray = [];
+  var chartRGB = createScale({swatches: 51, colorKeys: colorArgs, colorspace: mode, shift: shift});
+
+  for (i=0; i<colorsHex.length; i++) {
+    chartColorArray.push(colorsHex[i]);
+  }
+
+  return chartColorArray;
+}
 
 function createAllCharts() {
   var chart3 = document.getElementById('chart3Wrapper');
@@ -604,6 +668,8 @@ function createAllCharts() {
     createChart(rgbDataB, "#chart3");
   }
   createChart(contrastData, "#contrastChart");
+
+  init3dChart();
 }
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
@@ -786,6 +852,14 @@ function createData() {
   dataX = fillRange(0, CAMArrayJ.length - 1);
   dataXcyl = fillRange(0, LCHArrayL.length - 1);
   dataXcontrast = fillRange(0, ratioInputs.length - 1);
+
+  labFullData = [
+    {
+      x: LABArrayL,
+      y: LABArrayA,
+      z: LABArrayB
+    }
+  ];
 
   camDataJ = [
     {
@@ -1168,8 +1242,8 @@ function interpolateLumArray() {
 // Redistribute contrast swatches
 function distributeExp() {
   sort();
-  colorInput(); // for some reason without this, dist function needs called 2x to get proper output.
 
+  // colorInput(); // for some reason without this, dist function needs called 2x to get proper output.
   interpolateLumArray();
 
   for(i=1; i<Lums.length -1; i++) {
@@ -1182,13 +1256,19 @@ function distributeExp() {
 // Redistribute contrast swatches
 // TODO: It's still broken.
 function distributeTan() {
-  interpolateLumArray();
+  sort();
 
-  for(i=1; i<Lums.length -1; i++) {
-    ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
-  }
+  setTimeout(function() {
+    interpolateLumArray();
 
-  colorInput();
+    for(i=1; i<Lums.length -1; i++) {
+      ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
+    }
+  }, 300)
+
+  setTimeout(function() {
+    colorInput();
+  }, 450)
 }
 
 // Function to distribute swatches based on linear interpolation between HSLuv
@@ -1208,10 +1288,7 @@ function distributeLum() {
     var baseRgbArray = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
 
     NewContrast.push(contrast(rgbArray, baseRgbArray).toFixed(2));
-
-    // console.log(NewRGB.toString());
   }
-  console.log(NewContrast);
 
   // Concatenate first and last contrast array with new contrast array (middle)
   newRatios = [];
@@ -1253,7 +1330,8 @@ function createChartHeight() {
   var offset = headerHeight + tabHeight + paddings;
   var viewportHeight = getViewport()[1];
 
-  return (viewportHeight - offset) / 2;
+  // return (viewportHeight - offset) / 2;
+  return 180;
 }
 
 function getViewport() {

@@ -257,7 +257,7 @@ body {
   justify-content: center;
   align-items: center;
   /* overflow: hidden; */
-  width: 40px;
+  width: 54px;
   height: var(--gradient-slider-height);
   left: 0;
   bottom: var(--gradient-slider-height);
@@ -479,10 +479,22 @@ input[type=color]:focus {
   position: relative;
 }
 
+.spectrum-Form {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+
+  .spectrum-Slider {
+    padding-right: 8px;
+  }
+}
+
 main {
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  // overflow: scroll;
+  max-height: calc(100vh - 56px);
+  overflow: hidden;
 }
 #contentTabWrapper {
   display: flex;
@@ -495,7 +507,7 @@ main {
   }
 }
 #demoWrapper {
-  padding: 0 0 56px 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   // justify-content: center;
@@ -511,7 +523,8 @@ main {
   flex-direction: column;
   width: fit-content;
   height: 100%;
-  padding: 32px;
+  padding: 16px;
+  overflow: scroll;
 }
 
 .charts {
@@ -520,6 +533,7 @@ main {
   justify-content: flex-start;
   max-width: fit-content;
   margin-bottom: 24px;
+  padding: 0 16px;
 }
 #chart1,
 #chart2,
@@ -540,6 +554,27 @@ main {
   .spectrum-Heading6 {
     margin-bottom: 8px;
   }
+}
+
+#chart3dWrapper {
+  display: flex;
+  max-width: fit-content;
+  align-self: center;
+  cursor: move;
+}
+
+#chart3dColorspace {
+  width: 7.5em;
+}
+
+#3dchart {
+  width: 545px;
+  height: 500px;
+  cursor: move;
+}
+
+._3d.yText {
+  color: #6e6e6e;
 }
 
 h1 {
@@ -743,12 +778,16 @@ a:focus {
   width: 100%;
 }
 
-#ratiosWrapper {
+#ratiosWrapper,
+#sequentialWrapper {
   max-height: 100%;
   margin-top: 6px;
   padding: 2px; /* This ensures focus rings are visible */
   overflow: scroll;
 }
+ #sequentialWrapper {
+   display: none;
+ }
 
 #ratios {
   max-height: calc(var(--gradient-height) - 110px);
@@ -851,6 +890,16 @@ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
 g.d3_xy_chart_line path.line {
   stroke: #76D0C5;
 }
+// Overrides for grid
+._3d.grid {
+  stroke: #cacaca;
+  stroke-width: 0.3;
+  fill: #eaeaea;
+  fill-opacity: 0.9;
+}
+
+
+
 
 #scaleConfigs {
   display: flex;
