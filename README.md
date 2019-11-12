@@ -47,9 +47,9 @@ generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]})
 
 Or, pass a scale function so you can reuse the color scale elsewhere
 ```
-myColor = createScale({colorKeys: ['#57B8D9', '#7B59FF', '#00004F'], colorspace: 'LAB', swatches: 8}); // returns 8 colors and parameters
+myColors = createScale({colorKeys: ['#57B8D9', '#7B59FF', '#00004F'], colorspace: 'LAB', swatches: 8}); // returns 8 colors and parameters
 
-generateContrastColors({ myColors, ratios: [3.5, 4.5, 7], base: "#ffffff"}) // returns contrast-based colors
+generateContrastColors( myColors,{ratios: [3.5, 4.5, 7], base: "#ffffff"}) // returns contrast-based colors
 ```
 
 #### Local setup

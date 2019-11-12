@@ -712,6 +712,9 @@ function updateParams(c, b, r, m) {
   params.set('ratios', r);
   params.set('mode', m);
 
+  var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
+  cStrings = cStrings + '"';
+
   // retain pathname if present
   if(pathName == '/') {
     window.history.replaceState({}, '', '/?' + params); // update the page's URL.
@@ -722,7 +725,7 @@ function updateParams(c, b, r, m) {
   var p = document.getElementById('params');
   p.innerHTML = " ";
   var call = 'generateContrastColors({ ';
-  var pcol = 'colorKeys: [' + c + '], ';
+  var pcol = 'colorKeys: [' + cStrings + '], ';
   var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';
   var pmod = ' colorspace: "' + m + '"});';

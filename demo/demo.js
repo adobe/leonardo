@@ -1,3 +1,32 @@
+// TEST -> Define colors as configs and scales.
+var baseRatios = [-1.1,1,1.25,1.94,3,3.99,5.22,6.96,9.30,12.45,15];
+var uiRatios = [1.3,3.5,5];
+
+var grayScale = createScale({
+  swatches: 100,
+  colorKeys: ['#000036', '#f9ffff'],
+  colorspace: 'LAB'
+});
+var blueScale = createScale({
+  colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
+  colorspace: "CAM02"
+});
+
+var base = grayScale.colors[8];
+
+var grayOptions = {
+  base: base,
+};
+var red = {
+  colorKeys: ["#cb1404"],
+  base: base,
+  colorspace: "LAB"
+};
+var blue = {
+  base: base,
+};
+
+
 function createColors() {
   var br = document.getElementById('sliderBrightness');
   var con = document.getElementById('sliderContrast');
@@ -16,26 +45,24 @@ function createColors() {
     brVal = brVal * 0.5;
   }
 
-  base = d3.rgb(base).brighter(brVal);
 
-  var grayRatios = [-1.1,1,1.25,1.94,3,3.99,5.22,6.96,9.30,12.45,15];
-  var redRatios = [1.3,3.5,5];
-  var blueRatios = [1.3,3,4.5];
+  // base = d3.rgb(base).brighter(brVal);
+  // base = grayScale.colors[4];
 
-  grayRatios = grayRatios.map(function(d) {
+  baseRatios = baseRatios.map(function(d) {
     var newVal = ((d-1) * conVal) + 1;
     return newVal;
   });
-  blueRatios = blueRatios.map(function(d) {
+  uiRatios = uiRatios.map(function(d) {
     var newVal = ((d-1) * conVal) + 1;
     return newVal;
   });
   // console.log(grayRatios);
 
   // adaptColor();
-  grayArray = generateContrastColors({ colorKeys: ["#707080"], base: base, ratios: grayRatios, colorspace: "LAB"});
-  redArray = generateContrastColors({ colorKeys: ["#cb1404"], base: base, ratios: redRatios, colorspace: "LAB"});
-  blueArray = generateContrastColors({ colorKeys: ["#2a77a7"], base: base, ratios: blueRatios, colorspace: "CAM02"});
+  grayArray = generateContrastColors(grayScale, grayOptions, {ratios: baseRatios});
+  redArray = generateContrastColors(redScale, redOptions, {ratios: uiRatios});
+  blueArray = generateContrastColors(blueScale, blueOptions, {ratios: uiRatios});
 
   document.documentElement.style
     .setProperty('--gray50', grayArray[0]);
