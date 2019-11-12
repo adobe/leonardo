@@ -36,6 +36,7 @@
     "@adobe/focus-ring-polyfill": "^0.1.5",
     "@adobe/spectrum-css-workflow-icons": "^1.0.0",
     "@spectrum-css/button": "^2.0.2",
+    "@spectrum-css/buttongroup": "^2.0.2",
     "@spectrum-css/checkbox": "^2.0.2",
     "@spectrum-css/dropdown": "^2.1.1",
     "@spectrum-css/fieldgroup": "^2.0.2",

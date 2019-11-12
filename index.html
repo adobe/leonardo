@@ -73,8 +73,11 @@ governing permissions and limitations under the License.
   <div class="spectrum-Panel-Item">
     <div class="spectrum-Panel-Title">
       <h3 class="spectrum-Heading6">Key Colors</h3>
-      <div class="panelButtons">
-        <button id="copyAllColors" onClick="addBulk()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+      <div class="spectrum-ButtonGroup">
+        <button id="clearAll" onClick="clearAllColors()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+          <span class="spectrum-ActionButton-label">Clear</span>
+        </button>
+        <button id="addBulk" onClick="addBulk()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
           <span class="spectrum-ActionButton-label">Add Bulk</span>
         </button>
         <button id="addColor" onclick="addNewColor()" class="spectrum-ActionButton spectrum-ActionButton--quiet">

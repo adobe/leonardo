@@ -222,14 +222,18 @@ function bulkColorInput() {
 
   // console.log(bulkValues);
   for(i=0; i<bulkValues.length; i++) {
-    console.log(bulkValues[i]);
-    addColor(bulkValues[i]);
+    addColor(d3.color(bulkValues[i]).formatHex());
   }
   bulkInputs.style.display = 'none';
 
   colorInput();
 }
 document.getElementById('bulkColors').addEventListener('blur', bulkColorInput)
+
+function clearAllColors() {
+  document.getElementById('colorInputWrapper').innerHTML = ' ';
+  colorInput();
+}
 
 // Delete ratio input
 function deleteRatio(e) {
