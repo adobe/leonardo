@@ -49,6 +49,7 @@ governing permissions and limitations under the License.
   <script src="./node_modules/d3-cam02/build/d3-cam02.min.js"></script>
   <script src="./node_modules/d3-hsluv/build/d3-hsluv.min.js"></script>
   <script src="./node_modules/d3-hsv/build/d3-hsv.min.js"></script>
+  <script src="./node_modules/d3-3d/build/d3-3d.min.js"></script>
   <script src="./node_modules/@adobe/focus-ring-polyfill/index.js"></script>
   <script src="./node_modules/clipboard/dist/clipboard.min.js"></script>
   <script src="./components/colorcontrols.js"></script>
@@ -72,16 +73,25 @@ governing permissions and limitations under the License.
   <div class="spectrum-Panel-Item">
     <div class="spectrum-Panel-Title">
       <h3 class="spectrum-Heading6">Key Colors</h3>
-      <button id="addColor" onclick="addNewColor()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
-          <use xlink:href="#spectrum-icon-18-Add" />
-        </svg>
-        <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
-      </button>
+      <div class="spectrum-ButtonGroup">
+        <button id="clearAll" onClick="clearAllColors()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+          <span class="spectrum-ActionButton-label">Clear</span>
+        </button>
+        <button id="addBulk" onClick="addBulk()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+          <span class="spectrum-ActionButton-label">Add Bulk</span>
+        </button>
+        <button id="addColor" onclick="addNewColor()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
+        </button>
+      </div>
     </div>
     <div id="colorInputs">
       <!-- <label for="colorInputs" class="spectrum-FieldLabel">Color inputs</label> -->
       <div id="colorInputWrapper"></div>
+      <textarea id="bulkColors" class="spectrum-Textfield spectrum-Textfield--multiline"></textarea>
     </div>
     <div id="scaleConfigs">
       <form class="spectrum-Form">
@@ -93,15 +103,6 @@ governing permissions and limitations under the License.
             <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
               <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
             </svg>
-          </div>
-        </div>
-        <div class="spectrum-Form-item" style="display: none;">
-          <div class="spectrum-Slider">
-            <div class="spectrum-Slider-labelContainer">
-              <label class="spectrum-Slider-label" id="shiftInputLabel" for="shiftInput">Shift scale</label>
-              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="shiftInputLabel" id="shiftInputValue">14</div>
-            </div>
-            <input class="spectrum-Slider-controls" type="range" value="1" min="0.25" max="1.5" step="0.01" id="shiftInput" name="shiftInput" onInput="colorInput()"></input>
           </div>
         </div>
       </form>
@@ -177,35 +178,84 @@ governing permissions and limitations under the License.
       <div id="sliderWrapper">
       </div>
     </div>
-    <div id="ratiosWrapper" class="paneltabcontent">
-      <div class="colorField">
-        <input type="color" class="" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
-        <label for="bgField" class="spectrum-FieldLabel">Base color</label>
+    <div class="">
+      <form class="spectrum-Form" style="display:none;">
+        <div class="spectrum-Form-item">
+          <label for="paletteType_Dropdown" class="spectrum-FieldLabel">Palette Type</label>
+          <div class="spectrum-Dropdown" id="paletteType_Dropdown">
+            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="paletteType" onInput="changePalette()" id="paletteType">
+            </select>
+            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </div>
+        </div>
+      </form>
+      <div id="sequentialWrapper">
+        <form class="spectrum-Form spectrum-Form--labelsAbove">
+          <div class="spectrum-Form-item">
+            <label for="sequenceAmount" class="spectrum-Form-itemLabel">Number of swatches</label>
+            <div class="spectrum-Form-itemField">
+              <input type="number" id="swatchAmmount" value="8" name="swatchAmmount" class="spectrum-Textfield" onInput="colorInput()"></input>
+            </div>
+          </div>
+          <div class="spectrum-Form-item">
+            <div class="spectrum-Slider">
+              <div class="spectrum-Slider-labelContainer">
+                <label class="spectrum-Slider-label" id="shiftInputLabel" for="shiftInput">Shift scale</label>
+                <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="shiftInputLabel" id="shiftInputValue">14</div>
+              </div>
+              <input class="spectrum-Slider-controls" type="range" value="1" min="0.25" max="1.5" step="0.01" id="shiftInput" name="shiftInput" onInput="colorInput()"></input>
+            </div>
+          </div>
+          <div class="spectrum-Form-item">
+              <label class="spectrum-Form-itemLabel" for="spectrum-textinput-instance">Threshold</label>
+              <div class="spectrum-Form-itemField">
+                <div class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
+                  <label class="spectrum-Checkbox">
+                    <input type="checkbox" class="spectrum-Checkbox-input" id="sequentialClamp" onInput="colorInput()">
+                    <span class="spectrum-Checkbox-box">
+                      <svg class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                        <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
+                      </svg>
+                    </span>
+                    <span class="spectrum-Checkbox-label">Clamp to key colors</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+        </form>
       </div>
-      <div id="contrastConfigs">
-        <button id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-          <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
-            <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
-          </svg>
-          <span class="spectrum-ActionButton-label">Sort</span>
-        </button>
-        <button id="sort" onclick="distributeTan()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
-            <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
-          </svg>
-          <span class="spectrum-ActionButton-label">Distribute</span>
-        </button>
-      </div>
+      <div id="ratiosWrapper" class="paneltabcontent">
+        <div class="colorField">
+          <input type="color" class="" id="bgField" value="#ffffff" onChange="colorInput()" ></input>
+          <label for="bgField" class="spectrum-FieldLabel">Base color</label>
+        </div>
+        <div id="contrastConfigs">
+          <button id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <svg class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
+              <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
+            </svg>
+            <span class="spectrum-ActionButton-label">Sort</span>
+          </button>
+          <button id="sort" onclick="distributeTan()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
+              <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
+            </svg>
+            <span class="spectrum-ActionButton-label">Distribute</span>
+          </button>
+        </div>
 
-      <div id="ratios">
-        <label for="ratio" class="spectrum-FieldLabel">Contrast ratios</label>
+        <div id="ratios">
+          <label for="ratio" class="spectrum-FieldLabel">Contrast ratios</label>
+        </div>
+        <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
+          <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add Swatch</span>
+        </button>
       </div>
-      <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
-        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-          <use xlink:href="#spectrum-icon-18-Add" />
-        </svg>
-        <span class="spectrum-ActionButton-label">Add Swatch</span>
-      </button>
     </div>
   </div>
 </div>
@@ -228,8 +278,26 @@ governing permissions and limitations under the License.
 
   <div class="tabcontent" id="metricsWrapper">
     <!-- <h3 class="spectrum-Heading6">Color Graphs</h3> -->
+      <form class="spectrum-Form">
+        <div class="spectrum-Form-item">
+          <label for="paletteType_Dropdown" class="spectrum-FieldLabel spectrum-FieldLabel--left">Preview 3d colorspace</label>
+          <div class="spectrum-Dropdown spectrum-Dropdown--quiet" id="chart3dColorspace_dropdown">
+            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="chart3dColorspace" onInput="update3dChart()" id="chart3dColorspace">
+            </select>
+            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </div>
+        </div>
+      </form>
+    <div id="chart3dWrapper">
+      <svg id="3dchart" width="800" height="420" style="min-height: 420px;"></svg>
+    </div>
     <div class="charts">
-      <div id="chart1"></div>
+      <div class="chartGroup">
+        <h3 class="spectrum-Heading6">Interpolation path in <span id="colorspaceLabel"></span> colorspace</h3>
+        <div id="chart1"></div>
+      </div>
       <div id="chart2"></div>
     </div>
     <div class="charts" id="chart3Wrapper">
@@ -284,6 +352,7 @@ governing permissions and limitations under the License.
   </div>
 </div>
 <script src="script.js"></script>
+<script src="charts.js"></script>
 <script src="node_modules/loadicons/index.js"></script>
 <script>
   loadIcons('node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg');

@@ -5399,6 +5399,48 @@ a.spectrum-ActionButton {
 .spectrum-Checkbox.is-invalid:active .spectrum-Checkbox-label {
   color: var(--spectrum-checkbox-text-color-error-down, var(--spectrum-global-color-red-700)); }
 
+.spectrum-ButtonGroup {
+  display: -ms-flexbox;
+  display: flex; }
+
+.spectrum-ButtonGroup .spectrum-Button,
+.spectrum-ButtonGroup .spectrum-ActionButton,
+.spectrum-ButtonGroup .spectrum-Tool {
+  -ms-flex-negative: 0;
+  flex-shrink: 0; }
+
+.spectrum-ButtonGroup .spectrum-Button + .spectrum-Button {
+  margin-left: var(--spectrum-buttongroup-button-gap-x, var(--spectrum-global-dimension-static-size-200)); }
+
+.spectrum-ButtonGroup .spectrum-ActionButton + .spectrum-ActionButton {
+  margin-left: var(--spectrum-actionbuttongroup-text-button-gap-x, var(--spectrum-global-dimension-size-100)); }
+
+.spectrum-ButtonGroup .spectrum-Tool + .spectrum-Tool {
+  margin-left: var(--spectrum-toolgroup-text-button-gap-x, var(--spectrum-global-dimension-size-100)); }
+
+.spectrum-ButtonGroup--vertical {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+
+.spectrum-ButtonGroup--vertical .spectrum-ActionButton-label {
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  text-align: left; }
+
+.spectrum-ButtonGroup--vertical .spectrum-Button + .spectrum-Button {
+  margin-top: var(--spectrum-buttongroup-button-gap-y, var(--spectrum-global-dimension-static-size-200));
+  margin-left: 0; }
+
+.spectrum-ButtonGroup--vertical .spectrum-ActionButton + .spectrum-ActionButton {
+  margin-top: var(--spectrum-actionbuttongroup-text-button-gap-y, var(--spectrum-global-dimension-size-100));
+  margin-left: 0; }
+
+.spectrum-ButtonGroup--vertical .spectrum-Tool + .spectrum-Tool {
+  margin-top: var(--spectrum-toolgroup-text-button-gap-y, var(--spectrum-global-dimension-size-100));
+  margin-left: 0; }
+
 .spectrum-Tooltip, .spectrum-Tooltip-Target:hover:after {
   visibility: hidden;
   opacity: 0;
@@ -6575,7 +6617,7 @@ body {
   justify-content: center;
   align-items: center;
   /* overflow: hidden; */
-  width: 40px;
+  width: 54px;
   height: var(--gradient-slider-height);
   left: 0;
   bottom: var(--gradient-slider-height); }
@@ -6782,10 +6824,18 @@ input[type=color]:focus {
 .spectrum-Form-item {
   position: relative; }
 
+.spectrum-Form {
+  display: flex;
+  flex-direction: column;
+  margin: 0; }
+  .spectrum-Form .spectrum-Slider {
+    padding-right: 8px; }
+
 main {
   display: flex;
   flex-direction: column;
-  overflow: scroll; }
+  max-height: calc(100vh - 56px);
+  overflow: hidden; }
 
 #contentTabWrapper {
   display: flex;
@@ -6796,7 +6846,7 @@ main {
     margin-bottom: -1px; }
 
 #demoWrapper {
-  padding: 0 0 56px 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -6810,14 +6860,17 @@ main {
   flex-direction: column;
   width: fit-content;
   height: 100%;
-  padding: 32px; }
+  padding: 16px;
+  overflow: scroll; }
 
 .charts {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  align-items: flex-end;
   max-width: fit-content;
-  margin-bottom: 24px; }
+  margin-bottom: 24px;
+  padding: 0 16px; }
 
 #chart1,
 #chart2,
@@ -6827,13 +6880,31 @@ main {
   background-color: #ffffff;
   padding: 8px 16px;
   border-radius: 4px;
-  border: 1px solid #e1e1e1; }
+  border: 1px solid #e1e1e1;
+  height: 200px; }
 
 #chart2 {
   margin-left: 24px; }
 
 .chartGroup .spectrum-Heading6 {
   margin-bottom: 8px; }
+
+#chart3dWrapper {
+  display: flex;
+  max-width: fit-content;
+  align-self: center;
+  cursor: move; }
+
+#chart3dColorspace {
+  width: 7.5em; }
+
+#3dchart {
+  width: 545px;
+  height: 500px;
+  cursor: move; }
+
+._3d.yText {
+  color: #6e6e6e; }
 
 h1 {
   margin-bottom: 0px; }
@@ -6936,6 +7007,18 @@ input[type="color"]::-webkit-color-swatch {
   max-height: 88px;
   overflow: scroll; }
 
+#colorInputs {
+  position: relative; }
+
+#bulkColors {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  resize: none;
+  display: none; }
+
 a:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
@@ -7003,12 +7086,16 @@ a:focus {
   flex-direction: column;
   width: 100%; }
 
-#ratiosWrapper {
+#ratiosWrapper,
+#sequentialWrapper {
   max-height: 100%;
   margin-top: 6px;
   padding: 2px;
   /* This ensures focus rings are visible */
   overflow: scroll; }
+
+#sequentialWrapper {
+  display: none; }
 
 #ratios {
   max-height: calc(var(--gradient-height) - 110px);
@@ -7091,6 +7178,12 @@ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
 
 g.d3_xy_chart_line path.line {
   stroke: #76D0C5; }
+
+._3d.grid {
+  stroke: #cacaca;
+  stroke-width: 0.3;
+  fill: #eaeaea;
+  fill-opacity: 0.9; }
 
 #scaleConfigs {
   display: flex;
