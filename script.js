@@ -637,65 +637,59 @@ function createAllCharts() {
   var chart3 = document.getElementById('chart3Wrapper');
 
   if(mode=="LCH") {
-    // createChartHeader('Lightness', 'chart1');
-    // createChart(lchDataL, "#chart1");
-    createChartHeader('Chroma', 'chart1');
+    createChartHeader('Chroma / Lightness', 'chart1');
     createChart(lchDataC, "#chart1");
-    createChartHeader('Hue', 'chart2');
+    createChartHeader('Hue / Lightness', 'chart2');
     createChart(lchDataH, "#chart2");
-    chart3.style.display = 'none';
+    createChartHeader('Hue / Chroma', 'chart3');
+    createChart(lchDataCH, "#chart3");
   }
   if(mode=="LAB") {
-    // createChartHeader('Lightness', 'chart1');
-    // createChart(labDataL, "#chart1");
-    createChartHeader('Green / Red', 'chart1');
+    createChartHeader('Green Red / Lightness', 'chart1');
     createChart(labDataA, "#chart1");
-    createChartHeader('Blue / Yellow', 'chart2');
+    createChartHeader('Blue Yellow / Lightness', 'chart2');
     createChart(labDataB, "#chart2");
-    chart3.style.display = 'none';
+    createChartHeader('Green Red / Blue Yellow', 'chart3');
+    createChart(labDataAB, "#chart3");
   }
   if(mode=="CAM02") {
-    // createChartHeader('Lightness', 'chart1');
-    // createChart(camDataJ, "#chart1");
-    createChartHeader('Green / Red', 'chart1');
+    createChartHeader('Green Red / Lightness', 'chart1');
     createChart(camDataA, "#chart1");
-    createChartHeader('Blue / Yellow', 'chart2');
+    createChartHeader('Blue Yellow / Lightness', 'chart2');
     createChart(camDataB, "#chart2");
-    chart3.style.display = 'none';
+    createChartHeader('Green Red / Blue Yellow', 'chart3');
+    createChart(camDataAB, "#chart3");
   }
   if(mode=="HSL") {
-    createChartHeader('Hue', 'chart1');
+    createChartHeader('Hue / Lightness', 'chart1');
     createChart(hslDataH, "#chart1");
-    createChartHeader('Saturation', 'chart2');
+    createChartHeader('Saturation / Lightness', 'chart2');
     createChart(hslDataS, "#chart2");
-    // createChartHeader('Lightness', 'chart3');
-    // createChart(hslDataL, "#chart3");
-    chart3.style.display = 'none';
+    createChartHeader('Hue / Saturation', 'chart3');
+    createChart(hslDataHS, "#chart3");
   }
   if(mode=="HSLuv") {
-    createChartHeader('Hue', 'chart1');
+    createChartHeader('Hue / Lightness', 'chart1');
     createChart(hsluvDataL, "#chart1");
-    createChartHeader('Saturation', 'chart2');
+    createChartHeader('Saturation / Lightness', 'chart2');
     createChart(hsluvDataU, "#chart2");
-    // createChartHeader('Lightness', 'chart3');
-    // createChart(hsluvDataV, "#chart3");
-    chart3.style.display = 'none';
+    createChartHeader('Hue / Saturation', 'chart3');
+    createChart(hsluvDataLU, "#chart3");
   }
   if(mode=="HSV") {
-    createChartHeader('Hue', 'chart1');
+    createChartHeader('Hue / Lightness', 'chart1');
     createChart(hsvDataH, "#chart1");
-    createChartHeader('Saturation', 'chart2');
+    createChartHeader('Saturation / Lightness', 'chart2');
     createChart(hsvDataS, "#chart2");
-    // createChartHeader('Lightness', 'chart3');
-    // createChart(hsvDataL, "#chart3");
-    chart3.style.display = 'none';
+    createChartHeader('Hue / Saturation', 'chart3');
+    createChart(hsvDataHS, "#chart3");
   }
   if(mode=="RGB") {
-    createChartHeader('Red', 'chart1');
+    createChartHeader('Red / Green', 'chart1');
     createChart(rgbDataR, "#chart1");
-    createChartHeader('Green', 'chart2');
+    createChartHeader('Green / Blue', 'chart2');
     createChart(rgbDataG, "#chart2");
-    createChartHeader('Blue', 'chart3');
+    createChartHeader('Blue / Red', 'chart3');
     createChart(rgbDataB, "#chart3");
   }
   createChart(contrastData, "#contrastChart");
@@ -913,6 +907,12 @@ function createData() {
       y: CAMArrayB
     }
   ];
+  camDataAB = [
+    {
+      x: CAMArrayA,
+      y: CAMArrayB
+    }
+  ];
   labDataL = [
     {
       x: dataX,
@@ -928,6 +928,12 @@ function createData() {
   labDataB = [
     {
       x: dataX,
+      y: LABArrayB
+    }
+  ];
+  labDataAB = [
+    {
+      x: LABArrayA,
       y: LABArrayB
     }
   ];
@@ -949,22 +955,28 @@ function createData() {
       y: LCHArrayH
     }
   ];
+  lchDataCH = [
+    {
+      x: LCHArrayC,
+      y: LCHArrayH
+    }
+  ];
   rgbDataR = [
     {
-      x: dataX,
-      y: RGBArrayR
+      x: RGBArrayR,
+      y: RGBArrayG
     }
   ];
   rgbDataG = [
     {
-      x: dataX,
-      y: RGBArrayG
+      x: RGBArrayG,
+      y: RGBArrayB
     }
   ];
   rgbDataB = [
     {
-      x: dataX,
-      y: RGBArrayB
+      x: RGBArrayB,
+      y: RGBArrayR
     }
   ];
   hslDataH = [
@@ -985,6 +997,12 @@ function createData() {
       y: HSLArrayL
     }
   ];
+  hslDataHS = [
+    {
+      x: HSLArrayH,
+      y: HSLArrayS
+    }
+  ];
   hsvDataH = [
     {
       x: dataXcyl,
@@ -1003,6 +1021,12 @@ function createData() {
       y: HSVArrayL
     }
   ];
+  hsvDataHS = [
+    {
+      x: HSVArrayH,
+      y: HSVArrayS
+    }
+  ];
   hsluvDataL = [
     {
       x: dataX,
@@ -1019,6 +1043,12 @@ function createData() {
     {
       x: dataX,
       y: HSLuvArrayV
+    }
+  ];
+  hsluvDataLU = [
+    {
+      x: HSLuvArrayL,
+      y: HSLuvArrayU
     }
   ];
   contrastData = [
@@ -1353,6 +1383,7 @@ function createChartWidth() {
 
   return (viewportWidth - offset) / 2;
 }
+
 
 function createChartHeight() {
   var headerHeight = 58;
