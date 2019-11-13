@@ -6854,7 +6854,8 @@ main {
   max-height: calc(100vh - 56px);
   overflow: scroll; }
 
-#metricsWrapper {
+#chartsWrapper,
+#modelWrapper {
   background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
   display: flex;
   flex-direction: column;
@@ -6893,14 +6894,13 @@ main {
   display: flex;
   max-width: fit-content;
   align-self: center;
+  height: 100%;
   cursor: move; }
 
 #chart3dColorspace {
   width: 7.5em; }
 
 #3dchart {
-  width: 545px;
-  height: 500px;
   cursor: move; }
 
 ._3d.yText {

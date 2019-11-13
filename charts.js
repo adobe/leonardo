@@ -1,5 +1,28 @@
-var origin = [420, 340], j = 10, scale = 30, scatter = [], yLine = [], xGrid = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+function create3dChartWidth() {
+  var leftPanel = 304;
+  var rightPanel = 240;
+  var paddings = 72;
+  var offset = leftPanel + rightPanel + paddings;
+  var viewportWidth = getViewport()[0];
+
+  return (viewportWidth - offset);
+}
+function create3dChartHeight() {
+  var headerHeight = 58;
+  var tabHeight = 48;
+  var paddings = 164/2;
+  var offset = headerHeight + tabHeight + paddings;
+  var viewportHeight = getViewport()[1];
+
+  return (viewportHeight - offset);
+  // return 180;
+}
+var chartWidth = create3dChartWidth();
+var chartHeight = create3dChartHeight();
+var origin = [chartWidth/1.85, chartHeight/1.5], j = 10, scale = 30, scatter = [], yLine = [], xGrid = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
 var dest = document.getElementById('3dchart');
+dest.style.width = chartWidth;
+dest.style.height = chartHeight;
 var svg    = d3.select(dest).call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
 // var color  = d3.scaleOrdinal(d3.schemeCategory10);
 // var color = d3.scaleOrdinal(colors);

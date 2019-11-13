@@ -518,7 +518,8 @@ main {
   overflow: scroll;
 }
 
-#metricsWrapper {
+#chartsWrapper,
+#modelWrapper {
   background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
   display: flex;
   flex-direction: column;
@@ -563,6 +564,7 @@ main {
   display: flex;
   max-width: fit-content;
   align-self: center;
+  height: 100%;
   cursor: move;
 }
 
@@ -571,8 +573,8 @@ main {
 }
 
 #3dchart {
-  width: 545px;
-  height: 500px;
+  // width: 545px;
+  // height: 500px;
   cursor: move;
 }
 

@@ -263,10 +263,13 @@ governing permissions and limitations under the License.
   <div id="contentTabWrapper">
     <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
       <div id="tabDemo" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'demoWrapper')">
-        <label class="spectrum-Tabs-itemLabel">UI Demo</label>
+        <label class="spectrum-Tabs-itemLabel">Example</label>
       </div>
-      <div id="tabMetrics" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'metricsWrapper')">
-        <label class="spectrum-Tabs-itemLabel">Color metrics</label>
+      <div id="tabCharts" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'chartsWrapper')">
+        <label class="spectrum-Tabs-itemLabel">Charts</label>
+      </div>
+      <div id="tabModel" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'modelWrapper')">
+        <label class="spectrum-Tabs-itemLabel">Model</label>
       </div>
       <!-- <div id="tabDatavis" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'datavisWrapper')">
         <label class="spectrum-Tabs-itemLabel">Datavis Demo</label>
@@ -276,26 +279,10 @@ governing permissions and limitations under the License.
   </div>
 
 
-  <div class="tabcontent" id="metricsWrapper">
-    <!-- <h3 class="spectrum-Heading6">Color Graphs</h3> -->
-      <form class="spectrum-Form">
-        <div class="spectrum-Form-item">
-          <label for="paletteType_Dropdown" class="spectrum-FieldLabel spectrum-FieldLabel--left">Preview 3d colorspace</label>
-          <div class="spectrum-Dropdown spectrum-Dropdown--quiet" id="chart3dColorspace_dropdown">
-            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="chart3dColorspace" onInput="update3dChart()" id="chart3dColorspace">
-            </select>
-            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-            </svg>
-          </div>
-        </div>
-      </form>
-    <div id="chart3dWrapper">
-      <svg id="3dchart" width="800" height="420" style="min-height: 420px;"></svg>
-    </div>
+  <div class="tabcontent" id="chartsWrapper">
     <div class="charts">
       <div class="chartGroup">
-        <h3 class="spectrum-Heading6">Interpolation path in <span id="colorspaceLabel"></span> colorspace</h3>
+        <h3 class="spectrum-Heading6">Interpolation paths in <span id="colorspaceLabel"></span> colorspace</h3>
         <div id="chart1"></div>
       </div>
       <div id="chart2"></div>
@@ -308,6 +295,25 @@ governing permissions and limitations under the License.
         <h3 class="spectrum-Heading6">Contrast Ratio Distribution</h3>
         <div id="contrastChart"></div>
       </div>
+    </div>
+  </div>
+
+  <div class="tabcontent" id="modelWrapper">
+    <!-- <h3 class="spectrum-Heading6">Color Graphs</h3> -->
+      <form class="spectrum-Form">
+        <div class="spectrum-Form-item">
+          <label for="paletteType_Dropdown" class="spectrum-FieldLabel spectrum-FieldLabel--left">View model:</label>
+          <div class="spectrum-Dropdown spectrum-Dropdown--quiet" id="chart3dColorspace_dropdown">
+            <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="chart3dColorspace" onInput="update3dChart()" id="chart3dColorspace">
+            </select>
+            <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </div>
+        </div>
+      </form>
+    <div id="chart3dWrapper">
+      <svg id="3dchart"></svg>
     </div>
   </div>
 
