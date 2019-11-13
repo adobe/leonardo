@@ -40,9 +40,16 @@ npm i @adobe/leonardo-contrast-colors
 ```
 (coming soon)
 
-Pass your colors and desired ratios. See additional options here.
+Pass your colors and desired ratios. See additional options below.
 ```
-generateContrastColors(colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]); // returns rgb value
+generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]}); // returns rgb value
+```
+
+Or, pass a scale function so you can reuse the color scale elsewhere
+```
+myColors = createScale({colorKeys: ['#57B8D9', '#7B59FF', '#00004F'], colorspace: 'LAB', swatches: 8}); // returns 8 colors and parameters
+
+generateContrastColors( myColors,{ratios: [3.5, 4.5, 7], base: "#ffffff"}) // returns contrast-based colors
 ```
 
 #### Local setup
@@ -53,7 +60,7 @@ generateContrastColors(colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]); 
 
 ### API Reference
 ```
-generateContrastColors(colorKeys, base, ratios, colorspace)
+generateContrastColors({colorKeys, base, ratios, colorspace})
 ```
 
 Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`.
@@ -73,6 +80,19 @@ Parameters are destructured and need to be explicitly called, such as `colorKeys
 - [HSLuv](https://en.wikipedia.org/wiki/HSLuv)
 - [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)
 - [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
+
+
+```
+createScale({swatches, colorKeys, colorspace, shift, fullScale})
+```
+Alternatively, you can pass a **scale** as your arguments for the `getContrastColors()` function. This is especially helpful if you want to reuse a color scale in other instances.
+
+**swatches** *number* Amount of colors you wish to return from the scale. Used in creating sequential color palettes, where contrast is not considered in generation of color values.
+
+**shift** *number* This is an exponential shift applied to the color scale for adjusting the transition from light to dark.
+
+**fullScale** *boolean* (default true) This determines whether you generate a scale that goes to full black and white. False clamps the scale to your lightest and darkest key colors. **In development**
+
 
 ### Why are not all contrast ratios available?
 You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.

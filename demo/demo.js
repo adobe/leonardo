@@ -2,40 +2,58 @@ function createColors() {
   var br = document.getElementById('sliderBrightness');
   var con = document.getElementById('sliderContrast');
   var mode = document.getElementById('darkMode');
+  br.min= "-15";
+  br.max= "0";
 
-  var brVal = br.value;
+  var brVal = br.value * -1; // convert br.value to positive number to use as index
   var conVal = con.value;
 
-  // console.log(conVal);
+  // TEST -> Define colors as configs and scales.
+  var baseRatios = [-1.1,1,1.25,1.94,3,3.99,5.22,6.96,9.30,12.45,15];
+  var uiRatios = [1.3,3.5,5];
+
+  var grayScale = createScale({
+    swatches: 100,
+    colorKeys: ['#000036', '#f9ffff'],
+    colorspace: 'LAB'
+  });
+  var blueScale = createScale({
+    colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
+    colorspace: "CAM02"
+  });
+
+  var redScale = createScale({
+    colorKeys: ["#ea2825","#ffc1ad","#fd937e"],
+    colorspace: "LAB"
+  });
+
+  var base = grayScale.colors[4];
 
   if(mode.checked == true) {
-    var base = '#15141D';
-    brVal = brVal * 1.5;
+    // brVal = brVal * 1.5;
+    br.min= "100";
+    br.max= "70";
+    var base = grayScale.colors[80];
   } else {
-    var base = '#d1d1d7';
-    brVal = brVal * 0.5;
+    br.min= "-15";
+    br.max= "0";
+    var base = grayScale.colors[brVal];
   }
 
-  base = d3.rgb(base).brighter(brVal);
-
-  var grayRatios = [-1.1,1,1.25,1.94,3,3.99,5.22,6.96,9.30,12.45,15];
-  var redRatios = [1.3,3.5,5];
-  var blueRatios = [1.3,3,4.5];
-
-  grayRatios = grayRatios.map(function(d) {
+  baseRatios = baseRatios.map(function(d) {
     var newVal = ((d-1) * conVal) + 1;
     return newVal;
   });
-  blueRatios = blueRatios.map(function(d) {
+  uiRatios = uiRatios.map(function(d) {
     var newVal = ((d-1) * conVal) + 1;
     return newVal;
   });
   // console.log(grayRatios);
 
   // adaptColor();
-  grayArray = generateContrastColors({ colorKeys: ["#707080"], base: base, ratios: grayRatios, tint: "#cacad0", shade: "#333351", colorspace: "LAB"});
-  redArray = generateContrastColors({ colorKeys: ["#cb1404"], base: base, ratios: redRatios, tint: "#ffbbb9", shade: "#b10000", colorspace: "LAB"});
-  blueArray = generateContrastColors({ colorKeys: ["#2a77a7"], base: base, ratios: blueRatios, tint: "#71b4ca", shade: "#331f4f", colorspace: "CAM02"});
+  grayArray = generateContrastColors({colorKeys: grayScale.colorKeys, colorspace: grayScale.colorspace, base: base, ratios: baseRatios});
+  redArray = generateContrastColors({colorKeys: redScale.colorKeys, colorspace: redScale.colorspace, base: base, ratios: uiRatios});
+  blueArray = generateContrastColors({colorKeys: blueScale.colorKeys, colorspace: blueScale.colorspace, base: base, ratios: uiRatios});
 
   document.documentElement.style
     .setProperty('--gray50', grayArray[0]);

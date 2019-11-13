@@ -2,7 +2,7 @@ var origin = [420, 340], j = 10, scale = 30, scatter = [], yLine = [], xGrid = [
 var dest = document.getElementById('3dchart');
 var svg    = d3.select(dest).call(d3.drag().on('drag', dragged).on('start', dragStart).on('end', dragEnd)).append('g');
 // var color  = d3.scaleOrdinal(d3.schemeCategory10);
-var color = d3.scaleOrdinal(colors);
+// var color = d3.scaleOrdinal(colors);
 
 var mx, my, mouseX, mouseY;
 
@@ -30,6 +30,7 @@ var yScale3d = d3._3d()
     .scale(scale);
 
 function processData(data, tt){
+    var color = d3.scaleOrdinal(colors);
 
     /* ----------- GRID ----------- */
 
@@ -115,7 +116,7 @@ function posPointY(d){
 var pi = Math.PI;
 function init3dChart(){
     // console.log(labFullData.z);
-    
+
     var cnt = 0;
     xGrid = [], scatter = [], yLine = [], colorPlot = [];
     // Taking J from origin argument...

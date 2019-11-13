@@ -35,7 +35,6 @@ function paramSetup() {
     // document.getElementById('variableColors').value = params.get('color');
     cr = params.get('colorKeys');
     crs = cr.split(',');
-    console.log(crs);
 
     if(crs[0] == 0) {
       crs = ['#707070'];
@@ -619,7 +618,7 @@ function colorInput() {
   getChartColors();
   createAllCharts();
 
-  init3dChart();
+  // init3dChart();
 }
 colorInput();
 
@@ -701,7 +700,7 @@ function createAllCharts() {
   }
   createChart(contrastData, "#contrastChart");
 
-  // init3dChart();
+  init3dChart();
 }
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
@@ -713,6 +712,9 @@ function updateParams(c, b, r, m) {
   params.set('ratios', r);
   params.set('mode', m);
 
+  var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
+  cStrings = cStrings + '"';
+
   // retain pathname if present
   if(pathName == '/') {
     window.history.replaceState({}, '', '/?' + params); // update the page's URL.
@@ -723,7 +725,7 @@ function updateParams(c, b, r, m) {
   var p = document.getElementById('params');
   p.innerHTML = " ";
   var call = 'generateContrastColors({ ';
-  var pcol = 'colorKeys: [' + c + '], ';
+  var pcol = 'colorKeys: [' + cStrings + '], ';
   var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';
   var pmod = ' colorspace: "' + m + '"});';
