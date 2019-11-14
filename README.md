@@ -1,4 +1,4 @@
-![Leonardo logo](https://git.corp.adobe.com/nbaldwin/leonardo-color/blob/master/Leonardo_Logo_sm.svg)
+![Leonardo logo](https://git.corp.adobe.com/nbaldwin/leonardo-color/blob/master/Leonardo_Logo_sm.svg) <!-- .element height="100px" width="100px" -->
 
 # Leonardo
 Authoring adaptive color palettes for generating color based on a desired contrast ratio.
