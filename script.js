@@ -134,6 +134,19 @@ function addRatio(v, s = '#cacaca') {
   ratios.appendChild(div);
 }
 
+function copyColorsFeedback() {
+  id = document.getElementById('copyAllColors');
+  id.innerHTML = `<span class="spectrum-ActionButton-label">Copied!</span>`;
+
+  setTimeout(function() {id.innerHTML = `<span class="spectrum-ActionButton-label">Copy</span>`;}, 3000);
+}
+function copyFunctionFeedback() {
+  id = document.getElementById('copyParams');
+  id.innerHTML = `<span class="spectrum-ActionButton-label">Copied!</span>`;
+
+  setTimeout(function() {id.innerHTML = `<span class="spectrum-ActionButton-label">Copy</span>`;}, 3000);
+}
+
 function updateVal(e) {
   var parent = e.target.parentNode.id;
   var id = parent.replace('-item', '');
