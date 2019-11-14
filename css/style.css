@@ -6423,6 +6423,63 @@ a.spectrum-ActionButton {
   width: 2px;
   left: -2px; }
 
+input[type="color"] {
+  -webkit-appearance: none;
+  height: 32px;
+  width: 32px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  border-collapse: collapse;
+  outline: none;
+  border-radius: 4px; }
+  input[type="color"].spectrum-Textfield-swatch {
+    margin-top: var(--spectrum-global-dimension-size-100);
+    margin-left: var(--spectrum-global-dimension-size-100); }
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0px;
+  border: none; }
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px; }
+
+input[type="color"]:disabled {
+  border-color: var(--spectrum-global-color-gray-200); }
+
+.slider:focus,
+input[type=color]:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus); }
+
+input[type="color"]::-webkit-color-swatch {
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.25); }
+
+input[type="color"]::-moz-color-swatch {
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.25); }
+
+.color-Item > input[type="color"] {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.color-Item > input[type="color"]::-webkit-color-swatch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.color-Item > input[type="color"]::-moz-color-swatch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+input[type="color"].colorInput + .spectrum-ActionButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
+
 :root {
   --gradient-height-offset: 284px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
@@ -6651,51 +6708,6 @@ body {
   background: #ffffff;
   border-radius: 32px;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3); }
-
-input[type="color"] {
-  -webkit-appearance: none;
-  height: 32px;
-  width: 32px;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  background-color: transparent;
-  border: none;
-  border-collapse: collapse;
-  outline: none;
-  border-radius: 4px; }
-  input[type="color"].spectrum-Textfield-swatch {
-    margin-top: var(--spectrum-global-dimension-size-100);
-    margin-left: var(--spectrum-global-dimension-size-100); }
-
-input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0px;
-  border: none; }
-
-input[type="color"]::-webkit-color-swatch {
-  border: none;
-  border-radius: 4px; }
-
-input[type="color"]:disabled {
-  border-color: var(--spectrum-global-color-gray-200); }
-
-input[type="color"].colorInput {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0; }
-
-input[type="color"].colorInput::-webkit-color-swatch {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0; }
-
-input[type="color"].colorInput + .spectrum-ActionButton {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0; }
-
-.slider:focus,
-input[type=color]:focus {
-  outline: none;
-  border: none;
-  box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus); }
 
 .spectrum-Slider {
   /* THUMB */
@@ -6954,36 +6966,13 @@ colorOutput-field {
   align-items: center;
   min-width: 40px;
   margin-bottom: 8px; }
-  .colorField input[type='color'] {
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
+  .colorField input[type="color"] {
     margin-right: 8px; }
-  .colorField input[type="color"]::-webkit-color-swatch {
-    border-radius: 4px;
-    border-left-width: 1px;
-    border-left-style: solid;
-    border-left-color: rgba(0, 0, 0, 0.25);
-    border-top-width: 1px;
-    border-top-style: solid;
-    border-top-color: rgba(0, 0, 0, 0.25);
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: rgba(0, 0, 0, 0.25); }
   .colorField textarea {
     height: 64px; }
 
 .colorField ~ .colorField {
   margin-left: 16px; }
-
-input[type="color"] {
-  border-radius: 5px; }
-
-input[type="color"]::-webkit-color-swatch {
-  border-radius: 5px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.25); }
 
 .colorField--horizontal {
   flex-direction: row; }
