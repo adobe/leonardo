@@ -28,15 +28,15 @@ function createColors() {
   });
 
   var base = grayScale.colors[4];
+  br.min= "-15";
+  br.max= "0";
 
   if(mode.checked == true) {
-    // brVal = brVal * 1.5;
-    br.min= "100";
-    br.max= "70";
-    var base = grayScale.colors[80];
+    brVal = 84 + brVal;
+
+    var base = grayScale.colors[brVal];
   } else {
-    br.min= "-15";
-    br.max= "0";
+
     var base = grayScale.colors[brVal];
   }
 
