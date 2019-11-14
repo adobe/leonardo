@@ -338,7 +338,7 @@ governing permissions and limitations under the License.
   <div class="spectrum-Panel-Item">
     <div class="spectrum-Panel-Title">
       <h3 class="spectrum-Heading6">Generated Colors</h3>
-      <button id="copyAllColors" class="spectrum-ActionButton copyButton">
+      <button id="copyAllColors" class="spectrum-ActionButton copyButton" onClick="copyColorsFeedback()">
         <span class="spectrum-ActionButton-label">Copy</span>
       </button>
     </div>
@@ -348,7 +348,7 @@ governing permissions and limitations under the License.
   <div class="spectrum-Panel-Item">
     <div class="spectrum-Panel-Title">
       <h3 class="spectrum-Heading6">Function Parameters</h3>
-      <button data-clipboard-target="#params" class="spectrum-ActionButton copyButton">
+      <button id="copyParams" data-clipboard-target="#params" class="spectrum-ActionButton copyButton" onClick="copyFunctionFeedback()">
         <span class="spectrum-ActionButton-label">Copy</span>
       </button>
     </div>

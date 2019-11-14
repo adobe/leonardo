@@ -134,6 +134,19 @@ function addRatio(v, s = '#cacaca') {
   ratios.appendChild(div);
 }
 
+function copyColorsFeedback() {
+  id = document.getElementById('copyAllColors');
+  id.innerHTML = `<span class="spectrum-ActionButton-label">Copied!</span>`;
+
+  setTimeout(function() {id.innerHTML = `<span class="spectrum-ActionButton-label">Copy</span>`;}, 3000);
+}
+function copyFunctionFeedback() {
+  id = document.getElementById('copyParams');
+  id.innerHTML = `<span class="spectrum-ActionButton-label">Copied!</span>`;
+
+  setTimeout(function() {id.innerHTML = `<span class="spectrum-ActionButton-label">Copy</span>`;}, 3000);
+}
+
 function updateVal(e) {
   var parent = e.target.parentNode.id;
   var id = parent.replace('-item', '');
@@ -220,7 +233,7 @@ function addBulk() {
 
 function bulkColorInput() {
   bulkInputs = document.getElementById('bulkColors');
-  bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").split("\n");
+  bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").split("\n");
 
   // console.log(bulkValues);
   for(i=0; i<bulkValues.length; i++) {
@@ -483,23 +496,19 @@ function colorInput() {
   // remove any whitespace from inputColors
   tempArgs.push(inputColors);
   colorArgs = tempArgs.join("").split(',').filter(String);
-  // console.log(colorArgs);
+
   shift = document.getElementById('shiftInput').value;
   shiftInputValue.innerHTML = shift;
+  clamping = document.getElementById('sequentialClamp').checked;
 
   if (paletteType == 'Contrast') {
     generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   }
   if (paletteType == 'Sequential') {
-    var clamping = document.getElementById('sequentialClamp').checked;
-    if (clamping == true) {
-      noClamp = false;
-    } else {
-      noClamp = true;
-    }
-    newColors = createScale({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: noClamp});
+    generateSequentialColors({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, clamp: clamping});
   }
 
+  // Create values for sliders
   Values = [];
   maxVal = 100;
 
@@ -528,38 +537,35 @@ function colorInput() {
     }
   })
 
-  // Then, remove first and last value from sqrtValues array to get slider values
-  if (paletteType == 'Contrast') {
-    for(i=0; i<newColors.length; i++) {
-      // Calculate value of color and apply to slider position/value
-      var val = d3.hsluv(newColors[i]).v;
+  for(i=0; i<newColors.length; i++) {
+    // Calculate value of color and apply to slider position/value
+    var val = d3.hsluv(newColors[i]).v;
 
-      var newVal = sqrtValues[i+1];
+    var newVal = sqrtValues[i+1];
 
-      val = newVal;
-      // Find corresponding input/slider id
-      var slider = document.getElementById(rfIds[i] + '-sl')
-      slider.value = val;
+    val = newVal;
+    // Find corresponding input/slider id
+    var slider = document.getElementById(rfIds[i] + '-sl')
+    slider.value = val;
 
-      // apply color to subsequent swatch
-      var swatch = document.getElementById(rfIds[i] + '-sw')
-      swatch.style.backgroundColor = newColors[i];
-    }
+    // apply color to subsequent swatch
+    var swatch = document.getElementById(rfIds[i] + '-sw')
+    swatch.style.backgroundColor = newColors[i];
   }
 
   // Generate Gradient
-  if (paletteType == 'Sequential') {
-    var gradientColors = createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
-
-    for (var i = 0; i < gradientColors.length; i++) {
-      var container = document.getElementById('colors');
-      var div = document.createElement('div');
-      div.className = 'block';
-      div.style.backgroundColor = gradientColors[i];
-
-      container.appendChild(div);
-    }
-  } else {
+  // if (paletteType == 'Sequential') {
+  //   var gradientColors = createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  //
+  //   for (var i = 0; i < gradientColors.length; i++) {
+  //     var container = document.getElementById('colors');
+  //     var div = document.createElement('div');
+  //     div.className = 'block';
+  //     div.style.backgroundColor = gradientColors[i];
+  //
+  //     container.appendChild(div);
+  //   }
+  // } else {
     for (var i = 0; i < colors.length; i++) {
       var container = document.getElementById('colors');
       var div = document.createElement('div');
@@ -568,7 +574,7 @@ function colorInput() {
 
       container.appendChild(div);
     }
-  }
+  // }
 
 
   var backgroundR = d3.rgb(background).r;
@@ -624,6 +630,7 @@ colorInput();
 
 function getChartColors() {
   chartColorArray = [];
+  // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
   var chartRGB = createScale({swatches: 51, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
   for (i=0; i<colorsHex.length; i++) {
