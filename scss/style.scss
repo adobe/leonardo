@@ -500,11 +500,12 @@ main {
 #contentTabWrapper {
   display: flex;
   height: 47px;
+  min-height: fit-content;
   padding: 0 16px;
-  box-shadow: 0 -2px inset var(--spectrum-panel-border-color);
+  border-bottom: 2px solid var(--spectrum-panel-border-color);
 
   .spectrum-Tabs {
-    margin-bottom: -1px;
+    margin-bottom: -4px;
   }
 }
 #demoWrapper {
@@ -531,6 +532,7 @@ main {
 
 .charts {
   display: flex;
+  min-height: fit-content;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-end;
@@ -737,6 +739,7 @@ a:focus {
   position: relative;
   display: flex;
   flex-direction: row;
+  min-height: fit-content;
   margin-bottom: var(--spectrum-global-dimension-size-100);
   margin-right: var(--spectrum-global-dimension-size-100);
 }
@@ -818,6 +821,8 @@ a:focus {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  min-height: fit-content;
+
   &:first-of-type {
     margin-top: auto;
   }
