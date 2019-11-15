@@ -1,4 +1,4 @@
-![Leonardo logo](https://git.corp.adobe.com/nbaldwin/leonardo-color/blob/master/Leonardo_Logo_sm.png)
+![Leonardo logo](https://git.corp.adobe.com/nbaldwin/leonardo-color/blob/master/Leonardo_Logo.png)
 
 # Leonardo
 Authoring adaptive color palettes for generating color based on a desired contrast ratio.
