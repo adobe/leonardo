@@ -29,12 +29,12 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     .domain([1, swatches])
     .range([1, swatches]);
 
-  sqrtDomains = domains.map(function(d) {
+  sqrtDomains = domains.map((d) => {
     if(sqrtDomains(d) < 0) {
       return 0;
     }
     return sqrtDomains(d);
-  })
+  });
 
   // Transform square root in order to smooth gradient
   domains = sqrtDomains;
@@ -72,9 +72,7 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
     }
-    ColorsArray = ColorsArray.map(function(d) {
-      return d3.jab(d);
-    });
+    ColorsArray = ColorsArray.map(d => d3.jab(d));
 
     scale = d3.scaleLinear()
       .range(ColorsArray)
@@ -82,9 +80,7 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
       .interpolate(d3.interpolateJab);
   }
   if(colorspace == 'LCH') {
-    ColorsArray = ColorsArray.map(function(d) {
-      return d3.hcl(d);
-    });
+    ColorsArray = ColorsArray.map(d => d3.hcl(d));
     if(fullScale == true) {
       ColorsArray = ColorsArray.concat(d3.hcl(NaN, 0, 100), sortedColor, d3.hcl(NaN, 0, 0));
     } else {
@@ -101,9 +97,7 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
     }
-    ColorsArray = ColorsArray.map(function(d) {
-      return d3.lab(d);
-    });
+    ColorsArray = ColorsArray.map(d => d3.lab(d));
 
     scale = d3.scaleLinear()
       .range(ColorsArray)
@@ -116,18 +110,14 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
     }
-    ColorsArray = ColorsArray.map(function(d) {
-      return d3.hsl(d);
-    });
+    ColorsArray = ColorsArray.map(d => d3.hsl(d));
     scale = d3.scaleLinear()
       .range(ColorsArray)
       .domain(domains)
       .interpolate(d3.interpolateHsl);
   }
   if(colorspace == 'HSLuv') {
-    ColorsArray = ColorsArray.map(function(d) {
-      return d3.hsluv(d);
-    });
+    ColorsArray = ColorsArray.map(d => d3.hsluv(d));
     if(fullScale == true) {
       ColorsArray = ColorsArray.concat(d3.hsluv(NaN, NaN, 100), sortedColor, d3.hsluv(NaN, NaN, 0));
     } else {
@@ -144,9 +134,7 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
     }
-    ColorsArray = ColorsArray.map(function(d) {
-      return d3.rgb(d);
-    });
+    ColorsArray = ColorsArray.map(d => d3.rgb(d));
     scale = d3.scaleLinear()
       .range(ColorsArray)
       .domain(domains)
@@ -158,22 +146,16 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
     }
-    ColorsArray = ColorsArray.map(function(d) {
-      return d3.hsv(d);
-    });
+    ColorsArray = ColorsArray.map(d => d3.hsv(d));
     scale = d3.scaleLinear()
       .range(ColorsArray)
       .domain(domains)
       .interpolate(d3.interpolateHsv);
   }
 
-  var Colors = d3.range(swatches).map(function(d) {
-    return scale(d)
-  });
+  var Colors = d3.range(swatches).map(d => scale(d));
 
-  let colors = Colors.filter(function (el) {
-    return el != null;
-  });
+  let colors = Colors.filter(el => el != null);
 
   // Return colors as hex values for interpolators.
   let colorsHex = [];
@@ -199,9 +181,7 @@ function generateContrastColors({colorKeys, base, ratios, colorspace = 'LAB', sh
     return Number(ca);
   });
 
-  let contrasts = Contrasts.filter(function (el) {
-    return el != null;
-  });
+  let contrasts = Contrasts.filter(el => el != null);
 
   var baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
 
