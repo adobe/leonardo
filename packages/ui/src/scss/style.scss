@@ -423,7 +423,7 @@ body {
 main {
   display: flex;
   flex-direction: column;
-  // overflow: scroll;
+  // overflow: auto;
   max-height: calc(100vh - 56px);
   overflow: hidden;
 }
@@ -446,7 +446,7 @@ main {
   width: 100%;
   height: 100%;
   max-height: calc(100vh - 56px);
-  overflow: scroll;
+  overflow: auto;
 }
 
 #chartsWrapper,
@@ -457,7 +457,7 @@ main {
   width: fit-content;
   height: 100%;
   padding: 16px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .charts {
@@ -504,7 +504,7 @@ main {
   width: 7.5em;
 }
 
-#3dchart {
+.chart3D {
   // width: 545px;
   // height: 500px;
   cursor: move;
@@ -549,7 +549,7 @@ colorOutput-field {
 
 #colorOutputs {
   max-height: calc(100vh - var(--header-height) - 258px);
-  overflow: scroll;
+  overflow: auto;
 }
 
 .spectrum-Textfield-swatch {
@@ -617,7 +617,7 @@ colorOutput-field {
   flex-wrap: wrap;
   min-height: 80px;
   max-height: 88px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 #colorInputs {
@@ -709,7 +709,7 @@ a:focus {
   padding: 8px;
   margin: 0 -8px;
   width: calc(100% - 4px);
-  overflow: scroll;
+  overflow: auto;
 }
 
 
@@ -723,7 +723,7 @@ a:focus {
   max-height: 100%;
   margin-top: 6px;
   padding: 2px; /* This ensures focus rings are visible */
-  overflow: scroll;
+  overflow: auto;
 }
  #sequentialWrapper {
    display: none;
@@ -731,7 +731,7 @@ a:focus {
 
 #ratios {
   max-height: calc(var(--gradient-height) - 110px);
-  overflow: scroll;
+  overflow: auto;
   display: flex;
 }
 

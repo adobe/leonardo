@@ -55,7 +55,8 @@
     "d3-hsluv": "^0.1.2",
     "d3-hsv": "^0.1.0",
     "loadicons": "^1.0.0",
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.23.6"
   },
   "dependencies": {
     "scss": "^0.2.4"
