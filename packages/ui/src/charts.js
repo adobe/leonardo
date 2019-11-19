@@ -493,22 +493,20 @@ function createAllCharts(mode) {
 }
 
 
-let chartColors;
+let chartColors = [];
 function getChartColors(mode) {
   let shift = document.getElementById('shiftInput').value;
 
-  let chartColorArray = [];
+  chartColors = [];
 
   // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
   var chartRGB = contrastColors.createScale({swatches: 51, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
   for (let i=0; i<chartRGB.colorsHex.length; i++) {
-    chartColorArray.push(chartRGB.colorsHex[i]);
+    chartColors.push(chartRGB.colorsHex[i]);
   }
 
-  chartColors = chartRGB.colors;
-
-  return chartColorArray;
+  return chartColors;
 }
 
 function update3dChart() {
@@ -526,7 +524,7 @@ exports.showCharts = function(mode) {
   var chartModeLabel = document.getElementById('colorspaceLabel');
   chartModeLabel.innerHTML = mode;
 
-  getChartColors(mode);
+  chartColors = getChartColors(mode);
   createAllCharts(mode);
 };
 
