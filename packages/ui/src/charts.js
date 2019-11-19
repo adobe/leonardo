@@ -1,3 +1,13 @@
+import * as d3 from 'd3';
+
+import * as d3cam02 from 'd3-cam02';
+import * as d3hsluv from 'd3-hsluv';
+import * as d3hsv from 'd3-hsv';
+import * as d33d from 'd3-3d';
+Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
+
+import contrastColors from './contrast-colors.js';
+
 function create3dChartWidth() {
   var leftPanel = 304;
   var rightPanel = 240;
@@ -19,7 +29,7 @@ function create3dChartHeight() {
 }
 var chartWidth = create3dChartWidth();
 var chartHeight = create3dChartHeight();
-var origin = [chartWidth/1.85, chartHeight/1.5], j = 10, scale = 30, scatter = [], yLine = [], xGrid = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+var origin = [chartWidth/1.85, chartHeight/1.5], j = 10, scale = 30, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
 var dest = document.getElementById('3dchart');
 dest.style.width = chartWidth;
 dest.style.height = chartHeight;
@@ -153,38 +163,40 @@ function init3dChart(){
             // colorPlot.push({x: LABArrayA[j]/10, y: LABArrayL[j]/10 * -1, z: LABArrayB[j]/10, id: 'point_' + cnt++});
         }
     }
+    let spaceOpt = document.getElementById('chart3dColorspace').value;
+
     if(spaceOpt == 'CAM02') {
-      for(i=0; i<CAMArrayA.length; i++) {
+      for(let i=0; i<CAMArrayA.length; i++) {
         colorPlot.push({x: CAMArrayA[i]/10, y: CAMArrayJ[i]/10 * -1, z: CAMArrayB[i]/10, id: 'point_' + cnt++});
       }
     }
     if(spaceOpt == 'LCH') {
-      for(i=0; i<LCHArrayC.length; i++) {
+      for(let i=0; i<LCHArrayC.length; i++) {
         colorPlot.push({x: LCHArrayC[i]/10 - 7, y: LCHArrayL[i]/10 * -1, z: LCHArrayH[i]/(10*pi) - 10, id: 'point_' + cnt++});
       }
     }
     if(spaceOpt == 'LAB') {
-      for(i=0; i<LABArrayA.length; i++) {
+      for(let i=0; i<LABArrayA.length; i++) {
         colorPlot.push({x: LABArrayA[i]/10, y: LABArrayL[i]/10 * -1, z: LABArrayB[i]/10, id: 'point_' + cnt++});
       }
     }
     if(spaceOpt == 'HSL') {
-      for(i=0; i<HSLArrayL.length; i++) {
+      for(let i=0; i<HSLArrayL.length; i++) {
         colorPlot.push({x: HSLArrayH[i]/(10*pi) - 7, y: HSLArrayL[i]*10 * -1, z: HSLArrayS[i]*10 - 7, id: 'point_' + cnt++});
       }
     }
     if(spaceOpt == 'HSLuv') {
-      for(i=0; i<HSLuvArrayL.length; i++) {
+      for(let i=0; i<HSLuvArrayL.length; i++) {
         colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayV[i]/10 -7, id: 'point_' + cnt++});
       }
     }
     if(spaceOpt == 'HSV') {
-      for(i=0; i<HSVArrayL.length; i++) {
+      for(let i=0; i<HSVArrayL.length; i++) {
         colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
       }
     }
     if(spaceOpt == 'RGB') {
-      for(i=0; i<RGBArrayR.length; i++) {
+      for(let i=0; i<RGBArrayR.length; i++) {
         colorPlot.push({x: RGBArrayR[i]/25.5 - 7, y: RGBArrayG[i]/25.5 * -1, z: RGBArrayB[i]/25.5 - 10, id: 'point_' + cnt++});
       }
     }
@@ -225,4 +237,297 @@ function dragEnd(){
 
 // d3.selectAll('button').on('click', init3dChart);
 
-init3dChart();
+function createChartWidth() {
+  var leftPanel = 304;
+  var rightPanel = 240;
+  var paddings = 156;
+  var offset = leftPanel + rightPanel + paddings;
+  var viewportWidth = getViewport()[0];
+
+  return (viewportWidth - offset) / 2;
+}
+
+
+function createChartHeight() {
+  var headerHeight = 58;
+  var tabHeight = 48;
+  var paddings = 164;
+  var offset = headerHeight + tabHeight + paddings;
+  var viewportHeight = getViewport()[1];
+
+  // return (viewportHeight - offset) / 2;
+  return 180;
+}
+
+function getViewport() {
+ var viewPortWidth;
+ var viewPortHeight;
+
+ // the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
+ if (typeof window.innerWidth != 'undefined') {
+   viewPortWidth = window.innerWidth,
+   viewPortHeight = window.innerHeight
+ }
+
+// IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
+ else if (typeof document.documentElement != 'undefined'
+ && typeof document.documentElement.clientWidth !=
+ 'undefined' && document.documentElement.clientWidth != 0) {
+    viewPortWidth = document.documentElement.clientWidth,
+    viewPortHeight = document.documentElement.clientHeight
+ }
+
+ // older versions of IE
+ else {
+   viewPortWidth = document.getElementsByTagName('body')[0].clientWidth,
+   viewPortHeight = document.getElementsByTagName('body')[0].clientHeight
+ }
+ return [viewPortWidth, viewPortHeight];
+}
+
+function createChartHeader(x, dest) {
+  container = document.getElementById(dest);
+  subhead = document.createElement('h6');
+  subhead.className = 'spectrum-Subheading';
+  title = document.createTextNode(x);
+  subhead.appendChild(title);
+  container.appendChild(subhead);
+}
+
+// Make color charts
+function createChart(data, dest) {
+  var data = data;
+  var xy_chart = d3_xy_chart()
+      .width(createChartWidth())
+      // .height(120)
+      .height(createChartHeight())
+      .xlabel("X Axis")
+      .ylabel("Y Axis") ;
+  var svg = d3.select(dest).append("svg")
+      .datum(data)
+      .call(xy_chart) ;
+
+  function d3_xy_chart() {
+      var width = createChartWidth(),
+          height = createChartHeight(),
+        // height = 100,
+          xlabel = "X Axis Label",
+          ylabel = "Y Axis Label" ;
+
+      function chart(selection) {
+          selection.each(function(datasets) {
+              //
+              // Create the plot.
+              //
+              var margin = {top: 8, right: 0, bottom: 20, left: 0},
+                  innerwidth = width - margin.left - margin.right,
+                  innerheight = height - margin.top - margin.bottom ;
+
+              var x_scale = d3.scaleLinear()
+                  .range([0, innerwidth])
+                  .domain([ d3.min(datasets, function(d) { return d3.min(d.x); }),
+                            d3.max(datasets, function(d) { return d3.max(d.x); }) ]) ;
+
+              var y_scale = d3.scaleLinear()
+                  .range([innerheight, 0])
+                  .domain([ d3.min(datasets, function(d) { return d3.min(d.y); }),
+                            d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
+
+              var color_scale = d3.scaleOrdinal(d3.schemeCategory10)
+                  .domain(d3.range(datasets.length)) ;
+
+              var x_axis = d3.axisBottom(x_scale);
+
+              var y_axis = d3.axisLeft(y_scale);
+
+              var x_grid = d3.axisBottom(x_scale)
+                  .tickSize(-innerheight)
+                  .tickFormat("") ;
+
+              var y_grid = d3.axisLeft(y_scale)
+                  .tickSize(-innerwidth)
+                  .tickFormat("") ;
+
+              var draw_line = d3.line()
+                  .curve(d3.curveLinear)
+                  .x(function(d) { return x_scale(d[0]); })
+                  .y(function(d) { return y_scale(d[1]); }) ;
+
+              var svg = d3.select(this)
+                  .attr("width", width)
+                  .attr("height", height)
+                  .append("g")
+                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")") ;
+
+              svg.append("g")
+                  .attr("class", "x grid")
+                  .attr("transform", "translate(0," + innerheight + ")")
+                  .call(x_grid) ;
+
+              svg.append("g")
+                  .attr("class", "y grid")
+                  .call(y_grid) ;
+
+              svg.append("g")
+                  .attr("class", "x axis")
+                  .attr("transform", "translate(0," + innerheight + ")")
+                  .call(x_axis)
+                  .append("text")
+                  .attr("dy", "-.71em")
+                  .attr("x", innerwidth)
+                  .style("text-anchor", "end")
+                  .text(xlabel) ;
+
+              svg.append("g")
+                  .attr("class", "y axis")
+                  .call(y_axis)
+                  .append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 6)
+                  .attr("dy", "0.71em")
+                  .style("text-anchor", "end")
+                  .text(ylabel) ;
+
+              var data_lines = svg.selectAll(".d3_xy_chart_line")
+                  .data(datasets.map(function(d) {return d3.zip(d.x, d.y);}))
+                  .enter().append("g")
+                  .attr("class", "d3_xy_chart_line") ;
+
+              data_lines.append("path")
+                  .attr("class", "line")
+                  .attr("d", function(d) {return draw_line(d); })
+                  .attr("stroke", function(_, i) {return color_scale(i);}) ;
+
+              data_lines.append("text")
+                  .datum(function(d, i) { return {name: datasets[i].label, final: d[d.length-1]}; })
+                  .attr("transform", function(d) {
+                      return ( "translate(" + x_scale(d.final[0]) + "," +
+                               y_scale(d.final[1]) + ")" ) ; })
+                  .attr("x", 3)
+                  .attr("dy", ".35em")
+                  .attr("fill", function(_, i) { return color_scale(i); })
+                  .text(function(d) { return d.name; }) ;
+
+          }) ;
+      }
+
+      chart.width = function(value) {
+          if (!arguments.length) return width;
+          width = value;
+          return chart;
+      };
+
+      chart.height = function(value) {
+          if (!arguments.length) return height;
+          height = value;
+          return chart;
+      };
+
+      chart.xlabel = function(value) {
+          if(!arguments.length) return xlabel ;
+          xlabel = value ;
+          return chart ;
+      } ;
+
+      chart.ylabel = function(value) {
+          if(!arguments.length) return ylabel ;
+          ylabel = value ;
+          return chart ;
+      } ;
+
+      return chart;
+  }
+}
+
+function toggleGraphs() {
+  var panel = document.getElementById('colorMetrics');
+  var toggle = document.getElementById('toggleMetrics');
+  panel.classList.toggle('visible');
+  toggle.classList.toggle('is-selected');
+}
+
+function createAllCharts() {
+  var chart3 = document.getElementById('chart3Wrapper');
+
+  if(mode=="LCH") {
+    createChartHeader('Chroma / Lightness', 'chart1');
+    createChart(lchDataC, "#chart1");
+    createChartHeader('Hue / Lightness', 'chart2');
+    createChart(lchDataH, "#chart2");
+    createChartHeader('Hue / Chroma', 'chart3');
+    createChart(lchDataCH, "#chart3");
+  }
+  if(mode=="LAB") {
+    createChartHeader('Green Red / Lightness', 'chart1');
+    createChart(labDataA, "#chart1");
+    createChartHeader('Blue Yellow / Lightness', 'chart2');
+    createChart(labDataB, "#chart2");
+    createChartHeader('Green Red / Blue Yellow', 'chart3');
+    createChart(labDataAB, "#chart3");
+  }
+  if(mode=="CAM02") {
+    createChartHeader('Green Red / Lightness', 'chart1');
+    createChart(camDataA, "#chart1");
+    createChartHeader('Blue Yellow / Lightness', 'chart2');
+    createChart(camDataB, "#chart2");
+    createChartHeader('Green Red / Blue Yellow', 'chart3');
+    createChart(camDataAB, "#chart3");
+  }
+  if(mode=="HSL") {
+    createChartHeader('Hue / Lightness', 'chart1');
+    createChart(hslDataH, "#chart1");
+    createChartHeader('Saturation / Lightness', 'chart2');
+    createChart(hslDataS, "#chart2");
+    createChartHeader('Hue / Saturation', 'chart3');
+    createChart(hslDataHS, "#chart3");
+  }
+  if(mode=="HSLuv") {
+    createChartHeader('Hue / Lightness', 'chart1');
+    createChart(hsluvDataL, "#chart1");
+    createChartHeader('Saturation / Lightness', 'chart2');
+    createChart(hsluvDataU, "#chart2");
+    createChartHeader('Hue / Saturation', 'chart3');
+    createChart(hsluvDataLU, "#chart3");
+  }
+  if(mode=="HSV") {
+    createChartHeader('Hue / Lightness', 'chart1');
+    createChart(hsvDataH, "#chart1");
+    createChartHeader('Saturation / Lightness', 'chart2');
+    createChart(hsvDataS, "#chart2");
+    createChartHeader('Hue / Saturation', 'chart3');
+    createChart(hsvDataHS, "#chart3");
+  }
+  if(mode=="RGB") {
+    createChartHeader('Red / Green', 'chart1');
+    createChart(rgbDataR, "#chart1");
+    createChartHeader('Green / Blue', 'chart2');
+    createChart(rgbDataG, "#chart2");
+    createChartHeader('Blue / Red', 'chart3');
+    createChart(rgbDataB, "#chart3");
+  }
+  createChart(contrastData, "#contrastChart");
+
+  init3dChart();
+}
+
+function getChartColors() {
+  let shift = document.getElementById('shiftInput').value;
+  let mode = document.querySelector('select[name="mode"]').value;
+
+  let chartColorArray = [];
+  // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
+  var chartRGB = contrastColors.createScale({swatches: 51, colorKeys: colorArgs, colorspace: mode, shift: shift});
+
+  for (let i=0; i<chartRGB.colorsHex.length; i++) {
+    chartColorArray.push(chartRGB.colorsHex[i]);
+  }
+
+  return chartColorArray;
+}
+
+exports.showCharts = function() {
+  getChartColors();
+  createAllCharts();
+};
+
+exports.init3dChart = init3dChart;
