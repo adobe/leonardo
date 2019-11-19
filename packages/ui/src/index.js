@@ -72,6 +72,7 @@ var colorOutputField = document.getElementById('colorOutput');
 
 var colorspace = document.getElementById('mode');
 var chart3dColorspace = document.getElementById('chart3dColorspace');
+let ratioFields = document.getElementsByClassName('ratioField');
 
 let ratioInputs = [];
 let newColors;
@@ -519,7 +520,6 @@ function colorInput() {
   // var inputColors = inputs.split(" ");
   var background = document.getElementById('bgField').value;
   let mode = document.querySelector('select[name="mode"]').value;
-  let ratioFields = document.getElementsByClassName('ratioField');
 
   var chartModeLabel = document.getElementById('colorspaceLabel');
   chartModeLabel.innerHTML = mode;
@@ -1115,20 +1115,21 @@ function returnRatioTan(lum) {
 }
 
 function interpolateLumArray() {
-  Lums = [];
+  let lums = [];
 
   for(let i=0; i<newColors.length; i++) {
-    Lums.push(d3.hsluv(newColors[i]).v);
+    lums.push(d3.hsluv(newColors[i]).v);
   }
-  var startLum = Math.min(...Lums);
-  var endLum = Math.max(...Lums);
+  var startLum = Math.min(...lums);
+  var endLum = Math.max(...lums);
   var interpolator = d3.interpolateNumber(startLum, endLum);
 
-  for (i=1; i<Lums.length - 1; i++) {
-    Lums[i] = interpolator((i)/(Lums.length));
+  for (let i=1; i<lums.length - 1; i++) {
+    lums[i] = interpolator((i)/(lums.length));
   }
-  Lums.sort(function(a, b){return b-a});
-  return Lums;
+
+  lums.sort(function(a, b){return b-a});
+  return lums;
 }
 
 // Redistribute contrast swatches
@@ -1136,10 +1137,10 @@ function distributeExp() {
   sort();
 
   // colorInput(); // for some reason without this, dist function needs called 2x to get proper output.
-  interpolateLumArray();
+  let lums = interpolateLumArray();
 
-  for(let i=1; i<Lums.length -1; i++) {
-    ratioFields[i].value = returnRatioExp(Lums[i]).toFixed(2);
+  for(let i=1; i<lums.length -1; i++) {
+    ratioFields[i].value = returnRatioExp(lums[i]).toFixed(2);
   }
 
   colorInput();
@@ -1151,10 +1152,10 @@ window.distributeTan = function distributeTan() {
   sort();
 
   setTimeout(function() {
-    interpolateLumArray();
+    let lums = interpolateLumArray();
 
-    for(let i=1; i<Lums.length -1; i++) {
-      ratioFields[i].value = returnRatioTan(Lums[i]).toFixed(2);
+    for(let i=1; i<lums.length -1; i++) {
+      ratioFields[i].value = returnRatioTan(lums[i]).toFixed(2);
     }
   }, 300)
 
@@ -1170,10 +1171,10 @@ function distributeLum() {
   var NewContrast = [];
 
   for(let i=1; i<newColors.length -1; i++) {
-    // Re-assign V value as Lums[i]
+    // Re-assign V value as lums[i]
     var L = d3.hsluv(newColors[i]).l;
     var U = d3.hsluv(newColors[i]).u;
-    var V = Lums[i];
+    var V = lums[i];
     var NewRGB = d3.hsluv(L, U, V);
 
     var rgbArray = [d3.rgb(NewRGB).r, d3.rgb(NewRGB).g, d3.rgb(NewRGB).b];
