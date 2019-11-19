@@ -6,7 +6,7 @@ import * as d3hsv from 'd3-hsv';
 import * as d33d from 'd3-3d';
 Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
 
-import contrastColors from './contrast-colors.js';
+import contrastColors from '@adobe/leonardo-contrast-colors';
 
 function create3dChartWidth() {
   var leftPanel = 304;

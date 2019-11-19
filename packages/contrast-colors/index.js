@@ -10,10 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import * as d3 from 'd3';
+
 function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace = 'LAB', shift = 1, fullScale = true} = {}) {
   var Domains = [];
 
-  for(i=0; i < colorKeys.length; i++){
+  for (let i=0; i < colorKeys.length; i++){
     Domains.push(swatches - swatches * (d3.hsluv(colorKeys[i]).v / 100))
   }
   Domains.sort(function(a, b){return a-b});
@@ -67,8 +69,9 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     return colorKeys[data.index];
   });
 
-  ColorsArray = [];
+  let ColorsArray = [];
 
+  let scale;
   if(colorspace == 'CAM02') {
     if(fullScale == true) {
       ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
@@ -174,46 +177,47 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     return scale(d)
   });
 
-  colors = Colors.filter(function (el) {
+  let colors = Colors.filter(function (el) {
     return el != null;
   });
 
   // Return colors as hex values for interpolators.
-  colorsHex = [];
-  for (i=0; i<colors.length; i++) {
+  let colorsHex = [];
+  for (let i=0; i<colors.length; i++) {
     colorsHex.push(d3.rgb(colors[i]).formatHex());
   }
 
-  return {colorKeys: colorKeys, colorspace: colorspace, shift: shift, colors: colors};
+  return {colorKeys: colorKeys, colorspace: colorspace, shift: shift, colors: colors, scale: scale, colorsHex: colorsHex};
 }
 // Test script
 // createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
 function generateContrastColors({colorKeys, base, ratios, colorspace = 'LAB', shift = 1} = {}) {
-  swatches = 3000;
+  let swatches = 3000;
 
-  createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift});
+  let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift});
 
   var Contrasts = d3.range(swatches).map(function(d) {
-    var rgbArray = [d3.rgb(scale(d)).r, d3.rgb(scale(d)).g, d3.rgb(scale(d)).b];
+    var rgbArray = [d3.rgb(scaleData.scale(d)).r, d3.rgb(scaleData.scale(d)).g, d3.rgb(scaleData.scale(d)).b];
     var baseRgbArray = [d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b];
     var ca = contrast(rgbArray, baseRgbArray).toFixed(2);
 
     return Number(ca);
   });
-  contrasts = Contrasts.filter(function (el) {
+
+  let contrasts = Contrasts.filter(function (el) {
     return el != null;
   });
 
   var baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
 
-  newColors = [];
+  let newColors = [];
   ratios = ratios.map(Number);
 
   // Return color matching target ratio, or closest number
-  for(i=0; i < ratios.length; i++){
+  for (let i=0; i < ratios.length; i++){
     var r = binarySearch(contrasts, ratios[i], baseLum);
-    newColors.push(d3.rgb(colors[r]).hex());
+    newColors.push(d3.rgb(scaleData.colors[r]).hex());
   }
 
   return newColors;
@@ -296,7 +300,7 @@ function binarySearch(list, value, baseLum) {
   }
 
   // If no match, find closest item greater than value
-  closest = list.reduce((prev, curr) => curr > value ? curr : prev);
+  let closest = list.reduce((prev, curr) => curr > value ? curr : prev);
 
   // if the current middle item is what we're looking for return it's index, else closest
   return (list[middle] == !value) ? closest : middle // how it was originally expressed
@@ -305,3 +309,8 @@ function binarySearch(list, value, baseLum) {
 // TEST
 // args = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 // generateContrastColors({args, base: '#ffffff', ratios: [3, 4.5, 7]});
+
+exports.createScale = createScale;
+exports.luminance = luminance;
+exports.contrast = contrast;
+exports.generateContrastColors = generateContrastColors;

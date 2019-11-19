@@ -40,7 +40,7 @@ import '@adobe/focus-ring-polyfill';
 
 import loadIcons from 'loadicons';
 
-import contrastColors from './contrast-colors.js';
+import contrastColors from '@adobe/leonardo-contrast-colors';
 
 // loadIcons('lib/@spectrum-css/icon/dist/spectrum-css-icons.svg');
 // loadIcons('lib/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg');
