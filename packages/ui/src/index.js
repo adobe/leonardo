@@ -46,8 +46,8 @@ import contrastColors from '@adobe/leonardo-contrast-colors';
 
 import ClipboardJS from 'clipboard';
 
-new ClipboardJS('.copyButton');
-new ClipboardJS('.colorOutputBlock');
+// new ClipboardJS('.copyButton');
+// new ClipboardJS('.colorOutputBlock');
 
 import * as d3 from 'd3';
 
@@ -70,7 +70,6 @@ var ratioInput = document.getElementById('ratio');
 var colorOutputField = document.getElementById('colorOutput');
 
 var colorspace = document.getElementById('mode');
-var chart3dColorspace = document.getElementById('chart3dColorspace');
 let ratioFields = document.getElementsByClassName('ratioField');
 
 let ratioInputs = [];
@@ -495,20 +494,10 @@ function changePalette() {
   colorInput();
 }
 
-function update3dChart() {
-  let spaceOpt = document.getElementById('chart3dColorspace').value;
-
-  charts.init3dChart();
-}
-
 // Calculate Color and generate Scales
 window.colorInput = colorInput;
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
-  document.getElementById('chart1').innerHTML = ' ';
-  document.getElementById('chart2').innerHTML = ' ';
-  document.getElementById('chart3').innerHTML = ' ';
-  document.getElementById('contrastChart').innerHTML = ' ';
   let spaceOpt = document.getElementById('chart3dColorspace').value;
   var paletteType = document.getElementById('paletteType').value;
   var swatchAmmount = document.getElementById('swatchAmmount').value;
@@ -519,9 +508,6 @@ function colorInput() {
   // var inputColors = inputs.split(" ");
   var background = document.getElementById('bgField').value;
   let mode = document.querySelector('select[name="mode"]').value;
-
-  var chartModeLabel = document.getElementById('colorspaceLabel');
-  chartModeLabel.innerHTML = mode;
 
   // Clamp ratios convert decimal numbers to whole negatives and disallow
   // inputs less than 1 and greater than -1.
@@ -678,11 +664,9 @@ function colorInput() {
   // update URL parameters
   updateParams(inputColors, background.substr(1), ratioInputs, mode);
 
-  createData();
-  charts.showCharts();
-  charts.init3dChart();
+  createData(scaleData.colors);
+  charts.showCharts(mode);
 }
-
 
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
@@ -724,7 +708,7 @@ function updateParams(c, b, r, m) {
 }
 
 // Create data based on colorspace
-function createData() {
+function createData(colors) {
   let CAM_J = [];
   let CAM_A = [];
   let CAM_B = [];
