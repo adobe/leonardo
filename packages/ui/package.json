@@ -27,17 +27,10 @@
     "color-contrast-generator"
   ],
   "license": "Apache-2.0",
-  "dependencies": {
-    "@adobe/focus-ring-polyfill": "^0.1.5",
-    "@adobe/spectrum-css-workflow-icons": "^1.0.0",
-    "clipboard": "^2.0.4",
-    "d3": "^5.12.0",
-    "d3-3d": "0.0.9",
-    "d3-cam02": "^0.1.5",
-    "d3-hsluv": "^0.1.2",
-    "d3-hsv": "^0.1.0"
-  },
   "devDependencies": {
+    "@adobe/focus-ring-polyfill": "^0.1.5",
+    "@adobe/leonardo-contrast-colors": "^0.1.0",
+    "@adobe/spectrum-css-workflow-icons": "^1.0.0",
     "@node-sass/node-module-importer": "^1.2.3",
     "@spectrum-css/button": "^2.0.2",
     "@spectrum-css/buttongroup": "^2.0.2",
@@ -55,10 +48,16 @@
     "@spectrum-css/tooltip": "^2.0.2",
     "@spectrum-css/typography": "^2.0.2",
     "@spectrum-css/vars": "^2.0.0",
-    "gulp": "^4.0.2",
-    "gulp-sass": "^4.0.2",
-    "http-server": "^0.11.1",
+    "clipboard": "^2.0.4",
+    "d3": "^5.12.0",
+    "d3-3d": "0.0.9",
+    "d3-cam02": "^0.1.5",
+    "d3-hsluv": "^0.1.2",
+    "d3-hsv": "^0.1.0",
     "loadicons": "^1.0.0",
     "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "scss": "^0.2.4"
   }
 }

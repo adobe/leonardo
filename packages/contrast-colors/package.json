@@ -1,5 +1,5 @@
 {
-  "name": "@adobe/leonardo-adaptive-color",
+  "name": "@adobe/leonardo-contrast-colors",
   "version": "0.1.0",
   "description": "Generate colors based on a desired contrast ratio",
   "main": "index.js",
