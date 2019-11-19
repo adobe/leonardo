@@ -38,10 +38,9 @@ import './scss/style.scss';
 
 import '@adobe/focus-ring-polyfill';
 
-import loadIcons from 'loadicons';
-
 import contrastColors from '@adobe/leonardo-contrast-colors';
 
+// import loadIcons from 'loadicons';
 // loadIcons('lib/@spectrum-css/icon/dist/spectrum-css-icons.svg');
 // loadIcons('lib/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg');
 
@@ -52,6 +51,7 @@ new ClipboardJS('.colorOutputBlock');
 
 import * as d3 from 'd3';
 
+// Import d3 plugins and add them to the d3 namespace
 import * as d3cam02 from 'd3-cam02';
 import * as d3hsluv from 'd3-hsluv';
 import * as d3hsv from 'd3-hsv';
@@ -59,7 +59,6 @@ import * as d33d from 'd3-3d';
 Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
 
 import * as charts from './charts.js';
-// function charts.init3dChart() {}
 
 var background = document.getElementById('bgField').value;
 // var colorBlock = document.getElementById('color');
@@ -869,8 +868,8 @@ function createData() {
   let dataX = fillRange(0, CAMArrayJ.length - 1);
   let dataXcyl = fillRange(0, LCHArrayL.length - 1);
   let dataXcontrast = fillRange(0, ratioInputs.length - 1);
-window.
-  labFullData = [
+
+  window.labFullData = [
     {
       x: LABArrayL,
       y: LABArrayA,
@@ -1167,7 +1166,7 @@ window.distributeTan = function distributeTan() {
 // Function to distribute swatches based on linear interpolation between HSLuv
 // lightness values.
 function distributeLum() {
-  interpolateLumArray();
+  let lums = interpolateLumArray();
   var NewContrast = [];
 
   for(let i=1; i<newColors.length -1; i++) {
@@ -1190,7 +1189,7 @@ function distributeLum() {
   // Delete all ratios
   ratioItems = document.getElementsByClassName('color-Item');
   while(ratioItems.length > 0){
-      ratioItems[0].parentNode.removeChild(ratioItems[0]);
+    ratioItems[0].parentNode.removeChild(ratioItems[0]);
   }
   var sliders = document.getElementById('sliderWrapper');
   sliders.innerHTML = ' ';

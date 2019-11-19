@@ -11,17 +11,17 @@ governing permissions and limitations under the License.
 */
 
 import * as d3 from 'd3';
+import * as d3hsluv from 'd3-hsluv';
+import * as d3hsv from 'd3-hsv';
+Object.assign(d3, d3hsluv, d3hsv);
 
 function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace = 'LAB', shift = 1, fullScale = true} = {}) {
-  var Domains = [];
+  var domains = colorKeys
+    .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
+    .sort((a, b) => a - b)
+    .concat(swatches);
 
-  for (let i=0; i < colorKeys.length; i++){
-    Domains.push(swatches - swatches * (d3.hsluv(colorKeys[i]).v / 100))
-  }
-  Domains.sort(function(a, b){return a-b});
-
-  var domains = [];
-  domains = domains.concat(0, Domains, swatches);
+  domains.unshift(0);
 
   // Test logarithmic domain (for non-contrast-based scales)
   var sqrtDomains = d3.scalePow()
@@ -32,9 +32,8 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
   sqrtDomains = domains.map(function(d) {
     if(sqrtDomains(d) < 0) {
       return 0;
-    } else {
-      return sqrtDomains(d);
     }
+    return sqrtDomains(d);
   })
 
   // Transform square root in order to smooth gradient
@@ -47,27 +46,22 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
 
     return new Array( L, U, V);
   }
-  var sortedColor = colorKeys.map(function(c, i) {
-    // Convert to HSLuv and keep track of original indices
-    return {colorKeys: cArray(c), index: i};
-  }).sort(function(c1, c2) {
-    // Sort by lightness
-    return c2.colorKeys[2] - c1.colorKeys[2];
-  }).map(function(data) {
-    // Retrieve original RGB color
-    return colorKeys[data.index];
-  });
 
-  var inverseSortedColor = colorKeys.map(function(c, i) {
+  var sortedColor = colorKeys
     // Convert to HSLuv and keep track of original indices
-    return {colorKeys: cArray(c), index: i};
-  }).sort(function(c1, c2) {
+    .map((c, i) => { return { colorKeys: cArray(c), index: i } })
     // Sort by lightness
-    return c1.colorKeys[2] - c2.colorKeys[2];
-  }).map(function(data) {
+    .sort((c1, c2) => c2.colorKeys[2] - c1.colorKeys[2])
     // Retrieve original RGB color
-    return colorKeys[data.index];
-  });
+    .map(data => colorKeys[data.index]);
+
+  var inverseSortedColor = colorKeys
+    // Convert to HSLuv and keep track of original indices
+    .map((c, i) => { return {colorKeys: cArray(c), index: i} })
+    // Sort by lightness
+    .sort((c1, c2) => c1.colorKeys[2] - c2.colorKeys[2])
+    // Retrieve original RGB color
+    .map(data => colorKeys[data.index]);
 
   let ColorsArray = [];
 
