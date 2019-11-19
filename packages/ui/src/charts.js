@@ -1,10 +1,7 @@
 import * as d3 from 'd3';
 
-import * as d3cam02 from 'd3-cam02';
-import * as d3hsluv from 'd3-hsluv';
-import * as d3hsv from 'd3-hsv';
 import * as d33d from 'd3-3d';
-Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
+Object.assign(d3, d33d);
 
 import contrastColors from '@adobe/leonardo-contrast-colors';
 
