@@ -5,7 +5,7 @@
   "repository": "git@git.corp.adobe.com:nbaldwin/leonardo-color.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
-    "dev": "parcel src/index.html"
+    "dev": "npx parcel src/index.html"
   },
   "keywords": [
     "accessibility",
