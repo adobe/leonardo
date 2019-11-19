@@ -285,13 +285,13 @@ window.addNewColor = function addNewColor() {
   colorInput();
 }
 
-function addBulk() {
+window.addBulk = function addBulk() {
   document.getElementById('bulkColors').style.display = 'block';
 }
 
 function bulkColorInput() {
-  bulkInputs = document.getElementById('bulkColors');
-  bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").split("\n");
+  let bulkInputs = document.getElementById('bulkColors');
+  let bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").split("\n");
 
   // console.log(bulkValues);
   for(let i=0; i<bulkValues.length; i++) {
@@ -303,7 +303,7 @@ function bulkColorInput() {
 }
 document.getElementById('bulkColors').addEventListener('blur', bulkColorInput)
 
-function clearAllColors() {
+window.clearAllColors = function clearAllColors() {
   document.getElementById('colorInputWrapper').innerHTML = ' ';
   colorInput();
 }
@@ -502,6 +502,7 @@ function update3dChart() {
 }
 
 // Calculate Color and generate Scales
+window.colorInput = colorInput;
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
   document.getElementById('chart1').innerHTML = ' ';
@@ -557,6 +558,8 @@ function colorInput() {
   shiftInputValue.innerHTML = shift;
   let clamping = document.getElementById('sequentialClamp').checked;
 
+  // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
+  let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
   if (paletteType == 'Contrast') {
     newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   }
@@ -622,11 +625,11 @@ function colorInput() {
   //     container.appendChild(div);
   //   }
   // } else {
-    for (let i = 0; i < colors.length; i++) {
+    for (let i = 0; i < scaleData.colors.length; i++) {
       var container = document.getElementById('colors');
       var div = document.createElement('div');
       div.className = 'block';
-      div.style.backgroundColor = colors[i];
+      div.style.backgroundColor = scaleData.colors[i];
 
       container.appendChild(div);
     }
