@@ -1,0 +1,11 @@
+{
+  "name": "@adobe/leonardo-adaptive-color",
+  "version": "0.1.0",
+  "description": "Generate colors based on a desired contrast ratio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nate Baldwin <nbaldwin@adobe.com>",
+  "license": "Apache-2.0"
+}

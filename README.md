@@ -1,4 +1,4 @@
-![Leonardo logo](https://git.corp.adobe.com/nbaldwin/leonardo-color/blob/master/Leonardo_Logo.png)
+![Leonardo logo](https://git.corp.adobe.com/nbaldwin/leonardo-color/blob/master/.github/Leonardo_Logo.png)
 
 # Leonardo
 Authoring adaptive color palettes for generating color based on a desired contrast ratio.
@@ -20,7 +20,7 @@ To make it easier for designers and engineers to leverage color science to creat
 ## Leonardo web application
 The Leonardo web application is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to the `generateContrastColors()` API and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
 
-![Leonardo web app with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](https://git.corp.adobe.com/nbaldwin/leonardo-color/blob/master/Leonardo_Screenshot.png)
+![Leonardo web app with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](https://git.corp.adobe.com/nbaldwin/leonardo-color/blob/master/.github/Leonardo_Screenshot.png)
 
 ## Show me a demo
 *(coming soon)*

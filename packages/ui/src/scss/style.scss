@@ -9,25 +9,25 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-@import 'node_modules/@spectrum-css/vars/dist/spectrum-global';
-@import 'node_modules/@spectrum-css/vars/dist/spectrum-medium';
-@import 'node_modules/@spectrum-css/vars/dist/spectrum-light';
+@import '@spectrum-css/vars/dist/spectrum-global.css';
+@import '@spectrum-css/vars/dist/spectrum-medium.css';
+@import '@spectrum-css/vars/dist/spectrum-light.css';
 
-@import 'node_modules/@spectrum-css/page/dist/index-vars';
-@import 'node_modules/@spectrum-css/typography/dist/index-vars';
-@import 'node_modules/@spectrum-css/icon/dist/index-vars';
-@import 'node_modules/@spectrum-css/radio/dist/index-vars';
-@import 'node_modules/@spectrum-css/button/dist/index-vars';
-@import 'node_modules/@spectrum-css/fieldgroup/dist/index-vars';
-@import 'node_modules/@spectrum-css/textfield/dist/index-vars';
-@import 'node_modules/@spectrum-css/dropdown/dist/index-vars';
-@import 'node_modules/@spectrum-css/fieldlabel/dist/index-vars';
-@import 'node_modules/@spectrum-css/checkbox/dist/index-vars';
-@import 'node_modules/@spectrum-css/buttongroup/dist/index-vars';
-@import 'node_modules/@spectrum-css/tooltip/dist/index-vars';
-@import 'node_modules/@spectrum-css/slider/dist/index-vars';
-@import 'node_modules/@spectrum-css/tabs/dist/vars';
-@import 'node_modules/@spectrum-css/tabs/dist/index';
+@import '@spectrum-css/page/dist/index-vars.css';
+@import '@spectrum-css/typography/dist/index-vars.css';
+@import '@spectrum-css/icon/dist/index-vars.css';
+@import '@spectrum-css/radio/dist/index-vars.css';
+@import '@spectrum-css/button/dist/index-vars.css';
+@import '@spectrum-css/fieldgroup/dist/index-vars.css';
+@import '@spectrum-css/textfield/dist/index-vars.css';
+@import '@spectrum-css/dropdown/dist/index-vars.css';
+@import '@spectrum-css/fieldlabel/dist/index-vars.css';
+@import '@spectrum-css/checkbox/dist/index-vars.css';
+@import '@spectrum-css/buttongroup/dist/index-vars.css';
+@import '@spectrum-css/tooltip/dist/index-vars.css';
+@import '@spectrum-css/slider/dist/index-vars.css';
+@import '@spectrum-css/tabs/dist/vars.css';
+@import '@spectrum-css/tabs/dist/index.css';
 
 @import './colorinputs';
 
@@ -875,9 +875,9 @@ g.d3_xy_chart_line path.line {
 
 
 .spectrum-Tooltip-Target:hover:after {
-  @extend .spectrum-Tooltip;
+/*  @extend .spectrum-Tooltip;
   @extend .spectrum-Tooltip--top;
-  @extend .is-open;
+  @extend .is-open;*/
 	content: attr(data-title);
 	position: absolute;
 	top: 0px;
