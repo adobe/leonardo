@@ -1060,7 +1060,7 @@ function sort() {
   }
 }
 
-function sortRatios() {
+window.sortRatios = function sortRatios() {
   sort();
   colorInput();
 }
@@ -1147,7 +1147,7 @@ function distributeExp() {
 
 // Redistribute contrast swatches
 // TODO: It's still broken.
-function distributeTan() {
+window.distributeTan = function distributeTan() {
   sort();
 
   setTimeout(function() {
