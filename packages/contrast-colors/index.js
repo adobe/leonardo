@@ -15,7 +15,21 @@ import * as d3hsluv from 'd3-hsluv';
 import * as d3hsv from 'd3-hsv';
 Object.assign(d3, d3hsluv, d3hsv);
 
-function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace = 'LAB', shift = 1, fullScale = true} = {}) {
+function cArray(c) {
+  var L = d3.hsluv(c).l;
+  var U = d3.hsluv(c).u;
+  var V = d3.hsluv(c).v;
+
+  return new Array(L, U, V);
+}
+
+function createScale({
+  swatches = 8,
+  colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'],
+  colorspace = 'LAB',
+  shift = 1,
+  fullScale = true
+} = {}) {
   var domains = colorKeys
     .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
     .sort((a, b) => a - b)
@@ -30,7 +44,7 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     .range([1, swatches]);
 
   sqrtDomains = domains.map((d) => {
-    if(sqrtDomains(d) < 0) {
+    if (sqrtDomains(d) < 0) {
       return 0;
     }
     return sqrtDomains(d);
@@ -38,14 +52,6 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
 
   // Transform square root in order to smooth gradient
   domains = sqrtDomains;
-
-  function cArray(c) {
-    var L = d3.hsluv(c).l;
-    var U = d3.hsluv(c).u;
-    var V = d3.hsluv(c).v;
-
-    return new Array( L, U, V);
-  }
 
   var sortedColor = colorKeys
     // Convert to HSLuv and keep track of original indices
@@ -66,8 +72,8 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
   let ColorsArray = [];
 
   let scale;
-  if(colorspace == 'CAM02') {
-    if(fullScale == true) {
+  if (colorspace == 'CAM02') {
+    if (fullScale == true) {
       ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
@@ -79,9 +85,9 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
       .domain(domains)
       .interpolate(d3.interpolateJab);
   }
-  if(colorspace == 'LCH') {
+  else if (colorspace == 'LCH') {
     ColorsArray = ColorsArray.map(d => d3.hcl(d));
-    if(fullScale == true) {
+    if (fullScale == true) {
       ColorsArray = ColorsArray.concat(d3.hcl(NaN, 0, 100), sortedColor, d3.hcl(NaN, 0, 0));
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
@@ -91,8 +97,8 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
       .domain(domains)
       .interpolate(d3.interpolateHcl);
   }
-  if(colorspace == 'LAB') {
-    if(fullScale == true) {
+  else if (colorspace == 'LAB') {
+    if (fullScale == true) {
       ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
@@ -104,8 +110,8 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
       .domain(domains)
       .interpolate(d3.interpolateLab);
   }
-  if(colorspace == 'HSL') {
-    if(fullScale == true) {
+  else if (colorspace == 'HSL') {
+    if (fullScale == true) {
       ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
@@ -116,9 +122,9 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
       .domain(domains)
       .interpolate(d3.interpolateHsl);
   }
-  if(colorspace == 'HSLuv') {
+  else if (colorspace == 'HSLuv') {
     ColorsArray = ColorsArray.map(d => d3.hsluv(d));
-    if(fullScale == true) {
+    if (fullScale == true) {
       ColorsArray = ColorsArray.concat(d3.hsluv(NaN, NaN, 100), sortedColor, d3.hsluv(NaN, NaN, 0));
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
@@ -128,8 +134,8 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
       .domain(domains)
       .interpolate(d3.interpolateHsluv);
   }
-  if(colorspace == 'RGB') {
-    if(fullScale == true) {
+  else if (colorspace == 'RGB') {
+    if (fullScale == true) {
       ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
@@ -140,8 +146,8 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
       .domain(domains)
       .interpolate(d3.interpolateRgb);
   }
-  if(colorspace == 'HSV') {
-    if(fullScale == true) {
+  else if (colorspace == 'HSV') {
+    if (fullScale == true) {
       ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
     } else {
       ColorsArray = ColorsArray.concat(sortedColor);
@@ -151,6 +157,9 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
       .range(ColorsArray)
       .domain(domains)
       .interpolate(d3.interpolateHsv);
+  }
+  else {
+    throw new Error(`Colorspace ${colorspace} not supported`)
   }
 
   var Colors = d3.range(swatches).map(d => scale(d));
@@ -163,17 +172,30 @@ function createScale({swatches = 8, colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'
     colorsHex.push(d3.rgb(colors[i]).formatHex());
   }
 
-  return {colorKeys: colorKeys, colorspace: colorspace, shift: shift, colors: colors, scale: scale, colorsHex: colorsHex};
+  return {
+    colorKeys: colorKeys,
+    colorspace: colorspace,
+    shift: shift,
+    colors: colors,
+    scale: scale,
+    colorsHex: colorsHex
+  };
 }
 // Test script
 // createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
-function generateContrastColors({colorKeys, base, ratios, colorspace = 'LAB', shift = 1} = {}) {
+function generateContrastColors({
+  colorKeys,
+  base,
+  ratios,
+  colorspace = 'LAB',
+  shift = 1
+} = {}) {
   let swatches = 3000;
 
   let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift});
 
-  var Contrasts = d3.range(swatches).map(function(d) {
+  var Contrasts = d3.range(swatches).map((d) => {
     var rgbArray = [d3.rgb(scaleData.scale(d)).r, d3.rgb(scaleData.scale(d)).g, d3.rgb(scaleData.scale(d)).b];
     var baseRgbArray = [d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b];
     var ca = contrast(rgbArray, baseRgbArray).toFixed(2);
@@ -208,11 +230,11 @@ function generateContrastColors({colorKeys, base, ratios, colorspace = 'LAB', sh
 // TODO: see if there's a luminance package?
 // Separate files in a lib folder as well.
 function luminance(r, g, b) {
-  var a = [r, g, b].map(function (v) {
-      v /= 255;
-      return v <= 0.03928
-          ? v / 12.92
-          : Math.pow( (v + 0.055) / 1.055, 2.4 );
+  var a = [r, g, b].map((v) => {
+    v /= 255;
+    return v <= 0.03928
+        ? v / 12.92
+        : Math.pow( (v + 0.055) / 1.055, 2.4 );
   });
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
@@ -229,12 +251,21 @@ function contrast(color, base) {
   var cr1 = (colorLum + 0.05) / (baseLum + 0.05);
   var cr2 = (baseLum + 0.05) / (colorLum + 0.05);
 
-  if(baseLum < 0.5) {
-    if (cr1 >= 1) { return cr1; }
-    else { return cr2 * -1; } // Return as whole negative number
-  } else {
-    if (cr1 < 1) { return cr2; }
-    else { return cr1 * -1; } // Return as whole negative number
+  if (baseLum < 0.5) {
+    if (cr1 >= 1) {
+      return cr1;
+    }
+    else {
+      return cr2 * -1;
+    } // Return as whole negative number
+  }
+  else {
+    if (cr1 < 1) {
+      return cr2;
+    }
+    else {
+      return cr1 * -1;
+    } // Return as whole negative number
   }
 }
 // test scripts:
@@ -256,16 +287,19 @@ function binarySearch(list, value, baseLum) {
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {
     // Value greater than since array is ordered descending
-    if(baseLum > 0.5) {  // if base is light, ratios ordered ascending
+    if (baseLum > 0.5) {  // if base is light, ratios ordered ascending
       if (value < list[middle]) {
         stop = middle - 1
-      } else {
+      }
+      else {
         start = middle + 1
       }
-    } else { // order descending
+    }
+    else { // order descending
       if (value > list[middle]) {
         stop = middle - 1
-      } else {
+      }
+      else {
         start = middle + 1
       }
     }
