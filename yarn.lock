@@ -1642,7 +1642,7 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/typography/-/typography-2.0.2.tgz#58906ba0885c5cf849baa8863b6fddfdeec23cb2"
   integrity sha512-vFdNNAnvjRJ/2GTUVpQNdkICO0FaQiPS0HKoDkm8smHhBiawrINdMKaUn998y9OThSV/z+QYKspKg1y16f2SWg==
 
-"@spectrum-css/vars@^2.0.0", "@spectrum-css/vars@^2.0.2":
+"@spectrum-css/vars@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-2.0.2.tgz#235ae6965a4e3ffff4884617e583425e382776f6"
   integrity sha512-BKzC3a+gdhsC9tBjenXUmv/lpmrLLYNV6KO0f67HIVJLKcY9Va4uaO0BfWaS3FCEm7msB4R8ANJkZtqNq5NbTg==
