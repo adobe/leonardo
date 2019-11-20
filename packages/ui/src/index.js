@@ -668,6 +668,8 @@ function colorInput() {
   charts.showCharts(mode);
 }
 
+window.onresize = colorInput;
+
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
   let url = new URL(window.location);
@@ -1185,4 +1187,3 @@ function distributeLum() {
 
   colorInput();
 }
-
