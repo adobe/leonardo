@@ -529,3 +529,5 @@ exports.showCharts = function(mode) {
 };
 
 exports.init3dChart = init3dChart;
+exports.update3dChart = update3dChart;
+window.update3dChart = update3dChart;

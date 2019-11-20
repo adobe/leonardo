@@ -667,7 +667,6 @@ function colorInput() {
   createData(scaleData.colors);
   charts.showCharts(mode);
 }
-
 window.onresize = colorInput;
 
 // Passing variable parameters to URL
