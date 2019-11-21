@@ -176,6 +176,7 @@ function init3dChart(){
     }
   }
   let spaceOpt = document.getElementById('chart3dColorspace').value;
+  let pi = Math.PI;
 
   if (spaceOpt == 'CAM02') {
     for(let i=0; i<CAMArrayA.length; i++) {
@@ -184,36 +185,52 @@ function init3dChart(){
   }
   if (spaceOpt == 'LCH') {
     for(let i=0; i<LCHArrayC.length; i++) {
-      // x = r * Math.cos(theta)
-      // y = r * Math.sin(theta);
-      let theta = LCHArrayH[i];
+      let angle = LCHArrayH[i] * (pi/180);
       let r = LCHArrayC[i];
-      colorPlot.push({x: r * Math.cos(theta)/10, y: LCHArrayL[i]/10 * -1, z: r * Math.sin(theta)/10, id: 'point_' + cnt++});
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))/20, y: LCHArrayL[i]/10 * -1, z: (r * Math.sin(angle))/20, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: LCHArrayH[i]/(Math.PI * 10), y: LCHArrayL[i]/10 * -1, z: LCHArrayC[i]/10, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'LAB') {
     for(let i=0; i<LABArrayA.length; i++) {
-      colorPlot.push({x: LABArrayA[i]/10, y: LABArrayL[i]/10 * -1, z: LABArrayB[i]/10, id: 'point_' + cnt++});
+      colorPlot.push({x: LABArrayA[i]/20, y: LABArrayL[i]/10 * -1, z: LABArrayB[i]/20, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'HSL') {
     for(let i=0; i<HSLArrayL.length; i++) {
-      colorPlot.push({x: HSLArrayH[i]/(10*pi) - 7, y: HSLArrayL[i]*10 * -1, z: HSLArrayS[i]*10 - 7, id: 'point_' + cnt++});
+      let angle = HSLArrayH[i] * (pi/180);
+      let r = HSLArrayS[i];
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))*4, y: HSLArrayL[i]*8 * -1, z: (r * Math.sin(angle))*4 - 1.5, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: HSLArrayH[i]/(10*pi) - 7, y: HSLArrayL[i]*10 * -1, z: HSLArrayS[i]*10 - 7, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'HSLuv') {
     for(let i=0; i<HSLuvArrayL.length; i++) {
-      colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayV[i]/10 -7, id: 'point_' + cnt++});
+      let angle = HSLuvArrayL[i] * (pi/180);
+      let r = HSLuvArrayU[i];
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))/30, y: HSLuvArrayV[i]/10 * -1, z: (r * Math.sin(angle))/30 -1.5, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayU[i]/10 -10, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'HSV') {
     for(let i=0; i<HSVArrayL.length; i++) {
-      colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
+      let angle = HSVArrayH[i] * (pi/180);
+      let r = HSVArrayS[i];
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))*4, y: HSVArrayL[i]*8 * -1, z: (r * Math.sin(angle))*4 - 1.5, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'RGB') {
     for(let i=0; i<RGBArrayR.length; i++) {
-      colorPlot.push({x: RGBArrayR[i]/25.5 - 7, y: RGBArrayG[i]/25.5 * -1, z: RGBArrayB[i]/25.5 - 10, id: 'point_' + cnt++});
+      colorPlot.push({x: RGBArrayR[i]/40 - 4, y: RGBArrayG[i]/40 * -1, z: RGBArrayB[i]/40 - 4, id: 'point_' + cnt++});
     }
   }
 
@@ -225,7 +242,7 @@ function init3dChart(){
     yScale3d([yLine])
   ];
 
-  processData(data, 100);
+  processData(data, 500); // 500 is the duration
 }
 
 function dragStart(){
@@ -504,7 +521,7 @@ function getChartColors(mode) {
   chartColors = [];
 
   // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
-  var chartRGB = contrastColors.createScale({swatches: 100, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  var chartRGB = contrastColors.createScale({swatches: 340, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
   for (let i=0; i<chartRGB.colorsHex.length; i++) {
     chartColors.push(chartRGB.colorsHex[i]);

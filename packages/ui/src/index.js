@@ -724,7 +724,7 @@ function createData(colors) {
   let HSL_L = [];
   let HSV_H = [];
   let HSV_S = [];
-  let HSV_L = [];
+  let HSV_V = [];
   let HSLuv_L = [];
   let HSLuv_U = [];
   let HSLuv_V = [];
@@ -748,9 +748,9 @@ function createData(colors) {
     HSL_H.push(d3.hsl(colors[i]).h);
     HSL_S.push(d3.hsl(colors[i]).s);
     HSL_L.push(d3.hsl(colors[i]).l);
-    HSV_H.push(d3.hsl(colors[i]).h);
-    HSV_S.push(d3.hsl(colors[i]).s);
-    HSV_L.push(d3.hsl(colors[i]).l);
+    HSV_H.push(d3.hsv(colors[i]).h);
+    HSV_S.push(d3.hsv(colors[i]).s);
+    HSV_V.push(d3.hsv(colors[i]).v);
     HSLuv_L.push(d3.hsluv(colors[i]).l);
     HSLuv_U.push(d3.hsluv(colors[i]).u);
     HSLuv_V.push(d3.hsluv(colors[i]).v);
@@ -779,7 +779,7 @@ function createData(colors) {
   window.HSLuvArrayV = [];
 
   // Shorten the numbers in the array for chart purposes
-  var maxVal = 100;
+  var maxVal = 300;
   var delta = Math.floor( CAM_J.length / maxVal );
 
   for (let i = 0; i < CAM_J.length; i=i+delta) {
@@ -833,8 +833,8 @@ function createData(colors) {
   for (let i = 0; i < HSV_S.length; i=i+delta) {
     HSVArrayS.push(HSV_S[i]);
   }
-  for (let i = 0; i < HSV_L.length; i=i+delta) {
-    HSVArrayL.push(HSV_L[i]);
+  for (let i = 0; i < HSV_V.length; i=i+delta) {
+    HSVArrayL.push(HSV_V[i]);
   }
   for (let i = 0; i < HSLuv_L.length; i=i+delta) {
     HSLuvArrayL.push(HSLuv_L[i]);
@@ -930,8 +930,8 @@ function createData(colors) {
   ];
   window.lchDataCH = [
     {
-      x: LCHArrayC,
-      y: LCHArrayH
+      x: LCHArrayH,
+      y: LCHArrayC
     }
   ];
   window.rgbDataR = [
