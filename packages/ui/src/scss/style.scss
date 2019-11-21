@@ -835,10 +835,10 @@ g.d3_xy_chart_line path.line {
 }
 // Overrides for grid
 ._3d.grid {
-  stroke: #cacaca;
+  stroke: rgba(50, 50, 50, 0.1);
   stroke-width: 0.3;
-  fill: #eaeaea;
-  fill-opacity: 0.9;
+  fill: #6e6e6e;
+  fill-opacity: 0.075;
 }
 
 

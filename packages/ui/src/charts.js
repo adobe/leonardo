@@ -142,8 +142,9 @@ function processData(data, tt){
     })
     .attr('x', function(d){ return d.projected.x; })
     .attr('y', function(d){ return d.projected.y; })
-    .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; });
+    // .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; });
     // .text(function(d) {return d;});
+    .text('-');
 
   yText.exit().remove();
 
@@ -188,14 +189,14 @@ function init3dChart(){
       let angle = LCHArrayH[i] * (pi/180);
       let r = LCHArrayC[i];
       // Polar:
-      colorPlot.push({x: (r * Math.cos(angle))/20, y: LCHArrayL[i]/10 * -1, z: (r * Math.sin(angle))/20, id: 'point_' + cnt++});
+      colorPlot.push({x: (r * Math.cos(angle))/13, y: LCHArrayL[i]/13 * -1, z: (r * Math.sin(angle))/13, id: 'point_' + cnt++});
       // Cartesian:
       // colorPlot.push({x: LCHArrayH[i]/(Math.PI * 10), y: LCHArrayL[i]/10 * -1, z: LCHArrayC[i]/10, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'LAB') {
     for(let i=0; i<LABArrayA.length; i++) {
-      colorPlot.push({x: LABArrayA[i]/20, y: LABArrayL[i]/10 * -1, z: LABArrayB[i]/20, id: 'point_' + cnt++});
+      colorPlot.push({x: LABArrayA[i]/13, y: LABArrayL[i]/13 * -1, z: LABArrayB[i]/13, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'HSL') {
@@ -203,7 +204,7 @@ function init3dChart(){
       let angle = HSLArrayH[i] * (pi/180);
       let r = HSLArrayS[i];
       // Polar:
-      colorPlot.push({x: (r * Math.cos(angle))*4, y: HSLArrayL[i]*8 * -1, z: (r * Math.sin(angle))*4 - 1.5, id: 'point_' + cnt++});
+      colorPlot.push({x: (r * Math.cos(angle))*8, y: HSLArrayL[i]*8 * -1, z: (r * Math.sin(angle))*8, id: 'point_' + cnt++});
       // Cartesian:
       // colorPlot.push({x: HSLArrayH[i]/(10*pi) - 7, y: HSLArrayL[i]*10 * -1, z: HSLArrayS[i]*10 - 7, id: 'point_' + cnt++});
     }
@@ -213,7 +214,7 @@ function init3dChart(){
       let angle = HSLuvArrayL[i] * (pi/180);
       let r = HSLuvArrayU[i];
       // Polar:
-      colorPlot.push({x: (r * Math.cos(angle))/30, y: HSLuvArrayV[i]/10 * -1, z: (r * Math.sin(angle))/30 -1.5, id: 'point_' + cnt++});
+      colorPlot.push({x: (r * Math.cos(angle))/12, y: HSLuvArrayV[i]/10 * -1, z: (r * Math.sin(angle))/12, id: 'point_' + cnt++});
       // Cartesian:
       // colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayU[i]/10 -10, id: 'point_' + cnt++});
     }
@@ -223,14 +224,14 @@ function init3dChart(){
       let angle = HSVArrayH[i] * (pi/180);
       let r = HSVArrayS[i];
       // Polar:
-      colorPlot.push({x: (r * Math.cos(angle))*4, y: HSVArrayL[i]*8 * -1, z: (r * Math.sin(angle))*4 - 1.5, id: 'point_' + cnt++});
+      colorPlot.push({x: (r * Math.cos(angle))*8, y: HSVArrayL[i]*8 * -1, z: (r * Math.sin(angle))*8 - 1.5, id: 'point_' + cnt++});
       // Cartesian:
       // colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'RGB') {
     for(let i=0; i<RGBArrayR.length; i++) {
-      colorPlot.push({x: RGBArrayR[i]/40 - 4, y: RGBArrayG[i]/40 * -1, z: RGBArrayB[i]/40 - 4, id: 'point_' + cnt++});
+      colorPlot.push({x: RGBArrayR[i]/30 - 5, y: RGBArrayG[i]/30 * -1, z: RGBArrayB[i]/30 - 5, id: 'point_' + cnt++});
     }
   }
 
