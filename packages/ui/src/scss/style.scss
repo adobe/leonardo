@@ -494,6 +494,7 @@ main {
 
 #chart3dWrapper {
   display: flex;
+  flex-direction: column;
   max-width: fit-content;
   align-self: center;
   height: 100%;
