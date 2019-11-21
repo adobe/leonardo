@@ -184,7 +184,11 @@ function init3dChart(){
   }
   if (spaceOpt == 'LCH') {
     for(let i=0; i<LCHArrayC.length; i++) {
-      colorPlot.push({x: LCHArrayC[i]/10 - 7, y: LCHArrayL[i]/10 * -1, z: LCHArrayH[i]/(10*pi) - 10, id: 'point_' + cnt++});
+      // x = r * Math.cos(theta)
+      // y = r * Math.sin(theta);
+      let theta = LCHArrayH[i];
+      let r = LCHArrayC[i];
+      colorPlot.push({x: r * Math.cos(theta)/10, y: LCHArrayL[i]/10 * -1, z: r * Math.sin(theta)/10, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'LAB') {
@@ -500,7 +504,7 @@ function getChartColors(mode) {
   chartColors = [];
 
   // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
-  var chartRGB = contrastColors.createScale({swatches: 51, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  var chartRGB = contrastColors.createScale({swatches: 100, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
   for (let i=0; i<chartRGB.colorsHex.length; i++) {
     chartColors.push(chartRGB.colorsHex[i]);

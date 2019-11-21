@@ -779,7 +779,7 @@ function createData(colors) {
   window.HSLuvArrayV = [];
 
   // Shorten the numbers in the array for chart purposes
-  var maxVal = 50;
+  var maxVal = 100;
   var delta = Math.floor( CAM_J.length / maxVal );
 
   for (let i = 0; i < CAM_J.length; i=i+delta) {
