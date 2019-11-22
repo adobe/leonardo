@@ -278,7 +278,11 @@ function createChartWidth() {
   var offset = leftPanel + rightPanel + paddings;
   var viewportWidth = window.innerWidth;
 
-  return (viewportWidth - offset) / 2;
+  if((viewportWidth - offset) / 2 > 300) {
+    return (viewportWidth - offset) / 2;
+  } else {
+    return 300;
+  }
 }
 
 function createChartHeight() {
