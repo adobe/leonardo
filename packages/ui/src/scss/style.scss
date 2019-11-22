@@ -480,6 +480,10 @@ main {
   border-radius: 4px;
   // border: 1px solid #e1e1e1;
   // height: 200px;
+
+  svg {
+    color: var(--spectrum-global-color-gray-500);
+  }
 }
 
 #chart2 {
@@ -791,8 +795,13 @@ a:focus {
 .axis path,
 .axis line {
   fill: none;
-  stroke: var(--spectrum-global-color-gray-600);
   shape-rendering: crispEdges;
+}
+.axis path {
+  stroke: var(--spectrum-global-color-gray-800);
+}
+.axis line {
+  stroke: var(--spectrum-global-color-gray-400);
 }
 
 .grid path,
