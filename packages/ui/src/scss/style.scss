@@ -468,18 +468,18 @@ main {
   align-items: flex-end;
   max-width: fit-content;
   margin-bottom: 24px;
-  padding: 0 16px;
+  padding: 0 8px;
 }
 #chart1,
 #chart2,
 #chart3,
 #chart4,
 #contrastChart {
-  background-color: #ffffff;
-  padding: 8px 16px;
+  // background-color: #ffffff;
+  // padding: 8px 16px;
   border-radius: 4px;
-  border: 1px solid #e1e1e1;
-  height: 200px;
+  // border: 1px solid #e1e1e1;
+  // height: 200px;
 }
 
 #chart2 {
@@ -785,7 +785,8 @@ a:focus {
   color: var(--spectrum-global-color-gray-600);
 }
 .charts .spectrum-Subheading {
-  margin-top: 4px;
+  margin-top: 12px;
+  margin-bottom: 4px;
 }
 .axis path,
 .axis line {
@@ -796,13 +797,13 @@ a:focus {
 
 .grid path,
 .grid line {
-  fill: var(--spectrum-global-color-gray-50);
+  // fill: var(--spectrum-global-color-gray-50);
   stroke: var(--spectrum-global-color-gray-300);
   shape-rendering: crispEdges;
 }
 
 .x.axis path {
-  display: none;
+  // display: none;
 }
 
 .line {
@@ -811,7 +812,7 @@ a:focus {
 }
 
 .tick > text {
-  display: none;
+  // display: none;
 }
 
 #colorMetrics {

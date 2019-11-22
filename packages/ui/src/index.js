@@ -545,6 +545,7 @@ function colorInput() {
 
   // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
   let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
+
   if (paletteType == 'Contrast') {
     newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   }
@@ -732,7 +733,7 @@ function createData(colors) {
   let RGB_G = [];
   let RGB_B = [];
 
-  for(let i=4; i<colors.length -8; i++) { // Clip array to eliminate NaN values
+  for(let i=4; i<colors.length; i++) { // Clip array to eliminate NaN values
     CAM_J.push(d3.jab(colors[i]).J);
     CAM_A.push(d3.jab(colors[i]).a);
     CAM_B.push(d3.jab(colors[i]).b);
@@ -777,6 +778,28 @@ function createData(colors) {
   window.HSLuvArrayL = [];
   window.HSLuvArrayU = [];
   window.HSLuvArrayV = [];
+
+  window.CAMArrayJmin = [];
+  window.CAMArrayAmin = [];
+  window.CAMArrayBmin = [];
+  window.LABArrayLmin = [];
+  window.LABArrayAmin = [];
+  window.LABArrayBmin = [];
+  window.LCHArrayLmin = [];
+  window.LCHArrayCmin = [];
+  window.LCHArrayHmin = [];
+  window.RGBArrayRmin = [];
+  window.RGBArrayGmin = [];
+  window.RGBArrayBmin = [];
+  window.HSLArrayHmin = [];
+  window.HSLArraySmin = [];
+  window.HSLArrayLmin = [];
+  window.HSVArrayHmin = [];
+  window.HSVArraySmin = [];
+  window.HSVArrayLmin = [];
+  window.HSLuvArrayLmin = [];
+  window.HSLuvArrayUmin = [];
+  window.HSLuvArrayVmin = [];
 
   // Shorten the numbers in the array for chart purposes
   var maxVal = 300;
@@ -846,6 +869,74 @@ function createData(colors) {
     HSLuvArrayV.push(HSLuv_V[i]);
   }
 
+  // Minimized data set
+  var maxValmin = 25;
+  var deltamin = Math.floor( CAM_J.length / maxValmin );
+
+  for (let i = 0; i < CAM_J.length; i=i+deltamin) {
+    CAMArrayJmin.push(CAM_J[i]);
+  }
+  for (let i = 0; i < CAM_A.length; i=i+deltamin) {
+    CAMArrayAmin.push(CAM_A[i]);
+  }
+  for (let i = 0; i < CAM_B.length; i=i+deltamin) {
+    CAMArrayBmin.push(CAM_B[i]);
+  }
+  for (let i = 0; i < LAB_L.length; i=i+deltamin) {
+    LABArrayLmin.push(LAB_L[i]);
+  }
+  for (let i = 0; i < LAB_A.length; i=i+deltamin) {
+    LABArrayAmin.push(LAB_A[i]);
+  }
+  for (let i = 0; i < LAB_B.length; i=i+deltamin) {
+    LABArrayBmin.push(LAB_B[i]);
+  }
+  for (let i = 0; i < LCH_L.length; i=i+deltamin) {
+    LCHArrayLmin.push(LCH_L[i]);
+  }
+  for (let i = 0; i < LCH_C.length; i=i+deltamin) {
+    LCHArrayCmin.push(LCH_C[i]);
+  }
+  for (let i = 0; i < LCH_H.length; i=i+deltamin) {
+    LCHArrayHmin.push(LCH_H[i]);
+  }
+  for (let i = 0; i < RGB_R.length; i=i+deltamin) {
+    RGBArrayRmin.push(RGB_R[i]);
+  }
+  for (let i = 0; i < RGB_G.length; i=i+deltamin) {
+    RGBArrayGmin.push(RGB_G[i]);
+  }
+  for (let i = 0; i < RGB_B.length; i=i+deltamin) {
+    RGBArrayBmin.push(RGB_B[i]);
+  }
+  for (let i = 0; i < HSL_H.length; i=i+deltamin) {
+    HSLArrayHmin.push(HSL_H[i]);
+  }
+  for (let i = 0; i < HSL_S.length; i=i+deltamin) {
+    HSLArraySmin.push(HSL_S[i]);
+  }
+  for (let i = 0; i < HSL_L.length; i=i+deltamin) {
+    HSLArrayLmin.push(HSL_L[i]);
+  }
+  for (let i = 0; i < HSV_H.length; i=i+deltamin) {
+    HSVArrayHmin.push(HSV_H[i]);
+  }
+  for (let i = 0; i < HSV_S.length; i=i+deltamin) {
+    HSVArraySmin.push(HSV_S[i]);
+  }
+  for (let i = 0; i < HSV_V.length; i=i+deltamin) {
+    HSVArrayLmin.push(HSV_V[i]);
+  }
+  for (let i = 0; i < HSLuv_L.length; i=i+deltamin) {
+    HSLuvArrayLmin.push(HSLuv_L[i]);
+  }
+  for (let i = 0; i < HSLuv_U.length; i=i+deltamin) {
+    HSLuvArrayUmin.push(HSLuv_U[i]);
+  }
+  for (let i = 0; i < HSLuv_V.length; i=i+deltamin) {
+    HSLuvArrayVmin.push(HSLuv_V[i]);
+  }
+
   const fillRange = (start, end) => {
     return Array(end - start + 1).fill().map((item, index) => start + index);
   };
@@ -862,166 +953,134 @@ function createData(colors) {
     }
   ];
 
-  window.camDataJ = [
-    {
-      x: dataX,
-      y: CAMArrayJ
-    }
-  ];
+
   window.camDataA = [
     {
-      x: dataX,
-      y: CAMArrayA
+      x: CAMArrayJmin,
+      y: CAMArrayAmin
     }
   ];
   window.camDataB = [
     {
-      x: dataX,
-      y: CAMArrayB
+      x: CAMArrayJmin,
+      y: CAMArrayBmin
     }
   ];
   window.camDataAB = [
     {
-      x: CAMArrayA,
-      y: CAMArrayB
+      x: CAMArrayAmin,
+      y: CAMArrayBmin
     }
   ];
-  window.labDataL = [
-    {
-      x: dataX,
-      y: LABArrayL
-    }
-  ];
+
   window.labDataA = [
     {
-      x: dataX,
-      y: LABArrayA
+      x: LABArrayLmin,
+      y: LABArrayAmin
     }
   ];
   window.labDataB = [
     {
-      x: dataX,
-      y: LABArrayB
+      x: LABArrayLmin,
+      y: LABArrayBmin
     }
   ];
   window.labDataAB = [
     {
-      x: LABArrayA,
-      y: LABArrayB
+      x: LABArrayAmin,
+      y: LABArrayBmin
     }
   ];
-  window.lchDataL = [
-    {
-      x: dataX,
-      y: LCHArrayL
-    }
-  ];
+
   window.lchDataC = [
     {
-      x: dataX,
-      y: LCHArrayC
+      x: LCHArrayLmin,
+      y: LCHArrayCmin
     }
   ];
   window.lchDataH = [
     {
-      x: dataXcyl,
-      y: LCHArrayH
+      x: LCHArrayLmin,
+      y: LCHArrayHmin
     }
   ];
   window.lchDataCH = [
     {
-      x: LCHArrayH,
-      y: LCHArrayC
+      x: LCHArrayHmin,
+      y: LCHArrayCmin
     }
   ];
   window.rgbDataR = [
     {
-      x: RGBArrayR,
-      y: RGBArrayG
+      x: RGBArrayRmin,
+      y: RGBArrayGmin
     }
   ];
   window.rgbDataG = [
     {
-      x: RGBArrayG,
-      y: RGBArrayB
+      x: RGBArrayGmin,
+      y: RGBArrayBmin
     }
   ];
   window.rgbDataB = [
     {
-      x: RGBArrayB,
-      y: RGBArrayR
+      x: RGBArrayBmin,
+      y: RGBArrayRmin
     }
   ];
   window.hslDataH = [
     {
-      x: dataXcyl,
-      y: HSLArrayH
+      x: HSLArrayLmin,
+      y: HSLArrayHmin
     }
   ];
   window.hslDataS = [
     {
-      x: dataX,
-      y: HSLArrayS
-    }
-  ];
-  window.hslDataL = [
-    {
-      x: dataX,
-      y: HSLArrayL
+      x: HSLArrayLmin,
+      y: HSLArraySmin
     }
   ];
   window.hslDataHS = [
     {
-      x: HSLArrayH,
-      y: HSLArrayS
+      x: HSLArrayHmin,
+      y: HSLArraySmin
     }
   ];
+
   window.hsvDataH = [
     {
-      x: dataXcyl,
-      y: HSVArrayH
+      x: HSVArrayLmin,
+      y: HSVArrayHmin
     }
   ];
   window.hsvDataS = [
     {
-      x: dataX,
-      y: HSVArrayS
-    }
-  ];
-  window.hsvDataL = [
-    {
-      x: dataX,
-      y: HSVArrayL
+      x: HSVArrayLmin,
+      y: HSVArraySmin
     }
   ];
   window.hsvDataHS = [
     {
-      x: HSVArrayH,
-      y: HSVArrayS
+      x: HSVArrayHmin,
+      y: HSVArraySmin
     }
   ];
   window.hsluvDataL = [
     {
-      x: dataX,
-      y: HSLuvArrayL
+      x: HSLuvArrayVmin,
+      y: HSLuvArrayLmin
     }
   ];
   window.hsluvDataU = [
     {
-      x: dataX,
-      y: HSLuvArrayU
-    }
-  ];
-  window.hsluvDataV = [
-    {
-      x: dataX,
-      y: HSLuvArrayV
+      x: HSLuvArrayVmin,
+      y: HSLuvArrayUmin
     }
   ];
   window.hsluvDataLU = [
     {
-      x: HSLuvArrayL,
-      y: HSLuvArrayU
+      x: HSLuvArrayVmin,
+      y: HSLuvArrayUmin
     }
   ];
   window.contrastData = [
@@ -1029,7 +1088,7 @@ function createData(colors) {
       x: dataXcontrast,
       y: ratioInputs
     }
-  ]
+  ];
 }
 
 
