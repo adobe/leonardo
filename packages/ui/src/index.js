@@ -1079,7 +1079,7 @@ function createData(colors) {
   ];
   window.hsluvDataLU = [
     {
-      x: HSLuvArrayVmin,
+      x: HSLuvArrayLmin,
       y: HSLuvArrayUmin
     }
   ];

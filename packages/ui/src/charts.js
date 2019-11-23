@@ -513,6 +513,7 @@ function createAllCharts(mode) {
     createChartHeader('Blue / Red', 'chart3');
     createChart(rgbDataB, "#chart3");
   }
+  createChartHeader('Contrast Ratios', 'contrastChart');
   createChart(window.contrastData, "#contrastChart", 300);
 
   init3dChart();

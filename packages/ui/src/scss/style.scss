@@ -460,16 +460,24 @@ main {
   overflow: auto;
 }
 
+#chartsWrapper {
+  flex-direction: row;
+}
+
 .charts {
   display: flex;
   min-height: fit-content;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: flex-start;
   max-width: fit-content;
   margin-bottom: 24px;
   padding: 0 8px;
 }
+.charts ~ .charts {
+  margin-left: 16px;
+}
+
 #chart1,
 #chart2,
 #chart3,
@@ -484,10 +492,6 @@ main {
   svg {
     color: var(--spectrum-global-color-gray-500);
   }
-}
-
-#chart2 {
-  margin-left: 24px;
 }
 
 .chartGroup {
