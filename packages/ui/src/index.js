@@ -943,7 +943,7 @@ function createData(colors) {
 
   let dataX = fillRange(0, CAMArrayJ.length - 1);
   let dataXcyl = fillRange(0, LCHArrayL.length - 1);
-  let dataXcontrast = fillRange(0, ratioInputs.length - 1);
+  let dataXcontrast = fillRange(0, ratioInputs.length-1);
 
   window.labFullData = [
     {

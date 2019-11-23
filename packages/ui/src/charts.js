@@ -305,7 +305,7 @@ function createChartHeader(x, dest) {
 }
 
 // Make color charts
-function createChart(data, dest) {
+function createChart(data, dest, height) {
   let xy_chart = d3_xy_chart()
     .width(createChartWidth())
     // .height(120)
@@ -513,7 +513,7 @@ function createAllCharts(mode) {
     createChartHeader('Blue / Red', 'chart3');
     createChart(rgbDataB, "#chart3");
   }
-  createChart(window.contrastData, "#contrastChart");
+  createChart(window.contrastData, "#contrastChart", 300);
 
   init3dChart();
 }
