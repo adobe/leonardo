@@ -500,6 +500,7 @@ window.colorInput = colorInput;
 function colorInput() {
   document.getElementById('colors').innerHTML = '';
   let spaceOpt = document.getElementById('chart3dColorspace').value;
+
   var paletteType = document.getElementById('paletteType').value;
   var swatchAmmount = document.getElementById('swatchAmmount').value;
   var shiftInputValue = document.getElementById('shiftInputValue');

@@ -419,6 +419,12 @@ body {
     padding-right: 8px;
   }
 }
+.spectrum-Form--row {
+  flex-direction: row;
+  .spectrum-Form-item ~ .spectrum-Form-item {
+    margin-left: 16px;
+  }
+}
 
 main {
   display: flex;

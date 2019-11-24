@@ -59,7 +59,9 @@ function create3dChartHeight() {
 
 let chartWidth = create3dChartWidth();
 let chartHeight = create3dChartHeight();
-let origin = [chartWidth/1.85, chartHeight/1.5], j = 10, scale = 30, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+let modelScale = 30;
+
+let origin = [chartWidth/1.85, chartHeight/1.5], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
 dest.style.width = chartWidth;
 dest.style.height = chartHeight;
 
@@ -189,6 +191,7 @@ function init3dChart(){
 
   let cnt = 0;
   xGrid = [], scatter = [], yLine = [], colorPlot = [];
+
   // Taking J from origin argument...
   // z = -10; z < 10; z++ is what it's saying.
   for(let z = -j; z < j; z++){
@@ -201,6 +204,7 @@ function init3dChart(){
     }
   }
   let spaceOpt = document.getElementById('chart3dColorspace').value;
+
   let pi = Math.PI;
 
   if (spaceOpt == 'CAM02') {
