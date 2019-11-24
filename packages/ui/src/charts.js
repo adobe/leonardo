@@ -8,6 +8,35 @@ import contrastColors from '@adobe/leonardo-contrast-colors';
 let chart3dColorspace = document.getElementById('chart3dColorspace');
 let dest = document.getElementById('3dchart');
 
+/*
+Create 2d and 3d chart heights and widths based on known
+paddings and panel dimensions, based on viewport height/width.
+*/
+function createChartWidth() {
+  let leftPanel = 304;
+  let rightPanel = 240;
+  let paddings = 100;
+  let offset = leftPanel + rightPanel + paddings;
+  let viewportWidth = window.innerWidth;
+
+  if((viewportWidth - offset) / 2 > 300) {
+    return (viewportWidth - offset) / 2;
+  } else {
+    return 300;
+  }
+}
+
+function createChartHeight() {
+  let headerHeight = 58;
+  let tabHeight = 48;
+  let paddings = 164;
+  let offset = headerHeight + tabHeight + paddings;
+  let viewportHeight = window.innerHeight;
+
+  // return (viewportHeight - offset) / 2;
+  return 180;
+}
+
 function create3dChartWidth() {
   let leftPanel = 304;
   let rightPanel = 240;
@@ -26,7 +55,6 @@ function create3dChartHeight() {
   let viewportHeight = window.innerHeight;
 
   return (viewportHeight - offset);
-  // return 180;
 }
 
 let chartWidth = create3dChartWidth();
@@ -43,9 +71,6 @@ let svg = d3.select(dest)
       .on('end', dragEnd)
     )
   .append('g');
-
-// let color = d3.scaleOrdinal(d3.schemeCategory10);
-// let color = d3.scaleOrdinal(colors);
 
 let mx, my, mouseX, mouseY;
 
@@ -161,7 +186,6 @@ function posPointY(d){
 
 let pi = Math.PI;
 function init3dChart(){
-  // console.log(labFullData.z);
 
   let cnt = 0;
   xGrid = [], scatter = [], yLine = [], colorPlot = [];
@@ -271,31 +295,6 @@ function dragEnd(){
 
 // d3.selectAll('button').on('click', init3dChart);
 
-function createChartWidth() {
-  let leftPanel = 304;
-  let rightPanel = 240;
-  let paddings = 100;
-  let offset = leftPanel + rightPanel + paddings;
-  let viewportWidth = window.innerWidth;
-
-  if((viewportWidth - offset) / 2 > 300) {
-    return (viewportWidth - offset) / 2;
-  } else {
-    return 300;
-  }
-}
-
-function createChartHeight() {
-  let headerHeight = 58;
-  let tabHeight = 48;
-  let paddings = 164;
-  let offset = headerHeight + tabHeight + paddings;
-  let viewportHeight = window.innerHeight;
-
-  // return (viewportHeight - offset) / 2;
-  return 180;
-}
-
 function createChartHeader(x, dest) {
   let container = document.getElementById(dest);
   let subhead = document.createElement('h6');
@@ -304,11 +303,10 @@ function createChartHeader(x, dest) {
   container.appendChild(subhead);
 }
 
-// Make color charts
+// Make 2d color charts
 function createChart(data, dest, height) {
   let xy_chart = d3_xy_chart()
     .width(createChartWidth())
-    // .height(120)
     .height(createChartHeight())
     .xlabel("X Axis")
     .ylabel("Y Axis");
@@ -341,6 +339,8 @@ function createChart(data, dest, height) {
             .range([innerheight, 0])
             .domain([ d3.min(datasets, function(d) { return d3.min(d.y); }),
                       d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
+
+          console.log(d3.max(datasets, function(d) { return d3.max(d.y); }));
 
           let color_scale = d3.scaleOrdinal(d3.schemeCategory10)
             .domain(d3.range(datasets.length)) ;
