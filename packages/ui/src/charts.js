@@ -304,7 +304,8 @@ function createChartHeader(x, dest) {
 }
 
 // Make 2d color charts
-function createChart(data, dest, height) {
+function createChart(data, dest, yMin, yMax) {
+
   let xy_chart = d3_xy_chart()
     .width(createChartWidth())
     .height(createChartHeight())
@@ -323,10 +324,13 @@ function createChart(data, dest, height) {
 
     function chart(selection) {
       selection.each(function(datasets) {
+          // If no min/max defined, base on min/max from data
+          if (yMin == undefined) { yMin = d3.min(datasets, function(d) { return d3.min(d.y); }) }
+          if (yMax == undefined) { yMax = d3.max(datasets, function(d) { return d3.max(d.y); }) }
           //
           // Create the plot.
           //
-          let margin = {top: 8, right: 0, bottom: 20, left: 32};
+          let margin = {top: 8, right: 8, bottom: 20, left: 32};
           let innerwidth = width - margin.left - margin.right;
           let innerheight = height - margin.top - margin.bottom;
 
@@ -337,8 +341,9 @@ function createChart(data, dest, height) {
 
           let y_scale = d3.scaleLinear()
             .range([innerheight, 0])
-            .domain([ d3.min(datasets, function(d) { return d3.min(d.y); }),
-                      d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
+            .domain([ yMin, yMax ]);
+                      // d3.min(datasets, function(d) { return d3.min(d.y); }),
+                      // d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
 
           console.log(d3.max(datasets, function(d) { return d3.max(d.y); }));
 
@@ -483,38 +488,38 @@ function createAllCharts(mode) {
   }
   if (mode=="HSL") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hslDataH, "#chart1");
+    createChart(hslDataH, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hslDataS, "#chart2");
+    createChart(hslDataS, "#chart2", 0, 1);
     createChartHeader('Hue / Saturation', 'chart3');
-    createChart(hslDataHS, "#chart3");
+    createChart(hslDataHS, "#chart3", 0, 1);
   }
   if (mode=="HSLuv") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsluvDataL, "#chart1");
+    createChart(hsluvDataL, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsluvDataU, "#chart2");
+    createChart(hsluvDataU, "#chart2", 0, 100);
     createChartHeader('Hue / Saturation', 'chart3');
-    createChart(hsluvDataLU, "#chart3");
+    createChart(hsluvDataLU, "#chart3", 0, 360);
   }
   if (mode=="HSV") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsvDataH, "#chart1");
+    createChart(hsvDataH, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsvDataS, "#chart2");
+    createChart(hsvDataS, "#chart2", 0, 1);
     createChartHeader('Hue / Saturation', 'chart3');
-    createChart(hsvDataHS, "#chart3");
+    createChart(hsvDataHS, "#chart3", 0, 1);
   }
   if (mode=="RGB") {
     createChartHeader('Red / Green', 'chart1');
-    createChart(rgbDataR, "#chart1");
+    createChart(rgbDataR, "#chart1", 0, 255);
     createChartHeader('Green / Blue', 'chart2');
-    createChart(rgbDataG, "#chart2");
+    createChart(rgbDataG, "#chart2", 0, 255);
     createChartHeader('Blue / Red', 'chart3');
-    createChart(rgbDataB, "#chart3");
+    createChart(rgbDataB, "#chart3", 0, 255);
   }
   createChartHeader('Contrast Ratios', 'contrastChart');
-  createChart(window.contrastData, "#contrastChart", 300);
+  createChart(window.contrastData, "#contrastChart");
 
   init3dChart();
 }
