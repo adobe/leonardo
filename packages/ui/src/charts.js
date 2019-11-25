@@ -349,8 +349,6 @@ function createChart(data, dest, yMin, yMax) {
                       // d3.min(datasets, function(d) { return d3.min(d.y); }),
                       // d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
 
-          console.log(d3.max(datasets, function(d) { return d3.max(d.y); }));
-
           let color_scale = d3.scaleOrdinal(d3.schemeCategory10)
             .domain(d3.range(datasets.length)) ;
 

@@ -21,6 +21,7 @@ import '@spectrum-css/page/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
 import '@spectrum-css/icon/dist/index-vars.css';
 import '@spectrum-css/radio/dist/index-vars.css';
+import '@spectrum-css/dialog/dist/index-vars.css';
 import '@spectrum-css/button/dist/index-vars.css';
 import '@spectrum-css/fieldgroup/dist/index-vars.css';
 import '@spectrum-css/textfield/dist/index-vars.css';
@@ -46,8 +47,8 @@ import contrastColors from '@adobe/leonardo-contrast-colors';
 
 import ClipboardJS from 'clipboard';
 
-// new ClipboardJS('.copyButton');
-// new ClipboardJS('.colorOutputBlock');
+new ClipboardJS('.copyButton');
+new ClipboardJS('.colorOutputBlock');
 
 import * as d3 from 'd3';
 
@@ -286,22 +287,47 @@ window.addNewColor = function addNewColor() {
 }
 
 window.addBulk = function addBulk() {
-  document.getElementById('bulkColors').style.display = 'block';
+  document.getElementById('addBulkColorDialog').classList.add("is-open");
+  document.getElementById('dialogOverlay').style.display = 'block';
+  let bgInput = document.getElementById('bgField_2');
+  let bg = document.getElementById('bgField');
+  bgInput.value = bg.value;
+}
+window.cancelBulk = function cancelBulk() {
+  document.getElementById('addBulkColorDialog').classList.remove("is-open");
+  document.getElementById('dialogOverlay').style.display = 'none';
 }
 
-function bulkColorInput() {
+window.bulkColorInput = function bulkColorInput() {
   let bulkInputs = document.getElementById('bulkColors');
   let bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").split("\n");
+  let isSwatch = document.getElementById('importAsSwatch').checked;
+  let bgInput = document.getElementById('bgField_2').value; // input in Dialog
+  let bg = document.getElementById('bgField'); // input in UI
 
-  // console.log(bulkValues);
+  // add key colors for each input
   for(let i=0; i<bulkValues.length; i++) {
     addColor(d3.color(bulkValues[i]).formatHex());
   }
-  bulkInputs.style.display = 'none';
+  if (isSwatch) {
+    // create ratio inputs for each contrast
+    for (let i=0; i<bulkValues.length; i++) {
+      let cr = contrastColors.contrast([d3.rgb(bulkValues[i]).r, d3.rgb(bulkValues[i]).g, d3.rgb(bulkValues[i]).b], [d3.rgb(bgInput).r, d3.rgb(bgInput).g, d3.rgb(bgInput).b]);
+      addRatio(cr.toFixed(2));
+    }
+    bg.value = bgInput;
+  }
 
+  // Hide dialog
+  cancelBulk();
+  // Run colorinput
   colorInput();
+
+  // clear inputs on close
+  bulkInputs.value = " ";
 }
-document.getElementById('bulkColors').addEventListener('blur', bulkColorInput)
+// Test with #a9e6dc,#7cd6c7,#5ec3bb,#48b1b2,#3b9da5,#308b9a,#22738a,#195b72,#134555
+// Should return crs of 1.40, 1.71, 2.10, 2.56, 3.21, 3.97, 5.40, 7.55, 10.45
 
 window.clearAllColors = function clearAllColors() {
   document.getElementById('colorInputWrapper').innerHTML = ' ';

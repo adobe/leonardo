@@ -640,13 +640,10 @@ colorOutput-field {
 }
 
 #bulkColors {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 80px;
   resize: none;
-  display: none;
+  margin-bottom: 16px;
 }
 
 a:focus {
@@ -886,4 +883,19 @@ g.d3_xy_chart_line path.line {
 	content: attr(data-title);
 	position: absolute;
 	top: 0px;
+}
+
+// Correct some oddities with Dialog buttons
+.spectrum-Dialog-footer > *, .spectrum-Dialog-footer > .spectrum-Button + .spectrum-Button {
+  margin: 0 0 0 var(--spectrum-buttongroup-button-gap-x, var(--spectrum-global-dimension-static-size-200));
+}
+
+#dialogOverlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
 }

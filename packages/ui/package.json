@@ -46,7 +46,6 @@
     "@spectrum-css/textfield": "^2.0.2",
     "@spectrum-css/tooltip": "^2.0.2",
     "@spectrum-css/typography": "^2.0.2",
-    "@spectrum-css/vars": "^2.0.0",
     "@spectrum-css/vars": "^2.0.2",
     "clipboard": "^2.0.4",
     "d3": "^5.12.0",
@@ -57,5 +56,8 @@
     "loadicons": "^1.0.0",
     "parcel-bundler": "^1.12.4",
     "sass": "^1.23.6"
+  },
+  "dependencies": {
+    "@spectrum-css/dialog": "^2.0.2"
   }
 }
