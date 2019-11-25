@@ -370,8 +370,8 @@ function createData(colors) {
   ];
   window.hsluvDataLU = [
     {
-      x: HSLuvArrayUmin,
-      y: HSLuvArrayLmin
+      x: HSLuvArrayLmin,
+      y: HSLuvArrayUmin
     }
   ];
   window.contrastData = [

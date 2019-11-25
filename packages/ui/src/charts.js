@@ -468,11 +468,11 @@ function createAllCharts(mode) {
 
   if (mode=="LCH") {
     createChartHeader('Chroma / Lightness', 'chart1');
-    createChart(lchDataC, "#chart1");
+    createChart(lchDataC, "#chart1", 0, 100);
     createChartHeader('Hue / Lightness', 'chart2');
-    createChart(lchDataH, "#chart2");
-    createChartHeader('Hue / Chroma', 'chart3');
-    createChart(lchDataCH, "#chart3");
+    createChart(lchDataH, "#chart2", 0, 360);
+    createChartHeader('Chroma / Hue', 'chart3');
+    createChart(lchDataCH, "#chart3", 0, 100);
   }
   if (mode=="LAB") {
     createChartHeader('Green Red / Lightness', 'chart1');
@@ -495,7 +495,7 @@ function createAllCharts(mode) {
     createChart(hslDataH, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
     createChart(hslDataS, "#chart2", 0, 1);
-    createChartHeader('Hue / Saturation', 'chart3');
+    createChartHeader('Saturation / Hue', 'chart3');
     createChart(hslDataHS, "#chart3", 0, 1);
   }
   if (mode=="HSLuv") {
@@ -503,15 +503,15 @@ function createAllCharts(mode) {
     createChart(hsluvDataL, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
     createChart(hsluvDataU, "#chart2", 0, 100);
-    createChartHeader('Hue / Saturation', 'chart3');
-    createChart(hsluvDataLU, "#chart3", 0, 360);
+    createChartHeader('Saturation / Hue', 'chart3');
+    createChart(hsluvDataLU, "#chart3", 0, 100);
   }
   if (mode=="HSV") {
     createChartHeader('Hue / Lightness', 'chart1');
     createChart(hsvDataH, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
     createChart(hsvDataS, "#chart2", 0, 1);
-    createChartHeader('Hue / Saturation', 'chart3');
+    createChartHeader('Saturation / Hue', 'chart3');
     createChart(hsvDataHS, "#chart3", 0, 1);
   }
   if (mode=="RGB") {
