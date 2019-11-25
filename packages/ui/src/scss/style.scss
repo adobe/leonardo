@@ -32,7 +32,7 @@ body {
   overflow: hidden;
   font-family: 'Adobe Clean'; // local update since no typekit support currently.
   display: grid;
-  grid-template-columns: 304px auto 240px;
+  grid-template-columns: 324px auto 240px;
   grid-template-rows: var(--header-height) auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
