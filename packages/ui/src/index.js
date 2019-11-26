@@ -152,7 +152,7 @@ function addRatio(v, s = '#cacaca') {
   var slider = document.createElement('input');
 
   var randId = randomId();
-  div.className = 'color-Item';
+  div.className = 'ratio-Item';
   div.id = randId + '-item';
   var sw = document.createElement('span');
   sw.className = 'spectrum-Textfield-swatch';
@@ -754,16 +754,35 @@ window.sortRatios = function sortRatios() {
 }
 
 // Exponential curve for approximating perceptually balanced swatch distribution
-function returnRatioExp(lum) {
-  // var a = 22.11002659220650;
-  // var b = -0.03236668196111;
+// function returnRatioExp(lum) {
+//   // var a = 22.11002659220650;
+//   // var b = -0.03236668196111;
+//
+//   // Test update
+//   var a = 21.2;
+//   var b = -0.035;
+//   var c = 0.25;
+//
+//   var r = a * Math.exp(b * lum) + c;
+//   if (r > 1) {
+//     return r;
+//   }
+//   if (r < 1 && r >= 0) {
+//     return 1;
+//   }
+// }
 
-  // Test update
-  var a = 21.2;
-  var b = -0.035;
-  var c = 0.25;
+// Inverse tangental curve for approximating perceptually balanced swatch distribution
+// with smaller difference between swatches in darker values
+function returnRatioTan(lum) {
+  let a = -0.4875;
+  let b = 5.75;
+  let c = 0.75;
+  let d = 0.665;
+  let x = lum/100;
+  let y = a * Math.atan(b * x - c) + d;
+  let r = y * 20 + 1;
 
-  var r = a * Math.exp(b * lum) + c;
   if (r > 1) {
     return r;
   }
@@ -772,27 +791,15 @@ function returnRatioExp(lum) {
   }
 }
 
-// Inverse tangental curve for approximating perceptually balanced swatch distribution
-// with smaller difference between swatches in darker values
-function returnRatioTan(lum) {
-  // var a = -8.25;
-  // var b = 0.0685;
-  // var c = 1.65;
-  // var d = 12.25;
+function returnRatioCube(lum) {
+  let a = 1.45;
+  let b = 0.7375;
+  let c = 2.5;
 
-  // Test tangent curve for general use
-  var a = -11;
-  var b = 0.0475;
-  var c = 0.5;
-  var d = 15.45;
-
-  // Test tangent curve for diverging palettes
-  // var a = -11;
-  // var b = 0.04;
-  // var c = 0.65;
-  // var d = 14.875;
-
-  var r = a * Math.atan(b * lum - c) + d;
+  let x = lum/100;
+  let exp = ((x * -1 / a) + b);
+  let y = Math.pow(exp, 3) * c;
+  let r = y * 20 + 1;
 
   if (r > 1) {
     return r;
@@ -854,7 +861,7 @@ window.distributeTan = function distributeTan() {
 
 // Function to distribute swatches based on linear interpolation between HSLuv
 // lightness values.
-function distributeLum() {
+window.distributeLum = function distributeLum() {
   let lums = interpolateLumArray();
   var NewContrast = [];
 
@@ -868,7 +875,7 @@ function distributeLum() {
     var rgbArray = [d3.rgb(NewRGB).r, d3.rgb(NewRGB).g, d3.rgb(NewRGB).b];
     var baseRgbArray = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
 
-    NewContrast.push(contrast(rgbArray, baseRgbArray).toFixed(2));
+    NewContrast.push(contrastColors.contrast(rgbArray, baseRgbArray).toFixed(2));
   }
 
   // Concatenate first and last contrast array with new contrast array (middle)
@@ -876,11 +883,11 @@ function distributeLum() {
   newRatios = newRatios.concat(ratioInputs[0], NewContrast, ratioInputs[ratioInputs.length-1]);
 
   // Delete all ratios
-  ratioItems = document.getElementsByClassName('color-Item');
+  let ratioItems = document.getElementsByClassName('ratio-Item');
   while(ratioItems.length > 0){
     ratioItems[0].parentNode.removeChild(ratioItems[0]);
   }
-  var sliders = document.getElementById('sliderWrapper');
+  let sliders = document.getElementById('sliderWrapper');
   sliders.innerHTML = ' ';
 
   // Add all new
