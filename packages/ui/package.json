@@ -34,6 +34,7 @@
     "@spectrum-css/button": "^2.0.2",
     "@spectrum-css/buttongroup": "^2.0.2",
     "@spectrum-css/checkbox": "^2.0.2",
+    "@spectrum-css/dialog": "^2.0.2",
     "@spectrum-css/dropdown": "^2.1.1",
     "@spectrum-css/fieldgroup": "^2.0.2",
     "@spectrum-css/fieldlabel": "^2.0.2",
@@ -56,8 +57,5 @@
     "loadicons": "^1.0.0",
     "parcel-bundler": "^1.12.4",
     "sass": "^1.23.6"
-  },
-  "dependencies": {
-    "@spectrum-css/dialog": "^2.0.2"
   }
 }
