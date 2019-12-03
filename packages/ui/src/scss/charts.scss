@@ -41,8 +41,9 @@ governing permissions and limitations under the License.
   stroke-width: 2px;
 }
 
-.tick > text {
-  // display: none;
+.axis > text {
+  display: none;
+  fill: var(--spectrum-global-color-gray-600);
 }
 
 #colorMetrics {

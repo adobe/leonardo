@@ -188,7 +188,7 @@
   <div class="tabcontent" id="chartsWrapper">
     <div class="charts">
       <div class="chartGroup">
-        <h3 class="spectrum-Heading6"><span id="colorspaceLabel"></span> interpolation paths </h3>
+        <h3 class="spectrum-Heading6"><span id="colorspaceLabel"></span> interpolation in CIECAM02 </h3>
         <div id="chart1"></div>
       </div>
       <div id="chart2"></div>
@@ -203,7 +203,7 @@
   </div>
 
   <div class="tabcontent" id="modelWrapper">
-    <form class="spectrum-Form spectrum-Form--row">
+    <form class="spectrum-Form spectrum-Form--row" style="display: none;">
       <div class="spectrum-Form-item">
         <label for="paletteType_Dropdown" class="spectrum-FieldLabel spectrum-FieldLabel--left">View model:</label>
         <div class="spectrum-Dropdown spectrum-Dropdown--quiet" id="chart3dColorspace_dropdown">
@@ -216,7 +216,7 @@
       </form>
     <div id="chart3dWrapper">
       <svg class="chart3D" id="3dchart"></svg>
-      <span class="spectrum-Body5">* Models are not to scale. Modifications made to enhance visibility of form.</span>
+      <span class="spectrum-Body5">* Model is only shown in CIECAM02 color space. CIECAM02 is a perceptually uniform color appearance model. Irregularities of your color scale in this model are reflective of perceptual irregularities and will help in creating a smooth, uniform color scale.</span>
     </div>
   </div>
 

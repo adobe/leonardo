@@ -308,13 +308,13 @@ function createChartHeader(x, dest) {
 }
 
 // Make 2d color charts
-function createChart(data, dest, yMin, yMax) {
+function createChart(data, yLabel, xLabel, dest, yMin, yMax) {
 
   let xy_chart = d3_xy_chart()
     .width(createChartWidth())
     .height(createChartHeight())
-    .xlabel("X Axis")
-    .ylabel("Y Axis");
+    .xlabel(xLabel)
+    .ylabel(yLabel);
 
   let svg = d3.select(dest).append("svg")
     .datum(data)
@@ -464,64 +464,81 @@ function toggleGraphs() {
 function createAllCharts(mode) {
   let chart3 = document.getElementById('chart3Wrapper');
 
-  if (mode=="LCH") {
-    createChartHeader('Chroma / Lightness', 'chart1');
-    createChart(lchDataC, "#chart1", 0, 100);
-    createChartHeader('Hue / Lightness', 'chart2');
-    createChart(lchDataH, "#chart2", 0, 360);
-    createChartHeader('Chroma / Hue', 'chart3');
-    createChart(lchDataCH, "#chart3", 0, 100);
-  }
-  if (mode=="LAB") {
-    createChartHeader('Green Red / Lightness', 'chart1');
-    createChart(labDataA, "#chart1");
-    createChartHeader('Blue Yellow / Lightness', 'chart2');
-    createChart(labDataB, "#chart2");
-    createChartHeader('Green Red / Blue Yellow', 'chart3');
-    createChart(labDataAB, "#chart3");
-  }
-  if (mode=="CAM02") {
-    createChartHeader('Green Red / Lightness', 'chart1');
-    createChart(camDataA, "#chart1");
-    createChartHeader('Blue Yellow / Lightness', 'chart2');
-    createChart(camDataB, "#chart2");
-    createChartHeader('Green Red / Blue Yellow', 'chart3');
-    createChart(camDataAB, "#chart3");
-  }
-  if (mode=="HSL") {
-    createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hslDataH, "#chart1", 0, 360);
-    createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hslDataS, "#chart2", 0, 1);
-    createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hslDataHS, "#chart3", 0, 1);
-  }
-  if (mode=="HSLuv") {
-    createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsluvDataL, "#chart1", 0, 360);
-    createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsluvDataU, "#chart2", 0, 100);
-    createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hsluvDataLU, "#chart3", 0, 100);
-  }
-  if (mode=="HSV") {
-    createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsvDataH, "#chart1", 0, 360);
-    createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsvDataS, "#chart2", 0, 1);
-    createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hsvDataHS, "#chart3", 0, 1);
-  }
-  if (mode=="RGB") {
-    createChartHeader('Red / Green', 'chart1');
-    createChart(rgbDataR, "#chart1", 0, 255);
-    createChartHeader('Green / Blue', 'chart2');
-    createChart(rgbDataG, "#chart2", 0, 255);
-    createChartHeader('Blue / Red', 'chart3');
-    createChart(rgbDataB, "#chart3", 0, 255);
-  }
+  // CIE CAM02 charts only
+  createChartHeader('Green Red / Lightness', 'chart1');
+  createChart(camDataA, 'Green - Red', 'Lightness', "#chart1");
+  createChartHeader('Blue Yellow / Lightness', 'chart2');
+  createChart(camDataB, 'Blue - Yellow', 'Lightness', "#chart2");
+  createChartHeader('Green Red / Blue Yellow', 'chart3');
+  createChart(camDataAB, 'Green - Red', 'Blue - Yellow', "#chart3");
+
+  // LCH Charts only
+  // createChartHeader('Chroma / Lightness', 'chart1');
+  // createChart(lchDataC, "#chart1", 0, 100);
+  // createChartHeader('Hue / Lightness', 'chart2');
+  // createChart(lchDataH, "#chart2", 0, 360);
+  // createChartHeader('Chroma / Hue', 'chart3');
+  // createChart(lchDataCH, "#chart3", 0, 100);
+
+  //
+  // if (mode=="LCH") {
+  //   createChartHeader('Chroma / Lightness', 'chart1');
+  //   createChart(lchDataC, "#chart1", 0, 100);
+  //   createChartHeader('Hue / Lightness', 'chart2');
+  //   createChart(lchDataH, "#chart2", 0, 360);
+  //   createChartHeader('Chroma / Hue', 'chart3');
+  //   createChart(lchDataCH, "#chart3", 0, 100);
+  // }
+  // if (mode=="LAB") {
+  //   createChartHeader('Green Red / Lightness', 'chart1');
+  //   createChart(labDataA, "#chart1");
+  //   createChartHeader('Blue Yellow / Lightness', 'chart2');
+  //   createChart(labDataB, "#chart2");
+  //   createChartHeader('Green Red / Blue Yellow', 'chart3');
+  //   createChart(labDataAB, "#chart3");
+  // }
+  // if (mode=="CAM02") {
+  //   createChartHeader('Green Red / Lightness', 'chart1');
+  //   createChart(camDataA, "#chart1");
+  //   createChartHeader('Blue Yellow / Lightness', 'chart2');
+  //   createChart(camDataB, "#chart2");
+  //   createChartHeader('Green Red / Blue Yellow', 'chart3');
+  //   createChart(camDataAB, "#chart3");
+  // }
+  // if (mode=="HSL") {
+  //   createChartHeader('Hue / Lightness', 'chart1');
+  //   createChart(hslDataH, "#chart1", 0, 360);
+  //   createChartHeader('Saturation / Lightness', 'chart2');
+  //   createChart(hslDataS, "#chart2", 0, 1);
+  //   createChartHeader('Saturation / Hue', 'chart3');
+  //   createChart(hslDataHS, "#chart3", 0, 1);
+  // }
+  // if (mode=="HSLuv") {
+  //   createChartHeader('Hue / Lightness', 'chart1');
+  //   createChart(hsluvDataL, "#chart1", 0, 360);
+  //   createChartHeader('Saturation / Lightness', 'chart2');
+  //   createChart(hsluvDataU, "#chart2", 0, 100);
+  //   createChartHeader('Saturation / Hue', 'chart3');
+  //   createChart(hsluvDataLU, "#chart3", 0, 100);
+  // }
+  // if (mode=="HSV") {
+  //   createChartHeader('Hue / Lightness', 'chart1');
+  //   createChart(hsvDataH, "#chart1", 0, 360);
+  //   createChartHeader('Saturation / Lightness', 'chart2');
+  //   createChart(hsvDataS, "#chart2", 0, 1);
+  //   createChartHeader('Saturation / Hue', 'chart3');
+  //   createChart(hsvDataHS, "#chart3", 0, 1);
+  // }
+  // if (mode=="RGB") {
+  //   createChartHeader('Red / Green', 'chart1');
+  //   createChart(rgbDataR, "#chart1", 0, 255);
+  //   createChartHeader('Green / Blue', 'chart2');
+  //   createChart(rgbDataG, "#chart2", 0, 255);
+  //   createChartHeader('Blue / Red', 'chart3');
+  //   createChart(rgbDataB, "#chart3", 0, 255);
+  // }
   createChartHeader('Contrast Ratios', 'contrastChart');
-  createChart(window.contrastData, "#contrastChart");
+  createChart(window.contrastData, 'Contrast', 'Swatches', "#contrastChart");
 
   init3dChart();
 }
@@ -556,7 +573,7 @@ exports.showCharts = function(mode) {
   document.getElementById('contrastChart').innerHTML = ' ';
 
   let chartModeLabel = document.getElementById('colorspaceLabel');
-  chartModeLabel.innerHTML = mode;
+  chartModeLabel.innerHTML = mode; // Custom label per chart type
 
   chartColors = getChartColors(mode);
   createAllCharts(mode);
