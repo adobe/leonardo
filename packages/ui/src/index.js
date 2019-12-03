@@ -79,7 +79,6 @@ window.colorArgs = null;
 
 function paramSetup() {
   colorspaceOptions();
-  paletteTypeOptions();
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   pathName = url.pathname;
@@ -447,52 +446,11 @@ function colorspaceOptions() {
   chart3dColorspace.value = 'CAM02';
 }
 
-function paletteTypeOptions() {
-  var paletteType = document.getElementById('paletteType');
-  paletteType.options.length = 0;
-
-  var opts = {
-    'Contrast': 'Contrast Based',
-    'Sequential': 'Sequential'
-  };
-
-  for(var index in opts) {
-    paletteType.options[paletteType.options.length] = new Option(opts[index], index);
-  }
-
-  paletteType.value = 'Contrast';
-}
-
-function changePalette() {
-  var paletteType = document.getElementById('paletteType').value;
-  var wrapSequence = document.getElementById('sequentialConfigs');
-  var wrapRatio = document.getElementById('contrastConfigs');
-  var sliders = document.getElementById('colorSlider-wrapper');
-
-  if (paletteType == 'Contrast') {
-    wrapSequence.style.display = 'none';
-    wrapRatio.style.display = 'flex';
-    sliders.style.display = 'flex';
-  }
-  if (paletteType == 'Sequential') {
-    wrapSequence.style.display = 'flex';
-    wrapRatio.style.display = 'none';
-    sliders.style.display = 'none';
-  }
-
-  colorInput();
-}
-
 // Calculate Color and generate Scales
 window.colorInput = colorInput;
 function colorInput() {
   document.getElementById('colorScale').innerHTML = '';
   let spaceOpt = document.getElementById('chart3dColorspace').value;
-
-  var paletteType = document.getElementById('paletteType').value;
-  var swatchAmmount = document.getElementById('swatchAmmount').value;
-  var shiftInputValue = document.getElementById('shiftInputValue');
-  shiftInputValue.innerHTML = ' ';
 
   var inputs = document.getElementsByClassName('keyColor-Item');
   var background = document.getElementById('bgField').value;
@@ -528,19 +486,13 @@ function colorInput() {
   tempArgs.push(inputColors);
   colorArgs = tempArgs.join("").split(',').filter(String);
 
-  let shift = document.getElementById('shiftInput').value;
-  shiftInputValue.innerHTML = shift;
+  let shift = 1;
   let clamping = document.getElementById('sequentialClamp').checked;
 
   // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
   let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
-  if (paletteType == 'Contrast') {
-    newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
-  }
-  // if (paletteType == 'Sequential') {
-  //   generateSequentialColors({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, clamp: clamping});
-  // }
+  newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
 
   // Create values for sliders
   let Values = [];
@@ -588,28 +540,14 @@ function colorInput() {
   }
 
   // Generate Gradient
-  // if (paletteType == 'Sequential') {
-  //   var gradientColors = createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
-  //
-  //   for (var i = 0; i < gradientColors.length; i++) {
-  //     var container = document.getElementById('colorScale');
-  //     var div = document.createElement('div');
-  //     div.className = 'block';
-  //     div.style.backgroundColor = gradientColors[i];
-  //
-  //     container.appendChild(div);
-  //   }
-  // } else {
-    for (let i = 0; i < scaleData.colors.length; i++) {
-      var container = document.getElementById('colorScale');
-      var div = document.createElement('div');
-      div.className = 'colorScale-Item';
-      div.style.backgroundColor = scaleData.colors[i];
+  for (let i = 0; i < scaleData.colors.length; i++) {
+    var container = document.getElementById('colorScale');
+    var div = document.createElement('div');
+    div.className = 'colorScale-Item';
+    div.style.backgroundColor = scaleData.colors[i];
 
-      container.appendChild(div);
-    }
-  // }
-
+    container.appendChild(div);
+  }
 
   var backgroundR = d3.rgb(background).r;
   var backgroundG = d3.rgb(background).g;
