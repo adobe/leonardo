@@ -98,7 +98,15 @@ The `createScale()` function is basically a wrapper function for creating a d3 l
 The Leonardo web app leverages d3 for additional features such as generating 2d and 3d charts.
 
 ## Contributing
-Contributions are welcomed! Read the [Contributing Guide](./.github/CONTRIBUTING.md) for more information.
+Contributions are welcomed! Read the [Contributing Guide](../../.github/CONTRIBUTING.md) for more information.
+
+## Running tests
+
+You can run tests with:
+
+```sh
+npm run test
+```
 
 ## Licensing
 This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.

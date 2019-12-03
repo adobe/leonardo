@@ -4,11 +4,20 @@
   "description": "Generate colors based on a desired contrast ratio",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava test/*.js --verbose",
+    "coverage": "nyc report -r lcovonly && codecov"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "d3": "^5.12.0"
+    "ava": "^2.4.0",
+    "d3": "^5.12.0",
+    "esm": "^3.2.25",
+    "nyc": "^14.1.1"
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
   }
 }
