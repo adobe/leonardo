@@ -10,9 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-// var colorField = document.getElementById('colorField1');
-
-
 import '@spectrum-css/vars/dist/spectrum-global.css';
 import '@spectrum-css/vars/dist/spectrum-medium.css';
 import '@spectrum-css/vars/dist/spectrum-light.css';
@@ -35,6 +32,7 @@ import '@spectrum-css/tabs/dist/vars.css';
 import '@spectrum-css/tabs/dist/index.css';
 
 import './scss/colorinputs.scss';
+import './scss/charts.scss';
 import './scss/style.scss';
 
 import '@adobe/focus-ring-polyfill';
@@ -72,7 +70,7 @@ var ratioInput = document.getElementById('ratio');
 var colorOutputField = document.getElementById('colorOutput');
 
 var colorspace = document.getElementById('mode');
-let ratioFields = document.getElementsByClassName('ratioField');
+let ratioFields = document.getElementsByClassName('ratio-Field');
 
 window.ratioInputs = [];
 let newColors;
@@ -88,8 +86,6 @@ function paramSetup() {
 
   // // If parameters exist, use parameter; else use default html input values
   if(params.has('colorKeys')) {
-    // document.getElementById('inputColors').value = "#" + params.get('color');
-    // document.getElementById('variableColors').value = params.get('color');
     let cr = params.get('colorKeys');
     let crs = cr.split(',');
 
@@ -146,20 +142,20 @@ function addRatio(v, s = '#cacaca') {
     }
   }
 
-  var ratios = document.getElementById('ratios');
+  var ratios = document.getElementById('ratioInput-wrapper');
   var div = document.createElement('div');
-  var sliderWrapper = document.getElementById('sliderWrapper');
+  var sliderWrapper = document.getElementById('colorSlider-wrapper');
   var slider = document.createElement('input');
 
   var randId = randomId();
   div.className = 'ratio-Item';
   div.id = randId + '-item';
   var sw = document.createElement('span');
-  sw.className = 'spectrum-Textfield-swatch';
+  sw.className = 'ratio-Swatch';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
   var input = document.createElement('input');
-  input.className = 'spectrum-Textfield ratioField';
+  input.className = 'spectrum-Textfield ratio-Field';
   input.type = "number";
   input.min = '-10';
   input.max = '21';
@@ -168,7 +164,6 @@ function addRatio(v, s = '#cacaca') {
   input.id = randId;
   input.value = v;
   input.oninput = colorInput;
-  // input.onfocus = showSlider;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   button.innerHTML = `
@@ -181,7 +176,7 @@ function addRatio(v, s = '#cacaca') {
   slider.max = '100';
   slider.value = v;
   slider.step = '.01';
-  slider.className = 'slider'
+  slider.className = 'colorSlider'
   slider.id = randId + "-sl";
   slider.disabled = true;
   sliderWrapper.appendChild(slider);
@@ -191,30 +186,6 @@ function addRatio(v, s = '#cacaca') {
   div.appendChild(input);
   div.appendChild(button);
   ratios.appendChild(div);
-}
-
-function copyColorsFeedback() {
-  id = document.getElementById('copyAllColors');
-  id.innerHTML = `<span class="spectrum-ActionButton-label">Copied!</span>`;
-
-  setTimeout(function() {id.innerHTML = `<span class="spectrum-ActionButton-label">Copy</span>`;}, 3000);
-}
-function copyFunctionFeedback() {
-  id = document.getElementById('copyParams');
-  id.innerHTML = `<span class="spectrum-ActionButton-label">Copied!</span>`;
-
-  setTimeout(function() {id.innerHTML = `<span class="spectrum-ActionButton-label">Copy</span>`;}, 3000);
-}
-
-function updateVal(e) {
-  var parent = e.target.parentNode.id;
-  var id = parent.replace('-item', '');
-  var sw = parent.replace('-item', '-sw');
-  var input = document.getElementById(id);
-  v = document.getElementById(sw).value
-
-  input.value = v;
-  colorInput();
 }
 
 function newColor(e) {
@@ -237,11 +208,11 @@ function newColor(e) {
 }
 
 function addColor(s) {
-  var colorInputs = document.getElementById('colorInputWrapper');
+  var colorInputs = document.getElementById('keyColor-wrapper');
   var div = document.createElement('div');
 
   var randId = randomId();
-  div.className = 'color-Item';
+  div.className = 'keyColor';
   div.id = randId + '-item';
   // var sw = document.createElement('span');
   var sw = document.createElement('input');
@@ -249,17 +220,10 @@ function addColor(s) {
   sw.value = s;
   sw.oninput = colorInput;
 
-  sw.className = 'colorInput inputColorField';
+  sw.className = 'keyColor-Item';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
 
-  let input = document.createElement('input');
-  input.className = 'spectrum-Textfield inputColorField';
-  input.type = "text";
-  input.placeholder = '#ff00ff';
-  input.id = randId;
-  input.value = s;
-  input.onchange = newColor;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
   button.innerHTML = `
@@ -269,11 +233,9 @@ function addColor(s) {
 
   button.onclick = deleteColor;
   div.appendChild(sw);
-  // div.appendChild(input);
   div.appendChild(button);
   colorInputs.appendChild(div);
 }
-
 
 // When adding new ratios in UI, run colorinput as well
 window.addNewRatio = function addNewRatio() {
@@ -281,6 +243,7 @@ window.addNewRatio = function addNewRatio() {
   colorInput();
 }
 
+// When adding new colors in UI, run colorinput as well
 window.addNewColor = function addNewColor() {
   addColor();
   colorInput();
@@ -293,6 +256,7 @@ window.addBulk = function addBulk() {
   let bg = document.getElementById('bgField');
   bgInput.value = bg.value;
 }
+
 window.cancelBulk = function cancelBulk() {
   document.getElementById('addBulkColorDialog').classList.remove("is-open");
   document.getElementById('dialogOverlay').style.display = 'none';
@@ -330,7 +294,7 @@ window.bulkColorInput = function bulkColorInput() {
 // Should return crs of 1.40, 1.71, 2.10, 2.56, 3.21, 3.97, 5.40, 7.55, 10.45
 
 window.clearAllColors = function clearAllColors() {
-  document.getElementById('colorInputWrapper').innerHTML = ' ';
+  document.getElementById('keyColor-wrapper').innerHTML = ' ';
   colorInput();
 }
 
@@ -375,9 +339,7 @@ window.openTab = function openTab(evt, tabName) {
 }
 
 // Open default tabs
-// document.getElementById("tabColorScale").click();
 document.getElementById("tabDemo").click();
-
 
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
@@ -503,9 +465,9 @@ function paletteTypeOptions() {
 
 function changePalette() {
   var paletteType = document.getElementById('paletteType').value;
-  var wrapSequence = document.getElementById('sequentialWrapper');
-  var wrapRatio = document.getElementById('ratiosWrapper');
-  var sliders = document.getElementById('sliderWrapper');
+  var wrapSequence = document.getElementById('sequentialConfigs');
+  var wrapRatio = document.getElementById('contrastConfigs');
+  var sliders = document.getElementById('colorSlider-wrapper');
 
   if (paletteType == 'Contrast') {
     wrapSequence.style.display = 'none';
@@ -524,7 +486,7 @@ function changePalette() {
 // Calculate Color and generate Scales
 window.colorInput = colorInput;
 function colorInput() {
-  document.getElementById('colors').innerHTML = '';
+  document.getElementById('colorScale').innerHTML = '';
   let spaceOpt = document.getElementById('chart3dColorspace').value;
 
   var paletteType = document.getElementById('paletteType').value;
@@ -532,8 +494,7 @@ function colorInput() {
   var shiftInputValue = document.getElementById('shiftInputValue');
   shiftInputValue.innerHTML = ' ';
 
-  var inputs = document.getElementsByClassName('inputColorField');
-  // var inputColors = inputs.split(" ");
+  var inputs = document.getElementsByClassName('keyColor-Item');
   var background = document.getElementById('bgField').value;
   let mode = document.querySelector('select[name="mode"]').value;
 
@@ -631,7 +592,7 @@ function colorInput() {
   //   var gradientColors = createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
   //
   //   for (var i = 0; i < gradientColors.length; i++) {
-  //     var container = document.getElementById('colors');
+  //     var container = document.getElementById('colorScale');
   //     var div = document.createElement('div');
   //     div.className = 'block';
   //     div.style.backgroundColor = gradientColors[i];
@@ -640,9 +601,9 @@ function colorInput() {
   //   }
   // } else {
     for (let i = 0; i < scaleData.colors.length; i++) {
-      var container = document.getElementById('colors');
+      var container = document.getElementById('colorScale');
       var div = document.createElement('div');
-      div.className = 'block';
+      div.className = 'colorScale-Item';
       div.style.backgroundColor = scaleData.colors[i];
 
       container.appendChild(div);
@@ -842,15 +803,14 @@ function distributeExp() {
 }
 
 // Redistribute contrast swatches
-// TODO: It's still broken.
-window.distributeTan = function distributeTan() {
+window.distributeCube = function distributeCube() {
   sort();
 
   setTimeout(function() {
     let lums = interpolateLumArray();
 
     for(let i=1; i<lums.length -1; i++) {
-      ratioFields[i].value = returnRatioTan(lums[i]).toFixed(2);
+      ratioFields[i].value = returnRatioCube(lums[i]).toFixed(2);
     }
   }, 300)
 
@@ -887,7 +847,7 @@ window.distributeLum = function distributeLum() {
   while(ratioItems.length > 0){
     ratioItems[0].parentNode.removeChild(ratioItems[0]);
   }
-  let sliders = document.getElementById('sliderWrapper');
+  let sliders = document.getElementById('colorSlider-wrapper');
   sliders.innerHTML = ' ';
 
   // Add all new

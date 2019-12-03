@@ -163,7 +163,7 @@ body {
   height: calc(100vh - var(--spectrum-global-dimension-size-400));
   overflow: hidden;
 }
-#gradientWrapper {
+#colorScale-wrapper {
   margin-top: 8px;
   margin-right: 18px;
   height: var(--gradient-height);
@@ -171,7 +171,7 @@ body {
   display: block;
   position: relative;
 }
-#colors {
+#colorScale {
   display: flex;
   flex-direction: column;
   height: var(--colors-height);
@@ -182,7 +182,7 @@ body {
   background-image: linear-gradient(0deg, black, white);
   background-repeat: no-repeat;
 }
-.block {
+.colorScale-Item {
   height: 100%;
   width: 100%;
   align-self: stretch;
@@ -212,26 +212,7 @@ body {
   align-items: center;
 }
 
-
-// #colorField1 {
-//   border: none;
-//   border-radius: 5px 0px 0px 5px;
-// }
-// #userColors {
-//   grid-area: leftPanel;
-// }
-// #userColor, #userBg {
-//   height: 56px;
-//   width: 100%;
-//   border-radius: 4px;
-//   border: 0;
-//   display: flex;
-//   flex-direction: row;
-// }
-// #userColor ~ #userBg {
-//   margin-top: 8px;
-// }
-#sliderWrapper {
+#colorSlider-wrapper {
   position: relative;
   display: flex;
   // padding: 0px 21px;
@@ -245,7 +226,7 @@ body {
   left: 0;
   bottom: var(--gradient-slider-height);
 }
-.slider {
+.colorSlider {
   -webkit-appearance: none;
   width: var(--gradient-slider-height);
   height: 55px;
@@ -260,7 +241,7 @@ body {
   border-radius: 3px;
 }
 
-.slider::-webkit-slider-thumb {
+.colorSlider::-webkit-slider-thumb {
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
   background: #ffffff;
@@ -273,7 +254,7 @@ body {
   -webkit-appearance: none;
   appearance: none;
 }
-.slider::-moz-range-thumb {
+.colorSlider::-moz-range-thumb {
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
   background: #ffffff;
@@ -567,7 +548,7 @@ colorOutput-field {
   overflow: auto;
 }
 
-.spectrum-Textfield-swatch {
+.ratio-Swatch {
   position: absolute;
   margin-top: var(--spectrum-global-dimension-size-100);
   margin-left: var(--spectrum-global-dimension-size-100);
@@ -591,20 +572,6 @@ colorOutput-field {
     height: 64px;
   }
 }
-.colorField ~ .colorField {
-    margin-left: 16px;
-}
-
-
-// input[type="color"] {
-//   border-radius: 5px;
-// }
-// input[type="color"]::-webkit-color-swatch {
-//     border-radius: 5px;
-//     border-width: 1px;
-//     border-style: solid;
-//     border-color: rgba(0, 0, 0, 0.25);
-//   }
 
 .colorField--horizontal {
   flex-direction: row;
@@ -624,7 +591,8 @@ colorOutput-field {
     flex-direction: row;
 }
 
-#colorInputWrapper {
+#keyColor-wrapper {
+  position: relative;
   display: flex;
   flex-direction: row;
   padding: 2px; /* To ensure focus rings are visible */
@@ -633,10 +601,6 @@ colorOutput-field {
   min-height: 80px;
   max-height: 88px;
   overflow: auto;
-}
-
-#colorInputs {
-  position: relative;
 }
 
 #bulkColors {
@@ -665,7 +629,7 @@ a:focus {
   margin-top: 8px;
 }
 
-.color-Item,
+.keyColor,
 .ratio-Item {
   position: relative;
   display: flex;
@@ -675,7 +639,7 @@ a:focus {
   margin-right: var(--spectrum-global-dimension-size-100);
 }
 
-.ratioField {
+.ratio-Field {
   padding-left: var(--spectrum-global-dimension-size-400);
   // width: calc(10ch + var(--spectrum-global-dimension-size-200)); if adding name field, use this
   width: 70%;
@@ -726,23 +690,23 @@ a:focus {
 }
 
 
-#scaleWrapper, #ratiosWrapper, #ratios {
+#contrastConfigs, #ratioInput-wrapper {
   flex-direction: column;
   width: 100%;
 }
 
-#ratiosWrapper,
-#sequentialWrapper {
+#contrastConfigs,
+#sequentialConfigs {
   max-height: 100%;
   margin-top: 6px;
   padding: 2px; /* This ensures focus rings are visible */
   overflow: auto;
 }
- #sequentialWrapper {
+ #sequentialConfigs {
    display: none;
  }
 
-#ratios {
+#ratioInput-wrapper {
   max-height: calc(var(--gradient-height) - 110px);
   overflow: auto;
   display: flex;
@@ -772,11 +736,6 @@ a:focus {
   ~ .spectrum-ActionButton {
     margin-left: 8px;
   }
-}
-
-#contrastConfigs {
-  display: flex;
-  flex-direction: row;
 }
 
 #addRatio,
