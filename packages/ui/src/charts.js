@@ -5,37 +5,67 @@ Object.assign(d3, d33d);
 
 import contrastColors from '@adobe/leonardo-contrast-colors';
 
-var chart3dColorspace = document.getElementById('chart3dColorspace');
-var dest = document.getElementById('3dchart');
+let chart3dColorspace = document.getElementById('chart3dColorspace');
+let dest = document.getElementById('3dchart');
+
+/*
+Create 2d and 3d chart heights and widths based on known
+paddings and panel dimensions, based on viewport height/width.
+*/
+function createChartWidth() {
+  let leftPanel = 304;
+  let rightPanel = 240;
+  let paddings = 100;
+  let offset = leftPanel + rightPanel + paddings;
+  let viewportWidth = window.innerWidth;
+
+  if((viewportWidth - offset) / 2 > 300) {
+    return (viewportWidth - offset) / 2;
+  } else {
+    return 300;
+  }
+}
+
+function createChartHeight() {
+  let headerHeight = 58;
+  let tabHeight = 48;
+  let paddings = 164;
+  let offset = headerHeight + tabHeight + paddings;
+  let viewportHeight = window.innerHeight;
+
+  // return (viewportHeight - offset) / 2;
+  return 180;
+}
 
 function create3dChartWidth() {
-  var leftPanel = 304;
-  var rightPanel = 240;
-  var paddings = 72;
-  var offset = leftPanel + rightPanel + paddings;
-  var viewportWidth = window.innerWidth;
+  let leftPanel = 304;
+  let rightPanel = 240;
+  let paddings = 72;
+  let offset = leftPanel + rightPanel + paddings;
+  let viewportWidth = window.innerWidth;
 
   return (viewportWidth - offset);
 }
 
 function create3dChartHeight() {
-  var headerHeight = 58;
-  var tabHeight = 48;
-  var paddings = 164/2;
-  var offset = headerHeight + tabHeight + paddings;
-  var viewportHeight = window.innerHeight;
+  let headerHeight = 58;
+  let tabHeight = 48;
+  let paddings = 164/2;
+  let offset = headerHeight + tabHeight + paddings;
+  let viewportHeight = window.innerHeight;
 
   return (viewportHeight - offset);
-  // return 180;
 }
 
-var chartWidth = create3dChartWidth();
-var chartHeight = create3dChartHeight();
-var origin = [chartWidth/1.85, chartHeight/1.5], j = 10, scale = 30, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+let chartWidth = create3dChartWidth();
+let chartHeight = create3dChartHeight();
+let modelScale = 30;
+
+let origin = [chartWidth/1.85, chartHeight/1.5], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
 dest.style.width = chartWidth;
 dest.style.height = chartHeight;
 
-var svg = d3.select(dest)
+let svg = d3.select(dest)
   .call(
     d3.drag()
       .on('drag', dragged)
@@ -44,19 +74,16 @@ var svg = d3.select(dest)
     )
   .append('g');
 
-// var color = d3.scaleOrdinal(d3.schemeCategory10);
-// var color = d3.scaleOrdinal(colors);
+let mx, my, mouseX, mouseY;
 
-var mx, my, mouseX, mouseY;
-
-var grid3d = d3._3d()
+let grid3d = d3._3d()
     .shape('GRID', 20)
     .origin(origin)
     .rotateY( startAngle)
     .rotateX(-startAngle)
     .scale(scale);
 
-var point3d = d3._3d()
+let point3d = d3._3d()
     .x(function(d){ return d.x; })
     .y(function(d){ return d.y; })
     .z(function(d){ return d.z; })
@@ -65,7 +92,7 @@ var point3d = d3._3d()
     .rotateX(-startAngle)
     .scale(scale);
 
-var yScale3d = d3._3d()
+let yScale3d = d3._3d()
     .shape('LINE_STRIP')
     .origin(origin)
     .rotateY( startAngle)
@@ -73,11 +100,11 @@ var yScale3d = d3._3d()
     .scale(scale);
 
 function processData(data, tt){
-  var color = d3.scaleOrdinal(chartColors);
+  let color = d3.scaleOrdinal(chartColors);
 
   /* ----------- GRID ----------- */
 
-  var xGrid = svg.selectAll('path.grid').data(data[0], key);
+  let xGrid = svg.selectAll('path.grid').data(data[0], key);
 
   xGrid
     .enter()
@@ -90,7 +117,7 @@ function processData(data, tt){
 
   /* ----------- POINTS ----------- */
 
-  var points = svg.selectAll('circle').data(data[1], key);
+  let points = svg.selectAll('circle').data(data[1], key);
 
   points
     .enter()
@@ -114,7 +141,7 @@ function processData(data, tt){
 
   /* ----------- y-Scale ----------- */
 
-  var yScale = svg.selectAll('path.yScale').data(data[2]);
+  let yScale = svg.selectAll('path.yScale').data(data[2]);
 
   yScale
     .enter()
@@ -129,7 +156,7 @@ function processData(data, tt){
 
    /* ----------- y-Scale Text ----------- */
 
-  var yText = svg.selectAll('text.yText').data(data[2][0]);
+  let yText = svg.selectAll('text.yText').data(data[2][0]);
 
   yText
     .enter()
@@ -142,8 +169,9 @@ function processData(data, tt){
     })
     .attr('x', function(d){ return d.projected.x; })
     .attr('y', function(d){ return d.projected.y; })
-    .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; });
+    // .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; });
     // .text(function(d) {return d;});
+    .text('-');
 
   yText.exit().remove();
 
@@ -158,24 +186,26 @@ function posPointY(d){
   return d.projected.y;
 }
 
-var pi = Math.PI;
+let pi = Math.PI;
 function init3dChart(){
-  // console.log(labFullData.z);
 
-  var cnt = 0;
+  let cnt = 0;
   xGrid = [], scatter = [], yLine = [], colorPlot = [];
+
   // Taking J from origin argument...
   // z = -10; z < 10; z++ is what it's saying.
-  for(var z = -j; z < j; z++){
-    for(var x = -j; x < j; x++){
+  for(let z = -j; z < j; z++){
+    for(let x = -j; x < j; x++){
       xGrid.push([x, 1, z]);
       // This is where the point data is gathered:
       scatter.push({x: x, y: d3.randomUniform(0, -10)(), z: z, id: 'point_' + cnt++});
-      // dividing LAB data by 10 to fit current grid. Negative y var since chart is in negative space?
+      // dividing LAB data by 10 to fit current grid. Negative y let since chart is in negative space?
       // colorPlot.push({x: LABArrayA[j]/10, y: LABArrayL[j]/10 * -1, z: LABArrayB[j]/10, id: 'point_' + cnt++});
     }
   }
   let spaceOpt = document.getElementById('chart3dColorspace').value;
+
+  let pi = Math.PI;
 
   if (spaceOpt == 'CAM02') {
     for(let i=0; i<CAMArrayA.length; i++) {
@@ -184,44 +214,64 @@ function init3dChart(){
   }
   if (spaceOpt == 'LCH') {
     for(let i=0; i<LCHArrayC.length; i++) {
-      colorPlot.push({x: LCHArrayC[i]/10 - 7, y: LCHArrayL[i]/10 * -1, z: LCHArrayH[i]/(10*pi) - 10, id: 'point_' + cnt++});
+      let angle = LCHArrayH[i] * (pi/180);
+      let r = LCHArrayC[i];
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))/13, y: LCHArrayL[i]/13 * -1, z: (r * Math.sin(angle))/13, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: LCHArrayH[i]/(Math.PI * 10), y: LCHArrayL[i]/10 * -1, z: LCHArrayC[i]/10, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'LAB') {
     for(let i=0; i<LABArrayA.length; i++) {
-      colorPlot.push({x: LABArrayA[i]/10, y: LABArrayL[i]/10 * -1, z: LABArrayB[i]/10, id: 'point_' + cnt++});
+      colorPlot.push({x: LABArrayA[i]/13, y: LABArrayL[i]/13 * -1, z: LABArrayB[i]/13, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'HSL') {
     for(let i=0; i<HSLArrayL.length; i++) {
-      colorPlot.push({x: HSLArrayH[i]/(10*pi) - 7, y: HSLArrayL[i]*10 * -1, z: HSLArrayS[i]*10 - 7, id: 'point_' + cnt++});
+      let angle = HSLArrayH[i] * (pi/180);
+      let r = HSLArrayS[i];
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))*8, y: HSLArrayL[i]*8 * -1, z: (r * Math.sin(angle))*8, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: HSLArrayH[i]/(10*pi) - 7, y: HSLArrayL[i]*10 * -1, z: HSLArrayS[i]*10 - 7, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'HSLuv') {
     for(let i=0; i<HSLuvArrayL.length; i++) {
-      colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayV[i]/10 -7, id: 'point_' + cnt++});
+      let angle = HSLuvArrayL[i] * (pi/180);
+      let r = HSLuvArrayU[i];
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))/12, y: HSLuvArrayV[i]/10 * -1, z: (r * Math.sin(angle))/12, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayU[i]/10 -10, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'HSV') {
     for(let i=0; i<HSVArrayL.length; i++) {
-      colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
+      let angle = HSVArrayH[i] * (pi/180);
+      let r = HSVArrayS[i];
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))*8, y: HSVArrayL[i]*8 * -1, z: (r * Math.sin(angle))*8 - 1.5, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'RGB') {
     for(let i=0; i<RGBArrayR.length; i++) {
-      colorPlot.push({x: RGBArrayR[i]/25.5 - 7, y: RGBArrayG[i]/25.5 * -1, z: RGBArrayB[i]/25.5 - 10, id: 'point_' + cnt++});
+      colorPlot.push({x: RGBArrayR[i]/30 - 5, y: RGBArrayG[i]/30 * -1, z: RGBArrayB[i]/30 - 5, id: 'point_' + cnt++});
     }
   }
 
   d3.range(-1, 11, 1).forEach(d => yLine.push([-j, -d, -j]));
 
-  var data = [
+  let data = [
     grid3d(xGrid),
     point3d(colorPlot),
     yScale3d([yLine])
   ];
 
-  processData(data, 100);
+  processData(data, 500); // 500 is the duration
 }
 
 function dragStart(){
@@ -234,7 +284,7 @@ function dragged(){
   mouseY = mouseY || 0;
   beta = (d3.event.x - mx + mouseX) * Math.PI / 600 ;
   alpha = (d3.event.y - my + mouseY) * Math.PI / 600  * (-1);
-  var data = [
+  let data = [
     grid3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(xGrid),
     point3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(colorPlot),
     yScale3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)([yLine]),
@@ -249,27 +299,6 @@ function dragEnd(){
 
 // d3.selectAll('button').on('click', init3dChart);
 
-function createChartWidth() {
-  var leftPanel = 304;
-  var rightPanel = 240;
-  var paddings = 156;
-  var offset = leftPanel + rightPanel + paddings;
-  var viewportWidth = window.innerWidth;
-
-  return (viewportWidth - offset) / 2;
-}
-
-function createChartHeight() {
-  var headerHeight = 58;
-  var tabHeight = 48;
-  var paddings = 164;
-  var offset = headerHeight + tabHeight + paddings;
-  var viewportHeight = window.innerHeight;
-
-  // return (viewportHeight - offset) / 2;
-  return 180;
-}
-
 function createChartHeader(x, dest) {
   let container = document.getElementById(dest);
   let subhead = document.createElement('h6');
@@ -278,65 +307,69 @@ function createChartHeader(x, dest) {
   container.appendChild(subhead);
 }
 
-// Make color charts
-function createChart(data, dest) {
-  var xy_chart = d3_xy_chart()
+// Make 2d color charts
+function createChart(data, dest, yMin, yMax) {
+
+  let xy_chart = d3_xy_chart()
     .width(createChartWidth())
-    // .height(120)
     .height(createChartHeight())
     .xlabel("X Axis")
     .ylabel("Y Axis");
 
-  var svg = d3.select(dest).append("svg")
+  let svg = d3.select(dest).append("svg")
     .datum(data)
     .call(xy_chart);
 
   function d3_xy_chart() {
-    var width = createChartWidth(),
+    let width = createChartWidth(),
         height = createChartHeight(),
         xlabel = "X Axis Label",
         ylabel = "Y Axis Label";
 
     function chart(selection) {
       selection.each(function(datasets) {
+          // If no min/max defined, base on min/max from data
+          if (yMin == undefined) { yMin = d3.min(datasets, function(d) { return d3.min(d.y); }) }
+          if (yMax == undefined) { yMax = d3.max(datasets, function(d) { return d3.max(d.y); }) }
           //
           // Create the plot.
           //
-          let margin = {top: 8, right: 0, bottom: 20, left: 0};
+          let margin = {top: 8, right: 8, bottom: 20, left: 32};
           let innerwidth = width - margin.left - margin.right;
           let innerheight = height - margin.top - margin.bottom;
 
-          var x_scale = d3.scaleLinear()
+          let x_scale = d3.scaleLinear()
             .range([0, innerwidth])
             .domain([ d3.min(datasets, function(d) { return d3.min(d.x); }),
                       d3.max(datasets, function(d) { return d3.max(d.x); }) ]) ;
 
-          var y_scale = d3.scaleLinear()
+          let y_scale = d3.scaleLinear()
             .range([innerheight, 0])
-            .domain([ d3.min(datasets, function(d) { return d3.min(d.y); }),
-                      d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
+            .domain([ yMin, yMax ]);
+                      // d3.min(datasets, function(d) { return d3.min(d.y); }),
+                      // d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
 
-          var color_scale = d3.scaleOrdinal(d3.schemeCategory10)
+          let color_scale = d3.scaleOrdinal(d3.schemeCategory10)
             .domain(d3.range(datasets.length)) ;
 
-          var x_axis = d3.axisBottom(x_scale);
+          let x_axis = d3.axisBottom(x_scale);
 
-          var y_axis = d3.axisLeft(y_scale);
+          let y_axis = d3.axisLeft(y_scale);
 
-          var x_grid = d3.axisBottom(x_scale)
+          let x_grid = d3.axisBottom(x_scale)
             .tickSize(-innerheight)
             .tickFormat("") ;
 
-          var y_grid = d3.axisLeft(y_scale)
+          let y_grid = d3.axisLeft(y_scale)
             .tickSize(-innerwidth)
             .tickFormat("") ;
 
-          var draw_line = d3.line()
+          let draw_line = d3.line()
             .curve(d3.curveLinear)
             .x(function(d) { return x_scale(d[0]); })
             .y(function(d) { return y_scale(d[1]); }) ;
 
-          var svg = d3.select(this)
+          let svg = d3.select(this)
             .attr("width", width)
             .attr("height", height)
             .append("g")
@@ -371,7 +404,7 @@ function createChart(data, dest) {
             .style("text-anchor", "end")
             .text(ylabel) ;
 
-          var data_lines = svg.selectAll(".d3_xy_chart_line")
+          let data_lines = svg.selectAll(".d3_xy_chart_line")
             .data(datasets.map(function(d) {return d3.zip(d.x, d.y);}))
             .enter().append("g")
             .attr("class", "d3_xy_chart_line") ;
@@ -422,22 +455,22 @@ function createChart(data, dest) {
 }
 
 function toggleGraphs() {
-  var panel = document.getElementById('colorMetrics');
-  var toggle = document.getElementById('toggleMetrics');
+  let panel = document.getElementById('colorMetrics');
+  let toggle = document.getElementById('toggleMetrics');
   panel.classList.toggle('visible');
   toggle.classList.toggle('is-selected');
 }
 
 function createAllCharts(mode) {
-  var chart3 = document.getElementById('chart3Wrapper');
+  let chart3 = document.getElementById('chart3Wrapper');
 
   if (mode=="LCH") {
     createChartHeader('Chroma / Lightness', 'chart1');
-    createChart(lchDataC, "#chart1");
+    createChart(lchDataC, "#chart1", 0, 100);
     createChartHeader('Hue / Lightness', 'chart2');
-    createChart(lchDataH, "#chart2");
-    createChartHeader('Hue / Chroma', 'chart3');
-    createChart(lchDataCH, "#chart3");
+    createChart(lchDataH, "#chart2", 0, 360);
+    createChartHeader('Chroma / Hue', 'chart3');
+    createChart(lchDataCH, "#chart3", 0, 100);
   }
   if (mode=="LAB") {
     createChartHeader('Green Red / Lightness', 'chart1');
@@ -457,36 +490,37 @@ function createAllCharts(mode) {
   }
   if (mode=="HSL") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hslDataH, "#chart1");
+    createChart(hslDataH, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hslDataS, "#chart2");
-    createChartHeader('Hue / Saturation', 'chart3');
-    createChart(hslDataHS, "#chart3");
+    createChart(hslDataS, "#chart2", 0, 1);
+    createChartHeader('Saturation / Hue', 'chart3');
+    createChart(hslDataHS, "#chart3", 0, 1);
   }
   if (mode=="HSLuv") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsluvDataL, "#chart1");
+    createChart(hsluvDataL, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsluvDataU, "#chart2");
-    createChartHeader('Hue / Saturation', 'chart3');
-    createChart(hsluvDataLU, "#chart3");
+    createChart(hsluvDataU, "#chart2", 0, 100);
+    createChartHeader('Saturation / Hue', 'chart3');
+    createChart(hsluvDataLU, "#chart3", 0, 100);
   }
   if (mode=="HSV") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsvDataH, "#chart1");
+    createChart(hsvDataH, "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsvDataS, "#chart2");
-    createChartHeader('Hue / Saturation', 'chart3');
-    createChart(hsvDataHS, "#chart3");
+    createChart(hsvDataS, "#chart2", 0, 1);
+    createChartHeader('Saturation / Hue', 'chart3');
+    createChart(hsvDataHS, "#chart3", 0, 1);
   }
   if (mode=="RGB") {
     createChartHeader('Red / Green', 'chart1');
-    createChart(rgbDataR, "#chart1");
+    createChart(rgbDataR, "#chart1", 0, 255);
     createChartHeader('Green / Blue', 'chart2');
-    createChart(rgbDataG, "#chart2");
+    createChart(rgbDataG, "#chart2", 0, 255);
     createChartHeader('Blue / Red', 'chart3');
-    createChart(rgbDataB, "#chart3");
+    createChart(rgbDataB, "#chart3", 0, 255);
   }
+  createChartHeader('Contrast Ratios', 'contrastChart');
   createChart(window.contrastData, "#contrastChart");
 
   init3dChart();
@@ -497,10 +531,10 @@ let chartColors = [];
 function getChartColors(mode) {
   let shift = document.getElementById('shiftInput').value;
 
-  chartColors = [];
+  let chartColors = [];
 
   // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
-  var chartRGB = contrastColors.createScale({swatches: 51, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  let chartRGB = contrastColors.createScale({swatches: 340, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
   for (let i=0; i<chartRGB.colorsHex.length; i++) {
     chartColors.push(chartRGB.colorsHex[i]);
@@ -521,7 +555,7 @@ exports.showCharts = function(mode) {
   document.getElementById('chart3').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
 
-  var chartModeLabel = document.getElementById('colorspaceLabel');
+  let chartModeLabel = document.getElementById('colorspaceLabel');
   chartModeLabel.innerHTML = mode;
 
   chartColors = getChartColors(mode);
@@ -529,3 +563,5 @@ exports.showCharts = function(mode) {
 };
 
 exports.init3dChart = init3dChart;
+exports.update3dChart = update3dChart;
+window.update3dChart = update3dChart;

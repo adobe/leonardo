@@ -10,11 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-
 :root {
   --gradient-height-offset: 284px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
-  // --gradient-height: 100%;
   --colors-height: var(--gradient-height);
   --color-size: 32px;
   --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
@@ -32,7 +30,7 @@ body {
   overflow: hidden;
   font-family: 'Adobe Clean'; // local update since no typekit support currently.
   display: grid;
-  grid-template-columns: 304px auto 240px;
+  grid-template-columns: 324px auto 240px;
   grid-template-rows: var(--header-height) auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -58,7 +56,6 @@ body {
 }
 .spectrum-AppHeader-Title {
   margin: 0;
-  // font-size: var(--spectrum-global-dimension-font-size-200);
 }
 #headerLogo {
   height: 24px;
@@ -88,7 +85,6 @@ body {
 }
 .spectrum-Tabs-selectionIndicator {
   display: none; /* simplifying design to speed up development */
-  // background-color: var(--spectrum-tabs-selection-indicator-color);
 }
 .spectrum-Tabs--compact .spectrum-Tabs-item {
   height: 32px;
@@ -118,7 +114,6 @@ body {
 .spectrum-Panel--custom {
   flex-direction: row;
   min-width: 160px;
-  /* min-width: var(--spectrum-global-dimension-size-2000); */
 }
 .spectrum-Panel-Item {
   padding: 8px 16px 16px;
@@ -163,7 +158,7 @@ body {
   height: calc(100vh - var(--spectrum-global-dimension-size-400));
   overflow: hidden;
 }
-#gradientWrapper {
+#colorScale-wrapper {
   margin-top: 8px;
   margin-right: 18px;
   height: var(--gradient-height);
@@ -171,7 +166,7 @@ body {
   display: block;
   position: relative;
 }
-#colors {
+#colorScale {
   display: flex;
   flex-direction: column;
   height: var(--colors-height);
@@ -182,7 +177,7 @@ body {
   background-image: linear-gradient(0deg, black, white);
   background-repeat: no-repeat;
 }
-.block {
+.colorScale-Item {
   height: 100%;
   width: 100%;
   align-self: stretch;
@@ -212,40 +207,19 @@ body {
   align-items: center;
 }
 
-
-// #colorField1 {
-//   border: none;
-//   border-radius: 5px 0px 0px 5px;
-// }
-// #userColors {
-//   grid-area: leftPanel;
-// }
-// #userColor, #userBg {
-//   height: 56px;
-//   width: 100%;
-//   border-radius: 4px;
-//   border: 0;
-//   display: flex;
-//   flex-direction: row;
-// }
-// #userColor ~ #userBg {
-//   margin-top: 8px;
-// }
-#sliderWrapper {
+#colorSlider-wrapper {
   position: relative;
   display: flex;
-  // padding: 0px 21px;
   padding: 0px 0px;
   margin-top: -1px;
   justify-content: center;
   align-items: center;
-  /* overflow: hidden; */
   width: 54px;
   height: var(--gradient-slider-height);
   left: 0;
   bottom: var(--gradient-slider-height);
 }
-.slider {
+.colorSlider {
   -webkit-appearance: none;
   width: var(--gradient-slider-height);
   height: 55px;
@@ -254,35 +228,26 @@ body {
   margin: 0;
   background-color: transparent;
   position: absolute;
-  /* display: block; */
   border: none;
   box-shadow: none;
   border-radius: 3px;
 }
 
-.slider::-webkit-slider-thumb {
+.colorSlider::-webkit-slider-thumb {
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
   background: #ffffff;
-  // background: transparent;
-  // border: 2px solid #fff;
   border-radius: 32px;
-  // box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
-  // cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
 }
-.slider::-moz-range-thumb {
+.colorSlider::-moz-range-thumb {
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
   background: #ffffff;
-  // background: transparent;
-  // border: 2px solid #fff;
   border-radius: 32px;
-  // box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
-  // cursor: pointer;
 }
 
 .spectrum-Slider {
@@ -419,11 +384,16 @@ body {
     padding-right: 8px;
   }
 }
+.spectrum-Form--row {
+  flex-direction: row;
+  .spectrum-Form-item ~ .spectrum-Form-item {
+    margin-left: 16px;
+  }
+}
 
 main {
   display: flex;
   flex-direction: column;
-  // overflow: auto;
   max-height: calc(100vh - 56px);
   overflow: hidden;
 }
@@ -442,7 +412,6 @@ main {
   padding: 0;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
   width: 100%;
   height: 100%;
   max-height: calc(100vh - 56px);
@@ -454,36 +423,40 @@ main {
   background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  min-width: fit-content;
   height: 100%;
   padding: 16px;
   overflow: auto;
 }
 
+#chartsWrapper {
+  flex-direction: row;
+}
+
 .charts {
   display: flex;
   min-height: fit-content;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: flex-start;
   max-width: fit-content;
   margin-bottom: 24px;
-  padding: 0 16px;
+  padding: 0 8px;
 }
+.charts ~ .charts {
+  margin-left: 16px;
+}
+
 #chart1,
 #chart2,
 #chart3,
 #chart4,
 #contrastChart {
-  background-color: #ffffff;
-  padding: 8px 16px;
   border-radius: 4px;
-  border: 1px solid #e1e1e1;
-  height: 200px;
-}
 
-#chart2 {
-  margin-left: 24px;
+  svg {
+    color: var(--spectrum-global-color-gray-500);
+  }
 }
 
 .chartGroup {
@@ -494,6 +467,7 @@ main {
 
 #chart3dWrapper {
   display: flex;
+  flex-direction: column;
   max-width: fit-content;
   align-self: center;
   height: 100%;
@@ -502,16 +476,6 @@ main {
 
 #chart3dColorspace {
   width: 7.5em;
-}
-
-.chart3D {
-  // width: 545px;
-  // height: 500px;
-  cursor: move;
-}
-
-._3d.yText {
-  color: #6e6e6e;
 }
 
 h1 {
@@ -552,7 +516,7 @@ colorOutput-field {
   overflow: auto;
 }
 
-.spectrum-Textfield-swatch {
+.ratio-Swatch {
   position: absolute;
   margin-top: var(--spectrum-global-dimension-size-100);
   margin-left: var(--spectrum-global-dimension-size-100);
@@ -576,20 +540,6 @@ colorOutput-field {
     height: 64px;
   }
 }
-.colorField ~ .colorField {
-    margin-left: 16px;
-}
-
-
-// input[type="color"] {
-//   border-radius: 5px;
-// }
-// input[type="color"]::-webkit-color-swatch {
-//     border-radius: 5px;
-//     border-width: 1px;
-//     border-style: solid;
-//     border-color: rgba(0, 0, 0, 0.25);
-//   }
 
 .colorField--horizontal {
   flex-direction: row;
@@ -609,7 +559,8 @@ colorOutput-field {
     flex-direction: row;
 }
 
-#colorInputWrapper {
+#keyColor-wrapper {
+  position: relative;
   display: flex;
   flex-direction: row;
   padding: 2px; /* To ensure focus rings are visible */
@@ -620,18 +571,11 @@ colorOutput-field {
   overflow: auto;
 }
 
-#colorInputs {
-  position: relative;
-}
-
 #bulkColors {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 80px;
   resize: none;
-  display: none;
+  margin-bottom: 16px;
 }
 
 a:focus {
@@ -653,7 +597,8 @@ a:focus {
   margin-top: 8px;
 }
 
-.color-Item {
+.keyColor,
+.ratio-Item {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -662,9 +607,8 @@ a:focus {
   margin-right: var(--spectrum-global-dimension-size-100);
 }
 
-.ratioField {
+.ratio-Field {
   padding-left: var(--spectrum-global-dimension-size-400);
-  // width: calc(10ch + var(--spectrum-global-dimension-size-200)); if adding name field, use this
   width: 70%;
   margin-right: 8px;
 }
@@ -677,7 +621,6 @@ a:focus {
   display: flex;
   justify-content: space-between;
   padding: 10px 16px 2px;
-  // width: 100%;
   min-height: var(--spectrum-global-dimension-size-400);
   border-radius: 0px;
 
@@ -713,23 +656,23 @@ a:focus {
 }
 
 
-#scaleWrapper, #ratiosWrapper, #ratios {
+#contrastConfigs, #ratioInput-wrapper {
   flex-direction: column;
   width: 100%;
 }
 
-#ratiosWrapper,
-#sequentialWrapper {
+#contrastConfigs,
+#sequentialConfigs {
   max-height: 100%;
   margin-top: 6px;
   padding: 2px; /* This ensures focus rings are visible */
   overflow: auto;
 }
- #sequentialWrapper {
+ #sequentialConfigs {
    display: none;
  }
 
-#ratios {
+#ratioInput-wrapper {
   max-height: calc(var(--gradient-height) - 110px);
   overflow: auto;
   display: flex;
@@ -761,11 +704,6 @@ a:focus {
   }
 }
 
-#contrastConfigs {
-  display: flex;
-  flex-direction: row;
-}
-
 #addRatio,
 #addColor {
   justify-content: center;
@@ -779,68 +717,9 @@ a:focus {
   width: 100%;
 }
 
-/* charts */
-.charts > svg {
-  color: var(--spectrum-global-color-gray-600);
+#colorspaceLabel {
+  text-transform: capitalize;
 }
-.charts .spectrum-Subheading {
-  margin-top: 4px;
-}
-.axis path,
-.axis line {
-  fill: none;
-  stroke: var(--spectrum-global-color-gray-600);
-  shape-rendering: crispEdges;
-}
-
-.grid path,
-.grid line {
-  fill: var(--spectrum-global-color-gray-50);
-  stroke: var(--spectrum-global-color-gray-300);
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.line {
-  fill: none;
-  stroke-width: 2px;
-}
-
-.tick > text {
-  display: none;
-}
-
-#colorMetrics {
-  display: none; // hidden by default
-  overflow-y: scroll;
-  height: calc(100vh - var(--header-height));
-
-  &.visible {
-    display: flex;
-  }
-}
-// Hack overrides for d3 category10 colors
-g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
-  stroke: #0F4F87;
-}
-g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
-  stroke: #449CAD;
-}
-g.d3_xy_chart_line path.line {
-  stroke: #76D0C5;
-}
-// Overrides for grid
-._3d.grid {
-  stroke: #cacaca;
-  stroke-width: 0.3;
-  fill: #eaeaea;
-  fill-opacity: 0.9;
-}
-
-
 
 
 #scaleConfigs {
@@ -853,12 +732,17 @@ g.d3_xy_chart_line path.line {
   display: none;
 }
 
+// Correct some oddities with Dialog buttons
+.spectrum-Dialog-footer > *, .spectrum-Dialog-footer > .spectrum-Button + .spectrum-Button {
+  margin: 0 0 0 var(--spectrum-buttongroup-button-gap-x, var(--spectrum-global-dimension-static-size-200));
+}
 
-.spectrum-Tooltip-Target:hover:after {
-/*  @extend .spectrum-Tooltip;
-  @extend .spectrum-Tooltip--top;
-  @extend .is-open;*/
-	content: attr(data-title);
-	position: absolute;
-	top: 0px;
+#dialogOverlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
 }

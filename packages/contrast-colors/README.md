@@ -1,37 +1,6 @@
-![Leonardo logo](.github/Leonardo_Logo.png)
+# Leonardo-Contrast-Colors
 
-# Leonardo
-Authoring adaptive color palettes for generating color based on a desired contrast ratio.
-
-## Project Goals
-To make it easier for designers and engineers to leverage color science to create custom interpolations for a value scale, and to make it easier for designers and engineers to conform to [WCAG minimum contrast standards](https://www.w3.org/TR/WCAG21/#contrast-minimum) by using contrast ratio as the starting point, rather than a post-color-selection auditing process.
-
-1. [Leonardo web application](leonardo-web-application)
-2. [Show me a demo](#show-me-a-demo)
-3. [What is "adaptive color"?](#what-is-adaptive-color)
-4. [Using Leonardo](#using-leonardo)
-5. [API Reference](#api-reference)
-6. [Why are not all contrast ratios available?](#why-are-not-all-contrast-ratios-available)
-7. [D3 Color](#d3-color)
-8. [Contributing](#contributing)
-9. [Licensing](#licensing)
-
-
-## Leonardo web application
-The Leonardo web application is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to the `generateContrastColors()` API and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
-
-![Leonardo web app with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](.github/Leonardo_Screenshot.png)
-
-## Show me a demo
-*(coming soon)*
-Sometimes it's easier to express what you can do by showing you. Take a look at this demo app and play around with the brightness and contrast controls. These are dynamically regenerating the color palette using `generateContrastColors()` functions, which allows for more aesthetically pleasing changes to the entire UI color system as the end user (you) adjusts their settings.
-
-## What is adaptive color?
-I've written about this concept in more detail at the following links. The goals of this project are to aid in fulfilling the tooling necessary to make adaptive color palettes available to designers and engineers.
-
-- [Part 1: Adaptive Color in Design Systems](https://medium.com/thinking-design/adaptive-color-in-design-systems-7bcd2e664fa0)
-- [Part 2: Introducing Adaptive Color Palettes](https://medium.com/thinking-design/introducing-adaptive-color-palettes-111b5842fc88)
-- [Part 3: Adaptive Color in Spectrum, Adobe's Design System](https://medium.com/thinking-design/adaptive-color-in-spectrum-adobes-design-system-feeeec89a2c7)
+This package contains all the functions for generating colors by target contrast ratio.
 
 ## Using Leonardo
 ### Installing
@@ -41,20 +10,26 @@ npm i @adobe/leonardo-contrast-colors
 
 Pass your colors and desired ratios. See additional options below.
 ```
-generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]}); // returns rgb value
+import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+
+// returns rgb value
+let colors = generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]});
 ```
 
 Or, pass a scale function so you can reuse the color scale elsewhere
 ```
-myColors = createScale({colorKeys: ['#57B8D9', '#7B59FF', '#00004F'], colorspace: 'LAB', swatches: 8}); // returns 8 colors and parameters
+import { createScale, generateContrastColors } from '@adobe/leonardo-contrast-colors';
 
-generateContrastColors( myColors,{ratios: [3.5, 4.5, 7], base: "#ffffff"}) // returns contrast-based colors
+// returns 8 colors and parameters
+let myColors = createScale({colorKeys: ['#57B8D9', '#7B59FF', '#00004F'], colorspace: 'LAB', swatches: 8});
+
+let colors = generateContrastColors( myColors, {ratios: [3.5, 4.5, 7], base: "#ffffff"}) // returns contrast-based colors
 ```
 
 ### Local setup
 - install dependencies `yarn install`
 - run local server `yarn dev`
-- open `http://localhost:8001`
+- open `http://localhost:1234`
 
 
 ## API Reference
