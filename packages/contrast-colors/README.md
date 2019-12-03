@@ -10,14 +10,20 @@ npm i @adobe/leonardo-contrast-colors
 
 Pass your colors and desired ratios. See additional options below.
 ```
-generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]}); // returns rgb value
+import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+
+// returns rgb value
+let colors = generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]});
 ```
 
 Or, pass a scale function so you can reuse the color scale elsewhere
 ```
-myColors = createScale({colorKeys: ['#57B8D9', '#7B59FF', '#00004F'], colorspace: 'LAB', swatches: 8}); // returns 8 colors and parameters
+import { createScale, generateContrastColors } from '@adobe/leonardo-contrast-colors';
 
-generateContrastColors( myColors,{ratios: [3.5, 4.5, 7], base: "#ffffff"}) // returns contrast-based colors
+// returns 8 colors and parameters
+let myColors = createScale({colorKeys: ['#57B8D9', '#7B59FF', '#00004F'], colorspace: 'LAB', swatches: 8});
+
+let colors = generateContrastColors( myColors, {ratios: [3.5, 4.5, 7], base: "#ffffff"}) // returns contrast-based colors
 ```
 
 ### Local setup
