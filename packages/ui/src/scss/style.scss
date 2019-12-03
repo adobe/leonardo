@@ -10,11 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-
 :root {
   --gradient-height-offset: 284px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
-  // --gradient-height: 100%;
   --colors-height: var(--gradient-height);
   --color-size: 32px;
   --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
@@ -58,7 +56,6 @@ body {
 }
 .spectrum-AppHeader-Title {
   margin: 0;
-  // font-size: var(--spectrum-global-dimension-font-size-200);
 }
 #headerLogo {
   height: 24px;
@@ -88,7 +85,6 @@ body {
 }
 .spectrum-Tabs-selectionIndicator {
   display: none; /* simplifying design to speed up development */
-  // background-color: var(--spectrum-tabs-selection-indicator-color);
 }
 .spectrum-Tabs--compact .spectrum-Tabs-item {
   height: 32px;
@@ -118,7 +114,6 @@ body {
 .spectrum-Panel--custom {
   flex-direction: row;
   min-width: 160px;
-  /* min-width: var(--spectrum-global-dimension-size-2000); */
 }
 .spectrum-Panel-Item {
   padding: 8px 16px 16px;
@@ -215,12 +210,10 @@ body {
 #colorSlider-wrapper {
   position: relative;
   display: flex;
-  // padding: 0px 21px;
   padding: 0px 0px;
   margin-top: -1px;
   justify-content: center;
   align-items: center;
-  /* overflow: hidden; */
   width: 54px;
   height: var(--gradient-slider-height);
   left: 0;
@@ -235,7 +228,6 @@ body {
   margin: 0;
   background-color: transparent;
   position: absolute;
-  /* display: block; */
   border: none;
   box-shadow: none;
   border-radius: 3px;
@@ -245,12 +237,8 @@ body {
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
   background: #ffffff;
-  // background: transparent;
-  // border: 2px solid #fff;
   border-radius: 32px;
-  // box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
-  // cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
 }
@@ -258,12 +246,8 @@ body {
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
   background: #ffffff;
-  // background: transparent;
-  // border: 2px solid #fff;
   border-radius: 32px;
-  // box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
-  // cursor: pointer;
 }
 
 .spectrum-Slider {
@@ -410,7 +394,6 @@ body {
 main {
   display: flex;
   flex-direction: column;
-  // overflow: auto;
   max-height: calc(100vh - 56px);
   overflow: hidden;
 }
@@ -429,7 +412,6 @@ main {
   padding: 0;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
   width: 100%;
   height: 100%;
   max-height: calc(100vh - 56px);
@@ -470,11 +452,7 @@ main {
 #chart3,
 #chart4,
 #contrastChart {
-  // background-color: #ffffff;
-  // padding: 8px 16px;
   border-radius: 4px;
-  // border: 1px solid #e1e1e1;
-  // height: 200px;
 
   svg {
     color: var(--spectrum-global-color-gray-500);
@@ -498,16 +476,6 @@ main {
 
 #chart3dColorspace {
   width: 7.5em;
-}
-
-.chart3D {
-  // width: 545px;
-  // height: 500px;
-  cursor: move;
-}
-
-._3d.yText {
-  color: #6e6e6e;
 }
 
 h1 {
@@ -641,7 +609,6 @@ a:focus {
 
 .ratio-Field {
   padding-left: var(--spectrum-global-dimension-size-400);
-  // width: calc(10ch + var(--spectrum-global-dimension-size-200)); if adding name field, use this
   width: 70%;
   margin-right: 8px;
 }
@@ -654,7 +621,6 @@ a:focus {
   display: flex;
   justify-content: space-between;
   padding: 10px 16px 2px;
-  // width: 100%;
   min-height: var(--spectrum-global-dimension-size-400);
   border-radius: 0px;
 
@@ -755,75 +721,6 @@ a:focus {
   text-transform: capitalize;
 }
 
-/* charts */
-.charts > svg {
-  color: var(--spectrum-global-color-gray-600);
-}
-.charts .spectrum-Subheading {
-  margin-top: 12px;
-  margin-bottom: 4px;
-}
-.axis path,
-.axis line {
-  fill: none;
-  shape-rendering: crispEdges;
-}
-.axis path {
-  stroke: var(--spectrum-global-color-gray-800);
-}
-.axis line {
-  stroke: var(--spectrum-global-color-gray-400);
-}
-
-.grid path,
-.grid line {
-  // fill: var(--spectrum-global-color-gray-50);
-  stroke: var(--spectrum-global-color-gray-300);
-  shape-rendering: crispEdges;
-}
-
-.x.axis path {
-  // display: none;
-}
-
-.line {
-  fill: none;
-  stroke-width: 2px;
-}
-
-.tick > text {
-  // display: none;
-}
-
-#colorMetrics {
-  display: none; // hidden by default
-  overflow-y: scroll;
-  height: calc(100vh - var(--header-height));
-
-  &.visible {
-    display: flex;
-  }
-}
-// Hack overrides for d3 category10 colors
-g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
-  stroke: #0F4F87;
-}
-g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
-  stroke: #449CAD;
-}
-g.d3_xy_chart_line path.line {
-  stroke: #76D0C5;
-}
-// Overrides for grid
-._3d.grid {
-  stroke: rgba(50, 50, 50, 0.1);
-  stroke-width: 0.3;
-  fill: #6e6e6e;
-  fill-opacity: 0.075;
-}
-
-
-
 
 #scaleConfigs {
   display: flex;
@@ -833,16 +730,6 @@ g.d3_xy_chart_line path.line {
 
 .tabcontent {
   display: none;
-}
-
-
-.spectrum-Tooltip-Target:hover:after {
-/*  @extend .spectrum-Tooltip;
-  @extend .spectrum-Tooltip--top;
-  @extend .is-open;*/
-	content: attr(data-title);
-	position: absolute;
-	top: 0px;
 }
 
 // Correct some oddities with Dialog buttons

@@ -238,23 +238,23 @@ function init3dChart(){
     }
   }
   if (spaceOpt == 'HSLuv') {
-    for(let i=0; i<HSLuletrayL.length; i++) {
-      let angle = HSLuletrayL[i] * (pi/180);
-      let r = HSLuletrayU[i];
+    for(let i=0; i<HSLuvArrayL.length; i++) {
+      let angle = HSLuvArrayL[i] * (pi/180);
+      let r = HSLuvArrayU[i];
       // Polar:
-      colorPlot.push({x: (r * Math.cos(angle))/12, y: HSLuletrayV[i]/10 * -1, z: (r * Math.sin(angle))/12, id: 'point_' + cnt++});
+      colorPlot.push({x: (r * Math.cos(angle))/12, y: HSLuvArrayV[i]/10 * -1, z: (r * Math.sin(angle))/12, id: 'point_' + cnt++});
       // Cartesian:
-      // colorPlot.push({x: HSLuletrayL[i]/(10*pi) - 7, y: HSLuletrayV[i]/10 * -1, z: HSLuletrayU[i]/10 -10, id: 'point_' + cnt++});
+      // colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayU[i]/10 -10, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'HSV') {
-    for(let i=0; i<HSletrayL.length; i++) {
-      let angle = HSletrayH[i] * (pi/180);
-      let r = HSletrayS[i];
+    for(let i=0; i<HSVArrayL.length; i++) {
+      let angle = HSVArrayH[i] * (pi/180);
+      let r = HSVArrayS[i];
       // Polar:
-      colorPlot.push({x: (r * Math.cos(angle))*8, y: HSletrayL[i]*8 * -1, z: (r * Math.sin(angle))*8 - 1.5, id: 'point_' + cnt++});
+      colorPlot.push({x: (r * Math.cos(angle))*8, y: HSVArrayL[i]*8 * -1, z: (r * Math.sin(angle))*8 - 1.5, id: 'point_' + cnt++});
       // Cartesian:
-      // colorPlot.push({x: HSletrayH[i]/(10*pi) - 7, y: HSletrayL[i]*10 * -1, z: HSletrayS[i]*10 -7, id: 'point_' + cnt++});
+      // colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
     }
   }
   if (spaceOpt == 'RGB') {
