@@ -636,7 +636,6 @@ function updateParams(c, b, r, m) {
   p.appendChild(text7);
 }
 
-
 // Sort swatches in UI
 function sort() {
   ratioInputs.sort(function(a, b){return a-b});
@@ -650,44 +649,6 @@ function sort() {
 window.sortRatios = function sortRatios() {
   sort();
   colorInput();
-}
-
-// Exponential curve for approximating perceptually balanced swatch distribution
-// function returnRatioExp(lum) {
-//   // var a = 22.11002659220650;
-//   // var b = -0.03236668196111;
-//
-//   // Test update
-//   var a = 21.2;
-//   var b = -0.035;
-//   var c = 0.25;
-//
-//   var r = a * Math.exp(b * lum) + c;
-//   if (r > 1) {
-//     return r;
-//   }
-//   if (r < 1 && r >= 0) {
-//     return 1;
-//   }
-// }
-
-// Inverse tangental curve for approximating perceptually balanced swatch distribution
-// with smaller difference between swatches in darker values
-function returnRatioTan(lum) {
-  let a = -0.4875;
-  let b = 5.75;
-  let c = 0.75;
-  let d = 0.665;
-  let x = lum/100;
-  let y = a * Math.atan(b * x - c) + d;
-  let r = y * 20 + 1;
-
-  if (r > 1) {
-    return r;
-  }
-  if (r < 1 && r >= 0) {
-    return 1;
-  }
 }
 
 function returnRatioCube(lum) {
@@ -724,20 +685,6 @@ function interpolateLumArray() {
 
   lums.sort(function(a, b){return b-a});
   return lums;
-}
-
-// Redistribute contrast swatches
-function distributeExp() {
-  sort();
-
-  // colorInput(); // for some reason without this, dist function needs called 2x to get proper output.
-  let lums = interpolateLumArray();
-
-  for(let i=1; i<lums.length -1; i++) {
-    ratioFields[i].value = returnRatioExp(lums[i]).toFixed(2);
-  }
-
-  colorInput();
 }
 
 // Redistribute contrast swatches
