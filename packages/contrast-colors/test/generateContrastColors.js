@@ -31,11 +31,10 @@ test('should generate 2 colors with bidirectional contrast', function(t) {
 });
 
 test('should generate no colors, missing colorKeys', function(t) {
-  let colors = generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'}) // no key colors
-
-  t.deepEqual(
-    colors,
-    []
+  t.throws(
+    () => {
+      let colors = generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'}) // no key colors
+    }
   );
 });
 
@@ -49,10 +48,9 @@ test('should generate no colors, missing ratios', function(t) {
 });
 
 test('should generate no colors, missing base', function(t) {
-  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'RGB'}) // no base
-
-  t.deepEqual(
-    colors,
-    []
+  t.throws(
+    () => {
+      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'RGB'}) // no base
+    }
   );
 });

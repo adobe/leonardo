@@ -13,16 +13,16 @@ import test from 'ava';
 import { createScale, generateContrastColors } from '../index.js';
 
 test('should generate colors', function(t) {
-  let args = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
+  let args = {colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB'};
+  let scale = createScale({args, swatches: 8, shift: 1, fullScale: true});
   let colors = generateContrastColors({args, base: '#ffffff', ratios: [3, 4.5, 7]});
 
   t.deepEqual(
     colors,
     [
-      '#a38ea6',
-      '#9067a2',
-      '#7a3e9e'
+      '#e6754b',
+      '#d9375d',
+      '#a90080'
     ]
   );
 });
-

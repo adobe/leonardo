@@ -16,16 +16,6 @@ import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 let colors = generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]});
 ```
 
-Or, pass a scale function so you can reuse the color scale elsewhere
-```
-import { createScale, generateContrastColors } from '@adobe/leonardo-contrast-colors';
-
-// returns 8 colors and parameters
-let myColors = createScale({colorKeys: ['#57B8D9', '#7B59FF', '#00004F'], colorspace: 'LAB', swatches: 8});
-
-let colors = generateContrastColors( myColors, {ratios: [3.5, 4.5, 7], base: "#ffffff"}) // returns contrast-based colors
-```
-
 ### Local setup
 - install dependencies `yarn install`
 - run local server `yarn dev`
@@ -57,20 +47,6 @@ generateContrastColors({colorKeys, base, ratios, colorspace})
 - [HSLuv](https://en.wikipedia.org/wiki/HSLuv)
 - [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)
 - [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
-
-### createScale
-
-Alternatively, you can pass a **scale** as your arguments for the `getContrastColors()` function. This is especially helpful if you want to reuse a color scale in other instances.
-
-```
-createScale({swatches, colorKeys, colorspace, shift, fullScale})
-```
-
-**swatches** *number* Amount of colors you wish to return from the scale. Used in creating sequential color palettes, where contrast is not considered in generation of color values.
-
-**shift** *number* This is an exponential shift applied to the color scale for adjusting the transition from light to dark.
-
-**fullScale** *boolean* (default true) This determines whether you generate a scale that goes to full black and white. False clamps the scale to your lightest and darkest key colors. **In development**
 
 
 ## Why are not all contrast ratios available?
