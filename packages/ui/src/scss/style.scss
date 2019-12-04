@@ -461,7 +461,9 @@ main {
 
 .chartGroup {
   .spectrum-Heading6 {
-    margin-bottom: 8px;
+    height: 32px;
+    display: flex;
+    align-items: flex-end;
   }
 }
 
