@@ -24,8 +24,8 @@ function cArray(c) {
 }
 
 function createScale({
-  swatches = 8,
-  colorKeys = ['#CCFFA9', '#FEFEC5', '#5F0198'],
+  swatches,
+  colorKeys,
   colorspace = 'LAB',
   shift = 1,
   fullScale = true
@@ -188,12 +188,11 @@ function generateContrastColors({
   colorKeys,
   base,
   ratios,
-  colorspace = 'LAB',
-  shift = 1
+  colorspace = 'LAB'
 } = {}) {
   let swatches = 3000;
 
-  let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift});
+  let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
 
   var Contrasts = d3.range(swatches).map((d) => {
     var rgbArray = [d3.rgb(scaleData.scale(d)).r, d3.rgb(scaleData.scale(d)).g, d3.rgb(scaleData.scale(d)).b];

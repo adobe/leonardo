@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 import test from 'ava';
 import { generateContrastColors } from '../index.js';
 
-test('should generate colors', function(t) {
+test('should generate 2 colors', function(t) {
   let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'});;
 
   t.deepEqual(
@@ -21,8 +21,8 @@ test('should generate colors', function(t) {
   );
 });
 
-test('should generate more colors', function(t) {
-  let colors = generateContrastColors({colorKeys: ["#0000ff"], base: "#323232",ratios: [-1.25,4.5], colorspace: "LCH"});
+test('should generate 2 colors with bidirectional contrast', function(t) {
+  let colors = generateContrastColors({colorKeys: ["#0000ff"], base: "#323232",ratios: [-1.25,4.5], colorspace: "LCH"}); // positive & negative ratios
 
   t.deepEqual(
     colors,
@@ -30,8 +30,8 @@ test('should generate more colors', function(t) {
   );
 });
 
-test('should generate no colors', function(t) {
-  let colors = generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'}) // no colors
+test('should generate no colors, missing colorKeys', function(t) {
+  let colors = generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'}) // no key colors
 
   t.deepEqual(
     colors,
@@ -39,11 +39,20 @@ test('should generate no colors', function(t) {
   );
 });
 
-test('should generate no ratios', function(t) {
+test('should generate no colors, missing ratios', function(t) {
 
   t.throws(
     () => {
       let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', colorspace: 'RGB'}) // no ratios
     }
+  );
+});
+
+test('should generate no colors, missing base', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'RGB'}) // no base
+
+  t.deepEqual(
+    colors,
+    []
   );
 });
