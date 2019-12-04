@@ -773,7 +773,7 @@ function colorSpaceFeedback(spaceOpt) {
       </svg>
       <div class="spectrum-Alert-header">Recommended color space for color evaluation</div>
       <div class="spectrum-Alert-content">CIECAM02 is a perceptually uniform model of color. Irregularities seen in this space reflect perceived irregularities in color.
-        <a href="#" class="spectrum-Link">Learn more about CIECAM02</a>
+        <a href="https://en.wikipedia.org/wiki/CIECAM02" target="_blank" class="spectrum-Link">Learn more about CIECAM02</a>
       </div>`;
   }
   if(spaceOpt == 'LAB' || spaceOpt == 'LCH') {
@@ -784,7 +784,7 @@ function colorSpaceFeedback(spaceOpt) {
       </svg>
       <div class="spectrum-Alert-header">Acceptable color space for color evaluation</div>
       <div class="spectrum-Alert-content">Lab (Lch in cylindrical form) is a well-known and used color space based on human perception of color.
-        <a href="#" class="spectrum-Link">Learn more about LAB & LCH </a>
+        <a href="https://en.wikipedia.org/wiki/CIELAB_color_space" target="_blank" class="spectrum-Link">Learn more about LAB & LCH </a>
       </div>`;
   }
   if(spaceOpt == 'HSL' || spaceOpt == 'HSV' || spaceOpt == 'HSLuv' || spaceOpt == 'RGB') {
@@ -795,7 +795,7 @@ function colorSpaceFeedback(spaceOpt) {
       </svg>
       <div class="spectrum-Alert-header">This color space not recommended for evaluating color models</div>
       <div class="spectrum-Alert-content">Irregularities seen in this color space do not accurately represent irregularities in the color scale itself.
-        <a href="#" class="spectrum-Link">Learn more about RGB color spaces</a>
+        <a href="https://en.wikipedia.org/wiki/HSL_and_HSV" target="_blank" class="spectrum-Link">Learn more about RGB color spaces</a>
       </div>`;
   }
 
