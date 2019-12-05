@@ -1834,6 +1834,11 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
+"@spectrum-css/alert@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/alert/-/alert-2.0.2.tgz#40e330fc3334435afc4886dce49d9b5111ba8fdc"
+  integrity sha512-t4R3YzoGHirrMsfIgBvEQWZvovhGf+HLasMbm50kLDOlWU2RLZlkEqv3Uo+jJuWQurKATO27nr+wSxR/KGyhVQ==
+
 "@spectrum-css/button@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/button/-/button-2.0.2.tgz#ad4a3375ab0aec032cc4e23c2ded2eccf49f086c"
@@ -1848,6 +1853,11 @@
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/checkbox/-/checkbox-2.0.2.tgz#247daf4c7b95359827c2c34a2ba83245f9edee66"
   integrity sha512-QPjrcFZdBGJMi7yBfaKLt38w5Zz7I/LFgir2iRIGdd8/9+2Ub3K20jjUryfz8APzVfurdpmRbq1jAoEYgVHt9w==
+
+"@spectrum-css/dialog@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/dialog/-/dialog-2.0.2.tgz#b447acc458d75c5c455a9d9fce7237458cc4e9ce"
+  integrity sha512-BXftTXXwTSQxvoVnip6N28ZGYLU5d3CJ74INwZt4exY55uUGX2pac5mSMxc0hzX3I/LaR2cpfqBsQAEUszYQvQ==
 
 "@spectrum-css/dropdown@^2.1.1":
   version "2.1.1"
@@ -1868,6 +1878,11 @@
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/icon/-/icon-2.0.2.tgz#1e325863f042945d77badc0588f6600d6f9d1b89"
   integrity sha512-n3JYSPNia7KU9iTtN0ROw5bnq8XziOVENi7Zx/bLcR47mw9+oxmAnYRVK81WAzDIY9t0S8OIVA6wv0TJJ/6QtQ==
+
+"@spectrum-css/link@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/link/-/link-2.0.2.tgz#577499c9ef7d7e53c3c2893f358bbe3766c3c2e9"
+  integrity sha512-XxG93Wr3N6puLuJszxz9xa+UdaO8QfX/pAl+vopPRdZsAr6LNd2dYIua6uEjF3u9/osUNuQzvFU+1drrLICtEw==
 
 "@spectrum-css/menu@^2.1.1":
   version "2.1.1"
@@ -1910,6 +1925,11 @@
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/typography/-/typography-2.0.2.tgz#58906ba0885c5cf849baa8863b6fddfdeec23cb2"
   integrity sha512-vFdNNAnvjRJ/2GTUVpQNdkICO0FaQiPS0HKoDkm8smHhBiawrINdMKaUn998y9OThSV/z+QYKspKg1y16f2SWg==
+
+"@spectrum-css/underlay@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/underlay/-/underlay-2.0.2.tgz#340532b70645216abbb0346c6413029a45bd5993"
+  integrity sha512-CNe/ntWRlMDHqmC0KsHRejdjHXnP02TGIJnYcb/GBrRzyipK5rFLrhePhc5RR+P/oMgsMKhw4zXmwubgdXdSgg==
 
 "@spectrum-css/vars@^2.0.2":
   version "2.0.2"

@@ -37,13 +37,14 @@ import './scss/colorinputs.scss';
 import './scss/charts.scss';
 import './scss/style.scss';
 
+import loadIcons from 'loadicons';
 import '@adobe/focus-ring-polyfill';
 
 import contrastColors from '@adobe/leonardo-contrast-colors';
 
 // import loadIcons from 'loadicons';
-// loadIcons('lib/@spectrum-css/icon/dist/spectrum-css-icons.svg');
-// loadIcons('lib/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg');
+loadIcons('./spectrum-css-icons.svg');
+loadIcons('./spectrum-icons.svg');
 
 import ClipboardJS from 'clipboard';
 
