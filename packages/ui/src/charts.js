@@ -55,7 +55,8 @@ function create3dChartHeight() {
   let headerHeight = 58;
   let tabHeight = 48;
   let paddings = 164/2;
-  let offset = headerHeight + tabHeight + paddings;
+  let feedbackText = 54;
+  let offset = headerHeight + tabHeight + paddings + feedbackText;
   let viewportHeight = window.innerHeight;
 
   return (viewportHeight - offset);

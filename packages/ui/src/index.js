@@ -433,18 +433,18 @@ function colorspaceOptions() {
   chart2dColorspace.options.length = 0;
 
   var opts = {
+    'CAM02': 'CIECAM02',
     'LCH': 'Lch',
     'LAB': 'Lab',
-    'CAM02': 'CIECAM02',
     'HSL': 'HSL',
     'HSLuv': 'HSLuv',
     'HSV': 'HSV',
     'RGB': 'RGB'
   };
   var opts2 = {
+    'CAM02': 'CIECAM02 (recommended)',
     'LCH': 'Lch',
     'LAB': 'Lab',
-    'CAM02': 'CIECAM02 (recommended)',
     'HSL': 'HSL',
     'HSLuv': 'HSLuv',
     'HSV': 'HSV',
