@@ -794,7 +794,7 @@ function colorSpaceFeedback(spaceOpt) {
         <use xlink:href="#spectrum-css-icon-InfoMedium" />
       </svg>
       <div class="spectrum-Alert-header">This color space not recommended for evaluating color models</div>
-      <div class="spectrum-Alert-content">Irregularities seen in this color space do not accurately represent irregularities in the color scale itself.
+      <div class="spectrum-Alert-content">Irregularities seen in this color space do not accurately represent perceptual irregularities in the color scale itself.
         <a href="https://en.wikipedia.org/wiki/HSL_and_HSV" target="_blank" class="spectrum-Link">Learn more about RGB color spaces</a>
       </div>`;
   }
