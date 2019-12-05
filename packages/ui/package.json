@@ -5,8 +5,8 @@
   "repository": "git@git.corp.adobe.com:nbaldwin/leonardo-color.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
-    "dev": "npm run copyIcons && npx parcel src/index.html",
-    "copyIcons": "npm run copyWorkflowIcons && npm run copyUIIcons",
+    "dev": "yarn copyIcons && npx parcel src/index.html",
+    "copyIcons": "yarn copyWorkflowIcons && yarn copyUIIcons",
     "copyWorkflowIcons": "cp -r ../../node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg dist/",
     "copyUIIcons": "cp -r ../../node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg dist/"
   },
