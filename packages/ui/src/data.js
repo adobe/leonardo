@@ -48,6 +48,29 @@ function createData(colors) {
     HSLuv_V.push(d3.hsluv(colors[i]).v);
   }
 
+  // Filter out "NaN" values from these arrays
+  CAM_J = CAM_J.filter(function(value) {return !Number.isNaN(value);});
+  CAM_A = CAM_A.filter(function(value) {return !Number.isNaN(value);});
+  CAM_B = CAM_B.filter(function(value) {return !Number.isNaN(value);});
+  LAB_L = LAB_L.filter(function(value) {return !Number.isNaN(value);});
+  LAB_A = LAB_A.filter(function(value) {return !Number.isNaN(value);});
+  LAB_B = LAB_B.filter(function(value) {return !Number.isNaN(value);});
+  LCH_L = LCH_L.filter(function(value) {return !Number.isNaN(value);});
+  LCH_C = LCH_C.filter(function(value) {return !Number.isNaN(value);});
+  LCH_H = LCH_H.filter(function(value) {return !Number.isNaN(value);});
+  RGB_R = RGB_R.filter(function(value) {return !Number.isNaN(value);});
+  RGB_G = RGB_G.filter(function(value) {return !Number.isNaN(value);});
+  RGB_B = RGB_B.filter(function(value) {return !Number.isNaN(value);});
+  HSL_H = HSL_H.filter(function(value) {return !Number.isNaN(value);});
+  HSL_S = HSL_S.filter(function(value) {return !Number.isNaN(value);});
+  HSL_L = HSL_L.filter(function(value) {return !Number.isNaN(value);});
+  HSV_H = HSV_H.filter(function(value) {return !Number.isNaN(value);});
+  HSV_S = HSV_S.filter(function(value) {return !Number.isNaN(value);});
+  HSV_V = HSV_V.filter(function(value) {return !Number.isNaN(value);});
+  HSLuv_L = HSLuv_L.filter(function(value) {return !Number.isNaN(value);});
+  HSLuv_U = HSLuv_U.filter(function(value) {return !Number.isNaN(value);});
+  HSLuv_V = HSLuv_V.filter(function(value) {return !Number.isNaN(value);});
+
   window.CAMArrayJ = [];
   window.CAMArrayA = [];
   window.CAMArrayB = [];

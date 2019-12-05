@@ -188,7 +188,18 @@
   <div class="tabcontent" id="chartsWrapper">
     <div class="charts">
       <div class="chartGroup">
-        <h3 class="spectrum-Heading6"><span id="colorspaceLabel"></span> interpolation paths </h3>
+        <!-- <h3 class="spectrum-Heading6"><span id="colorspaceLabel"></span> interpolation</h3> -->
+        <form class="spectrum-Form spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <label for="paletteType_Dropdown" class="spectrum-FieldLabel spectrum-FieldLabel--left">View charts:</label>
+            <div class="spectrum-Dropdown spectrum-Dropdown--quiet" id="chart2dColorspace_dropdown">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="chart2dColorspace" onchange="updateCharts(this)" id="chart2dColorspace">
+              </select>
+              <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </div>
+          </form>
         <div id="chart1"></div>
       </div>
       <div id="chart2"></div>
@@ -207,7 +218,7 @@
       <div class="spectrum-Form-item">
         <label for="paletteType_Dropdown" class="spectrum-FieldLabel spectrum-FieldLabel--left">View model:</label>
         <div class="spectrum-Dropdown spectrum-Dropdown--quiet" id="chart3dColorspace_dropdown">
-          <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="chart3dColorspace" onInput="update3dChart()" id="chart3dColorspace">
+          <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="chart3dColorspace" onchange="updateCharts(this)" id="chart3dColorspace">
           </select>
           <svg class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
             <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
@@ -216,7 +227,7 @@
       </form>
     <div id="chart3dWrapper">
       <svg class="chart3D" id="3dchart"></svg>
-      <span class="spectrum-Body5">* Models are not to scale. Modifications made to enhance visibility of form.</span>
+      <div id="chart3dAlert"></div>
     </div>
   </div>
 

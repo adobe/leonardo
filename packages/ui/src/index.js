@@ -17,6 +17,8 @@ import '@spectrum-css/vars/dist/spectrum-light.css';
 import '@spectrum-css/page/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
 import '@spectrum-css/icon/dist/index-vars.css';
+import '@spectrum-css/link/dist/index-vars.css';
+import '@spectrum-css/alert/dist/index-vars.css';
 import '@spectrum-css/radio/dist/index-vars.css';
 import '@spectrum-css/dialog/dist/index-vars.css';
 import '@spectrum-css/button/dist/index-vars.css';
@@ -428,11 +430,21 @@ function createDemo(c, z) {
 function colorspaceOptions() {
   colorspace.options.length = 0;
   chart3dColorspace.options.length = 0;
+  chart2dColorspace.options.length = 0;
 
   var opts = {
+    'CAM02': 'CIECAM02',
     'LCH': 'Lch',
     'LAB': 'Lab',
-    'CAM02': 'CIECAM02',
+    'HSL': 'HSL',
+    'HSLuv': 'HSLuv',
+    'HSV': 'HSV',
+    'RGB': 'RGB'
+  };
+  var opts2 = {
+    'CAM02': 'CIECAM02 (recommended)',
+    'LCH': 'Lch',
+    'LAB': 'Lab',
     'HSL': 'HSL',
     'HSLuv': 'HSLuv',
     'HSV': 'HSV',
@@ -441,9 +453,11 @@ function colorspaceOptions() {
 
   for(var index in opts) {
     colorspace.options[colorspace.options.length] = new Option(opts[index], index);
-    chart3dColorspace.options[colorspace.options.length] = new Option(opts[index], index);
+    chart3dColorspace.options[chart3dColorspace.options.length] = new Option(opts2[index], index);
+    chart2dColorspace.options[chart2dColorspace.options.length] = new Option(opts2[index], index);
   }
   chart3dColorspace.value = 'CAM02';
+  chart2dColorspace.value = 'CAM02';
 }
 
 // Calculate Color and generate Scales
@@ -593,9 +607,11 @@ function colorInput() {
   updateParams(inputColors, background.substr(1), ratioInputs, mode);
 
   chartData.createData(scaleData.colors);
-  charts.showCharts(mode);
+  charts.showCharts('CAM02');
+  colorSpaceFeedback('CAM02'); // manually enter default of CAM02
 }
 window.onresize = colorInput;
+
 
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
@@ -742,3 +758,57 @@ window.distributeLum = function distributeLum() {
 
   colorInput();
 }
+
+// Create alert feedback for each colorspace
+function colorSpaceFeedback(spaceOpt) {
+  let alertWrapper = document.getElementById('chart3dAlert');
+  alertWrapper.innerHTML = ' ';
+  let alert = document.createElement('div');
+  alert.className = 'spectrum-Alert';
+  if(spaceOpt == 'CAM02') {
+    alert.classList.add('spectrum-Alert--info')
+    alert.innerHTML =`
+      <svg class="spectrum-Icon spectrum-UIIcon-InfoMedium spectrum-Alert-icon" focusable="false" aria-hidden="true">
+        <use xlink:href="#spectrum-css-icon-InfoMedium" />
+      </svg>
+      <div class="spectrum-Alert-header">Recommended color space for color evaluation</div>
+      <div class="spectrum-Alert-content">CIECAM02 is a perceptually uniform model of color. Irregularities seen in this space reflect perceived irregularities in color.
+        <a href="https://en.wikipedia.org/wiki/CIECAM02" target="_blank" class="spectrum-Link">Learn more about CIECAM02</a>
+      </div>`;
+  }
+  if(spaceOpt == 'LAB' || spaceOpt == 'LCH') {
+    alert.classList.add('spectrum-Alert--info')
+    alert.innerHTML =`
+      <svg class="spectrum-Icon spectrum-UIIcon-InfoMedium spectrum-Alert-icon" focusable="false" aria-hidden="true">
+        <use xlink:href="#spectrum-css-icon-InfoMedium" />
+      </svg>
+      <div class="spectrum-Alert-header">Acceptable color space for color evaluation</div>
+      <div class="spectrum-Alert-content">Lab (Lch in cylindrical form) is a well-known and used color space based on human perception of color.
+        <a href="https://en.wikipedia.org/wiki/CIELAB_color_space" target="_blank" class="spectrum-Link">Learn more about LAB & LCH </a>
+      </div>`;
+  }
+  if(spaceOpt == 'HSL' || spaceOpt == 'HSV' || spaceOpt == 'HSLuv' || spaceOpt == 'RGB') {
+    alert.classList.add('spectrum-Alert--warning')
+    alert.innerHTML =`
+      <svg class="spectrum-Icon spectrum-UIIcon-InfoMedium spectrum-Alert-icon" focusable="false" aria-hidden="true">
+        <use xlink:href="#spectrum-css-icon-InfoMedium" />
+      </svg>
+      <div class="spectrum-Alert-header">This color space not recommended for evaluating color models</div>
+      <div class="spectrum-Alert-content">Irregularities seen in this color space do not accurately represent perceptual irregularities in the color scale itself.
+        <a href="https://en.wikipedia.org/wiki/HSL_and_HSV" target="_blank" class="spectrum-Link">Learn more about RGB color spaces</a>
+      </div>`;
+  }
+
+  alertWrapper.appendChild(alert);
+}
+exports.colorSpaceFeedback = colorSpaceFeedback;
+window.colorSpaceFeedback = colorSpaceFeedback;
+
+function updateCharts(selectObject) {
+  let spaceOpt = selectObject.value;
+
+  charts.init3dChart();
+  charts.showCharts(spaceOpt);
+  colorSpaceFeedback(spaceOpt);
+}
+window.updateCharts = updateCharts;

@@ -441,7 +441,7 @@ main {
   align-items: flex-start;
   max-width: fit-content;
   margin-bottom: 24px;
-  padding: 0 8px;
+  padding: 0;
 }
 .charts ~ .charts {
   margin-left: 16px;
@@ -461,7 +461,9 @@ main {
 
 .chartGroup {
   .spectrum-Heading6 {
-    margin-bottom: 8px;
+    height: 32px;
+    display: flex;
+    align-items: flex-end;
   }
 }
 
@@ -475,7 +477,7 @@ main {
 }
 
 #chart3dColorspace {
-  width: 7.5em;
+  width: auto;
 }
 
 h1 {
@@ -745,4 +747,10 @@ a:focus {
   height: 100vh;
   width: 100vw;
   z-index: 1;
+}
+
+#chart3dAlert {
+  position: absolute;
+  bottom: 16px;
+  width: calc(100vw - 624px);
 }

@@ -32,9 +32,13 @@ function createChartHeight() {
   let paddings = 164;
   let offset = headerHeight + tabHeight + paddings;
   let viewportHeight = window.innerHeight;
-
-  // return (viewportHeight - offset) / 2;
-  return 180;
+  let height = (viewportHeight - offset) / 3;
+  if (height < 180) {
+    return 180;
+  }
+  else {
+    return height;
+  }
 }
 
 function create3dChartWidth() {
@@ -51,7 +55,8 @@ function create3dChartHeight() {
   let headerHeight = 58;
   let tabHeight = 48;
   let paddings = 164/2;
-  let offset = headerHeight + tabHeight + paddings;
+  let feedbackText = 54;
+  let offset = headerHeight + tabHeight + paddings + feedbackText;
   let viewportHeight = window.innerHeight;
 
   return (viewportHeight - offset);
@@ -308,13 +313,13 @@ function createChartHeader(x, dest) {
 }
 
 // Make 2d color charts
-function createChart(data, dest, yMin, yMax) {
+function createChart(data, yLabel, xLabel, dest, yMin, yMax) {
 
   let xy_chart = d3_xy_chart()
     .width(createChartWidth())
     .height(createChartHeight())
-    .xlabel("X Axis")
-    .ylabel("Y Axis");
+    .xlabel(xLabel)
+    .ylabel(yLabel);
 
   let svg = d3.select(dest).append("svg")
     .datum(data)
@@ -466,62 +471,63 @@ function createAllCharts(mode) {
 
   if (mode=="LCH") {
     createChartHeader('Chroma / Lightness', 'chart1');
-    createChart(lchDataC, "#chart1", 0, 100);
+    createChart(lchDataC, 'Chroma', 'Lightness', "#chart1", 0, 100);
     createChartHeader('Hue / Lightness', 'chart2');
-    createChart(lchDataH, "#chart2", 0, 360);
+    createChart(lchDataH, 'Hue', 'Lightness', "#chart2", 0, 360);
     createChartHeader('Chroma / Hue', 'chart3');
-    createChart(lchDataCH, "#chart3", 0, 100);
+    createChart(lchDataCH, 'Chroma', 'Hue', "#chart3", 0, 100);
   }
   if (mode=="LAB") {
     createChartHeader('Green Red / Lightness', 'chart1');
-    createChart(labDataA, "#chart1");
+    createChart(labDataA, 'Green - Red', 'Lightness', "#chart1");
     createChartHeader('Blue Yellow / Lightness', 'chart2');
-    createChart(labDataB, "#chart2");
+    createChart(labDataB, 'Blue - Yellow', 'Lightness', "#chart2");
     createChartHeader('Green Red / Blue Yellow', 'chart3');
-    createChart(labDataAB, "#chart3");
+    createChart(labDataAB, 'Green - Red', 'Blue - Yellow', "#chart3");
   }
   if (mode=="CAM02") {
     createChartHeader('Green Red / Lightness', 'chart1');
-    createChart(camDataA, "#chart1");
+    createChart(camDataA, 'Green - Red', 'Lightness', "#chart1");
     createChartHeader('Blue Yellow / Lightness', 'chart2');
-    createChart(camDataB, "#chart2");
+    createChart(camDataB, 'Blue - Yellow', 'Lightness', "#chart2");
     createChartHeader('Green Red / Blue Yellow', 'chart3');
-    createChart(camDataAB, "#chart3");
+    createChart(camDataAB, 'Green - Red', 'Blue - Yellow', "#chart3");
   }
   if (mode=="HSL") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hslDataH, "#chart1", 0, 360);
+    createChart(hslDataH, 'Hue', 'Lightness', "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hslDataS, "#chart2", 0, 1);
+    createChart(hslDataS, 'Saturation', 'Lightness', "#chart2", 0, 1);
     createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hslDataHS, "#chart3", 0, 1);
+    createChart(hslDataHS, 'Saturation', 'Hue', "#chart3", 0, 1);
   }
   if (mode=="HSLuv") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsluvDataL, "#chart1", 0, 360);
+    createChart(hsluvDataL, 'Hue', 'Lightness', "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsluvDataU, "#chart2", 0, 100);
+    createChart(hsluvDataU, 'Saturation', 'Lightness', "#chart2", 0, 100);
     createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hsluvDataLU, "#chart3", 0, 100);
+    createChart(hsluvDataLU, 'Saturation', 'Hue', "#chart3", 0, 100);
   }
   if (mode=="HSV") {
     createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsvDataH, "#chart1", 0, 360);
+    createChart(hsvDataH, 'Hue', 'Lightness', "#chart1", 0, 360);
     createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsvDataS, "#chart2", 0, 1);
+    createChart(hsvDataS, 'Saturation', 'Lightness', "#chart2", 0, 1);
     createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hsvDataHS, "#chart3", 0, 1);
+    createChart(hsvDataHS, 'Saturation', 'Hue', "#chart3", 0, 1);
   }
   if (mode=="RGB") {
     createChartHeader('Red / Green', 'chart1');
-    createChart(rgbDataR, "#chart1", 0, 255);
+    createChart(rgbDataR, 'Red', 'Green', "#chart1", 0, 255);
     createChartHeader('Green / Blue', 'chart2');
-    createChart(rgbDataG, "#chart2", 0, 255);
+    createChart(rgbDataG, 'Green', 'Blue', "#chart2", 0, 255);
     createChartHeader('Blue / Red', 'chart3');
-    createChart(rgbDataB, "#chart3", 0, 255);
+    createChart(rgbDataB, 'Blue', 'Red', "#chart3", 0, 255);
   }
+
   createChartHeader('Contrast Ratios', 'contrastChart');
-  createChart(window.contrastData, "#contrastChart");
+  createChart(window.contrastData, 'Contrast', 'Swatches', "#contrastChart");
 
   init3dChart();
 }
@@ -543,25 +549,20 @@ function getChartColors(mode) {
   return chartColors;
 }
 
-function update3dChart() {
-  let spaceOpt = document.getElementById('chart3dColorspace').value;
 
-  init3dChart();
-}
-
-exports.showCharts = function(mode) {
+function showCharts(mode) {
   document.getElementById('chart1').innerHTML = ' ';
   document.getElementById('chart2').innerHTML = ' ';
   document.getElementById('chart3').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
-
-  let chartModeLabel = document.getElementById('colorspaceLabel');
-  chartModeLabel.innerHTML = mode;
 
   chartColors = getChartColors(mode);
   createAllCharts(mode);
 };
 
 exports.init3dChart = init3dChart;
-exports.update3dChart = update3dChart;
-window.update3dChart = update3dChart;
+// exports.update3dChart = update3dChart;
+// exports.updateCharts = updateCharts;
+exports.showCharts = showCharts;
+// window.update3dChart = update3dChart;
+// window.updateCharts = updateCharts;

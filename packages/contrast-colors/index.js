@@ -13,7 +13,8 @@ governing permissions and limitations under the License.
 import * as d3 from 'd3';
 import * as d3hsluv from 'd3-hsluv';
 import * as d3hsv from 'd3-hsv';
-Object.assign(d3, d3hsluv, d3hsv);
+import * as d3cam02 from 'd3-cam02';
+Object.assign(d3, d3cam02, d3hsluv, d3hsv);
 
 function cArray(c) {
   var L = d3.hsluv(c).l;
