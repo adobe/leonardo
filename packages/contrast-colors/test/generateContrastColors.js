@@ -1,5 +1,5 @@
 /*
-Copyright 2018 Adobe. All rights reserved.
+Copyright 2019 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -11,8 +11,57 @@ governing permissions and limitations under the License.
 
 import test from 'ava';
 import { generateContrastColors } from '../index.js';
+// Test simple generation in all color spaces
+test('should generate 2 colors (CAM02 interpolation)', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02'});;
 
-test('should generate colors', function(t) {
+  t.deepEqual(
+    colors,
+    [ '#5490e0', '#2c66f1' ]
+  );
+
+});
+test('should generate 2 colors (LAB interpolation)', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'LAB'});;
+
+  t.deepEqual(
+    colors,
+    [ '#7383ff', '#435eff' ]
+  );
+});
+test('should generate 2 colors (LCH interpolation)', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'LCH'});;
+
+  t.deepEqual(
+    colors,
+    [ '#008fff', '#0065ff' ]
+  );
+});
+test('should generate 2 colors (HSL interpolation)', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'HSL'});;
+
+  t.deepEqual(
+    colors,
+    [ '#478cfe', '#2d62ff' ]
+  );
+});
+test('should generate 2 colors (HSLuv interpolation)', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'HSLuv'});;
+
+  t.deepEqual(
+    colors,
+    [ '#1896dc', '#066aea' ]
+  );
+});
+test('should generate 2 colors (HSV interpolation)', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'HSV'});;
+
+  t.deepEqual(
+    colors,
+    [ '#478cff', '#2d62ff' ]
+  );
+});
+test('should generate 2 colors (RGB interpolation)', function(t) {
   let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'});;
 
   t.deepEqual(
@@ -21,29 +70,89 @@ test('should generate colors', function(t) {
   );
 });
 
-test('should generate more colors', function(t) {
-  let colors = generateContrastColors({colorKeys: ["#0000ff"], base: "#323232",ratios: [-1.25,4.5], colorspace: "LCH"});
+test('should generate 2 colors on dark background', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#323232",ratios: [3, 4.5], colorspace: "LCH"}); // positive & negative ratios
 
   t.deepEqual(
     colors,
-    [ '#201062', '#a983ff' ]
+    [ '#0074ff', '#009fff' ]
   );
 });
 
-test('should generate no colors', function(t) {
-  let colors = generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'}) // no colors
+// Check bidirectionality of contrast ratios (positive vs negative)
+test('should generate 2 colors with bidirectional contrast (light background)', function(t) {
+  let colors = generateContrastColors({colorKeys: ["#012676"], base: "#D8D8D8",ratios: [-1.25,4.5], colorspace: "LCH"}); // positive & negative ratios
 
   t.deepEqual(
     colors,
-    []
+    [ '#efeff6', '#56599a' ]
+  );
+});
+test('should generate 2 colors with bidirectional contrast (dark background)', function(t) {
+  let colors = generateContrastColors({colorKeys: ["#012676"], base: "#323232",ratios: [-1.25,4.5], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#101c51', '#9695c0' ]
   );
 });
 
-test('should generate no ratios', function(t) {
+// Contrast gamuts
+test('should generate black when ratio darker than available colors', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#d8d8d8",ratios: [21], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#000000' ]
+  );
+});
+test('should generate white when ratio lighter than available colors', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#323232",ratios: [21], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#ffffff' ]
+  );
+});
+test('should generate white when negative ratio lighter than available colors', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#f5f5f5",ratios: [-21], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#ffffff' ]
+  );
+});
+test('should generate black when negative ratio lighter than available colors', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#323232",ratios: [-21], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#000000' ]
+  );
+});
+
+// Expected errors
+test('should generate no colors, missing colorKeys', function(t) {
+  t.throws(
+    () => {
+      let colors = generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5]}) // no key colors
+    }
+  );
+});
+
+test('should generate no colors, missing ratios', function(t) {
 
   t.throws(
     () => {
-      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', colorspace: 'RGB'}) // no ratios
+      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5'}) // no ratios
+    }
+  );
+});
+
+test('should generate no colors, missing base', function(t) {
+  t.throws(
+    () => {
+      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5]}) // no base
     }
   );
 });
