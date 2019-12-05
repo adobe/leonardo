@@ -31,6 +31,10 @@
   ],
   "license": "Apache-2.0",
   "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.23.6"
+  },
+  "dependencies": {
     "@adobe/focus-ring-polyfill": "^0.1.5",
     "@adobe/leonardo-contrast-colors": "^0.1.0",
     "@adobe/spectrum-css-workflow-icons": "^1.0.0",
@@ -60,8 +64,6 @@
     "d3-cam02": "^0.1.5",
     "d3-hsluv": "^0.1.2",
     "d3-hsv": "^0.1.0",
-    "loadicons": "^1.0.0",
-    "parcel-bundler": "^1.12.4",
-    "sass": "^1.23.6"
+    "loadicons": "^1.0.0"
   }
 }
