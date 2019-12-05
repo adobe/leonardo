@@ -1,5 +1,5 @@
 /*
-Copyright 2018 Adobe. All rights reserved.
+Copyright 2019 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -33,7 +33,7 @@ test('should generate 2 colors with bidirectional contrast', function(t) {
 test('should generate no colors, missing colorKeys', function(t) {
   t.throws(
     () => {
-      let colors = generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'}) // no key colors
+      let colors = generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5]}) // no key colors
     }
   );
 });
@@ -42,7 +42,7 @@ test('should generate no colors, missing ratios', function(t) {
 
   t.throws(
     () => {
-      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', colorspace: 'RGB'}) // no ratios
+      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5'}) // no ratios
     }
   );
 });
@@ -50,7 +50,7 @@ test('should generate no colors, missing ratios', function(t) {
 test('should generate no colors, missing base', function(t) {
   t.throws(
     () => {
-      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'RGB'}) // no base
+      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5]}) // no base
     }
   );
 });

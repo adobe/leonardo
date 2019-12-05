@@ -430,9 +430,9 @@ function colorspaceOptions() {
   chart3dColorspace.options.length = 0;
 
   var opts = {
+    'CAM02': 'CIECAM02',
     'LCH': 'Lch',
     'LAB': 'Lab',
-    'CAM02': 'CIECAM02',
     'HSL': 'HSL',
     'HSLuv': 'HSLuv',
     'HSV': 'HSV',

@@ -1,5 +1,5 @@
 /*
-Copyright 2018 Adobe. All rights reserved.
+Copyright 2019 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -12,11 +12,20 @@ governing permissions and limitations under the License.
 import test from 'ava';
 import { contrast } from '../index.js';
 
-test('should generate colors', function(t) {
+test('should provide negative contrast (-1.55...)', function(t) {
   let contrastValue = contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number
 
   t.is(
     contrastValue,
     -1.5579550563651177
+  );
+});
+
+test('should provide positive contrast (1.55...)', function(t) {
+  let contrastValue = contrast([207, 207, 207], [255, 255, 255]); // gray is UI color, white is base. Should return positive whole number
+
+  t.is(
+    contrastValue,
+    1.5579550563651177
   );
 });

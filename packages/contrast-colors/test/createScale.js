@@ -1,5 +1,5 @@
 /*
-Copyright 2018 Adobe. All rights reserved.
+Copyright 2019 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 import test from 'ava';
 import { createScale } from '../index.js';
 
-test('should generate colors', function(t) {
+test('should generate 8 colors', function(t) {
   let scale = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
   t.deepEqual(

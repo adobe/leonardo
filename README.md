@@ -69,9 +69,9 @@ generateContrastColors({colorKeys, base, ratios, colorspace})
 
 **colorspace** *string*: the colorspace in which the key colors will be interpolated within. Below are the available options:
 
+- [CAM02](https://en.wikipedia.org/wiki/CIECAM02)
 - [Lch](https://en.wikipedia.org/wiki/HCL_color_space)
 - [Lab](https://en.wikipedia.org/wiki/CIELAB_color_space)
-- [CAM02](https://en.wikipedia.org/wiki/CIECAM02)
 - [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV)
 - [HSLuv](https://en.wikipedia.org/wiki/HSLuv)
 - [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)

@@ -181,8 +181,6 @@ function createScale({
     colorsHex: colorsHex
   };
 }
-// Test script
-// createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
 function generateContrastColors({
   colorKeys,
@@ -218,16 +216,6 @@ function generateContrastColors({
   return newColors;
 }
 
-// Test scripts:
-// generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'});
-// generateContrastColors({colorKeys: ["#0000ff"], base: "#323232",ratios: [-1.25,4.5], colorspace: "LCH"});
-// Error Tests:
-// generateContrastColors({base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'RGB'}) // no colors
-// generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', colorspace: 'RGB'}) // no ratios
-
-
-// TODO: see if there's a luminance package?
-// Separate files in a lib folder as well.
 function luminance(r, g, b) {
   var a = [r, g, b].map((v) => {
     v /= 255;
@@ -267,11 +255,7 @@ function contrast(color, base) {
     } // Return as whole negative number
   }
 }
-// test scripts:
-// contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number
 
-
-// TODO: Find binary search package to use instead of this. -> use its own file
 // Binary search to find index of contrast ratio that is input
 // Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
 function binarySearch(list, value, baseLum) {
@@ -313,11 +297,8 @@ function binarySearch(list, value, baseLum) {
   return (list[middle] == !value) ? closest : middle // how it was originally expressed
 }
 
-// TEST
-// args = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
-// generateContrastColors({args, base: '#ffffff', ratios: [3, 4.5, 7]});
-
 exports.createScale = createScale;
 exports.luminance = luminance;
 exports.contrast = contrast;
+exports.binarySearch = binarySearch;
 exports.generateContrastColors = generateContrastColors;
