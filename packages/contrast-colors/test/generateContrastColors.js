@@ -97,6 +97,41 @@ test('should generate 2 colors with bidirectional contrast (dark background)', f
   );
 });
 
+// Contrast gamuts
+test('should generate black when ratio darker than available colors', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#d8d8d8",ratios: [21], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#000000' ]
+  );
+});
+test('should generate white when ratio lighter than available colors', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#323232",ratios: [21], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#ffffff' ]
+  );
+});
+test('should generate white when negative ratio lighter than available colors', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#f5f5f5",ratios: [-21], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#ffffff' ]
+  );
+});
+test('should generate black when negative ratio lighter than available colors', function(t) {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: "#323232",ratios: [-21], colorspace: "LCH"}); // positive & negative ratios
+
+  t.deepEqual(
+    colors,
+    [ '#000000' ]
+  );
+});
+
+// Expected errors
 test('should generate no colors, missing colorKeys', function(t) {
   t.throws(
     () => {
