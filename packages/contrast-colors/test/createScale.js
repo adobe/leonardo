@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 import test from 'ava';
 import { createScale } from '../index.js';
 
-test('should generate 8 colors', function(t) {
+test('should generate 8 colors in Lab', function(t) {
   let scale = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
   t.deepEqual(
