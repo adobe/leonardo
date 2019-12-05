@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 import test from 'ava';
 import { binarySearch } from '../index.js';
 
-test('search result with exact match (ascending)', function(t) {
+test('should return exact match (ascending)', function(t) {
   let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
   let value = 3.12;
   let baseLum = 0.7;
@@ -24,7 +24,7 @@ test('search result with exact match (ascending)', function(t) {
   );
 });
 
-test('search result with exact match (descending)', function(t) {
+test('should return exact match (descending)', function(t) {
   let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
   let value = 3.12;
   let baseLum = 0.3;
@@ -36,7 +36,7 @@ test('search result with exact match (descending)', function(t) {
   );
 });
 
-test('closest match (ascending)', function(t) {
+test('should return closest match (ascending)', function(t) {
   let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
   let value = 3.09;
   let baseLum = 0.7;
