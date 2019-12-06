@@ -1,69 +1,17 @@
 {
-  "name": "@adobe/leonardo-contrast-colors",
-  "version": "1.0.0",
-  "description": "Generate colors based on a desired contrast ratio",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://git.corp.adobe.com:nbaldwin/adaptive-color.git"
-  },
+  "name": "leonardo-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
-  "scripts": {
-    "serve": "http-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "accessibility",
-    "inclusive",
-    "wcag",
-    "contrast",
-    "color",
-    "contrast-ratio",
-    "a11y",
-    "luminance",
-    "relative-luminance",
-    "accessible",
-    "a11ycolor",
-    "colour",
-    "adaptive",
-    "adaptive-color",
-    "color-generator",
-    "contrast-generator",
-    "color-contrast-generator"
+  "contributors": [
+    "Larry Davis <lazdnet@gmail.com>"
   ],
   "license": "Apache-2.0",
-  "dependencies": {
-    "@adobe/focus-ring-polyfill": "^0.1.5",
-    "@adobe/spectrum-css-workflow-icons": "^1.0.0",
-    "@spectrum-css/button": "^2.0.2",
-    "@spectrum-css/buttongroup": "^2.0.2",
-    "@spectrum-css/checkbox": "^2.0.2",
-    "@spectrum-css/dropdown": "^2.1.1",
-    "@spectrum-css/fieldgroup": "^2.0.2",
-    "@spectrum-css/fieldlabel": "^2.0.2",
-    "@spectrum-css/icon": "^2.0.2",
-    "@spectrum-css/menu": "^2.1.1",
-    "@spectrum-css/page": "^2.0.2",
-    "@spectrum-css/radio": "^2.0.2",
-    "@spectrum-css/slider": "^2.0.2",
-    "@spectrum-css/tabs": "^2.1.1",
-    "@spectrum-css/textfield": "^2.0.2",
-    "@spectrum-css/tooltip": "^2.0.2",
-    "@spectrum-css/typography": "^2.0.2",
-    "@spectrum-css/vars": "^2.0.0-alpha.3",
-    "@spectrum/spectrum-icons": "^2.3.0",
-    "clipboard": "^2.0.4",
-    "d3": "^5.12.0",
-    "d3-3d": "0.0.9",
-    "d3-cam02": "^0.1.5",
-    "d3-hsluv": "^0.1.2",
-    "d3-hsv": "^0.1.0",
-    "gh-badges": "^2.2.1"
-  },
   "devDependencies": {
-    "gulp": "^4.0.2",
-    "http-server": "^0.11.1",
-    "loadicons": "^1.0.0",
-    "gulp-sass": "^4.0.2"
-  }
+    "lerna": "^3.16.4"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

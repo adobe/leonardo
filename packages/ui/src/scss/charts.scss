@@ -1,0 +1,83 @@
+/*
+Copyright 2019 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+.charts > svg {
+  color: var(--spectrum-global-color-gray-600);
+}
+.charts .spectrum-Subheading {
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+}
+.axis path {
+  stroke: var(--spectrum-global-color-gray-800);
+}
+.axis line {
+  stroke: var(--spectrum-global-color-gray-400);
+}
+
+.grid path,
+.grid line {
+  // fill: var(--spectrum-global-color-gray-50);
+  stroke: var(--spectrum-global-color-gray-300);
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+.axis > text {
+  display: none;
+  fill: var(--spectrum-global-color-gray-600);
+}
+
+#colorMetrics {
+  display: none; // hidden by default
+  overflow-y: scroll;
+  height: calc(100vh - var(--header-height));
+
+  &.visible {
+    display: flex;
+  }
+}
+
+// Hack overrides for d3 category10 colors
+g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+  stroke: #0F4F87;
+}
+g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+  stroke: #449CAD;
+}
+g.d3_xy_chart_line path.line {
+  stroke: #76D0C5;
+}
+// Overrides for grid
+._3d.grid {
+  stroke: rgba(50, 50, 50, 0.1);
+  stroke-width: 0.3;
+  fill: #6e6e6e;
+  fill-opacity: 0.075;
+}
+
+.chart3D {
+  cursor: move;
+}
+
+._3d.yText {
+  color: #6e6e6e;
+}
