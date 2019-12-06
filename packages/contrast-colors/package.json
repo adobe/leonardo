@@ -5,6 +5,7 @@
   "repository": "git@github.com:adobe/leonardo.git",
   "main": "index.js",
   "scripts": {
+    "dev": "ava test/*.js --verbose --watch",
     "test": "ava test/*.js --verbose",
     "coverage": "nyc report -r lcovonly && codecov"
   },
@@ -19,6 +20,9 @@
     "d3-cam02": "^0.1.5",
     "d3-hsluv": "^0.1.2",
     "d3-hsv": "^0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "ava": {
     "require": [

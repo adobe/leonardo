@@ -1,26 +1,21 @@
-# Leonardo-Contrast-Colors
+# `@adobe/leonardo-contrast-colors`
 
 This package contains all the functions for generating colors by target contrast ratio.
 
 ## Using Leonardo
+
 ### Installing
 ```
 npm i @adobe/leonardo-contrast-colors
 ```
 
 Pass your colors and desired ratios. See additional options below.
-```
+```js
 import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
 
 // returns rgb value
 let colors = generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]});
 ```
-
-### Local setup
-- install dependencies `yarn install`
-- run local server `yarn dev`
-- open `http://localhost:1234`
-
 
 ## API Reference
 
@@ -76,12 +71,12 @@ The Leonardo web app leverages d3 for additional features such as generating 2d 
 ## Contributing
 Contributions are welcomed! Read the [Contributing Guide](../../.github/CONTRIBUTING.md) for more information.
 
-## Running tests
+## Development
 
-You can run tests with:
+You can run tests and watch for changes with:
 
 ```sh
-npm run test
+yarn dev
 ```
 
 ## Licensing

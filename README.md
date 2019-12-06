@@ -1,7 +1,9 @@
 ![Leonardo logo](.github/Leonardo_Logo.png)
 
 # Leonardo
-Authoring adaptive color palettes for generating color based on a desired contrast ratio.
+Authoring [adaptive color palettes](#what-is-adaptive-color) for generating color based on a desired contrast ratio.
+
+For a detailed walkthrough of Leonardo, [check out this article](https://medium.com/@NateBaldwin/leonardo-an-open-source-contrast-based-color-generator-92d61b6521d2).
 
 ## Project Goals
 To make it easier for designers and engineers to leverage color science to create custom interpolations for a value scale, and to make it easier for designers and engineers to conform to [WCAG minimum contrast standards](https://www.w3.org/TR/WCAG21/#contrast-minimum) by using contrast ratio as the starting point, rather than a post-color-selection auditing process.
@@ -18,13 +20,14 @@ To make it easier for designers and engineers to leverage color science to creat
 
 
 ## Leonardo web application
-The Leonardo web application is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to the `generateContrastColors()` API and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
+The [Leonardo web application](http://www.leonardocolor.io/) is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to `@adobe/leonardo-contrast-colors`'s `generateContrastColors()` function and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
 
 ![Leonardo web app with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](.github/Leonardo_Screenshot.png)
 
 ## Show me a demo
-*(coming soon)*
-Sometimes it's easier to express what you can do by showing you. Take a look at this demo app and play around with the brightness and contrast controls. These are dynamically regenerating the color palette using `generateContrastColors()` functions, which allows for more aesthetically pleasing changes to the entire UI color system as the end user (you) adjusts their settings.
+Sometimes it's easier to express what you can do by showing you. Take a look at [this demo app](http://www.leonardocolor.io/demo.html) and play around with the brightness and contrast controls.
+
+The controls are used to dynamically regenerate the entire UI color palette using `generateContrastColors()` functions as the end user (you) adjusts their settings. All of the changes to the UI colors are in conformity with the parameters set up by designers in the Leonardo web application ensuring that end users have the flexibility and control that they need while still upholding the design team's color choices.
 
 ## What is adaptive color?
 I've written about this concept in more detail at the following links. The goals of this project are to aid in fulfilling the tooling necessary to make adaptive color palettes available to designers and engineers.
@@ -34,49 +37,8 @@ I've written about this concept in more detail at the following links. The goals
 - [Part 3: Adaptive Color in Spectrum, Adobe's Design System](https://medium.com/thinking-design/adaptive-color-in-spectrum-adobes-design-system-feeeec89a2c7)
 
 ## Using Leonardo
-### Installing
-```
-npm i @adobe/leonardo-contrast-colors
-```
 
-Pass your colors and desired ratios. See additional options below.
-```
-generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]}); // returns rgb value
-```
-
-
-### Local setup
-- install dependencies `yarn install`
-- run local server `yarn dev`
-- open `http://localhost:8001`
-
-
-## API Reference
-
-### generateContrastColors
-
-Primary function used to generate colors based on target contrast ratios. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`.
-
-```
-generateContrastColors({colorKeys, base, ratios, colorspace})
-```
-
-**colorKeys** *[array]*: list of colors referenced to generate a lightness scale. Much like [key frames](https://en.wikipedia.org/wiki/Key_frame), key colors are single points by which additional colors will be interpolated between.
-
-**base** *string*: references the color value that the color is to be generated from.
-
-**ratios** *[array]*: list of numbers to be used as target contrast ratios.
-
-**colorspace** *string*: the colorspace in which the key colors will be interpolated within. Below are the available options:
-
-- [CAM02](https://en.wikipedia.org/wiki/CIECAM02)
-- [Lch](https://en.wikipedia.org/wiki/HCL_color_space)
-- [Lab](https://en.wikipedia.org/wiki/CIELAB_color_space)
-- [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV)
-- [HSLuv](https://en.wikipedia.org/wiki/HSLuv)
-- [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)
-- [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
-
+See the [`@adobe/leonardo-contrast-colors` README](packages/contrast-colors/README.md) for details on how to use Leonardo in your app.
 
 ## Why are not all contrast ratios available?
 You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.
