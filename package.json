@@ -4,6 +4,9 @@
   "private": true,
   "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
+  "scripts": {
+    "release": "npx lerna publish"
+  },
   "contributors": [
     "Larry Davis <lazdnet@gmail.com>"
   ],

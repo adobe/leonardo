@@ -20,6 +20,9 @@
     "d3-hsluv": "^0.1.2",
     "d3-hsv": "^0.1.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "ava": {
     "require": [
       "esm"
