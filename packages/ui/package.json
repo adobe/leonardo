@@ -2,7 +2,7 @@
   "name": "@adobe/leonardo-ui",
   "version": "1.0.0",
   "description": "Demonstration UI for Leonardo",
-  "repository": "git@git.corp.adobe.com:nbaldwin/leonardo-color.git",
+  "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
     "dev": "yarn copyIcons && npx parcel src/index.html",

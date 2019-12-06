@@ -2,7 +2,7 @@
   "name": "leonardo-monorepo",
   "version": "0.0.0",
   "private": true,
-  "repository": "git@git.corp.adobe.com:nbaldwin/leonardo-color.git",
+  "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "contributors": [
     "Larry Davis <lazdnet@gmail.com>"
