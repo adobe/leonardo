@@ -17,7 +17,9 @@ yarn install
 yarn dev
 ```
 
-Then, visit the live reloading web UI here: http://localhost:1234
+Then, visit the live reloading web UIs here:
+http://localhost:1234/index.html
+http://localhost:1234/demo.html
 
 ## Licensing
 This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.

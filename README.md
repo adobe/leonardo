@@ -18,12 +18,12 @@ To make it easier for designers and engineers to leverage color science to creat
 
 
 ## Leonardo web application
-The [Leonardo web application](http://www.leonardocolor.com/) is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to `@adobe/leonardo-contrast-colors`'s `generateContrastColors()` function and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
+The [Leonardo web application](http://www.leonardocolor.io/) is a tool for designers and engineers to collaboratively build color scales for use in user interfaces. The tool exposes an interface to `@adobe/leonardo-contrast-colors`'s `generateContrastColors()` function and displays visual aids for modifying the selection of a variable color and the target contrast ratios (swatches) to produce. The URL updates with your parameters for easily sharing links to team mates, and the app displays the specific config parameters when designers send you a version that they approve.
 
 ![Leonardo web app with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](.github/Leonardo_Screenshot.png)
 
 ## Show me a demo
-Sometimes it's easier to express what you can do by showing you. Take a look at [this demo app](http://www.leonardocolor.com/demo.html) and play around with the brightness and contrast controls. These are dynamically regenerating the color palette using `generateContrastColors()` functions, which allows for more aesthetically pleasing changes to the entire UI color system as the end user (you) adjusts their settings.
+Sometimes it's easier to express what you can do by showing you. Take a look at [this demo app](http://www.leonardocolor.io/demo.html) and play around with the brightness and contrast controls. These are dynamically regenerating the color palette using `generateContrastColors()` functions, which allows for more aesthetically pleasing changes to the entire UI color system as the end user (you) adjusts their settings.
 
 ## What is adaptive color?
 I've written about this concept in more detail at the following links. The goals of this project are to aid in fulfilling the tooling necessary to make adaptive color palettes available to designers and engineers.
