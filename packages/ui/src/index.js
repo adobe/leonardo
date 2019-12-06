@@ -625,12 +625,7 @@ function updateParams(c, b, r, m) {
   var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
   cStrings = cStrings + '"';
 
-  // retain pathname if present
-  if(pathName == '/') {
-    window.history.replaceState({}, '', '/?' + params); // update the page's URL.
-  } else {
-    window.history.replaceState({}, '', pathName + '/?' + params); // update the page's URL.
-  }
+  window.history.replaceState({}, '', '?' + params); // update the page's URL.
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
