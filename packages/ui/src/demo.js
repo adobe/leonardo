@@ -1,3 +1,6 @@
+import contrastColors from '@adobe/leonardo-contrast-colors';
+import './demo.css';
+
 function createColors() {
   var br = document.getElementById('sliderBrightness');
   var con = document.getElementById('sliderContrast');
@@ -12,17 +15,17 @@ function createColors() {
   var baseRatios = [-1.1,1,1.25,1.94,3,3.99,5.22,6.96,9.30,12.45,15];
   var uiRatios = [1.3,3.5,5];
 
-  var grayScale = createScale({
+  var grayScale = contrastColors.createScale({
     swatches: 100,
     colorKeys: ['#000036', '#f9ffff'],
     colorspace: 'LAB'
   });
-  var blueScale = createScale({
+  var blueScale = contrastColors.createScale({
     colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
     colorspace: "CAM02"
   });
 
-  var redScale = createScale({
+  var redScale = contrastColors.createScale({
     colorKeys: ["#ea2825","#ffc1ad","#fd937e"],
     colorspace: "LAB"
   });
@@ -48,12 +51,11 @@ function createColors() {
     var newVal = ((d-1) * conVal) + 1;
     return newVal;
   });
-  // console.log(grayRatios);
 
   // adaptColor();
-  grayArray = generateContrastColors({colorKeys: grayScale.colorKeys, colorspace: grayScale.colorspace, base: base, ratios: baseRatios});
-  redArray = generateContrastColors({colorKeys: redScale.colorKeys, colorspace: redScale.colorspace, base: base, ratios: uiRatios});
-  blueArray = generateContrastColors({colorKeys: blueScale.colorKeys, colorspace: blueScale.colorspace, base: base, ratios: uiRatios});
+  let grayArray = contrastColors.generateContrastColors({colorKeys: grayScale.colorKeys, colorspace: grayScale.colorspace, base: base, ratios: baseRatios});
+  let redArray = contrastColors.generateContrastColors({colorKeys: redScale.colorKeys, colorspace: redScale.colorspace, base: base, ratios: uiRatios});
+  let blueArray = contrastColors.generateContrastColors({colorKeys: blueScale.colorKeys, colorspace: blueScale.colorspace, base: base, ratios: uiRatios});
 
   document.documentElement.style
     .setProperty('--gray50', grayArray[0]);
@@ -87,4 +89,8 @@ function createColors() {
   document.documentElement.style
     .setProperty('--blue300', blueArray[2]);
 }
+
 createColors();
+
+window.createColors = createColors;
+
