@@ -125,6 +125,7 @@ function paramSetup() {
     document.querySelector('select[name="mode"]').value = params.get('mode');
   }
   else {
+    addColor('#6fa7ff');
     addRatio(3);
     addRatio(4.5);
   }
