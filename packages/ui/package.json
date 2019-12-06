@@ -1,5 +1,6 @@
 {
   "name": "@adobe/leonardo-ui",
+  "private": true,
   "version": "1.0.0",
   "description": "Demonstration UI for Leonardo",
   "repository": "git@github.com:adobe/leonardo.git",
