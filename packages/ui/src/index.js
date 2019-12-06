@@ -40,6 +40,13 @@ import '@adobe/focus-ring-polyfill';
 
 import contrastColors from '@adobe/leonardo-contrast-colors';
 
+// expose functions so they can be ran in the console
+window.createScale = contrastColors.createScale;
+window.luminance = contrastColors.luminance;
+window.contrast = contrastColors.contrast;
+window.generateContrastColors = contrastColors.generateContrastColors;
+window.contrastColors = contrastColors;
+
 import loadIcons from 'loadicons';
 loadIcons('./spectrum-css-icons.svg');
 loadIcons('./spectrum-icons.svg');
