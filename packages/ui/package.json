@@ -11,7 +11,7 @@
     "copyUIIcons": "cp -r ../../node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg dist/",
     "postPublish": "yarn deploySite",
     "buildSite": "npx parcel build src/index.html --public-url ./",
-    "deploySite": "yarn buildSite && npx ghpages -p dist"
+    "deploySite": "yarn buildSite && yarn copyIcons && npx ghpages -p dist"
   },
   "keywords": [
     "accessibility",

@@ -6,7 +6,7 @@ Object.assign(d3, d33d);
 import contrastColors from '@adobe/leonardo-contrast-colors';
 
 let chart3dColorspace = document.getElementById('chart3dColorspace');
-let dest = document.getElementById('3dchart');
+let dest = document.querySelector('.chart3D');
 
 /*
 Create 2d and 3d chart heights and widths based on known
