@@ -30,19 +30,17 @@ import '@spectrum-css/checkbox/dist/index-vars.css';
 import '@spectrum-css/buttongroup/dist/index-vars.css';
 import '@spectrum-css/tooltip/dist/index-vars.css';
 import '@spectrum-css/slider/dist/index-vars.css';
-import '@spectrum-css/tabs/dist/vars.css';
-import '@spectrum-css/tabs/dist/index.css';
+import '@spectrum-css/tabs/dist/index-vars.css';
 
 import './scss/colorinputs.scss';
 import './scss/charts.scss';
 import './scss/style.scss';
 
-import loadIcons from 'loadicons';
 import '@adobe/focus-ring-polyfill';
 
 import contrastColors from '@adobe/leonardo-contrast-colors';
 
-// import loadIcons from 'loadicons';
+import loadIcons from 'loadicons';
 loadIcons('./spectrum-css-icons.svg');
 loadIcons('./spectrum-icons.svg');
 
