@@ -1,7 +1,9 @@
 ![Leonardo logo](.github/Leonardo_Logo.png)
 
 # Leonardo
-Authoring adaptive color palettes for generating color based on a desired contrast ratio.
+Authoring [adaptive color palettes](#what-is-adaptive-color) for generating color based on a desired contrast ratio.
+
+For a detailed walkthrough of Leonardo, [check out this article](https://medium.com/@NateBaldwin/leonardo-an-open-source-contrast-based-color-generator-92d61b6521d2).
 
 ## Project Goals
 To make it easier for designers and engineers to leverage color science to create custom interpolations for a value scale, and to make it easier for designers and engineers to conform to [WCAG minimum contrast standards](https://www.w3.org/TR/WCAG21/#contrast-minimum) by using contrast ratio as the starting point, rather than a post-color-selection auditing process.
@@ -23,7 +25,9 @@ The [Leonardo web application](http://www.leonardocolor.io/) is a tool for desig
 ![Leonardo web app with color inputs, interpolated gradient, contrast ratio input, and demo of colors applied to text and a button.](.github/Leonardo_Screenshot.png)
 
 ## Show me a demo
-Sometimes it's easier to express what you can do by showing you. Take a look at [this demo app](http://www.leonardocolor.io/demo.html) and play around with the brightness and contrast controls. These are dynamically regenerating the color palette using `generateContrastColors()` functions, which allows for more aesthetically pleasing changes to the entire UI color system as the end user (you) adjusts their settings.
+Sometimes it's easier to express what you can do by showing you. Take a look at [this demo app](http://www.leonardocolor.io/demo.html) and play around with the brightness and contrast controls.
+
+The controls are used to dynamically regenerate the entire UI color palette using `generateContrastColors()` functions as the end user (you) adjusts their settings. All of the changes to the UI colors are in conformity with the parameters set up by designers in the Leonardo web application ensuring that end users have the flexibility and control that they need while still upholding the design team's color choices.
 
 ## What is adaptive color?
 I've written about this concept in more detail at the following links. The goals of this project are to aid in fulfilling the tooling necessary to make adaptive color palettes available to designers and engineers.
