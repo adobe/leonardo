@@ -17,9 +17,9 @@ import * as d3hsv from 'd3-hsv';
 Object.assign(d3, d3hsluv, d3hsv, d3cam02);
 
 function cArray(c) {
-  var L = d3.hsluv(c).l;
-  var U = d3.hsluv(c).u;
-  var V = d3.hsluv(c).v;
+  let L = d3.hsluv(c).l;
+  let U = d3.hsluv(c).u;
+  let V = d3.hsluv(c).v;
 
   return new Array(L, U, V);
 }
@@ -31,7 +31,7 @@ function createScale({
   shift = 1,
   fullScale = true
 } = {}) {
-  var domains = colorKeys
+  let domains = colorKeys
     .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
     .sort((a, b) => a - b)
     .concat(swatches);
@@ -39,7 +39,7 @@ function createScale({
   domains.unshift(0);
 
   // Test logarithmic domain (for non-contrast-based scales)
-  var sqrtDomains = d3.scalePow()
+  let sqrtDomains = d3.scalePow()
     .exponent(shift)
     .domain([1, swatches])
     .range([1, swatches]);
@@ -54,7 +54,7 @@ function createScale({
   // Transform square root in order to smooth gradient
   domains = sqrtDomains;
 
-  var sortedColor = colorKeys
+  let sortedColor = colorKeys
     // Convert to HSLuv and keep track of original indices
     .map((c, i) => { return { colorKeys: cArray(c), index: i } })
     // Sort by lightness
@@ -62,7 +62,7 @@ function createScale({
     // Retrieve original RGB color
     .map(data => colorKeys[data.index]);
 
-  var inverseSortedColor = colorKeys
+  let inverseSortedColor = colorKeys
     // Convert to HSLuv and keep track of original indices
     .map((c, i) => { return {colorKeys: cArray(c), index: i} })
     // Sort by lightness
@@ -160,10 +160,10 @@ function createScale({
       .interpolate(d3.interpolateHsv);
   }
   else {
-    throw new Error(`Colorspace ${colorspace} not supported`)
+    throw new Error(`Colorspace ${colorspace} not supported`);
   }
 
-  var Colors = d3.range(swatches).map(d => scale(d));
+  let Colors = d3.range(swatches).map(d => scale(d));
 
   let colors = Colors.filter(el => el != null);
 
@@ -189,28 +189,38 @@ function generateContrastColors({
   ratios,
   colorspace = 'LAB'
 } = {}) {
+  if (!base) {
+    throw new Error(`Base is undefined`);
+  }
+  if (!colorKeys) {
+    throw new Error(`Color Keys are undefined`);
+  }
+  if (!ratios) {
+    throw new Error(`Ratios are undefined`);
+  }
+
   let swatches = 3000;
 
   let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
 
-  var Contrasts = d3.range(swatches).map((d) => {
-    var rgbArray = [d3.rgb(scaleData.scale(d)).r, d3.rgb(scaleData.scale(d)).g, d3.rgb(scaleData.scale(d)).b];
-    var baseRgbArray = [d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b];
-    var ca = contrast(rgbArray, baseRgbArray).toFixed(2);
+  let Contrasts = d3.range(swatches).map((d) => {
+    let rgbArray = [d3.rgb(scaleData.scale(d)).r, d3.rgb(scaleData.scale(d)).g, d3.rgb(scaleData.scale(d)).b];
+    let baseRgbArray = [d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b];
+    let ca = contrast(rgbArray, baseRgbArray).toFixed(2);
 
     return Number(ca);
   });
 
   let contrasts = Contrasts.filter(el => el != null);
 
-  var baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
+  let baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
 
   let newColors = [];
   ratios = ratios.map(Number);
 
   // Return color matching target ratio, or closest number
   for (let i=0; i < ratios.length; i++){
-    var r = binarySearch(contrasts, ratios[i], baseLum);
+    let r = binarySearch(contrasts, ratios[i], baseLum);
     newColors.push(d3.rgb(scaleData.colors[r]).hex());
   }
 
@@ -218,7 +228,7 @@ function generateContrastColors({
 }
 
 function luminance(r, g, b) {
-  var a = [r, g, b].map((v) => {
+  let a = [r, g, b].map((v) => {
     v /= 255;
     return v <= 0.03928
         ? v / 12.92
@@ -233,11 +243,11 @@ function luminance(r, g, b) {
 
 // Separate files in a lib folder as well.
 function contrast(color, base) {
-  var colorLum = luminance(color[0], color[1], color[2]);
-  var baseLum = luminance(base[0], base[1], base[2]);
+  let colorLum = luminance(color[0], color[1], color[2]);
+  let baseLum = luminance(base[0], base[1], base[2]);
 
-  var cr1 = (colorLum + 0.05) / (baseLum + 0.05);
-  var cr2 = (baseLum + 0.05) / (colorLum + 0.05);
+  let cr1 = (colorLum + 0.05) / (baseLum + 0.05);
+  let cr2 = (baseLum + 0.05) / (colorLum + 0.05);
 
   if (baseLum < 0.5) {
     if (cr1 >= 1) {
@@ -265,8 +275,8 @@ function binarySearch(list, value, baseLum) {
   let stop = list.length - 1
   let middle = Math.floor((start + stop) / 2)
 
-  var minContrast = Math.min(...list);
-  var maxContrast = Math.max(...list);
+  let minContrast = Math.min(...list);
+  let maxContrast = Math.max(...list);
 
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {

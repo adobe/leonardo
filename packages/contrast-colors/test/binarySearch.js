@@ -12,11 +12,48 @@ governing permissions and limitations under the License.
 import test from 'ava';
 import { binarySearch } from '../index.js';
 
+test('should return index of exact match (ascending)', function(t) {
+  let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
+  let value = 3.12;
+  let baseLum = 0.7;
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+
+  t.is(
+    searchIndex,
+    5 // list[5] // 3.12 indexed at 5
+  );
+});
+
+test('should return index of exact match (descending)', function(t) {
+  let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
+  let value = 3.12;
+  let baseLum = 0.3;
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+
+  t.is(
+    searchIndex,
+    5 // list[5] // 3.12 indexed at 5
+  );
+});
+
+test('should return index of closest match (ascending)', function(t) {
+  let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
+  let value = 3.09;
+  let baseLum = 0.7;
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+
+  t.is(
+    searchIndex,
+    4 // list[4] // 3.1 indexed at 4
+  );
+});
+
 test('should return exact match (ascending)', function(t) {
   let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
   let value = 3.12;
   let baseLum = 0.7;
-  let searchResult = binarySearch(list, value, baseLum);
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+  let searchResult = list[searchIndex];
 
   t.is(
     searchResult,
@@ -28,7 +65,8 @@ test('should return exact match (descending)', function(t) {
   let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
   let value = 3.12;
   let baseLum = 0.3;
-  let searchResult = binarySearch(list, value, baseLum);
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+  let searchResult = list[searchIndex];
 
   t.is(
     searchResult,
@@ -40,7 +78,8 @@ test('should return closest match (ascending)', function(t) {
   let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
   let value = 3.09;
   let baseLum = 0.7;
-  let searchResult = binarySearch(list, value, baseLum);
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+  let searchResult = list[searchIndex];
 
   t.is(
     searchResult,
