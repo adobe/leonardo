@@ -5,6 +5,7 @@
   "repository": "git@github.com:adobe/leonardo.git",
   "main": "index.js",
   "scripts": {
+    "dev": "ava test/*.js --verbose --watch",
     "test": "ava test/*.js --verbose",
     "coverage": "nyc report -r lcovonly && codecov"
   },
