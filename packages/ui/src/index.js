@@ -91,7 +91,7 @@ function paramSetup() {
 
     if(crs[0] == 0) {
       crs = ['#707070'];
-    } else { }
+    }
 
     for (let i=0; i<crs.length; i++) {
       addColor(crs[i]);

@@ -14,26 +14,26 @@ governing permissions and limitations under the License.
   --gradient-height-offset: 284px;
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: var(--gradient-height);
-  --color-size: 32px;
+  --color-size: var(--spectrum-global-dimension-size-400, 32px);
   --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
   --gradient-slider-height: var(--gradient-height);
-  --slider-thumb-size: 8px; // 24px
+  --slider-thumb-size: var(--spectrum-global-dimension-size-100, 8px); // var(--spectrum-global-dimension-size-300, 24px)
   --header-height: 58px;
   --spectrum-panel-border-color: var(--spectrum-global-color-gray-300, #e1e1e1);
   --spectrum-panel-background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
 }
 
 body {
-  margin: 0;
-  padding: 0;
+  margin: var(--spectrum-global-dimension-size-0, 0px);
+  padding: var(--spectrum-global-dimension-size-0, 0px);
   height: 100vh;
   overflow: hidden;
   font-family: 'Adobe Clean'; // local update since no typekit support currently.
   display: grid;
   grid-template-columns: 324px auto 240px;
   grid-template-rows: var(--header-height) auto;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-column-gap: var(--spectrum-global-dimension-size-0, 0px);
+  grid-row-gap: var(--spectrum-global-dimension-size-0, 0px);
   grid-template-areas:
     "header header header"
     "leftPanel . rightPanel";
@@ -42,11 +42,11 @@ body {
   grid-area: header;
   display: flex;
   flex-direction: row;
-  max-height: var(--spectrum-global-dimension-size-400); // 32px
-  border-bottom: 2px solid var(--spectrum-panel-border-color);
+  max-height: var(--spectrum-global-dimension-size-400, 32px);
+  border-bottom: var(--spectrum-global-dimension-size-25, 2px) solid var(--spectrum-panel-border-color);
   background-color: var(--spectrum-panel-background-color);
-  margin: 0;
-  padding: var(--spectrum-global-dimension-size-150) var(--spectrum-global-dimension-size-200);
+  margin: var(--spectrum-global-dimension-size-0, 0px);
+  padding: var(--spectrum-global-dimension-size-150) var(--spectrum-global-dimension-size-200, 16px);
   align-items: center;
   justify-content: space-between;
 }
@@ -55,39 +55,39 @@ body {
   flex-direction: row;
 }
 .spectrum-AppHeader-Title {
-  margin: 0;
+  margin: var(--spectrum-global-dimension-size-0, 0px);
 }
 #headerLogo {
-  height: 24px;
-  width: 24px;
+  height: var(--spectrum-global-dimension-size-300, 24px);
+  width: var(--spectrum-global-dimension-size-300, 24px);
 }
 #logoTitle {
   display: inline-flex;
 }
 #headerLogo ~ .spectrum-AppHeader-Title {
-    margin-left: 8px;
+    margin-left: var(--spectrum-global-dimension-size-100, 8px);
 }
 #octo-link {
-  margin-left: 16px;
-  padding: 4px;
+  margin-left: var(--spectrum-global-dimension-size-200, 16px);
+  padding: var(--spectrum-global-dimension-size-50, 4px);
 }
 /* Tabs aren't inheriting all styles properly. Remapping here */
 .spectrum-Tabs {
   border-color: transparent;
-  padding: 0;
+  padding: var(--spectrum-global-dimension-size-0, 0px);
 }
 .spectrum-Tabs-item {
   color: var(--spectrum-tabs-text-color, var(--spectrum-alias-label-text-color));
 }
 .spectrum-Tabs-item.is-selected {
   color: var(--spectrum-tabs-text-color-selected, var(--spectrum-alias-heading-text-color));
-  border-bottom: 2px solid var(--spectrum-tabs-selection-indicator-color);
+  border-bottom: var(--spectrum-global-dimension-size-25, 2px) solid var(--spectrum-tabs-selection-indicator-color);
 }
 .spectrum-Tabs-selectionIndicator {
   display: none; /* simplifying design to speed up development */
 }
 .spectrum-Tabs--compact .spectrum-Tabs-item {
-  height: 32px;
+  height: var(--spectrum-global-dimension-size-400, 32px);
 }
 
 .spectrum-Panel {
@@ -95,9 +95,9 @@ body {
   flex-direction: column;
 
   background-color: var(--spectrum-panel-background-color);
-  min-width: calc(var(--spectrum-global-dimension-size-3000) + 32px);
-  border-right: 2px solid var(--spectrum-panel-border-color);
-  padding: 0;
+  min-width: calc(var(--spectrum-global-dimension-size-3000) + var(--spectrum-global-dimension-size-400, 32px));
+  border-right: var(--spectrum-global-dimension-size-25, 2px) solid var(--spectrum-panel-border-color);
+  padding: var(--spectrum-global-dimension-size-0, 0px);
   overflow: hidden;
 }
 .spectrum-Panel--small {
@@ -105,10 +105,10 @@ body {
   min-width: var(--spectrum-global-dimension-size-3000);
 }
 .spectrum-Panel--right {
-  max-height: calc(100vh - 56px);
+  max-height: calc(100vh - var(--spectrum-global-dimension-size-700));
   grid-area: rightPanel;
   border-right: 0;
-  border-left: 2px solid var(--spectrum-panel-border-color);
+  border-left: var(--spectrum-global-dimension-size-25, 2px) solid var(--spectrum-panel-border-color);
   justify-content: space-between;
 }
 .spectrum-Panel--custom {
@@ -116,23 +116,23 @@ body {
   min-width: 160px;
 }
 .spectrum-Panel-Item {
-  padding: 8px 16px 16px;
+  padding: var(--spectrum-global-dimension-size-100, 8px) var(--spectrum-global-dimension-size-200, 16px) var(--spectrum-global-dimension-size-200, 16px);
 }
 .spectrum-Panel-Title {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0 4px;
+  padding: var(--spectrum-global-dimension-size-100, 8px) 0 var(--spectrum-global-dimension-size-50, 4px);
 
   .spectrum-ActionButton {
     margin-top: -7px;
-    margin-bottom: 4px;
+    margin-bottom: var(--spectrum-global-dimension-size-50, 4px);
   }
 }
 .spectrum-Panel-Title + .spectrum-Panel-Item {
-  padding-top: 0px;
+  padding-top: var(--spectrum-global-dimension-size-0, 0px);
 }
 .spectrum-Panel-Item ~ .spectrum-Panel-Item {
-  border-top: 2px solid var(--spectrum-panel-border-color);
+  border-top: var(--spectrum-global-dimension-size-25, 2px) solid var(--spectrum-panel-border-color);
 }
 .spectrum-Panel-Item--row {
   display: flex;
@@ -145,7 +145,7 @@ body {
   min-width: 140px;
 }
 .spectrum-Panel-Title ~ #colorOutputs {
-  margin-top: 8px;
+  margin-top: var(--spectrum-global-dimension-size-100, 8px);
 }
 
 #inputs {
@@ -155,14 +155,14 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: calc(100vh - var(--spectrum-global-dimension-size-400));
+  height: calc(100vh - var(--spectrum-global-dimension-size-400, 32px));
   overflow: hidden;
 }
 #colorScale-wrapper {
-  margin-top: 8px;
-  margin-right: 18px;
+  margin-top: var(--spectrum-global-dimension-size-100, 8px);
+  margin-right: var(--spectrum-global-dimension-size-225);
   height: var(--gradient-height);
-  width: 56px;
+  width: var(--spectrum-global-dimension-size-700);
   display: block;
   position: relative;
 }
@@ -171,9 +171,9 @@ body {
   flex-direction: column;
   height: var(--colors-height);
   width: 100%;
-  border-radius: 4px;
+  border-radius: var(--spectrum-global-dimension-size-50, 4px);
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: var(--spectrum-global-dimension-size-10, 1px) solid rgba(0, 0, 0, 0.25);
   background-image: linear-gradient(0deg, black, white);
   background-repeat: no-repeat;
 }
@@ -185,24 +185,24 @@ body {
 #colorWrapper {
   display: none;
   height: var(--colors-wrapper-height);
-  width: 48px;
-  margin-left: 8px;
+  width: var(--spectrum-global-dimension-size-600);
+  margin-left: var(--spectrum-global-dimension-size-100, 8px);
   // display: flex;
   align-self: flex-end;
   position: relative;
-  // margin-bottom: 14px;
+  // margin-bottom: 1var(--spectrum-global-dimension-size-50, 4px);
 }
 #color {
-  // height: 60px;
-  // width: 60px;
+  // height: 6var(--spectrum-global-dimension-size-0, 0px);
+  // width: 6var(--spectrum-global-dimension-size-0, 0px);
   height: var(--color-size);
   width: var(--color-size);
-  font-size: var(--spectrum-global-dimension-font-size-50);
+  font-size: var(--spectrum-global-dimension-font-size-50, 4px);
   display: flex;
   position: absolute;
   left: 0;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: var(--spectrum-global-dimension-size-50, 4px);
+  border: var(--spectrum-global-dimension-size-10, 1px) solid rgba(0, 0, 0, 0.25);
   justify-content: center;
   align-items: center;
 }
@@ -210,11 +210,11 @@ body {
 #colorSlider-wrapper {
   position: relative;
   display: flex;
-  padding: 0px 0px;
-  margin-top: -1px;
+  padding: var(--spectrum-global-dimension-size-0, 0px) var(--spectrum-global-dimension-size-0, 0px);
+  margin-top: calc(var(--spectrum-global-dimension-size-10, 1px) * -1);
   justify-content: center;
   align-items: center;
-  width: 54px;
+  width: var(--spectrum-global-dimension-size-675);
   height: var(--gradient-slider-height);
   left: 0;
   bottom: var(--gradient-slider-height);
@@ -224,8 +224,8 @@ body {
   width: var(--gradient-slider-height);
   height: 55px;
   transform: rotate(-90deg);
-  padding: 0;
-  margin: 0;
+  padding: var(--spectrum-global-dimension-size-0, 0px);
+  margin: var(--spectrum-global-dimension-size-0, 0px);
   background-color: transparent;
   position: absolute;
   border: none;
@@ -237,8 +237,8 @@ body {
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
   background: #ffffff;
-  border-radius: 32px;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  border-radius: var(--spectrum-global-dimension-size-400, 32px);
+  box-shadow: 0 0 var(--spectrum-global-dimension-size-10, 1px) var(--spectrum-global-dimension-size-10, 1px) rgba(0, 0, 0, 0.3);
   -webkit-appearance: none;
   appearance: none;
 }
@@ -246,8 +246,9 @@ body {
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
   background: #ffffff;
-  border-radius: 32px;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  border-radius: var(--spectrum-global-dimension-size-400, 32px);
+  box-shadow: 0 0 var(--spectrum-global-dimension-size-10, 1px) var(--spectrum-global-dimension-size-10, 1px) rgba(0, 0, 0, 0.3);
+  border: none;
 }
 
 .spectrum-Slider {
@@ -277,10 +278,10 @@ body {
   /* THUMB */
   @mixin thumb {
     box-sizing: border-box;
-    width: 16px;
-    height: 16px;
+    width: var(--spectrum-global-dimension-size-200, 16px);
+    height: var(--spectrum-global-dimension-size-200, 16px);
     background-color: var(--spectrum-global-color-gray-100);
-    margin: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2) 0 0 calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2);
+    margin: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200, 16px)) / -2) 0 0 calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200, 16px)) / -2);
     border-width: var(--spectrum-slider-handle-border-size, var(--spectrum-alias-border-size-thick));
     border-style: solid;
     border-radius: var(--spectrum-slider-handle-border-radius, var(--spectrum-alias-border-radius-medium));
@@ -298,7 +299,7 @@ body {
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     @include thumb;
-    margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    margin-top: calc(var(--spectrum-global-dimension-size-100, 8px) * -1); /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   }
   input[type=range]:focus::-webkit-slider-thumb {
     @include thumbFocus;
@@ -333,7 +334,7 @@ body {
     margin-top: calc(var(--spectrum-slider-fill-track-height, var(--spectrum-alias-border-size-thick)) / -2);
     pointer-events: none;
     padding: 0 var(--spectrum-slider-handle-gap, var(--spectrum-alias-border-size-thicker)) 0 0;
-    margin-left: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / 2 * -1);
+    margin-left: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200, 16px)) / 2 * -1);
   }
 
   input[type=range]::-webkit-slider-runnable-track {
@@ -353,7 +354,7 @@ body {
 
     background: transparent;
     border-color: transparent;
-    border-width: 2px 0;
+    border-width: var(--spectrum-global-dimension-size-25, 2px) 0;
     color: transparent;
   }
   input[type=range]::-ms-fill-lower {
@@ -378,43 +379,43 @@ body {
 .spectrum-Form {
   display: flex;
   flex-direction: column;
-  margin: 0;
+  margin: var(--spectrum-global-dimension-size-0, 0px);
 
   .spectrum-Slider {
-    padding-right: 8px;
+    padding-right: var(--spectrum-global-dimension-size-100, 8px);
   }
 }
 .spectrum-Form--row {
   flex-direction: row;
   .spectrum-Form-item ~ .spectrum-Form-item {
-    margin-left: 16px;
+    margin-left: var(--spectrum-global-dimension-size-200, 16px);
   }
 }
 
 main {
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 56px);
+  max-height: calc(100vh - var(--spectrum-global-dimension-size-700));
   overflow: hidden;
 }
 #contentTabWrapper {
   display: flex;
   height: 47px;
   min-height: fit-content;
-  padding: 0 16px;
-  border-bottom: 2px solid var(--spectrum-panel-border-color);
+  padding: 0 var(--spectrum-global-dimension-size-200, 16px);
+  border-bottom: var(--spectrum-global-dimension-size-25, 2px) solid var(--spectrum-panel-border-color);
 
   .spectrum-Tabs {
-    margin-bottom: -4px;
+    margin-bottom: calc(var(--spectrum-global-dimension-size-50, 4px) * -1);
   }
 }
 #demoWrapper {
-  padding: 0;
+  padding: var(--spectrum-global-dimension-size-0, 0px);
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  max-height: calc(100vh - 56px);
+  max-height: calc(100vh - var(--spectrum-global-dimension-size-700));
   overflow: auto;
 }
 
@@ -425,7 +426,7 @@ main {
   flex-direction: column;
   min-width: fit-content;
   height: 100%;
-  padding: 16px;
+  padding: var(--spectrum-global-dimension-size-200, 16px);
   overflow: auto;
 }
 
@@ -440,11 +441,11 @@ main {
   justify-content: flex-start;
   align-items: flex-start;
   max-width: fit-content;
-  margin-bottom: 24px;
-  padding: 0;
+  margin-bottom: var(--spectrum-global-dimension-size-300, 24px);
+  padding: var(--spectrum-global-dimension-size-0, 0px);
 }
 .charts ~ .charts {
-  margin-left: 16px;
+  margin-left: var(--spectrum-global-dimension-size-200, 16px);
 }
 
 #chart1,
@@ -452,7 +453,7 @@ main {
 #chart3,
 #chart4,
 #contrastChart {
-  border-radius: 4px;
+  border-radius: var(--spectrum-global-dimension-size-50, 4px);
 
   svg {
     color: var(--spectrum-global-color-gray-500);
@@ -461,7 +462,7 @@ main {
 
 .chartGroup {
   .spectrum-Heading6 {
-    height: 32px;
+    height: var(--spectrum-global-dimension-size-400, 32px);
     display: flex;
     align-items: flex-end;
   }
@@ -476,21 +477,17 @@ main {
   cursor: move;
 }
 
-#chart3dColorspace {
-  width: auto;
-}
-
 h1 {
-  margin-bottom: 0px;
+  margin-bottom: var(--spectrum-global-dimension-size-0, 0px);
 }
 p {
-  margin-top: 0px;
+  margin-top: var(--spectrum-global-dimension-size-0, 0px);
 }
 .demo,
 .demoInverted {
   // max-width: 80ch;
   width: 100%;
-  padding: 8px 40px 32px;
+  padding: var(--spectrum-global-dimension-size-100, 8px) var(--spectrum-global-dimension-size-500) var(--spectrum-global-dimension-size-400, 32px);
   align-self: center;
 }
 .spectrum-Heading1 {
@@ -498,13 +495,13 @@ p {
 }
 
 .spectrum-Textfield--readonly {
-  padding-left: var(--spectrum-global-dimension-size-400);
+  padding-left: var(--spectrum-global-dimension-size-400, 32px);
   background-color: var(--spectrum-alias-background-color-default);
 }
 
 colorOutput-field {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: var(--spectrum-global-dimension-size-200, 16px);
 }
 
 #colorOutput {
@@ -520,11 +517,11 @@ colorOutput-field {
 
 .ratio-Swatch {
   position: absolute;
-  margin-top: var(--spectrum-global-dimension-size-100);
-  margin-left: var(--spectrum-global-dimension-size-100);
-  border-radius: 2px;
-  height: var(--spectrum-global-dimension-size-200);
-  width: var(--spectrum-global-dimension-size-200);
+  margin-top: var(--spectrum-global-dimension-size-100, 8px);
+  margin-left: var(--spectrum-global-dimension-size-100, 8px);
+  border-radius: var(--spectrum-global-dimension-size-25, 2px);
+  height: var(--spectrum-global-dimension-size-200, 16px);
+  width: var(--spectrum-global-dimension-size-200, 16px);
 }
 
 
@@ -532,14 +529,14 @@ colorOutput-field {
   display: flex;
   flex-direction: row;
   align-items: center;
-  min-width: 40px;
-  margin-bottom: 8px;
+  min-width: var(--spectrum-global-dimension-size-500);
+  margin-bottom: var(--spectrum-global-dimension-size-100, 8px);
 
   input[type="color"] {
-    margin-right: 8px;
+    margin-right: var(--spectrum-global-dimension-size-100, 8px);
   }
   textarea {
-    height: 64px;
+    height: var(--spectrum-global-dimension-size-800);
   }
 }
 
@@ -547,13 +544,13 @@ colorOutput-field {
   flex-direction: row;
 
   .spectrum-FieldLabel {
-    margin-top: 4px;
-    margin-left: 8px;
+    margin-top: var(--spectrum-global-dimension-size-50, 4px);
+    margin-left: var(--spectrum-global-dimension-size-100, 8px);
   }
 }
 
 #variableColorField {
-  margin-left: 24px;
+  margin-left: var(--spectrum-global-dimension-size-300, 24px);
 }
 
 .variableColor-wrapper {
@@ -565,30 +562,30 @@ colorOutput-field {
   position: relative;
   display: flex;
   flex-direction: row;
-  padding: 2px; /* To ensure focus rings are visible */
-  margin: -2px;
+  padding: var(--spectrum-global-dimension-size-25, 2px); /* To ensure focus rings are visible */
+  margin: calc(var(--spectrum-global-dimension-size-25, 2px) * -1);
   flex-wrap: wrap;
-  min-height: 80px;
+  min-height: var(--spectrum-global-dimension-size-1000);
   max-height: 88px;
   overflow: auto;
 }
 
 #bulkColors {
   width: 100%;
-  height: 80px;
+  height: var(--spectrum-global-dimension-size-1000);
   resize: none;
-  margin-bottom: 16px;
+  margin-bottom: var(--spectrum-global-dimension-size-200, 16px);
 }
 
 a:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
-  border-radius: 4px;
+  box-shadow: 0 0 0 var(--spectrum-global-dimension-size-25, 2px) var(--spectrum-alias-border-color-focus);
+  border-radius: var(--spectrum-global-dimension-size-50, 4px);
 }
 
 #octocat {
-  height: 24px;
-  width: 24px;
+  height: var(--spectrum-global-dimension-size-300, 24px);
+  width: var(--spectrum-global-dimension-size-300, 24px);
 }
 .spectrum-Button.demoButton,
 .spectrum-Button.demoButtonInverted {
@@ -596,7 +593,7 @@ a:focus {
 }
 
 .spacing-100 {
-  margin-top: 8px;
+  margin-top: var(--spectrum-global-dimension-size-100, 8px);
 }
 
 .keyColor,
@@ -605,42 +602,42 @@ a:focus {
   display: flex;
   flex-direction: row;
   min-height: fit-content;
-  margin-bottom: var(--spectrum-global-dimension-size-100);
-  margin-right: var(--spectrum-global-dimension-size-100);
+  margin-bottom: var(--spectrum-global-dimension-size-100, 8px);
+  margin-right: var(--spectrum-global-dimension-size-100, 8px);
 }
 
 .ratio-Field {
-  padding-left: var(--spectrum-global-dimension-size-400);
+  padding-left: var(--spectrum-global-dimension-size-400, 32px);
   width: 70%;
-  margin-right: 8px;
+  margin-right: var(--spectrum-global-dimension-size-100, 8px);
 }
 #toggleMetrics {
-  margin-top: -8px;
-  margin-right: -8px;
+  margin-top: calc(var(--spectrum-global-dimension-size-100, 8px) * -1);
+  margin-right: calc(var(--spectrum-global-dimension-size-100, 8px) * -1);
 }
 
 .colorOutputBlock {
   display: flex;
   justify-content: space-between;
-  padding: 10px 16px 2px;
-  min-height: var(--spectrum-global-dimension-size-400);
-  border-radius: 0px;
+  padding: var(--spectrum-global-dimension-size-125) var(--spectrum-global-dimension-size-200, 16px) var(--spectrum-global-dimension-size-25, 2px);
+  min-height: var(--spectrum-global-dimension-size-400, 32px);
+  border-radius: var(--spectrum-global-dimension-size-0, 0px);
 
   &:first-of-type {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-top-left-radius: var(--spectrum-global-dimension-size-50, 4px);
+    border-top-right-radius: var(--spectrum-global-dimension-size-50, 4px);
   }
   &:last-of-type {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: var(--spectrum-global-dimension-size-50, 4px);
+    border-bottom-right-radius: var(--spectrum-global-dimension-size-50, 4px);
   }
 }
 .w3c-guideline {
-  margin-top: 8px;
+  margin-top: var(--spectrum-global-dimension-size-100, 8px);
 
   & + .w3c-guideline {
-    margin-top: 12px;
-    margin-bottom: 4px;
+    margin-top: var(--spectrum-global-dimension-size-150);
+    margin-bottom: var(--spectrum-global-dimension-size-50, 4px);
   }
 }
 .spectrum-Subheading {
@@ -649,11 +646,11 @@ a:focus {
 
 #functionParams {
   background-color: var(--spectrum-global-color-gray-50);
-  border: 1px solid var(--spectrum-global-color-gray-200);
-  border-radius: 4px;
-  padding: 8px;
-  margin: 0 -8px;
-  width: calc(100% - 4px);
+  border: var(--spectrum-global-dimension-size-10, 1px) solid var(--spectrum-global-color-gray-200);
+  border-radius: var(--spectrum-global-dimension-size-50, 4px);
+  padding: var(--spectrum-global-dimension-size-100, 8px);
+  margin: 0 calc(var(--spectrum-global-dimension-size-100, 8px) * -1);
+  width: calc(100% - var(--spectrum-global-dimension-size-50, 4px));
   overflow: auto;
 }
 
@@ -667,7 +664,7 @@ a:focus {
 #sequentialConfigs {
   max-height: 100%;
   margin-top: 6px;
-  padding: 2px; /* This ensures focus rings are visible */
+  padding: var(--spectrum-global-dimension-size-25, 2px); /* This ensures focus rings are visible */
   overflow: auto;
 }
  #sequentialConfigs {
@@ -702,7 +699,7 @@ a:focus {
   width: 120px;
 
   ~ .spectrum-ActionButton {
-    margin-left: 8px;
+    margin-left: var(--spectrum-global-dimension-size-100, 8px);
   }
 }
 
@@ -715,7 +712,7 @@ a:focus {
   }
 }
 #addRatio {
-  margin-top: 8px;
+  margin-top: var(--spectrum-global-dimension-size-100, 8px);
   width: 100%;
 }
 
@@ -727,7 +724,7 @@ a:focus {
 #scaleConfigs {
   display: flex;
   flex-direction: column;
-  padding-top: 8px;
+  padding-top: var(--spectrum-global-dimension-size-100, 8px);
 }
 
 .tabcontent {
@@ -736,11 +733,11 @@ a:focus {
 
 // Correct some oddities with Dialog buttons
 .spectrum-Dialog-footer > *, .spectrum-Dialog-footer > .spectrum-Button + .spectrum-Button {
-  margin: 0 0 0 var(--spectrum-buttongroup-button-gap-x, var(--spectrum-global-dimension-static-size-200));
+  margin: 0 0 0 var(--spectrum-buttongroup-button-gap-x, var(--spectrum-global-dimension-static-size-200, 16px));
 }
 
 #dialogOverlay {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--spectrum-alias-background-color-hover-overlay);
   position: fixed;
   top: 0;
   left: 0;
@@ -750,7 +747,14 @@ a:focus {
 }
 
 #chart3dAlert {
-  position: absolute;
-  bottom: 16px;
-  width: calc(100vw - 624px);
+  position: relative;
+  width: 100%;
+
+  .spectrum-Alert {
+    margin: 0;
+  }
+}
+
+.spectrum-Dropdown--quiet {
+  min-width: 198px;
 }

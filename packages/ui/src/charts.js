@@ -33,8 +33,8 @@ function createChartHeight() {
   let offset = headerHeight + tabHeight + paddings;
   let viewportHeight = window.innerHeight;
   let height = (viewportHeight - offset) / 3;
-  if (height < 180) {
-    return 180;
+  if (height < 160) {
+    return 160;
   }
   else {
     return height;
@@ -55,7 +55,7 @@ function create3dChartHeight() {
   let headerHeight = 58;
   let tabHeight = 48;
   let paddings = 164/2;
-  let feedbackText = 54;
+  let feedbackText = 100;
   let offset = headerHeight + tabHeight + paddings + feedbackText;
   let viewportHeight = window.innerHeight;
 
@@ -64,9 +64,25 @@ function create3dChartHeight() {
 
 let chartWidth = create3dChartWidth();
 let chartHeight = create3dChartHeight();
-let modelScale = 30;
+let modelScale;
+let yOrigin;
+let viewportHeight = window.innerHeight;
 
-let origin = [chartWidth/1.85, chartHeight/1.5], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+if (viewportHeight < 640) {
+  modelScale = 20;
+  yOrigin = chartHeight;
+} else if (viewportHeight >= 640 && viewportHeight < 800) {
+  modelScale = 30;
+  yOrigin = chartHeight/1.25;
+} else if (viewportHeight >= 800 && viewportHeight < 900) {
+  modelScale = 40;
+  yOrigin = chartHeight/1.25;
+}  else if (viewportHeight >= 900) {
+  modelScale = 50;
+  yOrigin = chartHeight/1.25;
+}
+
+let origin = [chartWidth/1.85, chartHeight/1.25], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
 dest.style.width = chartWidth;
 dest.style.height = chartHeight;
 
