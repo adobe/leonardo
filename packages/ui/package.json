@@ -10,9 +10,10 @@
     "copyIcons": "mkdir -p dist && yarn copyWorkflowIcons && yarn copyUIIcons",
     "copyWorkflowIcons": "cp -r ../../node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg dist/",
     "copyUIIcons": "cp -r ../../node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg dist/",
+    "copyCNAME": "cp -r src/CNAME dist/CNAME",
     "postPublish": "yarn deploySite",
-    "buildSite": "npx parcel build src/index.html src/demo.html --public-url ./",
-    "deploySite": "yarn buildSite && yarn copyIcons && npx ghpages -p dist"
+    "buildSite": "npx parcel build src/index.html src/demo.html --public-url ./ && yarn copyCNAME && yarn copyIcons",
+    "deploySite": "yarn buildSite && npx ghpages -p dist"
   },
   "keywords": [
     "accessibility",
