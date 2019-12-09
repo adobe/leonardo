@@ -441,6 +441,18 @@ p {
   line-height: 1.5;
 }
 
+a {
+  color: var(--blue800);
+}
+a:visited {
+  color: var(--purple800);
+}
+a:hover,
+a:active,
+a:focus {
+  color: var(--blue900);
+}
+
 button,
 .button {
   -webkit-appearance: none;
@@ -454,6 +466,7 @@ button,
   border-width: 2px;
   border-style: solid;
 }
+
 
 button + button,
 .button + .button {
