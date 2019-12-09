@@ -22,11 +22,11 @@ governing permissions and limitations under the License.
 </head>
 <body class="demo">
   <header>
-    <h2>Demo App</h2>
+    <h2>Leonardo Demo App</h2>
     <div id="controls">
       <div class="form-Item">
         <label for="sliderBrightness">Brightness</label>
-        <input id="sliderBrightness" name="sliderBrightness" type="range" step="1" onInput="createColors()" value="4"></input>
+        <input id="sliderBrightness" name="sliderBrightness" type="range" step="1" onInput="createColors()"></input>
       </div>
       <div class="form-Item">
         <label for="sliderContrast">Contrast</label>
@@ -38,35 +38,52 @@ governing permissions and limitations under the License.
     </div>
   </header>
   <main id="demoApp">
-    <h3>Demo overline</h3>
-    <h1>Demo Page Title</h1>
-    <nav class="tabs">
-      <ul>
-        <li class="active">Tab Item</li>
-        <li>Tab Item</li>
-        <li>Tab Item</li>
-      </ul>
-    </nav>
-    <div class="container">
-      <p> This is some demo text that holds the place of real text, which is not to be confused with actual text because actual text is not written is such enormously long running sentences that seem to have no end, and at some point become extremely difficult to comprehend the tone and duration at which the sentence will continue, gathering such accelleration into the unknown that it's unintelligible nature becomes a wonder in and of its self. </p>
-      <!-- <div class="well">
-        <p> And this is what we call a well. Why, because, well... </p>
-      </div> -->
-      <h4> This is a form</h4>
-      <div class="alert alert-error">
-        <span> Please enter your information </span>
+    <div id="master">
+      <div class="calendarTimeColumn">
+        <span class="calendarTime"> 7am </span>
+        <span class="calendarTime"> 8am </span>
+        <span class="calendarTime"> 9am </span>
+        <span class="calendarTime"> 10am </span>
+        <span class="calendarTime"> 11am </span>
+        <span class="calendarTime"> 12pm </span>
+        <span class="calendarTime"> 1pm </span>
+        <span class="calendarTime"> 2pm </span>
+        <span class="calendarTime"> 3pm </span>
+        <span class="calendarTime"> 4pm </span>
+        <span class="calendarTime"> 5pm </span>
+        <span class="calendarTime"> 6pm </span>
+        <span class="calendarTime"> 7pm </span>
+        <span class="calendarTime"> 8pm </span>
+        <span class="calendarTime"> 9pm </span>
+        <span class="calendarTime"> 10pm </span>
+        <span class="calendarTime"> 11pm </span>
       </div>
-      <form>
-        <div class="form-Item">
-          <label> Full Name: </label>
-          <input type="text" placeholder="eg. Jane Doe">
+      <div class="calendarWrapper">
+        <div class="calendarHeader">
+          <h3>Calendar</h3>
+          <button href="#" class="buttonPrimary">New Event</button>
         </div>
-        <div class="form-Item">
-          <label> Favorite Color </label>
-          <input type="text" placeholder="eg. All of them">
+        <div id="calendar"></div>
+      </div>
+    </div>
+    <div id="detail">
+      <div class="detailBody">
+        <h2 class="detailTitle"> Leonardo integration</h2>
+        <p class="detailMeta"><a href="https://leonardocolor.io">https://leonardocolor.io</a></p>
+        <label class="detailLabel">Description: </label>
+        <div class="detailContent">
+          <p>
+            This app demonstrates how Leonardo can be used to create an adaptive color palette. The adaptibility of color is surfaced to the end-user via the brightness and contrast sliders at the top of the page.
+          </p>
+          <p>
+            Each color is generated using `generateContrastColors()`. Take a look at here to see how this demo app is built.
+          </p>
         </div>
-
-      </form>
+      </div>
+      <div class="detailFooter">
+        <a href="https://github.com/adobe/leonardo/blob/master/packages/ui/src/demo.js" class="button buttonSecondary">View Demo Source</a>
+        <a href="https://leonardocolor.io" class="button buttonPrimary">Visit Leonardo</a>
+      </div>
     </div>
   </main>
   <script src="demo.js"></script>
