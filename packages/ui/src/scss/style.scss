@@ -476,10 +476,6 @@ main {
   cursor: move;
 }
 
-#chart3dColorspace {
-  width: auto;
-}
-
 h1 {
   margin-bottom: 0px;
 }
@@ -753,4 +749,8 @@ a:focus {
   position: absolute;
   bottom: 16px;
   width: calc(100vw - 624px);
+}
+
+.spectrum-Dropdown--quiet {
+  min-width: var(--spectrum-dropdown-quiet-min-width, 200px);
 }
