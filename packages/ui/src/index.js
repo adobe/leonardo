@@ -473,18 +473,16 @@ function ramp(color, n) {
   let container = d3.select('#colorScale');
   let canvas = container.append("canvas")
     .attr("height", n)
-    .attr("width", 40);
+    .attr("width", 1);
   let context = canvas.node().getContext("2d");
 
-  // canvas.style.margin = "0 -14px";
-  // canvas.style.height = "calc(100% + 28px)";
   canvas.style.width = "40px";
   canvas.style.imageRendering = "pixelated";
   for (let i = 0; i < n; ++i) {
     // only do this for actual colors
     if(color[i] !== undefined) {
       context.fillStyle = color[i]; // color[i / (n - 1)]
-      context.fillRect(0, i, 40, 1);
+      context.fillRect(0, i, 1, 1);
     }
   }
   return canvas;
