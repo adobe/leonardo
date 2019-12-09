@@ -1,6 +1,6 @@
 {
   "name": "@adobe/leonardo-contrast-colors",
-  "version": "0.1.0",
+  "version": "1.0.0-alpha.0",
   "description": "Generate colors based on a desired contrast ratio",
   "repository": "git@github.com:adobe/leonardo.git",
   "type": "module",
