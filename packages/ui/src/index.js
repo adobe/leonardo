@@ -534,8 +534,6 @@ function colorInput() {
   // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
   let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
   let n = window.innerHeight - 282;
-  // let n = window.innerHeight - 84;
-  console.log(n);
 
   let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
