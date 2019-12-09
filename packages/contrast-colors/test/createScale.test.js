@@ -9,23 +9,25 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import test from 'ava';
-import { contrast } from '../index.js';
+import { createScale } from '../index.js';
 
-test('should provide negative contrast (-1.55...)', function(t) {
-  let contrastValue = contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number
+test('should generate 8 colors in Lab', function() {
+  let scale = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
-  t.is(
-    contrastValue,
-    -1.5579550563651177
+  expect(scale.colors).toEqual(
+    [
+      'rgb(255, 255, 255)',
+      'rgb(196, 229, 169)',
+      'rgb(181, 187, 168)',
+      'rgb(163, 144, 166)',
+      'rgb(143, 103, 162)',
+      'rgb(120, 60, 157)',
+      'rgb(92, 3, 146)',
+      'rgb(49, 15, 72)'
+    ]
   );
-});
 
-test('should provide positive contrast (1.55...)', function(t) {
-  let contrastValue = contrast([207, 207, 207], [255, 255, 255]); // gray is UI color, white is base. Should return positive whole number
-
-  t.is(
-    contrastValue,
-    1.5579550563651177
+  expect(scale.colorKeys).toEqual(
+    [ '#CCFFA9', '#FEFEC5', '#5F0198' ]
   );
 });

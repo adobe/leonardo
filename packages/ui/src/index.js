@@ -38,7 +38,7 @@ import './scss/style.scss';
 
 import '@adobe/focus-ring-polyfill';
 
-import contrastColors from '@adobe/leonardo-contrast-colors';
+import * as contrastColors from '@adobe/leonardo-contrast-colors';
 
 // expose functions so they can be ran in the console
 window.createScale = contrastColors.createScale;

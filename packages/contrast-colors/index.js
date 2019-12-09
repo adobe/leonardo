@@ -14,7 +14,19 @@ import * as d3 from 'd3';
 import * as d3cam02 from 'd3-cam02';
 import * as d3hsluv from 'd3-hsluv';
 import * as d3hsv from 'd3-hsv';
-Object.assign(d3, d3hsluv, d3hsv, d3cam02);
+
+// Work around node and babel's difference of opinion on the read-onlyness of default
+function assign(dest, ...src) {
+  for (let obj of src) {
+    for (let prop in obj) {
+      if (prop !== 'default') {
+        dest[prop] = obj[prop]
+      }
+    }
+  }
+}
+
+assign(d3, d3hsluv, d3hsv, d3cam02);
 
 function cArray(c) {
   let L = d3.hsluv(c).l;
@@ -308,8 +320,10 @@ function binarySearch(list, value, baseLum) {
   return (list[middle] == !value) ? closest : middle // how it was originally expressed
 }
 
-exports.createScale = createScale;
-exports.luminance = luminance;
-exports.contrast = contrast;
-exports.binarySearch = binarySearch;
-exports.generateContrastColors = generateContrastColors;
+export {
+  createScale,
+  luminance,
+  contrast,
+  binarySearch,
+  generateContrastColors
+};
