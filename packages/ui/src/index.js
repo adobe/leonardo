@@ -467,6 +467,27 @@ function colorspaceOptions() {
   chart2dColorspace.value = 'CAM02';
 }
 
+// Ramp function to create HTML canvas color scale
+function ramp(color, n) {
+  n = window.innerHeight - 284;
+  let container = d3.select('#colorScale');
+  let canvas = container.append("canvas")
+    .attr("height", n)
+    .attr("width", 1);
+  let context = canvas.node().getContext("2d");
+
+  canvas.style.width = "40px";
+  canvas.style.imageRendering = "pixelated";
+  for (let i = 0; i < n; ++i) {
+    // only do this for actual colors
+    if(color[i] !== undefined) {
+      context.fillStyle = color[i]; // color[i / (n - 1)]
+      context.fillRect(0, i, 1, 1);
+    }
+  }
+  return canvas;
+}
+
 // Calculate Color and generate Scales
 window.colorInput = colorInput;
 function colorInput() {
@@ -512,6 +533,11 @@ function colorInput() {
 
   // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
   let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  let n = window.innerHeight - 282;
+  // let n = window.innerHeight - 84;
+  console.log(n);
+
+  let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
   newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
 
@@ -560,15 +586,9 @@ function colorInput() {
     swatch.style.backgroundColor = newColors[i];
   }
 
-  // Generate Gradient
-  for (let i = 0; i < scaleData.colors.length; i++) {
-    var container = document.getElementById('colorScale');
-    var div = document.createElement('div');
-    div.className = 'colorScale-Item';
-    div.style.backgroundColor = scaleData.colors[i];
-
-    container.appendChild(div);
-  }
+  // Generate Gradient as HTML Canvas element
+  let filteredColors = rampData.colors;
+  ramp(filteredColors, n);
 
   var backgroundR = d3.rgb(background).r;
   var backgroundG = d3.rgb(background).g;
