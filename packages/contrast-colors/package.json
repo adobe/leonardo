@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "babel *.js --out-dir dist",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "yarn build",
     "dev": "jest --watch",
     "test": "jest"
   },
