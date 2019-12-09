@@ -3,30 +3,47 @@
   "version": "0.1.0",
   "description": "Generate colors based on a desired contrast ratio",
   "repository": "git@github.com:adobe/leonardo.git",
-  "main": "index.js",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "default": "./index.js"
+    }
+  },
   "scripts": {
-    "dev": "ava test/*.js --verbose --watch",
-    "test": "ava test/*.js --verbose",
-    "coverage": "nyc report -r lcovonly && codecov"
+    "build": "babel *.js --out-dir dist",
+    "prepublishOnly": "npm run build",
+    "dev": "jest --watch",
+    "test": "jest"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
+  "devDependencies": {
+    "@babel/cli": "^7.7.5",
+    "@babel/preset-env": "^7.7.6"
+  },
   "dependencies": {
-    "ava": "^2.4.0",
-    "d3": "^5.12.0",
-    "esm": "^3.2.25",
-    "nyc": "^14.1.1",
     "d3-3d": "0.0.9",
     "d3-cam02": "^0.1.5",
     "d3-hsluv": "^0.1.2",
-    "d3-hsv": "^0.1.0"
+    "d3-hsv": "^0.1.0",
+    "jest": "^24.9.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "ava": {
-    "require": [
-      "esm"
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
     ]
   }
 }

@@ -15,7 +15,7 @@ import * as d3 from 'd3';
 import * as d33d from 'd3-3d';
 Object.assign(d3, d33d);
 
-import contrastColors from '@adobe/leonardo-contrast-colors';
+import * as contrastColors from '@adobe/leonardo-contrast-colors';
 
 let chart3dColorspace = document.getElementById('chart3dColorspace');
 let dest = document.querySelector('.chart3D');
