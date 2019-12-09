@@ -21,6 +21,7 @@
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@babel/core": "^7.7.5",
     "@babel/cli": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
     "jest": "^24.9.0"
