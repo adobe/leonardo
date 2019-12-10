@@ -3,8 +3,8 @@
 ## Description
 <!--
   Note: Before sending a pull request, make sure there's an issue for what you're changing
-   - Search for issues: https://github.com/adobe/contrast/issues
-   - If there's no issue, file it: https://github.com/adobe/contrast/issues/new/choose
+   - Search for issues: https://github.com/adobe/leonardo/issues
+   - If there's no issue, file it: https://github.com/adobe/leonardo/issues/new/choose
 -->
 <!-- Describe what you changed and link to the relevant issue(s) -->
 
