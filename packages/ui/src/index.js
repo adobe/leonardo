@@ -68,7 +68,8 @@ Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
 import * as charts from './charts.js';
 import * as chartData from './data.js';
 
-var background = document.getElementById('bgField').value;
+var bgFieldInput = document.getElementById('bgField');
+var background = bgFieldInput.value;
 // var colorBlock = document.getElementById('color');
 var demoHeading = document.getElementById('demoHeading');
 var demoWrapper = document.getElementById('demoWrapper');
@@ -84,6 +85,49 @@ window.ratioInputs = [];
 let newColors;
 let pathName;
 window.colorArgs = null;
+
+bgFieldInput.onchange = throttle(colorInput, 50);
+
+function debounce(func, wait, immediate) {
+  var timerId = null;
+
+  return function debounced() {
+    var context = this;
+    var args = arguments;
+    clearTimeout(timerId);
+
+    if (immediate && !timerId) {
+      func.apply(context, args);
+    }
+
+    timerId = setTimeout(function () {
+      timerId = null;
+      if (!immediate) func.apply(context, args);
+    }, wait);
+  };
+}
+
+function throttle(func, wait) {
+  var timerId, lastRan;
+
+  return function throttled() {
+    var context = this;
+    var args = arguments;
+
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(timerId);
+      timerId = setTimeout(function () {
+        if ((Date.now() - lastRan) >= wait) {
+          func.apply(context, args);
+          lastRan = Date.now();
+        }
+      }, (wait - (Date.now() - lastRan)) || 0);
+    }
+  };
+}
 
 function paramSetup() {
   colorspaceOptions();
@@ -171,7 +215,7 @@ function addRatio(v, s = '#cacaca') {
   input.placeholder = 4.5;
   input.id = randId;
   input.value = v;
-  input.oninput = colorInput;
+  input.oninput = debounce(colorInput, 100);
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   button.innerHTML = `
@@ -491,6 +535,8 @@ function ramp(color, n) {
 // Calculate Color and generate Scales
 window.colorInput = colorInput;
 function colorInput() {
+  console.log('------------------------');
+
   document.getElementById('colorScale').innerHTML = '';
   let spaceOpt = document.getElementById('chart3dColorspace').value;
 
