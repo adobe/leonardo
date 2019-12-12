@@ -535,8 +535,6 @@ function ramp(color, n) {
 // Calculate Color and generate Scales
 window.colorInput = colorInput;
 function colorInput() {
-  console.log('------------------------');
-
   document.getElementById('colorScale').innerHTML = '';
   let spaceOpt = document.getElementById('chart3dColorspace').value;
 
