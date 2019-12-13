@@ -270,7 +270,7 @@ function addColor(s) {
   var sw = document.createElement('input');
   sw.type = "color";
   sw.value = s;
-  sw.oninput = colorInput;
+  sw.oninput = throttle(colorInput, 50);
 
   sw.className = 'keyColor-Item';
   sw.id = randId + '-sw';
