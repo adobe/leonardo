@@ -1,6 +1,6 @@
 # `@adobe/leonardo-ui`
 
-The Leonardo tool UI, deployed at http://www.leonardiocolor.io/
+The Leonardo tool UI, deployed at http://www.leonardocolor.io/
 
 ## Contributing
 Contributions are welcomed! Read the [Contributing Guide](../../.github/CONTRIBUTING.md) for more information.
