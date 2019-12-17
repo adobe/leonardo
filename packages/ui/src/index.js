@@ -492,19 +492,19 @@ function ramp(color, n) {
 function checkRatioStepModifiers(e) {
   if (!e.shiftKey) return;
   if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
-  e.preventDefault()
-  const value = Number(e.target.value)
+  e.preventDefault();
+  const value = Number(e.target.value);
   let newValue;
   switch (e.key) {
     case 'ArrowDown':
       newValue = value - 1;
-      e.target.value = newValue.toFixed(2)
-      e.target.oninput()
+      e.target.value = newValue.toFixed(2);
+      e.target.oninput();
       break;
     case 'ArrowUp':
       newValue = value + 1;
-      e.target.value = newValue.toFixed(2)
-      e.target.oninput()
+      e.target.value = newValue.toFixed(2);
+      e.target.oninput();
       break;
     default:
   }
