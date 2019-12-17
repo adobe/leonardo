@@ -171,6 +171,7 @@ function addRatio(v, s = '#cacaca') {
   input.placeholder = 4.5;
   input.id = randId;
   input.value = v;
+  input.onkeydown = checkRatioStepModifiers;
   input.oninput = colorInput;
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
@@ -486,6 +487,27 @@ function ramp(color, n) {
     }
   }
   return canvas;
+}
+
+function checkRatioStepModifiers(e) {
+  if (!e.shiftKey) return;
+  if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+  e.preventDefault()
+  const value = Number(e.target.value)
+  let newValue;
+  switch (e.key) {
+    case 'ArrowDown':
+      newValue = value - 1;
+      e.target.value = newValue.toFixed(2)
+      e.target.oninput()
+      break;
+    case 'ArrowUp':
+      newValue = value + 1;
+      e.target.value = newValue.toFixed(2)
+      e.target.oninput()
+      break;
+    default:
+  }
 }
 
 // Calculate Color and generate Scales
