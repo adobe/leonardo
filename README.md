@@ -8,7 +8,7 @@ For a detailed walkthrough of Leonardo, [check out this article](https://medium.
 ## Project Goals
 To make it easier for designers and engineers to leverage color science to create custom interpolations for a value scale, and to make it easier for designers and engineers to conform to [WCAG minimum contrast standards](https://www.w3.org/TR/WCAG21/#contrast-minimum) by using contrast ratio as the starting point, rather than a post-color-selection auditing process.
 
-1. [Leonardo web application](leonardo-web-application)
+1. [Leonardo web application](#leonardo-web-application)
 2. [Show me a demo](#show-me-a-demo)
 3. [What is "adaptive color"?](#what-is-adaptive-color)
 4. [Using Leonardo](#using-leonardo)
