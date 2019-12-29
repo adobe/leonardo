@@ -36,6 +36,20 @@ function cArray(c) {
   return new Array(L, U, V);
 }
 
+function removeDuplicates(originalArray, prop) {
+  var newArray = [];
+  var lookupObject  = {};
+
+  for(var i in originalArray) {
+    lookupObject[originalArray[i][prop]] = originalArray[i];
+  }
+
+  for(i in lookupObject) {
+    newArray.push(lookupObject[i]);
+  }
+  return newArray;
+}
+
 function createScale({
   swatches,
   colorKeys,
@@ -195,6 +209,25 @@ function createScale({
   };
 }
 
+function generateBaseScale({
+  colorKeys,
+  colorspace = 'LAB'
+} = {}) {
+  // create massive scale
+  let swatches = 1000;
+  let scale = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
+  let newColors = scale.colorsHex;
+
+  let colorObj = newColors
+    // Convert to HSLuv and keep track of original indices
+    .map((c, i) => { return { value: Number(cArray(c)[2].toFixed(0)), index: i } });
+
+  let filteredArr = removeDuplicates(colorObj, "value")
+    .map(data => newColors[data.index]);
+
+  return filteredArr;
+}
+
 function generateContrastColors({
   colorKeys,
   base,
@@ -323,5 +356,8 @@ export {
   luminance,
   contrast,
   binarySearch,
+  generateBaseScale,
   generateContrastColors
 };
+
+window.generateBaseScale = generateBaseScale;
