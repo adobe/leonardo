@@ -10,15 +10,15 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as contrastColors from '@adobe/leonardo-contrast-colors';
+import { generateContrastColors, generateBaseScale } from '@adobe/leonardo-contrast-colors';
 import './demo.css';
 
 
 function setup() {
   let br = document.getElementById('sliderBrightness');
-  br.min= "-15";
-  br.max= "0";
-  br.defaultValue = '-3';
+  br.min= "0";
+  br.max= "100";
+  br.defaultValue = '95';
 
   let calendar = document.getElementById('calendar')
   calendar.innerHTML = ' ';
@@ -125,87 +125,89 @@ createEvent(col4, 'event60', 'Workshop', 'UT-440', 'catBlue', 4);
 createEvent(col4, 'event120', 'Backlog grooming', 'UT-112', 'catPrimary', 8);
 
 function createColors() {
-  var br = document.getElementById('sliderBrightness');
-  var con = document.getElementById('sliderContrast');
-  var mode = document.getElementById('darkMode');
+  let br = document.getElementById('sliderBrightness');
+  let con = document.getElementById('sliderContrast');
+  let mode = document.getElementById('darkMode');
 
 
-  var brVal = br.value * -1; // convert br.value to positive number to use as index
-  var conVal = con.value;
-
-  // TEST -> Define colors as configs and scales.
-
+  let brVal = br.value;
+  let conVal = con.value;
 
   // generateContrastColors({base: "#f4f5f8"});
-  var baseRatios = [-1.1,1,1.12,1.25,1.45,1.75,2.25,3.01,4.52,7,11,16];
-  var uiRatios = [1,1.12,1.3,2,3.01,4.52,7,11,16];
+  let baseRatios = [-1.1,1,1.12,1.25,1.45,1.75,2.25,3.01,4.52,7,11,16];
+  let uiRatios = [1,1.12,1.3,2,3.01,4.52,7,11,16];
 
-  var grayScale = contrastColors.createScale({
-    swatches: 100,
+  let gray = {
     colorKeys: ["#4a5b7b","#72829c","#a6b2c6"],
     colorspace: 'HSL'
-  });
-  var base = grayScale.colors[5];
-  // console.log(grayScale.colors);
+  };
 
-  var baseScale = {
-    colorKeys: grayScale.colorKeys,
-    colorspace: grayScale.colorspace
-  }
+  let grayScale = generateBaseScale(gray);
 
-  var purpleScale = {
+  let base = grayScale[95];
+
+  let purpleScale = {
     colorKeys: ["#7a4beb","#ac80f4","#2f0071"],
     colorspace: "LAB"
   }
 
-  var blueScale = {
+  let blueScale = {
     colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
     colorspace: "CAM02"
   };
 
-  var greenScale = {
+  let greenScale = {
     colorKeys: ["#4eb076","#2a5a45","#a7e3b4"],
     colorspace: "HSL"
   }
-  var redScale = {
+  let redScale = {
     colorKeys: ["#ea2825","#ffc1ad","#fd937e"],
     colorspace: "LAB"
   };
 
-  var goldScale = {
+  let goldScale = {
     colorKeys: ["#e8b221","#a06a00","#ffdd7c"],
     colorspace: "HSL"
   }
 
-  br.min= "-15";
-  br.max= "0";
-
   if(mode.checked == true) {
-    brVal = 80 + brVal;
-    var base = grayScale.colors[brVal];
+    // brVal = 80 + brVal;
+    br.min= "0";
+    br.max= "30";
+    if(brVal > 30) {
+      brVal = 15;
+      br.value = 15;
+    }
 
     document.documentElement.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.5)');
   } else {
-    var base = grayScale.colors[brVal];
+    br.min= "85";
+    br.max= "100";
+    if(brVal < 80) {
+      brVal = 95;
+      br.value = 95;
+    }
+
     document.documentElement.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.1)');
   }
+  base = grayScale[brVal];
 
   baseRatios = baseRatios.map(function(d) {
-    var newVal = ((d-1) * conVal) + 1;
+    let newVal = ((d-1) * conVal) + 1;
     return newVal;
   });
   uiRatios = uiRatios.map(function(d) {
-    var newVal = ((d-1) * conVal) + 1;
+    let newVal = ((d-1) * conVal) + 1;
     return newVal;
   });
 
   // adaptColor();
-  let grayArray = contrastColors.generateContrastColors({colorKeys: baseScale.colorKeys, colorspace: baseScale.colorspace, base: base, ratios: baseRatios});
-  let redArray = contrastColors.generateContrastColors({colorKeys: redScale.colorKeys, colorspace: redScale.colorspace, base: base, ratios: uiRatios});
-  let blueArray = contrastColors.generateContrastColors({colorKeys: blueScale.colorKeys, colorspace: blueScale.colorspace, base: base, ratios: uiRatios});
-  let purpleArray = contrastColors.generateContrastColors({colorKeys: purpleScale.colorKeys, colorspace: purpleScale.colorspace, base: base, ratios: uiRatios});
-  let greenArray = contrastColors.generateContrastColors({colorKeys: greenScale.colorKeys, colorspace: greenScale.colorspace, base: base, ratios: uiRatios});
-  let goldArray = contrastColors.generateContrastColors({colorKeys: goldScale.colorKeys, colorspace: goldScale.colorspace, base: base, ratios: uiRatios});
+  let grayArray = generateContrastColors({colorKeys: gray.colorKeys, colorspace: gray.colorspace, base: base, ratios: baseRatios});
+  let redArray = generateContrastColors({colorKeys: redScale.colorKeys, colorspace: redScale.colorspace, base: base, ratios: uiRatios});
+  let blueArray = generateContrastColors({colorKeys: blueScale.colorKeys, colorspace: blueScale.colorspace, base: base, ratios: uiRatios});
+  let purpleArray = generateContrastColors({colorKeys: purpleScale.colorKeys, colorspace: purpleScale.colorspace, base: base, ratios: uiRatios});
+  let greenArray = generateContrastColors({colorKeys: greenScale.colorKeys, colorspace: greenScale.colorspace, base: base, ratios: uiRatios});
+  let goldArray = generateContrastColors({colorKeys: goldScale.colorKeys, colorspace: goldScale.colorspace, base: base, ratios: uiRatios});
 
   // Grays
   document.documentElement.style
@@ -214,7 +216,7 @@ function createColors() {
     let prop = '--gray' + (i * 100).toString();
     document.documentElement.style
       .setProperty(prop, grayArray[i]);
-    console.log(prop);
+    // console.log(prop);
   }
   // Blues
   for (let i=0; i<blueArray.length; i++) {
