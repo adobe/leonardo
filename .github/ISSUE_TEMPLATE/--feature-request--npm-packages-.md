@@ -1,8 +1,8 @@
 ---
-name: "✨ Feature request [Web Tool]"
-about: Suggest a new feature for the Leonardo web interface
+name: "✨ Feature request [npm packages]"
+about: Suggest a new feature for the Leonardo npm modules
 title: ''
-labels: UI, enhancement
+labels: enhancement, npm packages
 assignees: ''
 
 ---
