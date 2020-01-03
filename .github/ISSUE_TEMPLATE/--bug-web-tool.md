@@ -1,8 +1,8 @@
 ---
-name: "🐛 Bug [Web Tool] "
+name: "\U0001F41B Bug [Web Tool] "
 about: Report a problem with the Leonardo web interface
 title: ''
-labels: bug, UI
+labels: UI, bug
 assignees: ''
 
 ---
