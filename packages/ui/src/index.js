@@ -39,7 +39,6 @@ import './scss/style.scss';
 import '@adobe/focus-ring-polyfill';
 
 import * as contrastColors from '@adobe/leonardo-contrast-colors';
-import * as baseScale from '@adobe/leonardo-base-scale';
 
 // expose functions so they can be ran in the console
 window.createScale = contrastColors.createScale;
@@ -47,7 +46,8 @@ window.luminance = contrastColors.luminance;
 window.contrast = contrastColors.contrast;
 window.generateContrastColors = contrastColors.generateContrastColors;
 window.contrastColors = contrastColors;
-window.generateBaseScale = baseScale.generateBaseScale;
+window.generateBaseScale = contrastColors.generateBaseScale;
+window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
 
 import loadIcons from 'loadicons';
 loadIcons('./spectrum-css-icons.svg');
