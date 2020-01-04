@@ -1,8 +1,8 @@
 # `@adobe/leonardo-base-scale`
 
-This package contains all the functions for generating a color scale using HSLuv lightness values.
+This package contains the function for generating a base color scale to aid in creation of adaptive color palettes. The base scale is an array of 100 colors for each lightness value in HSLuv color space. This provides a uniform lightness scale for manipulating brightness of a user interface.
 
-## Using Leonardo
+## Using Leonardo Base Scale
 
 ### Installing
 ```

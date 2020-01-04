@@ -231,6 +231,4 @@ function generateBaseScale({
   return filteredArr;
 }
 
-export {
-  generateBaseScale
-};
+export { generateBaseScale };
