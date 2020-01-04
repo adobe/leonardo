@@ -43,6 +43,17 @@ generateContrastColors({colorKeys, base, ratios, colorspace})
 - [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)
 - [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
 
+### generateBaseScale
+
+This function is used to generate a color scale tailored specifically for use as a brightness scale when using Leonardo for brightness and contrast controls. Colors are generated that match HSLuv lightness values from `0` to `100` and are output as hex values.
+
+```
+generateBaseScale({colorKeys, colorspace})
+```
+
+Only accepts **colorKeys** and **colorspace** parameters, as defined in the API reference above
+
+
 ## Why are not all contrast ratios available?
 You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.
 

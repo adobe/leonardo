@@ -193,11 +193,15 @@ function createColors() {
   base = grayScale[brVal];
 
   baseRatios = baseRatios.map(function(d) {
-    let newVal = ((d-1) * conVal) + 1;
+    let newVal;
+    if(d >= 1) { newVal = ((d-1) * conVal) + 1;}
+    else if(d < 0) { newVal = ((d+1) * conVal) - 1; }
     return newVal;
   });
   uiRatios = uiRatios.map(function(d) {
-    let newVal = ((d-1) * conVal) + 1;
+    let newVal;
+    if(d >= 1) { newVal = ((d-1) * conVal) + 1;}
+    else if(d < 0) { newVal = ((d+1) * conVal) - 1; }
     return newVal;
   });
 
