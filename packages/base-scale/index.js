@@ -28,6 +28,9 @@ function assign(dest, ...src) {
 
 assign(d3, d3hsluv, d3hsv, d3cam02);
 
+// import { createScale } from '@adobe/leonardo-contrast-colors';
+// TODO: Replace this with import for cArray and createScale
+
 function cArray(c) {
   let L = d3.hsluv(c).l;
   let U = d3.hsluv(c).u;
@@ -195,136 +198,39 @@ function createScale({
   };
 }
 
+function removeDuplicates(originalArray, prop) {
+  var newArray = [];
+  var lookupObject  = {};
 
-function generateContrastColors({
+  for(var i in originalArray) {
+    lookupObject[originalArray[i][prop]] = originalArray[i];
+  }
+
+  for(i in lookupObject) {
+    newArray.push(lookupObject[i]);
+  }
+  return newArray;
+}
+
+function generateBaseScale({
   colorKeys,
-  base,
-  ratios,
   colorspace = 'LAB'
 } = {}) {
-  if (!base) {
-    throw new Error(`Base is undefined`);
-  }
-  if (!colorKeys) {
-    throw new Error(`Color Keys are undefined`);
-  }
-  if (!ratios) {
-    throw new Error(`Ratios are undefined`);
-  }
+  // create massive scale
+  let swatches = 1000;
+  let scale = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
+  let newColors = scale.colorsHex;
 
-  let swatches = 3000;
+  let colorObj = newColors
+    // Convert to HSLuv and keep track of original indices
+    .map((c, i) => { return { value: Number(cArray(c)[2].toFixed(0)), index: i } });
 
-  let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
+  let filteredArr = removeDuplicates(colorObj, "value")
+    .map(data => newColors[data.index]);
 
-  let Contrasts = d3.range(swatches).map((d) => {
-    let rgbArray = [d3.rgb(scaleData.scale(d)).r, d3.rgb(scaleData.scale(d)).g, d3.rgb(scaleData.scale(d)).b];
-    let baseRgbArray = [d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b];
-    let ca = contrast(rgbArray, baseRgbArray).toFixed(2);
-
-    return Number(ca);
-  });
-
-  let contrasts = Contrasts.filter(el => el != null);
-
-  let baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
-
-  let newColors = [];
-  ratios = ratios.map(Number);
-
-  // Return color matching target ratio, or closest number
-  for (let i=0; i < ratios.length; i++){
-    let r = binarySearch(contrasts, ratios[i], baseLum);
-    newColors.push(d3.rgb(scaleData.colors[r]).hex());
-  }
-
-  return newColors;
-}
-
-function luminance(r, g, b) {
-  let a = [r, g, b].map((v) => {
-    v /= 255;
-    return v <= 0.03928
-        ? v / 12.92
-        : Math.pow( (v + 0.055) / 1.055, 2.4 );
-  });
-  return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
-}
-
-// function percievedLum(r, g, b) {
-//   return (0.299*r + 0.587*g + 0.114*b);
-// }
-
-// Separate files in a lib folder as well.
-function contrast(color, base) {
-  let colorLum = luminance(color[0], color[1], color[2]);
-  let baseLum = luminance(base[0], base[1], base[2]);
-
-  let cr1 = (colorLum + 0.05) / (baseLum + 0.05);
-  let cr2 = (baseLum + 0.05) / (colorLum + 0.05);
-
-  if (baseLum < 0.5) {
-    if (cr1 >= 1) {
-      return cr1;
-    }
-    else {
-      return cr2 * -1;
-    } // Return as whole negative number
-  }
-  else {
-    if (cr1 < 1) {
-      return cr2;
-    }
-    else {
-      return cr1 * -1;
-    } // Return as whole negative number
-  }
-}
-
-// Binary search to find index of contrast ratio that is input
-// Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
-function binarySearch(list, value, baseLum) {
-  // initial values for start, middle and end
-  let start = 0
-  let stop = list.length - 1
-  let middle = Math.floor((start + stop) / 2)
-
-  let minContrast = Math.min(...list);
-  let maxContrast = Math.max(...list);
-
-  // While the middle is not what we're looking for and the list does not have a single item
-  while (list[middle] !== value && start < stop) {
-    // Value greater than since array is ordered descending
-    if (baseLum > 0.5) {  // if base is light, ratios ordered ascending
-      if (value < list[middle]) {
-        stop = middle - 1
-      }
-      else {
-        start = middle + 1
-      }
-    }
-    else { // order descending
-      if (value > list[middle]) {
-        stop = middle - 1
-      }
-      else {
-        start = middle + 1
-      }
-    }
-    // recalculate middle on every iteration
-    middle = Math.floor((start + stop) / 2)
-  }
-
-  // If no match, find closest item greater than value
-  let closest = list.reduce((prev, curr) => curr > value ? curr : prev);
-
-  // if the current middle item is what we're looking for return it's index, else closest
-  return (list[middle] == !value) ? closest : middle // how it was originally expressed
+  return filteredArr;
 }
 
 export {
-  createScale,
-  luminance,
-  contrast,
-  binarySearch,
-  generateContrastColors
+  generateBaseScale
 };
