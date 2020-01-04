@@ -2,7 +2,7 @@
 
 This package contains all the functions for generating colors by target contrast ratio.
 
-## Using Leonardo
+## Using Leonardo Contrast Colors
 
 ### Installing
 ```
