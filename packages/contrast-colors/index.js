@@ -312,6 +312,46 @@ function contrast(color, base) {
   }
 }
 
+function generateAdaptiveTheme(base, colors, brightness) {
+  if (!base) {
+    throw new Error(`Base is undefined`);
+  }
+  if (typeof base !== 'object') {
+    throw new Error('Base must be an object')
+  }
+  if (!colors) {
+    throw new Error(`Colors are undefined`);
+  }
+  if (!brightness) {
+    throw new Error(`Brightness is undefined`);
+  }
+
+  let bscale = generateBaseScale(base); // base parameter to create base scale (0-100)
+  let bval = bscale[brightness];
+  let arr = [];
+
+  for (let i=0; i < colors.length; i ++) {
+    let name = colors[i].name;
+
+    let color = generateContrastColors({
+      colorKeys: colors[i].colorKeys,
+      colorspace: colors[i].colorspace,
+      ratios: colors[i].ratios,
+      base: bval});
+
+    for (let j=0; j < color.length; j++) {
+      let n = name.concat((j+1) * 100);
+
+      let obj = {
+        [n]: color[j]
+      }
+      arr.push(obj)
+    }
+  }
+
+  return arr;
+}
+
 // Binary search to find index of contrast ratio that is input
 // Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
 function binarySearch(list, value, baseLum) {
@@ -359,5 +399,6 @@ export {
   contrast,
   binarySearch,
   generateBaseScale,
-  generateContrastColors
+  generateContrastColors,
+  generateAdaptiveTheme
 };
