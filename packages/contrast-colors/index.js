@@ -376,6 +376,9 @@ function generateAdaptiveTheme(base, colors) {
     let arr = [];
 
     for (let i=0; i < colors.length; i ++) {
+      if (!colors[i].name) {
+        throw new Error('Color missing name');
+      }
       let name = colors[i].name;
       let ratios = colors[i].ratios;
 
