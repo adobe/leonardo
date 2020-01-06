@@ -357,7 +357,7 @@ function ratioName(r) {
   return nArr;
 }
 
-function generateAdaptiveTheme(base, colors, brightness) {
+function generateAdaptiveTheme(base, colors) {
   if (!base) {
     throw new Error(`Base is undefined`);
   }
@@ -367,37 +367,42 @@ function generateAdaptiveTheme(base, colors, brightness) {
   if (!colors) {
     throw new Error(`Colors are undefined`);
   }
-  if (!brightness) {
-    throw new Error(`Brightness is undefined`);
-  }
 
+  return function(brightness, contrast = 1) {
+    let bscale = generateBaseScale(base); // base parameter to create base scale (0-100)
+    let bval = bscale[brightness];
+    let arr = [];
 
-  let bscale = generateBaseScale(base); // base parameter to create base scale (0-100)
-  let bval = bscale[brightness];
-  let arr = [];
+    for (let i=0; i < colors.length; i ++) {
+      let name = colors[i].name;
+      let ratios = colors[i].ratios;
 
-  for (let i=0; i < colors.length; i ++) {
-    let name = colors[i].name;
-    let ratios = colors[i].ratios;
+      ratios = ratios.map(function(d) {
+        let r;
+        if(d >= 1) { r = ((d-1) * contrast) + 1;}
+        else if(d < 0) { r = ((d+1) * contrast) - 1; }
+        return r;
+      });
 
-    let outputColors = generateContrastColors({
-      colorKeys: colors[i].colorKeys,
-      colorspace: colors[i].colorspace,
-      ratios: ratios,
-      base: bval});
+      let outputColors = generateContrastColors({
+        colorKeys: colors[i].colorKeys,
+        colorspace: colors[i].colorspace,
+        ratios: ratios,
+        base: bval});
 
-    for (let i=0; i < outputColors.length; i++) {
-      let rVal = ratioName(ratios)[i];
-      let n = name.concat(rVal);
+      for (let i=0; i < outputColors.length; i++) {
+        let rVal = ratioName(ratios)[i];
+        let n = name.concat(rVal);
 
-      let obj = {
-        [n]: outputColors[i]
+        let obj = {
+          [n]: outputColors[i]
+        }
+        arr.push(obj)
       }
-      arr.push(obj)
     }
-  }
 
-  return arr;
+    return arr;
+  }
 }
 
 // Binary search to find index of contrast ratio that is input
