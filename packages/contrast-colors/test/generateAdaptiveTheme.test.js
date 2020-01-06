@@ -15,13 +15,13 @@ test('should generate theme for three colors', function() {
   let theme = generateAdaptiveTheme(
     {
       colorKeys: ['#cacaca'],
-      colorspace: ['HSL']
+      colorspace: 'HSL'
     },
     [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
-        colorspace: ['HSL'],
+        colorspace: 'HSL',
         ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
       },
       {
@@ -67,13 +67,13 @@ test('should generate theme for three colors with negative ratios', function() {
   let theme = generateAdaptiveTheme(
     {
       colorKeys: ['#cacaca'],
-      colorspace: ['HSL']
+      colorspace: 'HSL'
     },
     [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
-        colorspace: ['HSL'],
+        colorspace: 'HSL',
         ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
       },
       {
@@ -100,7 +100,7 @@ test('should generate theme for three colors using variables as parameters', fun
   let baseRatios = [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21];
   let gray = {
     colorKeys: ['#cacaca'],
-    colorspace: ['HSL']
+    colorspace: 'HSL'
   };
   let blue = {
     name: "blue",
@@ -153,13 +153,13 @@ test('should generate theme with increased contrast', function() {
   let theme = generateAdaptiveTheme(
     {
       colorKeys: ['#cacaca'],
-      colorspace: ['HSL']
+      colorspace: 'HSL'
     },
     [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
-        colorspace: ['HSL'],
+        colorspace: 'HSL',
         ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
       },
       {
@@ -185,13 +185,13 @@ test('should generate white theme with increased contrast', function() {
   let theme = generateAdaptiveTheme(
     {
       colorKeys: ['#cacaca'],
-      colorspace: ['HSL']
+      colorspace: 'HSL'
     },
     [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
-        colorspace: ['HSL'],
+        colorspace: 'HSL',
         ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
       },
       {
@@ -217,13 +217,13 @@ test('should generate dark theme with increased contrast', function() {
   let theme = generateAdaptiveTheme(
     {
       colorKeys: ['#cacaca'],
-      colorspace: ['HSL']
+      colorspace: 'HSL'
     },
     [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
-        colorspace: ['HSL'],
+        colorspace: 'HSL',
         ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
       },
       {
