@@ -900,3 +900,8 @@ function updateCharts(selectObject) {
   colorSpaceFeedback(spaceOpt);
 }
 window.updateCharts = updateCharts;
+
+// Temporary
+window.generateBaseScale = generateBaseScale;
+window.minPositive = minPositive;
+window.ratioName = ratioName;

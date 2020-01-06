@@ -240,6 +240,14 @@ function generateContrastColors({
   if (!colorKeys) {
     throw new Error(`Color Keys are undefined`);
   }
+  for (let i=0; i<colorKeys.length; i++) {
+    if (colorKeys[i].length < 6) {
+      throw new Error('Color Key has improper length');
+    }
+    else if (colorKeys[i].length == 6 && colorKeys[i].charAt(0) != 0) {
+      throw new Error('Color Key missing hash #');
+    }
+  }
   if (!ratios) {
     throw new Error(`Ratios are undefined`);
   }
@@ -310,6 +318,45 @@ function contrast(color, base, baseV) {
   }
 }
 
+function minPositive(r) {
+  if (!r) { throw new Error('Array undefined');}
+  let arr = [];
+
+  for(let i=0; i < r.length; i++) {
+    if(r[i] >= 1) {
+      arr.push(r[i]);
+    }
+  }
+  return Math.min(...arr);
+}
+
+function ratioName(r) {
+  if (!r) { throw new Error('Ratios undefined');}
+  r = r.sort(function(a, b){return a - b}); // sort ratio array in case unordered
+
+  let min = minPositive(r);
+  let minIndex = r.indexOf(min);
+  let nArr = []; // names array
+
+  let rNeg = r.slice(0, minIndex);
+  let rPos = r.slice(minIndex, r.length);
+
+  // Name the negative values
+  for (let i=0; i < rNeg.length; i++) {
+    let d = 1/(rNeg.length + 1);
+    let m = d * 100;
+    let nVal = m * (i + 1);
+    nArr.push(nVal.toFixed());
+  }
+  // Name the positive values
+  for (let i=0; i < rPos.length; i++) {
+    nArr.push((i+1)*100);
+  }
+  nArr.sort(function(a, b){return a - b}); // just for safe measure
+
+  return nArr;
+}
+
 function generateAdaptiveTheme(base, colors, brightness) {
   if (!base) {
     throw new Error(`Base is undefined`);
@@ -324,24 +371,27 @@ function generateAdaptiveTheme(base, colors, brightness) {
     throw new Error(`Brightness is undefined`);
   }
 
+
   let bscale = generateBaseScale(base); // base parameter to create base scale (0-100)
   let bval = bscale[brightness];
   let arr = [];
 
   for (let i=0; i < colors.length; i ++) {
     let name = colors[i].name;
+    let ratios = colors[i].ratios;
 
-    let color = generateContrastColors({
+    let outputColors = generateContrastColors({
       colorKeys: colors[i].colorKeys,
       colorspace: colors[i].colorspace,
-      ratios: colors[i].ratios,
+      ratios: ratios,
       base: bval});
 
-    for (let j=0; j < color.length; j++) {
-      let n = name.concat((j+1) * 100);
+    for (let i=0; i < outputColors.length; i++) {
+      let rVal = ratioName(ratios)[i];
+      let n = name.concat(rVal);
 
       let obj = {
-        [n]: color[j]
+        [n]: outputColors[i]
       }
       arr.push(obj)
     }
@@ -398,5 +448,7 @@ export {
   binarySearch,
   generateBaseScale,
   generateContrastColors,
+  minPositive,
+  ratioName,
   generateAdaptiveTheme
 };
