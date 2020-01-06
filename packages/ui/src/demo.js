@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { generateContrastColors, generateBaseScale } from '@adobe/leonardo-contrast-colors';
+import { generateContrastColors, generateBaseScale, generateAdaptiveTheme } from '@adobe/leonardo-contrast-colors';
 import './demo.css';
 
 
@@ -129,7 +129,6 @@ function createColors() {
   let con = document.getElementById('sliderContrast');
   let mode = document.getElementById('darkMode');
 
-
   let brVal = br.value;
   let conVal = con.value;
 
@@ -142,36 +141,48 @@ function createColors() {
     colorspace: 'HSL'
   };
 
-  let grayScale = generateBaseScale(gray);
-
-  let base = grayScale[95];
-
   let purpleScale = {
+    name: "purple",
     colorKeys: ["#7a4beb","#ac80f4","#2f0071"],
-    colorspace: "LAB"
+    colorspace: "LAB",
+    ratios: uiRatios
   }
 
   let blueScale = {
+    name: "blue",
     colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
-    colorspace: "CAM02"
+    colorspace: "CAM02",
+    ratios: uiRatios
   };
 
   let greenScale = {
+    name: "green",
     colorKeys: ["#4eb076","#2a5a45","#a7e3b4"],
-    colorspace: "HSL"
+    colorspace: "HSL",
+    ratios: uiRatios
   }
   let redScale = {
+    name: "red",
     colorKeys: ["#ea2825","#ffc1ad","#fd937e"],
-    colorspace: "LAB"
+    colorspace: "LAB",
+    ratios: uiRatios
   };
 
   let goldScale = {
+    name: "gold",
     colorKeys: ["#e8b221","#a06a00","#ffdd7c"],
-    colorspace: "HSL"
+    colorspace: "HSL",
+    ratios: uiRatios
   }
 
+  let grayScale =  {
+    name: "gray",
+    colorKeys: gray.colorKeys,
+    colorspace: gray.colorspace,
+    ratios: baseRatios
+  };
+
   if(mode.checked == true) {
-    // brVal = 80 + brVal;
     br.min= "0";
     br.max= "30";
     if(brVal > 30) {
@@ -190,70 +201,27 @@ function createColors() {
 
     document.documentElement.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.1)');
   }
-  base = grayScale[brVal];
 
-  baseRatios = baseRatios.map(function(d) {
-    let newVal;
-    if(d >= 1) { newVal = ((d-1) * conVal) + 1;}
-    else if(d < 0) { newVal = ((d+1) * conVal) - 1; }
-    return newVal;
-  });
-  uiRatios = uiRatios.map(function(d) {
-    let newVal;
-    if(d >= 1) { newVal = ((d-1) * conVal) + 1;}
-    else if(d < 0) { newVal = ((d+1) * conVal) - 1; }
-    return newVal;
-  });
+  let myTheme = generateAdaptiveTheme({
+    base: gray,
+    colors: [grayScale, purpleScale, blueScale, greenScale, redScale, goldScale],
+    brightness: brVal,
+    contrast: conVal});
+    
+  let varPrefix = '--';
 
-  // adaptColor();
-  let grayArray = generateContrastColors({colorKeys: gray.colorKeys, colorspace: gray.colorspace, base: base, ratios: baseRatios});
-  let redArray = generateContrastColors({colorKeys: redScale.colorKeys, colorspace: redScale.colorspace, base: base, ratios: uiRatios});
-  let blueArray = generateContrastColors({colorKeys: blueScale.colorKeys, colorspace: blueScale.colorspace, base: base, ratios: uiRatios});
-  let purpleArray = generateContrastColors({colorKeys: purpleScale.colorKeys, colorspace: purpleScale.colorspace, base: base, ratios: uiRatios});
-  let greenArray = generateContrastColors({colorKeys: greenScale.colorKeys, colorspace: greenScale.colorspace, base: base, ratios: uiRatios});
-  let goldArray = generateContrastColors({colorKeys: goldScale.colorKeys, colorspace: goldScale.colorspace, base: base, ratios: uiRatios});
+  for (let i=0; i<myTheme.length; i++) {
+    let key = Object.keys(myTheme[i])[0]; // output "name" of color
+    let prop = varPrefix.concat(key);
+    let value = Object.values(myTheme[i])[0]; // output value of color
 
-  // Grays
-  document.documentElement.style
-    .setProperty('--gray50', grayArray[0]);
-  for (let i=1; i<grayArray.length; i++) { // start after first value
-    let prop = '--gray' + (i * 100).toString();
     document.documentElement.style
-      .setProperty(prop, grayArray[i]);
-    // console.log(prop);
-  }
-  // Blues
-  for (let i=0; i<blueArray.length; i++) {
-    let prop = '--blue' + ((i+1) * 100).toString();
-    document.documentElement.style
-      .setProperty(prop, blueArray[i]);
-  }
-  // Purples
-  for (let i=0; i<purpleArray.length; i++) {
-    let prop = '--purple' + ((i+1) * 100).toString();
-    document.documentElement.style
-      .setProperty(prop, purpleArray[i]);
-  }
-  // Greens
-  for (let i=0; i<greenArray.length; i++) {
-    let prop = '--green' + ((i+1) * 100).toString();
-    document.documentElement.style
-      .setProperty(prop, greenArray[i]);
-  }
-  // Gold
-  for (let i=0; i<goldArray.length; i++) {
-    let prop = '--gold' + ((i+1) * 100).toString();
-    document.documentElement.style
-      .setProperty(prop, goldArray[i]);
-  }
-  // Red
-  for (let i=0; i<redArray.length; i++) {
-    let prop = '--red' + ((i+1) * 100).toString();
-    document.documentElement.style
-      .setProperty(prop, redArray[i]);
+      .setProperty(prop, value);
   }
 }
 createColors();
-
+document.getElementById('darkMode').addEventListener('input', createColors)
+document.getElementById('sliderBrightness').addEventListener('input', createColors)
+document.getElementById('sliderContrast').addEventListener('input', createColors)
 
 window.createColors = createColors;
