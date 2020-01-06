@@ -19,6 +19,63 @@ let colors = generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ra
 
 ## API Reference
 
+### generateAdaptiveTheme
+
+Function used to create a fully adaptive contrast-based color palette/theme using Leonardo. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`. Parameters can be passed as a config JSON file for modularity and simplicity.
+
+```
+generateAdaptiveTheme({baseScale, colorScales});              // returns function
+generateAdaptiveTheme({baseScale, colorScales, brightness});  // returns color objects
+```
+
+Returned function:
+```
+myTheme(brightness, contrast);
+```
+
+**baseScale** *{object}*: an object housing parameters required for [generating a base scale](#generateBaseScale).
+
+**colorScales** *[array of objects]*: each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors).
+
+**brightness** *number*: optional value from 0-100 indicating the brightness of the base / background color. If undefined, `generateAdaptiveTheme` will return a function
+
+**contrast** *integer*: optional value to increase contrast of your generated colors. This value is multiplied against all ratios defined for each color scale.
+
+#### Examples
+Creating your theme as a function
+```
+let myPalette = {
+  baseScale: {
+    colorKeys: ['#cacaca'],
+    colorspace: 'HSL'
+  },
+  colorScales: [
+    {
+      name: 'blue',
+      colorKeys: ['#5CDBFF', '#0000FF'],
+      colorspace: 'HSL',
+      ratios: [3, 4.5]
+    },
+    {
+      name: 'red',
+      colorKeys: ['#FF9A81', '#FF0000'],
+      colorspace: 'HSL',
+      ratios: [3, 4.5]
+    }
+  ]
+}
+
+let myTheme = generateAdaptiveTheme(myPalette);
+
+myTheme(95, 1.2) // outputs colors with background lightness of 95 and ratios increased by 1.2
+```
+
+Creating static instances of your theme
+```
+let lightTheme = generateAdaptiveTheme(95);     // theme on light gray
+let darkTheme = generateAdaptiveTheme(20, 1.3); // theme on dark gray with increased contrast
+```
+
 ### generateContrastColors
 
 Primary function used to generate colors based on target contrast ratios. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`.
@@ -26,6 +83,7 @@ Primary function used to generate colors based on target contrast ratios. Parame
 ```
 generateContrastColors({colorKeys, base, ratios, colorspace})
 ```
+**name** *string*: optional parameter to name your colors. If named, colors output as key-value pairs, otherwise they are returned as an array of values.
 
 **colorKeys** *[array]*: list of colors referenced to generate a lightness scale. Much like [key frames](https://en.wikipedia.org/wiki/Key_frame), key colors are single points by which additional colors will be interpolated between.
 
@@ -51,7 +109,7 @@ This function is used to generate a color scale tailored specifically for use as
 generateBaseScale({colorKeys, colorspace})
 ```
 
-Only accepts **colorKeys** and **colorspace** parameters, as defined in the API reference above
+Only accepts **colorKeys** and **colorspace** parameters, as defined above for [`generateContrastColors`](#generateContrastColors)
 
 
 ## Why are not all contrast ratios available?

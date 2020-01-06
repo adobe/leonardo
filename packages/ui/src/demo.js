@@ -204,8 +204,8 @@ function createColors() {
   }
 
   let myTheme = generateAdaptiveTheme({
-    base: gray,
-    colors: [grayScale, purpleScale, blueScale, greenScale, redScale, goldScale],
+    baseScale: gray,
+    colorScales: [grayScale, purpleScale, blueScale, greenScale, redScale, goldScale],
     brightness: brVal,
     contrast: conVal});
 

@@ -359,29 +359,29 @@ function ratioName(r) {
   return nArr;
 }
 
-function generateAdaptiveTheme({base, colors, brightness, contrast}) {
-  if (!base) {
-    throw new Error(`Base is undefined`);
+function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast}) {
+  if (!baseScale) {
+    throw new Error(`baseScale is undefined`);
   }
-  if (typeof base !== 'object') {
-    throw new Error('Base must be an object')
+  if (typeof baseScale !== 'object') {
+    throw new Error('baseScale must be an object')
   }
-  if (!colors) {
-    throw new Error(`Colors are undefined`);
+  if (!colorScales) {
+    throw new Error(`colorScales are undefined`);
   }
 
   if (!brightness) {
     return function(brightness, contrast = 1) {
-      let bscale = generateBaseScale(base); // base parameter to create base scale (0-100)
+      let bscale = generateBaseScale(baseScale); // base parameter to create base scale (0-100)
       let bval = bscale[brightness];
       let arr = [];
 
-      for (let i=0; i < colors.length; i ++) {
-        if (!colors[i].name) {
+      for (let i=0; i < colorScales.length; i ++) {
+        if (!colorScales[i].name) {
           throw new Error('Color missing name');
         }
-        let name = colors[i].name;
-        let ratios = colors[i].ratios;
+        let name = colorScales[i].name;
+        let ratios = colorScales[i].ratios;
 
         ratios = ratios.map(function(d) {
           let r;
@@ -391,8 +391,8 @@ function generateAdaptiveTheme({base, colors, brightness, contrast}) {
         });
 
         let outputColors = generateContrastColors({
-          colorKeys: colors[i].colorKeys,
-          colorspace: colors[i].colorspace,
+          colorKeys: colorScales[i].colorKeys,
+          colorspace: colorScales[i].colorspace,
           ratios: ratios,
           base: bval});
 
@@ -411,16 +411,16 @@ function generateAdaptiveTheme({base, colors, brightness, contrast}) {
     }
   }
   else {
-    let bscale = generateBaseScale(base); // base parameter to create base scale (0-100)
+    let bscale = generateBaseScale(baseScale); // base parameter to create base scale (0-100)
     let bval = bscale[brightness];
     let arr = [];
 
-    for (let i=0; i < colors.length; i ++) {
-      if (!colors[i].name) {
+    for (let i=0; i < colorScales.length; i ++) {
+      if (!colorScales[i].name) {
         throw new Error('Color missing name');
       }
-      let name = colors[i].name;
-      let ratios = colors[i].ratios;
+      let name = colorScales[i].name;
+      let ratios = colorScales[i].ratios;
 
       ratios = ratios.map(function(d) {
         let r;
@@ -430,8 +430,8 @@ function generateAdaptiveTheme({base, colors, brightness, contrast}) {
       });
 
       let outputColors = generateContrastColors({
-        colorKeys: colors[i].colorKeys,
-        colorspace: colors[i].colorspace,
+        colorKeys: colorScales[i].colorKeys,
+        colorspace: colorScales[i].colorspace,
         ratios: ratios,
         base: bval});
 
