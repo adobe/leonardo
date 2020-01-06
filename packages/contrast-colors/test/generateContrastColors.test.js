@@ -19,6 +19,13 @@ test('should generate 2 colors (CAM02 interpolation)', function() {
 
 });
 
+test('should generate 2 named colors (CAM02 interpolation)', function() {
+  let colors = generateContrastColors({name: 'Cerulean', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02'});;
+
+  expect(colors).toEqual([ '#5490e0', '#2c66f1' ]);
+
+});
+
 test('should generate 2 colors (LAB interpolation)', function() {
   let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'LAB'});;
 

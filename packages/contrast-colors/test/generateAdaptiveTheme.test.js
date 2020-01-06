@@ -13,11 +13,11 @@ import { generateAdaptiveTheme } from '../index.js';
 
 test('should generate theme for three colors', function() {
   let theme = generateAdaptiveTheme({
-    base: {
+    baseScale: {
       colorKeys: ['#cacaca'],
       colorspace: 'HSL'
     },
-    colors: [
+    colorScales: [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
@@ -65,11 +65,11 @@ test('should generate theme for three colors', function() {
 
 test('should generate theme for three colors with negative ratios', function() {
   let theme = generateAdaptiveTheme({
-    base: {
+    baseScale: {
       colorKeys: ['#cacaca'],
       colorspace: 'HSL'
     },
-    colors: [
+    colorScales: [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
@@ -122,7 +122,7 @@ test('should generate theme for three colors using variables as parameters', fun
   };
   let brightness = 90;
 
-  let theme = generateAdaptiveTheme({base: gray, colors: [grayUI, blue, red]});
+  let theme = generateAdaptiveTheme({baseScale: gray, colorScales: [grayUI, blue, red]});
   let themeLight = theme(90);;
 
   expect(themeLight).toEqual([
@@ -151,11 +151,11 @@ test('should generate theme for three colors using variables as parameters', fun
 
 test('should generate theme with increased contrast', function() {
   let theme = generateAdaptiveTheme({
-    base: {
+    baseScale: {
       colorKeys: ['#cacaca'],
       colorspace: 'HSL'
     },
-    colors: [
+    colorScales: [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
@@ -183,11 +183,11 @@ test('should generate theme with increased contrast', function() {
 
 test('should generate white theme with increased contrast', function() {
   let theme = generateAdaptiveTheme({
-    base: {
+    baseScale: {
       colorKeys: ['#cacaca'],
       colorspace: 'HSL'
     },
-    colors: [
+    colorScales: [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
@@ -215,11 +215,11 @@ test('should generate white theme with increased contrast', function() {
 
 test('should generate dark theme with increased contrast', function() {
   let theme = generateAdaptiveTheme({
-    base: {
+    baseScale: {
       colorKeys: ['#cacaca'],
       colorspace: 'HSL'
     },
-    colors: [
+    colorScales: [
       {
         name: "gray",
         colorKeys: ['#cacaca'],
