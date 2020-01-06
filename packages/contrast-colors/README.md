@@ -35,14 +35,43 @@ myTheme(brightness, contrast);
 
 **baseScale** *{object}*: an object housing parameters required for [generating a base scale](#generateBaseScale).
 
-**colorScales** *[array of objects]*: each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors).
+**colorScales** *[array of objects]*: each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors) with the exception of the `name` parameter.
+
+**name** *string*: unique name for each color scale. This value will be used for the output color keys, ie `blue100: '#5CDBFF'`
 
 **brightness** *number*: optional value from 0-100 indicating the brightness of the base / background color. If undefined, `generateAdaptiveTheme` will return a function
 
 **contrast** *integer*: optional value to increase contrast of your generated colors. This value is multiplied against all ratios defined for each color scale.
 
+#### Output
+The `generateAdaptiveTheme` function returns an array of color objects. Each key is named by concatenating the user-defined color name (above) with a numeric value.
+
+Colors with a **positive contrast ratio** with the base (ie, 2:1) will be named in increments of 100. For example, `gray100`, `gray200`.
+
+Colors with a **negative contrast ratio** with the base (ie -2:1) will be named in increments less than 100 and based on the number of negative values declared. For example, if there are 3 negative values `[-1.4, -1.3, -1.2, 1, 2, 3]`, the name for those values will be incremented by 100/4 (length plus one to avoid a `0` value), such as `gray25`, `gray50`, and `gray75`.
+
+Here is an example output from a theme:
+```
+[
+  {gray50: "#e9ecf1"},
+  {gray100: "#dde1e9"},
+  {gray200: "#d0d6e1"},
+  {gray300: "#c3cbd9"},
+  {gray400: "#b3bdce"},
+  {gray500: "#a0adc2"},
+  {gray600: "#8998b0"},
+  {gray700: "#71829c"},
+  {purple100: "#eadbfd"},
+  {purple200: "#e1cefc"},
+  {purple300: "#d6bcfa"},
+  {blue100: "#a9ecfe"},
+  {blue200: "#90e1fd"},
+  {blue300: "#68d4fe"}
+]
+```
+
 #### Examples
-Creating your theme as a function
+###### Creating your theme as a function
 ```
 let myPalette = {
   baseScale: {
@@ -70,10 +99,24 @@ let myTheme = generateAdaptiveTheme(myPalette);
 myTheme(95, 1.2) // outputs colors with background lightness of 95 and ratios increased by 1.2
 ```
 
-Creating static instances of your theme
+###### Creating static instances of your theme
 ```
 let lightTheme = generateAdaptiveTheme(95);     // theme on light gray
 let darkTheme = generateAdaptiveTheme(20, 1.3); // theme on dark gray with increased contrast
+```
+
+###### Assigning output to CSS properties
+```
+let varPrefix = '--';
+
+for (let i=0; i<myTheme.length; i++) {
+  let key = Object.keys(myTheme[i])[0]; // output "name" of color
+  let prop = varPrefix.concat(key);
+  let value = Object.values(myTheme[i])[0]; // output value of color
+
+  document.documentElement.style
+    .setProperty(prop, value);
+}
 ```
 
 ### generateContrastColors
@@ -83,7 +126,6 @@ Primary function used to generate colors based on target contrast ratios. Parame
 ```
 generateContrastColors({colorKeys, base, ratios, colorspace})
 ```
-**name** *string*: optional parameter to name your colors. If named, colors output as key-value pairs, otherwise they are returned as an array of values.
 
 **colorKeys** *[array]*: list of colors referenced to generate a lightness scale. Much like [key frames](https://en.wikipedia.org/wiki/Key_frame), key colors are single points by which additional colors will be interpolated between.
 
