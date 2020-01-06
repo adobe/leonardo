@@ -124,3 +124,19 @@ test('should generate no colors, missing base', function() {
     }
   ).toThrow();
 });
+
+test('should throw error, missing hash on hex value', function() {
+  expect(
+    () => {
+      let colors = generateContrastColors({colorKeys: ['#2451FF', 'C9FEFE', '#012676'], ratios: [3, 4.5]}) // third color missing hash #
+    }
+  ).toThrow();
+});
+
+test('should throw error, incomplete hex value', function() {
+  expect(
+    () => {
+      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEF', '#012676'], ratios: [3, 4.5]}) // third color missing final hex code
+    }
+  ).toThrow();
+});
