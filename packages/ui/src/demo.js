@@ -124,6 +124,57 @@ createEvent(col4, 'event30', 'Gym', '-', 'catPersonal', 1);
 createEvent(col4, 'event60', 'Workshop', 'UT-440', 'catBlue', 4);
 createEvent(col4, 'event120', 'Backlog grooming', 'UT-112', 'catPrimary', 8);
 
+
+// Define colors and ratios
+let baseRatios = [-1.1,1,1.12,1.25,1.45,1.75,2.25,3.01,4.52,7,11,16];
+let uiRatios = [1,1.12,1.3,2,3.01,4.52,7,11,16];
+
+let gray = {
+  colorKeys: ["#4a5b7b","#72829c","#a6b2c6"],
+  colorspace: 'HSL'
+};
+
+let purpleScale = {
+  name: "purple",
+  colorKeys: ["#7a4beb","#ac80f4","#2f0071"],
+  colorspace: "LAB",
+  ratios: uiRatios
+}
+
+let blueScale = {
+  name: "blue",
+  colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
+  colorspace: "CAM02",
+  ratios: uiRatios
+};
+
+let greenScale = {
+  name: "green",
+  colorKeys: ["#4eb076","#2a5a45","#a7e3b4"],
+  colorspace: "HSL",
+  ratios: uiRatios
+}
+let redScale = {
+  name: "red",
+  colorKeys: ["#ea2825","#ffc1ad","#fd937e"],
+  colorspace: "LAB",
+  ratios: uiRatios
+};
+
+let goldScale = {
+  name: "gold",
+  colorKeys: ["#e8b221","#a06a00","#ffdd7c"],
+  colorspace: "HSL",
+  ratios: uiRatios
+}
+
+let grayScale =  {
+  name: "gray",
+  colorKeys: gray.colorKeys,
+  colorspace: gray.colorspace,
+  ratios: baseRatios
+};
+
 function createColors() {
   let br = document.getElementById('sliderBrightness');
   let con = document.getElementById('sliderContrast');
@@ -131,56 +182,6 @@ function createColors() {
 
   let brVal = br.value;
   let conVal = con.value;
-
-  // generateContrastColors({base: "#f4f5f8"});
-  let baseRatios = [-1.1,1,1.12,1.25,1.45,1.75,2.25,3.01,4.52,7,11,16];
-  let uiRatios = [1,1.12,1.3,2,3.01,4.52,7,11,16];
-
-  let gray = {
-    colorKeys: ["#4a5b7b","#72829c","#a6b2c6"],
-    colorspace: 'HSL'
-  };
-
-  let purpleScale = {
-    name: "purple",
-    colorKeys: ["#7a4beb","#ac80f4","#2f0071"],
-    colorspace: "LAB",
-    ratios: uiRatios
-  }
-
-  let blueScale = {
-    name: "blue",
-    colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
-    colorspace: "CAM02",
-    ratios: uiRatios
-  };
-
-  let greenScale = {
-    name: "green",
-    colorKeys: ["#4eb076","#2a5a45","#a7e3b4"],
-    colorspace: "HSL",
-    ratios: uiRatios
-  }
-  let redScale = {
-    name: "red",
-    colorKeys: ["#ea2825","#ffc1ad","#fd937e"],
-    colorspace: "LAB",
-    ratios: uiRatios
-  };
-
-  let goldScale = {
-    name: "gold",
-    colorKeys: ["#e8b221","#a06a00","#ffdd7c"],
-    colorspace: "HSL",
-    ratios: uiRatios
-  }
-
-  let grayScale =  {
-    name: "gray",
-    colorKeys: gray.colorKeys,
-    colorspace: gray.colorspace,
-    ratios: baseRatios
-  };
 
   if(mode.checked == true) {
     br.min= "0";
@@ -207,7 +208,7 @@ function createColors() {
     colors: [grayScale, purpleScale, blueScale, greenScale, redScale, goldScale],
     brightness: brVal,
     contrast: conVal});
-    
+
   let varPrefix = '--';
 
   for (let i=0; i<myTheme.length; i++) {
@@ -220,6 +221,7 @@ function createColors() {
   }
 }
 createColors();
+
 document.getElementById('darkMode').addEventListener('input', createColors)
 document.getElementById('sliderBrightness').addEventListener('input', createColors)
 document.getElementById('sliderContrast').addEventListener('input', createColors)
