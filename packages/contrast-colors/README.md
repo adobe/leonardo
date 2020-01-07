@@ -11,10 +11,36 @@ npm i @adobe/leonardo-contrast-colors
 
 Pass your colors and desired ratios. See additional options below.
 ```js
-import { generateContrastColors } from '@adobe/leonardo-contrast-colors';
+import { generateAdaptiveTheme } from '@adobe/leonardo-contrast-colors';
 
-// returns rgb value
-let colors = generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ratios: [4.5]});
+// returns theme colors as key-value pairs
+let myTheme = generateAdaptiveTheme({
+  baseScale: {
+    colorKeys: ['#cacaca'],
+    colorspace: 'HSL'
+  },
+  colorScales: [
+    {
+      name: 'gray',
+      colorKeys: ['#cacaca'],
+      colorspace: 'HSL',
+      ratios: [1, 2, 3, 4.5, 8, 12]
+    },
+    {
+      name: 'blue',
+      colorKeys: ['#5CDBFF', '#0000FF'],
+      colorspace: 'HSL',
+      ratios: [3, 4.5]
+    },
+    {
+      name: 'red',
+      colorKeys: ['#FF9A81', '#FF0000'],
+      colorspace: 'HSL',
+      ratios: [3, 4.5]
+    }
+  ],
+  brightness: 97
+});
 ```
 
 ## API Reference
@@ -23,13 +49,13 @@ let colors = generateContrastColors({colorKeys: ["#ff00ff"], base: "#ffffff", ra
 
 Function used to create a fully adaptive contrast-based color palette/theme using Leonardo. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`. Parameters can be passed as a config JSON file for modularity and simplicity.
 
-```
+```js
 generateAdaptiveTheme({baseScale, colorScales});              // returns function
 generateAdaptiveTheme({baseScale, colorScales, brightness});  // returns color objects
 ```
 
 Returned function:
-```
+```js
 myTheme(brightness, contrast);
 ```
 
@@ -51,7 +77,7 @@ Colors with a **positive contrast ratio** with the base (ie, 2:1) will be named 
 Colors with a **negative contrast ratio** with the base (ie -2:1) will be named in increments less than 100 and based on the number of negative values declared. For example, if there are 3 negative values `[-1.4, -1.3, -1.2, 1, 2, 3]`, the name for those values will be incremented by 100/4 (length plus one to avoid a `0` value), such as `gray25`, `gray50`, and `gray75`.
 
 Here is an example output from a theme:
-```
+```js
 [
   {gray50: "#e9ecf1"},
   {gray100: "#dde1e9"},
@@ -72,13 +98,19 @@ Here is an example output from a theme:
 
 #### Examples
 ###### Creating your theme as a function
-```
+```js
 let myPalette = {
   baseScale: {
     colorKeys: ['#cacaca'],
     colorspace: 'HSL'
   },
   colorScales: [
+    {
+      name: 'gray',
+      colorKeys: ['#cacaca'],
+      colorspace: 'HSL',
+      ratios: [1, 2, 3, 4.5, 8, 12]
+    },
     {
       name: 'blue',
       colorKeys: ['#5CDBFF', '#0000FF'],
@@ -100,13 +132,13 @@ myTheme(95, 1.2) // outputs colors with background lightness of 95 and ratios in
 ```
 
 ###### Creating static instances of your theme
-```
+```js
 let lightTheme = generateAdaptiveTheme(95);     // theme on light gray
 let darkTheme = generateAdaptiveTheme(20, 1.3); // theme on dark gray with increased contrast
 ```
 
 ###### Assigning output to CSS properties
-```
+```js
 let varPrefix = '--';
 
 for (let i=0; i<myTheme.length; i++) {
@@ -123,7 +155,7 @@ for (let i=0; i<myTheme.length; i++) {
 
 Primary function used to generate colors based on target contrast ratios. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`.
 
-```
+```js
 generateContrastColors({colorKeys, base, ratios, colorspace})
 ```
 
@@ -147,7 +179,7 @@ generateContrastColors({colorKeys, base, ratios, colorspace})
 
 This function is used to generate a color scale tailored specifically for use as a brightness scale when using Leonardo for brightness and contrast controls. Colors are generated that match HSLuv lightness values from `0` to `100` and are output as hex values.
 
-```
+```js
 generateBaseScale({colorKeys, colorspace})
 ```
 
