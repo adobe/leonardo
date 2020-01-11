@@ -15,5 +15,9 @@ assignees: ''
 <!-- Tell us what this solves or why this is important to your use case -->
 
 
+## Leonardo package and version
+<!--ie:  **@leonardo-contrast-colors version:**  2.13.0 -->
+
+
 ## Additional context
 <!-- Add any other context, workarounds, or screenshots about your request -->
