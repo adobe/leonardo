@@ -1,0 +1,90 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Leonardo: Color Converter</title>
+  <meta property="og:title" content="Leonardo: Color Converter">
+  <meta name="description" content="Color converter for multiple color spaces">
+  <meta property="og:description" content="Color converter for multiple color spaces">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="">
+  <!-- <meta name="twitter:card" content="repository-open-graph-leonardo"> -->
+
+  <meta property="og:site_name" content="Leonardo: Color Converter">
+  <meta name="twitter:image:alt" content="Color converter for multiple color spaces">
+
+  <meta name="twitter:site" content="@Leonardo_Color">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+  <link rel="manifest" href="favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700&display=swap" rel="stylesheet">
+
+</head>
+<body class="spectrum spectrum spectrum--light spectrum--medium">
+<header class="spectrum-AppHeader">
+  <span id="logoTitle">
+    <img src="images/Leonardo_Logo_sm.svg" alt="Leonardo logo" id="headerLogo">
+    <h1 class="spectrum-Heading5 spectrum-AppHeader-Title">Leonardo</h1>
+  </span>
+  <div class="spectrum-AppHeader--right">
+    <a href="https://medium.com/@NateBaldwin/leonardo-an-open-source-contrast-based-color-generator-92d61b6521d2" class="spectrum-ActionButton spectrum-ActionButton--quiet">About</a>
+    <a href="https://www.github.com/adobe/leonardo#leonardo" class="spectrum-ActionButton spectrum-ActionButton--quiet">Docs</a>
+    <a href="demo.html" class="spectrum-ActionButton spectrum-ActionButton--quiet">Demo</a>
+    <a href="converter.html" class="spectrum-ActionButton spectrum-ActionButton--quiet is-selected">Converter</a>
+    <a href="https://www.github.com/adobe/leonardo" id="octo-link"> <img id="octocat" src="images/GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
+  </div>
+</header>
+<main>
+  <h1> Color Converter </h1>
+  <cite>Built with D3-color.</cite>
+  <form class="spectrum-Form">
+    <div class="spectrum-Form-item">
+       <label for="input" class="spectrum-FieldLabel">Hex value:</label>
+       <input type="text" id="input" placeholder="Enter hex value" class="spectrum-Textfield"></input>
+       <input type="color" class="" id="bgField_2" value="#ffffff" onChange="colorInput()" ></input>
+     </div>
+     <div class="spectrum-Form-item">
+       <label for="type" class="spectrum-FieldLabel">Convert to:</label>
+       <div class="spectrum-Dropdown" id="modeDropdown">
+         <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="type">
+           <option>HSLuv</option>
+           <option>Lch</option>
+           <option>Lab</option>
+           <option>CAM02</option>
+           <option>HSL</option>
+           <option>HSV / HSB</option>
+           <option>RGB</option>
+         </select>
+         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+           <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+         </svg>
+       </div>
+     </div>
+   </form>
+   <div class="block">
+     <label for="output"><span id="typeName"></span> value:</label>
+     <div id="output"></div>
+   </div>
+</main>
+<script src="converter.js"></script>
+
+</body>
+</html>

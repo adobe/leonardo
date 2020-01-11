@@ -6,13 +6,13 @@
   "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
-    "dev": "yarn copyIcons && npx parcel src/index.html src/demo.html",
+    "dev": "yarn copyIcons && npx parcel src/index.html src/converter.html src/demo.html",
     "copyIcons": "mkdir -p dist && yarn copyWorkflowIcons && yarn copyUIIcons",
     "copyWorkflowIcons": "cp -r ../../node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg dist/",
     "copyUIIcons": "cp -r ../../node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg dist/",
     "copyCNAME": "cp -r src/CNAME dist/CNAME",
     "postPublish": "yarn deploySite",
-    "buildSite": "npx parcel build src/index.html src/demo.html --public-url ./ && yarn copyCNAME && yarn copyIcons",
+    "buildSite": "npx parcel build src/index.html src/converter.html src/demo.html --public-url ./ && yarn copyCNAME && yarn copyIcons",
     "deploySite": "yarn buildSite && npx ghpages -p dist"
   },
   "keywords": [

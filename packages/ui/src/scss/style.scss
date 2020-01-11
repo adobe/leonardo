@@ -36,7 +36,7 @@ body {
   grid-row-gap: 0px;
   grid-template-areas:
     "header header header"
-    "leftPanel . rightPanel";
+    "leftPanel main rightPanel";
 }
 .spectrum-AppHeader {
   grid-area: header;
@@ -392,6 +392,7 @@ body {
 }
 
 main {
+  grid-area: main;
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 56px);
