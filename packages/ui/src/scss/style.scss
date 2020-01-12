@@ -26,6 +26,7 @@ governing permissions and limitations under the License.
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Adobe Clean'; // local update since no typekit support currently.
 }
 
 .appFrame {
@@ -33,7 +34,6 @@ body {
   padding: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: 'Adobe Clean'; // local update since no typekit support currently.
   display: grid;
   grid-template-columns: 324px auto 240px;
   grid-template-rows: var(--header-height) auto;
