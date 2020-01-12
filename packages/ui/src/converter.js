@@ -53,10 +53,9 @@ Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
 let input = document.getElementById('input');
 let output = document.getElementById('output');
 let type = document.getElementById('type');
-let typeName = document.getElementById('typeName');
+let colorInput = document.getElementById('colorInput');
 
-function convert(c) {
-  let typeId = type.value;
+function convert(c, typeId = type.value) {
   let A, B, C;
 
   if(typeId == 'HSLuv') {
@@ -66,13 +65,13 @@ function convert(c) {
   }
   if(typeId == 'HSL') {
     A = d3.hsl(c).h;
-    B = d3.hsl(c).s;
-    C = d3.hsl(c).l;
+    B = d3.hsl(c).s * 100;
+    C = d3.hsl(c).l * 100;
   }
-  if(typeId == 'HSV / HSB') {
+  if(typeId == 'HSV') {
     A = d3.hsv(c).h;
-    B = d3.hsv(c).s;
-    C = d3.hsv(c).v;
+    B = d3.hsv(c).s * 100;
+    C = d3.hsv(c).v * 100;
   }
   if(typeId == 'CAM02') {
     A = d3.jab(c).J;
@@ -100,26 +99,63 @@ function convert(c) {
 
 function returnColor() {
   let val = input.value;
+  let valNums, valArr;
+
+  if(val.match(/^hsl\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    // convert to proper format (percentages)
+    val = d3.hsl(Number(valArr[0]), Number(valArr[1]/100), Number(valArr[2]/100)).formatHsl();
+  }
+  if(val.match(/^hsv\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hsv(Number(valArr[0]), Number(valArr[1]/100), Number(valArr[2]/100)).formatHsl();
+  }
+  if(val.match(/^lab\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.lab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
+  }
+  if(val.match(/^lch\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hcl(Number(valArr[2]), Number(valArr[1]), Number(valArr[0])).formatHsl();
+  }
+  if(val.match(/^jab\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.jab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
+  }
+  if(val.match(/^hsluv\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hsluv(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
+  }
+
   let typeId = type.value;
   let typeArr;
+  let colorInput = document.getElementById('colorInput');
+  let valRgb = convert(val, 'RGB');
+  let colorInputVal = d3.rgb(valRgb[0], valRgb[1], valRgb[2]).formatHex();
+  colorInput.value = colorInputVal;
 
-  if(typeId == 'HSV / HSB') { typeArr = ['H', 'S', 'V']; }
+  if(typeId == 'HSV') { typeArr = ['H', 'S', 'V']; }
   if(typeId == 'HSL') { typeArr = ['H', 'S', 'L']; }
   if(typeId == 'HSLuv') { typeArr = ['H (l)', 'S (u)', 'L (v)']; }
-  if(typeId == 'CAM02') { typeArr = ['J', 'a', 'b']; }
+  if(typeId == 'CAM02') { typeArr = ['J', 'a', 'b']; typeId = 'jab';}
   if(typeId == 'Lab') { typeArr = ['L', 'a', 'b']; }
   if(typeId == 'Lch') { typeArr = ['L', 'c', 'h']; }
   if(typeId == 'RGB') { typeArr = ['R', 'G', 'B']; }
 
-  if(val.length > 6) {
+  if(val.length > 6 && val.charAt(0) == '#' || val.length >= 10 && val.charAt(0) != '#') {
     let newVal = convert(val);
     output.innerHTML = ' ';
-    typeName.innerHTML = typeId;
     let d = document.createElement('div');
     let a = document.createElement('div');
     let b = document.createElement('div');
     let c = document.createElement('div');
-    let str = document.createTextNode((typeId) + '(' + newVal + ')');
+    let str = document.createTextNode((typeId.toLowerCase()) + '(' + newVal + ')');
     let arr1 = document.createTextNode(typeArr[0] + ': ' + newVal[0]);
     let arr2 = document.createTextNode(typeArr[1] + ': ' + newVal[1]);
     let arr3 = document.createTextNode(typeArr[2] + ': ' + newVal[2]);
@@ -134,7 +170,7 @@ function returnColor() {
     output.appendChild(c);
   }
 }
-
+colorInput.addEventListener('input', function() { input.value = colorInput.value; returnColor(); });
 input.addEventListener('input', returnColor);
 type.addEventListener('input', returnColor);
 

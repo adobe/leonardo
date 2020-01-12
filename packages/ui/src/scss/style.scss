@@ -26,6 +26,11 @@ governing permissions and limitations under the License.
 body {
   margin: 0;
   padding: 0;
+}
+
+.appFrame {
+  margin: 0;
+  padding: 0;
   height: 100vh;
   overflow: hidden;
   font-family: 'Adobe Clean'; // local update since no typekit support currently.
