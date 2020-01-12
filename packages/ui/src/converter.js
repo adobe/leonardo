@@ -58,43 +58,49 @@ let colorInput = document.getElementById('colorInput');
 function convert(c, typeId = type.value) {
   let A, B, C;
 
-  if(typeId == 'HSLuv') {
-    A = d3.hsluv(c).l;
-    B = d3.hsluv(c).u;
-    C = d3.hsluv(c).v;
-  }
-  if(typeId == 'HSL') {
-    A = d3.hsl(c).h;
-    B = d3.hsl(c).s * 100;
-    C = d3.hsl(c).l * 100;
-  }
-  if(typeId == 'HSV') {
-    A = d3.hsv(c).h;
-    B = d3.hsv(c).s * 100;
-    C = d3.hsv(c).v * 100;
-  }
-  if(typeId == 'CAM02') {
-    A = d3.jab(c).J;
-    B = d3.jab(c).a;
-    C = d3.jab(c).b;
-  }
-  if(typeId == 'Lab') {
-    A = d3.lab(c).l;
-    B = d3.lab(c).a;
-    C = d3.lab(c).b;
-  }
-  if(typeId == 'Lch') {
-    A = d3.hcl(c).l;
-    B = d3.hcl(c).c;
-    C = d3.hcl(c).h;
-  }
-  if(typeId == 'RGB') {
-    A = d3.rgb(c).r;
-    B = d3.rgb(c).g;
-    C = d3.rgb(c).b;
+  if(typeId == 'Hex') {
+    return d3.rgb(c).formatHex();
   }
 
-  return new Array(A.toFixed(), B.toFixed(), C.toFixed());
+  else {
+    if(typeId == 'HSLuv') {
+      A = d3.hsluv(c).l;
+      B = d3.hsluv(c).u;
+      C = d3.hsluv(c).v;
+    }
+    if(typeId == 'HSL') {
+      A = d3.hsl(c).h;
+      B = d3.hsl(c).s * 100;
+      C = d3.hsl(c).l * 100;
+    }
+    if(typeId == 'HSV') {
+      A = d3.hsv(c).h;
+      B = d3.hsv(c).s * 100;
+      C = d3.hsv(c).v * 100;
+    }
+    if(typeId == 'CAM02') {
+      A = d3.jab(c).J;
+      B = d3.jab(c).a;
+      C = d3.jab(c).b;
+    }
+    if(typeId == 'Lab') {
+      A = d3.lab(c).l;
+      B = d3.lab(c).a;
+      C = d3.lab(c).b;
+    }
+    if(typeId == 'Lch') {
+      A = d3.hcl(c).l;
+      B = d3.hcl(c).c;
+      C = d3.hcl(c).h;
+    }
+    if(typeId == 'RGB') {
+      A = d3.rgb(c).r;
+      B = d3.rgb(c).g;
+      C = d3.rgb(c).b;
+    }
+
+    return new Array(A.toFixed(), B.toFixed(), C.toFixed());
+  }
 }
 
 function returnColor() {
@@ -148,28 +154,38 @@ function returnColor() {
   if(typeId == 'Lch') { typeArr = ['L', 'c', 'h']; }
   if(typeId == 'RGB') { typeArr = ['R', 'G', 'B']; }
 
-  if(val.length > 6 && val.charAt(0) == '#' || val.length >= 10 && val.charAt(0) != '#') {
+  if(val.length >= 10 && val.charAt(0) !== '#' || val.length > 6 && val.charAt(0) == '#') {
     let newVal = convert(val);
     output.innerHTML = ' ';
-    let d = document.createElement('div');
-    let a = document.createElement('div');
-    let b = document.createElement('div');
-    let c = document.createElement('div');
-    let str = document.createTextNode((typeId.toLowerCase()) + '(' + newVal + ')');
-    let arr1 = document.createTextNode(typeArr[0] + ': ' + newVal[0]);
-    let arr2 = document.createTextNode(typeArr[1] + ': ' + newVal[1]);
-    let arr3 = document.createTextNode(typeArr[2] + ': ' + newVal[2]);
-    a.appendChild(arr1);
-    b.appendChild(arr2);
-    c.appendChild(arr3);
-    d.appendChild(str);
 
-    output.appendChild(d);
-    output.appendChild(a);
-    output.appendChild(b);
-    output.appendChild(c);
+    if(typeId == 'Hex') {
+      let d = document.createElement('div');
+      let str = document.createTextNode(newVal);
+      d.appendChild(str);
+      output.appendChild(d);
+    }
+    else {
+      let d = document.createElement('div');
+      let a = document.createElement('div');
+      let b = document.createElement('div');
+      let c = document.createElement('div');
+      let str = document.createTextNode((typeId.toLowerCase()) + '(' + newVal + ')');
+      let arr1 = document.createTextNode(typeArr[0] + ': ' + newVal[0]);
+      let arr2 = document.createTextNode(typeArr[1] + ': ' + newVal[1]);
+      let arr3 = document.createTextNode(typeArr[2] + ': ' + newVal[2]);
+      a.appendChild(arr1);
+      b.appendChild(arr2);
+      c.appendChild(arr3);
+      d.appendChild(str);
+
+      output.appendChild(d);
+      output.appendChild(a);
+      output.appendChild(b);
+      output.appendChild(c);
+    }
   }
 }
+
 colorInput.addEventListener('input', function() { input.value = colorInput.value; returnColor(); });
 input.addEventListener('input', returnColor);
 type.addEventListener('input', returnColor);
