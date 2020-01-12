@@ -1,0 +1,54 @@
+.appFrame {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Adobe Clean'; // local update since no typekit support currently.
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: var(--header-height) auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    "header"
+    "main";
+}
+
+#output {
+  font-family: 'Source Code Pro', monospace;
+  margin-top: 16px;
+  padding: 0 4px;
+  color: #000000;
+  font-size: 1rem;
+}
+
+#input {
+    margin-right: 8px;
+}
+
+#converterWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#converterGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 300px;
+}
+
+h1 {
+  margin-top: 64px;
+}
+
+cite {
+  color: #707070;
+}
+
+h1 + cite {
+    margin-top: -4px;
+    margin-bottom: 8px;
+}

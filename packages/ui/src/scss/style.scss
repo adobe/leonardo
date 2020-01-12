@@ -26,9 +26,14 @@ governing permissions and limitations under the License.
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Adobe Clean'; // local update since no typekit support currently.
+}
+
+.appFrame {
+  margin: 0;
+  padding: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: 'Adobe Clean'; // local update since no typekit support currently.
   display: grid;
   grid-template-columns: 324px auto 240px;
   grid-template-rows: var(--header-height) auto;
@@ -36,7 +41,7 @@ body {
   grid-row-gap: 0px;
   grid-template-areas:
     "header header header"
-    "leftPanel . rightPanel";
+    "leftPanel main rightPanel";
 }
 .spectrum-AppHeader {
   grid-area: header;
@@ -63,6 +68,7 @@ body {
 }
 #logoTitle {
   display: inline-flex;
+  text-decoration: none;
 }
 #headerLogo ~ .spectrum-AppHeader-Title {
     margin-left: 8px;
@@ -392,6 +398,7 @@ body {
 }
 
 main {
+  grid-area: main;
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 56px);
