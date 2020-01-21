@@ -99,6 +99,28 @@ test('should generate black when negative ratio lighter than available colors', 
   expect(colors).toEqual([ '#000000' ]);
 });
 
+// Mid-Tone Backgrounds
+test('should generate slightly lighter & darker grays on a darker midtone gray background', function() {
+  let colors = generateContrastColors({colorKeys: ['#000000'], base: "#737373",ratios: [1.2, -1.2], colorspace: "LCH"}); // positive & negative ratios
+
+  expect(colors).toEqual([ '#808080', '#666666' ]);
+});
+test('should generate slightly lighter & darker grays on a lighter midtone gray background', function() {
+  let colors = generateContrastColors({colorKeys: ['#000000'], base: "#787878",ratios: [1.2, -1.2], colorspace: "LCH"}); // positive & negative ratios
+
+  expect(colors).toEqual([ '#6b6b6b', '#858585' ]);
+});
+test('should generate slightly lighter & darker oranges on a darker midtone slate background', function() {
+  let colors = generateContrastColors({colorKeys: ["#ff8602","#ab3c00","#ffd88b"], base: "#537a9c",ratios: [1.2, -1.2], colorspace: "LCH"}); // positive & negative ratios
+
+  expect(colors).toEqual([ '#d66102', '#b64601' ]);
+});
+test('should generate slightly lighter & darker oranges on a lighter midtone slate background', function() {
+  let colors = generateContrastColors({colorKeys: ["#ff8602","#ab3c00","#ffd88b"], base: "#537b9d",ratios: [1.2, -1.2], colorspace: "LCH"}); // positive & negative ratios
+
+  expect(colors).toEqual([ '#b84601', '#d76202' ]);
+});
+
 // Expected errors
 test('should generate no colors, missing colorKeys', function() {
   expect(
