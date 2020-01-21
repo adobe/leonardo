@@ -357,7 +357,7 @@ function ratioName(r) {
   return nArr;
 }
 
-function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast}) {
+function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1}) {
   if (!baseScale) {
     throw new Error(`baseScale is undefined`);
   }
@@ -368,44 +368,9 @@ function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast}) {
     throw new Error(`colorScales are undefined`);
   }
 
-  if (!brightness) {
-    return function(brightness, contrast = 1) {
-      let bscale = generateBaseScale(baseScale); // base parameter to create base scale (0-100)
-      let bval = bscale[brightness];
-      let arr = [];
-
-      for (let i=0; i < colorScales.length; i ++) {
-        if (!colorScales[i].name) {
-          throw new Error('Color missing name');
-        }
-        let name = colorScales[i].name;
-        let ratios = colorScales[i].ratios;
-
-        ratios = ratios.map(function(d) {
-          let r;
-          if(d >= 1) { r = ((d-1) * contrast) + 1;}
-          else if(d < 0) { r = ((d+1) * contrast) - 1; }
-          return r;
-        });
-
-        let outputColors = generateContrastColors({
-          colorKeys: colorScales[i].colorKeys,
-          colorspace: colorScales[i].colorspace,
-          ratios: ratios,
-          base: bval});
-
-        for (let i=0; i < outputColors.length; i++) {
-          let rVal = ratioName(ratios)[i];
-          let n = name.concat(rVal);
-
-          let obj = {
-            [n]: outputColors[i]
-          }
-          arr.push(obj)
-        }
-      }
-
-      return arr;
+  if (brightness === undefined) {
+    return function(brightness, contrast) {
+      return generateAdaptiveTheme({baseScale: baseScale, colorScales: colorScales, brightness: brightness, contrast: contrast})
     }
   }
   else {
