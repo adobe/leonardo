@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.3](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.2...@adobe/leonardo-contrast-colors@1.0.0-alpha.3) (2020-01-21)
+
+
+### Bug Fixes
+
+* corrected midtone color outputs ([#46](https://github.com/adobe/leonardo/issues/46)) ([5c780b7](https://github.com/adobe/leonardo/commit/5c780b7a1f0355f985591076a27f1764e1faee3c))
+
+
+
+
+
 # [1.0.0-alpha.2](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.1...@adobe/leonardo-contrast-colors@1.0.0-alpha.2) (2019-12-12)
 
 

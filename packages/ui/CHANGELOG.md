@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.1.0...@adobe/leonardo-ui@1.2.0) (2020-01-21)
+
+
+### Bug Fixes
+
+* changed form to div in converter to prevent refresh on submit ([#43](https://github.com/adobe/leonardo/issues/43)) ([34a7686](https://github.com/adobe/leonardo/commit/34a76865638e4b001b491ac2ecca227ba060af05))
+* **ui:** Update URL in README ([#28](https://github.com/adobe/leonardo/issues/28)) ([a1294f3](https://github.com/adobe/leonardo/commit/a1294f3e6cd29e5cdb7166a9ebdc7a66d98d3cc0))
+
+
+### Features
+
+* added hex to output conversion types ([#41](https://github.com/adobe/leonardo/issues/41)) ([e27fc86](https://github.com/adobe/leonardo/commit/e27fc860488112e58e453364e9318a88908c403d))
+* **ui:** Increment ratio input by whole number when Shift is pressed ([6705c44](https://github.com/adobe/leonardo/commit/6705c44d3f1bf9b16ac5cb7040dfdb99af66afe0))
+
+
+
+
+
 # 1.1.0 (2019-12-09)
 
 
