@@ -214,25 +214,24 @@ function generateContrastColors({
   let swatches = 3000;
 
   let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
+  let baseV = (d3.hsluv(base).v) / 100;
 
   let Contrasts = d3.range(swatches).map((d) => {
     let rgbArray = [d3.rgb(scaleData.scale(d)).r, d3.rgb(scaleData.scale(d)).g, d3.rgb(scaleData.scale(d)).b];
     let baseRgbArray = [d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b];
-    let ca = contrast(rgbArray, baseRgbArray).toFixed(2);
+    let ca = contrast(rgbArray, baseRgbArray, baseV).toFixed(2);
 
     return Number(ca);
   });
 
   let contrasts = Contrasts.filter(el => el != null);
 
-  let baseLum = luminance(d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b);
-
   let newColors = [];
   ratios = ratios.map(Number);
 
   // Return color matching target ratio, or closest number
   for (let i=0; i < ratios.length; i++){
-    let r = binarySearch(contrasts, ratios[i], baseLum);
+    let r = binarySearch(contrasts, ratios[i], baseV);
     newColors.push(d3.rgb(scaleData.colors[r]).hex());
   }
 
@@ -248,20 +247,19 @@ function luminance(r, g, b) {
   });
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
-
+window.luminance = luminance;
 // function percievedLum(r, g, b) {
 //   return (0.299*r + 0.587*g + 0.114*b);
 // }
 
-// Separate files in a lib folder as well.
-function contrast(color, base) {
+function contrast(color, base, baseV) {
   let colorLum = luminance(color[0], color[1], color[2]);
   let baseLum = luminance(base[0], base[1], base[2]);
 
   let cr1 = (colorLum + 0.05) / (baseLum + 0.05);
   let cr2 = (baseLum + 0.05) / (colorLum + 0.05);
 
-  if (baseLum < 0.5) {
+  if (baseV < 0.5) {
     if (cr1 >= 1) {
       return cr1;
     }
