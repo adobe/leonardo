@@ -247,7 +247,7 @@ function luminance(r, g, b) {
   });
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
-window.luminance = luminance;
+
 // function percievedLum(r, g, b) {
 //   return (0.299*r + 0.587*g + 0.114*b);
 // }
