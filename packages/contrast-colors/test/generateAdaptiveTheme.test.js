@@ -40,26 +40,42 @@ test('should generate theme for three colors', function() {
     let themeLight = theme(90);;
 
     expect(themeLight).toEqual([
-      {gray100: "#e0e0e0"},
-      {gray200: "#cecece"},
-      {gray300: "#c0c0c0"},
-      {gray400: "#a0a0a0"},
-      {gray500: "#808080"},
-      {gray600: "#646464"},
-      {gray700: "#525252"},
-      {gray800: "#404040"},
-      {gray900: "#242424"},
-      {gray1000: "#000000"},
-      {blue100: "#b18cff"},
-      {blue200: "#8d63ff"},
-      {blue300: "#623aff"},
-      {blue400: "#1c0ad1"},
-      {blue500: "#211068"},
-      {red100: "#ff7474"},
-      {red200: "#ff1313"},
-      {red300: "#cc0000"},
-      {red400: "#860000"},
-      {red500: "#500000"}]);
+      {
+        name: 'gray',
+        values: [
+          {name: "gray100", contrast: 1, value: "#e0e0e0"},
+          {name: "gray200", contrast: 1.2, value: "#cecece"},
+          {name: "gray300", contrast: 1.4, value: "#c0c0c0"},
+          {name: "gray400", contrast: 2, value: "#a0a0a0"},
+          {name: "gray500", contrast: 3, value: "#808080"},
+          {name: "gray600", contrast: 4.5, value: "#646464"},
+          {name: "gray700", contrast: 6, value: "#525252"},
+          {name: "gray800", contrast: 8, value: "#404040"},
+          {name: "gray900", contrast: 12, value: "#242424"},
+          {name: "gray1000", contrast: 21, value: "#000000"}
+        ]
+      },
+      {
+        name: 'blue',
+        values: [
+          {name: "blue100", contrast: 2, value: "#b18cff"},
+          {name: "blue200", contrast: 3, value: "#8d63ff"},
+          {name: "blue300", contrast: 4.5, value: "#623aff"},
+          {name: "blue400", contrast: 8, value: "#1c0ad1"},
+          {name: "blue500", contrast: 12, value: "#211068"}
+        ]
+      },
+      {
+        name: 'red',
+        values: [
+          {name: "red100", contrast: 2, value: "#ff7474"},
+          {name: "red200", contrast: 3, value: "#ff1313"},
+          {name: "red300", contrast: 4.5, value: "#cc0000"},
+          {name: "red400", contrast: 8, value: "#860000"},
+          {name: "red500", contrast: 12, value: "#500000"}
+        ]
+      }
+    ]);
 
 });
 
@@ -91,8 +107,45 @@ test('should generate theme for three colors with negative ratios', function() {
     ]});
     let themeLight = theme(90);;
 
-    expect(themeLight).toEqual([{gray33: "#ffffff"}, {gray67: "#f5f5f5"}, {gray100: "#e0e0e0"}, {gray200: "#cecece"}, {gray300: "#c0c0c0"}, {gray400: "#a0a0a0"}, {gray500: "#808080"}, {gray600: "#646464"}, {gray700: "#525252"}, {gray800: "#404040"}, {gray900: "#242424"}, {gray1000: "#000000"}, {blue100: "#b18cff"}, {blue200: "#8d63ff"}, {blue300: "#623aff"}, {blue400: "#1c0ad1"}, {blue500: "#211068"}, {red100: "#ff7474"}, {red200: "#ff1313"}, {red300: "#cc0000"}, {red400: "#860000"}, {red500: "#500000"}]);
-
+    expect(themeLight).toEqual([
+        {
+          name: "gray",
+          values: [
+            {name: "gray33", contrast: -1.8, value: "#ffffff"},
+            {name: "gray67", contrast: -1.2, value: "#f5f5f5"},
+            {name: "gray100", contrast: 1, value: "#e0e0e0"},
+            {name: "gray200", contrast: 1.2, value: "#cecece"},
+            {name: "gray300", contrast: 1.4, value: "#c0c0c0"},
+            {name: "gray400", contrast: 2, value: "#a0a0a0"},
+            {name: "gray500", contrast: 3, value: "#808080"},
+            {name: "gray600", contrast: 4.5, value: "#646464"},
+            {name: "gray700", contrast: 6, value: "#525252"},
+            {name: "gray800", contrast: 8, value: "#404040"},
+            {name: "gray900", contrast: 12, value: "#242424"},
+            {name: "gray1000", contrast: 21, value: "#000000"}
+          ]
+        },
+        {
+          name: "blue",
+          values: [
+            {name: "blue100", contrast: 2, value: "#b18cff"},
+            {name: "blue200", contrast: 3, value: "#8d63ff"},
+            {name: "blue300", contrast: 4.5, value: "#623aff"},
+            {name: "blue400", contrast: 8, value: "#1c0ad1"},
+            {name: "blue500", contrast: 12, value: "#211068"}
+          ]
+        },
+        {
+          name: "red",
+          values: [
+            {name: "red100", contrast: 2, value: "#ff7474"},
+            {name: "red200", contrast: 3, value: "#ff1313"},
+            {name: "red300", contrast: 4.5, value: "#cc0000"},
+            {name: "red400", contrast: 8, value: "#860000"},
+            {name: "red500", contrast: 12, value: "#500000"}
+          ]
+        }
+      ]);
 });
 
 test('should generate theme for three colors using variables as parameters', function() {
@@ -126,26 +179,42 @@ test('should generate theme for three colors using variables as parameters', fun
   let themeLight = theme(90);;
 
   expect(themeLight).toEqual([
-    {gray100: "#e0e0e0"},
-    {gray200: "#cecece"},
-    {gray300: "#c0c0c0"},
-    {gray400: "#a0a0a0"},
-    {gray500: "#808080"},
-    {gray600: "#646464"},
-    {gray700: "#525252"},
-    {gray800: "#404040"},
-    {gray900: "#242424"},
-    {gray1000: "#000000"},
-    {blue100: "#b18cff"},
-    {blue200: "#8d63ff"},
-    {blue300: "#623aff"},
-    {blue400: "#1c0ad1"},
-    {blue500: "#211068"},
-    {red100: "#ff7474"},
-    {red200: "#ff1313"},
-    {red300: "#cc0000"},
-    {red400: "#860000"},
-    {red500: "#500000"}]);
+    {
+      name: 'gray',
+      values: [
+        {name: "gray100", contrast: 1, value: "#e0e0e0"},
+        {name: "gray200", contrast: 1.2, value: "#cecece"},
+        {name: "gray300", contrast: 1.4, value: "#c0c0c0"},
+        {name: "gray400", contrast: 2, value: "#a0a0a0"},
+        {name: "gray500", contrast: 3, value: "#808080"},
+        {name: "gray600", contrast: 4.5, value: "#646464"},
+        {name: "gray700", contrast: 6, value: "#525252"},
+        {name: "gray800", contrast: 8, value: "#404040"},
+        {name: "gray900", contrast: 12, value: "#242424"},
+        {name: "gray1000", contrast: 21, value: "#000000"}
+      ]
+    },
+    {
+      name: 'blue',
+      values: [
+        {name: "blue100", contrast: 2, value: "#b18cff"},
+        {name: "blue200", contrast: 3, value: "#8d63ff"},
+        {name: "blue300", contrast: 4.5, value: "#623aff"},
+        {name: "blue400", contrast: 8, value: "#1c0ad1"},
+        {name: "blue500", contrast: 12, value: "#211068"}
+      ]
+    },
+    {
+      name: 'red',
+      values: [
+        {name: "red100", contrast: 2, value: "#ff7474"},
+        {name: "red200", contrast: 3, value: "#ff1313"},
+        {name: "red300", contrast: 4.5, value: "#cc0000"},
+        {name: "red400", contrast: 8, value: "#860000"},
+        {name: "red500", contrast: 12, value: "#500000"}
+      ]
+    }
+  ]);
 
 });
 
@@ -177,7 +246,45 @@ test('should generate theme with increased contrast', function() {
     ]});
     let themeLight = theme(90, 1.4);;
 
-    expect(themeLight).toEqual([{gray33: "#ffffff"}, {gray67: "#fdfdfd"}, {gray100: "#e0e0e0"}, {gray200: "#c9c9c9"}, {gray300: "#b5b5b5"}, {gray400: "#929292"}, {gray500: "#707070"}, {gray600: "#525252"}, {gray700: "#404040"}, {gray800: "#2c2c2c"}, {gray900: "#000000"}, {gray1000: "#000000"}, {blue100: "#a179ff"}, {blue200: "#764bff"}, {blue300: "#3418ff"}, {blue400: "#231086"}, {blue500: "#000000"}, {red100: "#ff5555"}, {red200: "#e10000"}, {red300: "#aa0000"}, {red400: "#5f0000"}, {red500: "#000000"}]);
+    expect(themeLight).toEqual([
+      {
+        name: 'gray',
+        values: [
+          {name: "gray33", contrast: -2.12, value: "#ffffff"},
+          {name: "gray67", contrast: -1.28, value: "#fdfdfd"},
+          {name: "gray100", contrast: 1, value: "#e0e0e0"},
+          {name: "gray200", contrast: 1.28, value: "#c8c8c8"},
+          {name: "gray300", contrast: 1.56, value: "#b5b5b5"},
+          {name: "gray400", contrast: 2.4, value: "#929292"},
+          {name: "gray500", contrast: 3.8, value: "#707070"},
+          {name: "gray600", contrast: 5.9, value: "#525252"},
+          {name: "gray700", contrast: 8, value: "#404040"},
+          {name: "gray800", contrast: 10.8, value: "#2c2c2c"},
+          {name: "gray900", contrast: 16.4, value: "#000000"},
+          {name: "gray1000", contrast: 29, value: "#000000"}
+        ]
+      },
+      {
+        name: 'blue',
+        values: [
+          {name: "blue100", contrast: 2.4, value: "#a179ff"},
+          {name: "blue200", contrast: 3.8, value: "#764bff"},
+          {name: "blue300", contrast: 5.9, value: "#3418ff"},
+          {name: "blue400", contrast: 10.8, value: "#231086"},
+          {name: "blue500", contrast: 16.4, value: "#000000"}
+        ]
+      },
+      {
+        name: 'red',
+        values: [
+          {name: "red100", contrast: 2.4, value: "#ff5555"},
+          {name: "red200", contrast: 3.8, value: "#e10000"},
+          {name: "red300", contrast: 5.9, value: "#aa0000"},
+          {name: "red400", contrast: 10.8, value: "#5f0000"},
+          {name: "red500", contrast: 16.4, value: "#000000"}
+        ]
+      }
+    ]);
 
 });
 
@@ -209,7 +316,45 @@ test('should generate white theme with increased contrast', function() {
     ]});
     let themeLight = theme(100, 2);;
 
-    expect(themeLight).toEqual([{gray33: "#ffffff"}, {gray67: "#ffffff"}, {gray100: "#fefefe"}, {gray200: "#d9d9d9"}, {gray300: "#c1c1c1"}, {gray400: "#949494"}, {gray500: "#6f6f6f"}, {gray600: "#505050"}, {gray700: "#3b3b3b"}, {gray800: "#272727"}, {gray900: "#000000"}, {gray1000: "#000000"}, {blue100: "#a47cff"}, {blue200: "#744aff"}, {blue300: "#2610ff"}, {blue400: "#221073"}, {blue500: "#000000"}, {red100: "#ff5c5c"}, {red200: "#e00000"}, {red300: "#a60000"}, {red400: "#560000"}, {red500: "#000000"}]);
+    expect(themeLight).toEqual([
+      {
+        name: 'gray',
+        values: [
+          {name: "gray33", contrast: -2.6, value: "#ffffff"},
+          {name: "gray67", contrast: -1.4, value: "#ffffff"},
+          {name: "gray100", contrast: 1, value: "#fefefe"},
+          {name: "gray200", contrast: 1.4, value: "#d9d9d9"},
+          {name: "gray300", contrast: 1.8, value: "#c0c0c0"},
+          {name: "gray400", contrast: 3, value: "#949494"},
+          {name: "gray500", contrast: 5, value: "#6f6f6f"},
+          {name: "gray600", contrast: 8, value: "#505050"},
+          {name: "gray700", contrast: 11, value: "#3b3b3b"},
+          {name: "gray800", contrast: 15, value: "#272727"},
+          {name: "gray900", contrast: 23, value: "#000000"},
+          {name: "gray1000", contrast: 41, value: "#000000"}
+        ]
+      },
+      {
+        name: 'blue',
+        values: [
+          {name: "blue100", contrast: 3, value: "#a47cff"},
+          {name: "blue200", contrast: 5, value: "#744aff"},
+          {name: "blue300", contrast: 8, value: "#2610ff"},
+          {name: "blue400", contrast: 15, value: "#221073"},
+          {name: "blue500", contrast: 23, value: "#000000"}
+        ]
+      },
+      {
+        name: 'red',
+        values: [
+          {name: "red100", contrast: 3, value: "#ff5c5c"},
+          {name: "red200", contrast: 5, value: "#e00000"},
+          {name: "red300", contrast: 8, value: "#a60000"},
+          {name: "red400", contrast: 15, value: "#560000"},
+          {name: "red500", contrast: 23, value: "#000000"}
+        ]
+      }
+    ]);
 
 });
 
@@ -241,6 +386,44 @@ test('should generate dark theme with increased contrast', function() {
     ]});
     let themeLight = theme(20, 1.5);;
 
-    expect(themeLight).toEqual([{gray33: "#000000"}, {gray67: "#1c1c1c"}, {gray100: "#303030"}, {gray200: "#414141"}, {gray300: "#4f4f4f"}, {gray400: "#6b6b6b"}, {gray500: "#8e8e8e"}, {gray600: "#b3b3b3"}, {gray700: "#d0d0d0"}, {gray800: "#efefef"}, {gray900: "#ffffff"}, {gray1000: "#ffffff"}, {blue100: "#6f45ff"}, {blue200: "#9d73ff"}, {blue300: "#c3a3ff"}, {blue400: "#f4edff"}, {blue500: "#ffffff"}, {red100: "#da0000"}, {red200: "#ff4b4b"}, {red300: "#ff9494"}, {red400: "#ffebeb"}, {red500: "#ffffff"}]);
+    expect(themeLight).toEqual([
+      {
+        name: 'gray',
+        values: [
+          {name: "gray33", contrast: -2.2, value: "#000000"},
+          {name: "gray67", contrast: -1.3, value: "#1c1c1c"},
+          {name: "gray100", contrast: 1, value: "#303030"},
+          {name: "gray200", contrast: 1.3, value: "#414141"},
+          {name: "gray300", contrast: 1.6, value: "#4f4f4f"},
+          {name: "gray400", contrast: 2.5, value: "#6b6b6b"},
+          {name: "gray500", contrast: 4, value: "#8e8e8e"},
+          {name: "gray600", contrast: 6.25, value: "#b3b3b3"},
+          {name: "gray700", contrast: 8.5, value: "#d0d0d0"},
+          {name: "gray800", contrast: 11.5, value: "#efefef"},
+          {name: "gray900", contrast: 17.5, value: "#ffffff"},
+          {name: "gray1000", contrast: 31, value: "#ffffff"}
+        ]
+      },
+      {
+        name: 'blue',
+        values: [
+          {name: "blue100", contrast: 2.5, value: "#6f45ff"},
+          {name: "blue200", contrast: 4, value: "#9d73ff"},
+          {name: "blue300", contrast: 6.25, value: "#c3a3ff"},
+          {name: "blue400", contrast: 11.5, value: "#f4edff"},
+          {name: "blue500", contrast: 17.5, value: "#ffffff"}
+        ]
+      },
+      {
+        name: 'red',
+        values: [
+          {name: "red100", contrast: 2.5, value: "#da0000"},
+          {name: "red200", contrast: 4, value: "#ff4b4b"},
+          {name: "red300", contrast: 6.25, value: "#ff9494"},
+          {name: "red400", contrast: 11.5, value: "#ffebeb"},
+          {name: "red500", contrast: 17.5, value: "#ffffff"}
+        ]
+      }
+    ]);
 
 });

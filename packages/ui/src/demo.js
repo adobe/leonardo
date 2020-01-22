@@ -211,14 +211,17 @@ function createColors() {
 
   let varPrefix = '--';
 
-  for (let i=0; i<myTheme.length; i++) {
-    let key = Object.keys(myTheme[i])[0]; // output "name" of color
-    let prop = varPrefix.concat(key);
-    let value = Object.values(myTheme[i])[0]; // output value of color
+  for (let i=0; i<myTheme.length; i++) { // for each color
+    for(let j=0; j<myTheme[i].values.length; j++) { // for each value object
+      let key = myTheme[i].values[j].name; // output "name" of color
+      let prop = varPrefix.concat(key);
+      let value = myTheme[i].values[j].value; // output value of color
 
-    document.documentElement.style
-      .setProperty(prop, value);
+      document.documentElement.style
+        .setProperty(prop, value);
+    }
   }
+
 }
 createColors();
 

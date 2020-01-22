@@ -11,9 +11,17 @@ governing permissions and limitations under the License.
 
 import { ratioName } from '../index.js';
 
-test('should do something', function() {
+test('should output 10 numbers incremented by 100', function() {
   let theme = ratioName([1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);;
 
   expect(theme).toEqual([100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]);
+
+});
+
+
+test('should output 10 numbers with first at 50', function() {
+  let theme = ratioName([-1.5, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);;
+
+  expect(theme).toEqual([50, 100, 200, 300, 400, 500, 600, 700, 800, 900]);
 
 });

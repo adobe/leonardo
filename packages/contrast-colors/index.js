@@ -289,10 +289,6 @@ function luminance(r, g, b) {
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
 
-// function percievedLum(r, g, b) {
-//   return (0.299*r + 0.587*g + 0.114*b);
-// }
-
 function contrast(color, base, baseV) {
   let colorLum = luminance(color[0], color[1], color[2]);
   let baseLum = luminance(base[0], base[1], base[2]);
@@ -346,7 +342,7 @@ function ratioName(r) {
     let d = 1/(rNeg.length + 1);
     let m = d * 100;
     let nVal = m * (i + 1);
-    nArr.push(nVal.toFixed());
+    nArr.push(Number(nVal.toFixed()));
   }
   // Name the positive values
   for (let i=0; i < rPos.length; i++) {
@@ -384,12 +380,24 @@ function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1
       }
       let name = colorScales[i].name;
       let ratios = colorScales[i].ratios;
+      let newArr = [];
+      let colorObj = {
+        name: name,
+        values: newArr
+      }
 
       ratios = ratios.map(function(d) {
         let r;
-        if(d >= 1) { r = ((d-1) * contrast) + 1;}
-        else if(d < 0) { r = ((d+1) * contrast) - 1; }
-        return r;
+        if(d > 1) {
+          r = ((d-1) * contrast) + 1;
+        }
+        else if(d < -1) {
+          r = ((d+1) * contrast) - 1;
+        }
+        else {
+          r = 1;
+        }
+        return Number(r.toFixed(2));
       });
 
       let outputColors = generateContrastColors({
@@ -403,10 +411,13 @@ function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1
         let n = name.concat(rVal);
 
         let obj = {
-          [n]: outputColors[i]
+          name: n,
+          contrast: ratios[i],
+          value: outputColors[i]
         }
-        arr.push(obj)
+        newArr.push(obj)
       }
+      arr.push(colorObj);
     }
 
     return arr;
