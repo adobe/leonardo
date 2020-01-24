@@ -13,7 +13,7 @@ Pass your colors and desired ratios. See additional options below.
 ```js
 import { generateAdaptiveTheme } from '@adobe/leonardo-contrast-colors';
 
-// returns theme colors as key-value pairs
+// returns theme colors as JSON
 let myTheme = generateAdaptiveTheme({
   baseScale: {
     colorKeys: ['#cacaca'],
@@ -59,7 +59,7 @@ Returned function:
 myTheme(brightness, contrast);
 ```
 
-**baseScale** *{object}*: an object housing parameters required for [generating a base scale](#generateBaseScale).
+**baseScale** *{object}*: an object housing parameters required for [generating a base scale](#generateBaseScale). This creates a scale of values from 0-100 in lightness, which is used for `brightness` parameter. Ie. `brightness: 90` returns the 90% lightness value of the base scale. 
 
 **colorScales** *[array of objects]*: each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors) with the exception of the `name` parameter.
 
@@ -79,20 +79,24 @@ Colors with a **negative contrast ratio** with the base (ie -2:1) will be named 
 Here is an example output from a theme:
 ```js
 [
-  {gray50: "#e9ecf1"},
-  {gray100: "#dde1e9"},
-  {gray200: "#d0d6e1"},
-  {gray300: "#c3cbd9"},
-  {gray400: "#b3bdce"},
-  {gray500: "#a0adc2"},
-  {gray600: "#8998b0"},
-  {gray700: "#71829c"},
-  {purple100: "#eadbfd"},
-  {purple200: "#e1cefc"},
-  {purple300: "#d6bcfa"},
-  {blue100: "#a9ecfe"},
-  {blue200: "#90e1fd"},
-  {blue300: "#68d4fe"}
+  {
+    name: 'gray',
+    values: [
+      {name: "gray100", contrast: 1, value: "#e0e0e0"},
+      {name: "gray200", contrast: 2, value: "#a0a0a0"},
+      {name: "gray300", contrast: 3, value: "#808080"},
+      {name: "gray400", contrast: 4.5, value: "#646464"}
+    ]
+  },
+  {
+    name: 'blue',
+    values: [
+      {name: "blue100", contrast: 2, value: "#b18cff"},
+      {name: "blue200", contrast: 3, value: "#8d63ff"},
+      {name: "blue300", contrast: 4.5, value: "#623aff"},
+      {name: "blue400", contrast: 8, value: "#1c0ad1"}
+    ]
+  }
 ]
 ```
 
@@ -133,21 +137,30 @@ myTheme(95, 1.2) // outputs colors with background lightness of 95 and ratios in
 
 ###### Creating static instances of your theme
 ```js
-let lightTheme = generateAdaptiveTheme(95);     // theme on light gray
-let darkTheme = generateAdaptiveTheme(20, 1.3); // theme on dark gray with increased contrast
+// theme on light gray
+let lightTheme = generateAdaptiveTheme(95);
+
+// theme on dark gray with increased contrast
+let darkTheme = generateAdaptiveTheme(20, 1.3);
 ```
 
 ###### Assigning output to CSS properties
 ```js
 let varPrefix = '--';
 
+// Iterate each color object
 for (let i=0; i<myTheme.length; i++) {
-  let key = Object.keys(myTheme[i])[0]; // output "name" of color
-  let prop = varPrefix.concat(key);
-  let value = Object.values(myTheme[i])[0]; // output value of color
-
-  document.documentElement.style
-    .setProperty(prop, value);
+  // Iterate each value object within each color object
+  for(let j=0; j<myTheme[i].values.length; j++) {
+    // output "name" of color and prefix
+    let key = myTheme[i].values[j].name;
+    let prop = varPrefix.concat(key);
+    // output value of color
+    let value = myTheme[i].values[j].value;
+    // create CSS property with name and value
+    document.documentElement.style
+      .setProperty(prop, value);
+  }
 }
 ```
 
