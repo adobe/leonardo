@@ -65,11 +65,14 @@ An object housing parameters required for [generating a base scale](#generateBas
 #### `colorScales` *[array of objects]*:
 Each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors) with the exception of the `name` parameter.
 
-#### `name` *string*: unique name for each color scale. This value will be used for the output color keys, ie `blue100: '#5CDBFF'`
+#### `name` *string*:
+Unique name for each color scale. This value will be used for the output color keys, ie `blue100: '#5CDBFF'`
 
-#### `brightness` *number*: optional value from 0-100 indicating the brightness of the base / background color. If undefined, `generateAdaptiveTheme` will return a function
+#### `brightness` *number*:
+Optional value from 0-100 indicating the brightness of the base / background color. If undefined, `generateAdaptiveTheme` will return a function
 
-#### `contrast` *integer*: optional value to increase contrast of your generated colors. This value is multiplied against all ratios defined for each color scale.
+#### `contrast` *integer*:
+Optional value to increase contrast of your generated colors. This value is multiplied against all ratios defined for each color scale.
 
 #### Output
 The `generateAdaptiveTheme` function returns an array of color objects. Each key is named by concatenating the user-defined color name (above) with a numeric value.
@@ -174,13 +177,17 @@ Primary function used to generate colors based on target contrast ratios. Parame
 generateContrastColors({colorKeys, base, ratios, colorspace})
 ```
 
-#### `colorKeys` *[array]*: list of colors referenced to generate a lightness scale. Much like [key frames](https://en.wikipedia.org/wiki/Key_frame), key colors are single points by which additional colors will be interpolated between.
+#### `colorKeys` *[array]*:
+List of colors referenced to generate a lightness scale. Much like [key frames](https://en.wikipedia.org/wiki/Key_frame), key colors are single points by which additional colors will be interpolated between.
 
-#### `base` *string*: references the color value that the color is to be generated from.
+#### `base` *string*:
+References the color value that the color is to be generated from.
 
-#### `ratios` *[array]*: list of numbers to be used as target contrast ratios.
+#### `ratios` *[array]*:
+List of numbers to be used as target contrast ratios.
 
-#### `colorspace` *string*: the colorspace in which the key colors will be interpolated within. Below are the available options:
+#### `colorspace` *string*:
+The colorspace in which the key colors will be interpolated within. Below are the available options:
 
 - [Lch](https://en.wikipedia.org/wiki/HCL_color_space)
 - [Lab](https://en.wikipedia.org/wiki/CIELAB_color_space)
