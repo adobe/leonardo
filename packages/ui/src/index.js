@@ -393,8 +393,30 @@ window.openTab = function openTab(evt, tabName) {
   evt.currentTarget.className += " is-selected";
 }
 
+window.openAppTab = function openAppTab(evt, tabName) {
+  // Declare all variables
+  var i, appTabContent, apptablinks;
+
+  // Get main tab containers and hide them
+  appTabContent = document.getElementsByClassName("appTabContent");
+  for (let i = 0; i < appTabContent.length; i++) {
+    appTabContent[i].style.display = "none";
+  }
+
+  // Get all main tabs with class="spectrum-Tabs-item" and remove the class "active"
+  apptablinks = document.getElementsByClassName("app-Tabs-item");
+  for (let i = 0; i < apptablinks.length; i++) {
+    apptablinks[i].className = apptablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "grid";
+  evt.currentTarget.className += " is-selected";
+}
+
 // Open default tabs
 document.getElementById("tabDemo").click();
+document.getElementById("tabColor").click();
 
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);

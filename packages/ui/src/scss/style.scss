@@ -35,13 +35,39 @@ body {
   height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 324px auto 240px;
+  grid-template-columns: auto;
   grid-template-rows: var(--header-height) auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas:
-    "header header header"
+    "header"
+    "default";
+}
+.appFramePanels {
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 324px auto 240px;
+  grid-template-rows: auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
     "leftPanel main rightPanel";
+}
+.appFramePanelLeft {
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 240px;
+  grid-template-rows: auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    "main rightPanel";
 }
 .spectrum-AppHeader {
   grid-area: header;
@@ -55,9 +81,15 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-.spectrum-AppHeader--right {
+.spectrum-AppHeader_item {
   display: flex;
   flex-direction: row;
+  align-items: center;
+
+  .spectrum-Tabs {
+    height: 57px;
+    margin-left: 48px;
+  }
 }
 .spectrum-AppHeader-Title {
   margin: 0;
@@ -760,4 +792,31 @@ a:focus {
 
 .spectrum-Dropdown--quiet {
   min-width: var(--spectrum-dropdown-quiet-min-width, 200px);
+}
+
+// Theme styles
+#themeConfigWrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--spectrum-panel-background-color);
+  padding: 8px 16px 16px;
+  max-width: 800px;
+  justify-self: center;
+}
+.themeTitle {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+.themeConfig {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  .spectrum-Form ~ .spectrum-ButtonGroup {
+    margin-left: 16px;
+    border-left: 1px solid #e1e1e1;
+    padding-left: 16px;
+  }
 }
