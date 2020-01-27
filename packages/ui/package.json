@@ -53,6 +53,7 @@
     "@spectrum-css/fieldgroup": "^2.0.2",
     "@spectrum-css/fieldlabel": "^2.0.2",
     "@spectrum-css/icon": "^2.0.2",
+    "@spectrum-css/illustratedmessage": "2.0.0",
     "@spectrum-css/link": "^2.0.2",
     "@spectrum-css/menu": "^2.1.1",
     "@spectrum-css/page": "^2.0.2",

@@ -31,6 +31,7 @@ import '@spectrum-css/buttongroup/dist/index-vars.css';
 import '@spectrum-css/tooltip/dist/index-vars.css';
 import '@spectrum-css/slider/dist/index-vars.css';
 import '@spectrum-css/tabs/dist/index-vars.css';
+import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 
 import './scss/colorinputs.scss';
 import './scss/charts.scss';
@@ -69,6 +70,7 @@ Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
 
 import * as charts from './charts.js';
 import * as chartData from './data.js';
+import * as theme from './theme.js';
 
 var bgFieldInput = document.getElementById('bgField');
 var background = bgFieldInput.value;

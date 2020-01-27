@@ -795,18 +795,35 @@ a:focus {
 }
 
 // Theme styles
-#themeConfigWrapper {
-  display: flex;
-  flex-direction: column;
+#themeWrapper {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  grid-template-columns: auto;
+  grid-template-rows: 116px calc(100vh - var(--header-height) - 116px);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    "themeConfig"
+    "themeDefault";
+
   background-color: var(--spectrum-panel-background-color);
+}
+.themeConfigWrapper {
   padding: 8px 16px 16px;
-  max-width: 800px;
-  justify-self: center;
+  grid-area: themeConfig;
+  border-bottom: 2px solid var(--spectrum-panel-border-color);
 }
 .themeTitle {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
+
+  .spectrum-ButtonGroup {
+    margin-top: -7px;
+    margin-bottom: 4px;
+  }
 }
 .themeConfig {
   display: flex;
@@ -819,4 +836,31 @@ a:focus {
     border-left: 1px solid #e1e1e1;
     padding-left: 16px;
   }
+}
+.themeColorWrapper {
+  padding: 16px;
+  background-color: var(--spectrum-global-color-gray-300);
+  grid-area: themeDefault;
+  overflow: auto;
+}
+
+.themeColor_item {
+  border: 1px solid var(--spectrum-panel-border-color);
+  border-radius: 4px;
+  background-color: var(--spectrum-global-color-gray-100);
+  overflow: hidden;
+}
+.themeColor_gradient {
+  height: 32px;
+  width: 100%;
+  background-color: #ffffff;
+}
+.themeColor_configs {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding: 8px 16px 16px;
+}
+.keyColor-wrapper {
+  background-color: #e1e1e1;
 }

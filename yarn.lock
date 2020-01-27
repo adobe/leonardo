@@ -2419,6 +2419,11 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/icon/-/icon-2.0.2.tgz#1e325863f042945d77badc0588f6600d6f9d1b89"
   integrity sha512-n3JYSPNia7KU9iTtN0ROw5bnq8XziOVENi7Zx/bLcR47mw9+oxmAnYRVK81WAzDIY9t0S8OIVA6wv0TJJ/6QtQ==
 
+"@spectrum-css/illustratedmessage@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/illustratedmessage/-/illustratedmessage-2.0.0.tgz#2f565fb2e80bfb742b3ab2e10cb022cadf9b44a2"
+  integrity sha512-8AN8K0QJB9pBofjfje+jNSzML+d21tRLkI2CtziyzvQfKOHj0u7ofxHQqP/r08Ot/lC54gGA3dcHxDjCjhv6gA==
+
 "@spectrum-css/link@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/link/-/link-2.0.2.tgz#577499c9ef7d7e53c3c2893f358bbe3766c3c2e9"
