@@ -85,7 +85,7 @@ if (viewportHeight < 640) {
   yOrigin = chartHeight;
 } else if (viewportHeight >= 640 && viewportHeight < 800) {
   modelScale = 30;
-  yOrigin = chartHeight/1.5;
+  yOrigin = chartHeight/1.25;
 } else if (viewportHeight >= 800 && viewportHeight < 900) {
   modelScale = 40;
   yOrigin = chartHeight/1.25;
