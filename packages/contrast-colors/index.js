@@ -242,7 +242,7 @@ function generateContrastColors({
   }
   for (let i=0; i<colorKeys.length; i++) {
     if (colorKeys[i].length < 6) {
-      throw new Error('Color Key has improper length');
+      throw new Error('Color Key must be greater than 6 and include hash # if hex.');
     }
     else if (colorKeys[i].length == 6 && colorKeys[i].charAt(0) != 0) {
       throw new Error('Color Key missing hash #');
@@ -316,6 +316,7 @@ function contrast(color, base, baseV) {
 
 function minPositive(r) {
   if (!r) { throw new Error('Array undefined');}
+  if (!Array.isArray(r)) { throw new Error('Passed object is not an array');}
   let arr = [];
 
   for(let i=0; i < r.length; i++) {
@@ -355,18 +356,21 @@ function ratioName(r) {
 
 function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1}) {
   if (!baseScale) {
-    throw new Error(`baseScale is undefined`);
+    throw new Error('baseScale is undefined');
   }
   if (typeof baseScale !== 'object') {
-    throw new Error('baseScale must be an object')
+    throw new Error('baseScale must be an object');
   }
   if (!colorScales) {
-    throw new Error(`colorScales are undefined`);
+    throw new Error('colorScales are undefined');
+  }
+  if (!Array.isArray(colorScales)) {
+    throw new Error('colorScales must be an array of objects');
   }
 
   if (brightness === undefined) {
     return function(brightness, contrast) {
-      return generateAdaptiveTheme({baseScale: baseScale, colorScales: colorScales, brightness: brightness, contrast: contrast})
+      return generateAdaptiveTheme({baseScale: baseScale, colorScales: colorScales, brightness: brightness, contrast: contrast});
     }
   }
   else {
@@ -374,7 +378,7 @@ function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1
     let bval = bscale[brightness];
     let arr = [];
 
-    for (let i=0; i < colorScales.length; i ++) {
+    for (let i = 0; i < colorScales.length; i++) {
       if (!colorScales[i].name) {
         throw new Error('Color missing name');
       }
@@ -384,7 +388,7 @@ function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1
       let colorObj = {
         name: name,
         values: newArr
-      }
+      };
 
       ratios = ratios.map(function(d) {
         let r;
@@ -414,7 +418,7 @@ function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1
           name: n,
           contrast: ratios[i],
           value: outputColors[i]
-        }
+        };
         newArr.push(obj)
       }
       arr.push(colorObj);

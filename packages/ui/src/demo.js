@@ -18,7 +18,7 @@ function setup() {
   let br = document.getElementById('sliderBrightness');
   br.min= "0";
   br.max= "100";
-  br.defaultValue = '95';
+  br.defaultValue = "95";
 
   let calendar = document.getElementById('calendar')
   calendar.innerHTML = ' ';

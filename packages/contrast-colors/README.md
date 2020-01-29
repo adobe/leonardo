@@ -154,9 +154,9 @@ let darkTheme = generateAdaptiveTheme(20, 1.3);
 let varPrefix = '--';
 
 // Iterate each color object
-for (let i=0; i<myTheme.length; i++) {
+for (let i = 0; i < myTheme.length; i++) {
   // Iterate each value object within each color object
-  for(let j=0; j<myTheme[i].values.length; j++) {
+  for(let j = 0; j < myTheme[i].values.length; j++) {
     // output "name" of color and prefix
     let key = myTheme[i].values[j].name;
     let prop = varPrefix.concat(key);
