@@ -697,8 +697,8 @@ function colorInput() {
   // update URL parameters
   updateParams(inputColors, background.substr(1), ratioInputs, mode);
 
-  chartData.createData(scaleData.colors);
-  charts.showCharts('CAM02');
+  let data = chartData.createData(scaleData.colors);
+  charts.showCharts('CAM02', data);
   colorSpaceFeedback('CAM02'); // manually enter default of CAM02
 }
 window.onresize = colorInput;
@@ -892,9 +892,11 @@ window.colorSpaceFeedback = colorSpaceFeedback;
 
 function updateCharts(selectObject) {
   let spaceOpt = selectObject.value;
+  let colorInterpSpace = document.querySelector('select[name="mode"]').value;
 
   charts.init3dChart();
-  charts.showCharts(spaceOpt);
+
+  charts.showCharts(spaceOpt, colorInterpSpace);
   colorSpaceFeedback(spaceOpt);
 }
 window.updateCharts = updateCharts;
