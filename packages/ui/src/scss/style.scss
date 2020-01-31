@@ -837,7 +837,7 @@ a:focus {
     padding-left: 16px;
   }
 }
-.themeColorWrapper {
+#themeColorWrapper {
   padding: 16px;
   background-color: var(--spectrum-global-color-gray-300);
   grid-area: themeDefault;
@@ -849,6 +849,16 @@ a:focus {
   border-radius: 4px;
   background-color: var(--spectrum-global-color-gray-100);
   overflow: hidden;
+
+  .spectrum-Dropdown select + .spectrum-Dropdown-iconWrapper {
+    position: absolute;
+    right: var(--spectrum-dropdown-padding-x, var(--spectrum-global-dimension-size-150));
+    top: 4px;
+    margin-top: calc(var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75)) / -2);
+  }
+}
+.themeColor_item ~ .themeColor_item {
+  margin-top: 16px;
 }
 .themeColor_gradient {
   height: 32px;
@@ -861,6 +871,14 @@ a:focus {
   align-items: flex-end;
   padding: 8px 16px 16px;
 }
-.keyColor-wrapper {
-  background-color: #e1e1e1;
+.keyColorsWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding: 2px; /* To ensure focus rings are visible */
+  margin: -2px;
+  flex-wrap: wrap;
+  min-height: 32px;
+  max-height: 32px;
+  overflow: auto;
 }

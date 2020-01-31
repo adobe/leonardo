@@ -419,6 +419,9 @@ window.openAppTab = function openAppTab(evt, tabName) {
 // Open default tabs
 document.getElementById("tabDemo").click();
 document.getElementById("tabColor").click();
+// Re-update parameters on tab changes
+document.getElementById("tabColor").addEventListener('click', colorInput);
+document.getElementById("tabTheme").addEventListener('click', colorInput);
 
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
@@ -729,39 +732,46 @@ function colorInput() {
 }
 window.onresize = colorInput;
 
-
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
+  let tabColor = document.getElementById("tabColor");
+  let tabTheme = document.getElementById("tabTheme");
 
-  params.set('colorKeys', c);
-  params.set('base', b);
-  params.set('ratios', r);
-  params.set('mode', m);
+  if(tabTheme.classList.contains('is-selected')) {
 
-  var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
-  cStrings = cStrings + '"';
+    window.history.replaceState({}, '', '?' + params); // update the page's URL.
+  }
+  else if (tabColor.classList.contains('is-selected')) {
+    params.set('colorKeys', c);
+    params.set('base', b);
+    params.set('ratios', r);
+    params.set('mode', m);
 
-  window.history.replaceState({}, '', '?' + params); // update the page's URL.
+    var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
+    cStrings = cStrings + '"';
 
-  var p = document.getElementById('params');
-  p.innerHTML = " ";
-  var call = 'generateContrastColors({ ';
-  var pcol = 'colorKeys: [' + cStrings + '], ';
-  var pbas = 'base: "#'+ b + '", ';
-  var prat = 'ratios: [' + r + '], ';
-  var pmod = ' colorspace: "' + m + '"});';
-  let text1 = document.createTextNode(call);
-  let text2 = document.createTextNode(pcol);
-  let text3 = document.createTextNode(pbas);
-  let text4 = document.createTextNode(prat);
-  let text7 = document.createTextNode(pmod);
-  p.appendChild(text1);
-  p.appendChild(text2);
-  p.appendChild(text3);
-  p.appendChild(text4);
-  p.appendChild(text7);
+    window.history.replaceState({}, '', '?' + params); // update the page's URL.
+
+    var p = document.getElementById('params');
+    p.innerHTML = " ";
+    var call = 'generateContrastColors({ ';
+    var pcol = 'colorKeys: [' + cStrings + '], ';
+    var pbas = 'base: "#'+ b + '", ';
+    var prat = 'ratios: [' + r + '], ';
+    var pmod = ' colorspace: "' + m + '"});';
+    let text1 = document.createTextNode(call);
+    let text2 = document.createTextNode(pcol);
+    let text3 = document.createTextNode(pbas);
+    let text4 = document.createTextNode(prat);
+    let text7 = document.createTextNode(pmod);
+    p.appendChild(text1);
+    p.appendChild(text2);
+    p.appendChild(text3);
+    p.appendChild(text4);
+    p.appendChild(text7);
+  }
 }
 
 // Sort swatches in UI
@@ -925,7 +935,176 @@ function updateCharts(selectObject) {
 }
 window.updateCharts = updateCharts;
 
-// Temporary
-window.generateBaseScale = generateBaseScale;
-window.minPositive = minPositive;
-window.ratioName = ratioName;
+/* ---------------------------  */
+/*     CREATE THEME SCRIPTS     */
+/* ---------------------------
+1. Generate Color Scale object
+2. For each color scale object, function for color inputs.
+3. AddColor function (per object)
+4. Delete object
+5. Add object (run generate color)
+6. Param setup
+7. Param input (read if has params )
+8. Function output
+9. Colors output (for each object, output colors in panel)
+10. Toggle configs visibility
+11. Brightness slider value sync
+12. Base color input options based on color objects available
+13. Add color from Leonardo URL
+14.
+*/
+
+window.addColorScale = addColorScale;
+function addColorScale() {
+  // create unique ID for color object
+  let thisId = randomId();
+  // generate color input objects:
+  // gradient, inputs, etc.
+  let wrapper = document.getElementById('themeColorWrapper');
+  // Remove empty state
+  if(!document.getElementById('themeColorEmptyState')) {
+    // Do nothing
+  } else {
+    wrapper.innerHTML = ' ';
+  }
+
+  // Create theme item
+  let item = document.createElement('div');
+  item.className = 'themeColor_item';
+  item.id = thisId;
+
+  // Create gradient
+  let gradient = document.createElement('div');
+  gradient.className = 'themeColor_gradient';
+  gradient.id = thisId.concat('_gradient');
+
+  // Create form container
+  let inputs = document.createElement('div');
+  inputs.className = 'spectrum-Form spectrum-Form--row themeColor_configs';
+
+  // Color Name Input
+  let colorName = document.createElement('div');
+  colorName.className = 'spectrum-Form-item';
+  let colorNameLabel = document.createElement('label');
+  colorNameLabel.className = 'spectrum-FieldLabel';
+  colorNameLabel.for = thisId.concat('_colorName');
+  let colorNameInput = document.createElement('input');
+  colorNameInput.type = 'text';
+  colorNameInput.className = 'spectrum-Textfield';
+  colorNameInput.id = thisId.concat('_colorName');
+  colorNameInput.name = thisId.concat('_colorName');
+  colorNameLabel.innerHTML = 'Color name';
+  colorName.appendChild(colorNameLabel);
+  colorName.appendChild(colorNameInput);
+
+  // Key Color Input
+  let keyColors = document.createElement('div');
+  keyColors.className = 'spectrum-Form-item';
+  let keyColorsLabel = document.createElement('label');
+  keyColorsLabel.className = 'spectrum-FieldLabel';
+  keyColorsLabel.for = thisId.concat('_keyColors');
+  let keyColorsInput = document.createElement('div');
+  keyColorsInput.className = 'keyColorsWrapper';
+  keyColorsInput.id = thisId.concat('_keyColors');
+  keyColorsLabel.innerHTML = 'Key colors';
+  keyColors.appendChild(keyColorsLabel);
+  keyColors.appendChild(keyColorsInput);
+
+  // Key Colors Actions
+  let addColors = document.createElement('div');
+  addColors.className = 'spectrum-Form-item';
+  let addButton = document.createElement('button');
+  addButton.className = 'spectrum-ActionButton';
+  addButton.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+    <use xlink:href="#spectrum-icon-18-Add" />
+  </svg>
+  `
+  // addButton.addEventListener('click', addKeyColor); // TODO => Write addKeyColor(); function
+  addColors.appendChild(addButton);
+
+  // Interpolation mode
+  let interp = document.createElement('div');
+  interp.className = 'spectrum-Form-item';
+  let interpLabel = document.createElement('label');
+  interpLabel.className = 'spectrum-FieldLabel spectrum-FieldLabel--left';
+  interpLabel.for = thisId.concat('_mode');
+  let interpLabelText = 'Colorspace interpolation';
+  let interpDropdown = document.createElement('div');
+  interpDropdown.className = 'spectrum-Dropdown';
+  interpDropdown.id = thisId.concat('_modeDropdown');
+  let interpSelect = document.createElement('select');
+  interpSelect.className = 'spectrum-FieldButton spectrum-Dropdown-trigger';
+  interpSelect.id = thisId.concat('_mode');
+  interpSelect.name = thisId.concat('_mode');
+  let interpDropdownIcon = document.createElement('span');
+  interpDropdownIcon.className = 'spectrum-Dropdown-iconWrapper';
+  interpDropdownIcon.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+  </svg>`;
+  console.log(interpDropdownIcon);
+
+  interpLabel.innerHTML = interpLabelText;
+  interpDropdown.appendChild(interpSelect);
+  interpDropdown.appendChild(interpDropdownIcon);
+  interp.appendChild(interpLabel);
+  interp.appendChild(interpDropdown);
+
+  // Ratios
+  let ratios = document.createElement('div');
+  ratios.className = 'spectrum-Form-item';
+  let ratiosLabel = document.createElement('label');
+  ratiosLabel.className = 'spectrum-FieldLabel';
+  ratiosLabel.innerHTML = 'Contrast ratios';
+  ratiosLabel.for = thisId.concat('_ratios');
+  let ratiosInput = document.createElement('input');
+  ratiosInput.type = 'text';
+  ratiosInput.placeholder = '3, 4.5';
+  ratiosInput.className = 'spectrum-Textfield';
+  ratiosInput.id = thisId.concat('_ratios');
+  ratiosInput.name = thisId.concat('_ratios');
+  ratios.appendChild(ratiosLabel);
+  ratios.appendChild(ratiosInput);
+
+  // Actions
+  let actions = document.createElement('div');
+  actions.className = 'spectrum-ButtonGroup spectrum-Form-item';
+  let edit = document.createElement('button');
+  edit.className = 'spectrum-ActionButton';
+  edit.innerHTML = `
+  <!-- <span class="spectrum-ActionButton-label">Add from URL</span> -->
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+    <use xlink:href="#spectrum-icon-18-Edit" />
+  </svg>`
+  // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
+  let deleteColor = document.createElement('button');
+  deleteColor.className = 'spectrum-ActionButton';
+  deleteColor.innerHTML = `
+  <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+    <use xlink:href="#spectrum-icon-18-Delete" />
+  </svg>`;
+  // deleteColor.addEventListener('click', deleteColor) // TODO => create deleteColor function to remove this object.
+  actions.appendChild(edit);
+  actions.appendChild(deleteColor);
+
+  // Put it all together
+  inputs.appendChild(colorName);
+  inputs.appendChild(keyColors);
+  inputs.appendChild(addColors)
+  inputs.appendChild(interp);
+  inputs.appendChild(ratios);
+  inputs.appendChild(actions);
+
+  item.appendChild(gradient);
+  item.appendChild(inputs);
+
+  wrapper.appendChild(item);
+}
+
+// Calculate Color and generate Scales
+window.themeInput = themeInput;
+function themeInput() {
+
+}
