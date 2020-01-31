@@ -1051,6 +1051,23 @@ function addColorScale() {
   interp.appendChild(interpLabel);
   interp.appendChild(interpDropdown);
 
+  // Interpolation options
+  interpSelect.options.length = 0;
+
+  let opts = {
+      'CAM02': 'CIECAM02',
+      'LCH': 'Lch',
+      'LAB': 'Lab',
+      'HSL': 'HSL',
+      'HSLuv': 'HSLuv',
+      'HSV': 'HSV',
+      'RGB': 'RGB'
+    };
+  for(let index in opts) {
+    interpSelect.options[interpSelect.options.length] = new Option(opts[index], index);
+  }
+  interpSelect.value = 'CAM02';
+
   // Ratios
   let ratios = document.createElement('div');
   ratios.className = 'spectrum-Form-item';
