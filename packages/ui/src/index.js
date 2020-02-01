@@ -976,7 +976,8 @@ function addColorScale() {
   // Create gradient
   let gradient = document.createElement('div');
   gradient.className = 'themeColor_gradient';
-  gradient.id = thisId.concat('_gradient');
+  let gradientId = thisId.concat('_gradient');
+  gradient.id = gradientId;
 
   // Create form container
   let inputs = document.createElement('div');
@@ -990,9 +991,11 @@ function addColorScale() {
   colorNameLabel.for = thisId.concat('_colorName');
   let colorNameInput = document.createElement('input');
   colorNameInput.type = 'text';
-  colorNameInput.className = 'spectrum-Textfield';
+  colorNameInput.className = 'spectrum-Textfield colorNameInput';
   colorNameInput.id = thisId.concat('_colorName');
   colorNameInput.name = thisId.concat('_colorName');
+  colorNameInput.placeholder = 'My Color';
+  colorNameInput.onchange = throttle(themeInput, 10);
   colorNameLabel.innerHTML = 'Color name';
   colorName.appendChild(colorNameLabel);
   colorName.appendChild(colorNameInput);
@@ -1005,7 +1008,8 @@ function addColorScale() {
   keyColorsLabel.for = thisId.concat('_keyColors');
   let keyColorsInput = document.createElement('div');
   keyColorsInput.className = 'keyColorsWrapper';
-  keyColorsInput.id = thisId.concat('_keyColors');
+  let keyColorsId = thisId.concat('_keyColors');
+  keyColorsInput.id = keyColorsId;
   keyColorsLabel.innerHTML = 'Key colors';
   keyColors.appendChild(keyColorsLabel);
   keyColors.appendChild(keyColorsInput);
@@ -1015,19 +1019,21 @@ function addColorScale() {
   addColors.className = 'spectrum-Form-item';
   let addButton = document.createElement('button');
   addButton.className = 'spectrum-ActionButton';
+  let buttonId = thisId.concat('_addKeyColor');
+  addButton.id = buttonId;
+  addButton.onclick = themeAddColor;
   addButton.innerHTML = `
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-Add" />
   </svg>
-  `
-  // addButton.addEventListener('click', addKeyColor); // TODO => Write addKeyColor(); function
+  `;
   addColors.appendChild(addButton);
 
   // Interpolation mode
   let interp = document.createElement('div');
   interp.className = 'spectrum-Form-item';
   let interpLabel = document.createElement('label');
-  interpLabel.className = 'spectrum-FieldLabel spectrum-FieldLabel--left';
+  interpLabel.className = 'spectrum-FieldLabel';
   interpLabel.for = thisId.concat('_mode');
   let interpLabelText = 'Colorspace interpolation';
   let interpDropdown = document.createElement('div');
@@ -1037,13 +1043,13 @@ function addColorScale() {
   interpSelect.className = 'spectrum-FieldButton spectrum-Dropdown-trigger';
   interpSelect.id = thisId.concat('_mode');
   interpSelect.name = thisId.concat('_mode');
+  interpSelect.oninput = throttle(themeInput, 20);
   let interpDropdownIcon = document.createElement('span');
   interpDropdownIcon.className = 'spectrum-Dropdown-iconWrapper';
   interpDropdownIcon.innerHTML = `
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
     <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
   </svg>`;
-  console.log(interpDropdownIcon);
 
   interpLabel.innerHTML = interpLabelText;
   interpDropdown.appendChild(interpSelect);
@@ -1055,17 +1061,16 @@ function addColorScale() {
   interpSelect.options.length = 0;
 
   let opts = {
-      'CAM02': 'CIECAM02',
-      'LCH': 'Lch',
-      'LAB': 'Lab',
-      'HSL': 'HSL',
-      'HSLuv': 'HSLuv',
-      'HSV': 'HSV',
-      'RGB': 'RGB'
-    };
-  for(let index in opts) {
-    interpSelect.options[interpSelect.options.length] = new Option(opts[index], index);
-  }
+    'CAM02': 'CIECAM02',
+    'LCH': 'Lch',
+    'LAB': 'Lab',
+    'HSL': 'HSL',
+    'HSLuv': 'HSLuv',
+    'HSV': 'HSV',
+    'RGB': 'RGB'
+  };
+
+  for(let index in opts) { interpSelect.options[interpSelect.options.length] = new Option(opts[index], index); }
   interpSelect.value = 'CAM02';
 
   // Ratios
@@ -1081,6 +1086,7 @@ function addColorScale() {
   ratiosInput.className = 'spectrum-Textfield';
   ratiosInput.id = thisId.concat('_ratios');
   ratiosInput.name = thisId.concat('_ratios');
+  ratiosInput.oninput = throttle(themeInput, 10);
   ratios.appendChild(ratiosLabel);
   ratios.appendChild(ratiosInput);
 
@@ -1118,10 +1124,157 @@ function addColorScale() {
   item.appendChild(inputs);
 
   wrapper.appendChild(item);
+
+  // Then run functions on the basic placeholder inputs
+  document.getElementById(buttonId).click();
+  // generate the number of values equal to the width of the item
+  let n = window.innerWidth - 272;
+  let rampData = contrastColors.createScale({swatches: n, colorKeys: ['#000000'], colorspace: 'LAB'});
+  let colors = rampData.colors;
+
+  themeRamp(colors, n, gradientId);
+  baseScaleOptions();
 }
 
-// Calculate Color and generate Scales
+function themeRamp(colors, n = window.innerWidth - 272, dest) {
+  let container = document.getElementById(dest);
+  container = d3.select(container);
+
+  let canvas = container.append("canvas")
+    .attr("width", n)
+    .attr("height", 1);
+  let context = canvas.node().getContext("2d");
+
+  canvas.style.height = "32px";
+  canvas.style.width = n;
+  canvas.style.imageRendering = "pixelated";
+  canvas.className = 'themeColor_canvas';
+  for (let i = 1; i < n; ++i) {
+    context.fillStyle = colors[i];
+    context.fillRect(i, 0, 1, 32);
+  }
+  return canvas;
+}
+
+
+// Recreation of addColor function, specifying items needed for theme UI
+function themeAddColor(c) {
+  let thisId = this.id;
+  let parent = thisId.replace('_addKeyColor', '');
+  let destId = parent.concat('_keyColors');
+  let dest = document.getElementById(destId);
+  let div = document.createElement('div');
+
+  let randId = randomId();
+  div.className = 'keyColor';
+  div.id = randId + '-item';
+  let sw = document.createElement('input');
+  sw.type = "color";
+  sw.value = c;
+  sw.oninput = throttle(themeInput, 50);
+
+  sw.className = 'keyColor-Item';
+  sw.id = randId + '-sw';
+  sw.style.backgroundColor = c;
+
+  let button = document.createElement('button');
+  button.className = 'spectrum-ActionButton';
+  button.innerHTML = `
+  <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
+    <use xlink:href="#spectrum-icon-18-Delete" />
+  </svg>`;
+
+  button.onclick = deleteColor;
+  div.appendChild(sw);
+  div.appendChild(button);
+  dest.appendChild(div);
+}
+
+// Create options for colors to use as base scale
+function baseScaleOptions() {
+  let baseSelect = document.getElementById('themeBase');
+  baseSelect.options.length = 0;
+
+  let colorNames = document.getElementsByClassName('colorNameInput');
+  let opts = {};
+  for (let i = 0; i < colorNames.length; i++) {
+    let colorname = colorNames[i].value;
+    console.log(colorname);
+    opts[colorname] = colorname;
+  }
+
+  for(let index in opts) { baseSelect.options[baseSelect.options.length] = new Option(opts[index], index); }
+}
+
 window.themeInput = themeInput;
 function themeInput() {
+  // Run this function any time an object is added or any item is changed.
+  // Gather all color scale objects
+  let items = document.getElementsByClassName('themeColor_item');
+
+  let baseScale = {};
+  let colorScales = [];
+  baseScaleOptions();
+
+  // baseScale: {
+  //   colorKeys: ['#cacaca'],
+  //   colorspace: 'HSL'
+  // },
+  //
+
+  for (let i = 0; i < items.length; i++) {
+    let id = items[i].id;
+    let thisElement = document.getElementById(id);
+    // 1. find color name
+    let colorNameInput = id.concat('_colorName');
+    let colorName = colorNameInput.value;
+    // 2. find all key colors
+    let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
+    let inputColors = [];
+    let tempArgs = [];
+    for(let i=0; i<colorKeys.length; i++) {
+      inputColors.push(colorKeys[i].value);
+    }
+    // Convert input value into a split array of hex values.
+    // remove any whitespace from inputColors
+    tempArgs.push(inputColors);
+    let colorArgs = tempArgs.join("").split(',').filter(String);
+
+    // 3. find mode
+    let modeId = id.concat('_mode');
+    let modeSelect = document.getElementById(modeId);
+    let mode = modeSelect.value;
+
+    // 4. find ratios
+    let ratiosId = id.concat('_ratios');
+    let ratiosInput = document.getElementById(ratiosId);
+    let rVals = ratiosInput.value;
+    let r = new Array(rVals);
+    let rSplit = r.join("").split(',');
+    let ratios = rSplit.map(x => parseFloat(x));
+    // TODO: remove all values of NaN
+
+    // Re generate gradient
+    let gradientId = id.concat('_gradient');
+    let gradient = document.getElementById(gradientId);
+    gradient.innerHTML = ' ';
+    let n = window.innerWidth - 272;
+    let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
+    let colors = rampData.colors;
+    themeRamp(colors, n, gradientId);
+    // - assign properties to an object
+
+    let colorObj = {
+      name: colorName,
+      colorKeys: colorArgs,
+      colorspace: mode,
+      ratios: ratios
+    };
+
+    colorScales.push(colorObj);
+  }
+  // Then, pass all props to 'generateAdaptiveTheme'
+  // For each returned object
+  // display swatch on right panel ?
 
 }

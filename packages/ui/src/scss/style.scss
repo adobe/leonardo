@@ -801,7 +801,7 @@ a:focus {
   padding: 0;
   overflow: hidden;
   grid-template-columns: auto;
-  grid-template-rows: 116px calc(100vh - var(--header-height) - 116px);
+  grid-template-rows: 128px calc(100vh - var(--header-height) - 128px);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas:
@@ -839,7 +839,7 @@ a:focus {
 }
 #themeColorWrapper {
   padding: 16px;
-  background-color: var(--spectrum-global-color-gray-300);
+  background-color: var(--spectrum-global-color-gray-200);
   grid-area: themeDefault;
   overflow: auto;
 }
@@ -850,6 +850,9 @@ a:focus {
   background-color: var(--spectrum-global-color-gray-100);
   overflow: hidden;
 
+  .spectrum-Dropdown {
+    width: 120px;
+  }
   .spectrum-Dropdown select + .spectrum-Dropdown-iconWrapper {
     position: absolute;
     right: var(--spectrum-dropdown-padding-x, var(--spectrum-global-dimension-size-150));
@@ -861,6 +864,8 @@ a:focus {
   margin-top: 16px;
 }
 .themeColor_gradient {
+  display: flex;
+  flex-direction: row;
   height: 32px;
   width: 100%;
   background-color: #ffffff;
@@ -869,16 +874,20 @@ a:focus {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  flex-wrap: wrap;
   padding: 8px 16px 16px;
 }
 .keyColorsWrapper {
   position: relative;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   padding: 2px; /* To ensure focus rings are visible */
   margin: -2px;
   flex-wrap: wrap;
   min-height: 32px;
   max-height: 32px;
+  min-width: 120px;
+  max-width: 216px;
   overflow: auto;
 }
