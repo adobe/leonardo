@@ -1,0 +1,204 @@
+<html>
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156021617-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-156021617-1');
+  </script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Leonardo</title>
+  <meta property="og:title" content="Leonardo">
+  <meta name="description" content="Generate colors based on a desired contrast ratio.">
+  <meta property="og:description" content="Generate colors based on a desired contrast ratio.">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="">
+  <meta name="twitter:card" content="repository-open-graph-leonardo">
+
+  <meta property="og:site_name" content="Leonardo">
+  <meta name="twitter:image:alt" content="Web interface for generating colors based on contrast ratio.">
+
+  <meta name="twitter:site" content="@Leonardo_Color">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+  <link rel="manifest" href="favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap">
+
+</head>
+<body class="spectrum spectrum spectrum--light spectrum--medium appFrame">
+<header class="spectrum-AppHeader">
+  <div class="spectrum-AppHeader_item">
+    <a href="/" id="logoTitle">
+      <img src="images/Leonardo_Logo_sm.svg" alt="Leonardo logo" id="headerLogo">
+      <h1 class="spectrum-Heading5 spectrum-AppHeader-Title">Leonardo</h1>
+    </a>
+
+    <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+      <div class="spectrum-Tabs-item app-Tabs-item" tabindex="0">
+        <label class="spectrum-Tabs-itemLabel">Color</label>
+      </div>
+      <div class="spectrum-Tabs-item app-Tabs-item" tabindex="0">
+        <label class="spectrum-Tabs-itemLabel">Theme</label>
+      </div>
+    </div>
+  </div>
+  <div class="spectrum-AppHeader_item">
+    <a href="https://medium.com/@NateBaldwin/leonardo-an-open-source-contrast-based-color-generator-92d61b6521d2" class="spectrum-ActionButton spectrum-ActionButton--quiet">About</a>
+    <a href="https://www.github.com/adobe/leonardo#leonardo" class="spectrum-ActionButton spectrum-ActionButton--quiet">Docs</a>
+    <a href="demo.html" class="spectrum-ActionButton spectrum-ActionButton--quiet">Demo</a>
+    <a href="converter.html" class="spectrum-ActionButton spectrum-ActionButton--quiet">Converter</a>
+    <a href="https://www.github.com/adobe/leonardo" id="octo-link"> <img id="octocat" src="images/GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
+  </div>
+</header>
+<div class="appFramePanelLeft">
+  <div id="themeWrapper">
+    <div class="themeConfigWrapper">
+      <div class="themeTitle">
+        <h1 class="spectrum-Heading6">Adaptive Theme Configuration</h1>
+        <div class="spectrum-ButtonGroup">
+          <button class="spectrum-ActionButton spectrum-ActionButton--quiet" id="toggleConfigButton" onclick="toggleConfigs()" >
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Toggle Configs Visibility">
+              <use xlink:href="#spectrum-icon-18-VisibilityOff" />
+            </svg>
+            <span class="spectrum-ActionButton-label">Toggle Configs</span>
+          </button>
+        </div>
+      </div>
+      <div class="themeConfig">
+        <form class="spectrum-Form spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <label for="themeName" class="spectrum-FieldLabel">Theme name</label>
+            <input type="text" placeholder="My Adaptive Theme" name="themeName" id="themeName" value="" class="spectrum-Textfield">
+          </div>
+          <div class="spectrum-Form-item">
+            <label for="themeBase" class="spectrum-FieldLabel">Base color</label>
+            <div class="spectrum-Dropdown" id="modeDropdown">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="themeBase" id="themeBase">
+              </select>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </div>
+          </div>
+          <div class="spectrum-Form-item">
+            <div class="spectrum-Slider">
+              <div class="spectrum-Slider-labelContainer">
+                <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightness">Default brightness</label>
+                <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">14</div>
+              </div>
+              <input class="spectrum-Slider-controls" type="range" value="97" min="0" max="100" id="themeBrightnessLabel" name="themeBrightnessLabel" onInput=""></input>
+            </div>
+          </div>
+        </form>
+        <div class="spectrum-ButtonGroup">
+          <button class="spectrum-ActionButton">
+            <span class="spectrum-ActionButton-label">Add from URL</span>
+          </button>
+          <button class="spectrum-ActionButton" onClick="addColorScale()">
+            <span class="spectrum-ActionButton-label">Add Color</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="themeColorWrapper">
+      <!-- Empty state -->
+      <div id="themeColorEmptyState" class="spectrum-IllustratedMessage">
+        <!-- <svg class="spectrum-IllustratedMessage-illustration" xmlns="http://www.w3.org/2000/svg" width="200" height="98" viewBox="0 0 199 97.7"><defs><style>.cls-1,.cls-2{fill:none;stroke-linecap:round;stroke-linejoin:round;}.cls-1{stroke-width:3px;}.cls-2{stroke-width:2px;}</style></defs><title>Asset 1</title><g id="Layer_2" data-name="Layer 2"><g id="illustrations"><path class="cls-1" d="M110.53,85.66,100.26,95.89a1.09,1.09,0,0,1-1.52,0L88.47,85.66"/><line class="cls-1" x1="99.5" y1="95.5" x2="99.5" y2="58.5"/><path class="cls-1" d="M105.5,73.5h19a2,2,0,0,0,2-2v-43"/><path class="cls-1" d="M126.5,22.5h-19a2,2,0,0,1-2-2V1.5h-31a2,2,0,0,0-2,2v68a2,2,0,0,0,2,2h19"/><line class="cls-1" x1="105.5" y1="1.5" x2="126.5" y2="22.5"/><path class="cls-2" d="M47.93,50.49a5,5,0,1,0-4.83-5A4.93,4.93,0,0,0,47.93,50.49Z"/><path class="cls-2" d="M36.6,65.93,42.05,60A2.06,2.06,0,0,1,45,60l12.68,13.2"/><path class="cls-2" d="M3.14,73.23,22.42,53.76a1.65,1.65,0,0,1,2.38,0l19.05,19.7"/><path class="cls-1" d="M139.5,36.5H196A1.49,1.49,0,0,1,197.5,38V72A1.49,1.49,0,0,1,196,73.5H141A1.49,1.49,0,0,1,139.5,72V32A1.49,1.49,0,0,1,141,30.5H154a2.43,2.43,0,0,1,1.67.66l6,5.66"/><rect class="cls-1" x="1.5" y="34.5" width="58" height="39" rx="2" ry="2"/></g></g></svg> -->
+
+        <h2 class="spectrum-Heading spectrum-Heading--pageTitle spectrum-IllustratedMessage-heading">Add colors to begin</h2>
+        <p class="spectrum-Body--secondary spectrum-IllustratedMessage-description">Add colors or import a color from an existing
+Leonardo URL to build your theme.</p>
+      </div>
+    </div>
+    <!-- end Theme Color Wrapper -->
+  </div>
+  <div class="spectrum-Panel spectrum-Panel--small spectrum-Panel--right">
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">Generated Colors</h3>
+        <button id="copyThemeColors" class="spectrum-ActionButton copyButton">
+          <span class="spectrum-ActionButton-label">Copy</span>
+        </button>
+      </div>
+      <div id="themeOutputs">
+      </div>
+    </div>
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Heading6">Function Parameters</h3>
+        <button id="copyThemeParams" data-clipboard-target="#params" class="spectrum-ActionButton copyButton">
+          <span class="spectrum-ActionButton-label">Copy</span>
+        </button>
+      </div>
+      <div id="themeFunctionParams">
+        <span id="themeParams" class="spectrum-Code5"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dialogOverlay" style="display: none;"></div>
+
+<div class="spectrum-Dialog spectrum-Dialog--small" id="addBulkColorDialog">
+  <div class="spectrum-Dialog-header">
+    <h2 class="spectrum-Dialog-title">Add bulk colors</h2>
+  </div>
+  <div class="spectrum-Dialog-content">
+    <span class="spectrum-Typography">
+      <p class="spectrum-Body4">Enter hex colors separated by comma or new line.</p>
+    </span>
+    <form class="spectrum-Form spectrum-Form--labelsAbove">
+      <div class="spectrum-Form-item">
+        <label for="fieldLabelExample-lifestory" class="spectrum-Form-itemLabel">Colors (Hex)</label>
+        <textarea id="bulkColors" class="spectrum-Textfield spectrum-Textfield--multiline"></textarea>
+      </div>
+    </form>
+    <label class="spectrum-Checkbox">
+      <input type="checkbox" class="spectrum-Checkbox-input" id="importAsSwatch">
+      <span class="spectrum-Checkbox-box">
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+          <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
+        </svg>
+      </span>
+      <span class="spectrum-Checkbox-label">Import colors as contrast swatches</span>
+    </label>
+    <span class="spectrum-Typography">
+      <p class="spectrum-Body5">* This option creates contrast swatches based on each key color's contrast ratio with the base color.</p>
+    </span>
+    <div class="spectrum-Form spectrum-Form--labelsAbove">
+      <label for="bgField_2" class="spectrum-FieldLabel">Base color</label>
+      <input type="color" class="" id="bgField_2" value="#ffffff" onChange="colorInput()" ></input>
+    </div>
+  </div>
+  <div class="spectrum-Dialog-footer">
+    <button class="spectrum-Button spectrum-Button--secondary" onclick="cancelBulk()">Cancel</button>
+    <button class="spectrum-Button spectrum-Button--cta" onclick="bulkColorInput()">Add</button>
+  </div>
+</div>
+
+<script src="theme.js"></script>
+
+</body>
+</html>
