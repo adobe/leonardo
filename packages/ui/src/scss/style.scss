@@ -869,13 +869,42 @@ a:focus {
   height: 32px;
   width: 100%;
   background-color: #ffffff;
+  -webkit-transition: height 200ms;
+  transition: height 200ms;
+
+  &.is-large {
+    height: 64px;
+    -webkit-transition: height 200ms;
+    transition: height 200ms;
+  }
 }
 .themeColor_configs {
   display: flex;
+  height: auto;
   flex-direction: row;
   align-items: flex-end;
   flex-wrap: wrap;
   padding: 8px 16px 16px;
+  -webkit-transition: height 200ms, padding 200ms;
+  transition: height 200ms, padding 200ms;
+
+  &.is-hidden {
+    padding: 0;
+    height: 0;
+    -webkit-transition: height 200ms, padding 200ms;
+    transition: height 200ms, padding 200ms;
+  }
+  .spectrum-Form-item {
+    opacity: 1;
+    -webkit-transition: opacity 200ms;
+    transition: opacity 200ms;
+
+    &.is-hidden {
+      opacity: 0;
+      -webkit-transition: opacity 200ms;
+      transition: opacity 200ms;
+    }
+  }
 }
 .keyColorsWrapper {
   position: relative;

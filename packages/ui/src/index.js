@@ -1103,12 +1103,13 @@ function addColorScale() {
   // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
   let deleteColor = document.createElement('button');
   deleteColor.className = 'spectrum-ActionButton';
+  deleteColor.id = thisId.concat('_delete');
   deleteColor.innerHTML = `
   <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
-  // deleteColor.addEventListener('click', deleteColor) // TODO => create deleteColor function to remove this object.
+  deleteColor.onclick = themeDeleteItem;
   actions.appendChild(edit);
   actions.appendChild(deleteColor);
 
@@ -1133,7 +1134,8 @@ function addColorScale() {
   let colors = rampData.colors;
 
   themeRamp(colors, n, gradientId);
-  baseScaleOptions();
+  document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
+  document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
 }
 
 function themeRamp(colors, n = window.innerWidth - 272, dest) {
@@ -1190,6 +1192,16 @@ function themeAddColor(c) {
   dest.appendChild(div);
 }
 
+// TODO: Get this to work.
+function themeDeleteItem(e) {
+  var id = e.target.parentNode.id;
+  var self = document.getElementById(id);
+
+  self.remove();
+  baseScaleOptions();
+  themeInput();
+}
+
 // Create options for colors to use as base scale
 function baseScaleOptions() {
   let baseSelect = document.getElementById('themeBase');
@@ -1199,12 +1211,13 @@ function baseScaleOptions() {
   let opts = {};
   for (let i = 0; i < colorNames.length; i++) {
     let colorname = colorNames[i].value;
-    console.log(colorname);
     opts[colorname] = colorname;
   }
 
   for(let index in opts) { baseSelect.options[baseSelect.options.length] = new Option(opts[index], index); }
 }
+
+var themeConfigs = {};
 
 window.themeInput = themeInput;
 function themeInput() {
@@ -1214,20 +1227,28 @@ function themeInput() {
 
   let baseScale = {};
   let colorScales = [];
-  baseScaleOptions();
 
-  // baseScale: {
+  // Find name of selected base scale color
+  let baseSelect = document.getElementById('themeBase');
+  let baseSelectValue = baseSelect.value;
+  // Find which object has this name
+  let colorNames = document.getElementsByClassName('colorNameInput');
+  // let str = 'input[value="'.concat(baseSelectValue).concat('"]');
+  // let test = document.querySelectorAll( str );
+  // let colorNameId = test.id;
+  // console.log(colorNameId);
+
+  // let baseScale = {
   //   colorKeys: ['#cacaca'],
   //   colorspace: 'HSL'
   // },
-  //
 
   for (let i = 0; i < items.length; i++) {
     let id = items[i].id;
     let thisElement = document.getElementById(id);
     // 1. find color name
     let colorNameInput = id.concat('_colorName');
-    let colorName = colorNameInput.value;
+    let colorName = document.getElementById(colorNameInput).value;
     // 2. find all key colors
     let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
     let inputColors = [];
@@ -1276,5 +1297,22 @@ function themeInput() {
   // Then, pass all props to 'generateAdaptiveTheme'
   // For each returned object
   // display swatch on right panel ?
+  themeConfigs.baseScale = baseScale;
+  themeConfigs.colorScales = colorScales;
+
+  console.log(themeConfigs);
+}
+
+window.toggleConfigs = toggleConfigs;
+function toggleConfigs(e) {
+  let configs = document.getElementsByClassName('themeColor_configs');
+  let button = document.getElementById('toggleConfigButton');
+  let gradient = document.getElementsByClassName('themeColor_gradient');
+  button.classList.toggle('is-selected');
+
+  for (let i = 0; i < configs.length; i ++) {
+    configs[i].classList.toggle('is-hidden');
+    gradient[i].classList.toggle('is-large');
+  }
 
 }
