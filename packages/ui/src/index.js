@@ -419,10 +419,6 @@ window.openAppTab = function openAppTab(evt, tabName) {
 
 // Open default tabs
 document.getElementById("tabDemo").click();
-document.getElementById("tabColor").click();
-// Re-update parameters on tab changes
-document.getElementById("tabColor").addEventListener('click', colorInput);
-document.getElementById("tabTheme").addEventListener('click', colorInput);
 
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
@@ -739,41 +735,34 @@ function updateParams(c, b, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   let tabColor = document.getElementById("tabColor");
-  let tabTheme = document.getElementById("tabTheme");
 
-  if(tabTheme.classList.contains('is-selected')) {
+  params.set('colorKeys', c);
+  params.set('base', b);
+  params.set('ratios', r);
+  params.set('mode', m);
 
-    window.history.replaceState({}, '', '?' + params); // update the page's URL.
-  }
-  else if (tabColor.classList.contains('is-selected')) {
-    params.set('colorKeys', c);
-    params.set('base', b);
-    params.set('ratios', r);
-    params.set('mode', m);
+  var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
+  cStrings = cStrings + '"';
 
-    var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
-    cStrings = cStrings + '"';
+  window.history.replaceState({}, '', '?' + params); // update the page's URL.
 
-    window.history.replaceState({}, '', '?' + params); // update the page's URL.
-
-    var p = document.getElementById('params');
-    p.innerHTML = " ";
-    var call = 'generateContrastColors({ ';
-    var pcol = 'colorKeys: [' + cStrings + '], ';
-    var pbas = 'base: "#'+ b + '", ';
-    var prat = 'ratios: [' + r + '], ';
-    var pmod = ' colorspace: "' + m + '"});';
-    let text1 = document.createTextNode(call);
-    let text2 = document.createTextNode(pcol);
-    let text3 = document.createTextNode(pbas);
-    let text4 = document.createTextNode(prat);
-    let text7 = document.createTextNode(pmod);
-    p.appendChild(text1);
-    p.appendChild(text2);
-    p.appendChild(text3);
-    p.appendChild(text4);
-    p.appendChild(text7);
-  }
+  var p = document.getElementById('params');
+  p.innerHTML = " ";
+  var call = 'generateContrastColors({ ';
+  var pcol = 'colorKeys: [' + cStrings + '], ';
+  var pbas = 'base: "#'+ b + '", ';
+  var prat = 'ratios: [' + r + '], ';
+  var pmod = ' colorspace: "' + m + '"});';
+  let text1 = document.createTextNode(call);
+  let text2 = document.createTextNode(pcol);
+  let text3 = document.createTextNode(pbas);
+  let text4 = document.createTextNode(prat);
+  let text7 = document.createTextNode(pmod);
+  p.appendChild(text1);
+  p.appendChild(text2);
+  p.appendChild(text3);
+  p.appendChild(text4);
+  p.appendChild(text7);
 }
 
 // Sort swatches in UI

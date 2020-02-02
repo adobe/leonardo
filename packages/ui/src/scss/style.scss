@@ -116,6 +116,19 @@ body {
 }
 .spectrum-Tabs-item {
   color: var(--spectrum-tabs-text-color, var(--spectrum-alias-label-text-color));
+
+  a.spectrum-Tabs-itemLabel {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:visited,
+    &:active,
+    &:focus {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
 }
 .spectrum-Tabs-item.is-selected {
   color: var(--spectrum-tabs-text-color-selected, var(--spectrum-alias-heading-text-color));
