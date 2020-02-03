@@ -149,7 +149,7 @@ function addColorScale() {
   colorNameInput.className = 'spectrum-Textfield colorNameInput';
   colorNameInput.id = thisId.concat('_colorName');
   colorNameInput.name = thisId.concat('_colorName');
-  colorNameInput.placeholder = 'My Color';
+  colorNameInput.value = 'Color';
   colorNameInput.onchange = throttle(themeInput, 10);
   colorNameLabel.innerHTML = 'Color name';
   colorName.appendChild(colorNameLabel);
@@ -289,6 +289,8 @@ function addColorScale() {
   let colors = rampData.colors;
 
   themeRamp(colors, n, gradientId);
+  baseScaleOptions();
+
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
   document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
 }
@@ -353,7 +355,6 @@ function themeDeleteItem(e) {
   var self = document.getElementById(id);
 
   self.remove();
-  baseScaleOptions();
   themeInput();
 }
 
@@ -382,21 +383,6 @@ function themeInput() {
 
   let baseScale = {};
   let colorScales = [];
-
-  // Find name of selected base scale color
-  let baseSelect = document.getElementById('themeBase');
-  let baseSelectValue = baseSelect.value;
-  // Find which object has this name
-  let colorNames = document.getElementsByClassName('colorNameInput');
-  // let str = 'input[value="'.concat(baseSelectValue).concat('"]');
-  // let test = document.querySelectorAll( str );
-  // let colorNameId = test.id;
-  // console.log(colorNameId);
-
-  // let baseScale = {
-  //   colorKeys: ['#cacaca'],
-  //   colorspace: 'HSL'
-  // },
 
   for (let i = 0; i < items.length; i++) {
     let id = items[i].id;
@@ -449,13 +435,73 @@ function themeInput() {
 
     colorScales.push(colorObj);
   }
-  // Then, pass all props to 'generateAdaptiveTheme'
-  // For each returned object
-  // display swatch on right panel ?
-  themeConfigs.baseScale = baseScale;
-  themeConfigs.colorScales = colorScales;
 
-  console.log(themeConfigs);
+  // Find name of selected base scale color
+  let baseSelect = document.getElementById('themeBase');
+  let baseSelectValue = baseSelect.value;
+  // Find which object has this name
+  function getColorObjByName(name) {
+    return colorScales.filter(
+      function(colorScales) {
+        return colorScales.name == name
+      }
+    );
+  }
+
+  let found = getColorObjByName(baseSelectValue);
+  let baseColorKeys = found[0].colorKeys;
+  let baseColorspace = found[0].colorspace;
+
+  let baseObj = {
+    colorKeys: baseColorKeys,
+    colorspace: baseColorspace
+  };
+
+  // Then, pass all props to 'generateAdaptiveTheme'
+  themeConfigs.baseScale = baseObj;
+  themeConfigs.colorScales = colorScales;
+  let themeBrightnessSlider = document.getElementById('themeBrightnessSlider');
+  let themeBrightness = themeBrightnessSlider.value
+  themeConfigs.brightness = themeBrightness;
+
+  // console.log(themeConfigs);
+  var theme = contrastColors.generateAdaptiveTheme(themeConfigs);
+  // console.log(theme);
+  let base100Name = baseSelectValue.concat('100').toString();
+
+  let varPrefix = '--';
+
+  // TODO: Do I need this? Can it be used with swatch generation? doesn't make sense.
+  for (let i=0; i<theme.length; i++) { // for each color
+    for(let j=0; j<theme[i].values.length; j++) { // for each value object
+      let key = theme[i].values[j].name; // output "name" of color
+      let prop = varPrefix.concat(key);
+      let value = theme[i].values[j].value; // output value of color
+
+      document.documentElement.style
+        .setProperty(prop, value);
+    }
+  }
+
+  document.documentElement.style
+    .setProperty('--theme-background', 'var(--' + base100Name + ')');
+
+}
+
+window.sliderInput = sliderInput;
+function sliderInput() {
+  let sliderValLabel = document.getElementById('themeBrightnessValue');
+
+  let slider = document.getElementById('themeBrightnessSlider');
+  let sliderVal = slider.value;
+
+  sliderValLabel.innerHTML = sliderVal;
+
+  let items = document.getElementsByClassName('themeColor_item');
+  // If theme items are present, run themeInput
+  if (items !== undefined) {
+    themeInput();
+  }
 }
 
 window.toggleConfigs = toggleConfigs;

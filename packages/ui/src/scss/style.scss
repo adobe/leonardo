@@ -21,6 +21,8 @@ governing permissions and limitations under the License.
   --header-height: 58px;
   --spectrum-panel-border-color: var(--spectrum-global-color-gray-300, #e1e1e1);
   --spectrum-panel-background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
+  // Define here but override in js after user creates theme
+  --theme-background: var(--spectrum-global-color-gray-200, #eaeaea);
 }
 
 body {
@@ -852,13 +854,12 @@ a:focus {
 }
 #themeColorWrapper {
   padding: 16px;
-  background-color: var(--spectrum-global-color-gray-200);
+  background-color: var(--theme-background);
   grid-area: themeDefault;
   overflow: auto;
 }
 
 .themeColor_item {
-  border: 1px solid var(--spectrum-panel-border-color);
   border-radius: 4px;
   background-color: var(--spectrum-global-color-gray-100);
   overflow: hidden;
@@ -893,6 +894,9 @@ a:focus {
 }
 .themeColor_configs {
   display: flex;
+  border-left: 1px solid var(--spectrum-panel-border-color);
+  border-right: 1px solid var(--spectrum-panel-border-color);
+  border-bottom: 1px solid var(--spectrum-panel-border-color);
   height: auto;
   flex-direction: row;
   align-items: flex-end;
