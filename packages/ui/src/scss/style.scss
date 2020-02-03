@@ -948,6 +948,7 @@ a:focus {
 
 .themeOutputColor {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
 }
 
@@ -958,4 +959,20 @@ a:focus {
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 2px 4px 2px 0;
+}
+
+// Contribution -> Fluid Tabs
+.spectrum-Tabs--fluid {
+  height: calc(var(--spectrum-global-dimension-size-400) + 2px);
+  margin-bottom: -2px;
+
+  .spectrum-Tabs-item {
+    height: 100%;
+  }
+
+  .spectrum-Tabs-itemLabel {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+  }
 }
