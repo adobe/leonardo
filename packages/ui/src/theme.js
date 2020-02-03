@@ -325,6 +325,7 @@ function addColorScale() {
   let colors = rampData.colors;
 
   themeRamp(colors, n, gradientId);
+  toggleControls();
   baseScaleOptions();
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
@@ -391,6 +392,8 @@ function themeDeleteItem(e) {
   var self = document.getElementById(id);
 
   self.remove();
+
+  toggleControls();
   themeInput();
 }
 
@@ -407,6 +410,32 @@ function baseScaleOptions() {
   }
 
   for(let index in opts) { baseSelect.options[baseSelect.options.length] = new Option(opts[index], index); }
+}
+
+function toggleControls() {
+  let items = document.getElementsByClassName('themeColor_item');
+  let sliderWrap = document.getElementById('brightnessSliderWrapper');
+  let slider = document.getElementById('themeBrightnessSlider');
+  let themeBaseLabel = document.getElementById('themeBaseLabel');
+  let modeDropdown = document.getElementById('modeDropdown');
+  let baseSelect = document.getElementById('themeBase');
+
+  if(items.length > 0) {
+    // if there are items, enable fields
+    sliderWrap.classList.remove('is-disabled');
+    themeBaseLabel.classList.remove('is-disabled');
+    modeDropdown.classList.remove('is-disabled');
+    slider.disabled = false;
+    baseSelect.disabled = false;
+  }
+  else if(items.length == 0) {
+    // disable fields
+    sliderWrap.classList.add('is-disabled');
+    themeBaseLabel.classList.add('is-disabled');
+    modeDropdown.classList.add('is-disabled');
+    slider.disabled = true;
+    baseSelect.disabled = true;
+  }
 }
 
 var themeConfigs = {};

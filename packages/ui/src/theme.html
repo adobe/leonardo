@@ -93,9 +93,9 @@
             <input type="text" placeholder="My Adaptive Theme" name="themeName" id="themeName" value="" class="spectrum-Textfield">
           </div>
           <div class="spectrum-Form-item">
-            <label for="themeBase" class="spectrum-FieldLabel">Base color</label>
-            <div class="spectrum-Dropdown" id="modeDropdown">
-              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="themeBase" id="themeBase">
+            <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel is-disabled">Base color</label>
+            <div class="spectrum-Dropdown is-disabled" id="modeDropdown">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="themeBase" id="themeBase" disabled>
               </select>
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
@@ -103,12 +103,12 @@
             </div>
           </div>
           <div class="spectrum-Form-item">
-            <div class="spectrum-Slider">
+            <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled">
               <div class="spectrum-Slider-labelContainer">
                 <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Default brightness</label>
                 <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
               </div>
-              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()"></input>
+              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()" disabled></input>
             </div>
           </div>
         </form>
