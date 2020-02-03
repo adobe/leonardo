@@ -109,6 +109,42 @@ function deleteColor(e) {
 14.
 */
 
+
+let predefinedColorNames = [
+  'Azure',
+  'Forest',
+  'Cerulean',
+  'Blue',
+  'Pink',
+  'Red',
+  'Indigo',
+  'Purple',
+  'Blue',
+  'Green',
+  'Crimson',
+  'Salmon',
+  'Orange',
+  'Tangerine',
+  'Yellow',
+  'Brown',
+  'Umber',
+  'Ochre',
+  'Periwinkle',
+  'Sage',
+  'Rose',
+  'Lavender',
+  'Lilac',
+  'Mauve',
+  'Mustard',
+  'Seafoam',
+  'Celery',
+  'Teal',
+  'Turquise',
+  'Sky',
+  'Gray',
+  'Slate'
+];
+
 window.addColorScale = addColorScale;
 function addColorScale() {
   // create unique ID for color object
@@ -149,7 +185,7 @@ function addColorScale() {
   colorNameInput.className = 'spectrum-Textfield colorNameInput';
   colorNameInput.id = thisId.concat('_colorName');
   colorNameInput.name = thisId.concat('_colorName');
-  colorNameInput.value = 'Color';
+  colorNameInput.value = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];;
   colorNameInput.onchange = throttle(themeInput, 10);
   colorNameLabel.innerHTML = 'Color name';
   colorName.appendChild(colorNameLabel);
@@ -470,9 +506,13 @@ function themeInput() {
   let base100Name = baseSelectValue.concat('100').toString();
 
   let varPrefix = '--';
-
-  // TODO: Do I need this? Can it be used with swatch generation? doesn't make sense.
+  let themeOutputs = document.getElementById('themeOutputs');
+  themeOutputs.innerHTML = ' ';
+  // Iterate each color from theme.
   for (let i=0; i<theme.length; i++) { // for each color
+    let wrapper = document.createElement('div');
+    wrapper.className = 'themeOutputColor';
+
     for(let j=0; j<theme[i].values.length; j++) { // for each value object
       let key = theme[i].values[j].name; // output "name" of color
       let prop = varPrefix.concat(key);
@@ -480,12 +520,20 @@ function themeInput() {
 
       document.documentElement.style
         .setProperty(prop, value);
-    }
-  }
 
+      let div = document.createElement('div');
+      div.className = 'themeOutputSwatch';
+      div.style.backgroundColor = value;
+
+      wrapper.appendChild(div);
+    }
+
+    themeOutputs.appendChild(wrapper);
+
+  }
+  // Assign base value prop to theme background alias
   document.documentElement.style
     .setProperty('--theme-background', 'var(--' + base100Name + ')');
-
 }
 
 window.sliderInput = sliderInput;
