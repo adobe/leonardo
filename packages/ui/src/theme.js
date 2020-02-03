@@ -388,7 +388,7 @@ function themeAddColor(c) {
 
 // TODO: Get this to work.
 function themeDeleteItem(e) {
-  var id = e.target.parentNode.id;
+  var id = e.target.parentNode.parentNode.parentNode.id;
   var self = document.getElementById(id);
 
   self.remove();
@@ -435,6 +435,7 @@ function toggleControls() {
     modeDropdown.classList.add('is-disabled');
     slider.disabled = true;
     baseSelect.disabled = true;
+    baseSelect.value = ' ';
   }
 }
 

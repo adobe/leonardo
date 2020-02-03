@@ -976,3 +976,16 @@ a:focus {
     height: 100%;
   }
 }
+
+// Missing slider CSS for disabled state
+.spectrum-Slider-controls:disabled {
+  &::-webkit-slider-thumb {
+    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
+  }
+  &::-moz-range-thumb {
+    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))    
+  }
+  &::-ms-thumb {
+    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
+  }
+}
