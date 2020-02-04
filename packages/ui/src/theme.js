@@ -594,29 +594,28 @@ function themeInput() {
   let baseSelect = document.getElementById('themeBase');
   let baseSelectValue = baseSelect.value;
   // Find which object has this name
-  function getColorObjByName(name) {
-    return colorScales.filter(
-      function(colorScales) {
-        return colorScales.name == name
-      }
-    );
-  }
+  // function getColorObjByName(name) {
+  //   return colorScales.filter(
+  //     function(colorScales) {
+  //       return colorScales.name == name
+  //     }
+  //   );
+  // }
+  //
+  // let found = getColorObjByName(baseSelectValue);
+  // let baseColorKeys = found[0].colorKeys;
+  // let baseColorspace = found[0].colorspace;
 
-  let found = getColorObjByName(baseSelectValue);
-  let baseColorKeys = found[0].colorKeys;
-  let baseColorspace = found[0].colorspace;
-
-  let baseObj = {
-    colorKeys: baseColorKeys,
-    colorspace: baseColorspace
-  };
+  let baseObj = { name: baseSelectValue };
 
   // Then, pass all props to 'generateAdaptiveTheme'
-  themeConfigs.baseScale = baseObj;
+  themeConfigs.background = baseObj;
   themeConfigs.colorScales = colorScales;
   let themeBrightnessSlider = document.getElementById('themeBrightnessSlider');
   let themeBrightness = themeBrightnessSlider.value
   themeConfigs.brightness = themeBrightness;
+
+  console.log(themeConfigs);
 
   // console.log(themeConfigs);
   var theme = contrastColors.generateAdaptiveTheme(themeConfigs);
