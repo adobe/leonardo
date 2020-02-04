@@ -89,7 +89,7 @@ function deleteColor(e) {
   var self = document.getElementById(id);
 
   self.remove();
-  colorInput();
+  themeInput();
 }
 
 function paramSetup() {
@@ -112,7 +112,6 @@ function paramSetup() {
       let keyColors = colorScales[i].colorKeys;
       let colorSpace = colorScales[i].colorspace;
       let ratios = colorScales[i].ratios;
-      console.log(colorName);
       // Create color scale item
       addColorScale(colorName, keyColors, colorSpace, ratios);
     }
@@ -335,13 +334,7 @@ function addColorScale(c, k, s, r) {
   let ratiosInput = document.createElement('input');
   ratiosInput.type = 'text';
   if(r == undefined) {
-    // if first color item, just name it gray.
-    if(items.length == 0) {
-      ratiosInput.value = '1, 3, 4.5';
-    }
-    else {
-      ratiosInput.value = '3, 4.5';
-    }
+    ratiosInput.value = '3, 4.5';
   }
   else {
     ratiosInput.value = r;
@@ -408,6 +401,12 @@ function addColorScale(c, k, s, r) {
   themeRamp(colors, n, gradientId);
   toggleControls();
   baseScaleOptions();
+
+  let toggle = document.getElementById('toggleConfigButton');
+  if(toggle.classList.contains('is-selected')) {
+    inputs.classList.add('is-hidden');
+    gradient.classList.add('is-large');
+  }
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
   document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
@@ -593,47 +592,61 @@ function themeInput() {
   // Find name of selected base scale color
   let baseSelect = document.getElementById('themeBase');
   let baseSelectValue = baseSelect.value;
-  // Find which object has this name
-  // function getColorObjByName(name) {
-  //   return colorScales.filter(
-  //     function(colorScales) {
-  //       return colorScales.name == name
-  //     }
-  //   );
-  // }
-  //
-  // let found = getColorObjByName(baseSelectValue);
-  // let baseColorKeys = found[0].colorKeys;
-  // let baseColorspace = found[0].colorspace;
-
-  let baseObj = { name: baseSelectValue };
 
   // Then, pass all props to 'generateAdaptiveTheme'
-  themeConfigs.background = baseObj;
+  themeConfigs.baseScale = baseSelectValue;
   themeConfigs.colorScales = colorScales;
   let themeBrightnessSlider = document.getElementById('themeBrightnessSlider');
   let themeBrightness = themeBrightnessSlider.value
   themeConfigs.brightness = themeBrightness;
 
-  console.log(themeConfigs);
-
-  // console.log(themeConfigs);
   var theme = contrastColors.generateAdaptiveTheme(themeConfigs);
-  // console.log(theme);
-  let base100Name = baseSelectValue.concat('100').toString();
 
   let varPrefix = '--';
   let themeOutputs = document.getElementById('themeOutputs');
   themeOutputs.innerHTML = ' ';
-  // Iterate each color from theme.
-  for (let i=0; i<theme.length; i++) { // for each color
+  // Iterate each color from theme except 1st object (background)
+  for (let i=0; i<theme.length; i++) {
     let wrapper = document.createElement('div');
-    wrapper.className = 'themeOutputColor';
+
+    let swatchWrapper = document.createElement('div');
+    swatchWrapper.className = 'themeOutputColor';
+
     // Iterate each color value
-    for(let j=0; j<theme[i].values.length; j++) { // for each value object
-      let key = theme[i].values[j].name; // output "name" of color
+    if (theme[i].values) {
+      let p = document.createElement('p');
+      p.className = 'spectrum-Subheading';
+      p.innerHTML = theme[i].name;
+
+      wrapper.appendChild(p);
+
+      for(let j=0; j<theme[i].values.length; j++) { // for each value object
+        let key = theme[i].values[j].name; // output "name" of color
+        let prop = varPrefix.concat(key);
+        let value = theme[i].values[j].value; // output value of color
+        // create CSS property
+        document.documentElement.style
+          .setProperty(prop, value);
+        // create swatch
+        let div = document.createElement('div');
+        div.className = 'themeOutputSwatch';
+        div.style.backgroundColor = value;
+
+        swatchWrapper.appendChild(div);
+      }
+      wrapper.appendChild(swatchWrapper);
+    }
+    else if (theme[i].background) {
+      let p = document.createElement('p');
+      p.className = 'spectrum-Subheading';
+      p.innerHTML = 'Background';
+
+      wrapper.appendChild(p);
+
+      // grab background color data
+      let key = 'theme-background'; // "name" of color
       let prop = varPrefix.concat(key);
-      let value = theme[i].values[j].value; // output value of color
+      let value = theme[i].background; // output value of color
       // create CSS property
       document.documentElement.style
         .setProperty(prop, value);
@@ -642,19 +655,16 @@ function themeInput() {
       div.className = 'themeOutputSwatch';
       div.style.backgroundColor = value;
 
-      wrapper.appendChild(div);
+      swatchWrapper.appendChild(div);
+      wrapper.appendChild(swatchWrapper);
     }
 
     themeOutputs.appendChild(wrapper);
   }
-  // Assign base value prop to theme background alias
-  document.documentElement.style
-    .setProperty('--theme-background', 'var(--' + base100Name + ')');
 
   // write config file to output panel
   let paramsOutput = document.getElementById('themeParams');
-  // If we want to include theme name in output...
-  // params.innerHTML = themeName.value + ' = ' + JSON.stringify(themeConfigs, null, 2);
+
   paramsOutput.innerHTML = JSON.stringify(themeConfigs, null, 2);
   let themeObj = JSON.stringify(themeConfigs);
 
