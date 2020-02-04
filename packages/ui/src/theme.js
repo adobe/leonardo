@@ -351,7 +351,7 @@ function addColorScale() {
 }
 
 // Update theme when theme name is changed
-// document.getElementById('themeName').addEventListener('input', themeInput);
+document.getElementById('themeName').addEventListener('input', themeInput);
 // Update theme when base color selection is changed
 document.getElementById('themeBase').addEventListener('input', themeInput);
 
@@ -472,7 +472,6 @@ function themeInput() {
   let items = document.getElementsByClassName('themeColor_item');
   let themeName = document.getElementById('themeName');
 
-  let baseScale = {};
   let colorScales = [];
 
   // Create color scale objects
@@ -591,10 +590,13 @@ function themeInput() {
     .setProperty('--theme-background', 'var(--' + base100Name + ')');
 
   // write config file to output panel
-  let params = document.getElementById('themeParams');
+  let paramsOutput = document.getElementById('themeParams');
   // If we want to include theme name in output...
   // params.innerHTML = themeName.value + ' = ' + JSON.stringify(themeConfigs, null, 2);
-  params.innerHTML = JSON.stringify(themeConfigs, null, 2);
+  paramsOutput.innerHTML = JSON.stringify(themeConfigs, null, 2);
+  let themeObj = JSON.stringify(themeConfigs);
+
+  updateParams(themeName.value, themeObj);
 }
 
 window.sliderInput = sliderInput;
@@ -624,4 +626,16 @@ function toggleConfigs(e) {
     configs[i].classList.toggle('is-hidden');
     gradient[i].classList.toggle('is-large');
   }
+}
+
+// Passing variable parameters to URL
+function updateParams(n, t) {
+  let url = new URL(window.location);
+  let params = new URLSearchParams(url.search.slice(1));
+  let tabColor = document.getElementById("tabColor");
+
+  params.set('name', n);         // Theme name
+  params.set('config', t);       // Configurations
+
+  window.history.replaceState({}, '', '?' + params); // update the page's URL.
 }
