@@ -56,6 +56,8 @@ loadIcons('./spectrum-icons.svg');
 
 // import {randomId, throttle, deleteColor} from './index.js'
 
+var themeConfigs = {};
+
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
@@ -89,6 +91,40 @@ function deleteColor(e) {
   self.remove();
   colorInput();
 }
+
+function paramSetup() {
+  let url = new URL(window.location);
+  let params = new URLSearchParams(url.search.slice(1));
+  let pathName = url.pathname;
+
+  if(params.has('name')) {
+    let themeNameInput = document.getElementById('themeName');
+    themeNameInput.value = params.get('name').toString();
+  }
+  if(params.has('config')) {
+    let configParam = params.get('config');
+    let config = JSON.parse(configParam);
+    let colorScales = config.colorScales;
+    let brightness = config.brightness;
+
+    for(let i = 0; i < colorScales.length; i++) {
+      let colorName = colorScales[i].name;
+      let keyColors = colorScales[i].colorKeys;
+      let colorSpace = colorScales[i].colorspace;
+      let ratios = colorScales[i].ratios;
+      console.log(colorName);
+      // Create color scale item
+      addColorScale(colorName, keyColors, colorSpace, ratios);
+    }
+
+    let slider = document.getElementById('themeBrightnessSlider');
+    slider.value = brightness;
+
+    sliderInput();
+    throttle(themeInput, 10);
+  }
+}
+paramSetup();
 
 /* ---------------------------  */
 /*     CREATE THEME SCRIPTS     */
@@ -146,7 +182,7 @@ let predefinedColorNames = [
 ];
 
 window.addColorScale = addColorScale;
-function addColorScale() {
+function addColorScale(c, k, s, r) {
   // for checking to see if items already exist
   let items = document.getElementsByClassName('themeColor_item');
   // create unique ID for color object
@@ -189,12 +225,21 @@ function addColorScale() {
   colorNameInput.name = thisId.concat('_colorName');
 
   // if first color item, just name it gray.
-  if(items.length == 0) {
-    colorNameInput.value = 'Gray';
+  if(c == undefined) {
+    if(items.length == 0) {
+      // if first color with undefined c argument:
+      colorNameInput.value = 'Gray';
+    }
+    else {
+      // if not first, c not defined, randomly assign color name:
+      colorNameInput.value = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+    }
   }
   else {
-    colorNameInput.value = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+    // if c defined argument, this should be color name.
+    colorNameInput.value = c;
   }
+
 
   colorNameInput.onchange = throttle(themeInput, 10);
   colorNameLabel.innerHTML = 'Color name';
@@ -272,7 +317,13 @@ function addColorScale() {
   };
 
   for(let index in opts) { interpSelect.options[interpSelect.options.length] = new Option(opts[index], index); }
-  interpSelect.value = 'CAM02';
+  if (s == undefined) {
+    interpSelect.value = 'CAM02';
+  }
+  else {
+    interpSelect.value = s;
+  }
+
 
   // Ratios
   let ratios = document.createElement('div');
@@ -283,13 +334,19 @@ function addColorScale() {
   ratiosLabel.for = thisId.concat('_ratios');
   let ratiosInput = document.createElement('input');
   ratiosInput.type = 'text';
-  // if first color item, just name it gray.
-  if(items.length == 0) {
-    ratiosInput.value = '1, 3, 4.5';
+  if(r == undefined) {
+    // if first color item, just name it gray.
+    if(items.length == 0) {
+      ratiosInput.value = '1, 3, 4.5';
+    }
+    else {
+      ratiosInput.value = '3, 4.5';
+    }
   }
   else {
-    ratiosInput.value = '3, 4.5';
+    ratiosInput.value = r;
   }
+
   ratiosInput.className = 'spectrum-Textfield';
   ratiosInput.id = thisId.concat('_ratios');
   ratiosInput.name = thisId.concat('_ratios');
@@ -334,7 +391,15 @@ function addColorScale() {
   wrapper.appendChild(item);
 
   // Then run functions on the basic placeholder inputs
-  document.getElementById(buttonId).click();
+  // document.getElementById(buttonId).click();
+  if (k == undefined) {
+    document.getElementById(buttonId).click();
+  }
+  else {
+    for (let i = 0; i < k.length; i++) {
+      themeAddColor(k[i], buttonId);
+    }
+  }
   // generate the number of values equal to the width of the item
   let n = window.innerWidth - 272;
   let rampData = contrastColors.createScale({swatches: n, colorKeys: ['#000000'], colorspace: 'LAB'});
@@ -378,8 +443,8 @@ function themeRamp(colors, n = window.innerWidth - 272, dest) {
 
 
 // Recreation of addColor function, specifying items needed for theme UI
-function themeAddColor(c) {
-  let thisId = this.id;
+function themeAddColor(c, thisId = this.id) {
+  // let thisId = this.id;
   let parent = thisId.replace('_addKeyColor', '');
   let destId = parent.concat('_keyColors');
   let dest = document.getElementById(destId);
@@ -462,8 +527,6 @@ function toggleControls() {
     baseSelect.value = ' ';
   }
 }
-
-var themeConfigs = {};
 
 window.themeInput = themeInput;
 function themeInput() {
