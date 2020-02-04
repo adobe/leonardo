@@ -354,13 +354,20 @@ function ratioName(r) {
   return nArr;
 }
 
-function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1}) {
+function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1}) {
   if (!baseScale) {
     throw new Error('baseScale is undefined');
   }
-  if (typeof baseScale !== 'object') {
-    throw new Error('baseScale must be an object');
+  let found = false;
+  for(let i = 0; i < colorScales.length; i++) {
+    if (colorScales[i].name !== baseScale) {
+      found = true;
+    }
   }
+  if (found = false) {
+    throw new Error('baseScale must match the name of a colorScales object');
+  }
+
   if (!colorScales) {
     throw new Error('colorScales are undefined');
   }
@@ -374,9 +381,20 @@ function generateAdaptiveTheme({baseScale, colorScales, brightness, contrast = 1
     }
   }
   else {
-    let bscale = generateBaseScale(baseScale); // base parameter to create base scale (0-100)
+    // Find color object matching base scale
+    let baseIndex = colorScales.findIndex( x => x.name === baseScale );
+    let baseKeys = colorScales[baseIndex].colorKeys;
+    let baseMode = colorScales[baseIndex].colorspace;
+
+    // define params to pass as bscale
+    let bscale = generateBaseScale({colorKeys: baseKeys, colorspace: baseMode}); // base parameter to create base scale (0-100)
     let bval = bscale[brightness];
+    let baseObj = {
+      background: bval
+    };
+
     let arr = [];
+    arr.push(baseObj);
 
     for (let i = 0; i < colorScales.length; i++) {
       if (!colorScales[i].name) {

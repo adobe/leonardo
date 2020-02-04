@@ -13,14 +13,11 @@ import { generateAdaptiveTheme } from '../index.js';
 
 test('should generate theme for three colors', function() {
   let theme = generateAdaptiveTheme({
-    baseScale: {
-      colorKeys: ['#cacaca'],
-      colorspace: 'HSL'
-    },
+    baseScale: "gray",
     colorScales: [
       {
         name: "gray",
-        colorKeys: ['#cacaca'],
+        colorKeys: ['#cacaca', '#323232'],
         colorspace: 'HSL',
         ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
       },
@@ -40,18 +37,19 @@ test('should generate theme for three colors', function() {
     let themeLight = theme(90);;
 
     expect(themeLight).toEqual([
+      { background: "#e1e1e1" },
       {
         name: 'gray',
         values: [
           {name: "gray100", contrast: 1, value: "#e0e0e0"},
           {name: "gray200", contrast: 1.2, value: "#cecece"},
-          {name: "gray300", contrast: 1.4, value: "#c0c0c0"},
+          {name: "gray300", contrast: 1.4, value: "#bfbfbf"},
           {name: "gray400", contrast: 2, value: "#a0a0a0"},
           {name: "gray500", contrast: 3, value: "#808080"},
           {name: "gray600", contrast: 4.5, value: "#646464"},
           {name: "gray700", contrast: 6, value: "#525252"},
           {name: "gray800", contrast: 8, value: "#404040"},
-          {name: "gray900", contrast: 12, value: "#242424"},
+          {name: "gray900", contrast: 12, value: "#232323"},
           {name: "gray1000", contrast: 21, value: "#000000"}
         ]
       },
@@ -81,10 +79,7 @@ test('should generate theme for three colors', function() {
 
 test('should generate theme for three colors with negative ratios', function() {
   let theme = generateAdaptiveTheme({
-    baseScale: {
-      colorKeys: ['#cacaca'],
-      colorspace: 'HSL'
-    },
+    baseScale: "gray",
     colorScales: [
       {
         name: "gray",
@@ -108,6 +103,7 @@ test('should generate theme for three colors with negative ratios', function() {
     let themeLight = theme(90);;
 
     expect(themeLight).toEqual([
+        { background: "#e1e1e1" },
         {
           name: "gray",
           values: [
@@ -152,8 +148,10 @@ test('should generate theme for three colors using variables as parameters', fun
   let tempRatios = [2, 3, 4.5, 8, 12];
   let baseRatios = [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21];
   let gray = {
+    name: "gray",
     colorKeys: ['#cacaca'],
-    colorspace: 'HSL'
+    colorspace: 'HSL',
+    ratios: baseRatios
   };
   let blue = {
     name: "blue",
@@ -167,18 +165,13 @@ test('should generate theme for three colors using variables as parameters', fun
     colorspace: 'RGB',
     ratios: tempRatios
   };
-  let grayUI = {
-    name: "gray",
-    colorKeys: gray.colorKeys,
-    colorspace: gray.colorspace,
-    ratios: baseRatios
-  };
   let brightness = 90;
 
-  let theme = generateAdaptiveTheme({baseScale: gray, colorScales: [grayUI, blue, red]});
+  let theme = generateAdaptiveTheme({baseScale: gray.name, colorScales: [gray, blue, red]});
   let themeLight = theme(90);;
 
   expect(themeLight).toEqual([
+    { background: "#e1e1e1" },
     {
       name: 'gray',
       values: [
@@ -220,10 +213,7 @@ test('should generate theme for three colors using variables as parameters', fun
 
 test('should generate theme with increased contrast', function() {
   let theme = generateAdaptiveTheme({
-    baseScale: {
-      colorKeys: ['#cacaca'],
-      colorspace: 'HSL'
-    },
+    baseScale: 'gray',
     colorScales: [
       {
         name: "gray",
@@ -247,6 +237,7 @@ test('should generate theme with increased contrast', function() {
     let themeLight = theme(90, 1.4);;
 
     expect(themeLight).toEqual([
+      { background: "#e1e1e1" },
       {
         name: 'gray',
         values: [
@@ -290,10 +281,7 @@ test('should generate theme with increased contrast', function() {
 
 test('should generate white theme with increased contrast', function() {
   let theme = generateAdaptiveTheme({
-    baseScale: {
-      colorKeys: ['#cacaca'],
-      colorspace: 'HSL'
-    },
+    baseScale: 'gray',
     colorScales: [
       {
         name: "gray",
@@ -317,6 +305,7 @@ test('should generate white theme with increased contrast', function() {
     let themeLight = theme(100, 2);;
 
     expect(themeLight).toEqual([
+      { background: "#fefefe" },
       {
         name: 'gray',
         values: [
@@ -360,10 +349,7 @@ test('should generate white theme with increased contrast', function() {
 
 test('should generate dark theme with increased contrast', function() {
   let theme = generateAdaptiveTheme({
-    baseScale: {
-      colorKeys: ['#cacaca'],
-      colorspace: 'HSL'
-    },
+    baseScale: 'gray',
     colorScales: [
       {
         name: "gray",
@@ -387,6 +373,7 @@ test('should generate dark theme with increased contrast', function() {
     let themeLight = theme(20, 1.5);;
 
     expect(themeLight).toEqual([
+      { background: "#303030" },
       {
         name: 'gray',
         values: [
@@ -425,5 +412,4 @@ test('should generate dark theme with increased contrast', function() {
         ]
       }
     ]);
-
 });

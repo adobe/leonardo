@@ -15,10 +15,6 @@ import { generateAdaptiveTheme } from '@adobe/leonardo-contrast-colors';
 
 // returns theme colors as JSON
 let myTheme = generateAdaptiveTheme({
-  baseScale: {
-    colorKeys: ['#cacaca'],
-    colorspace: 'HSL'
-  },
   colorScales: [
     {
       name: 'gray',
@@ -39,6 +35,7 @@ let myTheme = generateAdaptiveTheme({
       ratios: [3, 4.5]
     }
   ],
+  baseScale: 'gray',
   brightness: 97
 });
 ```
@@ -50,8 +47,8 @@ let myTheme = generateAdaptiveTheme({
 Function used to create a fully adaptive contrast-based color palette/theme using Leonardo. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`. Parameters can be passed as a config JSON file for modularity and simplicity.
 
 ```js
-generateAdaptiveTheme({baseScale, colorScales});              // returns function
-generateAdaptiveTheme({baseScale, colorScales, brightness});  // returns color objects
+generateAdaptiveTheme({colorScales, baseScale});              // returns function
+generateAdaptiveTheme({colorScales, baseScale, brightness});  // returns color objects
 ```
 
 Returned function:
@@ -59,11 +56,11 @@ Returned function:
 myTheme(brightness, contrast);
 ```
 
-#### `baseScale` *{object}*:
-An object housing parameters required for [generating a base scale](#generateBaseScale). This creates a scale of values from 0-100 in lightness, which is used for `brightness` parameter. Ie. `brightness: 90` returns the 90% lightness value of the base scale.
-
 #### `colorScales` *[array of objects]*:
 Each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors) with the exception of the `name` parameter.
+
+#### `baseScale` *string (enum)*:
+String value matching the `name` of a `colorScales` object to be used as a [base scale](#generateBaseScale) (background color). This creates a scale of values from 0-100 in lightness, which is used for `brightness` parameter. Ie. `brightness: 90` returns the 90% lightness value of the base scale.
 
 #### `name` *string*:
 Unique name for each color scale. This value will be used for the output color keys, ie `blue100: '#5CDBFF'`
@@ -84,6 +81,7 @@ Colors with a **negative contrast ratio** with the base (ie -2:1) will be named 
 Here is an example output from a theme:
 ```js
 [
+  { background: "#e0e0e0" },
   {
     name: 'gray',
     values: [
@@ -109,10 +107,6 @@ Here is an example output from a theme:
 ###### Creating your theme as a function
 ```js
 let myPalette = {
-  baseScale: {
-    colorKeys: ['#cacaca'],
-    colorspace: 'HSL'
-  },
   colorScales: [
     {
       name: 'gray',
@@ -132,7 +126,8 @@ let myPalette = {
       colorspace: 'HSL',
       ratios: [3, 4.5]
     }
-  ]
+  ],
+  baseScale: 'gray'
 }
 
 let myTheme = generateAdaptiveTheme(myPalette);
