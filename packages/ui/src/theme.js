@@ -147,6 +147,8 @@ let predefinedColorNames = [
 
 window.addColorScale = addColorScale;
 function addColorScale() {
+  // for checking to see if items already exist
+  let items = document.getElementsByClassName('themeColor_item');
   // create unique ID for color object
   let thisId = randomId();
   // generate color input objects:
@@ -185,7 +187,15 @@ function addColorScale() {
   colorNameInput.className = 'spectrum-Textfield colorNameInput';
   colorNameInput.id = thisId.concat('_colorName');
   colorNameInput.name = thisId.concat('_colorName');
-  colorNameInput.value = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];;
+
+  // if first color item, just name it gray.
+  if(items.length == 0) {
+    colorNameInput.value = 'Gray';
+  }
+  else {
+    colorNameInput.value = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+  }
+
   colorNameInput.onchange = throttle(themeInput, 10);
   colorNameLabel.innerHTML = 'Color name';
   colorName.appendChild(colorNameLabel);
@@ -273,7 +283,13 @@ function addColorScale() {
   ratiosLabel.for = thisId.concat('_ratios');
   let ratiosInput = document.createElement('input');
   ratiosInput.type = 'text';
-  ratiosInput.placeholder = '3, 4.5';
+  // if first color item, just name it gray.
+  if(items.length == 0) {
+    ratiosInput.value = '1, 3, 4.5';
+  }
+  else {
+    ratiosInput.value = '3, 4.5';
+  }
   ratiosInput.className = 'spectrum-Textfield';
   ratiosInput.id = thisId.concat('_ratios');
   ratiosInput.name = thisId.concat('_ratios');
@@ -330,7 +346,15 @@ function addColorScale() {
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
   document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
+
+  themeInput();
 }
+
+// Update theme when theme name is changed
+// document.getElementById('themeName').addEventListener('input', themeInput);
+// Update theme when base color selection is changed
+document.getElementById('themeBase').addEventListener('input', themeInput);
+
 
 function themeRamp(colors, n = window.innerWidth - 272, dest) {
   let container = document.getElementById(dest);
@@ -446,10 +470,12 @@ function themeInput() {
   // Run this function any time an object is added or any item is changed.
   // Gather all color scale objects
   let items = document.getElementsByClassName('themeColor_item');
+  let themeName = document.getElementById('themeName');
 
   let baseScale = {};
   let colorScales = [];
 
+  // Create color scale objects
   for (let i = 0; i < items.length; i++) {
     let id = items[i].id;
     let thisElement = document.getElementById(id);
@@ -542,15 +568,15 @@ function themeInput() {
   for (let i=0; i<theme.length; i++) { // for each color
     let wrapper = document.createElement('div');
     wrapper.className = 'themeOutputColor';
-
+    // Iterate each color value
     for(let j=0; j<theme[i].values.length; j++) { // for each value object
       let key = theme[i].values[j].name; // output "name" of color
       let prop = varPrefix.concat(key);
       let value = theme[i].values[j].value; // output value of color
-
+      // create CSS property
       document.documentElement.style
         .setProperty(prop, value);
-
+      // create swatch
       let div = document.createElement('div');
       div.className = 'themeOutputSwatch';
       div.style.backgroundColor = value;
@@ -559,11 +585,16 @@ function themeInput() {
     }
 
     themeOutputs.appendChild(wrapper);
-
   }
   // Assign base value prop to theme background alias
   document.documentElement.style
     .setProperty('--theme-background', 'var(--' + base100Name + ')');
+
+  // write config file to output panel
+  let params = document.getElementById('themeParams');
+  // If we want to include theme name in output...
+  // params.innerHTML = themeName.value + ' = ' + JSON.stringify(themeConfigs, null, 2);
+  params.innerHTML = JSON.stringify(themeConfigs, null, 2);
 }
 
 window.sliderInput = sliderInput;

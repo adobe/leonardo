@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="themeConfig">
-        <form class="spectrum-Form spectrum-Form--row">
+        <div class="spectrum-Form spectrum-Form--row">
           <div class="spectrum-Form-item">
             <label for="themeName" class="spectrum-FieldLabel">Theme name</label>
             <input type="text" placeholder="My Adaptive Theme" name="themeName" id="themeName" value="" class="spectrum-Textfield">
@@ -111,7 +111,7 @@
               <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()" disabled></input>
             </div>
           </div>
-        </form>
+        </div>
         <div class="spectrum-ButtonGroup">
           <button class="spectrum-ActionButton">
             <span class="spectrum-ActionButton-label">Add from URL</span>
@@ -145,7 +145,7 @@ Leonardo URL to build your theme.</p>
       <div id="themeOutputs">
       </div>
     </div>
-    <div class="spectrum-Panel-Item">
+    <div class="spectrum-Panel-Item spectrum-Panel-Item--overflow">
       <div class="spectrum-Panel-Title">
         <h3 class="spectrum-Heading6">Function Parameters</h3>
         <button id="copyThemeParams" data-clipboard-target="#params" class="spectrum-ActionButton copyButton">
@@ -153,7 +153,7 @@ Leonardo URL to build your theme.</p>
         </button>
       </div>
       <div id="themeFunctionParams">
-        <span id="themeParams" class="spectrum-Code5"></span>
+        <pre id="themeParams" class="spectrum-Code5"></pre>
       </div>
     </div>
   </div>

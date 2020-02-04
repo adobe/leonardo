@@ -171,6 +171,9 @@ body {
 .spectrum-Panel-Item {
   padding: 8px 16px 16px;
 }
+.spectrum-Panel-Item--overflow {
+  overflow: auto;
+}
 .spectrum-Panel-Title {
   display: flex;
   justify-content: space-between;
@@ -697,7 +700,8 @@ a:focus {
   color: var(--spectrum-global-color-gray-700);
 }
 
-#functionParams {
+#functionParams,
+#themeFunctionParams {
   background-color: var(--spectrum-global-color-gray-50);
   border: 1px solid var(--spectrum-global-color-gray-200);
   border-radius: 4px;
@@ -707,6 +711,11 @@ a:focus {
   overflow: auto;
 }
 
+#themeFunctionParams {
+  max-height: calc(100% - 60px);
+  overflow: auto;
+  display: flex;
+}
 
 #contrastConfigs, #ratioInput-wrapper {
   flex-direction: column;
@@ -983,7 +992,7 @@ a:focus {
     border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
   }
   &::-moz-range-thumb {
-    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))    
+    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
   }
   &::-ms-thumb {
     border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
