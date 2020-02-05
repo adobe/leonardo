@@ -57,6 +57,10 @@ loadIcons('./spectrum-css-icons.svg');
 loadIcons('./spectrum-icons.svg');
 
 // import {randomId, throttle, deleteColor} from './index.js'
+import ClipboardJS from 'clipboard';
+
+new ClipboardJS('.copyButton');
+new ClipboardJS('.themeOutputSwatch');
 
 var themeConfigs = {};
 
@@ -688,11 +692,14 @@ function themeInput() {
   let themeContrast = themeContrastSlider.value;
   themeConfigs.contrast = themeContrast;
 
-  var theme = contrastColors.generateAdaptiveTheme(themeConfigs);
+  let theme = contrastColors.generateAdaptiveTheme(themeConfigs);
+
+  let themeColorArray = [];
 
   let varPrefix = '--';
   let themeOutputs = document.getElementById('themeOutputs');
   themeOutputs.innerHTML = ' ';
+
   // Iterate each color from theme except 1st object (background)
   for (let i=0; i<theme.length; i++) {
     let wrapper = document.createElement('div');
@@ -711,8 +718,9 @@ function themeInput() {
       for(let j=0; j<theme[i].values.length; j++) { // for each value object
         let key = theme[i].values[j].name; // output "name" of color
         let prop = varPrefix.concat(key);
-        let value = theme[i].values[j].value; // output value of color
-        value = cvdColors(value);
+        let originalValue = theme[i].values[j].value; // output value of color
+        // transform original color based on preview mode
+        let value = cvdColors(originalValue);
 
         // create CSS property
         document.documentElement.style
@@ -720,9 +728,13 @@ function themeInput() {
         // create swatch
         let div = document.createElement('div');
         div.className = 'themeOutputSwatch';
+        // copy text should be for value of original color, not of preview color.
+        div.setAttribute('data-clipboard-text', originalValue);
+        div.setAttribute('tabindex', '0');
         div.style.backgroundColor = value;
 
         swatchWrapper.appendChild(div);
+        themeColorArray.push(originalValue);
       }
       wrapper.appendChild(swatchWrapper);
     }
@@ -736,8 +748,8 @@ function themeInput() {
       // grab background color data
       let key = 'theme-background'; // "name" of color
       let prop = varPrefix.concat(key);
-      let value = theme[i].background; // output value of color
-      value = cvdColors(value);
+      let originalValue = theme[i].background; // output value of color
+      let value = cvdColors(originalValue);
 
       // create CSS property
       document.documentElement.style
@@ -745,14 +757,21 @@ function themeInput() {
       // create swatch
       let div = document.createElement('div');
       div.className = 'themeOutputSwatch';
+      div.setAttribute('tabindex', '0');
+      div.setAttribute('data-clipboard-text', originalValue);
       div.style.backgroundColor = value;
 
       swatchWrapper.appendChild(div);
       wrapper.appendChild(swatchWrapper);
+
+      themeColorArray.push(originalValue);
     }
 
     themeOutputs.appendChild(wrapper);
   }
+
+  let copyThemeColors = document.getElementById('copyThemeColors');
+  copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
 
   // write config file to output panel
   let paramsOutput = document.getElementById('themeParams');
