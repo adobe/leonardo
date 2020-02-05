@@ -82,15 +82,15 @@
             <label for="cvdMode" class="spectrum-FieldLabel spectrum-FieldLabel--left">CVD Preview</label>
             <div class="spectrum-Dropdown is-disabled" id="cvdModeDropdown">
               <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="cvdMode" id="cvdMode" oninput="themeInput()">
-                <option>None</option>
-                <option>Deuteranomaly</option>
-                <option>Deuteranopia</option>
-                <option>Protanomaly</option>
-                <option>Protanopia</option>
-                <option>Tritanomaly</option>
-                <option>Tritanopia</option>
-                <option>Achromatomaly</option>
-                <option>Achromatopsia</option>
+                <option value="None">None</option>
+                <option value="Deuteranomaly">Deuteranomaly (common)</option>
+                <option value="Deuteranopia">Deuteranopia (common)</option>
+                <option value="Protanomaly">Protanomaly (rare)</option>
+                <option value="Protanopia">Protanopia (rare)</option>
+                <option value="Tritanomaly">Tritanomaly (very rare)</option>
+                <option value="Tritanopia">Tritanopia (very rare)</option>
+                <option value="Achromatomaly">Achromatomaly (very rare)</option>
+                <option value="Achromatopsia">Achromatopsia (very rare)</option>
               </select>
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
