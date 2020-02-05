@@ -847,9 +847,12 @@ a:focus {
   justify-content: space-between;
   padding: 8px 0;
 
-  .spectrum-ButtonGroup {
+  .spectrum-Form--row {
     margin-top: -7px;
     margin-bottom: 4px;
+  }
+  .spectrum-Form-item + .spectrum-ButtonGroup {
+    margin-left: 8px;
   }
 }
 .themeConfig {
@@ -974,6 +977,10 @@ a:focus {
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 2px 4px 2px 0;
+}
+
+#cvdModeDropdown {
+  width: 21ch;
 }
 
 // Contribution -> Fluid Tabs

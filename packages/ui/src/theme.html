@@ -77,13 +77,34 @@
     <div class="themeConfigWrapper">
       <div class="themeTitle">
         <h1 class="spectrum-Heading6">Adaptive Theme Configuration</h1>
-        <div class="spectrum-ButtonGroup">
-          <button class="spectrum-ActionButton spectrum-ActionButton--quiet" id="toggleConfigButton" onclick="toggleConfigs()" >
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Toggle Configs Visibility">
-              <use xlink:href="#spectrum-icon-18-VisibilityOff" />
-            </svg>
-            <span class="spectrum-ActionButton-label">Toggle Configs</span>
-          </button>
+        <div class="spectrum-Form spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <label for="cvdMode" class="spectrum-FieldLabel spectrum-FieldLabel--left">CVD Preview</label>
+            <div class="spectrum-Dropdown is-disabled" id="cvdModeDropdown">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="cvdMode" id="cvdMode" oninput="themeInput()">
+                <option>None</option>
+                <option>Deuteranomaly</option>
+                <option>Deuteranopia</option>
+                <option>Protanomaly</option>
+                <option>Protanopia</option>
+                <option>Tritanomaly</option>
+                <option>Tritanopia</option>
+                <option>Achromatomaly</option>
+                <option>Achromatopsia</option>
+              </select>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </div>
+          </div>
+          <div class="spectrum-ButtonGroup">
+            <button class="spectrum-ActionButton spectrum-ActionButton--quiet" id="toggleConfigButton" onclick="toggleConfigs()" >
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Toggle Configs Visibility">
+                <use xlink:href="#spectrum-icon-18-VisibilityOff" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Toggle Configs</span>
+            </button>
+          </div>
         </div>
       </div>
       <div class="themeConfig">

@@ -41,6 +41,8 @@ import '@adobe/focus-ring-polyfill';
 
 import * as contrastColors from '@adobe/leonardo-contrast-colors';
 
+import * as blinder from 'color-blind';
+
 import * as d3 from 'd3';
 
 // Import d3 plugins and add them to the d3 namespace
@@ -57,6 +59,8 @@ loadIcons('./spectrum-icons.svg');
 // import {randomId, throttle, deleteColor} from './index.js'
 
 var themeConfigs = {};
+
+let cvdModeDropdown = document.getElementById('cvdMode');
 
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
@@ -396,6 +400,7 @@ function addColorScale(c, k, s, r) {
   // generate the number of values equal to the width of the item
   let n = window.innerWidth - 272;
   let rampData = contrastColors.createScale({swatches: n, colorKeys: ['#000000'], colorspace: 'LAB'});
+
   let colors = rampData.colors;
 
   themeRamp(colors, n, gradientId);
@@ -474,7 +479,6 @@ function themeAddColor(c, thisId = this.id) {
   dest.appendChild(div);
 }
 
-// TODO: Get this to work.
 function themeDeleteItem(e) {
   var id = e.target.parentNode.parentNode.parentNode.id;
   var self = document.getElementById(id);
@@ -527,6 +531,75 @@ function toggleControls() {
   }
 }
 
+function cvdColors(colors) {
+  let cvdMode = cvdModeDropdown.value;
+
+  // if not an array
+  if (!Array.isArray(colors)) {
+    if (cvdMode == 'Deuteranomaly') {
+      colors = blinder.deuteranomaly(colors);
+    }
+    else if (cvdMode == 'Deuteranopia') {
+      colors = blinder.deuteranopia(colors);
+    }
+    else if (cvdMode == 'Protanomaly') {
+      colors = blinder.protanomaly(colors);
+    }
+    else if (cvdMode == 'Protanopia') {
+      colors = blinder.protanopia(colors);
+    }
+    else if (cvdMode == 'Tritanomaly') {
+      colors = blinder.tritanomaly(colors);
+    }
+    else if (cvdMode == 'Tritanopia') {
+      colors = blinder.tritanopia(colors);
+    }
+    else if (cvdMode == 'Achromatomaly') {
+      colors = blinder.achromatomaly(colors);
+    }
+    else if (cvdMode == 'Achromatopsia') {
+      colors = blinder.achromatopsia(colors);
+    }
+    else {
+      // do nothing
+    }
+    colors = d3.rgb(colors).formatRgb();
+  }
+  // must be an array.
+  else {
+    if (cvdMode == 'Deuteranomaly') {
+      colors = colors.map(c => blinder.deuteranomaly(c));
+    }
+    else if (cvdMode == 'Deuteranopia') {
+      colors = colors.map(c => blinder.deuteranopia(c));
+    }
+    else if (cvdMode == 'Protanomaly') {
+      colors = colors.map(c => blinder.protanomaly(c));
+    }
+    else if (cvdMode == 'Protanopia') {
+      colors = colors.map(c => blinder.protanopia(c));
+    }
+    else if (cvdMode == 'Tritanomaly') {
+      colors = colors.map(c => blinder.tritanomaly(c));
+    }
+    else if (cvdMode == 'Tritanopia') {
+      colors = colors.map(c => blinder.tritanopia(c));
+    }
+    else if (cvdMode == 'Achromatomaly') {
+      colors = colors.map(c => blinder.achromatomaly(c));
+    }
+    else if (cvdMode == 'Achromatopsia') {
+      colors = colors.map(c => blinder.achromatopsia(c));
+    }
+    else {
+      // do nothing
+    }
+    colors = colors.map(c => d3.rgb(c).formatRgb());
+  }
+
+  return colors;
+}
+
 window.themeInput = themeInput;
 function themeInput() {
   // Run this function any time an object is added or any item is changed.
@@ -569,22 +642,25 @@ function themeInput() {
     let ratios = rSplit.map(x => parseFloat(x));
     // TODO: remove all values of NaN
 
-    // Re generate gradient
-    let gradientId = id.concat('_gradient');
-    let gradient = document.getElementById(gradientId);
-    gradient.innerHTML = ' ';
-    let n = window.innerWidth - 272;
-    let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
-    let colors = rampData.colors;
-    themeRamp(colors, n, gradientId);
-    // - assign properties to an object
-
     let colorObj = {
       name: colorName,
       colorKeys: colorArgs,
       colorspace: mode,
       ratios: ratios
     };
+
+    let gradientId = id.concat('_gradient');
+    let gradient = document.getElementById(gradientId);
+    gradient.innerHTML = ' ';
+    let n = window.innerWidth - 272;
+    let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
+    let colors = rampData.colors;
+    // Conditional for CVDs
+
+    colors = cvdColors(colors);
+
+    themeRamp(colors, n, gradientId);
+    // - assign properties to an object
 
     colorScales.push(colorObj);
   }
@@ -624,6 +700,8 @@ function themeInput() {
         let key = theme[i].values[j].name; // output "name" of color
         let prop = varPrefix.concat(key);
         let value = theme[i].values[j].value; // output value of color
+        value = cvdColors(value);
+
         // create CSS property
         document.documentElement.style
           .setProperty(prop, value);
@@ -647,6 +725,8 @@ function themeInput() {
       let key = 'theme-background'; // "name" of color
       let prop = varPrefix.concat(key);
       let value = theme[i].background; // output value of color
+      value = cvdColors(value);
+
       // create CSS property
       document.documentElement.style
         .setProperty(prop, value);
