@@ -413,3 +413,36 @@ test('should generate dark theme with increased contrast', function() {
       }
     ]);
 });
+
+// Should throw errors
+
+test('should throw error, not valid base scale option', function() {
+  expect(
+    () => {
+      let theme = generateAdaptiveTheme({
+        baseScale: 'orange',
+        colorScales: [
+          {
+            name: "gray",
+            colorKeys: ['#cacaca'],
+            colorspace: 'HSL',
+            ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
+          },
+          {
+            name: "blue",
+            colorKeys: ['#0000ff'],
+            colorspace: 'LAB',
+            ratios: [2, 3, 4.5, 8, 12]
+          },
+          {
+            name: "red",
+            colorKeys: ['#ff0000'],
+            colorspace: 'RGB',
+            ratios: [2, 3, 4.5, 8, 12]
+          }
+        ],
+        brightness: 97
+      });
+    }
+  ).toThrow();
+});
