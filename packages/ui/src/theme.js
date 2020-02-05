@@ -110,6 +110,12 @@ function paramSetup() {
     let config = JSON.parse(configParam);
     let colorScales = config.colorScales;
     let brightness = config.brightness;
+    let contrast;
+    if(!config.contrast) {
+      contrast = 1;
+    } else {
+      contrast = config.contrast;
+    }
 
     for(let i = 0; i < colorScales.length; i++) {
       let colorName = colorScales[i].name;
@@ -122,6 +128,9 @@ function paramSetup() {
 
     let slider = document.getElementById('themeBrightnessSlider');
     slider.value = brightness;
+
+    let contrastSlider = document.getElementById('themeContrastSlider');
+    contrastSlider.value = contrast;
 
     sliderInput();
     throttle(themeInput, 10);
@@ -673,8 +682,11 @@ function themeInput() {
   themeConfigs.baseScale = baseSelectValue;
   themeConfigs.colorScales = colorScales;
   let themeBrightnessSlider = document.getElementById('themeBrightnessSlider');
-  let themeBrightness = themeBrightnessSlider.value
+  let themeBrightness = themeBrightnessSlider.value;
   themeConfigs.brightness = themeBrightness;
+  let themeContrastSlider = document.getElementById('themeContrastSlider');
+  let themeContrast = themeContrastSlider.value;
+  themeConfigs.contrast = themeContrast;
 
   var theme = contrastColors.generateAdaptiveTheme(themeConfigs);
 
@@ -753,12 +765,16 @@ function themeInput() {
 
 window.sliderInput = sliderInput;
 function sliderInput() {
-  let sliderValLabel = document.getElementById('themeBrightnessValue');
+  let sliderBValLabel = document.getElementById('themeBrightnessValue');
+  let sliderCValLabel = document.getElementById('themeContrastValue');
 
-  let slider = document.getElementById('themeBrightnessSlider');
-  let sliderVal = slider.value;
+  let sliderB = document.getElementById('themeBrightnessSlider');
+  let sliderBVal = sliderB.value;
+  let sliderC = document.getElementById('themeContrastSlider');
+  let sliderCVal = sliderC.value;
 
-  sliderValLabel.innerHTML = sliderVal;
+  sliderBValLabel.innerHTML = sliderBVal;
+  sliderCValLabel.innerHTML = sliderCVal;
 
   let items = document.getElementsByClassName('themeColor_item');
   // If theme items are present, run themeInput
