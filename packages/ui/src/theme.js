@@ -212,11 +212,12 @@ function addColorScale(c, k, s, r) {
   // generate color input objects:
   // gradient, inputs, etc.
   let wrapper = document.getElementById('themeColorWrapper');
+  let emptyState = document.getElementById('themeColorEmptyState');
   // Remove empty state
-  if(!document.getElementById('themeColorEmptyState')) {
+  if(emptyState.classList.contains('is-hidden')) {
     // Do nothing
   } else {
-    wrapper.innerHTML = ' ';
+    emptyState.classList.add('is-hidden');
   }
 
   // Create theme item
@@ -264,7 +265,7 @@ function addColorScale(c, k, s, r) {
 
 
   colorNameInput.onchange = throttle(themeInput, 10);
-  colorNameLabel.innerHTML = 'Color name';
+  colorNameLabel.innerHTML = 'Color scale name';
   colorName.appendChild(colorNameLabel);
   colorName.appendChild(colorNameInput);
 
@@ -648,6 +649,8 @@ function themeInput() {
 
   let themeOutputs = document.getElementById('themeOutputs');
   themeOutputs.innerHTML = ' ';
+  let themeObj = JSON.stringify(themeConfigs);
+  let paramsOutput = document.getElementById('themeParams');
 
   if (items.length == 0) {
     // If no items, clear parameters and URL
@@ -656,6 +659,11 @@ function themeInput() {
     themeConfigs.brightness = undefined;
     themeConfigs.contrast = undefined;
     clearParams();
+
+    let emptyState = document.getElementById('themeColorEmptyState');
+    emptyState.classList.remove('is-hidden');
+
+    paramsOutput.innerHTML = ' ';
   }
   // Create color scale objects
   else if (items.length > 0) {
@@ -807,14 +815,10 @@ function themeInput() {
 
     let copyThemeColors = document.getElementById('copyThemeColors');
     copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
+    paramsOutput.innerHTML = JSON.stringify(themeConfigs, null, 2);
+
+    updateParams(themeName.value, themeObj);
   }
-  // write config file to output panel
-  let paramsOutput = document.getElementById('themeParams');
-
-  paramsOutput.innerHTML = JSON.stringify(themeConfigs, null, 2);
-  let themeObj = JSON.stringify(themeConfigs);
-
-  updateParams(themeName.value, themeObj);
 }
 
 window.sliderInput = sliderInput;
@@ -921,10 +925,8 @@ function updateParams(n, t) {
 }
 
 function clearParams() {
-  let url = new URL(window.location);
-  let params = new URLSearchParams(url.search.slice(1));
+  let uri = window.location.toString();
+  let cleanURL = uri.substring(0, uri.indexOf("?"));
 
-  params.delete('name');
-  params.delete('config');
-  window.history.replaceState({}, '', ''); // update the page's URL.
+  window.history.replaceState({}, document.title, cleanURL);
 }

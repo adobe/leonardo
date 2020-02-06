@@ -147,7 +147,7 @@
             <span class="spectrum-ActionButton-label">Add from URL</span>
           </button> -->
           <button class="spectrum-ActionButton" onClick="addColorScale()">
-            <span class="spectrum-ActionButton-label">Add Color</span>
+            <span class="spectrum-ActionButton-label">Add color scale</span>
           </button>
         </div>
       </div>
@@ -157,9 +157,8 @@
       <div id="themeColorEmptyState" class="spectrum-IllustratedMessage">
         <!-- <svg class="spectrum-IllustratedMessage-illustration" xmlns="http://www.w3.org/2000/svg" width="200" height="98" viewBox="0 0 199 97.7"><defs><style>.cls-1,.cls-2{fill:none;stroke-linecap:round;stroke-linejoin:round;}.cls-1{stroke-width:3px;}.cls-2{stroke-width:2px;}</style></defs><title>Asset 1</title><g id="Layer_2" data-name="Layer 2"><g id="illustrations"><path class="cls-1" d="M110.53,85.66,100.26,95.89a1.09,1.09,0,0,1-1.52,0L88.47,85.66"/><line class="cls-1" x1="99.5" y1="95.5" x2="99.5" y2="58.5"/><path class="cls-1" d="M105.5,73.5h19a2,2,0,0,0,2-2v-43"/><path class="cls-1" d="M126.5,22.5h-19a2,2,0,0,1-2-2V1.5h-31a2,2,0,0,0-2,2v68a2,2,0,0,0,2,2h19"/><line class="cls-1" x1="105.5" y1="1.5" x2="126.5" y2="22.5"/><path class="cls-2" d="M47.93,50.49a5,5,0,1,0-4.83-5A4.93,4.93,0,0,0,47.93,50.49Z"/><path class="cls-2" d="M36.6,65.93,42.05,60A2.06,2.06,0,0,1,45,60l12.68,13.2"/><path class="cls-2" d="M3.14,73.23,22.42,53.76a1.65,1.65,0,0,1,2.38,0l19.05,19.7"/><path class="cls-1" d="M139.5,36.5H196A1.49,1.49,0,0,1,197.5,38V72A1.49,1.49,0,0,1,196,73.5H141A1.49,1.49,0,0,1,139.5,72V32A1.49,1.49,0,0,1,141,30.5H154a2.43,2.43,0,0,1,1.67.66l6,5.66"/><rect class="cls-1" x="1.5" y="34.5" width="58" height="39" rx="2" ry="2"/></g></g></svg> -->
 
-        <h2 class="spectrum-Heading spectrum-Heading--pageTitle spectrum-IllustratedMessage-heading">Add colors to begin</h2>
-        <p class="spectrum-Body--secondary spectrum-IllustratedMessage-description">Add colors or import a color from an existing
-Leonardo URL to build your theme.</p>
+        <h2 class="spectrum-Heading spectrum-Heading--pageTitle spectrum-IllustratedMessage-heading">Add a color to begin</h2>
+        <p class="spectrum-Body--secondary spectrum-IllustratedMessage-description">Add colors and configurations to build your adaptive theme.</p>
       </div>
     </div>
     <!-- end Theme Color Wrapper -->
@@ -193,11 +192,12 @@ Leonardo URL to build your theme.</p>
 
 <div class="addBulkColorDialog spectrum-Dialog spectrum-Dialog--small" id="">
   <div class="spectrum-Dialog-header">
-    <h2 class="spectrum-Dialog-title">Add bulk colors</h2>
+    <h2 class="spectrum-Dialog-title">Add bulk key colors</h2>
   </div>
   <div class="spectrum-Dialog-content">
     <span class="spectrum-Typography">
       <p class="spectrum-Body4">Enter hex colors separated by comma or new line.</p>
+      <p class="spectrum-Body4">These will be added as <b>key colors<b> to this color scale.
     </span>
     <form class="spectrum-Form spectrum-Form--labelsAbove">
       <div class="spectrum-Form-item">
@@ -205,18 +205,6 @@ Leonardo URL to build your theme.</p>
         <textarea id="bulkColors" class="spectrum-Textfield spectrum-Textfield--multiline"></textarea>
       </div>
     </form>
-    <!-- <label class="spectrum-Checkbox">
-      <input type="checkbox" class="spectrum-Checkbox-input" id="importAsSwatch">
-      <span class="spectrum-Checkbox-box">
-        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
-          <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
-        </svg>
-      </span>
-      <span class="spectrum-Checkbox-label">Import colors as contrast swatches</span>
-    </label>
-    <span class="spectrum-Typography">
-      <p class="spectrum-Body5">* This option creates contrast swatches based on each key color's contrast ratio with the base color.</p>
-    </span> -->
   </div>
   <div class="spectrum-Dialog-footer">
     <button class="spectrum-Button spectrum-Button--secondary" onclick="cancelBulk()">Cancel</button>

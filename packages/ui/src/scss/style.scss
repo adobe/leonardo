@@ -1035,3 +1035,7 @@ a:focus {
     border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
   }
 }
+
+.spectrum-IllustratedMessage.is-hidden {
+  display: none;
+}
