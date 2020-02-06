@@ -62,7 +62,12 @@ import ClipboardJS from 'clipboard';
 new ClipboardJS('.copyButton');
 new ClipboardJS('.themeOutputSwatch');
 
-var themeConfigs = {};
+var themeConfigs = {
+  baseScale: '',
+  colorScales: '',
+  brightness: '',
+  contrast: ''
+};
 var currentBackgroundColor;
 
 let cvdModeDropdown = document.getElementById('cvdMode');
@@ -510,9 +515,9 @@ function themeDeleteItem(e) {
   var self = document.getElementById(id);
 
   self.remove();
-
   toggleControls();
-  throttle(themeInput, 20);
+
+  themeInput();
 }
 
 // Create options for colors to use as base scale
@@ -532,26 +537,32 @@ function baseScaleOptions() {
 
 function toggleControls() {
   let items = document.getElementsByClassName('themeColor_item');
-  let sliderWrap = document.getElementById('brightnessSliderWrapper');
-  let slider = document.getElementById('themeBrightnessSlider');
+  let brightnessSliderWrap = document.getElementById('brightnessSliderWrapper');
+  let brightnessSlider = document.getElementById('themeBrightnessSlider');
+  let contrastSliderWrap = document.getElementById('contrastSliderWrapper');
+  let contrastSlider = document.getElementById('themeContrastSlider');
   let themeBaseLabel = document.getElementById('themeBaseLabel');
   let modeDropdown = document.getElementById('modeDropdown');
   let baseSelect = document.getElementById('themeBase');
 
   if(items.length > 0) {
     // if there are items, enable fields
-    sliderWrap.classList.remove('is-disabled');
+    brightnessSliderWrap.classList.remove('is-disabled');
+    contrastSliderWrap.classList.remove('is-disabled');
     themeBaseLabel.classList.remove('is-disabled');
     modeDropdown.classList.remove('is-disabled');
-    slider.disabled = false;
+    brightnessSlider.disabled = false;
+    contrastSlider.disabled = false;
     baseSelect.disabled = false;
   }
   else if(items.length == 0) {
     // disable fields
-    sliderWrap.classList.add('is-disabled');
+    brightnessSliderWrap.classList.add('is-disabled');
+    contrastSliderWrap.classList.add('is-disabled');
     themeBaseLabel.classList.add('is-disabled');
     modeDropdown.classList.add('is-disabled');
-    slider.disabled = true;
+    brightnessSlider.disabled = true;
+    contrastSlider.disabled = true;
     baseSelect.disabled = true;
     baseSelect.value = ' ';
   }
@@ -635,104 +646,144 @@ function themeInput() {
 
   let colorScales = [];
 
-  // Create color scale objects
-  for (let i = 0; i < items.length; i++) {
-    let id = items[i].id;
-    let thisElement = document.getElementById(id);
-    // 1. find color name
-    let colorNameInput = id.concat('_colorName');
-    let colorName = document.getElementById(colorNameInput).value;
-    // 2. find all key colors
-    let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
-    let inputColors = [];
-    let tempArgs = [];
-    for(let i=0; i<colorKeys.length; i++) {
-      inputColors.push(colorKeys[i].value);
-    }
-    // Convert input value into a split array of hex values.
-    // remove any whitespace from inputColors
-    tempArgs.push(inputColors);
-    let colorArgs = tempArgs.join("").split(',').filter(String);
-
-    // 3. find mode
-    let modeId = id.concat('_mode');
-    let modeSelect = document.getElementById(modeId);
-    let mode = modeSelect.value;
-
-    // 4. find ratios
-    let ratiosId = id.concat('_ratios');
-    let ratiosInput = document.getElementById(ratiosId);
-    let rVals = ratiosInput.value;
-    let r = new Array(rVals);
-    let rSplit = r.join("").split(',');
-    let ratios = rSplit.map(x => parseFloat(x));
-    // TODO: remove all values of NaN
-
-    let colorObj = {
-      name: colorName,
-      colorKeys: colorArgs,
-      colorspace: mode,
-      ratios: ratios
-    };
-
-    let gradientId = id.concat('_gradient');
-    let gradient = document.getElementById(gradientId);
-    gradient.innerHTML = ' ';
-    let n = window.innerWidth - 272;
-    let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
-    let colors = rampData.colors;
-    // Conditional for CVDs
-
-    colors = cvdColors(colors);
-
-    themeRamp(colors, n, gradientId);
-    // - assign properties to an object
-
-    colorScales.push(colorObj);
-  }
-
-  // Find name of selected base scale color
-  let baseSelect = document.getElementById('themeBase');
-  let baseSelectValue = baseSelect.value;
-
-  // Then, pass all props to 'generateAdaptiveTheme'
-  themeConfigs.baseScale = baseSelectValue;
-  themeConfigs.colorScales = colorScales;
-  let themeBrightnessSlider = document.getElementById('themeBrightnessSlider');
-  let themeBrightness = themeBrightnessSlider.value;
-  themeConfigs.brightness = themeBrightness;
-  let themeContrastSlider = document.getElementById('themeContrastSlider');
-  let themeContrast = themeContrastSlider.value;
-  themeConfigs.contrast = themeContrast;
-
-  let theme = contrastColors.generateAdaptiveTheme(themeConfigs);
-
-  let themeColorArray = [];
-
-  let varPrefix = '--';
   let themeOutputs = document.getElementById('themeOutputs');
   themeOutputs.innerHTML = ' ';
 
-  // Iterate each color from theme except 1st object (background)
-  for (let i=0; i<theme.length; i++) {
-    let wrapper = document.createElement('div');
+  if (items.length == 0) {
+    // If no items, clear parameters and URL
+    themeConfigs.baseScale = undefined;
+    themeConfigs.colorScales = undefined;
+    themeConfigs.brightness = undefined;
+    themeConfigs.contrast = undefined;
+    clearParams();
+  }
+  // Create color scale objects
+  else if (items.length > 0) {
+    for (let i = 0; i < items.length; i++) {
+      let id = items[i].id;
+      let thisElement = document.getElementById(id);
+      // 1. find color name
+      let colorNameInput = id.concat('_colorName');
+      let colorName = document.getElementById(colorNameInput).value;
+      // 2. find all key colors
+      let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
+      let inputColors = [];
+      let tempArgs = [];
+      for(let i=0; i<colorKeys.length; i++) {
+        inputColors.push(colorKeys[i].value);
+      }
+      // Convert input value into a split array of hex values.
+      // remove any whitespace from inputColors
+      tempArgs.push(inputColors);
+      let colorArgs = tempArgs.join("").split(',').filter(String);
 
-    let swatchWrapper = document.createElement('div');
-    swatchWrapper.className = 'themeOutputColor';
+      // 3. find mode
+      let modeId = id.concat('_mode');
+      let modeSelect = document.getElementById(modeId);
+      let mode = modeSelect.value;
 
-    // Iterate each color value
-    if (theme[i].values) {
-      let p = document.createElement('p');
-      p.className = 'spectrum-Subheading';
-      p.innerHTML = theme[i].name;
+      // 4. find ratios
+      let ratiosId = id.concat('_ratios');
+      let ratiosInput = document.getElementById(ratiosId);
+      let rVals = ratiosInput.value;
+      let r = new Array(rVals);
+      let rSplit = r.join("").split(',');
+      let ratios = rSplit.map(x => parseFloat(x));
+      // TODO: remove all values of NaN
 
-      wrapper.appendChild(p);
+      let colorObj = {
+        name: colorName,
+        colorKeys: colorArgs,
+        colorspace: mode,
+        ratios: ratios
+      };
 
-      for(let j=0; j<theme[i].values.length; j++) { // for each value object
-        let key = theme[i].values[j].name; // output "name" of color
+      let gradientId = id.concat('_gradient');
+      let gradient = document.getElementById(gradientId);
+      gradient.innerHTML = ' ';
+      let n = window.innerWidth - 272;
+      let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
+      let colors = rampData.colors;
+      // Conditional for CVDs
+
+      colors = cvdColors(colors);
+
+      themeRamp(colors, n, gradientId);
+      // - assign properties to an object
+
+      colorScales.push(colorObj);
+    }
+    // Find name of selected base scale color
+    let baseSelect = document.getElementById('themeBase');
+    let baseSelectValue = baseSelect.value;
+
+    // Then, pass all props to 'generateAdaptiveTheme'
+    themeConfigs.baseScale = baseSelectValue;
+    themeConfigs.colorScales = colorScales;
+    let themeBrightnessSlider = document.getElementById('themeBrightnessSlider');
+    let themeBrightness = themeBrightnessSlider.value;
+    themeConfigs.brightness = themeBrightness;
+    let themeContrastSlider = document.getElementById('themeContrastSlider');
+    let themeContrast = themeContrastSlider.value;
+    themeConfigs.contrast = themeContrast;
+
+    let theme = contrastColors.generateAdaptiveTheme(themeConfigs);
+
+    let themeColorArray = [];
+
+    let varPrefix = '--';
+
+    // Iterate each color from theme except 1st object (background)
+    for (let i=0; i<theme.length; i++) {
+      let wrapper = document.createElement('div');
+
+      let swatchWrapper = document.createElement('div');
+      swatchWrapper.className = 'themeOutputColor';
+
+      // Iterate each color value
+      if (theme[i].values) {
+        let p = document.createElement('p');
+        p.className = 'spectrum-Subheading';
+        p.innerHTML = theme[i].name;
+
+        wrapper.appendChild(p);
+
+        for(let j=0; j<theme[i].values.length; j++) { // for each value object
+          let key = theme[i].values[j].name; // output "name" of color
+          let prop = varPrefix.concat(key);
+          let originalValue = theme[i].values[j].value; // output value of color
+          // transform original color based on preview mode
+          let value = cvdColors(originalValue);
+
+          // create CSS property
+          document.documentElement.style
+            .setProperty(prop, value);
+          // create swatch
+          let div = document.createElement('div');
+          div.className = 'themeOutputSwatch';
+          // copy text should be for value of original color, not of preview color.
+          div.setAttribute('data-clipboard-text', originalValue);
+          div.setAttribute('tabindex', '0');
+          div.style.backgroundColor = value;
+
+          swatchWrapper.appendChild(div);
+          themeColorArray.push(originalValue);
+        }
+        wrapper.appendChild(swatchWrapper);
+      }
+      else if (theme[i].background) {
+        let p = document.createElement('p');
+        p.className = 'spectrum-Subheading';
+        p.innerHTML = 'Background';
+
+        wrapper.appendChild(p);
+
+        // grab background color data
+        let key = 'theme-background'; // "name" of color
         let prop = varPrefix.concat(key);
-        let originalValue = theme[i].values[j].value; // output value of color
-        // transform original color based on preview mode
+        let originalValue = theme[i].background; // output value of color
+        // set global variable value. Probably shouldn't do it this way.
+        currentBackgroundColor = originalValue;
         let value = cvdColors(originalValue);
 
         // create CSS property
@@ -741,53 +792,22 @@ function themeInput() {
         // create swatch
         let div = document.createElement('div');
         div.className = 'themeOutputSwatch';
-        // copy text should be for value of original color, not of preview color.
-        div.setAttribute('data-clipboard-text', originalValue);
         div.setAttribute('tabindex', '0');
+        div.setAttribute('data-clipboard-text', originalValue);
         div.style.backgroundColor = value;
 
         swatchWrapper.appendChild(div);
+        wrapper.appendChild(swatchWrapper);
+
         themeColorArray.push(originalValue);
       }
-      wrapper.appendChild(swatchWrapper);
-    }
-    else if (theme[i].background) {
-      let p = document.createElement('p');
-      p.className = 'spectrum-Subheading';
-      p.innerHTML = 'Background';
 
-      wrapper.appendChild(p);
-
-      // grab background color data
-      let key = 'theme-background'; // "name" of color
-      let prop = varPrefix.concat(key);
-      let originalValue = theme[i].background; // output value of color
-      // set global variable value. Probably shouldn't do it this way.
-      currentBackgroundColor = originalValue;
-      let value = cvdColors(originalValue);
-
-      // create CSS property
-      document.documentElement.style
-        .setProperty(prop, value);
-      // create swatch
-      let div = document.createElement('div');
-      div.className = 'themeOutputSwatch';
-      div.setAttribute('tabindex', '0');
-      div.setAttribute('data-clipboard-text', originalValue);
-      div.style.backgroundColor = value;
-
-      swatchWrapper.appendChild(div);
-      wrapper.appendChild(swatchWrapper);
-
-      themeColorArray.push(originalValue);
+      themeOutputs.appendChild(wrapper);
     }
 
-    themeOutputs.appendChild(wrapper);
+    let copyThemeColors = document.getElementById('copyThemeColors');
+    copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
   }
-
-  let copyThemeColors = document.getElementById('copyThemeColors');
-  copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
-
   // write config file to output panel
   let paramsOutput = document.getElementById('themeParams');
 
@@ -898,4 +918,13 @@ function updateParams(n, t) {
   params.set('config', t);       // Configurations
 
   window.history.replaceState({}, '', '?' + params); // update the page's URL.
+}
+
+function clearParams() {
+  let url = new URL(window.location);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  params.delete('name');
+  params.delete('config');
+  window.history.replaceState({}, '', ''); // update the page's URL.
 }
