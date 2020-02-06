@@ -191,7 +191,7 @@ Leonardo URL to build your theme.</p>
 
 <div id="dialogOverlay" style="display: none;"></div>
 
-<div class="spectrum-Dialog spectrum-Dialog--small" id="addBulkColorDialog">
+<div class="addBulkColorDialog spectrum-Dialog spectrum-Dialog--small" id="">
   <div class="spectrum-Dialog-header">
     <h2 class="spectrum-Dialog-title">Add bulk colors</h2>
   </div>
@@ -205,7 +205,7 @@ Leonardo URL to build your theme.</p>
         <textarea id="bulkColors" class="spectrum-Textfield spectrum-Textfield--multiline"></textarea>
       </div>
     </form>
-    <label class="spectrum-Checkbox">
+    <!-- <label class="spectrum-Checkbox">
       <input type="checkbox" class="spectrum-Checkbox-input" id="importAsSwatch">
       <span class="spectrum-Checkbox-box">
         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
@@ -216,15 +216,11 @@ Leonardo URL to build your theme.</p>
     </label>
     <span class="spectrum-Typography">
       <p class="spectrum-Body5">* This option creates contrast swatches based on each key color's contrast ratio with the base color.</p>
-    </span>
-    <div class="spectrum-Form spectrum-Form--labelsAbove">
-      <label for="bgField_2" class="spectrum-FieldLabel">Base color</label>
-      <input type="color" class="" id="bgField_2" value="#ffffff" onChange="colorInput()" ></input>
-    </div>
+    </span> -->
   </div>
   <div class="spectrum-Dialog-footer">
     <button class="spectrum-Button spectrum-Button--secondary" onclick="cancelBulk()">Cancel</button>
-    <button class="spectrum-Button spectrum-Button--cta" onclick="bulkColorInput()">Add</button>
+    <button class="spectrum-Button spectrum-Button--cta" id="bulkAddButton">Add</button>
   </div>
 </div>
 

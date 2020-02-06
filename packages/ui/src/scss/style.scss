@@ -915,7 +915,7 @@ a:focus {
   border-top: 0px solid transparent;
   height: auto;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-wrap: wrap;
   padding: 8px 16px 16px;
   -webkit-transition: height 200ms, padding 200ms;
@@ -942,6 +942,15 @@ a:focus {
     justify-content: flex-end;
     flex-grow: 1;
   }
+  .labelSpacer {
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+  .keyColorActions {
+    padding-right: 16px;
+    border-right: 2px solid var(--spectrum-global-color-gray-200);
+
+  }
 }
 .keyColorsWrapper {
   position: relative;
@@ -952,10 +961,14 @@ a:focus {
   margin: -2px;
   flex-wrap: wrap;
   min-height: 32px;
-  max-height: 32px;
+  // max-height: 32px;
   min-width: 120px;
   max-width: 216px;
   overflow: auto;
+}
+
+.colorNameInput {
+  width: 18ch;
 }
 
 #themeOutputs {
