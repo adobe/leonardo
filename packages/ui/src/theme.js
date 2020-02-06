@@ -512,7 +512,7 @@ function themeDeleteItem(e) {
   self.remove();
 
   toggleControls();
-  themeInput();
+  throttle(themeInput, 20);
 }
 
 // Create options for colors to use as base scale
