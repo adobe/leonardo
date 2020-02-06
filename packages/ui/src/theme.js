@@ -439,8 +439,10 @@ function addColorScale(c, k, s, r) {
   toggleControls();
   baseScaleOptions();
 
-  let toggle = document.getElementById('toggleConfigButton');
-  if(toggle.classList.contains('is-selected')) {
+  let checkbox = document.getElementById('toggleConfigCheckbox');
+  let checked = checkbox.checked;
+
+  if(checked) {
     inputs.classList.add('is-hidden');
     gradient.classList.add('is-large');
   }
@@ -902,9 +904,9 @@ window.bulkItemColorInput = function bulkItemColorInput(e) {
 window.toggleConfigs = toggleConfigs;
 function toggleConfigs(e) {
   let configs = document.getElementsByClassName('themeColor_configs');
-  let button = document.getElementById('toggleConfigButton');
+  let checkbox = document.getElementById('toggleConfigCheckbox');
+  let checked = checkbox.checked;
   let gradient = document.getElementsByClassName('themeColor_gradient');
-  button.classList.toggle('is-selected');
 
   for (let i = 0; i < configs.length; i ++) {
     configs[i].classList.toggle('is-hidden');

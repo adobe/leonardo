@@ -97,13 +97,19 @@
               </svg>
             </div>
           </div>
-          <div class="spectrum-ButtonGroup">
-            <button class="spectrum-ActionButton spectrum-ActionButton--quiet" id="toggleConfigButton" onclick="toggleConfigs()" >
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Toggle Configs Visibility">
-                <use xlink:href="#spectrum-icon-18-VisibilityOff" />
-              </svg>
-              <span class="spectrum-ActionButton-label">Toggle Configs</span>
-            </button>
+          <div class="spectrum-Form-item">
+            <label class="spectrum-Checkbox">
+              <input type="checkbox" class="spectrum-Checkbox-input" id="toggleConfigCheckbox" oninput="toggleConfigs()">
+              <span class="spectrum-Checkbox-box">
+                <svg class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                  <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
+                </svg>
+                <svg class="spectrum-Icon spectrum-UIIcon-DashSmall spectrum-Checkbox-partialCheckmark" focusable="false" aria-hidden="true">
+                  <use xlink:href="#spectrum-css-icon-DashSmall" />
+                </svg>
+              </span>
+              <span class="spectrum-Checkbox-label">Hide Configurations</span>
+            </label>
           </div>
         </div>
       </div>
