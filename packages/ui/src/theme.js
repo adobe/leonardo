@@ -439,13 +439,20 @@ function addColorScale(c, k, s, r) {
   toggleControls();
   baseScaleOptions();
 
-  let checkbox = document.getElementById('toggleConfigCheckbox');
-  let checked = checkbox.checked;
+  let select = document.getElementById('view');
+  let value = select.value;
 
-  if(checked) {
+  if(value == 'viewScaleOnly') {
     inputs.classList.add('is-hidden');
     gradient.classList.add('is-large');
   }
+
+  else if(value == 'viewScaleConfig') { }
+
+  else if (value == 'viewSwatch') {
+    inputs.classList.add('is-hidden');
+  }
+
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
   document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
@@ -477,6 +484,21 @@ function themeRamp(colors, n = window.innerWidth - 272, dest) {
     context.fillRect(i, 0, 1, 32);
   }
   return canvas;
+}
+
+function themeSwatchRamp(colors, dest) {
+  let container = document.getElementById(dest);
+  let wrapper = document.createElement('div');
+  wrapper.className = 'gradientColorSwatchWrapper is-hidden';
+
+  for(let i = 0; i < colors.length; i++) {
+    let swatch = document.createElement('div');
+    swatch.className = 'gradientColorSwatch';
+    swatch.style.backgroundColor = colors[i];
+
+    wrapper.appendChild(swatch);
+  }
+  container.appendChild(wrapper);
 }
 
 
@@ -739,6 +761,20 @@ function themeInput() {
 
     let theme = contrastColors.generateAdaptiveTheme(themeConfigs);
 
+    for (let i = 0; i < items.length; i++) {
+      let id = items[i].id;
+      let thisElement = document.getElementById(id);
+      let gradientId = id.concat('_gradient');
+      let gradient = document.getElementById(gradientId);
+      let colorObjs = theme[i+1].values;
+      let arr = [];
+
+      for(let i = 0; i < colorObjs.length; i ++) {
+        arr.push(cvdColors(colorObjs[i].value));
+      }
+      themeSwatchRamp(arr, gradientId);
+    }
+
     let themeColorArray = [];
 
     let varPrefix = '--';
@@ -775,6 +811,7 @@ function themeInput() {
           div.setAttribute('data-clipboard-text', originalValue);
           div.setAttribute('tabindex', '0');
           div.style.backgroundColor = value;
+
 
           swatchWrapper.appendChild(div);
           themeColorArray.push(originalValue);
@@ -814,6 +851,8 @@ function themeInput() {
 
       themeOutputs.appendChild(wrapper);
     }
+    // Run toggle to ensure proper visibility shown based on view mode
+    toggleConfigs();
 
     let copyThemeColors = document.getElementById('copyThemeColors');
     copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
@@ -902,16 +941,71 @@ window.bulkItemColorInput = function bulkItemColorInput(e) {
 }
 
 window.toggleConfigs = toggleConfigs;
-function toggleConfigs(e) {
+function toggleConfigs() {
+  let select = document.getElementById('view');
+  let value = select.value;
   let configs = document.getElementsByClassName('themeColor_configs');
-  let checkbox = document.getElementById('toggleConfigCheckbox');
-  let checked = checkbox.checked;
   let gradient = document.getElementsByClassName('themeColor_gradient');
+  let swatches = document.getElementsByClassName('gradientColorSwatchWrapper');
 
-  for (let i = 0; i < configs.length; i ++) {
-    configs[i].classList.toggle('is-hidden');
-    gradient[i].classList.toggle('is-large');
+  if(value == 'viewScaleOnly') {
+    for (let i = 0; i < configs.length; i ++) {
+      if (!configs[i].classList.contains('is-hidden')) {
+        configs[i].classList.add('is-hidden');
+      }
+      if (!gradient[i].classList.contains('is-large')) {
+        gradient[i].classList.add('is-large');
+      }
+      if (gradient[i].classList.contains('is-hidden')) {
+        gradient[i].classList.remove('is-hidden');
+      }
+      if (!swatches[i].classList.contains('is-hidden')) {
+        swatches[i].classList.add('is-hidden');
+      }
+      if (swatches[i].classList.contains('is-large')) {
+        swatches[i].classList.remove('is-large');
+      }
+    }
   }
+  else if(value == 'viewScaleConfig') {
+    for (let i = 0; i < configs.length; i ++) {
+      if (configs[i].classList.contains('is-hidden')) {
+        configs[i].classList.remove('is-hidden');
+      }
+      if (gradient[i].classList.contains('is-large')) {
+        gradient[i].classList.remove('is-large');
+      }
+      if (gradient[i].classList.contains('is-hidden')) {
+        gradient[i].classList.remove('is-hidden');
+      }
+      if (!swatches[i].classList.contains('is-hidden')) {
+        swatches[i].classList.add('is-hidden');
+      }
+      if (swatches[i].classList.contains('is-large')) {
+        swatches[i].classList.remove('is-large');
+      }
+    }
+  }
+  else if (value == 'viewSwatch') {
+    for (let i = 0; i < configs.length; i ++) {
+      if (!configs[i].classList.contains('is-hidden')) {
+        configs[i].classList.add('is-hidden');
+      }
+      if (!gradient[i].classList.contains('is-large')) {
+        gradient[i].classList.add('is-large');
+      }
+      if (!gradient[i].classList.contains('is-hidden')) {
+        gradient[i].classList.add('is-hidden');
+      }
+      if (swatches[i].classList.contains('is-hidden')) {
+        swatches[i].classList.remove('is-hidden');
+      }
+      if (!swatches[i].classList.contains('is-large')) {
+        swatches[i].classList.add('is-large');
+      }
+    }
+  }
+
 }
 
 // Passing variable parameters to URL
