@@ -1021,6 +1021,10 @@ a:focus {
 
   .spectrum-Tabs-item {
     height: 100%;
+
+    &.is-selected {
+      margin-bottom: -2px;
+    }
   }
 
   .spectrum-Tabs-itemLabel {
@@ -1028,6 +1032,7 @@ a:focus {
     align-items: center;
     height: 100%;
   }
+
 }
 
 // Missing slider CSS for disabled state
