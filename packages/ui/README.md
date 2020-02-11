@@ -1,4 +1,5 @@
 # `@adobe/leonardo-ui`
+[![license](https://img.shields.io/github/license/adobe/leonardo)](https://github.com/adobe/leonardo/blob/master/LICENSE) [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-blueviolet)](https://github.com/adobe/leonardo/blob/master/.github/CONTRIBUTING.md) 
 
 The Leonardo tool UI, deployed at http://www.leonardocolor.io/
 
