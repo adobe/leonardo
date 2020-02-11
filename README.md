@@ -1,5 +1,9 @@
 ![Leonardo logo](.github/Leonardo_Logo.png)
 
+[![npm version](https://badge.fury.io/js/%40adobe%2Fleonardo-contrast-colors.svg)](https://www.npmjs.com/package/@adobe/leonardo-contrast-colors)
+[![license](https://img.shields.io/github/license/adobe/leonardo)](https://github.com/adobe/leonardo/blob/master/LICENSE)
+[![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-blueviolet)](https://github.com/adobe/leonardo/blob/master/.github/CONTRIBUTING.md) [![Web UI](https://img.shields.io/badge/web%20tool-leonardocolor.io-blue)](https://leonardocolor.io)
+
 # Leonardo
 Authoring [adaptive color palettes](#what-is-adaptive-color) for generating color based on a desired contrast ratio.
 

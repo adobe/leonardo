@@ -1,5 +1,8 @@
 # `@adobe/leonardo-contrast-colors`
 
+[![npm version](https://badge.fury.io/js/%40adobe%2Fleonardo-contrast-colors.svg)](https://badge.fury.io/js/%40adobe%2Fleonardo-contrast-colors)
+![Libraries.io dependency status for latest release, scoped npm package](https://img.shields.io/librariesio/release/npm/@adobe/leonardo-contrast-colors) [![license](https://img.shields.io/github/license/adobe/leonardo)](https://github.com/adobe/leonardo/blob/master/LICENSE)  [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-blueviolet)](https://github.com/adobe/leonardo/blob/master/.github/CONTRIBUTING.md) 
+
 This package contains all the functions for generating colors by target contrast ratio.
 
 ## Using Leonardo
