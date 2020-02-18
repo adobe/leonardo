@@ -2461,6 +2461,11 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/textfield/-/textfield-2.0.2.tgz#72cfc2480c152343ddb63c9113766cc4c96313af"
   integrity sha512-vntSA+aKtsEOM5mabI20ochwMisH6+DHSO8Be8qWNvUUF2c927uYWBIoxLGjTCLF1qb7KZ9FfpAPk03VOO1epw==
 
+"@spectrum-css/toast@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/toast/-/toast-2.0.4.tgz#2f7a60fbb37eb9634f829871943d2f50bd2c03c6"
+  integrity sha512-tA4qCBLOUM5fTDZMyy7g4MIQzJllRDuaHiQq7WtVs3JeJPbJaFKjUTXjc+1wgts1AYu1rx7x/zr151u2qgrLvg==
+
 "@spectrum-css/tooltip@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/tooltip/-/tooltip-2.0.2.tgz#7b322966404fafbec9d085246f3590e184f350f2"

@@ -62,6 +62,7 @@
     "@spectrum-css/slider": "^2.0.2",
     "@spectrum-css/tabs": "^2.1.1",
     "@spectrum-css/textfield": "^2.0.2",
+    "@spectrum-css/toast": "^2.0.4",
     "@spectrum-css/tooltip": "^2.0.2",
     "@spectrum-css/typography": "^2.0.2",
     "@spectrum-css/underlay": "^2.0.2",

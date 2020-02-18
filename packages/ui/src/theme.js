@@ -31,6 +31,7 @@ import '@spectrum-css/buttongroup/dist/index-vars.css';
 import '@spectrum-css/tooltip/dist/index-vars.css';
 import '@spectrum-css/slider/dist/index-vars.css';
 import '@spectrum-css/tabs/dist/index-vars.css';
+import '@spectrum-css/toast/dist/index-vars.css';
 import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 
 import './scss/colorinputs.scss';
@@ -600,30 +601,38 @@ function cvdColors(colors) {
   if (!Array.isArray(colors)) {
     if (cvdMode == 'Deuteranomaly') {
       colors = blinder.deuteranomaly(colors);
+      showToast();
     }
     else if (cvdMode == 'Deuteranopia') {
       colors = blinder.deuteranopia(colors);
+      showToast();
     }
     else if (cvdMode == 'Protanomaly') {
       colors = blinder.protanomaly(colors);
+      showToast();
     }
     else if (cvdMode == 'Protanopia') {
       colors = blinder.protanopia(colors);
+      showToast();
     }
     else if (cvdMode == 'Tritanomaly') {
       colors = blinder.tritanomaly(colors);
+      showToast();
     }
     else if (cvdMode == 'Tritanopia') {
       colors = blinder.tritanopia(colors);
+      showToast();
     }
     else if (cvdMode == 'Achromatomaly') {
       colors = blinder.achromatomaly(colors);
+      showToast();
     }
     else if (cvdMode == 'Achromatopsia') {
       colors = blinder.achromatopsia(colors);
+      showToast();
     }
     else {
-      // do nothing
+      hideToast();
     }
     colors = d3.rgb(colors).formatRgb();
   }
@@ -862,19 +871,22 @@ function themeInput() {
   }
 }
 
+let sliderB = document.getElementById('themeBrightnessSlider');
+let sliderC = document.getElementById('themeContrastSlider');
+sliderB.addEventListener('input', sliderValue);
+sliderC.addEventListener('input', sliderValue);
+
+window.sliderValue = sliderValue;
+function sliderValue(e) {
+  let id = e.target.id;
+  let slider = document.getElementById(id);
+  let labelId = id.replace('Slider', 'Value');
+  let label = document.getElementById(labelId);
+  label.innerHTML = slider.value;
+}
+
 window.sliderInput = sliderInput;
 function sliderInput() {
-  let sliderBValLabel = document.getElementById('themeBrightnessValue');
-  let sliderCValLabel = document.getElementById('themeContrastValue');
-
-  let sliderB = document.getElementById('themeBrightnessSlider');
-  let sliderBVal = sliderB.value;
-  let sliderC = document.getElementById('themeContrastSlider');
-  let sliderCVal = sliderC.value;
-
-  sliderBValLabel.innerHTML = sliderBVal;
-  sliderCValLabel.innerHTML = sliderCVal;
-
   let items = document.getElementsByClassName('themeColor_item');
   // If theme items are present, run themeInput
   if (items !== undefined) {
@@ -1005,7 +1017,44 @@ function toggleConfigs() {
       }
     }
   }
+}
 
+window.showToast = showToast;
+function showToast() {
+  let toast = document.getElementById("toastCVDpreview");
+  if (toast.classList.contains("is-visible")) {
+    // do nothing
+  }
+  else {
+    toast.classList.remove("spectrum-Exit");
+    toast.classList.add("spectrum-Bounce");
+    toast.classList.add("is-visible");
+  }
+}
+
+window.hideToast = hideToast;
+function hideToast() {
+  let toast = document.getElementById("toastCVDpreview");
+  toast.classList.remove("spectrum-Bounce");
+  toast.classList.add("spectrum-Exit");
+  toast.classList.remove("is-visible");
+}
+
+window.exitPreview = exitPreview;
+function exitPreview() {
+  cvdModeDropdown.value = "None";
+
+  themeInput();
+  hideToast();
+}
+
+window.neverShowToast = neverShowToast;
+function neverShowToast() {
+  let toast = document.getElementById("toastCVDpreview");
+  toast.classList.remove("spectrum-Bounce");
+  toast.classList.add("spectrum-Exit");
+  toast.classList.remove("is-visible");
+  toast.classList.add("hidden");
 }
 
 // Passing variable parameters to URL

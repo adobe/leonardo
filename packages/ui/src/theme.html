@@ -134,7 +134,7 @@
                 <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Default brightness</label>
                 <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
               </div>
-              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()" disabled></input>
+              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onChange="sliderInput()" disabled></input>
             </div>
           </div>
           <div class="spectrum-Form-item">
@@ -143,7 +143,7 @@
                 <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
                 <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">1</div>
               </div>
-              <input class="spectrum-Slider-controls" type="range" min="1" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" onInput="sliderInput()" disabled></input>
+              <input class="spectrum-Slider-controls" type="range" min="1" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" onChange="sliderInput()" disabled></input>
             </div>
           </div>
         </div>
@@ -214,6 +214,23 @@
   <div class="spectrum-Dialog-footer">
     <button class="spectrum-Button spectrum-Button--secondary" onclick="cancelBulk()">Cancel</button>
     <button class="spectrum-Button spectrum-Button--cta" id="bulkAddButton">Add</button>
+  </div>
+</div>
+
+<div id="toastCVDpreview" class="spectrum-Toast">
+  <div class="spectrum-Toast-content">You're in CVD preview mode. Copying generated colors will not be affected by preview mode.</div>
+  <div class="spectrum-Toast-buttons">
+    <!-- <button onclick="exitPreview()" class="spectrum-Button spectrum-Button--overBackground spectrum-Button--quiet">
+      <span class="spectrum-Button-label">Exit</span>
+    </button> -->
+    <button onclick="neverShowToast()" class="spectrum-Button spectrum-Button--overBackground spectrum-Button--quiet">
+      <span class="spectrum-Button-label">Don't show</span>
+    </button>
+    <button onclick="hideToast()" class="spectrum-ClearButton spectrum-ClearButton--medium spectrum-ClearButton--overBackground">
+      <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-CrossMedium">
+        <use xlink:href="#spectrum-css-icon-CrossMedium"></use>
+      </svg>
+    </button>
   </div>
 </div>
 

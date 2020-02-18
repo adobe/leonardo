@@ -23,6 +23,14 @@ governing permissions and limitations under the License.
   --spectrum-panel-background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
   // Define here but override in js after user creates theme
   --theme-background: var(--spectrum-global-color-gray-100, #f5f5f5);
+
+  --toast-offset: -16px;
+  --toast-offset-bounce-up: calc(var(--toast-offset) - 5px);
+  --toast-offset-bounce-up-light: calc(var(--toast-offset) - 4px);
+  --toast-offset-bounce-down: -17px;
+  --spectrum-ease-out: cubic-bezier(0, 0, 0.40, 1);
+  --spectrum-ease-in-out: cubic-bezier(0.45, 0, 0.40, 1);
+  --spectrum-ease-in: cubic-bezier(0.50, 0, 1, 1);
 }
 
 body {
@@ -1078,4 +1086,43 @@ a:focus {
   margin-right: 8px;
   display: inline-flex;
   border-radius: 4px;
+}
+
+.spectrum-Toast {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  bottom: 0;
+
+  &.is-visible {
+    transform: translate(-50%, var(--toast-offset));
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.spectrum-Bounce {
+    animation-duration: 250ms;
+    animation-iteration-count: 1;
+    animation-name: spectrum-Bounce;
+    animation-timing-function: var(--spectrum-ease-in-out);
+}
+@keyframes spectrum-Bounce {
+  0%   { transform: translate(-50%, 50%); opacity: 0;}
+  50%  { transform: translate(-50%, var(--toast-offset-bounce-up-light));  opacity: 1;}
+  75%  { transform: translate(-50%, var(--toast-offset)); opacity: 1;}
+  100% { transform: translate(-50%, var(--toast-offset)); opacity: 1;}
+}
+
+.spectrum-Exit {
+    animation-duration: 220ms;
+    animation-iteration-count: 1;
+    animation-name: spectrum-Exit;
+    animation-timing-function: var(--spectrum-ease-in-out);
+}
+@keyframes spectrum-Exit {
+    0% { transform: translate(-50%, var(--toast-offset)); opacity: 1;}
+    100%   { transform: translate(-50%, 50%); opacity: 0;}
 }
