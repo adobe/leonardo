@@ -46,6 +46,8 @@ window.luminance = contrastColors.luminance;
 window.contrast = contrastColors.contrast;
 window.generateContrastColors = contrastColors.generateContrastColors;
 window.contrastColors = contrastColors;
+window.generateBaseScale = contrastColors.generateBaseScale;
+window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
 
 import loadIcons from 'loadicons';
 loadIcons('./spectrum-css-icons.svg');
@@ -900,3 +902,8 @@ function updateCharts(selectObject) {
   colorSpaceFeedback(spaceOpt);
 }
 window.updateCharts = updateCharts;
+
+// Temporary
+window.generateBaseScale = generateBaseScale;
+window.minPositive = minPositive;
+window.ratioName = ratioName;

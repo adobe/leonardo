@@ -19,6 +19,13 @@ test('should generate 2 colors (CAM02 interpolation)', function() {
 
 });
 
+test('should generate 2 named colors (CAM02 interpolation)', function() {
+  let colors = generateContrastColors({name: 'Cerulean', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02'});;
+
+  expect(colors).toEqual([ '#5490e0', '#2c66f1' ]);
+
+});
+
 test('should generate 2 colors (LAB interpolation)', function() {
   let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'LAB'});;
 
@@ -143,6 +150,22 @@ test('should generate no colors, missing base', function() {
   expect(
     () => {
       let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5]}) // no base
+    }
+  ).toThrow();
+});
+
+test('should throw error, missing hash on hex value', function() {
+  expect(
+    () => {
+      let colors = generateContrastColors({colorKeys: ['#2451FF', 'C9FEFE', '#012676'], ratios: [3, 4.5]}) // third color missing hash #
+    }
+  ).toThrow();
+});
+
+test('should throw error, incomplete hex value', function() {
+  expect(
+    () => {
+      let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEF', '#012676'], ratios: [3, 4.5]}) // third color missing final hex code
     }
   ).toThrow();
 });
