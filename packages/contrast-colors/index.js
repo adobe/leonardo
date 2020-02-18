@@ -36,6 +36,20 @@ function cArray(c) {
   return new Array(L, U, V);
 }
 
+function removeDuplicates(originalArray, prop) {
+  var newArray = [];
+  var lookupObject  = {};
+
+  for(var i in originalArray) {
+    lookupObject[originalArray[i][prop]] = originalArray[i];
+  }
+
+  for(i in lookupObject) {
+    newArray.push(lookupObject[i]);
+  }
+  return newArray;
+}
+
 function createScale({
   swatches,
   colorKeys,
@@ -195,6 +209,25 @@ function createScale({
   };
 }
 
+function generateBaseScale({
+  colorKeys,
+  colorspace = 'LAB'
+} = {}) {
+  // create massive scale
+  let swatches = 1000;
+  let scale = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
+  let newColors = scale.colorsHex;
+
+  let colorObj = newColors
+    // Convert to HSLuv and keep track of original indices
+    .map((c, i) => { return { value: Number(cArray(c)[2].toFixed(0)), index: i } });
+
+  let filteredArr = removeDuplicates(colorObj, "value")
+    .map(data => newColors[data.index]);
+
+  return filteredArr;
+}
+
 function generateContrastColors({
   colorKeys,
   base,
@@ -206,6 +239,14 @@ function generateContrastColors({
   }
   if (!colorKeys) {
     throw new Error(`Color Keys are undefined`);
+  }
+  for (let i=0; i<colorKeys.length; i++) {
+    if (colorKeys[i].length < 6) {
+      throw new Error('Color Key must be greater than 6 and include hash # if hex.');
+    }
+    else if (colorKeys[i].length == 6 && colorKeys[i].charAt(0) != 0) {
+      throw new Error('Color Key missing hash #');
+    }
   }
   if (!ratios) {
     throw new Error(`Ratios are undefined`);
@@ -248,10 +289,6 @@ function luminance(r, g, b) {
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
 
-// function percievedLum(r, g, b) {
-//   return (0.299*r + 0.587*g + 0.114*b);
-// }
-
 function contrast(color, base, baseV) {
   let colorLum = luminance(color[0], color[1], color[2]);
   let baseLum = luminance(base[0], base[1], base[2]);
@@ -274,6 +311,138 @@ function contrast(color, base, baseV) {
     else {
       return cr1 * -1;
     } // Return as whole negative number
+  }
+}
+
+function minPositive(r) {
+  if (!r) { throw new Error('Array undefined');}
+  if (!Array.isArray(r)) { throw new Error('Passed object is not an array');}
+  let arr = [];
+
+  for(let i=0; i < r.length; i++) {
+    if(r[i] >= 1) {
+      arr.push(r[i]);
+    }
+  }
+  return Math.min(...arr);
+}
+
+function ratioName(r) {
+  if (!r) { throw new Error('Ratios undefined');}
+  r = r.sort(function(a, b){return a - b}); // sort ratio array in case unordered
+
+  let min = minPositive(r);
+  let minIndex = r.indexOf(min);
+  let nArr = []; // names array
+
+  let rNeg = r.slice(0, minIndex);
+  let rPos = r.slice(minIndex, r.length);
+
+  // Name the negative values
+  for (let i=0; i < rNeg.length; i++) {
+    let d = 1/(rNeg.length + 1);
+    let m = d * 100;
+    let nVal = m * (i + 1);
+    nArr.push(Number(nVal.toFixed()));
+  }
+  // Name the positive values
+  for (let i=0; i < rPos.length; i++) {
+    nArr.push((i+1)*100);
+  }
+  nArr.sort(function(a, b){return a - b}); // just for safe measure
+
+  return nArr;
+}
+
+function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1}) {
+  if (!baseScale) {
+    throw new Error('baseScale is undefined');
+  }
+  let found = false;
+  for(let i = 0; i < colorScales.length; i++) {
+    if (colorScales[i].name !== baseScale) {
+      found = true;
+    }
+  }
+  if (found = false) {
+    throw new Error('baseScale must match the name of a colorScales object');
+  }
+
+  if (!colorScales) {
+    throw new Error('colorScales are undefined');
+  }
+  if (!Array.isArray(colorScales)) {
+    throw new Error('colorScales must be an array of objects');
+  }
+
+  if (brightness === undefined) {
+    return function(brightness, contrast) {
+      return generateAdaptiveTheme({baseScale: baseScale, colorScales: colorScales, brightness: brightness, contrast: contrast});
+    }
+  }
+  else {
+    // Find color object matching base scale
+    let baseIndex = colorScales.findIndex( x => x.name === baseScale );
+    let baseKeys = colorScales[baseIndex].colorKeys;
+    let baseMode = colorScales[baseIndex].colorspace;
+
+    // define params to pass as bscale
+    let bscale = generateBaseScale({colorKeys: baseKeys, colorspace: baseMode}); // base parameter to create base scale (0-100)
+    let bval = bscale[brightness];
+    let baseObj = {
+      background: bval
+    };
+
+    let arr = [];
+    arr.push(baseObj);
+
+    for (let i = 0; i < colorScales.length; i++) {
+      if (!colorScales[i].name) {
+        throw new Error('Color missing name');
+      }
+      let name = colorScales[i].name;
+      let ratios = colorScales[i].ratios;
+      let newArr = [];
+      let colorObj = {
+        name: name,
+        values: newArr
+      };
+
+      ratios = ratios.map(function(d) {
+        let r;
+        if(d > 1) {
+          r = ((d-1) * contrast) + 1;
+        }
+        else if(d < -1) {
+          r = ((d+1) * contrast) - 1;
+        }
+        else {
+          r = 1;
+        }
+        return Number(r.toFixed(2));
+      });
+
+      let outputColors = generateContrastColors({
+        colorKeys: colorScales[i].colorKeys,
+        colorspace: colorScales[i].colorspace,
+        ratios: ratios,
+        base: bval});
+
+      for (let i=0; i < outputColors.length; i++) {
+        let rVal = ratioName(ratios)[i];
+        let n = name.concat(rVal);
+
+        let obj = {
+          name: n,
+          contrast: ratios[i],
+          value: outputColors[i]
+        };
+        newArr.push(obj)
+      }
+      arr.push(colorObj);
+    }
+
+    return arr;
   }
 }
 
@@ -323,5 +492,9 @@ export {
   luminance,
   contrast,
   binarySearch,
-  generateContrastColors
+  generateBaseScale,
+  generateContrastColors,
+  minPositive,
+  ratioName,
+  generateAdaptiveTheme
 };
