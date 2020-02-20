@@ -129,11 +129,6 @@ createEvent(col4, 'event120', 'Backlog grooming', 'UT-112', 'catPrimary', 8);
 let baseRatios = [-1.1,1,1.12,1.25,1.45,1.75,2.25,3.01,4.52,7,11,16];
 let uiRatios = [1,1.12,1.3,2,3.01,4.52,7,11,16];
 
-let gray = {
-  colorKeys: ["#4a5b7b","#72829c","#a6b2c6"],
-  colorspace: 'HSL'
-};
-
 let purpleScale = {
   name: "purple",
   colorKeys: ["#7a4beb","#ac80f4","#2f0071"],
@@ -170,8 +165,8 @@ let goldScale = {
 
 let grayScale =  {
   name: "gray",
-  colorKeys: gray.colorKeys,
-  colorspace: gray.colorspace,
+  colorKeys: ["#4a5b7b","#72829c","#a6b2c6"],
+  colorspace: 'HSL',
   ratios: baseRatios
 };
 
@@ -204,18 +199,31 @@ function createColors() {
   }
 
   let myTheme = generateAdaptiveTheme({
-    baseScale: gray,
+    baseScale: "gray",
     colorScales: [grayScale, purpleScale, blueScale, greenScale, redScale, goldScale],
     brightness: brVal,
     contrast: conVal});
 
+  console.log(myTheme);
+
   let varPrefix = '--';
 
   for (let i=0; i<myTheme.length; i++) { // for each color
-    for(let j=0; j<myTheme[i].values.length; j++) { // for each value object
-      let key = myTheme[i].values[j].name; // output "name" of color
-      let prop = varPrefix.concat(key);
-      let value = myTheme[i].values[j].value; // output value of color
+    let vals = myTheme[i].values;
+
+    if (vals !== undefined) { // only color objects with values (excludes background color)
+      for(let j=0; j< vals.length; j++) { // for each value object
+        let key = vals[j].name; // output "name" of color
+        let prop = varPrefix.concat(key);
+        let value = vals[j].value; // output value of color
+
+        document.documentElement.style
+          .setProperty(prop, value);
+      }
+    }
+    else if(myTheme[i].background) {
+      let prop = varPrefix.concat('background');
+      let value = myTheme[i].background;
 
       document.documentElement.style
         .setProperty(prop, value);
