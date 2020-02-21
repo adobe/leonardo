@@ -78,13 +78,19 @@
       <div class="spectrum-Panel-Title">
         <h3 class="spectrum-Heading6">Key Colors</h3>
         <div class="spectrum-ButtonGroup">
-          <button id="clearAll" onClick="clearAllColors()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-            <span class="spectrum-ActionButton-label">Clear</span>
+          <button title="Clear all key colors" id="clearAll" onClick="clearAllColors()" class="spectrum-ActionButton">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+              <use xlink:href="#spectrum-icon-18-CloseCircle" />
+            </svg>
+            <!-- <span class="spectrum-ActionButton-label">Clear</span> -->
           </button>
-          <button id="addBulk" onClick="addBulk()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-            <span class="spectrum-ActionButton-label">Add Bulk</span>
+          <button title="Add bulk key colors" id="addBulk" onClick="addBulk()" class="spectrum-ActionButton">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+              <use xlink:href="#spectrum-icon-18-BoxAdd" />
+            </svg>
+            <!-- <span class="spectrum-ActionButton-label">Add Bulk</span> -->
           </button>
-          <button id="addColor" onclick="addNewColor()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+          <button title="Add new key color" id="addColor" onclick="addNewColor()" class="spectrum-ActionButton">
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
               <use xlink:href="#spectrum-icon-18-Add" />
             </svg>
@@ -166,13 +172,13 @@
             <label for="bgField" class="spectrum-FieldLabel spectrum-FieldLabel--right">Base color</label>
           </div>
           <div class="spectrum-ButtonGroup">
-            <button id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
                 <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
               </svg>
               <span class="spectrum-ActionButton-label">Sort</span>
             </button>
-            <button id="sort" onclick="distributeCube()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <button title="Distribute ratios" id="distribute" onclick="distributeCube()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
                 <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
               </svg>
@@ -187,7 +193,7 @@
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
               <use xlink:href="#spectrum-icon-18-Add" />
             </svg>
-            <span class="spectrum-ActionButton-label">Add Swatch</span>
+            <span class="spectrum-ActionButton-label">Add contrast ratio</span>
           </button>
         </div>
       </div>

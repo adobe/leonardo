@@ -291,6 +291,7 @@ function addColorScale(c, k, s, r) {
   addButton.className = 'spectrum-ActionButton';
   let buttonId = thisId.concat('_addKeyColor');
   addButton.id = buttonId;
+  addButton.title = "Add key color"
   addButton.onclick = themeAddColor;
   addButton.innerHTML = `
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
@@ -300,6 +301,7 @@ function addColorScale(c, k, s, r) {
   let bulkButton = document.createElement('button');
   bulkButton.className = 'spectrum-ActionButton';
   let bulkId = thisId.concat('_addBulk');
+  bulkButton.title = "Add bulk key colors"
   bulkButton.id = bulkId;
   bulkButton.onclick = addBulk;
   bulkButton.innerHTML = `
@@ -389,14 +391,17 @@ function addColorScale(c, k, s, r) {
   actions.className = 'spectrum-ButtonGroup spectrum-Form-item labelSpacer';
   let edit = document.createElement('button');
   edit.className = 'spectrum-ActionButton';
+  edit.title = "Edit color scale in new tab"
   edit.innerHTML = `
   <!-- <span class="spectrum-ActionButton-label">Add from URL</span> -->
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-Edit" />
   </svg>`
+  edit.onclick = themeEditItem;
   // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
   let deleteColor = document.createElement('button');
   deleteColor.className = 'spectrum-ActionButton';
+  deleteColor.title = 'Delete color scale'
   deleteColor.id = thisId.concat('_delete');
   deleteColor.innerHTML = `
   <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
@@ -537,13 +542,81 @@ function themeAddColor(c, thisId = this.id) {
 }
 
 function themeDeleteItem(e) {
-  var id = e.target.parentNode.parentNode.parentNode.id;
-  var self = document.getElementById(id);
+  let id = e.target.parentNode.parentNode.parentNode.id;
+  let self = document.getElementById(id);
 
   self.remove();
   toggleControls();
 
   themeInput();
+}
+
+function getColorItemData(id) {
+  let thisElement = document.getElementById(id);
+  // 1. find color name
+  let colorNameInput = id.concat('_colorName');
+  let colorName = document.getElementById(colorNameInput).value;
+  // 2. find all key colors
+  let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
+  let inputColors = [];
+  let tempArgs = [];
+  for(let i=0; i<colorKeys.length; i++) {
+    inputColors.push(colorKeys[i].value);
+  }
+  // Convert input value into a split array of hex values.
+  // remove any whitespace from inputColors
+  tempArgs.push(inputColors);
+  let colorArgs = tempArgs.join("").split(',').filter(String);
+
+  // 3. find mode
+  let modeId = id.concat('_mode');
+  let modeSelect = document.getElementById(modeId);
+  let mode = modeSelect.value;
+
+  // 4. find ratios
+  let ratiosId = id.concat('_ratios');
+  let ratiosInput = document.getElementById(ratiosId);
+  let rVals = ratiosInput.value;
+  let r = new Array(rVals);
+  let rSplit = r.join("").split(',');
+  let ratios = rSplit.map(x => parseFloat(x));
+  // TODO: remove all values of NaN
+
+  return {
+    colorName: colorName,
+    colorArgs: colorArgs,
+    mode: mode,
+    ratios: ratios
+  }
+}
+
+function themeEditItem(e) {
+  let id = e.target.parentNode.parentNode.parentNode.id;
+  let thisElement = document.getElementById(id);
+
+  let c = getColorItemData(id).colorArgs;
+  let b = 'ffffff'; // get generated background color...
+  let m = getColorItemData(id).mode;
+  let r = getColorItemData(id).ratios;
+
+  // take the configs and craft a URL for editing the palette
+  let location = window.location.origin;
+  let url = new URL(location);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  params.set('colorKeys', c);
+  params.set('base', b);
+  params.set('ratios', r);
+  params.set('mode', m);
+
+  // window.history.replaceState({}, '', '?' + params); // update the page's URL.
+
+  // open new tab with url based on color scale's parameters
+  let newURL = location.toString().concat('/?').concat(params);
+  window.open(newURL, "_blank");
+
+  // Now how do we apply this *back* to the theme itself?...
+  // I don't think this is possible without some serious magic from a real engineer.
 }
 
 // Create options for colors to use as base scale
@@ -703,34 +776,13 @@ function themeInput() {
     for (let i = 0; i < items.length; i++) {
       let id = items[i].id;
       let thisElement = document.getElementById(id);
-      // 1. find color name
-      let colorNameInput = id.concat('_colorName');
-      let colorName = document.getElementById(colorNameInput).value;
-      // 2. find all key colors
-      let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
-      let inputColors = [];
-      let tempArgs = [];
-      for(let i=0; i<colorKeys.length; i++) {
-        inputColors.push(colorKeys[i].value);
-      }
-      // Convert input value into a split array of hex values.
-      // remove any whitespace from inputColors
-      tempArgs.push(inputColors);
-      let colorArgs = tempArgs.join("").split(',').filter(String);
 
-      // 3. find mode
-      let modeId = id.concat('_mode');
-      let modeSelect = document.getElementById(modeId);
-      let mode = modeSelect.value;
+      let colorData = getColorItemData(id);
 
-      // 4. find ratios
-      let ratiosId = id.concat('_ratios');
-      let ratiosInput = document.getElementById(ratiosId);
-      let rVals = ratiosInput.value;
-      let r = new Array(rVals);
-      let rSplit = r.join("").split(',');
-      let ratios = rSplit.map(x => parseFloat(x));
-      // TODO: remove all values of NaN
+      let colorName = colorData.colorName;
+      let colorArgs = colorData.colorArgs;
+      let mode = colorData.mode;
+      let ratios = colorData.ratios;
 
       let colorObj = {
         name: colorName,

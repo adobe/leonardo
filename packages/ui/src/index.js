@@ -223,6 +223,7 @@ function addRatio(v, s = '#cacaca') {
   input.oninput = debounce(colorInput, 100);
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
+  button.title = 'Delete contrast ratio';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
     <use xlink:href="#spectrum-icon-18-Delete" />
@@ -283,6 +284,7 @@ function addColor(s) {
 
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
+  button.title = 'Delete key color';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
     <use xlink:href="#spectrum-icon-18-Delete" />

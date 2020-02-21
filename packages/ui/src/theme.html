@@ -149,10 +149,16 @@
         </div>
         <div class="spectrum-ButtonGroup">
           <!-- <button class="spectrum-ActionButton">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-icon-18-Import" />
+            </svg>
             <span class="spectrum-ActionButton-label">Add from URL</span>
           </button> -->
           <button class="spectrum-ActionButton" onClick="addColorScale()">
-            <span class="spectrum-ActionButton-label">Add color scale</span>
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-icon-18-Add" />
+            </svg>
+            <span class="spectrum-ActionButton-label">Add color</span>
           </button>
         </div>
       </div>
@@ -202,7 +208,7 @@
   <div class="spectrum-Dialog-content">
     <span class="spectrum-Typography">
       <p class="spectrum-Body4">Enter hex colors separated by comma or new line.</p>
-      <p class="spectrum-Body4">These will be added as <b>key colors<b> to this color scale.
+      <p class="spectrum-Body4">These will be added as <b>key colors<b> to this color scale. </p>
     </span>
     <form class="spectrum-Form spectrum-Form--labelsAbove">
       <div class="spectrum-Form-item">
@@ -216,6 +222,28 @@
     <button class="spectrum-Button spectrum-Button--cta" id="bulkAddButton">Add</button>
   </div>
 </div>
+
+<!-- <div class="addURLDialog spectrum-Dialog spectrum-Dialog--small" id="">
+  <div class="spectrum-Dialog-header">
+    <h2 class="spectrum-Dialog-title">Add from URL</h2>
+  </div>
+  <div class="spectrum-Dialog-content">
+    <span class="spectrum-Typography">
+      <p class="spectrum-Body4">Enter the URL of your existing color to add to this theme.</p>
+      <p class="spectrum-Body4">The configurations will be added to a new color scale. </p>
+    </span>
+    <form class="spectrum-Form spectrum-Form--labelsAbove">
+      <div class="spectrum-Form-item">
+        <label for="fieldLabelExample-lifestory" class="spectrum-Form-itemLabel">Leonardo URL</label>
+        <input type="url" id="addURLinput" class="spectrum-Textfield" />
+      </div>
+    </form>
+  </div>
+  <div class="spectrum-Dialog-footer">
+    <button class="spectrum-Button spectrum-Button--secondary" onclick="cancelURL()">Cancel</button>
+    <button class="spectrum-Button spectrum-Button--cta" id="addURLButton">Add</button>
+  </div>
+</div> -->
 
 <div id="toastCVDpreview" class="spectrum-Toast">
   <div class="spectrum-Toast-content">You're in CVD preview mode. Copying generated colors will not be affected by preview mode.</div>
