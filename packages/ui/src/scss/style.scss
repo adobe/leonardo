@@ -1129,3 +1129,7 @@ a:focus {
     0% { transform: translate(-50%, var(--toast-offset)); opacity: 1;}
     100%   { transform: translate(-50%, 50%); opacity: 0;}
 }
+
+#addFromURLinput {
+  width: 100%;
+}

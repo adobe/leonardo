@@ -970,6 +970,24 @@ function cancelBulk() {
   document.getElementById('dialogOverlay').style.display = 'none';
 }
 
+window.addFromURLDialog = addFromURLDialog;
+function addFromURLDialog() {
+  let button = document.getElementById('addFromURLButton');
+  button.onclick = addFromURL;
+
+  let dialog = document.getElementById('addFromURLDialog');
+  dialog.classList.add("is-open");
+
+  document.getElementById('dialogOverlay').style.display = 'block';
+}
+window.cancelURL = cancelURL;
+function cancelURL() {
+  let dialog = document.getElementById('addFromURLDialog');
+  dialog.classList.remove("is-open");
+
+  document.getElementById('dialogOverlay').style.display = 'none';
+}
+
 window.bulkItemColorInput = function bulkItemColorInput(e) {
   let id = e.target.parentNode.parentNode.id;
   let itemId = id.replace('_dialog', '');
@@ -1002,6 +1020,49 @@ window.bulkItemColorInput = function bulkItemColorInput(e) {
 
   // clear inputs on close
   bulkInputs.value = " ";
+}
+
+window.addFromURL = addFromURL;
+function addFromURL() {
+  let input = document.getElementById('addFromURLinput');
+  let value = input.value;
+
+  let url = new URL(value);
+  let params = new URLSearchParams(url.search.slice(1));
+  let pathName = url.pathname;
+
+  let crs, ratios, mode;
+  let cName = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+
+  // // If parameters exist, use parameter; else use default html input values
+  if(params.has('colorKeys')) {
+    let cr = params.get('colorKeys');
+    crs = cr.split(',');
+  }
+
+  if(params.has('ratios')) {
+    // transform parameter values into array of numbers
+    let rat = params.get('ratios');
+    ratios = rat.split(',');
+    ratios = ratios.map(Number);
+
+    if(ratios[0] == 0) { // if no parameter value, default to [3, 4.5]
+      ratios = [3, 4.5];
+    } else { }
+  }
+  if(params.has('mode')) {
+    mode = params.get('mode');
+  }
+  else {
+    // do nothing
+  }
+  addColorScale(cName, crs, mode, ratios);
+
+  cancelURL();
+  // Run colorinput
+  throttle(themeInput, 10);
+  // Clear out value when done
+  input.value = ' ';
 }
 
 window.toggleConfigs = toggleConfigs;
