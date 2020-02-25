@@ -63,12 +63,8 @@ import ClipboardJS from 'clipboard';
 new ClipboardJS('.copyButton');
 new ClipboardJS('.themeOutputSwatch');
 
-var themeConfigs = {
-  baseScale: '',
-  colorScales: '',
-  brightness: '',
-  contrast: ''
-};
+window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
+
 var currentBackgroundColor;
 
 let cvdModeDropdown = document.getElementById('cvdMode');
@@ -104,7 +100,8 @@ function deleteColor(e) {
   var self = document.getElementById(id);
 
   self.remove();
-  themeInput();
+
+  themeUpdateParams();
 }
 
 function paramSetup() {
@@ -116,7 +113,7 @@ function paramSetup() {
     let themeNameInput = document.getElementById('themeName');
     themeNameInput.value = params.get('name').toString();
   }
-  if(params.has('config')) {
+  if(params.has('config') && params.get('config') !== undefined) {
     let configParam = params.get('config');
     let config = JSON.parse(configParam);
     let colorScales = config.colorScales;
@@ -138,14 +135,18 @@ function paramSetup() {
     }
 
     let slider = document.getElementById('themeBrightnessSlider');
+    let sliderVal = document.getElementById('themeBrightnessValue');
     slider.value = brightness;
+    sliderVal.innerHTML = brightness;
 
     let contrastSlider = document.getElementById('themeContrastSlider');
+    let contrastSliderVal = document.getElementById('themeContrastValue');
     contrastSlider.value = contrast;
-
-    sliderInput();
-    throttle(themeInput, 10);
+    contrastSliderVal.innerHTML = contrast;
   }
+
+  sliderInput();
+  // themeInput();
 }
 paramSetup();
 
@@ -265,7 +266,7 @@ function addColorScale(c, k, s, r) {
   }
 
 
-  colorNameInput.onchange = throttle(themeInput, 10);
+  colorNameInput.oninput = throttle(themeUpdateParams, 10);
   colorNameLabel.innerHTML = 'Color scale name';
   colorName.appendChild(colorNameLabel);
   colorName.appendChild(colorNameInput);
@@ -292,7 +293,7 @@ function addColorScale(c, k, s, r) {
   let buttonId = thisId.concat('_addKeyColor');
   addButton.id = buttonId;
   addButton.title = "Add key color"
-  addButton.onclick = themeAddColor;
+  addButton.addEventListener('click', themeAddColorUpdate);
   addButton.innerHTML = `
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-Add" />
@@ -303,7 +304,7 @@ function addColorScale(c, k, s, r) {
   let bulkId = thisId.concat('_addBulk');
   bulkButton.title = "Add bulk key colors"
   bulkButton.id = bulkId;
-  bulkButton.onclick = addBulk;
+  bulkButton.addEventListener('click', addBulk);
   bulkButton.innerHTML = `
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-BoxAdd" />
@@ -327,7 +328,7 @@ function addColorScale(c, k, s, r) {
   interpSelect.className = 'spectrum-FieldButton spectrum-Dropdown-trigger';
   interpSelect.id = thisId.concat('_mode');
   interpSelect.name = thisId.concat('_mode');
-  interpSelect.oninput = throttle(themeInput, 20);
+  interpSelect.oninput = throttle(themeUpdateParams, 20);
   let interpDropdownIcon = document.createElement('span');
   interpDropdownIcon.className = 'spectrum-Dropdown-iconWrapper';
   interpDropdownIcon.innerHTML = `
@@ -382,7 +383,7 @@ function addColorScale(c, k, s, r) {
   ratiosInput.className = 'spectrum-Textfield';
   ratiosInput.id = thisId.concat('_ratios');
   ratiosInput.name = thisId.concat('_ratios');
-  ratiosInput.oninput = throttle(themeInput, 10);
+  ratiosInput.oninput = throttle(themeUpdateParams, 10);
   ratios.appendChild(ratiosLabel);
   ratios.appendChild(ratiosInput);
 
@@ -397,7 +398,7 @@ function addColorScale(c, k, s, r) {
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-Edit" />
   </svg>`
-  edit.onclick = themeEditItem;
+  edit.addEventListener('click', themeEditItem);
   // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
   let deleteColor = document.createElement('button');
   deleteColor.className = 'spectrum-ActionButton';
@@ -408,7 +409,7 @@ function addColorScale(c, k, s, r) {
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
-  deleteColor.onclick = themeDeleteItem;
+  deleteColor.addEventListener('click', themeDeleteItem);
   actions.appendChild(edit);
   actions.appendChild(deleteColor);
 
@@ -463,14 +464,24 @@ function addColorScale(c, k, s, r) {
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
   document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
 
+}
+
+window.addColorScaleUpdate = addColorScaleUpdate;
+function addColorScaleUpdate(c, k, s, r) {
+  addColorScale(c, k, s, r);
   themeInput();
+  let config = getThemeData();
+  let name = getThemeName();
+
+  config = JSON.stringify(config);
+
+  updateParams(name, config);
 }
 
 // Update theme when theme name is changed
-document.getElementById('themeName').addEventListener('input', themeInput);
+document.getElementById('themeName').addEventListener('input', throttle(themeUpdateParams, 50));
 // Update theme when base color selection is changed
-document.getElementById('themeBase').addEventListener('input', themeInput);
-
+document.getElementById('themeBase').addEventListener('input', throttle(themeUpdateParams, 50));
 
 function themeRamp(colors, n = window.innerWidth - 272, dest) {
   let container = document.getElementById(dest);
@@ -522,7 +533,7 @@ function themeAddColor(c, thisId = this.id) {
   let sw = document.createElement('input');
   sw.type = "color";
   sw.value = c;
-  sw.oninput = throttle(themeInput, 50);
+  sw.oninput = throttle(themeUpdateParams, 50);
 
   sw.className = 'keyColor-Item';
   sw.id = randId + '-sw';
@@ -535,10 +546,20 @@ function themeAddColor(c, thisId = this.id) {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  button.onclick = deleteColor;
+  button.addEventListener('click', deleteColor);
   div.appendChild(sw);
   div.appendChild(button);
   dest.appendChild(div);
+}
+
+function themeAddColorUpdate(c, thisId = this.id) {
+  themeAddColor(c, thisId = this.id);
+  let config = getThemeData();
+  let name = getThemeName();
+
+  config = JSON.stringify(config);
+
+  updateParams(name, config);
 }
 
 function themeDeleteItem(e) {
@@ -546,47 +567,17 @@ function themeDeleteItem(e) {
   let self = document.getElementById(id);
 
   self.remove();
+  baseScaleOptions();
   toggleControls();
 
-  themeInput();
-}
+  themeUpdateParams();
 
-function getColorItemData(id) {
-  let thisElement = document.getElementById(id);
-  // 1. find color name
-  let colorNameInput = id.concat('_colorName');
-  let colorName = document.getElementById(colorNameInput).value;
-  // 2. find all key colors
-  let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
-  let inputColors = [];
-  let tempArgs = [];
-  for(let i=0; i<colorKeys.length; i++) {
-    inputColors.push(colorKeys[i].value);
-  }
-  // Convert input value into a split array of hex values.
-  // remove any whitespace from inputColors
-  tempArgs.push(inputColors);
-  let colorArgs = tempArgs.join("").split(',').filter(String);
+  let items = document.getElementsByClassName('themeColor_item');
+  if(items.length == 0) {
+    clearParams();
 
-  // 3. find mode
-  let modeId = id.concat('_mode');
-  let modeSelect = document.getElementById(modeId);
-  let mode = modeSelect.value;
-
-  // 4. find ratios
-  let ratiosId = id.concat('_ratios');
-  let ratiosInput = document.getElementById(ratiosId);
-  let rVals = ratiosInput.value;
-  let r = new Array(rVals);
-  let rSplit = r.join("").split(',');
-  let ratios = rSplit.map(x => parseFloat(x));
-  // TODO: remove all values of NaN
-
-  return {
-    colorName: colorName,
-    colorArgs: colorArgs,
-    mode: mode,
-    ratios: ratios
+    document.documentElement.style
+      .setProperty('--theme-background', '#f5f5f5');
   }
 }
 
@@ -744,18 +735,15 @@ function cvdColors(colors) {
   return colors;
 }
 
+var themeName = document.getElementById('themeName');
+
 window.themeInput = themeInput;
 function themeInput() {
-  // Run this function any time an object is added or any item is changed.
-  // Gather all color scale objects
   let items = document.getElementsByClassName('themeColor_item');
-  let themeName = document.getElementById('themeName');
-
   let colorScales = [];
-
   let themeOutputs = document.getElementById('themeOutputs');
   themeOutputs.innerHTML = ' ';
-  let themeObj = JSON.stringify(themeConfigs);
+  let themeConfigs = getThemeData();
   let paramsOutput = document.getElementById('themeParams');
 
   if (items.length == 0) {
@@ -779,17 +767,8 @@ function themeInput() {
 
       let colorData = getColorItemData(id);
 
-      let colorName = colorData.colorName;
       let colorArgs = colorData.colorArgs;
       let mode = colorData.mode;
-      let ratios = colorData.ratios;
-
-      let colorObj = {
-        name: colorName,
-        colorKeys: colorArgs,
-        colorspace: mode,
-        ratios: ratios
-      };
 
       let gradientId = id.concat('_gradient');
       let gradient = document.getElementById(gradientId);
@@ -797,31 +776,20 @@ function themeInput() {
       let n = window.innerWidth - 272;
       let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
       let colors = rampData.colors;
-      // Conditional for CVDs
 
       colors = cvdColors(colors);
 
       themeRamp(colors, n, gradientId);
-      // - assign properties to an object
-
-      colorScales.push(colorObj);
     }
-    // Find name of selected base scale color
-    let baseSelect = document.getElementById('themeBase');
-    let baseSelectValue = baseSelect.value;
 
-    // Then, pass all props to 'generateAdaptiveTheme'
-    themeConfigs.baseScale = baseSelectValue;
-    themeConfigs.colorScales = colorScales;
-    let themeBrightnessSlider = document.getElementById('themeBrightnessSlider');
-    let themeBrightness = themeBrightnessSlider.value;
-    themeConfigs.brightness = themeBrightness;
-    let themeContrastSlider = document.getElementById('themeContrastSlider');
-    let themeContrast = themeContrastSlider.value;
-    themeConfigs.contrast = themeContrast;
+    let theme = contrastColors.generateAdaptiveTheme({
+      baseScale: themeConfigs.baseScale,
+      colorScales: themeConfigs.colorScales,
+      brightness: themeConfigs.brightness,
+      contrast: themeConfigs.contrast
+    });
 
-    let theme = contrastColors.generateAdaptiveTheme(themeConfigs);
-
+    // Loop again after generating theme.
     for (let i = 0; i < items.length; i++) {
       let id = items[i].id;
       let thisElement = document.getElementById(id);
@@ -918,9 +886,18 @@ function themeInput() {
     let copyThemeColors = document.getElementById('copyThemeColors');
     copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
     paramsOutput.innerHTML = JSON.stringify(themeConfigs, null, 2);
-
-    updateParams(themeName.value, themeObj);
   }
+}
+
+window.themeUpdateParams = themeUpdateParams;
+function themeUpdateParams() {
+  themeInput();
+  let config = getThemeData();
+  let name = getThemeName();
+
+  config = JSON.stringify(config);
+
+  updateParams(name, config);
 }
 
 let sliderB = document.getElementById('themeBrightnessSlider');
@@ -942,7 +919,7 @@ function sliderInput() {
   let items = document.getElementsByClassName('themeColor_item');
   // If theme items are present, run themeInput
   if (items !== undefined) {
-    themeInput();
+    themeUpdateParams();
   }
 }
 
@@ -950,7 +927,7 @@ window.addBulk = addBulk;
 function addBulk(e) {
   let id = e.target.parentNode.parentNode.parentNode.id;
   let button = document.getElementById('bulkAddButton');
-  button.onclick = bulkItemColorInput;
+  button.addEventListener('click', bulkItemColorInput);
 
   let dialog = document.getElementsByClassName('addBulkColorDialog');
   for(let i = 0; i < dialog.length; i++) {
@@ -973,7 +950,7 @@ function cancelBulk() {
 window.addFromURLDialog = addFromURLDialog;
 function addFromURLDialog() {
   let button = document.getElementById('addFromURLButton');
-  button.onclick = addFromURL;
+  button.addEventListener('click', addFromURL);
 
   let dialog = document.getElementById('addFromURLDialog');
   dialog.classList.add("is-open");
@@ -1016,7 +993,7 @@ window.bulkItemColorInput = function bulkItemColorInput(e) {
   // Hide dialog
   cancelBulk();
   // Run colorinput
-  themeInput();
+  themeUpdateParams();
 
   // clear inputs on close
   bulkInputs.value = " ";
@@ -1056,11 +1033,11 @@ function addFromURL() {
   else {
     // do nothing
   }
-  addColorScale(cName, crs, mode, ratios);
+  addColorScaleUpdate(cName, crs, mode, ratios);
 
   cancelURL();
   // Run colorinput
-  throttle(themeInput, 10);
+  // throttle(themeInput, 10);
   // Clear out value when done
   input.value = ' ';
 }
@@ -1187,4 +1164,98 @@ function clearParams() {
   let cleanURL = uri.substring(0, uri.indexOf("?"));
 
   window.history.replaceState({}, document.title, cleanURL);
+}
+
+
+/////////////////////////////////////
+//   Functions for GETTING data    //
+/////////////////////////////////////
+
+// GET Color Scale Data
+function getColorItemData(id) {
+  let thisElement = document.getElementById(id);
+  // 1. find color name
+  let colorNameInput = id.concat('_colorName');
+  let colorName = document.getElementById(colorNameInput).value;
+  // 2. find all key colors
+  let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
+  let inputColors = [];
+  let tempArgs = [];
+  for(let i=0; i<colorKeys.length; i++) {
+    inputColors.push(colorKeys[i].value);
+  }
+  // Convert input value into a split array of hex values.
+  // remove any whitespace from inputColors
+  tempArgs.push(inputColors);
+  let colorArgs = tempArgs.join("").split(',').filter(String);
+
+  // 3. find mode
+  let modeId = id.concat('_mode');
+  let modeSelect = document.getElementById(modeId);
+  let mode = modeSelect.value;
+
+  // 4. find ratios
+  let ratiosId = id.concat('_ratios');
+  let ratiosInput = document.getElementById(ratiosId);
+  let rVals = ratiosInput.value;
+  let r = new Array(rVals);
+  let rSplit = r.join("").split(',');
+  let ratios = rSplit.map(x => parseFloat(x));
+  // TODO: remove all values of NaN
+
+  return {
+    colorName: colorName,
+    colorArgs: colorArgs,
+    mode: mode,
+    ratios: ratios
+  }
+}
+
+function getThemeName() {
+  // Get name
+  let themeNameInput = document.getElementById('themeName');
+  let themeName = themeNameInput.value;
+  return themeName;
+}
+
+// GET Theme Data
+function getThemeData() {
+  // Get base scale
+  let baseSelect = document.getElementById('themeBase');
+  let baseSelectValue = baseSelect.value;
+
+  // Get brightness
+  let brightnessSlider = document.getElementById('themeBrightnessSlider');
+  let brightness = brightnessSlider.value;
+
+  // Get contrast
+  let contrastSlider = document.getElementById('themeContrastSlider');
+  let contrast = contrastSlider.value;
+
+  // For each item
+  let items = document.getElementsByClassName('themeColor_item');
+  let colorScales = [];
+
+  for (let i = 0; i < items.length; i++) {
+    let id = items[i].id;
+    let thisElement = document.getElementById(id);
+
+    let colorData = getColorItemData(id);
+
+    let colorObj = {
+      name: colorData.colorName,
+      colorKeys: colorData.colorArgs,
+      colorspace: colorData.mode,
+      ratios: colorData.ratios
+    };
+
+    colorScales.push(colorObj);
+  }
+
+  return {
+    baseScale: baseSelectValue,
+    colorScales: colorScales,
+    brightness: brightness,
+    contrast: contrast
+  }
 }

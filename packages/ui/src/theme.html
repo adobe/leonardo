@@ -134,7 +134,7 @@
                 <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Default brightness</label>
                 <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
               </div>
-              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onChange="sliderInput()" disabled></input>
+              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()" disabled></input>
             </div>
           </div>
           <div class="spectrum-Form-item">
@@ -143,7 +143,7 @@
                 <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
                 <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">1</div>
               </div>
-              <input class="spectrum-Slider-controls" type="range" min="1" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" onChange="sliderInput()" disabled></input>
+              <input class="spectrum-Slider-controls" type="range" min="1" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" onInput="sliderInput()" disabled></input>
             </div>
           </div>
         </div>
@@ -154,7 +154,7 @@
             </svg>
             <span class="spectrum-ActionButton-label">Import from URL</span>
           </button>
-          <button class="spectrum-ActionButton" onClick="addColorScale()">
+          <button class="spectrum-ActionButton" onClick="addColorScaleUpdate()">
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
               <use xlink:href="#spectrum-icon-18-Add" />
             </svg>
@@ -210,12 +210,12 @@
       <p class="spectrum-Body4">Enter hex colors separated by comma or new line.</p>
       <p class="spectrum-Body4">These will be added as <b>key colors<b> to this color scale. </p>
     </span>
-    <form class="spectrum-Form spectrum-Form--labelsAbove">
+    <div class="spectrum-Form spectrum-Form--labelsAbove">
       <div class="spectrum-Form-item">
         <label for="fieldLabelExample-lifestory" class="spectrum-Form-itemLabel">Colors (Hex)</label>
         <textarea id="bulkColors" class="spectrum-Textfield spectrum-Textfield--multiline"></textarea>
       </div>
-    </form>
+    </div>
   </div>
   <div class="spectrum-Dialog-footer">
     <button class="spectrum-Button spectrum-Button--secondary" onclick="cancelBulk()">Cancel</button>
@@ -232,12 +232,12 @@
       <p class="spectrum-Body4">Enter the URL of your existing color to add to this theme.</p>
       <p class="spectrum-Body4">The configurations will be added to a new color scale. </p>
     </span>
-    <form class="spectrum-Form spectrum-Form--labelsAbove">
+    <div class="spectrum-Form spectrum-Form--labelsAbove">
       <div class="spectrum-Form-item">
         <label for="fieldLabelExample-lifestory" class="spectrum-Form-itemLabel">Leonardo URL</label>
         <input type="url" id="addFromURLinput" class="spectrum-Textfield" placeholder="https://leonardocolor.io/"/>
       </div>
-    </form>
+    </div>
   </div>
   <div class="spectrum-Dialog-footer">
     <button class="spectrum-Button spectrum-Button--secondary" onclick="cancelURL()">Cancel</button>
