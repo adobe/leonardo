@@ -414,8 +414,8 @@ test('should generate dark theme with increased contrast', function() {
     ]);
 });
 
-// Should throw errors
 
+// Should throw errors
 test('should throw error, not valid base scale option', function() {
   expect(
     () => {

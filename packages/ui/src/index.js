@@ -31,6 +31,7 @@ import '@spectrum-css/buttongroup/dist/index-vars.css';
 import '@spectrum-css/tooltip/dist/index-vars.css';
 import '@spectrum-css/slider/dist/index-vars.css';
 import '@spectrum-css/tabs/dist/index-vars.css';
+import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 
 import './scss/colorinputs.scss';
 import './scss/charts.scss';
@@ -130,6 +131,7 @@ function throttle(func, wait) {
     }
   };
 }
+exports.throttle = throttle;
 
 function paramSetup() {
   colorspaceOptions();
@@ -221,6 +223,7 @@ function addRatio(v, s = '#cacaca') {
   input.oninput = debounce(colorInput, 100);
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
+  button.title = 'Delete contrast ratio';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
     <use xlink:href="#spectrum-icon-18-Delete" />
@@ -281,6 +284,7 @@ function addColor(s) {
 
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton';
+  button.title = 'Delete key color';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
     <use xlink:href="#spectrum-icon-18-Delete" />
@@ -371,6 +375,7 @@ function deleteColor(e) {
   self.remove();
   colorInput();
 }
+exports.deleteColor = deleteColor;
 
 window.openTab = function openTab(evt, tabName) {
   // Declare all variables
@@ -393,12 +398,34 @@ window.openTab = function openTab(evt, tabName) {
   evt.currentTarget.className += " is-selected";
 }
 
+window.openAppTab = function openAppTab(evt, tabName) {
+  // Declare all variables
+  var i, appTabContent, apptablinks;
+
+  // Get main tab containers and hide them
+  appTabContent = document.getElementsByClassName("appTabContent");
+  for (let i = 0; i < appTabContent.length; i++) {
+    appTabContent[i].style.display = "none";
+  }
+
+  // Get all main tabs with class="spectrum-Tabs-item" and remove the class "active"
+  apptablinks = document.getElementsByClassName("app-Tabs-item");
+  for (let i = 0; i < apptablinks.length; i++) {
+    apptablinks[i].className = apptablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "grid";
+  evt.currentTarget.className += " is-selected";
+}
+
 // Open default tabs
 document.getElementById("tabDemo").click();
 
 function randomId() {
    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
+exports.randomId = randomId;
 
 function createDemo(c, z) {
   var smallText = 'Small text demo';
@@ -705,11 +732,11 @@ function colorInput() {
 }
 window.onresize = colorInput;
 
-
 // Passing variable parameters to URL
 function updateParams(c, b, r, m) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
+  let tabColor = document.getElementById("tabColor");
 
   params.set('colorKeys', c);
   params.set('base', b);
