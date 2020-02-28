@@ -117,6 +117,7 @@ function paramSetup() {
     let configParam = params.get('config');
     let config = JSON.parse(configParam);
     let colorScales = config.colorScales;
+    let baseScale = config.baseScale;
     let brightness = config.brightness;
     let contrast;
     if(!config.contrast) {
@@ -143,6 +144,9 @@ function paramSetup() {
     let contrastSliderVal = document.getElementById('themeContrastValue');
     contrastSlider.value = contrast;
     contrastSliderVal.innerHTML = contrast;
+
+    let themeBase = document.getElementById('themeBase');
+    themeBase.value = baseScale;
   }
 
   sliderInput();
