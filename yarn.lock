@@ -2419,6 +2419,11 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/icon/-/icon-2.0.2.tgz#1e325863f042945d77badc0588f6600d6f9d1b89"
   integrity sha512-n3JYSPNia7KU9iTtN0ROw5bnq8XziOVENi7Zx/bLcR47mw9+oxmAnYRVK81WAzDIY9t0S8OIVA6wv0TJJ/6QtQ==
 
+"@spectrum-css/illustratedmessage@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/illustratedmessage/-/illustratedmessage-2.0.0.tgz#2f565fb2e80bfb742b3ab2e10cb022cadf9b44a2"
+  integrity sha512-8AN8K0QJB9pBofjfje+jNSzML+d21tRLkI2CtziyzvQfKOHj0u7ofxHQqP/r08Ot/lC54gGA3dcHxDjCjhv6gA==
+
 "@spectrum-css/link@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/link/-/link-2.0.2.tgz#577499c9ef7d7e53c3c2893f358bbe3766c3c2e9"
@@ -2455,6 +2460,11 @@
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/textfield/-/textfield-2.0.2.tgz#72cfc2480c152343ddb63c9113766cc4c96313af"
   integrity sha512-vntSA+aKtsEOM5mabI20ochwMisH6+DHSO8Be8qWNvUUF2c927uYWBIoxLGjTCLF1qb7KZ9FfpAPk03VOO1epw==
+
+"@spectrum-css/toast@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/toast/-/toast-2.0.4.tgz#2f7a60fbb37eb9634f829871943d2f50bd2c03c6"
+  integrity sha512-tA4qCBLOUM5fTDZMyy7g4MIQzJllRDuaHiQq7WtVs3JeJPbJaFKjUTXjc+1wgts1AYu1rx7x/zr151u2qgrLvg==
 
 "@spectrum-css/tooltip@^2.0.2":
   version "2.0.2"
@@ -3511,6 +3521,13 @@ collections@^0.2.0:
   integrity sha1-HyMCay7zb5J+7MkB6ZxfDUj6M04=
   dependencies:
     weak-map "1.0.0"
+
+color-blind@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/color-blind/-/color-blind-0.1.1.tgz#d6cf97b635fb6605c9dcc48efb58d5eb972a371e"
+  integrity sha1-1s+XtjX7ZgXJ3MSO+1jV65cqNx4=
+  dependencies:
+    onecolor "^2.5.0"
 
 color-convert@^1.9.0, color-convert@^1.9.1:
   version "1.9.3"
@@ -7647,6 +7664,11 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   integrity sha1-WDsap3WWHUsROsF9nFC6753Xa9E=
   dependencies:
     wrappy "1"
+
+onecolor@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/onecolor/-/onecolor-2.5.0.tgz#2256b651dc807c101f00aedbd49925c57a4431c1"
+  integrity sha1-Ila2UdyAfBAfAK7b1JklxXpEMcE=
 
 onetime@^2.0.0:
   version "2.0.1"

@@ -56,7 +56,7 @@ body {
   font-size: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--backgroundDefault);
+  background-color: var(--background);
   color: var(--smallText);
   display: flex;
   flex-direction: column;
@@ -529,3 +529,12 @@ button + button,
   border-color: var(--red200);
   color: var(--red300);
 } */
+
+code {
+  font-size: 14px;
+    padding: 4px 6px;
+    background-color: var(--background);
+    border: 1px solid var(--gray200);
+    color: var(--green600);
+    border-radius: 4px;
+}
