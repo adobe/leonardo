@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.2.0...@adobe/leonardo-ui@1.2.1) (2020-02-28)
+
+
+### Bug Fixes
+
+* corrected charts with proper colors and data ([#53](https://github.com/adobe/leonardo/issues/53)) ([91097fd](https://github.com/adobe/leonardo/commit/91097fdb1a6a0eb2c4add7537d970ca0633994ea))
+
+
+
+
+
 # [1.2.0](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.1.0...@adobe/leonardo-ui@1.2.0) (2020-01-21)
 
 
