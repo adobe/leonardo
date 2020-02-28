@@ -1,5 +1,9 @@
 ![Leonardo logo](.github/Leonardo_Logo.png)
 
+[![npm version](https://badge.fury.io/js/%40adobe%2Fleonardo-contrast-colors.svg)](https://www.npmjs.com/package/@adobe/leonardo-contrast-colors)
+[![license](https://img.shields.io/github/license/adobe/leonardo)](https://github.com/adobe/leonardo/blob/master/LICENSE)
+[![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-blueviolet)](https://github.com/adobe/leonardo/blob/master/.github/CONTRIBUTING.md) [![Web UI](https://img.shields.io/badge/web%20tool-leonardocolor.io-blue)](https://leonardocolor.io)
+
 # Leonardo
 Authoring [adaptive color palettes](#what-is-adaptive-color) for generating color based on a desired contrast ratio.
 
@@ -66,6 +70,37 @@ The Leonardo web app leverages d3 for additional features such as generating 2d 
 
 ## Contributing
 Contributions are welcomed! Read the [Contributing Guide](./.github/CONTRIBUTING.md) for more information.
+
+## Development
+
+To get started [developing Leonardo UI](packages/ui#development):
+
+*Note: [Yarn](https://yarnpkg.com/) must be installed on your machine*
+
+```sh
+# Install dependencies
+yarn install
+
+# Change directory to Leonardo UI
+cd packages/ui
+
+# Run local server
+yarn dev
+```
+
+To get started [developing Leonardo `contrast-colors` package](packages/contrast-colors#development):
+
+```sh
+# From root, change directory to contrast-colors
+cd packages/contrast-colors
+
+# Run tests and watch for changes
+yarn dev
+```
+
+Then, visit the live reloading web UIs here:
+http://localhost:1234/index.html
+http://localhost:1234/demo.html
 
 ## Licensing
 This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.

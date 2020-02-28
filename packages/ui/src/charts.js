@@ -133,6 +133,9 @@ let yScale3d = d3._3d()
     .scale(scale);
 
 function processData(data, tt){
+  let colorInterpSpace = document.querySelector('select[name="mode"]').value;
+  let chartColors = getChartColors(colorInterpSpace);
+
   let color = d3.scaleOrdinal(chartColors);
 
   /* ----------- GRID ----------- */
@@ -495,6 +498,7 @@ function toggleGraphs() {
 }
 
 function createAllCharts(mode) {
+  mode = document.getElementById('chart2dColorspace').value;
   let chart3 = document.getElementById('chart3Wrapper');
 
   if (mode=="LCH") {
@@ -562,6 +566,7 @@ function createAllCharts(mode) {
 
 
 let chartColors = [];
+
 function getChartColors(mode) {
   let shift = document.getElementById('shiftInput').value;
 
@@ -578,13 +583,13 @@ function getChartColors(mode) {
 }
 
 
-function showCharts(mode) {
+function showCharts(mode, interpolation) {
   document.getElementById('chart1').innerHTML = ' ';
   document.getElementById('chart2').innerHTML = ' ';
   document.getElementById('chart3').innerHTML = ' ';
   document.getElementById('contrastChart').innerHTML = ' ';
 
-  chartColors = getChartColors(mode);
+  chartColors = getChartColors(interpolation);
   createAllCharts(mode);
 };
 
