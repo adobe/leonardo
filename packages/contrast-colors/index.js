@@ -15,6 +15,8 @@ import * as d3cam02 from 'd3-cam02';
 import * as d3hsluv from 'd3-hsluv';
 import * as d3hsv from 'd3-hsv';
 
+import {catmullRom2bezier, prepareCurve} from './curve';
+
 // Work around node and babel's difference of opinion on the read-onlyness of default
 function assign(dest, ...src) {
   for (let obj of src) {
@@ -26,14 +28,197 @@ function assign(dest, ...src) {
   }
 }
 
+d3.interpolateJch = (start, end) => {
+  // constant, linear, and colorInterpolate are taken from d3-interpolate
+  // the colorInterpolate function is `nogamma` in the d3-interpolate's color.js
+  const constant = x => () => x;
+  const linear = (a, d) => t => a + t * d;
+  const colorInterpolate = (a, b) => {
+    const d = b - a;
+    return d ? linear(a, d) : constant(isNaN(a) ? b : a);
+  }
+
+  start = d3.jch(start);
+  end = d3.jch(end);
+
+  const zero = Math.abs(start.h - end.h);
+  const plus = Math.abs(start.h - (end.h + 360));
+  const minus = Math.abs(start.h - (end.h - 360));
+  if (plus < zero && plus < minus) {
+    end.h += 360;
+  }
+  if (minus < zero && minus < plus) {
+    end.h -= 360;
+  }
+
+  const startc = d3.hcl(start + '').c;
+  const endc = d3.hcl(end + '').c;
+  if (!startc) {
+    start.h = end.h;
+  }
+  if (!endc) {
+    end.h = start.h;
+  }
+
+  const J = colorInterpolate(start.J, end.J),
+        C = colorInterpolate(start.C, end.C),
+        h = colorInterpolate(start.h, end.h),
+        opacity = colorInterpolate(start.opacity, end.opacity);
+
+  return t => {
+    start.J = J(t);
+    start.C = C(t);
+    start.h = h(t);
+    start.opacity = opacity(t);
+    return start + '';
+  };
+}
+
+function smoothScale(ColorsArray, domains, space) {
+  const points = space.channels.map(() => []);
+  ColorsArray.forEach((color, i) =>
+    points.forEach((point, j) =>
+      point.push(domains[i], color[space.channels[j]])
+    )
+  );
+  if (space.name == "hcl") {
+    const point = points[1];
+    for (let i = 1; i < point.length; i += 2) {
+      if (isNaN(point[i])) {
+        point[i] = 0;
+      }
+    }
+  }
+  points.forEach(point => {
+    const nans = [];
+    // leading NaNs
+    for (let i = 1; i < point.length; i += 2) {
+      if (isNaN(point[i])) {
+        nans.push(i);
+      } else {
+        nans.forEach(j => point[j] = point[i]);
+        nans.length = 0;
+        break;
+      }
+    }
+    // all are grey case
+    if (nans.length) {
+      // hue is not important except for JCh
+      const safeJChHue = d3.jch("#ccc").h;
+      nans.forEach(j => point[j] = safeJChHue);
+    }
+    nans.length = 0;
+    // trailing NaNs
+    for (let i = point.length - 1; i > 0; i -= 2) {
+      if (isNaN(point[i])) {
+        nans.push(i);
+      } else {
+        nans.forEach(j => point[j] = point[i]);
+        break;
+      }
+    }
+    // other NaNs
+    for (let i = 1; i < point.length; i += 2) {
+      if (isNaN(point[i])) {
+        point.splice(i - 1, 2);
+        i -= 2;
+      }
+    }
+    // force hue to go on the shortest route
+    if (space.name in {hcl: 1, hsl: 1, hsluv: 1, hsv: 1, jch: 1}) {
+      let prev = point[1];
+      let addon = 0;
+      for (let i = 3; i < point.length; i += 2) {
+        const p = point[i] + addon;
+        const zero = Math.abs(prev - p);
+        const plus = Math.abs(prev - (p + 360));
+        const minus = Math.abs(prev - (p - 360));
+        if (plus < zero && plus < minus) {
+          addon += 360;
+        }
+        if (minus < zero && minus < plus) {
+          addon -= 360;
+        }
+        point[i] += addon;
+        prev = point[i];
+      }
+    }
+  })
+  const prep = points.map(point =>
+    catmullRom2bezier(point).map(curve =>
+      prepareCurve(...curve)
+    )
+  );
+  return d => {
+    const ch = prep.map(p => {
+      for (let i = 0; i < p.length; i++) {
+        const res = p[i](d);
+        if (res != null) {
+          return res;
+        }
+      }
+    });
+
+    if (space.name == 'jch' && ch[1] < 0) {
+      ch[1] = 0;
+    }
+
+    return d3[space.name](...ch) + "";
+  };
+}
+
 assign(d3, d3hsluv, d3hsv, d3cam02);
 
-function cArray(c) {
-  let L = d3.hsluv(c).l;
-  let U = d3.hsluv(c).u;
-  let V = d3.hsluv(c).v;
+const colorSpaces = {
+  CAM02: {
+    name: 'jab',
+    channels: ['J', 'a', 'b'],
+    interpolator: d3.interpolateJab
+  },
+  CAM02p: {
+    name: 'jch',
+    channels: ['J', 'C', 'h'],
+    interpolator: d3.interpolateJch
+  },
+  LCH: {
+    name: 'hcl',
+    channels: ['h', 'c', 'l'],
+    interpolator: d3.interpolateHcl
+  },
+  LAB: {
+    name: 'lab',
+    channels: ['l', 'a', 'b'],
+    interpolator: d3.interpolateLab
+  },
+  HSL: {
+    name: 'hsl',
+    channels: ['h', 's', 'l'],
+    interpolator: d3.interpolateHsl
+  },
+  HSLuv: {
+    name: 'hsluv',
+    channels: ['l', 'u', 'v'],
+    interpolator: d3.interpolateHsluv
+  },
+  RGB: {
+    name: 'rgb',
+    channels: ['r', 'g', 'b'],
+    interpolator: d3.interpolateRgb
+  },
+  HSV: {
+    name: 'hsv',
+    channels: ['h', 's', 'v'],
+    interpolator: d3.interpolateHsv
+  }
+};
 
-  return new Array(L, U, V);
+function cArray(c) {
+  const color = d3.hsluv(c);
+  const L = color.l;
+  const U = color.u;
+  const V = color.v;
+
+  return [L, U, V];
 }
 
 function removeDuplicates(originalArray, prop) {
@@ -55,8 +240,14 @@ function createScale({
   colorKeys,
   colorspace = 'LAB',
   shift = 1,
-  fullScale = true
+  fullScale = true,
+  smooth = true
 } = {}) {
+  const space = colorSpaces[colorspace];
+  if (!space) {
+    throw new Error(`Colorspace “${colorspace}” not supported`);
+  }
+
   let domains = colorKeys
     .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
     .sort((a, b) => a - b)
@@ -99,94 +290,35 @@ function createScale({
   let ColorsArray = [];
 
   let scale;
-  if (colorspace == 'CAM02') {
-    if (fullScale == true) {
-      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
-    } else {
-      ColorsArray = ColorsArray.concat(sortedColor);
+  if (fullScale) {
+    ColorsArray = ['#fff', ...sortedColor, '#000'];
+  } else {
+    ColorsArray = sortedColor;
+  }
+  const stringColors = ColorsArray;
+  ColorsArray = ColorsArray.map(d => d3[space.name](d));
+  if (space.name == 'hcl') {
+    // special case for HCL if C is NaN we should treat it as 0
+    ColorsArray.forEach(c => c.c = isNaN(c.c) ? 0 : c.c);
+  }
+  if (space.name == 'jch') {
+    // JCh has some “random” hue for grey colors.
+    // Replacing it to NaN, so we can apply the same method of dealing with them.
+    for (let i = 0; i < stringColors.length; i++) {
+      const color = d3.hcl(stringColors[i]);
+      if (!color.c) {
+        ColorsArray[i].h = NaN;
+      }
     }
-    ColorsArray = ColorsArray.map(d => d3.jab(d));
+  }
 
+  if (smooth) {
+    scale = smoothScale(ColorsArray, domains, space);
+  } else {
     scale = d3.scaleLinear()
       .range(ColorsArray)
       .domain(domains)
-      .interpolate(d3.interpolateJab);
-  }
-  else if (colorspace == 'LCH') {
-    ColorsArray = ColorsArray.map(d => d3.hcl(d));
-    if (fullScale == true) {
-      ColorsArray = ColorsArray.concat(d3.hcl(NaN, 0, 100), sortedColor, d3.hcl(NaN, 0, 0));
-    } else {
-      ColorsArray = ColorsArray.concat(sortedColor);
-    }
-    scale = d3.scaleLinear()
-      .range(ColorsArray)
-      .domain(domains)
-      .interpolate(d3.interpolateHcl);
-  }
-  else if (colorspace == 'LAB') {
-    if (fullScale == true) {
-      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
-    } else {
-      ColorsArray = ColorsArray.concat(sortedColor);
-    }
-    ColorsArray = ColorsArray.map(d => d3.lab(d));
-
-    scale = d3.scaleLinear()
-      .range(ColorsArray)
-      .domain(domains)
-      .interpolate(d3.interpolateLab);
-  }
-  else if (colorspace == 'HSL') {
-    if (fullScale == true) {
-      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
-    } else {
-      ColorsArray = ColorsArray.concat(sortedColor);
-    }
-    ColorsArray = ColorsArray.map(d => d3.hsl(d));
-    scale = d3.scaleLinear()
-      .range(ColorsArray)
-      .domain(domains)
-      .interpolate(d3.interpolateHsl);
-  }
-  else if (colorspace == 'HSLuv') {
-    ColorsArray = ColorsArray.map(d => d3.hsluv(d));
-    if (fullScale == true) {
-      ColorsArray = ColorsArray.concat(d3.hsluv(NaN, NaN, 100), sortedColor, d3.hsluv(NaN, NaN, 0));
-    } else {
-      ColorsArray = ColorsArray.concat(sortedColor);
-    }
-    scale = d3.scaleLinear()
-      .range(ColorsArray)
-      .domain(domains)
-      .interpolate(d3.interpolateHsluv);
-  }
-  else if (colorspace == 'RGB') {
-    if (fullScale == true) {
-      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
-    } else {
-      ColorsArray = ColorsArray.concat(sortedColor);
-    }
-    ColorsArray = ColorsArray.map(d => d3.rgb(d));
-    scale = d3.scaleLinear()
-      .range(ColorsArray)
-      .domain(domains)
-      .interpolate(d3.interpolateRgb);
-  }
-  else if (colorspace == 'HSV') {
-    if (fullScale == true) {
-      ColorsArray = ColorsArray.concat('#ffffff', sortedColor, '#000000');
-    } else {
-      ColorsArray = ColorsArray.concat(sortedColor);
-    }
-    ColorsArray = ColorsArray.map(d => d3.hsv(d));
-    scale = d3.scaleLinear()
-      .range(ColorsArray)
-      .domain(domains)
-      .interpolate(d3.interpolateHsv);
-  }
-  else {
-    throw new Error(`Colorspace ${colorspace} not supported`);
+      .interpolate(space.interpolator);
   }
 
   let Colors = d3.range(swatches).map(d => scale(d));
@@ -195,7 +327,7 @@ function createScale({
 
   // Return colors as hex values for interpolators.
   let colorsHex = [];
-  for (let i=0; i<colors.length; i++) {
+  for (let i = 0; i < colors.length; i++) {
     colorsHex.push(d3.rgb(colors[i]).formatHex());
   }
 
@@ -220,7 +352,7 @@ function generateBaseScale({
 
   let colorObj = newColors
     // Convert to HSLuv and keep track of original indices
-    .map((c, i) => { return { value: Number(cArray(c)[2].toFixed(0)), index: i } });
+    .map((c, i) => { return { value: Math.round(cArray(c)[2]), index: i } });
 
   let filteredArr = removeDuplicates(colorObj, "value")
     .map(data => newColors[data.index]);
