@@ -19,19 +19,22 @@ test('should generate theme for three colors', function() {
         name: "gray",
         colorKeys: ['#cacaca', '#323232'],
         colorspace: 'HSL',
-        ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
+        ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+        smooth: false
       },
       {
         name: "blue",
         colorKeys: ['#0000ff'],
         colorspace: 'LAB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false
       },
       {
         name: "red",
         colorKeys: ['#ff0000'],
         colorspace: 'RGB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false
       }
     ]});
     let themeLight = theme(90);;
@@ -85,19 +88,22 @@ test('should generate theme for three colors with negative ratios', function() {
         name: "gray",
         colorKeys: ['#cacaca'],
         colorspace: 'HSL',
-        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
+        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+        smooth: false
       },
       {
         name: "blue",
         colorKeys: ['#0000ff'],
         colorspace: 'LAB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false
       },
       {
         name: "red",
         colorKeys: ['#ff0000'],
         colorspace: 'RGB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false
       }
     ]});
     let themeLight = theme(90);;
@@ -151,19 +157,22 @@ test('should generate theme for three colors using variables as parameters', fun
     name: "gray",
     colorKeys: ['#cacaca'],
     colorspace: 'HSL',
-    ratios: baseRatios
+    ratios: baseRatios,
+    smooth: false
   };
   let blue = {
     name: "blue",
     colorKeys: ['#0000ff'],
     colorspace: 'LAB',
-    ratios: tempRatios
+    ratios: tempRatios,
+    smooth: false
   };
   let red = {
     name: "red",
     colorKeys: ['#ff0000'],
     colorspace: 'RGB',
-    ratios: tempRatios
+    ratios: tempRatios,
+    smooth: false
   };
   let brightness = 90;
 
@@ -219,19 +228,22 @@ test('should generate theme with increased contrast', function() {
         name: "gray",
         colorKeys: ['#cacaca'],
         colorspace: 'HSL',
-        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
+        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+        smooth: false
       },
       {
         name: "blue",
         colorKeys: ['#0000ff'],
         colorspace: 'LAB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false
       },
       {
         name: "red",
         colorKeys: ['#ff0000'],
         colorspace: 'RGB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false
       }
     ]});
     let themeLight = theme(90, 1.4);;
@@ -287,19 +299,22 @@ test('should generate white theme with increased contrast', function() {
         name: "gray",
         colorKeys: ['#cacaca'],
         colorspace: 'HSL',
-        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
+        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+        smooth: false;
       },
       {
         name: "blue",
         colorKeys: ['#0000ff'],
         colorspace: 'LAB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false;
       },
       {
         name: "red",
         colorKeys: ['#ff0000'],
         colorspace: 'RGB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false;
       }
     ]});
     let themeLight = theme(100, 2);;
@@ -355,19 +370,22 @@ test('should generate dark theme with increased contrast', function() {
         name: "gray",
         colorKeys: ['#cacaca'],
         colorspace: 'HSL',
-        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
+        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+        smooth: false
       },
       {
         name: "blue",
         colorKeys: ['#0000ff'],
         colorspace: 'LAB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false
       },
       {
         name: "red",
         colorKeys: ['#ff0000'],
         colorspace: 'RGB',
-        ratios: [2, 3, 4.5, 8, 12]
+        ratios: [2, 3, 4.5, 8, 12],
+        smooth: false
       }
     ]});
     let themeLight = theme(20, 1.5);;
@@ -426,19 +444,22 @@ test('should throw error, not valid base scale option', function() {
             name: "gray",
             colorKeys: ['#cacaca'],
             colorspace: 'HSL',
-            ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
+            ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+            smooth: false
           },
           {
             name: "blue",
             colorKeys: ['#0000ff'],
             colorspace: 'LAB',
-            ratios: [2, 3, 4.5, 8, 12]
+            ratios: [2, 3, 4.5, 8, 12],
+            smooth: false
           },
           {
             name: "red",
             colorKeys: ['#ff0000'],
             colorspace: 'RGB',
-            ratios: [2, 3, 4.5, 8, 12]
+            ratios: [2, 3, 4.5, 8, 12],
+            smooth: false
           }
         ],
         brightness: 97

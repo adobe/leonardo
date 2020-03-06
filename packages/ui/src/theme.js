@@ -351,6 +351,7 @@ function addColorScale(c, k, s, r) {
 
   let opts = {
     'CAM02': 'CIECAM02',
+    'CAM02p': 'CIECAM02p',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',
@@ -367,6 +368,31 @@ function addColorScale(c, k, s, r) {
     interpSelect.value = s;
   }
 
+  // Smoothing
+  let smoothItem = document.createElement('div');
+  smoothItem.className = 'spectrum-Form-item labelSpacer';
+  let smooth = document.createElement('label');
+  smooth.className = 'spectrum-Checkbox';
+  let smoothCheckBox = document.createElement('input');
+  smoothCheckBox.type = 'checkbox';
+  smoothCheckBox.className = 'spectrum-Checkbox-input';
+  smoothCheckBox.name = thisId.concat('_smooth');
+  smoothCheckBox.id = thisId.concat('_smooth');
+  let checkmark = document.createElement('span');
+  checkmark.className = 'spectrum-Checkbox-box';
+  checkmark.innerHTML = `
+  <svg class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+    <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
+  </svg>`;
+  smoothCheckBox.onchange = throttle(themeUpdateParams, 10);
+  let smoothCheckLabel = document.createElement('span');
+  smoothCheckLabel.className = 'spectrum-Checkbox-label';
+  smoothCheckLabel.innerHTML = 'Smooth';
+  smooth.appendChild(smoothCheckBox);
+  smooth.appendChild(checkmark);
+  smooth.appendChild(smoothCheckLabel);
+
+  smoothItem.appendChild(smooth);
 
   // Ratios
   let ratios = document.createElement('div');
@@ -422,6 +448,7 @@ function addColorScale(c, k, s, r) {
   inputs.appendChild(keyColors);
   inputs.appendChild(addColors)
   inputs.appendChild(interp);
+  inputs.appendChild(smoothItem);
   inputs.appendChild(ratios);
   inputs.appendChild(actions);
 
@@ -593,6 +620,7 @@ function themeEditItem(e) {
   let b = 'ffffff'; // get generated background color...
   let m = getColorItemData(id).mode;
   let r = getColorItemData(id).ratios;
+  let s = getColorItemData(id).smooth;
 
   // take the configs and craft a URL for editing the palette
   let location = window.location.origin;
@@ -603,6 +631,7 @@ function themeEditItem(e) {
   params.set('base', b);
   params.set('ratios', r);
   params.set('mode', m);
+  params.set('smooth', s);
 
   // window.history.replaceState({}, '', '?' + params); // update the page's URL.
 
@@ -773,12 +802,13 @@ function themeInput() {
 
       let colorArgs = colorData.colorArgs;
       let mode = colorData.mode;
+      let smoothing = colorData.smooth;
 
       let gradientId = id.concat('_gradient');
       let gradient = document.getElementById(gradientId);
       gradient.innerHTML = ' ';
       let n = window.innerWidth - 272;
-      let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
+      let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, smooth: smoothing});
       let colors = rampData.colors;
 
       colors = cvdColors(colors);
@@ -1207,11 +1237,17 @@ function getColorItemData(id) {
   let ratios = rSplit.map(x => parseFloat(x));
   // TODO: remove all values of NaN
 
+  // 5. find smoothing
+  let checkSmoothId = id.concat('_smooth');
+  let checkSmooth = document.getElementById(checkSmoothId);
+  let smoothing = checkSmooth.checked;
+
   return {
     colorName: colorName,
     colorArgs: colorArgs,
     mode: mode,
-    ratios: ratios
+    ratios: ratios,
+    smooth: smoothing
   }
 }
 
@@ -1250,7 +1286,8 @@ function getThemeData() {
       name: colorData.colorName,
       colorKeys: colorData.colorArgs,
       colorspace: colorData.mode,
-      ratios: colorData.ratios
+      ratios: colorData.ratios,
+      smooth: colorData.smooth
     };
 
     colorScales.push(colorObj);

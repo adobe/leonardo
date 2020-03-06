@@ -99,9 +99,9 @@
       </div>
       <div id="keyColor-wrapper"></div>
       <div id="scaleConfigs">
-        <form class="spectrum-Form">
-          <div class="spectrum-Form-item">
-            <label for="mode" class="spectrum-FieldLabel spectrum-FieldLabel--left">Color space interpolation</label>
+        <form class="spectrum-Form spectrum-Form--row">
+          <div class="spectrum-Form-item spectrum-Form-item--flex">
+            <label for="mode" class="spectrum-FieldLabel spectrum-FieldLabel--left">Color space</label>
             <div class="spectrum-Dropdown" id="modeDropdown">
               <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="mode" onInput="colorInput()" id="mode">
               </select>
@@ -109,6 +109,17 @@
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
               </svg>
             </div>
+          </div>
+          <div class="spectrum-Form-item">
+            <label class="spectrum-Checkbox">
+              <input type="checkbox" class="spectrum-Checkbox-input" id="checkSmooth" aria-labelledby="checkSmoothLabel" onchange="colorInput()">
+              <span class="spectrum-Checkbox-box">
+                <svg class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                  <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
+                </svg>
+              </span>
+              <span class="spectrum-Checkbox-label" id="checkSmoothLabel">Smooth</span>
+            </label>
           </div>
         </form>
       </div>

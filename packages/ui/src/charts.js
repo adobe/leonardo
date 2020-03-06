@@ -248,6 +248,13 @@ function init3dChart(){
       colorPlot.push({x: CAMArrayA[i]/10, y: CAMArrayJ[i]/10 * -1, z: CAMArrayB[i]/10, id: 'point_' + cnt++});
     }
   }
+  if (spaceOpt == 'CAM02p') {
+    for(let i=0; i<CAMpArrayC.length; i++) {
+      let angle = CAMpArrayH[i] * (pi/180);
+      let r = CAMpArrayC[i];
+      colorPlot.push({x: (r * Math.cos(angle))/13, y: CAMpArrayJ[i]/13 * -1, z: (r * Math.sin(angle))/13, id: 'point_' + cnt++});
+    }
+  }
   if (spaceOpt == 'LCH') {
     for(let i=0; i<LCHArrayC.length; i++) {
       let angle = LCHArrayH[i] * (pi/180);
@@ -524,6 +531,14 @@ function createAllCharts(mode) {
     createChart(camDataB, 'Blue - Yellow', 'Lightness', "#chart2");
     createChartHeader('Green Red / Blue Yellow', 'chart3');
     createChart(camDataAB, 'Green - Red', 'Blue - Yellow', "#chart3");
+  }
+  if (mode=="CAM02p") {
+    createChartHeader('Chroma / Lightness', 'chart1');
+    createChart(campDataC, 'Chroma', 'Lightness', "#chart1", 0, 100);
+    createChartHeader('Hue / Lightness', 'chart2');
+    createChart(campDataH, 'Hue', 'Lightness', "#chart2", 0, 360);
+    createChartHeader('Chroma / Hue', 'chart3');
+    createChart(campDataCH, 'Chroma', 'Hue', "#chart3", 0, 100);
   }
   if (mode=="HSL") {
     createChartHeader('Hue / Lightness', 'chart1');

@@ -17,6 +17,9 @@ function createData(colors) {
   let CAM_J = [];
   let CAM_A = [];
   let CAM_B = [];
+  let CAMp_J = [];
+  let CAMp_C = [];
+  let CAMp_H = [];
   let LAB_L = [];
   let LAB_A = [];
   let LAB_B = [];
@@ -40,6 +43,9 @@ function createData(colors) {
     CAM_J.push(d3.jab(colors[i]).J);
     CAM_A.push(d3.jab(colors[i]).a);
     CAM_B.push(d3.jab(colors[i]).b);
+    CAMp_J.push(d3.jch(colors[i]).J);
+    CAMp_C.push(d3.jch(colors[i]).C);
+    CAMp_H.push(d3.jch(colors[i]).h);
     LAB_L.push(d3.lab(colors[i]).l);
     LAB_A.push(d3.lab(colors[i]).a);
     LAB_B.push(d3.lab(colors[i]).b);
@@ -64,6 +70,9 @@ function createData(colors) {
   CAM_J = CAM_J.filter(function(value) {return !Number.isNaN(value);});
   CAM_A = CAM_A.filter(function(value) {return !Number.isNaN(value);});
   CAM_B = CAM_B.filter(function(value) {return !Number.isNaN(value);});
+  CAMp_J = CAMp_J.filter(function(value) {return !Number.isNaN(value);});
+  CAMp_C = CAMp_C.filter(function(value) {return !Number.isNaN(value);});
+  CAMp_H = CAMp_H.filter(function(value) {return !Number.isNaN(value);});
   LAB_L = LAB_L.filter(function(value) {return !Number.isNaN(value);});
   LAB_A = LAB_A.filter(function(value) {return !Number.isNaN(value);});
   LAB_B = LAB_B.filter(function(value) {return !Number.isNaN(value);});
@@ -86,6 +95,9 @@ function createData(colors) {
   window.CAMArrayJ = [];
   window.CAMArrayA = [];
   window.CAMArrayB = [];
+  window.CAMpArrayJ = [];
+  window.CAMpArrayC = [];
+  window.CAMpArrayH = [];
   window.LABArrayL = [];
   window.LABArrayA = [];
   window.LABArrayB = [];
@@ -108,6 +120,9 @@ function createData(colors) {
   window.CAMArrayJmin = [];
   window.CAMArrayAmin = [];
   window.CAMArrayBmin = [];
+  window.CAMpArrayJmin = [];
+  window.CAMpArrayCmin = [];
+  window.CAMpArrayHmin = [];
   window.LABArrayLmin = [];
   window.LABArrayAmin = [];
   window.LABArrayBmin = [];
@@ -139,6 +154,15 @@ function createData(colors) {
   }
   for (let i = 0; i < CAM_B.length; i=i+delta) {
     CAMArrayB.push(CAM_B[i]);
+  }
+  for (let i = 0; i < CAMp_J.length; i=i+delta) {
+    CAMpArrayJ.push(CAMp_J[i]);
+  }
+  for (let i = 0; i < CAMp_C.length; i=i+delta) {
+    CAMpArrayC.push(CAMp_C[i]);
+  }
+  for (let i = 0; i < CAMp_H.length; i=i+delta) {
+    CAMpArrayH.push(CAMp_H[i]);
   }
   for (let i = 0; i < LAB_L.length; i=i+delta) {
     LABArrayL.push(LAB_L[i]);
@@ -207,6 +231,15 @@ function createData(colors) {
   }
   for (let i = 0; i < CAM_B.length; i=i+deltamin) {
     CAMArrayBmin.push(CAM_B[i]);
+  }
+  for (let i = 0; i < CAMp_J.length; i=i+deltamin) {
+    CAMpArrayJmin.push(CAMp_J[i]);
+  }
+  for (let i = 0; i < CAMp_C.length; i=i+deltamin) {
+    CAMpArrayCmin.push(CAMp_C[i]);
+  }
+  for (let i = 0; i < CAMp_H.length; i=i+deltamin) {
+    CAMpArrayHmin.push(CAMp_H[i]);
   }
   for (let i = 0; i < LAB_L.length; i=i+deltamin) {
     LABArrayLmin.push(LAB_L[i]);
@@ -296,6 +329,25 @@ function createData(colors) {
     {
       x: CAMArrayAmin,
       y: CAMArrayBmin
+    }
+  ];
+
+  window.campDataC = [
+    {
+      x: CAMpArrayJmin,
+      y: CAMpArrayCmin
+    }
+  ];
+  window.campDataH = [
+    {
+      x: CAMpArrayJmin,
+      y: CAMpArrayHmin
+    }
+  ];
+  window.campDataCH = [
+    {
+      x: CAMpArrayHmin,
+      y: CAMpArrayCmin
     }
   ];
 

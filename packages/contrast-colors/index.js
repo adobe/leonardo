@@ -523,10 +523,10 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
     let baseIndex = colorScales.findIndex( x => x.name === baseScale );
     let baseKeys = colorScales[baseIndex].colorKeys;
     let baseMode = colorScales[baseIndex].colorspace;
-    let smooth = colorScales[baseIndex].smooth;
+    let baseSmooth = colorScales[baseIndex].smooth;
 
     // define params to pass as bscale
-    let bscale = generateBaseScale({colorKeys: baseKeys, colorspace: baseMode, smooth: smooth}); // base parameter to create base scale (0-100)
+    let bscale = generateBaseScale({colorKeys: baseKeys, colorspace: baseMode, smooth: baseSmooth}); // base parameter to create base scale (0-100)
     let bval = bscale[brightness];
     let baseObj = {
       background: bval

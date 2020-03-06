@@ -172,10 +172,22 @@ function paramSetup() {
   if(params.has('mode')) {
     document.querySelector('select[name="mode"]').value = params.get('mode');
   }
+  if (params.has('smooth')) {
+    let checkSmooth = document.getElementById('checkSmooth');
+    let bool = params.get('smooth');
+    console.log(bool);
+    if(bool === 'true') {
+      checkSmooth.checked = true;
+    }
+    else if (bool === 'false'){
+      checkSmooth.checked = false;
+    }
+  }
   else {
     addColor('#6fa7ff');
     addRatio(3);
     addRatio(4.5);
+    document.getElementById('checkSmooth').checked = true;
   }
 
   colorInput();
@@ -515,6 +527,7 @@ function colorspaceOptions() {
 
   var opts = {
     'CAM02': 'CIECAM02',
+    'CAM02p': 'CIECAM02p',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',
@@ -524,6 +537,7 @@ function colorspaceOptions() {
   };
   var opts2 = {
     'CAM02': 'CIECAM02 (recommended)',
+    'CAM02p': 'CIECAM02p',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',
@@ -625,14 +639,16 @@ function colorInput() {
 
   let shift = 1;
   let clamping = document.getElementById('sequentialClamp').checked;
+  let checkSmooth = document.getElementById('checkSmooth');
+  let smoothing = checkSmooth.checked;
 
   // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
-  let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift, smooth: smoothing});
   let n = window.innerHeight - 282;
 
-  let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift, smooth: smoothing});
 
-  newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift, smooth: smoothing});
 
   // Create values for sliders
   let Values = [];
@@ -724,16 +740,18 @@ function colorInput() {
   copyColors.setAttribute('data-clipboard-text', newColors);
 
   // update URL parameters
-  updateParams(inputColors, background.substr(1), ratioInputs, mode);
+  updateParams(inputColors, background.substr(1), ratioInputs, mode, smoothing);
 
   let data = chartData.createData(scaleData.colors);
+  console.log(data);
   charts.showCharts('CAM02', data);
   colorSpaceFeedback('CAM02'); // manually enter default of CAM02
 }
+
 window.onresize = colorInput;
 
 // Passing variable parameters to URL
-function updateParams(c, b, r, m) {
+function updateParams(c, b, r, m, s) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   let tabColor = document.getElementById("tabColor");
@@ -742,6 +760,7 @@ function updateParams(c, b, r, m) {
   params.set('base', b);
   params.set('ratios', r);
   params.set('mode', m);
+  params.set('smooth', s)
 
   var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
   cStrings = cStrings + '"';
@@ -754,17 +773,20 @@ function updateParams(c, b, r, m) {
   var pcol = 'colorKeys: [' + cStrings + '], ';
   var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';
-  var pmod = ' colorspace: "' + m + '"});';
+  var pmod = ' colorspace: "' + m + '";';
+  var psmooth = 'smooth: ' + s + '})';
   let text1 = document.createTextNode(call);
   let text2 = document.createTextNode(pcol);
   let text3 = document.createTextNode(pbas);
   let text4 = document.createTextNode(prat);
   let text7 = document.createTextNode(pmod);
+  let text8 = document.createTextNode(psmooth);
   p.appendChild(text1);
   p.appendChild(text2);
   p.appendChild(text3);
   p.appendChild(text4);
   p.appendChild(text7);
+  p.appendChild(text8);
 }
 
 // Sort swatches in UI
@@ -929,8 +951,3 @@ function updateCharts(selectObject) {
   colorSpaceFeedback(spaceOpt);
 }
 window.updateCharts = updateCharts;
-
-// Temporary
-window.generateBaseScale = generateBaseScale;
-window.minPositive = minPositive;
-window.ratioName = ratioName;
