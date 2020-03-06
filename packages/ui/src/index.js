@@ -175,7 +175,7 @@ function paramSetup() {
   if (params.has('smooth')) {
     let checkSmooth = document.getElementById('checkSmooth');
     let bool = params.get('smooth');
-    console.log(bool);
+
     if(bool === 'true') {
       checkSmooth.checked = true;
     }

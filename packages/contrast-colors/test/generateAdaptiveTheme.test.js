@@ -300,21 +300,21 @@ test('should generate white theme with increased contrast', function() {
         colorKeys: ['#cacaca'],
         colorspace: 'HSL',
         ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
-        smooth: false;
+        smooth: false
       },
       {
         name: "blue",
         colorKeys: ['#0000ff'],
         colorspace: 'LAB',
         ratios: [2, 3, 4.5, 8, 12],
-        smooth: false;
+        smooth: false
       },
       {
         name: "red",
         colorKeys: ['#ff0000'],
         colorspace: 'RGB',
         ratios: [2, 3, 4.5, 8, 12],
-        smooth: false;
+        smooth: false
       }
     ]});
     let themeLight = theme(100, 2);;

@@ -131,8 +131,9 @@ function paramSetup() {
       let keyColors = colorScales[i].colorKeys;
       let colorSpace = colorScales[i].colorspace;
       let ratios = colorScales[i].ratios;
+      let smoothing = colorScales[i].smooth;
       // Create color scale item
-      addColorScale(colorName, keyColors, colorSpace, ratios);
+      addColorScale(colorName, keyColors, colorSpace, ratios, smoothing);
     }
 
     let slider = document.getElementById('themeBrightnessSlider');
@@ -210,7 +211,7 @@ let predefinedColorNames = [
 ];
 
 window.addColorScale = addColorScale;
-function addColorScale(c, k, s, r) {
+function addColorScale(c, k, s, r, b) {
   // for checking to see if items already exist
   let items = document.getElementsByClassName('themeColor_item');
   // create unique ID for color object
@@ -332,7 +333,7 @@ function addColorScale(c, k, s, r) {
   interpSelect.className = 'spectrum-FieldButton spectrum-Dropdown-trigger';
   interpSelect.id = thisId.concat('_mode');
   interpSelect.name = thisId.concat('_mode');
-  interpSelect.oninput = throttle(themeUpdateParams, 20);
+  interpSelect.oninput = themeUpdateParams();
   let interpDropdownIcon = document.createElement('span');
   interpDropdownIcon.className = 'spectrum-Dropdown-iconWrapper';
   interpDropdownIcon.innerHTML = `
@@ -378,13 +379,21 @@ function addColorScale(c, k, s, r) {
   smoothCheckBox.className = 'spectrum-Checkbox-input';
   smoothCheckBox.name = thisId.concat('_smooth');
   smoothCheckBox.id = thisId.concat('_smooth');
+  if(b === 'true') {
+    smoothCheckBox.checked = true;
+  }
+  else if (b === 'false'){
+    smoothCheckBox.checked = false;
+  }
+
   let checkmark = document.createElement('span');
   checkmark.className = 'spectrum-Checkbox-box';
   checkmark.innerHTML = `
   <svg class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
     <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
   </svg>`;
-  smoothCheckBox.onchange = throttle(themeUpdateParams, 10);
+  smoothCheckBox.onchange = themeUpdateParams();
+  // smoothCheckBox.onchange = throttle(themeUpdateParams, 1);
   let smoothCheckLabel = document.createElement('span');
   smoothCheckLabel.className = 'spectrum-Checkbox-label';
   smoothCheckLabel.innerHTML = 'Smooth';
@@ -498,8 +507,8 @@ function addColorScale(c, k, s, r) {
 }
 
 window.addColorScaleUpdate = addColorScaleUpdate;
-function addColorScaleUpdate(c, k, s, r) {
-  addColorScale(c, k, s, r);
+function addColorScaleUpdate(c, k, s, r, b) {
+  addColorScale(c, k, s, r, b);
   themeInput();
   let config = getThemeData();
   let name = getThemeName();
@@ -829,7 +838,7 @@ function themeInput() {
       let thisElement = document.getElementById(id);
       let gradientId = id.concat('_gradient');
       let gradient = document.getElementById(gradientId);
-      let colorObjs = theme[i+1].values;
+      let colorObjs = theme[i+1].values; // ignore first item which is 'background-color'
       let arr = [];
 
       for(let i = 0; i < colorObjs.length; i ++) {
@@ -1042,7 +1051,7 @@ function addFromURL() {
   let params = new URLSearchParams(url.search.slice(1));
   let pathName = url.pathname;
 
-  let crs, ratios, mode;
+  let crs, ratios, mode, smoothing;
   let cName = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
 
   // // If parameters exist, use parameter; else use default html input values
@@ -1064,10 +1073,13 @@ function addFromURL() {
   if(params.has('mode')) {
     mode = params.get('mode');
   }
+  if(params.has('smooth')) {
+    smoothing = params.get('smooth');
+  }
   else {
     // do nothing
   }
-  addColorScaleUpdate(cName, crs, mode, ratios);
+  addColorScaleUpdate(cName, crs, mode, ratios, smoothing);
 
   cancelURL();
   // Run colorinput
