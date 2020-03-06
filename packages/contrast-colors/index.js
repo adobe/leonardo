@@ -183,7 +183,9 @@ const colorSpaces = {
   LCH: {
     name: 'hcl',
     channels: ['h', 'c', 'l'],
-    interpolator: d3.interpolateHcl
+    interpolator: d3.interpolateHcl,
+    white: d3.hcl(NaN, 0, 100),
+    black: d3.hcl(NaN, 0, 0)
   },
   LAB: {
     name: 'lab',
@@ -198,7 +200,9 @@ const colorSpaces = {
   HSLuv: {
     name: 'hsluv',
     channels: ['l', 'u', 'v'],
-    interpolator: d3.interpolateHsluv
+    interpolator: d3.interpolateHsluv,
+    white: d3.hsluv(NaN, NaN, 100),
+    black: d3.hsluv(NaN, NaN, 0)
   },
   RGB: {
     name: 'rgb',
@@ -291,7 +295,7 @@ function createScale({
 
   let scale;
   if (fullScale) {
-    ColorsArray = ['#fff', ...sortedColor, '#000'];
+    ColorsArray = [space.white || '#fff', ...sortedColor, space.black || '#000'];
   } else {
     ColorsArray = sortedColor;
   }
