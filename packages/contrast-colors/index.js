@@ -245,7 +245,7 @@ function createScale({
   colorspace = 'LAB',
   shift = 1,
   fullScale = true,
-  smooth = true
+  smooth = false
 } = {}) {
   const space = colorSpaces[colorspace];
   if (!space) {
@@ -347,11 +347,12 @@ function createScale({
 
 function generateBaseScale({
   colorKeys,
-  colorspace = 'LAB'
+  colorspace = 'LAB',
+  smooth
 } = {}) {
   // create massive scale
   let swatches = 1000;
-  let scale = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
+  let scale = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1, smooth: smooth});
   let newColors = scale.colorsHex;
 
   let colorObj = newColors
@@ -368,7 +369,8 @@ function generateContrastColors({
   colorKeys,
   base,
   ratios,
-  colorspace = 'LAB'
+  colorspace = 'LAB',
+  smooth = false
 } = {}) {
   if (!base) {
     throw new Error(`Base is undefined`);
@@ -390,7 +392,7 @@ function generateContrastColors({
 
   let swatches = 3000;
 
-  let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1});
+  let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1, smooth: smooth});
   let baseV = (d3.hsluv(base).v) / 100;
 
   let Contrasts = d3.range(swatches).map((d) => {
@@ -521,9 +523,10 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
     let baseIndex = colorScales.findIndex( x => x.name === baseScale );
     let baseKeys = colorScales[baseIndex].colorKeys;
     let baseMode = colorScales[baseIndex].colorspace;
+    let smooth = colorScales[baseIndex].smooth;
 
     // define params to pass as bscale
-    let bscale = generateBaseScale({colorKeys: baseKeys, colorspace: baseMode}); // base parameter to create base scale (0-100)
+    let bscale = generateBaseScale({colorKeys: baseKeys, colorspace: baseMode, smooth: smooth}); // base parameter to create base scale (0-100)
     let bval = bscale[brightness];
     let baseObj = {
       background: bval
@@ -538,6 +541,7 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
       }
       let name = colorScales[i].name;
       let ratios = colorScales[i].ratios;
+      let smooth = colorScales[i].smooth;
       let newArr = [];
       let colorObj = {
         name: name,
@@ -562,7 +566,9 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
         colorKeys: colorScales[i].colorKeys,
         colorspace: colorScales[i].colorspace,
         ratios: ratios,
-        base: bval});
+        base: bval,
+        smooth: smooth
+      });
 
       for (let i=0; i < outputColors.length; i++) {
         let rVal = ratioName(ratios)[i];
