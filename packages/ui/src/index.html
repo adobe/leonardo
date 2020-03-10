@@ -155,16 +155,30 @@
                 <div class="spectrum-Form-itemField">
                   <div class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
                     <label class="spectrum-Checkbox">
-                      <input type="checkbox" class="spectrum-Checkbox-input" id="sequentialClamp" onInput="colorInput()">
+                      <input type="checkbox" class="spectrum-Checkbox-input" id="sequentialClamp" onInput="colorInput()" checked>
                       <span class="spectrum-Checkbox-box">
                         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
                           <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
                         </svg>
                       </span>
-                      <span class="spectrum-Checkbox-label">Clamp to key colors</span>
+                      <span class="spectrum-Checkbox-label">Full scale (white to black)</span>
                     </label>
                   </div>
                 </div>
+                <div class="spectrum-Form-itemField">
+                  <div class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
+                    <label class="spectrum-Checkbox">
+                      <input type="checkbox" class="spectrum-Checkbox-input" id="opticalScale" onInput="colorInput()" checked>
+                      <span class="spectrum-Checkbox-box">
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                          <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
+                        </svg>
+                      </span>
+                      <span class="spectrum-Checkbox-label">Correct lightness</span>
+                    </label>
+                  </div>
+                </div>
+
               </div>
           </form>
         </div>

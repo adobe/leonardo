@@ -614,9 +614,19 @@ function colorInput() {
   let paletteTypeInput = document.getElementById('paletteType');
   let paletteType = paletteTypeInput.value;
   let shiftInput = document.getElementById('shiftInput');
-  let shift = shiftInput.value;
+  let shift;
+  if (paletteType == 'Contrast') {
+    shift = 1;
+  }
+  else if (paletteType == 'Sequential') {
+    shift = shiftInput.value;
+  }
   let shiftInputValueLabel = document.getElementById('shiftInputValue');
   shiftInputValueLabel.innerHTML = shift;
+
+  let lightnessCorrectionInput = document.getElementById('opticalScale');
+  let correctLightness = lightnessCorrectionInput.checked;
+
   let swatchAmmount = document.getElementById('swatchAmmount').value;
 
   let spaceOpt = document.getElementById('chart3dColorspace').value;
@@ -628,7 +638,7 @@ function colorInput() {
   // Clamp ratios convert decimal numbers to whole negatives and disallow
   // inputs less than 1 and greater than -1.
   for(let i=0; i<ratioFields.length; i++) {
-    val = ratioFields[i].value;
+    let val = ratioFields[i].value;
     if (val < 1 && val > -1) {
       ratioFields[i].value = (10 / (val * 10)).toFixed(2) * -1;
     } else { }
@@ -655,14 +665,14 @@ function colorInput() {
   tempArgs.push(inputColors);
   colorArgs = tempArgs.join("").split(',').filter(String);
 
-  let shift = 1;
   let clamping = document.getElementById('sequentialClamp').checked;
+  console.log(clamping);
 
   // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
-  let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift, correctLightness: correctLightness});
   let n = window.innerHeight - 282;
 
-  let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift, correctLightness: correctLightness});
 
   // newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   let newColors;
@@ -670,7 +680,7 @@ function colorInput() {
     newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   }
   if (paletteType == 'Sequential') {
-    newColors = contrastColors.generateSequentialColors({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: clamping});
+    newColors = contrastColors.generateSequentialColors({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: clamping, correctLightness: correctLightness});
   }
 
 
