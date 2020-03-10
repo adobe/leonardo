@@ -610,6 +610,15 @@ function changePalette() {
 window.colorInput = colorInput;
 function colorInput() {
   document.getElementById('colorScale').innerHTML = '';
+
+  let paletteTypeInput = document.getElementById('paletteType');
+  let paletteType = paletteTypeInput.value;
+  let shiftInput = document.getElementById('shiftInput');
+  let shift = shiftInput.value;
+  let shiftInputValueLabel = document.getElementById('shiftInputValue');
+  shiftInputValueLabel.innerHTML = shift;
+  let swatchAmmount = document.getElementById('swatchAmmount').value;
+
   let spaceOpt = document.getElementById('chart3dColorspace').value;
 
   var inputs = document.getElementsByClassName('keyColor-Item');
@@ -655,7 +664,15 @@ function colorInput() {
 
   let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
-  newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  // newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  let newColors;
+  if (paletteType == 'Contrast') {
+    newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  }
+  if (paletteType == 'Sequential') {
+    newColors = contrastColors.generateSequentialColors({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: clamping});
+  }
+
 
   // Create values for sliders
   let Values = [];
@@ -684,23 +701,57 @@ function colorInput() {
     } else {
       return sqrtValues(d);
     }
-  })
+  });
 
-  for(let i=0; i<newColors.length; i++) {
-    // Calculate value of color and apply to slider position/value
-    var val = d3.hsluv(newColors[i]).v;
+  // for sequential
+  if (paletteType == 'Contrast') {
+    for(let i=0; i<newColors.length; i++) {
+      // Calculate value of color and apply to slider position/value
+      let val = d3.hsluv(newColors[i]).v;
 
-    var newVal = sqrtValues[i+1];
+      let newVal = sqrtValues[i+1];
 
-    val = newVal;
-    // Find corresponding input/slider id
-    var slider = document.getElementById(rfIds[i] + '-sl')
-    slider.value = val;
+      val = newVal;
+      // Find corresponding input/slider id
+      let slider = document.getElementById(rfIds[i] + '-sl');
+      slider.value = val;
+      slider.style.display = 'block';
 
-    // apply color to subsequent swatch
-    var swatch = document.getElementById(rfIds[i] + '-sw')
-    swatch.style.backgroundColor = newColors[i];
+      // apply color to subsequent swatch
+      let swatch = document.getElementById(rfIds[i] + '-sw');
+      swatch.style.backgroundColor = newColors[i];
+    }
+  } else if (paletteType == 'Sequential') {
+   for (let i=0; i<rfIds.length; i++) {
+     // Temporarily just hide these. Not sure anything's worthwhile here.
+     let slider = document.getElementById(rfIds[i] + '-sl');
+     slider.style.display = 'none';
+   }
+   // for(let j=0; j < Number(swatchAmmount); j++) {
+   //   let slider = document.getElementById(rfIds[j] + '-sl')
+   //   slider.value = 100 - (100 * j/(Number(swatchAmmount) - 1));
+   //
+   //   // apply color to subsequent swatch
+   //   let swatch = document.getElementById(rfIds[j] + '-sw')
+   //   swatch.style.backgroundColor = newColors[j];
+   // }
   }
+
+  // for(let i=0; i<newColors.length; i++) {
+  //   // Calculate value of color and apply to slider position/value
+  //   var val = d3.hsluv(newColors[i]).v;
+  //
+  //   var newVal = sqrtValues[i+1];
+  //
+  //   val = newVal;
+  //   // Find corresponding input/slider id
+  //   var slider = document.getElementById(rfIds[i] + '-sl')
+  //   slider.value = val;
+  //
+  //   // apply color to subsequent swatch
+  //   var swatch = document.getElementById(rfIds[i] + '-sw')
+  //   swatch.style.backgroundColor = newColors[i];
+  // }
 
   // Generate Gradient as HTML Canvas element
   let filteredColors = rampData.colors;
