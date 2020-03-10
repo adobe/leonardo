@@ -583,6 +583,29 @@ function checkRatioStepModifiers(e) {
   }
 }
 
+
+window.changePalette = changePalette;
+function changePalette() {
+  var paletteType = document.getElementById('paletteType').value;
+  var wrapSequence = document.getElementById('sequentialConfigs');
+  var wrapRatio = document.getElementById('contrastConfigs');
+  var sliders = document.getElementById('sliderWrapper');
+
+  if (paletteType == 'Contrast') {
+    wrapSequence.style.display = 'none';
+    wrapRatio.style.display = 'flex';
+    // sliders.style.display = 'flex';
+  }
+  if (paletteType == 'Sequential') {
+    wrapSequence.style.display = 'flex';
+    wrapRatio.style.display = 'none';
+    // sliders.style.display = 'none';
+  }
+
+  colorInput();
+}
+
+
 // Calculate Color and generate Scales
 window.colorInput = colorInput;
 function colorInput() {
