@@ -119,11 +119,13 @@
         <div id="colorSlider-wrapper"></div>
       </div>
       <div>
-        <form class="spectrum-Form" style="display:none;">
+        <form class="spectrum-Form">
           <div class="spectrum-Form-item">
             <label for="paletteType_Dropdown" class="spectrum-FieldLabel">Palette Type</label>
             <div class="spectrum-Dropdown" id="paletteType_Dropdown">
               <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="paletteType" onInput="changePalette()" id="paletteType">
+                <option value="contrast">Contrast ratio</option>
+                <option value="sequential">Sequential</option>
               </select>
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
@@ -166,6 +168,7 @@
               </div>
           </form>
         </div>
+
         <div id="contrastConfigs">
           <div>
             <input type="color" class="" id="bgField" value="#ffffff"></input>

@@ -239,6 +239,13 @@ function removeDuplicates(originalArray, prop) {
   return newArray;
 }
 
+function normalizePercent(min, max, input) {
+  let range = max - min;
+  let correctedStartValue = input - min;
+  let percentage = (correctedStartValue * 100) / range;
+  return percentage / 100;
+}
+
 function createScale({
   swatches,
   colorKeys,
@@ -252,28 +259,10 @@ function createScale({
     throw new Error(`Colorspace “${colorspace}” not supported`);
   }
 
-  let domains = colorKeys
-    .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
-    .sort((a, b) => a - b)
-    .concat(swatches);
+  let domains;
+  let ColorsArray = [];
+  let scale;
 
-  domains.unshift(0);
-
-  // Test logarithmic domain (for non-contrast-based scales)
-  let sqrtDomains = d3.scalePow()
-    .exponent(shift)
-    .domain([1, swatches])
-    .range([1, swatches]);
-
-  sqrtDomains = domains.map((d) => {
-    if (sqrtDomains(d) < 0) {
-      return 0;
-    }
-    return sqrtDomains(d);
-  });
-
-  // Transform square root in order to smooth gradient
-  domains = sqrtDomains;
 
   let sortedColor = colorKeys
     // Convert to HSLuv and keep track of original indices
@@ -291,14 +280,29 @@ function createScale({
     // Retrieve original RGB color
     .map(data => colorKeys[data.index]);
 
-  let ColorsArray = [];
 
-  let scale;
   if (fullScale) {
+    domains = colorKeys
+     .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
+     .sort((a, b) => a - b)
+     .concat(swatches);
+
+    domains.unshift(0);
+
     ColorsArray = [space.white || '#fff', ...sortedColor, space.black || '#000'];
   } else {
+    let tempDomains = colorKeys
+     .map(key => d3.hsluv(key).v / 100)
+     .sort((a, b) => a - b);
+
+    let min = Math.min(...tempDomains);
+    let max = Math.max(...tempDomains);
+
+    domains = tempDomains.map(key => normalizePercent(min, max, key));
+
     ColorsArray = sortedColor;
   }
+
   const stringColors = ColorsArray;
   ColorsArray = ColorsArray.map(d => d3[space.name](d));
   if (space.name == 'hcl') {
@@ -315,6 +319,22 @@ function createScale({
       }
     }
   }
+
+  // Test logarithmic domain (for non-contrast-based scales)
+  let sqrtDomains = d3.scalePow()
+    .exponent(shift)
+    .domain([1, swatches])
+    .range([1, swatches]);
+
+  sqrtDomains = domains.map((d) => {
+    if (sqrtDomains(d) < 0) {
+      return 0;
+    }
+    return sqrtDomains(d);
+  });
+
+  // Transform square root in order to smooth gradient
+  domains = sqrtDomains;
 
   if (smooth) {
     scale = smoothScale(ColorsArray, domains, space);
