@@ -569,11 +569,14 @@ let chartColors = [];
 
 function getChartColors(mode) {
   let shift = document.getElementById('shiftInput').value;
+  let lightnessCorrectionInput = document.getElementById('opticalScale');
+  let correctLightness = lightnessCorrectionInput.checked;
+  let clamping = document.getElementById('sequentialClamp').checked;
 
   let chartColors = [];
 
   // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
-  let chartRGB = contrastColors.createScale({swatches: 340, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  let chartRGB = contrastColors.createScale({swatches: 340, colorKeys: colorArgs, colorspace: mode, fullScale: clamping, shift: shift, correctLightness: correctLightness});
 
   for (let i=0; i<chartRGB.colorsHex.length; i++) {
     chartColors.push(chartRGB.colorsHex[i]);

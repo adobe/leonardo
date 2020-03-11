@@ -666,13 +666,12 @@ function colorInput() {
   colorArgs = tempArgs.join("").split(',').filter(String);
 
   let clamping = document.getElementById('sequentialClamp').checked;
-  console.log(clamping);
 
   // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
-  let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift, correctLightness: correctLightness});
+  let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: clamping, correctLightness: correctLightness});
   let n = window.innerHeight - 282;
 
-  let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift, correctLightness: correctLightness});
+  let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: clamping, correctLightness: correctLightness});
 
   // newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   let newColors;
