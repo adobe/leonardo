@@ -285,7 +285,7 @@ function createScale({
     domains = colorKeys
      .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
      .sort((a, b) => a - b)
-     .concat(swatches);
+     .concat(Number(swatches));
 
     domains.unshift(0);
 
@@ -300,7 +300,7 @@ function createScale({
     let max = Math.max(...tempDomains);
 
     domains = tempDomains.map(key => normalizePercent(min, max, key) * swatches);
-    console.log(domains);
+
     ColorsArray = sortedColor;
   }
 
@@ -333,8 +333,8 @@ function createScale({
   // Test logarithmic domain (for non-contrast-based scales)
   let sqrtDomains = d3.scalePow()
     .exponent(shift)
-    .domain([1, swatches])
-    .range([1, swatches]);
+    .domain([0, swatches])
+    .range([0, swatches]);
 
   sqrtDomains = domains.map((d) => {
     if (sqrtDomains(d) < 0) {
@@ -345,9 +345,6 @@ function createScale({
 
   // Transform square root in order to smooth gradient
   domains = sqrtDomains;
-
-  console.log("Colors : " + ColorsArray);
-  // console.log(domains);
 
   if (smooth) {
     scale = smoothScale(ColorsArray, domains, space);
@@ -362,7 +359,7 @@ function createScale({
 
   if(fullScale) {
     // Colors = d3.range(swatches).map(d => scale(d));
-    let inc = 1 / (swatches - 2);
+    let inc = 1 / (swatches - 1);
     for(let i = 0; i < swatches; i++) {
       let currentInc = inc * i;
       let color = scale(currentInc * swatches);
@@ -683,36 +680,43 @@ function binarySearch(list, value, baseLum) {
 
 function generateSequentialColors(
   {
-    swatches = 8,
+    swatches,
     colorKeys,
     colorspace = 'LAB',
     shift = 1,
     fullScale = true,
-    correctLightness = true
+    correctLightness = true,
+    smooth = false
   } = {}) {
 
-  let sequenceData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift, fullScale: fullScale, correctLightness: correctLightness});
-  let colorRange = sequenceData.colors;
-
-  let fillDomain = [];
-  for(let i=0; i<swatches; i++) {
-    // fill domain from 0 to 1 with percentage values of the swatches
-    fillDomain.push(sequenceData.colors.length * (i / (swatches -1)));
+  if (swatches === undefined) {
+    return function(swatches) {
+      // return generateAdaptiveTheme({baseScale: baseScale, colorScales: colorScales, brightness: brightness, contrast: contrast});
+      return generateSequentialColors({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift, fullScale: fullScale, correctLightness: correctLightness, smooth: smooth});
+    }
   }
+  else {
+    let sequenceData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: shift, fullScale: fullScale, correctLightness: correctLightness, smooth: smooth});
+    let colorRange = sequenceData.colors;
 
-  let sequentialScale = d3.scaleLinear()
-      .range(sequenceData.colors)
-      .domain(fillDomain);
+    let fillDomain = [];
+    for(let i=0; i<swatches; i++) {
+      // fill domain from 0 to 1 with percentage values of the swatches
+      fillDomain.push(sequenceData.colors.length * (i / (swatches)));
+    }
 
-  var newColors = d3.range(swatches).map(function(d) {
-    return sequentialScale(d)
-  });
+    let sequentialScale = d3.scaleLinear()
+        .range(sequenceData.colors)
+        .domain(fillDomain);
 
-  return newColors;
+    let newColors = d3.range(swatches).map(function(d) {
+      let c = sequentialScale(d);
+      return d3.rgb(c).formatHex();
+    });
+
+    return newColors;
+  }
 }
-// test
-// generateSequentialColors({swatches: 4, colorKeys: ['#ff00ff']});
-
 
 export {
   createScale,

@@ -123,7 +123,7 @@
           <div class="spectrum-Form-item">
             <label for="paletteType_Dropdown" class="spectrum-FieldLabel">Palette Type</label>
             <div class="spectrum-Dropdown" id="paletteType_Dropdown">
-              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="paletteType" onInput="changePalette()" id="paletteType">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="paletteType" onInput="changePaletteUpdate()" id="paletteType">
                 <option value="Contrast">Contrast ratio based</option>
                 <option value="Sequential">Sequential</option>
               </select>
@@ -155,7 +155,7 @@
                 <div class="spectrum-Form-itemField">
                   <div class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
                     <label class="spectrum-Checkbox">
-                      <input type="checkbox" class="spectrum-Checkbox-input" id="sequentialClamp" onInput="colorInput()" checked>
+                      <input type="checkbox" class="spectrum-Checkbox-input" id="sequentialClamp" onInput="colorInput()">
                       <span class="spectrum-Checkbox-box">
                         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
                           <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />
@@ -168,7 +168,7 @@
                 <div class="spectrum-Form-itemField">
                   <div class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
                     <label class="spectrum-Checkbox">
-                      <input type="checkbox" class="spectrum-Checkbox-input" id="opticalScale" onInput="colorInput()" checked>
+                      <input type="checkbox" class="spectrum-Checkbox-input" id="opticalScale" onInput="colorInput()">
                       <span class="spectrum-Checkbox-box">
                         <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-CheckmarkSmall spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
                           <use xlink:href="#spectrum-css-icon-CheckmarkSmall" />

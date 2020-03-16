@@ -46,6 +46,7 @@ window.createScale = contrastColors.createScale;
 window.luminance = contrastColors.luminance;
 window.contrast = contrastColors.contrast;
 window.generateContrastColors = contrastColors.generateContrastColors;
+window.generateSequentialColors = contrastColors.generateSequentialColors;
 window.contrastColors = contrastColors;
 window.generateBaseScale = contrastColors.generateBaseScale;
 window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
@@ -139,43 +140,97 @@ function paramSetup() {
   let params = new URLSearchParams(url.search.slice(1));
   pathName = url.pathname;
 
-  // // If parameters exist, use parameter; else use default html input values
-  if(params.has('colorKeys')) {
-    let cr = params.get('colorKeys');
-    let crs = cr.split(',');
+  if(params.has('type') && params.get('type') == 'Sequential') {
+    // let typeSelect = document.getElementById('paletteType');
+    let typeSelect = document.querySelector('select[name="paletteType"]');
+    typeSelect.value = 'Sequential';
+    let swatchInput = document.getElementById('swatchAmmount');
+    let shiftSlider = document.getElementById('shiftInput');
+    let clampCheck = document.getElementById('sequentialClamp');
+    let opticalCheck = document.getElementById('opticalScale');
 
-    if(crs[0] == 0) {
-      crs = ['#707070'];
+    if(params.has('colorKeys')) {
+      let cr = params.get('colorKeys');
+      let crs = cr.split(',');
+
+      if(crs[0] == 0) {
+        crs = ['#707070'];
+      }
+
+      for (let i=0; i<crs.length; i++) {
+        addColor(crs[i]);
+      }
     }
-
-    for (let i=0; i<crs.length; i++) {
-      addColor(crs[i]);
+    if(params.has('mode')) {
+      document.querySelector('select[name="mode"]').value = params.get('mode');
     }
-  }
-  if(params.has('base')) {
-    document.getElementById('bgField').value = "#" + params.get('base');
-  }
-  if(params.has('ratios')) {
-    // transform parameter values into array of numbers
-    let rat = params.get('ratios');
-    let ratios = rat.split(',');
-    ratios = ratios.map(Number);
-
-    if(ratios[0] == 0) { // if no parameter value, default to [3, 4.5]
-      ratios = [3, 4.5];
-    } else { }
-
-    for(let i=0; i<ratios.length; i++) {
-      addRatio(ratios[i]);
+    if(params.has('swatches')) {
+      swatchInput.value = params.get('swatches');
     }
-  }
-  if(params.has('mode')) {
-    document.querySelector('select[name="mode"]').value = params.get('mode');
-  }
-  else {
-    addColor('#6fa7ff');
+    if(params.has('shift')) {
+      shiftSlider.value = params.get('shift');
+    }
+    if(params.has('fullScale')) {
+      console.log('fullScale is ' + params.get('fullScale'));
+      clampCheck.checked = params.get('fullScale');
+    }
+    if(params.has('correctLightness')) {
+      console.log('correctLightness is ' + params.get('correctLightness'));
+      opticalCheck.checked = params.get('correctLightness');
+    }
+    else {
+      addColor('#FFB600');
+      addColor('#FF0049');
+      addColor('#1900BC');
+      swatchInput.value = 8;
+      shiftSlider.value = 1;
+      clampCheck.checked = false;
+      opticalCheck.checked = true;
+    }
     addRatio(3);
     addRatio(4.5);
+
+    changePalette();
+  }
+  else { // captures URLs without type, which will account for older contrast URLs
+    // // If parameters exist, use parameter; else use default html input values
+    if(params.has('colorKeys')) {
+      let cr = params.get('colorKeys');
+      let crs = cr.split(',');
+
+      if(crs[0] == 0) {
+        crs = ['#707070'];
+      }
+
+      for (let i=0; i<crs.length; i++) {
+        addColor(crs[i]);
+      }
+    }
+    if(params.has('base')) {
+      document.getElementById('bgField').value = "#" + params.get('base');
+    }
+    if(params.has('ratios')) {
+      // transform parameter values into array of numbers
+      let rat = params.get('ratios');
+      let ratios = rat.split(',');
+      ratios = ratios.map(Number);
+
+      if(ratios[0] == 0) { // if no parameter value, default to [3, 4.5]
+        ratios = [3, 4.5];
+      } else { }
+
+      for(let i=0; i<ratios.length; i++) {
+        addRatio(ratios[i]);
+      }
+    }
+    if(params.has('mode')) {
+      document.querySelector('select[name="mode"]').value = params.get('mode');
+    }
+    else {
+      addColor('#6fa7ff');
+      addRatio(3);
+      addRatio(4.5);
+    }
   }
 
   colorInput();
@@ -583,6 +638,12 @@ function checkRatioStepModifiers(e) {
   }
 }
 
+window.changePaletteUpdate = changePaletteUpdate;
+function changePaletteUpdate() {
+  changePalette();
+
+  colorInput();
+}
 
 window.changePalette = changePalette;
 function changePalette() {
@@ -601,8 +662,6 @@ function changePalette() {
     wrapRatio.style.display = 'none';
     // sliders.style.display = 'none';
   }
-
-  colorInput();
 }
 
 
@@ -672,8 +731,8 @@ function colorInput() {
   let n = window.innerHeight - 282;
 
   let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: clamping, correctLightness: correctLightness});
+  let scaleDataForDownload = contrastColors.createScale({swatches: 300, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: clamping, correctLightness: correctLightness});
 
-  // newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
   let newColors;
   if (paletteType == 'Contrast') {
     newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
@@ -682,6 +741,9 @@ function colorInput() {
     newColors = contrastColors.generateSequentialColors({swatches: swatchAmmount, colorKeys: colorArgs, colorspace: mode, shift: shift, fullScale: clamping, correctLightness: correctLightness});
   }
 
+  newColors = newColors.map(function(x) {
+    return d3.rgb(x).formatHex();
+  });
 
   // Create values for sliders
   let Values = [];
@@ -736,31 +798,7 @@ function colorInput() {
      let slider = document.getElementById(rfIds[i] + '-sl');
      slider.style.display = 'none';
    }
-   // for(let j=0; j < Number(swatchAmmount); j++) {
-   //   let slider = document.getElementById(rfIds[j] + '-sl')
-   //   slider.value = 100 - (100 * j/(Number(swatchAmmount) - 1));
-   //
-   //   // apply color to subsequent swatch
-   //   let swatch = document.getElementById(rfIds[j] + '-sw')
-   //   swatch.style.backgroundColor = newColors[j];
-   // }
   }
-
-  // for(let i=0; i<newColors.length; i++) {
-  //   // Calculate value of color and apply to slider position/value
-  //   var val = d3.hsluv(newColors[i]).v;
-  //
-  //   var newVal = sqrtValues[i+1];
-  //
-  //   val = newVal;
-  //   // Find corresponding input/slider id
-  //   var slider = document.getElementById(rfIds[i] + '-sl')
-  //   slider.value = val;
-  //
-  //   // apply color to subsequent swatch
-  //   var swatch = document.getElementById(rfIds[i] + '-sw')
-  //   swatch.style.backgroundColor = newColors[i];
-  // }
 
   // Generate Gradient as HTML Canvas element
   let filteredColors = rampData.colors;
@@ -806,8 +844,15 @@ function colorInput() {
   var copyColors = document.getElementById('copyAllColors');
   copyColors.setAttribute('data-clipboard-text', newColors);
 
+  clearParams();
+
   // update URL parameters
-  updateParams(inputColors, background.substr(1), ratioInputs, mode);
+  if (paletteType == 'Contrast') {
+    updateContrastParams(inputColors, background.substr(1), ratioInputs, mode);
+  }
+  else if (paletteType == 'Sequential') {
+    updateSequentialParams(swatchAmmount, inputColors, mode, shift, clamping, correctLightness, false)
+  }
 
   let data = chartData.createData(scaleData.colors);
   charts.showCharts('CAM02', data);
@@ -815,12 +860,65 @@ function colorInput() {
 }
 window.onresize = colorInput;
 
+
+function clearParams() {
+  let uri = window.location.toString();
+  let cleanURL = uri.substring(0, uri.indexOf("?"));
+
+  window.history.replaceState({}, document.title, cleanURL);
+}
+
 // Passing variable parameters to URL
-function updateParams(c, b, r, m) {
+function updateSequentialParams(s, c, m, sh, f, l, sm) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
-  let tabColor = document.getElementById("tabColor");
 
+  params.set('type', 'Sequential');
+  params.set('swatches', s);
+  params.set('colorKeys', c);
+  params.set('mode', m);
+  params.set('shift', sh);
+  params.set('fullScale', f);
+  params.set('correctLightness', l);
+  params.set('smooth', sm);
+
+  let cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
+  cStrings = cStrings + '"';
+
+  window.history.replaceState({}, '', '?' + params); // update the page's URL.
+
+  let p = document.getElementById('params');
+  p.innerHTML = " ";
+  let call = 'generateSequentialColors({ ';
+  let pswat = 'swatches: ' + s + ', ';
+  let pcol = 'colorKeys: [' + cStrings + '], ';
+  let pmod = 'colorspace: "' + m + ', ';
+  let psh = 'shift: ' + sh + ', ';
+  let pfull = 'fullScale: ' + f + ', ';
+  let pcorr = 'correctLightness: ' + l + ', ';
+  let psmo = 'smooth: ' + s + '"});';
+  let text1 = document.createTextNode(call);
+  let text2 = document.createTextNode(pswat);
+  let text3 = document.createTextNode(pcol);
+  let text4 = document.createTextNode(psh);
+  let text5 = document.createTextNode(pfull);
+  let text6 = document.createTextNode(pcorr);
+  let text7 = document.createTextNode(psmo);
+  p.appendChild(text1);
+  p.appendChild(text2);
+  p.appendChild(text3);
+  p.appendChild(text4);
+  p.appendChild(text5);
+  p.appendChild(text6);
+  p.appendChild(text7);
+}
+
+// Passing variable parameters to URL
+function updateContrastParams(c, b, r, m) {
+  let url = new URL(window.location);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  params.set('type', 'Contrast');
   params.set('colorKeys', c);
   params.set('base', b);
   params.set('ratios', r);
@@ -1012,8 +1110,3 @@ function updateCharts(selectObject) {
   colorSpaceFeedback(spaceOpt);
 }
 window.updateCharts = updateCharts;
-
-// Temporary
-window.generateBaseScale = generateBaseScale;
-window.minPositive = minPositive;
-window.ratioName = ratioName;
