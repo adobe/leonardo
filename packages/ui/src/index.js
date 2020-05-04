@@ -49,6 +49,8 @@ window.generateContrastColors = contrastColors.generateContrastColors;
 window.contrastColors = contrastColors;
 window.generateBaseScale = contrastColors.generateBaseScale;
 window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
+window.minPositive = contrastColors.minPositive;
+window.ratioName = contrastColors.ratioName;
 
 import loadIcons from 'loadicons';
 loadIcons('./spectrum-css-icons.svg');
