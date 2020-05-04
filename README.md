@@ -16,11 +16,10 @@ To make it easier for designers and engineers to leverage color science to creat
 2. [Show me a demo](#show-me-a-demo)
 3. [What is "adaptive color"?](#what-is-adaptive-color)
 4. [Using Leonardo](#using-leonardo)
-5. [API Reference](#api-reference)
-6. [Why are not all contrast ratios available?](#why-are-not-all-contrast-ratios-available)
-7. [D3 Color](#d3-color)
-8. [Contributing](#contributing)
-9. [Licensing](#licensing)
+5. [Why are not all contrast ratios available?](#why-are-not-all-contrast-ratios-available)
+6. [D3 Color](#d3-color)
+7. [Contributing](#contributing)
+8. [Licensing](#licensing)
 
 
 ## Leonardo web application
