@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { contrast } from '../index.js';
+const { contrast } = require('../index.cjs');
 
 test('should provide negative contrast (-1.55...)', function() {
   let contrastValue = contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number

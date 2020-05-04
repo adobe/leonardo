@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { generateAdaptiveTheme } from '../index.js';
+const { generateAdaptiveTheme } = require('../index.cjs');
 
 test('should generate theme for three colors', function() {
   let theme = generateAdaptiveTheme({

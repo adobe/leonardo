@@ -4,28 +4,20 @@
   "description": "Generate colors based on a desired contrast ratio",
   "repository": "git@github.com:adobe/leonardo.git",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./index.js",
+  "main": "./index.cjs",
+  "module": "./wrapper.mjs",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "default": "./index.js"
+      "require": "./index.cjs",
+      "default": "./wrapper.mjs"
     }
   },
   "scripts": {
-    "build": "babel *.js --out-dir dist",
-    "prepublishOnly": "yarn build",
     "dev": "jest --watch",
     "test": "jest"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
-  "devDependencies": {
-    "@babel/cli": "^7.7.5",
-    "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.7.6",
-    "jest": "^24.9.0"
-  },
   "dependencies": {
     "d3": "^5.14.2",
     "d3-3d": "0.0.9",
@@ -35,17 +27,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ]
   }
 }

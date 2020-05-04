@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { generateContrastColors } from '../index.js';
+const { generateContrastColors } = require('../index.cjs');
 
 // Test simple generation in all color spaces
 test('should generate 2 colors (CAM02 interpolation)', function() {
