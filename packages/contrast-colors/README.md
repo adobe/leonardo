@@ -7,15 +7,29 @@ This package contains all the functions for generating colors by target contrast
 
 ## Using Leonardo Contrast Colors
 
-### Installing
+### Install the package:
+
 ```
 npm i @adobe/leonardo-contrast-colors
 ```
 
-Pass your colors and desired ratios. See additional options below.
+### Import the package:
+
+#### CJS (Node 12.x)
+
+```js
+const { generateAdaptiveTheme } = require('@adobe/leonardo-contrast-colors');
+```
+
+#### ESM (Node 13.x)
+
 ```js
 import { generateAdaptiveTheme } from '@adobe/leonardo-contrast-colors';
+```
 
+### Pass your colors and desired ratios (see additional options below):
+
+```js
 // returns theme colors as JSON
 let myTheme = generateAdaptiveTheme({
   colorScales: [
@@ -45,7 +59,7 @@ let myTheme = generateAdaptiveTheme({
 
 ## API Reference
 
-### generateAdaptiveTheme
+### `generateAdaptiveTheme`
 
 Function used to create a fully adaptive contrast-based color palette/theme using Leonardo. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`. Parameters can be passed as a config JSON file for modularity and simplicity.
 
