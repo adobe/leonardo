@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { binarySearch } from '../index.js';
+const { binarySearch } = require('../index.js');
 
 test('should return index of exact match (ascending)', function() {
   let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];

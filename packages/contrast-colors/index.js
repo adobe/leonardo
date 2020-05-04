@@ -10,69 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as d3 from 'd3';
-import * as d3cam02 from 'd3-cam02';
-import * as d3hsluv from 'd3-hsluv';
-import * as d3hsv from 'd3-hsv';
+const d3 = require('./d3.js');
 
-import {catmullRom2bezier, prepareCurve} from './curve';
-
-// Work around node and babel's difference of opinion on the read-onlyness of default
-function assign(dest, ...src) {
-  for (let obj of src) {
-    for (let prop in obj) {
-      if (prop !== 'default') {
-        dest[prop] = obj[prop]
-      }
-    }
-  }
-}
-
-d3.interpolateJch = (start, end) => {
-  // constant, linear, and colorInterpolate are taken from d3-interpolate
-  // the colorInterpolate function is `nogamma` in the d3-interpolate's color.js
-  const constant = x => () => x;
-  const linear = (a, d) => t => a + t * d;
-  const colorInterpolate = (a, b) => {
-    const d = b - a;
-    return d ? linear(a, d) : constant(isNaN(a) ? b : a);
-  }
-
-  start = d3.jch(start);
-  end = d3.jch(end);
-
-  const zero = Math.abs(start.h - end.h);
-  const plus = Math.abs(start.h - (end.h + 360));
-  const minus = Math.abs(start.h - (end.h - 360));
-  if (plus < zero && plus < minus) {
-    end.h += 360;
-  }
-  if (minus < zero && minus < plus) {
-    end.h -= 360;
-  }
-
-  const startc = d3.hcl(start + '').c;
-  const endc = d3.hcl(end + '').c;
-  if (!startc) {
-    start.h = end.h;
-  }
-  if (!endc) {
-    end.h = start.h;
-  }
-
-  const J = colorInterpolate(start.J, end.J),
-        C = colorInterpolate(start.C, end.C),
-        h = colorInterpolate(start.h, end.h),
-        opacity = colorInterpolate(start.opacity, end.opacity);
-
-  return t => {
-    start.J = J(t);
-    start.C = C(t);
-    start.h = h(t);
-    start.opacity = opacity(t);
-    return start + '';
-  };
-}
+const { catmullRom2bezier, prepareCurve } = require('./curve.js');
 
 function smoothScale(ColorsArray, domains, space) {
   const points = space.channels.map(() => []);
@@ -166,8 +106,6 @@ function smoothScale(ColorsArray, domains, space) {
     return d3[space.name](...ch) + "";
   };
 }
-
-assign(d3, d3hsluv, d3hsv, d3cam02);
 
 const colorSpaces = {
   CAM02: {
@@ -629,7 +567,7 @@ function binarySearch(list, value, baseLum) {
   return (list[middle] == !value) ? closest : middle // how it was originally expressed
 }
 
-export {
+module.exports = {
   createScale,
   luminance,
   contrast,
