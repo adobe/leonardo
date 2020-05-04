@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.5](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.4...@adobe/leonardo-contrast-colors@1.0.0-alpha.5) (2020-05-04)
+
+
+### Bug Fixes
+
+* ensured smooth is false by default & verified tests passing and UI not impacted by addition ([9722d5b](https://github.com/adobe/leonardo/commit/9722d5b422e60c62243cfae58f21bafbb286854c))
+* remove Babel, use ESM wrapper approach for Node 13.x ESM support + CJS support ([#72](https://github.com/adobe/leonardo/issues/72)) ([7541dc1](https://github.com/adobe/leonardo/commit/7541dc1189403039b900ef08ca82023d31063b58))
+
+
+
+
+
 # [1.0.0-alpha.4](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.3...@adobe/leonardo-contrast-colors@1.0.0-alpha.4) (2020-02-28)
 
 **Note:** Version bump only for package @adobe/leonardo-contrast-colors

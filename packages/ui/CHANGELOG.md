@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.2.1...@adobe/leonardo-ui@1.2.2) (2020-05-04)
+
+
+### Bug Fixes
+
+* remove Babel, use ESM wrapper approach for Node 13.x ESM support + CJS support ([#72](https://github.com/adobe/leonardo/issues/72)) ([7541dc1](https://github.com/adobe/leonardo/commit/7541dc1189403039b900ef08ca82023d31063b58))
+
+
+
+
+
 ## [1.2.1](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.2.0...@adobe/leonardo-ui@1.2.1) (2020-02-28)
 
 
