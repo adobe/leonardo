@@ -10,9 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const d3 = require('./d3.cjs');
+const d3 = require('./d3.js');
 
-const { catmullRom2bezier, prepareCurve } = require('./curve.cjs');
+const { catmullRom2bezier, prepareCurve } = require('./curve.js');
 
 function smoothScale(ColorsArray, domains, space) {
   const points = space.channels.map(() => []);

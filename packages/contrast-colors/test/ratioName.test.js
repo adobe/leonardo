@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { ratioName } = require('../index.cjs');
+const { ratioName } = require('../index.js');
 
 test('should output 10 numbers incremented by 100', function() {
   let theme = ratioName([1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);;

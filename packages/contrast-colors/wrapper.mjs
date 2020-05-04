@@ -1,4 +1,4 @@
-import contrastColors from './index.cjs';
+import contrastColors from './index.js';
 
 export const createScale = contrastColors.createScale;
 export const luminance = contrastColors.luminance;
