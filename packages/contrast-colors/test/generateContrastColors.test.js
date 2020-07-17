@@ -128,6 +128,38 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
   expect(colors).toEqual([ '#b84601', '#d76202' ]);
 });
 
+// Output formats 
+test('should generate 2 colors in HEX format', function() {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02'});;
+
+  expect(colors).toEqual([ '#5490e0', '#2c66f1' ]);
+});
+test('should generate 2 colors in RGB format', function() {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'RGB'});;
+
+  expect(colors).toEqual([ 'rgb(84, 144, 224)', 'rgb(44, 102, 241)' ]);
+});
+test('should generate 2 colors in HSL format', function() {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'HSL'});;
+
+  expect(colors).toEqual([ 'hsl(214deg, 69%, 60%)', 'hsl(222deg, 88%, 56%)' ]);
+});
+test('should generate 2 colors in HSV format', function() {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'HSV'});;
+
+  expect(colors).toEqual([ 'hsv(214deg, 63%, 88%)', 'hsv(222deg, 82%, 95%)' ]);
+});
+test('should generate 2 colors in LAB format', function() {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'LAB'});;
+
+  expect(colors).toEqual([ 'lab(58%, -1, -47)', 'lab(46%, 22, -77)' ]);
+});
+test('should generate 2 colors in LCH format', function() {
+  let colors = generateContrastColors({colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'LCH'});;
+
+  expect(colors).toEqual([ 'lch(58%, 47, 269deg)', 'lch(46%, 80, 286deg)' ]);
+});
+
 // Expected errors
 test('should generate no colors, missing colorKeys', function() {
   expect(

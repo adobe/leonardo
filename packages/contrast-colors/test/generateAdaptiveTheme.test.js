@@ -77,6 +77,73 @@ test('should generate theme for three colors', function() {
 
 });
 
+test('should generate theme for three colors in LCH format', function() {
+  let theme = generateAdaptiveTheme({
+    baseScale: "gray",
+    colorScales: [
+      {
+        name: "gray",
+        colorKeys: ['#cacaca', '#323232'],
+        colorspace: 'HSL',
+        ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
+      },
+      {
+        name: "blue",
+        colorKeys: ['#0000ff'],
+        colorspace: 'LAB',
+        ratios: [2, 3, 4.5, 8, 12]
+      },
+      {
+        name: "red",
+        colorKeys: ['#ff0000'],
+        colorspace: 'RGB',
+        ratios: [2, 3, 4.5, 8, 12]
+      }
+    ],
+    output: "LCH"});
+    let themeLight = theme(90);;
+
+    expect(themeLight).toEqual([
+      { background: "#e1e1e1" },
+      {
+        name: 'gray',
+        values: [
+          {name: "gray100", contrast: 1, value: "lch(89%, 0, 0deg)"},
+          {name: "gray200", contrast: 1.2, value: "lch(83%, 0, 0deg)"},
+          {name: "gray300", contrast: 1.4, value: "lch(77%, 0, 0deg)"},
+          {name: "gray400", contrast: 2, value: "lch(66%, 0, 0deg)"},
+          {name: "gray500", contrast: 3, value: "lch(54%, 0, 0deg)"},
+          {name: "gray600", contrast: 4.5, value: "lch(42%, 0, 0deg)"},
+          {name: "gray700", contrast: 6, value: "lch(35%, 0, 0deg)"},
+          {name: "gray800", contrast: 8, value: "lch(27%, 0, 0deg)"},
+          {name: "gray900", contrast: 12, value: "lch(14%, 0, 0deg)"},
+          {name: "gray1000", contrast: 21, value: "lch(0%, 0, 0deg)"}
+        ]
+      },
+      {
+        name: 'blue',
+        values: [
+          {name: "blue100", contrast: 2, value: "lch(65%, 62, 302deg)"},
+          {name: "blue200", contrast: 3, value: "lch(53%, 86, 301deg)"},
+          {name: "blue300", contrast: 4.5, value: "lch(41%, 109, 301deg)"},
+          {name: "blue400", contrast: 8, value: "lch(25%, 110, 301deg)"},
+          {name: "blue500", contrast: 12, value: "lch(13%, 57, 301deg)"}
+        ]
+      },
+      {
+        name: 'red',
+        values: [
+          {name: "red100", contrast: 2, value: "lch(66%, 61, 27deg)"},
+          {name: "red200", contrast: 3, value: "lch(55%, 103, 39deg)"},
+          {name: "red300", contrast: 4.5, value: "lch(43%, 90, 41deg)"},
+          {name: "red400", contrast: 8, value: "lch(28%, 65, 39deg)"},
+          {name: "red500", contrast: 12, value: "lch(14%, 42, 33deg)"}
+        ]
+      }
+    ]);
+
+});
+
 test('should generate theme for three colors with negative ratios', function() {
   let theme = generateAdaptiveTheme({
     baseScale: "gray",

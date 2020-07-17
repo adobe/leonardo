@@ -74,6 +74,21 @@ Optional value from 0-100 indicating the brightness of the base / background col
 #### `contrast` *integer*:
 Optional value to increase contrast of your generated colors. This value is multiplied against all ratios defined for each color scale.
 
+#### `output` *string (enum)*:
+String value of the desired color space and output format for the generated colors. Output formats conform to the [W3C CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) spec for the supported options.
+
+| Output option | Sample value |
+|---------------|--------------|
+| `'HEX'`  _(default)_ | `#RRGGBB` |
+| `'RGB'`       | `rgb(255, 255, 255)` |
+| `'HSL'`       | `hsl(360deg, 0%, 100%)` |
+| `'HSV'`       | `hsv(360deg, 0%, 100%)` |
+| `'HSLuv'`     | `hsluv(360, 0, 100)` |
+| `'LAB'`       | `lab(100%, 0, 0)` |
+| `'LCH'`       | `lch(100%, 0, 360deg)` |
+| `'CAM02'`     | `jab(100%, 0, 0)`|
+| `'CAM02p'`    | `jch(100%, 0, 360deg)` |
+
 #### Output
 The `generateAdaptiveTheme` function returns an array of color objects. Each key is named by concatenating the user-defined color name (above) with a numeric value.
 
