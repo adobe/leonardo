@@ -89,7 +89,8 @@ String value of the desired color space and output format for the generated colo
 | `'CAM02'`     | `jab(100%, 0, 0)`|
 | `'CAM02p'`    | `jch(100%, 0, 360deg)` |
 
-#### Output
+
+#### `generateAdaptiveTheme` sample outputs
 The `generateAdaptiveTheme` function returns an array of color objects. Each key is named by concatenating the user-defined color name (above) with a numeric value.
 
 Colors with a **positive contrast ratio** with the base (ie, 2:1) will be named in increments of 100. For example, `gray100`, `gray200`.
