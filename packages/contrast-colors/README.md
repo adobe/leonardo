@@ -36,19 +36,16 @@ let myTheme = generateAdaptiveTheme({
     {
       name: 'gray',
       colorKeys: ['#cacaca'],
-      colorspace: 'HSL',
       ratios: [1, 2, 3, 4.5, 8, 12]
     },
     {
       name: 'blue',
       colorKeys: ['#5CDBFF', '#0000FF'],
-      colorspace: 'HSL',
-      ratios: [3, 4.5]
+      ratios: [3, 4.5],
     },
     {
       name: 'red',
       colorKeys: ['#FF9A81', '#FF0000'],
-      colorspace: 'HSL',
       ratios: [3, 4.5]
     }
   ],
@@ -76,11 +73,26 @@ myTheme(brightness, contrast);
 #### `colorScales` *[array of objects]*:
 Each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors) with the exception of the `name` parameter.
 
+Example of `colorScales` object with all options:
+
+```js
+  {
+    name: 'blue',
+    colorKeys: ['#5CDBFF', '#0000FF'],
+    colorSpace: 'LCH',
+    ratios: [3, 4.5],
+    swatchNames: ['blue--largeText', 'blue--normalText']
+  }
+```
+
 #### `baseScale` *string (enum)*:
 String value matching the `name` of a `colorScales` object to be used as a [base scale](#generateBaseScale) (background color). This creates a scale of values from 0-100 in lightness, which is used for `brightness` parameter. Ie. `brightness: 90` returns the 90% lightness value of the base scale.
 
 #### `name` *string*:
-Unique name for each color scale. This value will be used for the output color keys, ie `blue100: '#5CDBFF'`
+Unique name for each color scale. This value refers to the entire color group _(eg "blue")_ and will be used for the output color keys, ie `blue100: '#5CDBFF'`
+
+#### `swatchNames` *array*:
+This option is for specifying the exact names of your theme's generated colors. By default, names are incremented in `100`s such as `blue100`, `blue200`. This can be overridden by specifying an array of desired output names, such as `['Blue_1', 'Blue_2']`.
 
 #### `brightness` *number*:
 Optional value from 0-100 indicating the brightness of the base / background color. If undefined, `generateAdaptiveTheme` will return a function
@@ -201,8 +213,8 @@ List of numbers to be used as target contrast ratios.
 #### `colorspace` *string*:
 The colorspace in which the key colors will be interpolated within. Below are the available options:
 
-- [Lch](https://en.wikipedia.org/wiki/HCL_color_space)
-- [Lab](https://en.wikipedia.org/wiki/CIELAB_color_space)
+- [LCH](https://en.wikipedia.org/wiki/HCL_color_space)
+- [LAB](https://en.wikipedia.org/wiki/CIELAB_color_space)
 - [CAM02](https://en.wikipedia.org/wiki/CIECAM02)
 - [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV)
 - [HSLuv](https://en.wikipedia.org/wiki/HSLuv)

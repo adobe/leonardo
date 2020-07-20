@@ -415,6 +415,77 @@ test('should generate dark theme with increased contrast', function() {
 });
 
 
+test('should generate colors with user-defined names', function() {
+  let theme = generateAdaptiveTheme({
+    baseScale: 'gray',
+    colorScales: [
+      {
+        name: "gray",
+        colorKeys: ['#cacaca'],
+        colorspace: 'HSL',
+        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+        swatchNames: ['GRAY_1', 'GRAY_2', 'GRAY_3', 'GRAY_4', 'GRAY_5', 'GRAY_6', 'GRAY_7', 'GRAY_8', 'GRAY_9', 'GRAY_10', 'GRAY_11', 'GRAY_12']
+      },
+      {
+        name: "blue",
+        colorKeys: ['#0000ff'],
+        colorspace: 'LAB',
+        ratios: [2, 3, 4.5, 8, 12],
+        swatchNames: ['BLUE_LOW_CONTRAST', 'BLUE_LARGE_TEXT', 'BLUE_TEXT', 'BLUE_HIGH_CONTRAST', 'BLUE_HIGHEST_CONTRAST']
+      },
+      {
+        name: "red",
+        colorKeys: ['#ff0000'],
+        colorspace: 'RGB',
+        ratios: [2, 3, 4.5, 8, 12],
+        swatchNames: ['red--lowContrast', 'red--largeText', 'red--text', 'red--highContrast', 'red--highestContrast']
+      }
+    ]});
+    let themeLight = theme(20, 1.5);;
+
+    expect(themeLight).toEqual([
+      { background: "#303030" },
+      {
+        name: 'gray',
+        values: [
+          {name: "GRAY_1", contrast: -2.2, value: "#000000"},
+          {name: "GRAY_2", contrast: -1.3, value: "#1c1c1c"},
+          {name: "GRAY_3", contrast: 1, value: "#303030"},
+          {name: "GRAY_4", contrast: 1.3, value: "#414141"},
+          {name: "GRAY_5", contrast: 1.6, value: "#4f4f4f"},
+          {name: "GRAY_6", contrast: 2.5, value: "#6b6b6b"},
+          {name: "GRAY_7", contrast: 4, value: "#8e8e8e"},
+          {name: "GRAY_8", contrast: 6.25, value: "#b3b3b3"},
+          {name: "GRAY_9", contrast: 8.5, value: "#d0d0d0"},
+          {name: "GRAY_10", contrast: 11.5, value: "#efefef"},
+          {name: "GRAY_11", contrast: 17.5, value: "#ffffff"},
+          {name: "GRAY_12", contrast: 31, value: "#ffffff"}
+        ]
+      },
+      {
+        name: 'blue',
+        values: [
+          {name: "BLUE_LOW_CONTRAST", contrast: 2.5, value: "#6f45ff"},
+          {name: "BLUE_LARGE_TEXT", contrast: 4, value: "#9d73ff"},
+          {name: "BLUE_TEXT", contrast: 6.25, value: "#c3a3ff"},
+          {name: "BLUE_HIGH_CONTRAST", contrast: 11.5, value: "#f4edff"},
+          {name: "BLUE_HIGHEST_CONTRAST", contrast: 17.5, value: "#ffffff"}
+        ]
+      },
+      {
+        name: 'red',
+        values: [
+          {name: "red--lowContrast", contrast: 2.5, value: "#da0000"},
+          {name: "red--largeText", contrast: 4, value: "#ff4b4b"},
+          {name: "red--text", contrast: 6.25, value: "#ff9494"},
+          {name: "red--highContrast", contrast: 11.5, value: "#ffebeb"},
+          {name: "red--highestContrast", contrast: 17.5, value: "#ffffff"}
+        ]
+      }
+    ]);
+});
+
+
 // Should throw errors
 test('should throw error, not valid base scale option', function() {
   expect(
@@ -439,6 +510,33 @@ test('should throw error, not valid base scale option', function() {
             colorKeys: ['#ff0000'],
             colorspace: 'RGB',
             ratios: [2, 3, 4.5, 8, 12]
+          }
+        ],
+        brightness: 97
+      });
+    }
+  ).toThrow();
+});
+
+test('should throw error, ratios and names unequal length arrays', function() {
+  expect(
+    () => {
+      let theme = generateAdaptiveTheme({
+        baseScale: 'blue',
+        colorScales: [
+          {
+            name: "blue",
+            colorKeys: ['#0000ff'],
+            colorspace: 'LAB',
+            ratios: [2, 3, 4.5, 8, 12],
+            swatchNames: ['blue1', 'blue2', 'blue3']
+          },
+          {
+            name: "red",
+            colorKeys: ['#ff0000'],
+            colorspace: 'RGB',
+            ratios: [2, 3, 4.5, 8, 12],
+            swatchNames: ['red1', 'red2', 'red3', 'red4', 'red5']
           }
         ],
         brightness: 97
