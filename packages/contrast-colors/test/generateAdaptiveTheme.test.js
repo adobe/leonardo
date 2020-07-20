@@ -528,7 +528,7 @@ test('should throw error, ratios and names unequal length arrays', function() {
             name: "blue",
             colorKeys: ['#0000ff'],
             colorspace: 'LAB',
-            ratios: [2, 3, 4.5, 8, 12],
+            ratios: [2, 3, 4.5, 8],
             swatchNames: ['blue1', 'blue2', 'blue3']
           },
           {
