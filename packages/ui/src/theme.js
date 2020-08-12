@@ -978,6 +978,11 @@ window.bulkItemColorInput = function bulkItemColorInput(e) {
 
   let bulkInputs = document.getElementById('bulkColors');
   let bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").split("\n");
+  for (let i=0; i<bulkValues.length; i++) {
+    if (!bulkValues[i].startsWith('#')) {
+      bulkValues[i] = '#' + bulkValues[i]
+    }
+  }
   // let isSwatch = document.getElementById('importAsSwatch').checked;
   let bgInput = currentBackgroundColor;
 
