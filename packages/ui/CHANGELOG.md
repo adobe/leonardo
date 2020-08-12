@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.2.2...@adobe/leonardo-ui@1.3.0) (2020-08-12)
+
+
+### Bug Fixes
+
+* string separated by commas and space resulted in extra space in array ([#89](https://github.com/adobe/leonardo/issues/89)) ([89f54a4](https://github.com/adobe/leonardo/commit/89f54a44eb39ab7eed2d224a12f79bfbac22fa3b))
+
+
+### Features
+
+* add support to numeric-only hex values in bulk import ([#83](https://github.com/adobe/leonardo/issues/83)) ([#87](https://github.com/adobe/leonardo/issues/87)) ([da4f9f7](https://github.com/adobe/leonardo/commit/da4f9f78be8260fddb80ae1673dcd7088978ad69))
+
+
+
+
+
 ## [1.2.2](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.2.1...@adobe/leonardo-ui@1.2.2) (2020-05-04)
 
 
