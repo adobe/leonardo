@@ -415,6 +415,99 @@ test('should generate dark theme with increased contrast', function() {
 });
 
 
+test('should generate colors with user-defined names', function() {
+  let theme = generateAdaptiveTheme({
+    baseScale: 'gray',
+    colorScales: [
+      {
+        name: "gray",
+        colorKeys: ['#cacaca'],
+        colorspace: 'HSL',
+        ratios: {
+          'GRAY_1': -1.8,
+          'GRAY_2': -1.2,
+          'GRAY_3': 1,
+          'GRAY_4': 1.2,
+          'GRAY_5': 1.4,
+          'GRAY_6': 2,
+          'GRAY_7': 3,
+          'GRAY_8': 4.5,
+          'GRAY_9': 6,
+          'GRAY_10': 8,
+          'GRAY_11': 12,
+          'GRAY_12': 21
+        }
+      },
+      {
+        name: "blue",
+        colorKeys: ['#0000ff'],
+        colorspace: 'LAB',
+        ratios: {
+          'BLUE_LOW_CONTRAST': 2,
+          'BLUE_LARGE_TEXT': 3,
+          'BLUE_TEXT': 4.5,
+          'BLUE_HIGH_CONTRAST': 8,
+          'BLUE_HIGHEST_CONTRAST': 12
+        }
+      },
+      {
+        name: "red",
+        colorKeys: ['#ff0000'],
+        colorspace: 'RGB',
+        ratios: {
+          'red--lowContrast': 2,
+          'red--largeText': 3,
+          'red--text': 4.5,
+          'red--highContrast': 8,
+          'red--highestContrast': 12
+        }
+      }
+    ]});
+    let themeLight = theme(20, 1.5);;
+
+    expect(themeLight).toEqual([
+      { background: "#303030" },
+      {
+        name: 'gray',
+        values: [
+          {name: "GRAY_1", contrast: -2.2, value: "#000000"},
+          {name: "GRAY_2", contrast: -1.3, value: "#1c1c1c"},
+          {name: "GRAY_3", contrast: 1, value: "#303030"},
+          {name: "GRAY_4", contrast: 1.3, value: "#414141"},
+          {name: "GRAY_5", contrast: 1.6, value: "#4f4f4f"},
+          {name: "GRAY_6", contrast: 2.5, value: "#6b6b6b"},
+          {name: "GRAY_7", contrast: 4, value: "#8e8e8e"},
+          {name: "GRAY_8", contrast: 6.25, value: "#b3b3b3"},
+          {name: "GRAY_9", contrast: 8.5, value: "#d0d0d0"},
+          {name: "GRAY_10", contrast: 11.5, value: "#efefef"},
+          {name: "GRAY_11", contrast: 17.5, value: "#ffffff"},
+          {name: "GRAY_12", contrast: 31, value: "#ffffff"}
+        ]
+      },
+      {
+        name: 'blue',
+        values: [
+          {name: "BLUE_LOW_CONTRAST", contrast: 2.5, value: "#6f45ff"},
+          {name: "BLUE_LARGE_TEXT", contrast: 4, value: "#9d73ff"},
+          {name: "BLUE_TEXT", contrast: 6.25, value: "#c3a3ff"},
+          {name: "BLUE_HIGH_CONTRAST", contrast: 11.5, value: "#f4edff"},
+          {name: "BLUE_HIGHEST_CONTRAST", contrast: 17.5, value: "#ffffff"}
+        ]
+      },
+      {
+        name: 'red',
+        values: [
+          {name: "red--lowContrast", contrast: 2.5, value: "#da0000"},
+          {name: "red--largeText", contrast: 4, value: "#ff4b4b"},
+          {name: "red--text", contrast: 6.25, value: "#ff9494"},
+          {name: "red--highContrast", contrast: 11.5, value: "#ffebeb"},
+          {name: "red--highestContrast", contrast: 17.5, value: "#ffffff"}
+        ]
+      }
+    ]);
+});
+
+
 // Should throw errors
 test('should throw error, not valid base scale option', function() {
   expect(
