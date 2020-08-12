@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 const d3 = require('./d3.js');
 
 const { catmullRom2bezier, prepareCurve } = require('./curve.js');
+const { color } = require('./d3.js');
 
 function smoothScale(ColorsArray, domains, space) {
   const points = space.channels.map(() => []);
@@ -450,6 +451,16 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
   if (!Array.isArray(colorScales)) {
     throw new Error('colorScales must be an array of objects');
   }
+  for (let i=0; i < colorScales.length; i ++) {
+    // if (colorScales[i].swatchNames) { // if the scale has custom swatch names
+    //   let ratioLength = colorScales[i].ratios.length;
+    //   let swatchNamesLength = colorScales[i].swatchNames.length;
+
+    //   if (ratioLength !== swatchNamesLength) {
+    //     throw new Error('`${colorScales[i].name}`ratios and swatchNames must be equal length')
+    //   }
+    // }
+  }
 
   if (brightness === undefined) {
     return function(brightness, contrast) {
@@ -478,7 +489,18 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
         throw new Error('Color missing name');
       }
       let name = colorScales[i].name;
-      let ratios = colorScales[i].ratios;
+
+      let ratioInput = colorScales[i].ratios;
+      let ratios;
+      let swatchNames;
+      // assign ratios array whether input is array or object
+      if(Array.isArray(ratioInput)) {
+        ratios = ratioInput;
+      } else {
+        ratios = Object.values(ratioInput);
+        swatchNames = Object.keys(ratioInput);
+      }
+
       let smooth = colorScales[i].smooth;
       let newArr = [];
       let colorObj = {
@@ -509,8 +531,14 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
       });
 
       for (let i=0; i < outputColors.length; i++) {
-        let rVal = ratioName(ratios)[i];
-        let n = name.concat(rVal);
+        let n;
+        if(!swatchNames) {
+          let rVal = ratioName(ratios)[i];
+          n = name.concat(rVal);
+        }
+        else {
+          n = swatchNames[i];
+        }
 
         let obj = {
           name: n,
@@ -520,6 +548,7 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
         newArr.push(obj)
       }
       arr.push(colorObj);
+      
     }
 
     return arr;
