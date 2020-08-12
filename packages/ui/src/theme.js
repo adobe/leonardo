@@ -977,7 +977,7 @@ window.bulkItemColorInput = function bulkItemColorInput(e) {
   let keyInputs = document.getElementById(keyInputId);
 
   let bulkInputs = document.getElementById('bulkColors');
-  let bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").split("\n");
+  let bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").replace(" ", "").split("\n");
   for (let i=0; i<bulkValues.length; i++) {
     if (!bulkValues[i].startsWith('#')) {
       bulkValues[i] = '#' + bulkValues[i]
