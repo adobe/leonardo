@@ -112,46 +112,60 @@ const colorSpaces = {
   CAM02: {
     name: 'jab',
     channels: ['J', 'a', 'b'],
-    interpolator: d3.interpolateJab
+    interpolator: d3.interpolateJab,
+    function: d3.jab
   },
   CAM02p: {
     name: 'jch',
     channels: ['J', 'C', 'h'],
-    interpolator: d3.interpolateJch
+    interpolator: d3.interpolateJch,
+    function: d3.jch
   },
   LCH: {
-    name: 'hcl',
+    name: 'lch', // named per correct color definition order
     channels: ['h', 'c', 'l'],
     interpolator: d3.interpolateHcl,
     white: d3.hcl(NaN, 0, 100),
-    black: d3.hcl(NaN, 0, 0)
+    black: d3.hcl(NaN, 0, 0),
+    function: d3.hcl
   },
   LAB: {
     name: 'lab',
     channels: ['l', 'a', 'b'],
-    interpolator: d3.interpolateLab
+    interpolator: d3.interpolateLab,
+    function: d3.lab
   },
   HSL: {
     name: 'hsl',
     channels: ['h', 's', 'l'],
-    interpolator: d3.interpolateHsl
+    interpolator: d3.interpolateHsl,
+    function: d3.hsl
   },
   HSLuv: {
     name: 'hsluv',
     channels: ['l', 'u', 'v'],
     interpolator: d3.interpolateHsluv,
     white: d3.hsluv(NaN, NaN, 100),
-    black: d3.hsluv(NaN, NaN, 0)
+    black: d3.hsluv(NaN, NaN, 0),
+    function: d3.hsluv
   },
   RGB: {
     name: 'rgb',
     channels: ['r', 'g', 'b'],
-    interpolator: d3.interpolateRgb
+    interpolator: d3.interpolateRgb,
+    function: d3.rgb
   },
   HSV: {
     name: 'hsv',
     channels: ['h', 's', 'v'],
-    interpolator: d3.interpolateHsv
+    interpolator: d3.interpolateHsv,
+    function: d3.hsv
+  },
+  HEX: {
+    name: 'hex',
+    channels: ['r', 'g', 'b'],
+    interpolator: d3.interpolateRgb,
+    function: d3.rgb
   }
 };
 
@@ -309,7 +323,8 @@ function generateContrastColors({
   base,
   ratios,
   colorspace = 'LAB',
-  smooth = false
+  smooth = false,
+  output = 'HEX'
 } = {}) {
   if (!base) {
     throw new Error(`Base is undefined`);
@@ -327,6 +342,10 @@ function generateContrastColors({
   }
   if (!ratios) {
     throw new Error(`Ratios are undefined`);
+  }
+  const outputFormat = colorSpaces[output];
+  if (!outputFormat) {
+    throw new Error(`Colorspace “${output}” not supported`);
   }
 
   let swatches = 3000;
@@ -350,10 +369,112 @@ function generateContrastColors({
   // Return color matching target ratio, or closest number
   for (let i=0; i < ratios.length; i++){
     let r = binarySearch(contrasts, ratios[i], baseV);
-    newColors.push(d3.rgb(scaleData.colors[r]).hex());
+
+    // use fixColorValue function to convert each color to the specified
+    // output format. 
+    newColors.push(fixColorValue(scaleData.colors[r], output));
+    
   }
 
   return newColors;
+}
+
+// Helper function to change any NaN to a zero
+function filterNaN(x) {
+  if(isNaN(x)) {
+    return 0;
+  } else {
+    return x;
+  }
+}
+
+// Helper function for rounding color values to whole numbers
+function fixColorValue(color, format, object = false) {
+  let colorObj = colorSpaces[format].function(color);
+  let propArray = colorSpaces[format].channels;
+
+  let newColorObj = {
+    [propArray[0]]: filterNaN(colorObj[propArray[0]]),
+    [propArray[1]]: filterNaN(colorObj[propArray[1]]),
+    [propArray[2]]: filterNaN(colorObj[propArray[2]])
+  }
+
+  // HSLuv
+  if (format === "HSLuv") {
+    for (let i = 0; i < propArray.length; i++) {
+
+      let roundedPct = Math.round(newColorObj[propArray[i]]);
+      newColorObj[propArray[i]] = roundedPct;
+    }
+  }
+  // LAB, LCH, JAB, JCH
+  else if (format === "LAB" || format === "LCH" || format === "CAM02" || format === "CAM02p") {
+    for (let i = 0; i < propArray.length; i++) {
+      let roundedPct = Math.round(newColorObj[propArray[i]]);
+
+      if (propArray[i] === "h" && !object) {
+        roundedPct = roundedPct + "deg";
+      }
+      if (propArray[i] === "l" && !object || propArray[i] === "J" && !object) {
+        roundedPct = roundedPct + "%";
+      }
+
+      newColorObj[propArray[i]] = roundedPct;
+      
+    }
+  }
+  else {
+    for (let i = 0; i < propArray.length; i++) {
+      if (propArray[i] === "s" || propArray[i] === "l" || propArray[i] === "v") {
+        // leave as decimal format
+        let roundedPct = parseFloat(newColorObj[propArray[i]].toFixed(2));
+        if(object) {
+          newColorObj[propArray[i]] = roundedPct;
+        }
+        else {
+          newColorObj[propArray[i]] = Math.round(roundedPct * 100) + "%";
+        }
+      }
+      else {
+        let roundedPct = parseFloat(newColorObj[propArray[i]].toFixed());
+        if (propArray[i] === "h" && !object) {
+          roundedPct = roundedPct + "deg";
+        } 
+        newColorObj[propArray[i]] = roundedPct;
+      }
+    }
+  }
+
+  let stringName = colorSpaces[format].name;
+  let stringValue;
+
+  if (format === "HEX") {
+    stringValue = d3.rgb(color).formatHex();
+  } else {
+    let str0, srt1, str2;
+    if (format === "LCH") {
+      // Have to force opposite direction of array index for LCH
+      // because d3 defines the channel order as "h, c, l" but we
+      // want the output to be in the correct format
+      str0 = newColorObj[propArray[2]] + ", ";
+      str1 = newColorObj[propArray[1]] + ", ";
+      str2 = newColorObj[propArray[0]];
+    }
+    else {
+      str0 = newColorObj[propArray[0]] + ", ";
+      str1 = newColorObj[propArray[1]] + ", ";
+      str2 = newColorObj[propArray[2]];
+    }
+
+    stringValue = stringName + "(" + str0 + str1 + str2 + ")";
+  }
+
+  if (object) { 
+    // return colorObj;
+    return newColorObj;
+  } else {
+    return stringValue;
+  }
 }
 
 function luminance(r, g, b) {
@@ -431,7 +552,13 @@ function ratioName(r) {
   return nArr;
 }
 
-function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1}) {
+function generateAdaptiveTheme({
+  colorScales, 
+  baseScale, 
+  brightness, 
+  contrast = 1,
+  output = 'HEX'
+}) {
   if (!baseScale) {
     throw new Error('baseScale is undefined');
   }
@@ -464,7 +591,7 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
 
   if (brightness === undefined) {
     return function(brightness, contrast) {
-      return generateAdaptiveTheme({baseScale: baseScale, colorScales: colorScales, brightness: brightness, contrast: contrast});
+      return generateAdaptiveTheme({baseScale: baseScale, colorScales: colorScales, brightness: brightness, contrast: contrast, output: output});
     }
   }
   else {
@@ -527,7 +654,8 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
         colorspace: colorScales[i].colorspace,
         ratios: ratios,
         base: bval,
-        smooth: smooth
+        smooth: smooth,
+        output: output
       });
 
       for (let i=0; i < outputColors.length; i++) {
@@ -605,5 +733,6 @@ module.exports = {
   generateContrastColors,
   minPositive,
   ratioName,
-  generateAdaptiveTheme
+  generateAdaptiveTheme,
+  fixColorValue
 };
