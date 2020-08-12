@@ -452,14 +452,14 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
     throw new Error('colorScales must be an array of objects');
   }
   for (let i=0; i < colorScales.length; i ++) {
-    if (colorScales[i].swatchNames) { // if the scale has custom swatch names
-      let ratioLength = colorScales[i].ratios.length;
-      let swatchNamesLength = colorScales[i].swatchNames.length;
+    // if (colorScales[i].swatchNames) { // if the scale has custom swatch names
+    //   let ratioLength = colorScales[i].ratios.length;
+    //   let swatchNamesLength = colorScales[i].swatchNames.length;
 
-      if (ratioLength !== swatchNamesLength) {
-        throw new Error('`${colorScales[i].name}`ratios and swatchNames must be equal length')
-      }
-    }
+    //   if (ratioLength !== swatchNamesLength) {
+    //     throw new Error('`${colorScales[i].name}`ratios and swatchNames must be equal length')
+    //   }
+    // }
   }
 
   if (brightness === undefined) {
@@ -489,9 +489,19 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
         throw new Error('Color missing name');
       }
       let name = colorScales[i].name;
-      let ratios = colorScales[i].ratios;
+
+      let ratioInput = colorScales[i].ratios;
+      let ratios;
+      let swatchNames;
+      // assign ratios array whether input is array or object
+      if(Array.isArray(ratioInput)) {
+        ratios = ratioInput;
+      } else {
+        ratios = Object.values(ratioInput);
+        swatchNames = Object.keys(ratioInput);
+      }
+
       let smooth = colorScales[i].smooth;
-      let swatchNames = colorScales[i].swatchNames;
       let newArr = [];
       let colorObj = {
         name: name,
@@ -520,16 +530,9 @@ function generateAdaptiveTheme({colorScales, baseScale, brightness, contrast = 1
         smooth: smooth
       });
 
-      let customNamedSwatches;
-      if(!colorScales[i].swatchNames) {
-        customNamedSwatches = false;
-      } else {
-        customNamedSwatches = true;
-      }
-
       for (let i=0; i < outputColors.length; i++) {
         let n;
-        if(!customNamedSwatches) {
+        if(!swatchNames) {
           let rVal = ratioName(ratios)[i];
           n = name.concat(rVal);
         }

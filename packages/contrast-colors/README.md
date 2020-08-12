@@ -36,17 +36,28 @@ let myTheme = generateAdaptiveTheme({
     {
       name: 'gray',
       colorKeys: ['#cacaca'],
-      ratios: [1, 2, 3, 4.5, 8, 12]
+      ratios: {
+        'GRAY_LOW_CONTRAST': 2,
+        'GRAY_LARGE_TEXT': 3,
+        'GRAY_TEXT': 4.5,
+        'GRAY_HIGH_CONTRAST': 8
+      }
     },
     {
       name: 'blue',
       colorKeys: ['#5CDBFF', '#0000FF'],
-      ratios: [3, 4.5],
+      ratios: {
+        'BLUE_LARGE_TEXT': 3,
+        'BLUE_TEXT': 4.5
+      }
     },
     {
       name: 'red',
       colorKeys: ['#FF9A81', '#FF0000'],
-      ratios: [3, 4.5]
+      ratios: {
+        'RED_LARGE_TEXT': 3,
+        'RED_TEXT': 4.5
+      }
     }
   ],
   baseScale: 'gray',
@@ -71,7 +82,7 @@ myTheme(brightness, contrast);
 ```
 
 #### `colorScales` *[array of objects]*:
-Each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors) with the exception of the `name` parameter.
+Each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors) with the exception of the `name` and `ratios` parameter. For `generateAdaptiveTheme`, [ratios can be an array or an object](#ratios-array-or-object).
 
 Example of `colorScales` object with all options:
 
@@ -80,8 +91,10 @@ Example of `colorScales` object with all options:
     name: 'blue',
     colorKeys: ['#5CDBFF', '#0000FF'],
     colorSpace: 'LCH',
-    ratios: [3, 4.5],
-    swatchNames: ['blue--largeText', 'blue--normalText']
+    ratios: {
+      'blue--largeText': 3,
+      'blue--normalText': 4.5
+    }
   }
 ```
 
@@ -91,8 +104,10 @@ String value matching the `name` of a `colorScales` object to be used as a [base
 #### `name` *string*:
 Unique name for each color scale. This value refers to the entire color group _(eg "blue")_ and will be used for the output color keys, ie `blue100: '#5CDBFF'`
 
-#### `swatchNames` *array*:
-This option is for specifying the exact names of your theme's generated colors. By default, names are incremented in `100`s such as `blue100`, `blue200`. This can be overridden by specifying an array of desired output names, such as `['Blue_1', 'Blue_2']`.
+#### `ratios` *array* or *object*:
+List of numbers to be used as target contrast ratios. If entered as an array, swatch names are incremented in `100`s such as `blue100`, `blue200` based on the color scale [name](#name-string).
+
+Alternatively, `ratios` can be an object with custom keys to name each color, such as `['Blue_Large_Text', 'Blue_Normal_Text']`.
 
 #### `brightness` *number*:
 Optional value from 0-100 indicating the brightness of the base / background color. If undefined, `generateAdaptiveTheme` will return a function

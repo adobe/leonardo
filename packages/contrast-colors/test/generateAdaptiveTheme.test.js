@@ -423,22 +423,44 @@ test('should generate colors with user-defined names', function() {
         name: "gray",
         colorKeys: ['#cacaca'],
         colorspace: 'HSL',
-        ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
-        swatchNames: ['GRAY_1', 'GRAY_2', 'GRAY_3', 'GRAY_4', 'GRAY_5', 'GRAY_6', 'GRAY_7', 'GRAY_8', 'GRAY_9', 'GRAY_10', 'GRAY_11', 'GRAY_12']
+        ratios: {
+          'GRAY_1': -1.8,
+          'GRAY_2': -1.2,
+          'GRAY_3': 1,
+          'GRAY_4': 1.2,
+          'GRAY_5': 1.4,
+          'GRAY_6': 2,
+          'GRAY_7': 3,
+          'GRAY_8': 4.5,
+          'GRAY_9': 6,
+          'GRAY_10': 8,
+          'GRAY_11': 12,
+          'GRAY_12': 21
+        }
       },
       {
         name: "blue",
         colorKeys: ['#0000ff'],
         colorspace: 'LAB',
-        ratios: [2, 3, 4.5, 8, 12],
-        swatchNames: ['BLUE_LOW_CONTRAST', 'BLUE_LARGE_TEXT', 'BLUE_TEXT', 'BLUE_HIGH_CONTRAST', 'BLUE_HIGHEST_CONTRAST']
+        ratios: {
+          'BLUE_LOW_CONTRAST': 2,
+          'BLUE_LARGE_TEXT': 3,
+          'BLUE_TEXT': 4.5,
+          'BLUE_HIGH_CONTRAST': 8,
+          'BLUE_HIGHEST_CONTRAST': 12
+        }
       },
       {
         name: "red",
         colorKeys: ['#ff0000'],
         colorspace: 'RGB',
-        ratios: [2, 3, 4.5, 8, 12],
-        swatchNames: ['red--lowContrast', 'red--largeText', 'red--text', 'red--highContrast', 'red--highestContrast']
+        ratios: {
+          'red--lowContrast': 2,
+          'red--largeText': 3,
+          'red--text': 4.5,
+          'red--highContrast': 8,
+          'red--highestContrast': 12
+        }
       }
     ]});
     let themeLight = theme(20, 1.5);;
@@ -510,33 +532,6 @@ test('should throw error, not valid base scale option', function() {
             colorKeys: ['#ff0000'],
             colorspace: 'RGB',
             ratios: [2, 3, 4.5, 8, 12]
-          }
-        ],
-        brightness: 97
-      });
-    }
-  ).toThrow();
-});
-
-test('should throw error, ratios and names unequal length arrays', function() {
-  expect(
-    () => {
-      let theme = generateAdaptiveTheme({
-        baseScale: 'blue',
-        colorScales: [
-          {
-            name: "blue",
-            colorKeys: ['#0000ff'],
-            colorspace: 'LAB',
-            ratios: [2, 3, 4.5, 8],
-            swatchNames: ['blue1', 'blue2', 'blue3']
-          },
-          {
-            name: "red",
-            colorKeys: ['#ff0000'],
-            colorspace: 'RGB',
-            ratios: [2, 3, 4.5, 8, 12],
-            swatchNames: ['red1', 'red2', 'red3', 'red4', 'red5']
           }
         ],
         brightness: 97
