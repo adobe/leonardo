@@ -14,20 +14,11 @@ export as namespace ContrastColors;
 export = ContrastColors;
 
 declare namespace ContrastColors {
-  interface ColorScale {
-    colorKeys: string[],
-    colorspace: Colorspace,
-    shift: number,
-    colors: string[],
-    scale: ((d: any) => string) | d3.ScaleLinear<number, number>,
-    colorsHex: string[]
-  }
-  
   type Colorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV' | 'HEX';
   
   type RGBArray = number[];
   
-  type AdaptiveTheme = ({ 
+  type AdaptiveTheme = (brightness: number, constrast: number) => AdaptiveTheme | ({ 
     background: string 
   } | {
     name: string,
@@ -37,7 +28,16 @@ declare namespace ContrastColors {
       value: string
     }[]
   })[];
-  
+
+  interface ColorScale {
+    colorKeys: string[],
+    colorspace: Colorspace,
+    shift: number,
+    colors: string[],
+    scale: ((d: any) => string) | d3.ScaleLinear<number, number>,
+    colorsHex: string[]
+  }
+
   function createScale({
     swatches,
     colorKeys,
@@ -101,10 +101,10 @@ declare namespace ContrastColors {
       name: string,
       colorKeys: string[],
       colorspace: Colorspace,
-      ratios: number[]
+      ratios: number[] | { [key: string]: number }
     }[],
     baseScale: string,
-    brightness: number,
+    brightness?: number,
     contrast?: number,
     output?: Colorspace,
   }): AdaptiveTheme | never;
