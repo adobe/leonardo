@@ -813,16 +813,43 @@ function interpolateLumArray() {
   for(let i=0; i<newColors.length; i++) {
     lums.push(d3.hsluv(newColors[i]).v);
   }
+  // create ranges
   var startLum = Math.min(...lums);
   var endLum = Math.max(...lums);
-  var interpolator = d3.interpolateNumber(startLum, endLum);
+  var ranges = [];
+  for (let i = 0; i < lums.length - 1; i++) {
+    ranges.push([lums[i], lums[i + 1]]);
+  }
+  var swatchesForRanges = [];
+  let swatches = 10; // add input
+  var cumulative = 0;
+  var cumulativeRounded = 0;
 
-  for (let i=1; i<lums.length - 1; i++) {
-    lums[i] = interpolator((i)/(lums.length));
+  for (let i=0; i<ranges.length; i++) {
+    const range = ranges[i];
+    const ratio = (Math.abs(range[0] - range[1]) / Math.abs(startLum - endLum)) * swatches;
+    cumulative = cumulative + ratio;
+    const previousCumulativeRounded = cumulativeRounded;
+    cumulativeRounded = Math.round(cumulative);
+    swatchesForRanges.push(cumulativeRounded - previousCumulativeRounded);
+  }
+
+  var swatchesToReturn = [];
+  for (let i=0; i<swatchesForRanges.length; i++) {
+    let interpolator = d3.interpolateNumber(ranges[i][0], ranges[i][1]);
+    swatchesToReturn.push(ranges[i][0]);
+
+    for (let j=1; j<=swatchesForRanges[i]; j++) {
+      swatchesToReturn.push(interpolator(j / (swatchesForRanges[i] + 2)));
+    }
+
+    if (i === swatchesForRanges.length - 1) {
+      swatchesToReturn.push(ranges[i][1]);
+    }
   }
 
   lums.sort(function(a, b){return b-a});
-  return lums;
+  return swatchesToReturn;
 }
 
 // Redistribute contrast swatches
