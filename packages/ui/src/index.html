@@ -178,12 +178,6 @@
               </svg>
               <span class="spectrum-ActionButton-label">Sort</span>
             </button>
-            <button title="Distribute ratios" id="distribute" onclick="distributeCube()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
-                <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
-              </svg>
-              <span class="spectrum-ActionButton-label">Distribute</span>
-            </button>
           </div>
 
           <div id="ratioInput-wrapper">
@@ -195,6 +189,19 @@
             </svg>
             <span class="spectrum-ActionButton-label">Add contrast ratio</span>
           </button>
+          <div id="distributionWrapper">
+            <div>
+              <label for="distributionMissingSwatches" class="spectrum-Form-itemLabel">Number of missing swatches</label>
+              <!-- TODO: add input -->
+              <input type="number" id="distributionMissingSwatches" value="0" name="distributionMissingSwatches" class="spectrum-Textfield" onInput=""></input>
+            </div>
+            <button title="Distribute ratios" id="distributeRatios" onclick="distributeCube()" class="spectrum-ActionButton">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
+                <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
+              </svg>
+              <span class="spectrum-ActionButton-label">Distribute</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

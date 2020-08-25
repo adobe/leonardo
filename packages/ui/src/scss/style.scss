@@ -777,15 +777,23 @@ a:focus {
 }
 
 #addRatio,
-#addColor {
+#addColor,
+#distributeRatios {
   justify-content: center;
 
   > .spectrum-ActionButton-label {
     width: auto;
   }
 }
-#addRatio {
+#addRatio,
+#distributeRatios {
   margin-top: 8px;
+  width: 100%;
+}
+#distributionWrapper {
+  margin-top: 8px;
+}
+#distributionMissingSwatches {
   width: 100%;
 }
 
