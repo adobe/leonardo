@@ -820,7 +820,7 @@ function interpolateLumArray() {
   for (let i = 0; i < lums.length - 1; i++) {
     ranges.push([lums[i], lums[i + 1]]);
   }
-  let swatches = 10; // add input
+  let swatches = document.getElementById('distributionMissingSwatches').value;
   var cumulative = 0;
   var cumulativeRounded = 0;
 
@@ -846,7 +846,7 @@ function interpolateLumArray() {
     }
   }
 
-  lums.sort(function(a, b){return b-a});
+  // swatchesToReturn.sort(function(a, b){return b-a});
   return swatchesToReturn;
 }
 
@@ -854,17 +854,22 @@ function interpolateLumArray() {
 window.distributeCube = function distributeCube() {
   sort();
 
-  setTimeout(function() {
-    let lums = interpolateLumArray();
+  let lums = interpolateLumArray();
 
-    for(let i=1; i<lums.length -1; i++) {
-      ratioFields[i].value = returnRatioCube(lums[i]).toFixed(2);
-    }
-  }, 300)
+  // Delete all ratios
+  let ratioItems = document.getElementsByClassName('ratio-Item');
+  while(ratioItems.length > 0){
+    ratioItems[0].parentNode.removeChild(ratioItems[0]);
+  }
+  let sliders = document.getElementById('colorSlider-wrapper');
+  sliders.innerHTML = ' ';
 
-  setTimeout(function() {
+  // Add all new ratios
+  for(let i=0; i<lums.length; i++) {
+    let value = returnRatioCube(lums[i]).toFixed(2);
+    addRatio(value);
     colorInput();
-  }, 450)
+  }
 }
 
 // Function to distribute swatches based on linear interpolation between HSLuv
