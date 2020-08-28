@@ -813,21 +813,24 @@ function interpolateLumArray() {
   for(let i=0; i<newColors.length; i++) {
     lums.push(d3.hsluv(newColors[i]).v);
   }
-  // create ranges
+  // startLum and endLum of lums[]
   var startLum = Math.min(...lums);
   var endLum = Math.max(...lums);
+
+  // create ranges
   var ranges = [];
   for (let i = 0; i < lums.length - 1; i++) {
-    ranges.push([lums[i], lums[i + 1]]);
+    // startLum and endLum of an element of ranges[]
+    ranges.push([lums[i + 1], lums[i]]);
   }
-  let swatches = document.getElementById('distributionMissingSwatches').value;
+  let swatchesToAdd = document.getElementById('distributionMissingSwatches').value;
   var cumulative = 0;
   var cumulativeRounded = 0;
 
   var swatchesToReturn = [];
   for (let i=0; i<ranges.length; i++) {
     const range = ranges[i];
-    const ratio = (Math.abs(range[0] - range[1]) / Math.abs(startLum - endLum)) * swatches;
+    const ratio = (Math.abs(range[0] - range[1]) / Math.abs(startLum - endLum)) * swatchesToAdd;
     cumulative = cumulative + ratio;
     const previousCumulativeRounded = cumulativeRounded;
     cumulativeRounded = Math.round(cumulative);
@@ -838,6 +841,8 @@ function interpolateLumArray() {
     swatchesToReturn.push(range[0]);
     
     for (let j=1; j<=missingSwatches; j++) {
+      // We know that a range has an initial lum, a final lum and x missing lums in the middle.
+      // So the total number of swatches in a range is 1 + missingSwatches + 1
       swatchesToReturn.push(interpolator(j / (missingSwatches + 2)));
     }
 
@@ -846,7 +851,7 @@ function interpolateLumArray() {
     }
   }
 
-  // swatchesToReturn.sort(function(a, b){return b-a});
+  swatchesToReturn.sort(function(a, b){return b-a});
   return swatchesToReturn;
 }
 
