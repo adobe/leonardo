@@ -827,7 +827,7 @@ function interpolateLumArray() {
   var cumulative = 0;
   var cumulativeRounded = 0;
 
-  var swatchesToReturn = [];
+  var lumsToReturn = [];
   for (let i=0; i<ranges.length; i++) {
     const range = ranges[i];
     const ratio = (Math.abs(range[0] - range[1]) / Math.abs(startLum - endLum)) * swatchesToAdd;
@@ -835,46 +835,40 @@ function interpolateLumArray() {
     const previousCumulativeRounded = cumulativeRounded;
     cumulativeRounded = Math.round(cumulative);
 
-    const missingSwatches = cumulativeRounded - previousCumulativeRounded;
+    const lumsToAdd = cumulativeRounded - previousCumulativeRounded;
 
     let interpolator = d3.interpolateNumber(range[0], range[1]);
-    swatchesToReturn.push(range[0]);
     
-    for (let j=1; j<=missingSwatches; j++) {
+    for (let j=1; j<=lumsToAdd; j++) {
       // We know that a range has an initial lum, a final lum and x missing lums in the middle.
-      // So the total number of swatches in a range is 1 + missingSwatches + 1
-      swatchesToReturn.push(interpolator(j / (missingSwatches + 2)));
-    }
-
-    if (i === ranges.length - 1) {
-      swatchesToReturn.push(ranges[i][1]);
+      // So the total number of lums in a range is 1 + lumsToAdd + 1
+      lumsToReturn.push(interpolator(j / (lumsToAdd + 2)));
     }
   }
-
-  swatchesToReturn.sort(function(a, b){return b-a});
-  return swatchesToReturn;
+  
+  return lumsToReturn;
 }
 
 // Redistribute contrast swatches
 window.distributeCube = function distributeCube() {
   sort();
 
-  let lums = interpolateLumArray();
-
-  // Delete all ratios
-  let ratioItems = document.getElementsByClassName('ratio-Item');
-  while(ratioItems.length > 0){
-    ratioItems[0].parentNode.removeChild(ratioItems[0]);
-  }
-  let sliders = document.getElementById('colorSlider-wrapper');
-  sliders.innerHTML = ' ';
-
-  // Add all new ratios
-  for(let i=0; i<lums.length; i++) {
-    let value = returnRatioCube(lums[i]).toFixed(2);
-    addRatio(value);
+  setTimeout(() => {
+    let lums = interpolateLumArray();
+    
+    // Add all new ratios
+    for(let i=0; i<lums.length; i++) {
+      let value = returnRatioCube(lums[i]).toFixed(2);
+      addRatio(value);
+      colorInput();
+    }
+    
+  }, 300)
+  
+  setTimeout(() => {
+    sort();
     colorInput();
-  }
+  }, 450)
 }
 
 // Function to distribute swatches based on linear interpolation between HSLuv
