@@ -823,14 +823,14 @@ function fillLumArray() {
     // startLum and endLum of an element of ranges[]
     ranges.push([lums[i + 1], lums[i]]);
   }
-  let missingSwatches = document.getElementById('distributionMissingSwatches').value;
+  let missingRatios = document.getElementById('missingRatios').value;
   var cumulative = 0;
   var cumulativeRounded = 0;
 
   var missingLums = [];
   for (let i=0; i<ranges.length; i++) {
     const range = ranges[i];
-    const ratio = (Math.abs(range[0] - range[1]) / Math.abs(startLum - endLum)) * missingSwatches;
+    const ratio = (Math.abs(range[0] - range[1]) / Math.abs(startLum - endLum)) * missingRatios;
     cumulative = cumulative + ratio;
     const previousCumulativeRounded = cumulativeRounded;
     cumulativeRounded = Math.round(cumulative);

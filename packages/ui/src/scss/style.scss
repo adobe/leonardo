@@ -214,6 +214,12 @@ body {
 .spectrum-Panel-Title ~ #colorOutputs {
   margin-top: 8px;
 }
+.spectrum-Divider {
+  border-top: 2px solid var(--spectrum-panel-border-color);
+  margin-top: 16px;
+  padding-top: 16px;
+  width: 100%;
+}
 
 #inputs {
   margin-bottom: 1em;
@@ -746,6 +752,7 @@ a:focus {
 
 #ratioInput-wrapper {
   max-height: calc(var(--gradient-height) - 216px);
+  min-height: 64px;
   overflow: auto;
   display: flex;
 }
@@ -778,22 +785,24 @@ a:focus {
 
 #addRatio,
 #addColor,
-#fillRatios {
+#fill {
   justify-content: center;
 
   > .spectrum-ActionButton-label {
     width: auto;
   }
 }
-#addRatio,
-#fillRatios {
+#addRatio {
   margin-top: 8px;
   width: 100%;
 }
-#distributionWrapper {
-  margin-top: 8px;
+#fillRatios-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 8px;
+  align-items: end;
 }
-#distributionMissingSwatches {
+#missingRatios {
   width: 100%;
 }
 
