@@ -807,7 +807,7 @@ function returnRatioCube(lum) {
   }
 }
 
-function interpolateLumArray() {
+function fillLumArray() {
   let lums = [];
 
   for(let i=0; i<newColors.length; i++) {
@@ -849,12 +849,30 @@ function interpolateLumArray() {
   return missingLums;
 }
 
+function interpolateLumArray() {
+  let lums = [];
+
+  for(let i=0; i<newColors.length; i++) {
+    lums.push(d3.hsluv(newColors[i]).v);
+  }
+  var startLum = Math.min(...lums);
+  var endLum = Math.max(...lums);
+  var interpolator = d3.interpolateNumber(startLum, endLum);
+
+  for (let i=1; i<lums.length - 1; i++) {
+    lums[i] = interpolator((i)/(lums.length));
+  }
+
+  lums.sort(function(a, b){return b-a});
+  return lums;
+}
+
 // Redistribute contrast swatches
-window.distributeCube = function distributeCube() {
+window.fillCube = function fillCube() {
   sort();
 
   setTimeout(() => {
-    let lums = interpolateLumArray();
+    let lums = fillLumArray();
     
     // Add all new ratios
     for(let i=0; i<lums.length; i++) {
@@ -867,6 +885,22 @@ window.distributeCube = function distributeCube() {
   
   setTimeout(() => {
     sort();
+    colorInput();
+  }, 450)
+}
+
+window.distributeCube = function distributeCube() {
+  sort();
+
+  setTimeout(function() {
+    let lums = interpolateLumArray();
+
+    for(let i=1; i<lums.length -1; i++) {
+      ratioFields[i].value = returnRatioCube(lums[i]).toFixed(2);
+    }
+  }, 300)
+
+  setTimeout(function() {
     colorInput();
   }, 450)
 }
