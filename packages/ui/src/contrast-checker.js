@@ -69,7 +69,7 @@ function setup() {
   inputBackground.defaultValue = 'rgb(255, 255, 255)';
 }
 
-function convert(c, typeId = type.value) {
+function convert(c, typeId = 'RGB') {
   let A, B, C;
 
   if(typeId == 'Hex') {
@@ -117,16 +117,56 @@ function convert(c, typeId = type.value) {
   }
 }
 
+function inputConvert(val) {
+  let valNums, valArr;
+
+  if(val.match(/^hsl\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    // convert to proper format (percentages)
+    val = d3.hsl(Number(valArr[0]), Number(valArr[1]/100), Number(valArr[2]/100)).formatHsl();
+  }
+  if(val.match(/^hsv\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hsv(Number(valArr[0]), Number(valArr[1]/100), Number(valArr[2]/100)).formatHsl();
+  }
+  if(val.match(/^lab\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.lab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
+  }
+  if(val.match(/^lch\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hcl(Number(valArr[2]), Number(valArr[1]), Number(valArr[0])).formatHsl();
+  }
+  if(val.match(/^jab\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.jab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
+  }
+  if(val.match(/^hsluv\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hsluv(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
+  }
+  let r = d3.rgb(val).r;
+  let g = d3.rgb(val).g;
+  let b = d3.rgb(val).b;
+  return [r.toFixed(), g.toFixed(), b.toFixed()];
+}
+
 function colorInputSync() {
   let valFg = inputForeground.value;
   let colorInputForeground = document.getElementById('foregroundColorInput');
-  let valFgRgb = convert(valFg, 'RGB');
+  let valFgRgb = inputConvert(valFg);
   let colorInputFgVal = d3.rgb(valFgRgb[0], valFgRgb[1], valFgRgb[2]).formatHex();
   colorInputForeground.value = colorInputFgVal;
 
   let valBg = inputBackground.value;
   let colorInputBackground = document.getElementById('backgroundColorInput');
-  let valBgRgb = convert(valBg, 'RGB');
+  let valBgRgb = inputConvert(valBg);
   let colorInputBgVal = d3.rgb(valBgRgb[0], valBgRgb[1], valBgRgb[2]).formatHex();
   colorInputBackground.value = colorInputBgVal;
 }
@@ -134,21 +174,24 @@ function colorInputSync() {
 function returnContrast() {
   colorInputSync();
 
-  let foreground = inputForeground.value;
-  let background = inputBackground.value;
+  let foregroundInput = inputForeground.value;
+  let backgroundInput = inputBackground.value;
   let output = document.getElementById('ratioOutput');
   output.innerHTML = ' ';
 
   let rat = document.createElement('span');
   rat.className = 'contrastRatio';
 
-  let fg = [d3.rgb(foreground).r, d3.rgb(foreground).g, d3.rgb(foreground).b];
-  let bg = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
+  // let fg = [d3.rgb(foreground).r, d3.rgb(foreground).g, d3.rgb(foreground).b];
+  // let bg = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
 
-  console.log(fg);
-  console.log(bg);
+  let fg = inputConvert(foregroundInput);
+  let bg = inputConvert(backgroundInput)
 
-  let baseV = (d3.hsluv(background).v) / 100;
+  let foreground = 'rgb('+ fg[0] + ', ' + fg[1] + ', ' + fg[2] + ')';
+  let background = 'rgb('+ bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')';
+
+  let baseV = (d3.hsluv(backgroundInput).v) / 100;
   console.log(baseV);
 
   let ratio = contrastColors.contrast(fg, bg, baseV);
