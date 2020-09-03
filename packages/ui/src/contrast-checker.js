@@ -292,13 +292,13 @@ function buildDemo(text, background) {
   let largeTxt = document.getElementById('largeText');
   let smallTxt = document.getElementById('smallText');
   let button = document.getElementById('demoButton');
-  let icon = document.getElementById('demoIcon');
+  // let icon = document.getElementById('demoIcon');
   let buttonText = document.getElementById('demoButtonText');
 
   demo.style.backgroundColor = background;
   button.style.backgroundColor = background;
   button.style.borderColor = text;
-  icon.style.color = text;
+  // icon.style.color = text;
   buttonText.style.color = text;
   largeTxt.style.color = text;  
   smallTxt.style.color = text;  
