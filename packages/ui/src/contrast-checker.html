@@ -48,50 +48,79 @@
     <a href="https://medium.com/@NateBaldwin/leonardo-an-open-source-contrast-based-color-generator-92d61b6521d2" class="spectrum-ActionButton spectrum-ActionButton--quiet">About</a>
     <a href="https://www.github.com/adobe/leonardo#leonardo" class="spectrum-ActionButton spectrum-ActionButton--quiet">Docs</a>
     <a href="demo.html" class="spectrum-ActionButton spectrum-ActionButton--quiet">Demo</a>
-    <a href="/" class="spectrum-ActionButton spectrum-ActionButton--quiet is-selected">Converter</a>
-    <a href="contrast-checker.html" class="spectrum-ActionButton spectrum-ActionButton--quiet">Contrast checker</a>
+    <a href="converter.html" class="spectrum-ActionButton spectrum-ActionButton--quiet">Converter</a>
+    <a href="/" class="spectrum-ActionButton spectrum-ActionButton--quiet is-selected">Contrast checker</a>
     <a href="https://www.github.com/adobe/leonardo" id="octo-link"> <img id="octocat" src="images/GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
   </div>
 </header>
 <main id="converterWrapper">
   <div id="converterGroup">
     <div>
-      <h1 class="spectrum-Heading spectrum-Heading--XXL spectrum-Heading--heavy"> Color Converter </h1>
-      <cite>Built using d3-color</cite>
-      <p> Text field supports hex, rgb, hsl, hsv, hsluv, lab, lch, and jab (CAM02).</p>
-      <div class="converter--row">
-        <div class="spectrum-Form">
-          <div class="spectrum-Form-item">
-            <label for="input" class="spectrum-FieldLabel">Color value:</label>
-            <input type="text" id="input" placeholder="Enter color value" class="spectrum-Textfield"></input>
-            <input type="color" class="" id="colorInput"></input>
-          </div>
-          <div class="spectrum-Form-item">
-            <label for="type" class="spectrum-FieldLabel">Convert to:</label>
-            <div class="spectrum-Dropdown">
-              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="type" id="type">
-                <option>CAM02</option>
-                <option>Lch</option>
-                <option>Lab</option>
-                <option>HSL</option>
-                <option>HSLuv</option>
-                <option>HSV</option>
-                <option>RGB</option>
-                <option>Hex</option>
-              </select>
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-              </svg>
+      <h1 class="spectrum-Heading spectrum-Heading--XXL spectrum-Heading--heavy"> Color Contrast Checker </h1>
+      <p class="spectrum-Body spectrum-Body--S"> WCAG relative luminance formula and Level AA criteria</p>
+    </div>
+
+    <div class="converter--row">
+      <div class="converter--column">
+        <div id="inputWrapper">
+          <div class="spectrum-Form">
+            <div class="spectrum-Form-item">
+              <!-- <div class="spectrum-Form-item">
+                <label for="formula" class="spectrum-FieldLabel">Contrast formula:</label>
+                <div class="spectrum-Dropdown">
+                  <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="formula" id="formula">
+                    <option>WCAG relative luminance</option>
+                    <option>SAPC (beta)</option>
+                  </select>
+                  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                  </svg>
+                </div>
+              </div> -->
+      
             </div>
+            <div class="spectrum-Form-item--row">
+              <div class="spectrum-Form-item">
+                <label for="input" class="spectrum-FieldLabel">Text color</label>
+                <input type="text" id="foregroundInput" placeholder="Enter color value" class="spectrum-Textfield"></input>
+                <input type="color" class="" id="foregroundColorInput"></input>
+              </div>
+              <div class="spectrum-Form-item">
+                <label for="input" class="spectrum-FieldLabel">Background color</label>
+                <input type="text" id="backgroundInput" placeholder="Enter color value" class="spectrum-Textfield"></input>
+                <input type="color" class="" id="backgroundColorInput"></input>
+              </div>
+            </div>
+            <p class="spectrum-Body spectrum-Body--XS">Supports hex, rgb, hsl, hsv, hsluv, lab, lch, and jab (CAM02)</p>
           </div>
         </div>
-        <div id="output"></div>
+        
+        <div id="outputWrapper">
+            <h2>Contrast ratio:</h2>
+            <div id="ratioOutput"></div>
+        </div>
+      </div>
+          
+      <div id="demoWrapper">
+        <span id="largeText">Large text is 18pt or 14pt bold.</span>
+        <span id="smallText">Small text is less than 18pt or less than 14pt bold.</span>
+        <span id="uiDemo">
+          <button class="spectrum-Button" id="demoButton">
+            <svg id="demoIcon" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-icon-18-Edit" />
+            </svg>          
+            <span id="demoButtonText" class="spectrum-Button-label">Button</span>
+          </button>
+        </span>
       </div>
     </div>
     
+    <footer>
+      <p class="footer--cta">Try <a class="spectrum-Link" href="index.html">generating color by desired contrast ratio</a> instead.</p>
+    </footer>
    </div>
 </main>
-<script src="converter.js"></script>
+<script src="contrast-checker.js"></script>
 
 </body>
 </html>

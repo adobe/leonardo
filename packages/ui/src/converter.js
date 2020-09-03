@@ -14,7 +14,6 @@ import '@spectrum-css/vars/dist/spectrum-medium.css';
 import '@spectrum-css/vars/dist/spectrum-light.css';
 
 import '@spectrum-css/page/dist/index-vars.css';
-import '@spectrum-css/typography/dist/index-vars.css';
 import '@spectrum-css/icon/dist/index-vars.css';
 import '@spectrum-css/link/dist/index-vars.css';
 import '@spectrum-css/alert/dist/index-vars.css';
@@ -30,6 +29,7 @@ import '@spectrum-css/buttongroup/dist/index-vars.css';
 import '@spectrum-css/tooltip/dist/index-vars.css';
 import '@spectrum-css/slider/dist/index-vars.css';
 import '@spectrum-css/tabs/dist/index-vars.css';
+import '@spectrum-css/typography/dist/index-vars.css';
 
 import './scss/style.scss';
 import './scss/colorinputs.scss';
