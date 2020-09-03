@@ -164,54 +164,82 @@ function returnContrast() {
   let ratioToOneText = document.createTextNode(':1');
   let ratioToOne = document.createElement('span');
   ratioToOne.classList.add('ratioToOne');
-  ratioToOne.appendChild(ratioToOneText)
+  ratioToOne.appendChild(ratioToOneText);
+
   let lgTextWrap = document.createElement('div');
   let smTextWrap = document.createElement('div');
+  let uiTextWrap = document.createElement('div');
   lgTextWrap.classList.add('passFail');
   smTextWrap.classList.add('passFail');
+  uiTextWrap.classList.add('passFail');
   let lgTextHead = document.createTextNode('Large text');
   let smTextHead = document.createTextNode('Small text');
+  let uiTextHead = document.createTextNode('Graphics and UI components');
   let lgHeading = document.createElement('span');
   lgHeading.classList.add('heading--passFail', 'spectrum-Detail', 'spectrum-Detail--M');
   let smHeading = document.createElement('span');
   smHeading.classList.add('heading--passFail', 'spectrum-Detail', 'spectrum-Detail--M');
+  let uiHeading = document.createElement('span');
+  uiHeading.classList.add('heading--passFail', 'spectrum-Detail', 'spectrum-Detail--M');
 
   lgHeading.appendChild(lgTextHead);
   smHeading.appendChild(smTextHead);
+  uiHeading.appendChild(uiTextHead);
 
   let badgeLg = document.createElement('div');
   badgeLg.className = 'badge';
   let badgeSm = document.createElement('div');
   badgeSm.className = 'badge';
+  let badgeUi = document.createElement('div');
+  badgeUi.className = 'badge';
+
   if(ratio < 3) {
     badgeLg.classList.add('badge--error');
-    badgeLg.innerHTML = 'Fail (AA)'
+    badgeLg.classList.remove('badge--success');
+    badgeLg.innerHTML = 'Fail (AA)';
     badgeSm.classList.add('badge--error');
-    badgeSm.innerHTML = 'Fail (AA)'
+    badgeSm.classList.remove('badge--success');
+    badgeSm.innerHTML = 'Fail (AA)';
+    badgeUi.classList.add('badge--error');
+    badgeUi.classList.remove('badge--success');
+    badgeUi.innerHTML = 'Fail (AA)';
   }
   if(ratio > 3 && ratio < 4.5) {
     badgeLg.classList.add('badge--success');
-    badgeLg.innerHTML = 'Pass (AA)'
+    badgeLg.classList.remove('badge--error');
+    badgeLg.innerHTML = 'Pass (AA)';
     badgeSm.classList.add('badge--error');
-    badgeSm.innerHTML = 'Fail (AA)'
+    badgeSm.classList.remove('badge--success');
+    badgeSm.innerHTML = 'Fail (AA)';
+    badgeUi.classList.add('badge--success');
+    badgeUi.classList.remove('badge--error');
+    badgeUi.innerHTML = 'Pass (AA)';
   }
   if(ratio > 4.5) {
     badgeLg.classList.add('badge--success');
-    badgeLg.innerHTML = 'Pass (AA)'
+    badgeLg.classList.remove('badge--error');
+    badgeLg.innerHTML = 'Pass (AA)';
     badgeSm.classList.add('badge--success');
-    badgeSm.innerHTML = 'Pass (AA)'
+    badgeSm.classList.remove('badge--error');
+    badgeSm.innerHTML = 'Pass (AA)';
+    badgeUi.classList.add('badge--success');
+    badgeUi.classList.remove('badge--error');
+    badgeUi.innerHTML = 'Pass (AA)';
   }
 
   lgTextWrap.appendChild(lgHeading);
   lgTextWrap.appendChild(badgeLg);
   smTextWrap.appendChild(smHeading);
   smTextWrap.appendChild(badgeSm);
+  uiTextWrap.appendChild(uiHeading);
+  uiTextWrap.appendChild(badgeUi);
 
   rat.appendChild(ratioText);
   rat.appendChild(ratioToOne);
   output.appendChild(rat);
   output.appendChild(lgTextWrap);
   output.appendChild(smTextWrap);
+  output.appendChild(uiTextWrap);
 
   buildDemo(foreground, background);
 }
@@ -220,8 +248,15 @@ function buildDemo(text, background) {
   let demo = document.getElementById('demoWrapper');
   let largeTxt = document.getElementById('largeText');
   let smallTxt = document.getElementById('smallText');
+  let button = document.getElementById('demoButton');
+  let icon = document.getElementById('demoIcon');
+  let buttonText = document.getElementById('demoButtonText');
 
   demo.style.backgroundColor = background;
+  button.style.backgroundColor = background;
+  button.style.borderColor = text;
+  icon.style.color = text;
+  buttonText.style.color = text;
   largeTxt.style.color = text;  
   smallTxt.style.color = text;  
 }

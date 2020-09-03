@@ -31,6 +31,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: auto;
 }
 
 #converterGroup {
@@ -39,6 +40,10 @@
   align-items: flex-start;
   max-width: 100%;
   width: 860px;
+  height: calc(100vh - 58px);
+  max-height: 100%;
+  justify-content: space-between;
+  gap: 32px;
 }
 
 #converterGroup h1 {
@@ -46,8 +51,10 @@
 }
 #converterGroup p {
   max-width: 60ch;
-  font-size: 16px;
-  margin-bottom: 3rem;
+}
+
+#converterGroup input[type=text] + input[type=color] {
+  margin-left: 6px;
 }
 
 cite {
@@ -66,9 +73,10 @@ h1 + cite {
 
   // For some reason have to do this to retain proper width and keep from wrapping
   .spectrum-Form-item {
-    width: 174px;
+    width: 182px;
   }
 }
+
 
 .spectrum-Textfield {
   width: 20ch;
@@ -90,9 +98,14 @@ h1 + cite {
   padding: 72px 48px;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  height: 120px;
+  height: 168px;
   display: flex;
   justify-content: center;
+
+  #smallText {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
 }
 #largeText {
   font-size: 18.666px;
@@ -107,37 +120,37 @@ h1 + cite {
   line-height: 1;
   color: #000;
   display: block;
-  margin-bottom: 16px;
+  margin-bottom: 3rem;
+  font-weight: 600;
 }
 
 #outputWrapper {
   h2 {
     margin-bottom: 0px;
+    margin-top: 2rem;
   }
 }
 
 .badge {
-  font-size: 12px;
+  font-size: 14px;
   color: #ffffff;
   padding: 6px 8px;
   border-radius: 4px;
   display: inline-block;
-  font-weight: bold;
+  font-weight: 600;
 }
-.badge + .badge {
-  margin-left: 8px;
-}
+
 .badge--error {
-  background-color: red;
+  background-color: #d60000;
 }
 .badge--success {
-  background-color: green;
+  background-color: #158000;
 }
 
 .passFail {
   display: inline-block;
   & + .passFail {
-    margin-left: 16px;
+    margin-left: 24px;
   }
 }
 .heading--passFail {
@@ -146,4 +159,11 @@ h1 + cite {
 }
 .ratioToOne {
   color: #6e6e6e;
+  font-weight: 400;
+}
+
+#converterGroup .footer--cta {
+  margin-bottom: 2em;
+  margin-top: 4em;
+  font-size: 14px;
 }
