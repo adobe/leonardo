@@ -190,6 +190,7 @@ function inputConvert(val) {
   let g = d3.rgb(val).g;
   let b = d3.rgb(val).b;
 
+
   return [Number(r.toFixed()), Number(g.toFixed()), Number(b.toFixed()), Number(a.toFixed(2))];
 }
 
