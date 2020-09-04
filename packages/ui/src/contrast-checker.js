@@ -69,92 +69,127 @@ function setup() {
   inputBackground.defaultValue = 'rgb(255, 255, 255)';
 }
 
-function convert(c, typeId = 'RGB') {
-  let A, B, C;
+function alphaBlend(c1, c2) {
+  let r1, g1, b1, a1;
+  let r2, g2, b2;
+  
+  r1 = c1[0];
+  g1 = c1[1];
+  b1 = c1[2];
+  a1 = c1[3];
+  
+  r2 = c2[0];
+  g2 = c2[1];
+  b2 = c2[2];
+  
+  let r3 = r2 + (r1-r2)*a1
+  let g3 = g2 + (g1-g2)*a1
+  let b3 = b2 + (b1-b2)*a1
+  
+  let c3 = [r3, g3, b3];
 
-  if(typeId == 'Hex') {
-    return d3.rgb(c).formatHex();
-  }
-
-  else {
-    if(typeId == 'HSLuv') {
-      A = d3.hsluv(c).l;
-      B = d3.hsluv(c).u;
-      C = d3.hsluv(c).v;
-    }
-    if(typeId == 'HSL') {
-      A = d3.hsl(c).h;
-      B = d3.hsl(c).s * 100;
-      C = d3.hsl(c).l * 100;
-    }
-    if(typeId == 'HSV') {
-      A = d3.hsv(c).h;
-      B = d3.hsv(c).s * 100;
-      C = d3.hsv(c).v * 100;
-    }
-    if(typeId == 'CAM02') {
-      A = d3.jab(c).J;
-      B = d3.jab(c).a;
-      C = d3.jab(c).b;
-    }
-    if(typeId == 'Lab') {
-      A = d3.lab(c).l;
-      B = d3.lab(c).a;
-      C = d3.lab(c).b;
-    }
-    if(typeId == 'Lch') {
-      A = d3.hcl(c).l;
-      B = d3.hcl(c).c;
-      C = d3.hcl(c).h;
-    }
-    if(typeId == 'RGB') {
-      A = d3.rgb(c).r;
-      B = d3.rgb(c).g;
-      C = d3.rgb(c).b;
-    }
-
-    return new Array(A.toFixed(), B.toFixed(), C.toFixed());
-  }
+  return c3;
 }
 
 function inputConvert(val) {
   let valNums, valArr;
+  let a = 1;
 
+  if(val.match(/^rgb\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    // convert to proper format (percentages)
+    val = d3.rgb(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatRgb();
+  }
+  // RGBa
+  if(val.match(/^rgba\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    // convert to proper format (percentages)
+    val = d3.rgb(Number(valArr[0]), Number(valArr[1]), Number(valArr[2]), Number(valArr[3])).formatRgb();
+    a = d3.rgb(val).opacity;
+  }
   if(val.match(/^hsl\(/)) {
     valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
     valArr = valNums.split(','); // split numbers into array
     // convert to proper format (percentages)
     val = d3.hsl(Number(valArr[0]), Number(valArr[1]/100), Number(valArr[2]/100)).formatHsl();
   }
+  // HSLa
+  if(val.match(/^hsla\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    // convert to proper format (percentages)
+    val = d3.hsl(Number(valArr[0]), Number(valArr[1]/100), Number(valArr[2]/100), Number(valArr[3])).formatHsl();
+    a = d3.rgb(val).opacity;
+  }
   if(val.match(/^hsv\(/)) {
     valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
     valArr = valNums.split(','); // split numbers into array
     val = d3.hsv(Number(valArr[0]), Number(valArr[1]/100), Number(valArr[2]/100)).formatHsl();
+  }
+  // HSVa
+  if(val.match(/^hsva\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hsv(Number(valArr[0]), Number(valArr[1]/100), Number(valArr[2]/100), Number(valArr[3])).formatHsl();
+    a = d3.rgb(val).opacity;
   }
   if(val.match(/^lab\(/)) {
     valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
     valArr = valNums.split(','); // split numbers into array
     val = d3.lab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
   }
+  // LABa
+  if(val.match(/^laba\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.lab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2]), Number(valArr[3])).formatHsl();
+    a = d3.rgb(val).opacity;
+  }
   if(val.match(/^lch\(/)) {
     valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
     valArr = valNums.split(','); // split numbers into array
     val = d3.hcl(Number(valArr[2]), Number(valArr[1]), Number(valArr[0])).formatHsl();
+  }
+  // LCHa
+  if(val.match(/^lcha\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hcl(Number(valArr[2]), Number(valArr[1]), Number(valArr[0]), Number(valArr[3])).formatHsl();
+    a = d3.rgb(val).opacity;
   }
   if(val.match(/^jab\(/)) {
     valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
     valArr = valNums.split(','); // split numbers into array
     val = d3.jab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
   }
+  // JABa
+  if(val.match(/^jaba\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.jab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2]), Number(valArr[3])).formatHsl();
+    a = d3.rgb(val).opacity;
+  }
   if(val.match(/^hsluv\(/)) {
     valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
     valArr = valNums.split(','); // split numbers into array
     val = d3.hsluv(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
   }
+  // HSLuva
+  if(val.match(/^hsluva\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.hsluv(Number(valArr[0]), Number(valArr[1]), Number(valArr[2]), Number(valArr[3])).formatHsl();
+    a = d3.rgb(val).opacity;
+  }
   let r = d3.rgb(val).r;
   let g = d3.rgb(val).g;
   let b = d3.rgb(val).b;
-  return [r.toFixed(), g.toFixed(), b.toFixed()];
+
+  console.log(valArr);
+
+  return [Number(r.toFixed()), Number(g.toFixed()), Number(b.toFixed()), Number(a.toFixed(2))];
 }
 
 function colorInputSync() {
@@ -186,15 +221,23 @@ function returnContrast() {
   // let bg = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
 
   let fg = inputConvert(foregroundInput);
-  let bg = inputConvert(backgroundInput)
+  let bg = inputConvert(backgroundInput);
 
-  let foreground = 'rgb('+ fg[0] + ', ' + fg[1] + ', ' + fg[2] + ')';
+  let foreground;
+  if (fg.length > 3 ) {
+    foreground = 'rgb('+ fg[0] + ', ' + fg[1] + ', ' + fg[2] + ', ' + fg[3] + ')';
+  }
+  else {
+    foreground = 'rgb('+ fg[0] + ', ' + fg[1] + ', ' + fg[2] + ')';
+  }
   let background = 'rgb('+ bg[0] + ', ' + bg[1] + ', ' + bg[2] + ')';
 
   let baseV = (d3.hsluv(backgroundInput).v) / 100;
-  console.log(baseV);
 
-  let ratio = contrastColors.contrast(fg, bg, baseV);
+  // blend alpha foreground over background in case color is transparent
+  let fgBlend = alphaBlend(fg, bg);
+
+  let ratio = contrastColors.contrast(fgBlend, bg, baseV);
   // get rid of that negative ratio...
   if (ratio < 0) {
     ratio = ratio * -1;
