@@ -28,6 +28,9 @@ import '@spectrum-css/checkbox/dist/index-vars.css';
 import '@spectrum-css/buttongroup/dist/index-vars.css';
 import '@spectrum-css/tooltip/dist/index-vars.css';
 import '@spectrum-css/slider/dist/index-vars.css';
+import '@spectrum-css/colorslider/dist/index-vars.css';
+import '@spectrum-css/colorhandle/dist/index-vars.css';
+import '@spectrum-css/colorloupe/dist/index-vars.css';
 import '@spectrum-css/tabs/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
 
@@ -187,8 +190,6 @@ function inputConvert(val) {
   let g = d3.rgb(val).g;
   let b = d3.rgb(val).b;
 
-  console.log(valArr);
-
   return [Number(r.toFixed()), Number(g.toFixed()), Number(b.toFixed()), Number(a.toFixed(2))];
 }
 
@@ -206,8 +207,87 @@ function colorInputSync() {
   colorInputBackground.value = colorInputBgVal;
 }
 
+function colorSlider() {
+  let input = document.getElementById('foregroundInput');
+  let inputColor = input.value;
+  let grad = document.getElementById('alphaSliderGradient');
+  let range = document.getElementById('alphaSliderRange');
+  let handle = document.getElementById('alphaSliderHandle');
+  let handleWrap = document.getElementById('alphaSliderHandleWrap');
+  let sliderWidth = 208;
+
+  let c = inputConvert(inputColor);
+  let color = 'rgba('+ c[0] + ', ' + c[1] + ', ' + c[2] + ', ' + c[3] + ')';
+
+  let start = 'rgba(' + d3.rgb(color).r + ', ' + d3.rgb(color).g + ', ' + d3.rgb(color).b + ', ' + '0' + ')'; // transform this to rgba fomat 
+  let end = 'rgba(' + d3.rgb(color).r + ', ' + d3.rgb(color).g + ', ' + d3.rgb(color).b + ', ' + '1' + ')'; // transform this to rgba fomat 
+  let linearGrad = 'linear-gradient(to right, ' + start + ' 0%, ' + end + ' 100%)';
+
+  handle.style.backgroundColor = color;
+
+  grad.style.backgroundImage = linearGrad;
+  range.value = c[3] * 100;
+  handleWrap.style.left = sliderWidth * c[3];
+}
+
+function sliderRangeInteraction(value) {
+  let sliderWidth = 208;
+  let handleWrap = document.getElementById('alphaSliderHandleWrap');
+  let pos = value / 100;
+  let posString = ', ' + `${pos}` + ')';
+
+  let colorInput = document.getElementById('foregroundInput');
+  let inputVal = colorInput.value;
+  let newVal = inputVal;
+
+  if(inputVal.match(/^#/)) {
+    let rgb = d3.rgb(inputVal).formatRgb(); // first put in RGB format 
+    newVal = rgb.replace('rgb', 'rgba').replace(')', posString);
+  }
+  if(inputVal.match(/^rgb\(/)) {
+    newVal = inputVal.replace('rgb', 'rgba').replace(')', posString);
+  }
+  if(inputVal.match(/^hsl\(/)) {
+    newVal = inputVal.replace('hsl', 'hsla').replace(')', posString);
+  }
+  if(inputVal.match(/^hsv\(/)) {
+    newVal = inputVal.replace('hsv', 'hsva').replace(')', posString);
+  }
+  if(inputVal.match(/^lab\(/)) {
+    newVal = inputVal.replace('lab', 'laba').replace(')', posString);
+  }
+  if(inputVal.match(/^lch\(/)) {
+    newVal = inputVal.replace('lch', 'lcha').replace(')', posString);
+  }
+  if(inputVal.match(/^jab\(/)) {
+    newVal = inputVal.replace('jab', 'jaba').replace(')', posString);
+  }
+  if(inputVal.match(/^hsluv\(/)) {
+    newVal = inputVal.replace('hsluv', 'hsluva').replace(')', posString);
+  }
+  if(
+    inputVal.match(/^rgba\(/)
+    || inputVal.match(/^hsla\(/)
+    || inputVal.match(/^hsva\(/)
+    || inputVal.match(/^laba\(/)
+    || inputVal.match(/^lcha\(/)
+    || inputVal.match(/^jaba\(/)
+    || inputVal.match(/^hsluva\(/)
+    ) {
+    let alphaString = pos + ')';
+    newVal = inputVal.replace(/[^,]+$/, alphaString);
+  }
+
+  colorInput.value = newVal;
+  handleWrap.style.left = sliderWidth * pos;
+
+  returnContrast();
+}
+
+
 function returnContrast() {
   colorInputSync();
+  colorSlider();
 
   let foregroundInput = inputForeground.value;
   let backgroundInput = inputBackground.value;
@@ -225,7 +305,7 @@ function returnContrast() {
 
   let foreground;
   if (fg.length > 3 ) {
-    foreground = 'rgb('+ fg[0] + ', ' + fg[1] + ', ' + fg[2] + ', ' + fg[3] + ')';
+    foreground = 'rgba('+ fg[0] + ', ' + fg[1] + ', ' + fg[2] + ', ' + fg[3] + ')';
   }
   else {
     foreground = 'rgb('+ fg[0] + ', ' + fg[1] + ', ' + fg[2] + ')';
@@ -356,6 +436,9 @@ inputBackground.addEventListener('input', returnContrast);
 setup();
 returnContrast();
 
+window.sliderRangeInteraction = sliderRangeInteraction;
+
 export {
+  sliderRangeInteraction,
   returnContrast
 }
