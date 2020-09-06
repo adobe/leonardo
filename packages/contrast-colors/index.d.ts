@@ -39,6 +39,14 @@ declare namespace ContrastColors {
     colorsHex: string[]
   }
 
+  interface NamedColorScale {
+    name: string,
+    colorKeys: string[],
+    colorspace: InterpolationColorspace,
+    ratios: number[] | { [key: string]: number },
+    smooth?: boolean
+  }
+
   function createScale({
     swatches,
     colorKeys,
@@ -98,13 +106,7 @@ declare namespace ContrastColors {
     contrast, 
     output
   }: {
-    colorScales: {
-      name: string,
-      colorKeys: string[],
-      colorspace: InterpolationColorspace,
-      ratios: number[] | { [key: string]: number },
-      smooth?: boolean
-    }[],
+    colorScales: NamedColorScale[],
     baseScale: string,
     brightness?: number,
     contrast?: number,
