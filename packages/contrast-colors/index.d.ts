@@ -14,6 +14,7 @@ export as namespace ContrastColors;
 export = ContrastColors;
 
 declare namespace ContrastColors {
+  type InterpolationColorspace = 'CAM02' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV';
   type Colorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV' | 'HEX';
   
   type RGBArray = number[];
@@ -38,6 +39,14 @@ declare namespace ContrastColors {
     colorsHex: string[]
   }
 
+  interface NamedColorScale {
+    name: string,
+    colorKeys: string[],
+    colorspace: InterpolationColorspace,
+    ratios: number[] | { [key: string]: number },
+    smooth?: boolean
+  }
+
   function createScale({
     swatches,
     colorKeys,
@@ -48,7 +57,7 @@ declare namespace ContrastColors {
   }: {
     swatches: number,
     colorKeys: string[],
-    colorspace?: Colorspace,
+    colorspace?: InterpolationColorspace,
     shift?: number,
     fullScale?: boolean,
     smooth?: boolean
@@ -67,7 +76,7 @@ declare namespace ContrastColors {
   }: {
     colorKeys: string[],
     colorspace?: Colorspace,
-    smooth: boolean
+    smooth?: boolean
   }): string[];
   
   function generateContrastColors({
@@ -81,7 +90,7 @@ declare namespace ContrastColors {
     colorKeys: string[],
     base: string,
     ratios: number[],
-    colorspace?: Colorspace,
+    colorspace?: InterpolationColorspace,
     smooth?: boolean,
     output?: Colorspace
   }): string[] | never;
@@ -97,12 +106,7 @@ declare namespace ContrastColors {
     contrast, 
     output
   }: {
-    colorScales: {
-      name: string,
-      colorKeys: string[],
-      colorspace: Colorspace,
-      ratios: number[] | { [key: string]: number }
-    }[],
+    colorScales: NamedColorScale[],
     baseScale: string,
     brightness?: number,
     contrast?: number,
