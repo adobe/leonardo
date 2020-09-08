@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.3.1...@adobe/leonardo-ui@1.3.2) (2020-09-08)
+
+
+### Bug Fixes
+
+* title/description for contrast checker page ([a70813c](https://github.com/adobe/leonardo/commit/a70813cd7104c993a1ef30c698cc78e30931b072))
+
+
+
+
+
 ## [1.3.1](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.3.0...@adobe/leonardo-ui@1.3.1) (2020-08-18)
 
 **Note:** Version bump only for package @adobe/leonardo-ui
