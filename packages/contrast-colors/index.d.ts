@@ -15,20 +15,23 @@ export = ContrastColors;
 
 declare namespace ContrastColors {
   type InterpolationColorspace = 'CAM02' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV';
+
   type Colorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV' | 'HEX';
   
   type RGBArray = number[];
-  
-  type AdaptiveTheme = (brightness: number, constrast: number) => AdaptiveTheme | ({ 
-    background: string 
-  } | {
+
+  type AdaptiveThemeBackground = { background: string };
+
+  type AdaptiveThemeColorScheme = {
     name: string,
     values: {
       name: string,
       contrast: number,
       value: string
-    }[]
-  })[];
+    }[];
+  };
+  
+  type AdaptiveTheme = (AdaptiveThemeBackground | AdaptiveThemeColorScheme)[];
 
   interface ColorScale {
     colorKeys: string[],
@@ -99,7 +102,7 @@ declare namespace ContrastColors {
   
   function ratioName(r: number[]): number[] | never;
   
-  function generateAdaptiveTheme({ 
+  function generateAdaptiveTheme<T>({ 
     colorScales, 
     baseScale,
     brightness,
@@ -108,14 +111,14 @@ declare namespace ContrastColors {
   }: {
     colorScales: NamedColorScale[],
     baseScale: string,
-    brightness?: number,
+    brightness?: T,
     contrast?: number,
     output?: Colorspace,
-  }): AdaptiveTheme | never;
+  }): T extends number ? AdaptiveTheme : (brightness: number, constrast?: number) => AdaptiveTheme | never;
   
-  function fixColorValue(
+  function fixColorValue<T extends boolean = false>(
     color: string, 
     format: Colorspace, 
-    object?: boolean
-  ): string | { [key: string]: number };
+    object?: T
+  ): T extends false ? string : { [key: string]: number };
 }
