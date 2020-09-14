@@ -19,7 +19,7 @@ declare namespace ContrastColors {
   
   type RGBArray = number[];
   
-  type AdaptiveTheme = (brightness: number, constrast: number) => AdaptiveTheme | ({ 
+  type AdaptiveTheme = (brightness: number, constrast?: number) => AdaptiveTheme | ({ 
     background: string 
   } | {
     name: string,
