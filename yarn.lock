@@ -1585,6 +1585,21 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/checkbox/-/checkbox-2.0.2.tgz#247daf4c7b95359827c2c34a2ba83245f9edee66"
   integrity sha512-QPjrcFZdBGJMi7yBfaKLt38w5Zz7I/LFgir2iRIGdd8/9+2Ub3K20jjUryfz8APzVfurdpmRbq1jAoEYgVHt9w==
 
+"@spectrum-css/colorhandle@^1.0.0-beta.1":
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/colorhandle/-/colorhandle-1.0.0-beta.4.tgz#235a0538cebb769ef54dd3be29f0445e93e05930"
+  integrity sha512-ZxObj9bXVNtc4R7Iuc9rmsl/oiigrfmZSgiQcgk/P1FJxaKOHI3xLI9dpHFTKOYEihY+I5/6SRf+tohAYaEzgg==
+
+"@spectrum-css/colorloupe@^1.0.0-beta.1":
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/colorloupe/-/colorloupe-1.0.0-beta.4.tgz#381070b990e1fc86dce7697362db41bcd2cdb0a1"
+  integrity sha512-Z9Rk8UXY7Ww0dds3Ie4pFKCazst6Xn7UBYbjVeLsjGz3uyuGJfI2yqnNf8PpYqYhneE2ft2StJan54Xw97eo+Q==
+
+"@spectrum-css/colorslider@^1.0.0-beta.2":
+  version "1.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/colorslider/-/colorslider-1.0.0-beta.5.tgz#28f4818364791b3e56ac6bfdd3759c5d2cfaf32d"
+  integrity sha512-WK0Elgi6zA5M0HAEl4Vn2M3hQ2vRrplzniKKC64+kKhoykwVl1zBZV1XDVAmhznZTAFzuM0/tAFG/tJ/XMqMoQ==
+
 "@spectrum-css/dialog@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/dialog/-/dialog-2.0.2.tgz#b447acc458d75c5c455a9d9fce7237458cc4e9ce"
@@ -4737,9 +4752,9 @@ inherits@2.0.3:
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@^1.3.2, ini@^1.3.4, ini@~1.3.0:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-  integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
+  integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
 init-package-json@^1.10.3:
   version "1.10.3"
