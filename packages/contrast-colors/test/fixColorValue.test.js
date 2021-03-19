@@ -140,3 +140,27 @@ test('should return string format for CAM02 (polar) color', function() {
   expect(result).toEqual('jch(35%, 75, 258deg)');
 
 });
+
+test('should throw error for missing output format', function() {
+  expect(
+    () => {
+      let result = fixColorValue('rgb(0, 0, 0)');;
+    }
+  ).toThrow();
+})
+
+test('should throw error for missing color', function() {
+  expect(
+    () => {
+      let result = fixColorValue('RGB');;
+    }
+  ).toThrow();
+})
+
+test('should throw error for incorrect argument order', function() {
+  expect(
+    () => {
+      let result = fixColorValue('rgb', 'rgb(0, 0, 0)');;
+    }
+  ).toThrow();
+})

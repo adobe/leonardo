@@ -13,7 +13,454 @@ governing permissions and limitations under the License.
 const d3 = require('./d3.js');
 
 const { catmullRom2bezier, prepareCurve } = require('./curve.js');
-const { color } = require('./d3.js');
+// const { color } = require('./d3.js');
+
+class Theme {
+  constructor({colors, backgroundColor, lightness, contrast = 1, output = 'HEX'}) {
+    this._colors = colors;
+    this._backgroundColor = backgroundColor;
+    this._lightness = lightness;
+    this._contrast = contrast;
+    this._output = output;
+    
+    this._setLightness(this._backgroundColor);
+    
+    this._getBackgroundColorValue();
+    this._setContrasts(this._contrast);
+    this._findContrastColors();
+  }
+  
+  set contrast(contrast) {
+    this._contrast = contrast;
+    this._setContrasts(contrast);
+    this._findContrastColors();
+  }
+  get contrast() {
+    return this._contrast;
+  }
+
+  set lightness(lightness) {
+    this._lightness = lightness;
+    // have to reset the background color value prop
+    this._getBackgroundColorValue();
+    this._findContrastColors();
+  }
+  get lightness() {
+    return this._lightness;
+  }
+  
+  set backgroundColor(backgroundColor) {
+    this._backgroundColor = backgroundColor;
+    // have to reset the background color value prop
+    this._getBackgroundColorValue();
+    this._findContrastColors();
+  }
+  get backgroundColorValue() {
+    return this._backgroundColorValue;
+  }
+  
+  // Add a getter and setter for colors
+  set colors(colors) {
+    this._colors = colors;
+    this._findContrastColors();
+  }
+  get colors() {
+    return this._colors;
+  }
+
+  set output(output) {
+    this._output = output;
+    this._findContrastColors();
+  }
+  get output() {
+    return this._output;
+  }
+  
+  get contrastColors() {
+    return this._findContrastColors();
+  }
+
+  _setLightness(backgroundColor) {
+    if(typeof backgroundColor === 'string') {
+      // If it's a string, convert to Color object and assign lightness.
+      const newBackgroundColor = new BackgroundColor({name: 'background', colorKeys: [backgroundColor]});
+      const calcLightness = Number((d3.hsluv(backgroundColor).v).toFixed());
+
+      this._backgroundColor = newBackgroundColor;
+      this._lightness = calcLightness;
+    }
+  }
+  
+  _getBackgroundColorValue() {
+    this._backgroundColorValue = this._backgroundColor.backgroundColorScale[this._lightness];
+  }
+
+  _setContrasts(contrastMultiplier) {
+    // Only multiply contrast ratios if they are greater than 1:1,
+    // otherwise it's just useless math.
+    if(contrastMultiplier != 1) {
+      // Iterate over each color, remap contrast values after
+      // multiplying them by the theme multiplier (this._contrast)
+      this._colors.map(color => {
+        let ratios = color.ratios;
+        let newRatios;
+        // assign ratios array whether input is array or object
+        if(Array.isArray(ratios)) {
+          newRatios = ratios.map(function(d) {
+            return multiplyRatios(d, contrastMultiplier)
+          });
+
+          return color.ratios = newRatios;
+
+        } else {
+          for (let key of Object.keys(ratios)) {
+            ratios[key] = multiplyRatios(ratios[key], contrastMultiplier);
+          }
+        }
+        
+      });
+    };
+  };
+
+  _findContrastColors() {
+    const bgRgbArray = [d3.rgb(this._backgroundColorValue).r, d3.rgb(this._backgroundColorValue).g, d3.rgb(this._backgroundColorValue).b];
+    const baseV = this._lightness / 100;
+
+    let baseObj = {
+      background: this._backgroundColorValue,
+    };
+
+    let returnColors = [];
+    returnColors.push(baseObj);
+
+    this._colors.map(color => {
+      if (!color.name) {
+        throw new Error('Color missing name');
+      }
+
+      if (color.ratios !== undefined) {
+        let swatchNames;
+        let newArr = [];
+        let colorObj = {
+          name: color.name,
+          values: newArr
+        };
+        
+        // This needs to be looped for each value in the color.colorScale array   
+        let contrasts = d3.range(3000).map((d) => {
+          let rgbArray = [d3.rgb(color.colorScale[d]).r, d3.rgb(color.colorScale[d]).g, d3.rgb(color.colorScale[d]).b];
+          let ca = contrast(rgbArray, bgRgbArray, baseV).toFixed(2);
+      
+          return Number(ca);
+        });
+      
+        contrasts = contrasts.filter(el => el != null);
+
+        let contrastColors = [];
+        let ratioLength;
+        let ratioValues;
+
+        if(Array.isArray(color.ratios)) {
+          ratioLength = color.ratios.length;
+          ratioValues = color.ratios;
+        } else if (!Array.isArray(color.ratios)){
+          ratioLength = Object.keys(color.ratios).length;
+          swatchNames = Object.keys(color.ratios);
+          ratioValues = Object.values(color.ratios);
+        }
+        // Return color matching target ratio, or closest number
+        for (let i=0; i < ratioLength; i++){
+          // Find the index of each target ratio in the array of all possible contrasts
+          let baseLum = this._lightness / 100;
+          let r = binarySearch(contrasts, ratioValues[i], baseLum);
+          // Use the index from matching contrasts (r) to index the corresponding
+          // color value from the color scale array.
+          // use fixColorValue function to convert each color to the specified 
+          // output format and push to the new array 'contrastColors'
+          contrastColors.push(fixColorValue(color.colorScale[r], this._output));
+        }
+  
+        for (let i=0; i < contrastColors.length; i++) {
+          let n;
+          if(!swatchNames) {
+            let rVal = ratioName(color.ratios)[i];
+            n = color.name.concat(rVal);
+          }
+          else {
+            n = swatchNames[i];
+          }
+  
+          let obj = {
+            name: n,
+            contrast: ratioValues[i],
+            value: contrastColors[i]
+          };
+          newArr.push(obj)
+        }
+        returnColors.push(colorObj);
+      }
+      // else {
+      //   Need to investigate why colors are being sent through this function
+      //   with undefined ratios? Ratios should already be set from the Color class
+      //   console.log(`Color ${color.name} has ratios of ${color.ratios}`)
+      // }
+    });
+    this._contrastColors = returnColors;
+    return this._contrastColors;
+  }
+}
+
+class Color {
+  constructor({name, colorKeys, colorspace = 'RGB', ratios, smooth = false, output = 'HEX'}) { 
+    this._name = name;
+    this._colorKeys = colorKeys;
+    this._colorspace = colorspace;
+    this._ratios = ratios;
+    this._smooth = smooth;
+    this._output = output;
+    // if(!Array.isArray(this._ratios)) {
+    //   console.log(`These ratios are not an array: ${JSON.stringify(this._ratios)}`)
+    // }
+    // Run function to generate this array of colors:
+    this._generateColorScale();
+  }
+  
+  // Setting and getting properties of the Color class
+  set colorKeys(colorKeys) {
+    this._colorKeys = colorKeys;
+    this._generateColorScale()
+  }
+  get colorKeys() {
+    return this._colorKeys;
+  }
+  
+  set colorspace(colorspace) {
+    this._colorspace = colorspace;
+    this._generateColorScale()
+  }
+  get colorspace() {
+    return this._colorspace;
+  }
+  
+  set ratios(ratios) {
+    this._ratios = ratios;
+  }
+  get ratios() {
+    return this._ratios;
+  }
+
+  set name(name) {
+    this._name = name;
+  }
+  get name () {
+    return this._name;
+  }
+  
+  set smooth(smooth) {
+    this._smooth = smooth;
+    this._generateColorScale()
+  }
+  get smooth() {
+    return this._smooth;
+  }
+
+  set output(output) {
+    this._output = output;
+    this._generateColorScale()
+  }
+  get output() {
+    return this._output;
+  }
+
+  get colorScale() {
+    return this._colorScale;
+  }
+  
+  _generateColorScale() {
+    // This would create 3000 color values based on all parameters
+    // and return an array of colors:
+    const colorScale = createScale({swatches: 3000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth});
+
+    this._colorScale = colorScale.map(color => {
+      return fixColorValue(color, this._output);
+    });
+    return this._colorScale;
+  }
+}
+
+class BackgroundColor extends Color {
+  constructor(options) { 
+    super(options)
+  }
+  
+  get backgroundColorScale() {
+    return this._backgroundColorScale;    
+  }
+
+  _generateColorScale() {
+    // This would create a 100 color value array based on all parameters,
+    // which can be used for sliding lightness as a background color
+    
+    // Call original generateColorScale method in the context of our background color
+    // Then we can run the code for Color, but we've added in more below.
+    Color.prototype._generateColorScale.call(this);
+
+    // create massive scale
+    let backgroundColorScale = createScale({swatches: 1000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth});
+
+    let colorObj = backgroundColorScale
+      // Convert to HSLuv and keep track of original indices
+      .map((c, i) => { return { value: Math.round(cArray(c)[2]), index: i } });
+
+    let bgColorArrayFiltered = removeDuplicates(colorObj, "value")
+      .map(data => backgroundColorScale[data.index]);
+
+    
+    this._backgroundColorScale = bgColorArrayFiltered.map(color => {
+      return fixColorValue(color, this._output);
+    });
+
+    return this._backgroundColorScale;
+  }
+}
+
+
+/** 
+ * Utility functions
+ */
+
+function multiplyRatios(ratio, multiplier) {
+  let r;
+  // Normalize contrast ratios before multiplying by this._contrast
+  // by making 1 = 0. This ensures consistent application of increase/decrease
+  // in contrast ratios. Then add 1 back to number for contextual ratio value.
+  if(ratio > 1) {
+    r = ((ratio-1) * multiplier) + 1;
+  }
+  else if(ratio < -1) {
+    r = ((ratio+1) * multiplier) - 1;
+  }
+  else {
+    r = 1;
+  }
+
+  return Number(r.toFixed(2));
+}
+
+function createScale({
+  swatches,
+  colorKeys,
+  colorspace = 'LAB',
+  shift = 1,
+  fullScale = true,
+  smooth = false
+} = {}) {
+  const space = colorSpaces[colorspace];
+  if (!space) {
+    throw new Error(`Colorspace “${colorspace}” not supported`);
+  }
+  if (!colorKeys) {
+    throw new Error(`Colorkeys missing: returned “${colorKeys}”`);
+  }
+  
+  let domains = colorKeys
+    .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
+    .sort((a, b) => a - b)
+    .concat(swatches);
+
+  domains.unshift(0);
+
+  // Test logarithmic domain (for non-contrast-based scales)
+  let sqrtDomains = d3.scalePow()
+    .exponent(shift)
+    .domain([1, swatches])
+    .range([1, swatches]);
+
+  sqrtDomains = domains.map((d) => {
+    if (sqrtDomains(d) < 0) {
+      return 0;
+    }
+    return sqrtDomains(d);
+  });
+
+  // Transform square root in order to smooth gradient
+  domains = sqrtDomains;
+
+  let sortedColor = colorKeys
+    // Convert to HSLuv and keep track of original indices
+    .map((c, i) => { return { colorKeys: cArray(c), index: i } })
+    // Sort by lightness
+    .sort((c1, c2) => c2.colorKeys[2] - c1.colorKeys[2])
+    // Retrieve original RGB color
+    .map(data => colorKeys[data.index]);
+
+  let inverseSortedColor = colorKeys
+    // Convert to HSLuv and keep track of original indices
+    .map((c, i) => { return {colorKeys: cArray(c), index: i} })
+    // Sort by lightness
+    .sort((c1, c2) => c1.colorKeys[2] - c2.colorKeys[2])
+    // Retrieve original RGB color
+    .map(data => colorKeys[data.index]);
+
+  let ColorsArray = [];
+
+  let scale;
+  if (fullScale) {
+    ColorsArray = [space.white || '#fff', ...sortedColor, space.black || '#000'];
+  } else {
+    ColorsArray = sortedColor;
+  }
+  const stringColors = ColorsArray;
+  ColorsArray = ColorsArray.map(d => d3[space.name](d));
+  if (space.name == 'hcl') {
+    // special case for HCL if C is NaN we should treat it as 0
+    ColorsArray.forEach(c => c.c = isNaN(c.c) ? 0 : c.c);
+  }
+  if (space.name == 'jch') {
+    // JCh has some “random” hue for grey colors.
+    // Replacing it to NaN, so we can apply the same method of dealing with them.
+    for (let i = 0; i < stringColors.length; i++) {
+      const color = d3.hcl(stringColors[i]);
+      if (!color.c) {
+        ColorsArray[i].h = NaN;
+      }
+    }
+  }
+
+  if (smooth) {
+    scale = smoothScale(ColorsArray, domains, space);
+  } else {
+    scale = d3.scaleLinear()
+      .range(ColorsArray)
+      .domain(domains)
+      .interpolate(space.interpolator);
+  }
+
+  let Colors = d3.range(swatches).map(d => scale(d));
+
+  let colors = Colors.filter(el => el != null);
+
+  // Return colors as hex values for interpolators.
+  let colorsHex = [];
+  for (let i = 0; i < colors.length; i++) {
+    colorsHex.push(d3.rgb(colors[i]).formatHex());
+  }
+
+  // Not sure if I need to return all of this info?
+  // Perhaps all that's needed is colors or colorsHex.
+  // Transforms can always be applied, and I don't need
+  // to pass all these parameters down to other functions either.
+  // return {
+  //   colorKeys: colorKeys,
+  //   colorspace: colorspace,
+  //   shift: shift,
+  //   colors: colors,
+  //   scale: scale,
+  //   colorsHex: colorsHex
+  // };
+  return colors;
+}
+
 
 function smoothScale(ColorsArray, domains, space) {
   const points = space.channels.map(() => []);
@@ -192,192 +639,6 @@ function removeDuplicates(originalArray, prop) {
   return newArray;
 }
 
-function createScale({
-  swatches,
-  colorKeys,
-  colorspace = 'LAB',
-  shift = 1,
-  fullScale = true,
-  smooth = false
-} = {}) {
-  const space = colorSpaces[colorspace];
-  if (!space) {
-    throw new Error(`Colorspace “${colorspace}” not supported`);
-  }
-
-  let domains = colorKeys
-    .map(key => swatches - swatches * (d3.hsluv(key).v / 100))
-    .sort((a, b) => a - b)
-    .concat(swatches);
-
-  domains.unshift(0);
-
-  // Test logarithmic domain (for non-contrast-based scales)
-  let sqrtDomains = d3.scalePow()
-    .exponent(shift)
-    .domain([1, swatches])
-    .range([1, swatches]);
-
-  sqrtDomains = domains.map((d) => {
-    if (sqrtDomains(d) < 0) {
-      return 0;
-    }
-    return sqrtDomains(d);
-  });
-
-  // Transform square root in order to smooth gradient
-  domains = sqrtDomains;
-
-  let sortedColor = colorKeys
-    // Convert to HSLuv and keep track of original indices
-    .map((c, i) => { return { colorKeys: cArray(c), index: i } })
-    // Sort by lightness
-    .sort((c1, c2) => c2.colorKeys[2] - c1.colorKeys[2])
-    // Retrieve original RGB color
-    .map(data => colorKeys[data.index]);
-
-  let inverseSortedColor = colorKeys
-    // Convert to HSLuv and keep track of original indices
-    .map((c, i) => { return {colorKeys: cArray(c), index: i} })
-    // Sort by lightness
-    .sort((c1, c2) => c1.colorKeys[2] - c2.colorKeys[2])
-    // Retrieve original RGB color
-    .map(data => colorKeys[data.index]);
-
-  let ColorsArray = [];
-
-  let scale;
-  if (fullScale) {
-    ColorsArray = [space.white || '#fff', ...sortedColor, space.black || '#000'];
-  } else {
-    ColorsArray = sortedColor;
-  }
-  const stringColors = ColorsArray;
-  ColorsArray = ColorsArray.map(d => d3[space.name](d));
-  if (space.name == 'hcl') {
-    // special case for HCL if C is NaN we should treat it as 0
-    ColorsArray.forEach(c => c.c = isNaN(c.c) ? 0 : c.c);
-  }
-  if (space.name == 'jch') {
-    // JCh has some “random” hue for grey colors.
-    // Replacing it to NaN, so we can apply the same method of dealing with them.
-    for (let i = 0; i < stringColors.length; i++) {
-      const color = d3.hcl(stringColors[i]);
-      if (!color.c) {
-        ColorsArray[i].h = NaN;
-      }
-    }
-  }
-
-  if (smooth) {
-    scale = smoothScale(ColorsArray, domains, space);
-  } else {
-    scale = d3.scaleLinear()
-      .range(ColorsArray)
-      .domain(domains)
-      .interpolate(space.interpolator);
-  }
-
-  let Colors = d3.range(swatches).map(d => scale(d));
-
-  let colors = Colors.filter(el => el != null);
-
-  // Return colors as hex values for interpolators.
-  let colorsHex = [];
-  for (let i = 0; i < colors.length; i++) {
-    colorsHex.push(d3.rgb(colors[i]).formatHex());
-  }
-
-  return {
-    colorKeys: colorKeys,
-    colorspace: colorspace,
-    shift: shift,
-    colors: colors,
-    scale: scale,
-    colorsHex: colorsHex
-  };
-}
-
-function generateBaseScale({
-  colorKeys,
-  colorspace = 'LAB',
-  smooth
-} = {}) {
-  // create massive scale
-  let swatches = 1000;
-  let scale = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1, smooth: smooth});
-  let newColors = scale.colorsHex;
-
-  let colorObj = newColors
-    // Convert to HSLuv and keep track of original indices
-    .map((c, i) => { return { value: Math.round(cArray(c)[2]), index: i } });
-
-  let filteredArr = removeDuplicates(colorObj, "value")
-    .map(data => newColors[data.index]);
-
-  return filteredArr;
-}
-
-function generateContrastColors({
-  colorKeys,
-  base,
-  ratios,
-  colorspace = 'LAB',
-  smooth = false,
-  output = 'HEX'
-} = {}) {
-  if (!base) {
-    throw new Error(`Base is undefined`);
-  }
-  if (!colorKeys) {
-    throw new Error(`Color Keys are undefined`);
-  }
-  for (let i=0; i<colorKeys.length; i++) {
-    if (colorKeys[i].length < 6) {
-      throw new Error('Color Key must be greater than 6 and include hash # if hex.');
-    }
-    else if (colorKeys[i].length == 6 && colorKeys[i].charAt(0) != 0) {
-      throw new Error('Color Key missing hash #');
-    }
-  }
-  if (!ratios) {
-    throw new Error(`Ratios are undefined`);
-  }
-  const outputFormat = colorSpaces[output];
-  if (!outputFormat) {
-    throw new Error(`Colorspace “${output}” not supported`);
-  }
-
-  let swatches = 3000;
-
-  let scaleData = createScale({swatches: swatches, colorKeys: colorKeys, colorspace: colorspace, shift: 1, smooth: smooth});
-  let baseV = (d3.hsluv(base).v) / 100;
-
-  let Contrasts = d3.range(swatches).map((d) => {
-    let rgbArray = [d3.rgb(scaleData.scale(d)).r, d3.rgb(scaleData.scale(d)).g, d3.rgb(scaleData.scale(d)).b];
-    let baseRgbArray = [d3.rgb(base).r, d3.rgb(base).g, d3.rgb(base).b];
-    let ca = contrast(rgbArray, baseRgbArray, baseV).toFixed(2);
-
-    return Number(ca);
-  });
-
-  let contrasts = Contrasts.filter(el => el != null);
-
-  let newColors = [];
-  ratios = ratios.map(Number);
-
-  // Return color matching target ratio, or closest number
-  for (let i=0; i < ratios.length; i++){
-    let r = binarySearch(contrasts, ratios[i], baseV);
-
-    // use fixColorValue function to convert each color to the specified
-    // output format. 
-    newColors.push(fixColorValue(scaleData.colors[r], output));
-    
-  }
-
-  return newColors;
-}
 
 // Helper function to change any NaN to a zero
 function filterNaN(x) {
@@ -390,6 +651,12 @@ function filterNaN(x) {
 
 // Helper function for rounding color values to whole numbers
 function fixColorValue(color, format, object = false) {
+  if(!color) {
+    throw new Error(`Cannot fix color value of ${color}`)
+  }
+  if(!format) {
+    throw new Error(`Colorspace ${color} cannot be formatted`)
+  }
   let colorObj = colorSpaces[format].function(color);
   let propArray = colorSpaces[format].channels;
 
@@ -490,11 +757,14 @@ function luminance(r, g, b) {
 function contrast(color, base, baseV) {
   let colorLum = luminance(color[0], color[1], color[2]);
   let baseLum = luminance(base[0], base[1], base[2]);
+  if(!baseV) {
+    baseV = baseLum;
+  }
 
   let cr1 = (colorLum + 0.05) / (baseLum + 0.05);
   let cr2 = (baseLum + 0.05) / (colorLum + 0.05);
 
-  if (baseV < 0.5) {
+  if (baseV < 0.5) { // Dark themes
     if (cr1 >= 1) {
       return cr1;
     }
@@ -502,7 +772,7 @@ function contrast(color, base, baseV) {
       return cr2 * -1;
     } // Return as whole negative number
   }
-  else {
+  else if (baseV >= 0.5) { // Light themes
     if (cr1 < 1) {
       return cr2;
     }
@@ -552,136 +822,6 @@ function ratioName(r) {
   return nArr;
 }
 
-function generateAdaptiveTheme({
-  colorScales, 
-  baseScale, 
-  brightness, 
-  contrast = 1,
-  output = 'HEX'
-}) {
-  if (!baseScale) {
-    throw new Error('baseScale is undefined');
-  }
-  let found = false;
-  for(let i = 0; i < colorScales.length; i++) {
-    if (colorScales[i].name !== baseScale) {
-      found = true;
-    }
-  }
-  if (found = false) {
-    throw new Error('baseScale must match the name of a colorScales object');
-  }
-
-  if (!colorScales) {
-    throw new Error('colorScales are undefined');
-  }
-  if (!Array.isArray(colorScales)) {
-    throw new Error('colorScales must be an array of objects');
-  }
-  for (let i=0; i < colorScales.length; i ++) {
-    // if (colorScales[i].swatchNames) { // if the scale has custom swatch names
-    //   let ratioLength = colorScales[i].ratios.length;
-    //   let swatchNamesLength = colorScales[i].swatchNames.length;
-
-    //   if (ratioLength !== swatchNamesLength) {
-    //     throw new Error('`${colorScales[i].name}`ratios and swatchNames must be equal length')
-    //   }
-    // }
-  }
-
-  if (brightness === undefined) {
-    return function(brightness, contrast) {
-      return generateAdaptiveTheme({baseScale: baseScale, colorScales: colorScales, brightness: brightness, contrast: contrast, output: output});
-    }
-  }
-  else {
-    // Find color object matching base scale
-    let baseIndex = colorScales.findIndex( x => x.name === baseScale );
-    let baseKeys = colorScales[baseIndex].colorKeys;
-    let baseMode = colorScales[baseIndex].colorspace;
-    let smooth = colorScales[baseIndex].smooth;
-
-    // define params to pass as bscale
-    let bscale = generateBaseScale({colorKeys: baseKeys, colorspace: baseMode, smooth: smooth}); // base parameter to create base scale (0-100)
-    let bval = bscale[brightness];
-    let baseObj = {
-      background: bval
-    };
-
-    let arr = [];
-    arr.push(baseObj);
-
-    for (let i = 0; i < colorScales.length; i++) {
-      if (!colorScales[i].name) {
-        throw new Error('Color missing name');
-      }
-      let name = colorScales[i].name;
-
-      let ratioInput = colorScales[i].ratios;
-      let ratios;
-      let swatchNames;
-      // assign ratios array whether input is array or object
-      if(Array.isArray(ratioInput)) {
-        ratios = ratioInput;
-      } else {
-        ratios = Object.values(ratioInput);
-        swatchNames = Object.keys(ratioInput);
-      }
-
-      let smooth = colorScales[i].smooth;
-      let newArr = [];
-      let colorObj = {
-        name: name,
-        values: newArr
-      };
-
-      ratios = ratios.map(function(d) {
-        let r;
-        if(d > 1) {
-          r = ((d-1) * contrast) + 1;
-        }
-        else if(d < -1) {
-          r = ((d+1) * contrast) - 1;
-        }
-        else {
-          r = 1;
-        }
-        return Number(r.toFixed(2));
-      });
-
-      let outputColors = generateContrastColors({
-        colorKeys: colorScales[i].colorKeys,
-        colorspace: colorScales[i].colorspace,
-        ratios: ratios,
-        base: bval,
-        smooth: smooth,
-        output: output
-      });
-
-      for (let i=0; i < outputColors.length; i++) {
-        let n;
-        if(!swatchNames) {
-          let rVal = ratioName(ratios)[i];
-          n = name.concat(rVal);
-        }
-        else {
-          n = swatchNames[i];
-        }
-
-        let obj = {
-          name: n,
-          contrast: ratios[i],
-          value: outputColors[i]
-        };
-        newArr.push(obj)
-      }
-      arr.push(colorObj);
-      
-    }
-
-    return arr;
-  }
-}
 
 // Binary search to find index of contrast ratio that is input
 // Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
@@ -727,10 +867,10 @@ module.exports = {
   luminance,
   contrast,
   binarySearch,
-  generateBaseScale,
-  generateContrastColors,
   minPositive,
   ratioName,
-  generateAdaptiveTheme,
-  fixColorValue
+  fixColorValue,
+  Color,
+  BackgroundColor,
+  Theme
 };
