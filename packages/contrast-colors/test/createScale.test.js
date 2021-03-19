@@ -14,7 +14,7 @@ const { createScale } = require('../index.js');
 test('should generate 8 colors in Lab', function() {
   let scale = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
 
-  expect(scale.colors).toEqual(
+  expect(scale).toEqual(
     [
       'rgb(255, 255, 255)',
       'rgb(196, 229, 169)',
@@ -25,9 +25,5 @@ test('should generate 8 colors in Lab', function() {
       'rgb(92, 3, 146)',
       'rgb(49, 15, 72)'
     ]
-  );
-
-  expect(scale.colorKeys).toEqual(
-    [ '#CCFFA9', '#FEFEC5', '#5F0198' ]
   );
 });

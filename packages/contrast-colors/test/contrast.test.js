@@ -12,14 +12,26 @@ governing permissions and limitations under the License.
 
 const { contrast } = require('../index.js');
 
-test('should provide negative contrast (-1.55...)', function() {
+test('should provide negative contrast in light theme (-1.55...)', function() {
   let contrastValue = contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number
 
   expect(contrastValue).toBe(-1.5579550563651177);
 });
 
-test('should provide positive contrast (1.55...)', function() {
+test('should provide positive contrast in light theme (1.55...)', function() {
   let contrastValue = contrast([207, 207, 207], [255, 255, 255]); // gray is UI color, white is base. Should return positive whole number
 
   expect(contrastValue).toBe(1.5579550563651177);
+});
+
+test('should provide negative contrast in dark theme (-1.55...)', function() {
+  let contrastValue = contrast([8, 8, 8], [50, 50, 50]); // darker gray is UI color, gray is base. Should return negative whole number
+
+  expect(contrastValue).toBe(-1.5620602707250844);
+});
+
+test('should provide positive contrast in dark theme (1.57...)', function() {
+  let contrastValue = contrast([79, 79, 79], [50, 50, 50]); // lighter gray is UI color, gray is base. Should return negative whole number
+
+  expect(contrastValue).toBe(1.5652458000121365);
 });

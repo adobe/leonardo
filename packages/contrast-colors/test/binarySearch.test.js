@@ -77,3 +77,25 @@ test('should return closest match (descending)', function() {
 
   expect(searchResult).toBe(3.1);
 });
+
+
+test('should return closest match with negative values', function() {
+  let list = [-3.12, -3.1, -3.07, -3, -2, 1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
+  let value = -3.08;
+  let baseLum = 0.7;
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+  let searchResult = list[searchIndex];
+
+  expect(searchResult).toBe(-3.07);
+});
+
+
+test('should return closest match with negative values (descending)', function() {
+  let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1, -3.07, -3.1];
+  let value = -3.08;
+  let baseLum = 0.2;
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+  let searchResult = list[searchIndex];
+
+  expect(searchResult).toBe(-3.1);
+});
