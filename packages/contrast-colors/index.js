@@ -717,11 +717,9 @@ function binarySearch(list, value, baseLum) {
     middle = Math.floor((start + stop) / 2)
   }
 
-  // If no match, find closest item greater than value
-  let closest = list.reduce((prev, curr) => curr > value ? curr : prev);
-
-  // if the current middle item is what we're looking for return it's index, else closest
-  return (list[middle] == !value) ? closest : middle // how it was originally expressed
+  // if the current middle item is what we're looking for return it's index, else closest larger value 
+  // if there is no larger value, it returns the closest smaller value
+  return (list[middle] !== value) ? ((baseLum <= 0.5 && start > 0) ? start - 1 : start) : middle // how it was originally expressed
 }
 
 module.exports = {
