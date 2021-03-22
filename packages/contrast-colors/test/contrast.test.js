@@ -35,3 +35,9 @@ test('should provide positive contrast in dark theme (1.57...)', function() {
 
   expect(contrastValue).toBe(1.5652458000121365);
 });
+
+test('should provide contrast when passing base value (5.64...)', function() {
+  let contrastValue = contrast([79, 79, 79], [214, 214, 214], .86); // lighter gray is UI color, gray is base. Should return negative whole number
+
+  expect(contrastValue).toBe(5.635834988986869);
+});

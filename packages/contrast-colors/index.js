@@ -22,12 +22,15 @@ class Theme {
     this._lightness = lightness;
     this._contrast = contrast;
     this._output = output;
-    
+    if (!this._backgroundColor) {
+      throw new Error(`Background color / colorscale is undefined`);
+    }
     this._setLightness(this._backgroundColor);
     
     this._getBackgroundColorValue();
     this._setContrasts(this._contrast);
     this._findContrastColors();
+    this._findContrastColorValues();
   }
   
   set contrast(contrast) {
@@ -77,7 +80,11 @@ class Theme {
   }
   
   get contrastColors() {
-    return this._findContrastColors();
+    return this._contrastColors;
+  }
+
+  get contrastColorValues() {
+    return this._contrastColorValues;
   }
 
   _setLightness(backgroundColor) {
@@ -85,6 +92,7 @@ class Theme {
       // If it's a string, convert to Color object and assign lightness.
       const newBackgroundColor = new BackgroundColor({name: 'background', colorKeys: [backgroundColor]});
       const calcLightness = Number((d3.hsluv(backgroundColor).v).toFixed());
+      console.log(`Original color is ${backgroundColor} \n Lightness calculated at ${calcLightness} \n Returned new color is ${newBackgroundColor.backgroundColorScale[calcLightness]}`)
 
       this._backgroundColor = newBackgroundColor;
       this._lightness = calcLightness;
@@ -124,19 +132,19 @@ class Theme {
 
   _findContrastColors() {
     const bgRgbArray = [d3.rgb(this._backgroundColorValue).r, d3.rgb(this._backgroundColorValue).g, d3.rgb(this._backgroundColorValue).b];
-    const baseV = this._lightness / 100;
 
+    const baseV = this._lightness / 100;
+    
+    
     let baseObj = {
       background: this._backgroundColorValue,
     };
 
-    let returnColors = [];
+    let returnColors = []; // Array to be populated with JSON objects for each color, including names & contrast values
+    let returnColorValues = []; // Array to be populated with flat list of all color values
     returnColors.push(baseObj);
 
     this._colors.map(color => {
-      if (!color.name) {
-        throw new Error('Color missing name');
-      }
 
       if (color.ratios !== undefined) {
         let swatchNames;
@@ -171,8 +179,7 @@ class Theme {
         // Return color matching target ratio, or closest number
         for (let i=0; i < ratioLength; i++){
           // Find the index of each target ratio in the array of all possible contrasts
-          let baseLum = this._lightness / 100;
-          let r = binarySearch(contrasts, ratioValues[i], baseLum);
+          let r = binarySearch(contrasts, ratioValues[i], baseV);
           // Use the index from matching contrasts (r) to index the corresponding
           // color value from the color scale array.
           // use fixColorValue function to convert each color to the specified 
@@ -195,7 +202,10 @@ class Theme {
             contrast: ratioValues[i],
             value: contrastColors[i]
           };
-          newArr.push(obj)
+          newArr.push(obj);
+          // Push the same value to the returnColorValues array
+          returnColorValues.push(contrastColors[i]);
+
         }
         returnColors.push(colorObj);
       }
@@ -205,8 +215,13 @@ class Theme {
       //   console.log(`Color ${color.name} has ratios of ${color.ratios}`)
       // }
     });
+    this._contrastColorValues = returnColorValues;
     this._contrastColors = returnColors;
     return this._contrastColors;
+  }
+
+  _findContrastColorValues() {
+    return this._contrastColorValues;
   }
 }
 
@@ -218,9 +233,31 @@ class Color {
     this._ratios = ratios;
     this._smooth = smooth;
     this._output = output;
+    if (!this._name) {
+      throw new Error('Color missing name');
+    } 
+    if (!this._colorKeys) {
+      throw new Error(`Color Keys are undefined`);
+    }
+    // validate color keys
+    for (let i=0; i<this._colorKeys.length; i++) {
+      if (this._colorKeys[i].length < 6) {
+        throw new Error('Color Key must be greater than 6 and include hash # if hex.');
+      }
+      else if (this._colorKeys[i].length == 6 && this._colorKeys[i].charAt(0) != 0) {
+        throw new Error('Color Key missing hash #');
+      }
+    }
+    // if (!this._ratios) {
+    //   throw new Error(`Ratios are undefined`);
+    // }
     // if(!Array.isArray(this._ratios)) {
     //   console.log(`These ratios are not an array: ${JSON.stringify(this._ratios)}`)
-    // }
+    // }    const outputFormat = colorSpaces[this._output];
+    if (!this._output) {
+      throw new Error(`Colorspace “${this._output}” not supported`);
+    }
+
     // Run function to generate this array of colors:
     this._generateColorScale();
   }
@@ -315,10 +352,22 @@ class BackgroundColor extends Color {
     let bgColorArrayFiltered = removeDuplicates(colorObj, "value")
       .map(data => backgroundColorScale[data.index]);
 
-    
+    // Remove midtone value to reduce array number by one. 
+    // Chose to remove midtone as these values should be avoided anyway
+    // let midToneVal = bgColorArrayFiltered[50];
+    // for(let i = 0; i < bgColorArrayFiltered.length; i++){ 
+    //   if ( bgColorArrayFiltered[i] === midToneVal) { 
+    //     bgColorArrayFiltered.splice(i, 1); 
+    //   }
+    // }
+    // // Manually add white back into the background color array
+    // // since the original scale has removed it.
+    bgColorArrayFiltered.push('#ffffff');
+
     this._backgroundColorScale = bgColorArrayFiltered.map(color => {
       return fixColorValue(color, this._output);
     });
+    console.log(this._backgroundColorScale);
 
     return this._backgroundColorScale;
   }
@@ -755,16 +804,25 @@ function luminance(r, g, b) {
 }
 
 function contrast(color, base, baseV) {
+  if(baseV == undefined) { // If base is an array and baseV undefined
+    let colorString = String(`rgb(${base[0]}, ${base[1]}, ${base[2]})`);
+    
+    baseLightness = Number((d3.hsluv(colorString).v));
+    if(baseLightness > 0) {
+      baseV = Number((baseLightness / 100).toFixed(2));
+    } else if (baseLightness === 0) {
+      baseV = 0;
+    }
+  }
+
   let colorLum = luminance(color[0], color[1], color[2]);
   let baseLum = luminance(base[0], base[1], base[2]);
-  if(!baseV) {
-    baseV = baseLum;
-  }
+
 
   let cr1 = (colorLum + 0.05) / (baseLum + 0.05);
   let cr2 = (baseLum + 0.05) / (colorLum + 0.05);
 
-  if (baseV < 0.5) { // Dark themes
+  if (baseV <= 0.51) { // Dark themes
     if (cr1 >= 1) {
       return cr1;
     }
@@ -772,7 +830,7 @@ function contrast(color, base, baseV) {
       return cr2 * -1;
     } // Return as whole negative number
   }
-  else if (baseV >= 0.5) { // Light themes
+  else if (baseV > 0.51) { // Light themes
     if (cr1 < 1) {
       return cr2;
     }
@@ -825,7 +883,7 @@ function ratioName(r) {
 
 // Binary search to find index of contrast ratio that is input
 // Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
-function binarySearch(list, value, baseLum) {
+function binarySearch(list, value, baseV) {
   // initial values for start, middle and end
   let start = 0
   let stop = list.length - 1
@@ -837,7 +895,15 @@ function binarySearch(list, value, baseLum) {
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {
     // Value greater than since array is ordered descending
-    if (baseLum > 0.5) {  // if base is light, ratios ordered ascending
+    if (baseV <= 0.51) { // Dark themes, ratios ordered descending
+      if (value > list[middle]) {
+        stop = middle - 1
+      }
+      else {
+        start = middle + 1
+      }
+    } 
+    else {
       if (value < list[middle]) {
         stop = middle - 1
       }
@@ -845,14 +911,7 @@ function binarySearch(list, value, baseLum) {
         start = middle + 1
       }
     }
-    else { // order descending
-      if (value > list[middle]) {
-        stop = middle - 1
-      }
-      else {
-        start = middle + 1
-      }
-    }
+    
     // recalculate middle on every iteration
     middle = Math.floor((start + stop) / 2)
   }

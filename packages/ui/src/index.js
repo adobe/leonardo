@@ -647,9 +647,7 @@ function colorInput() {
   let rampData = Leonardo.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
   let theme = new Theme({colors: [newColor], backgroundColor: background});
-  newColors = theme.contrastColors;
-  console.log(newColors)
-  // newColors = Leonardo.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  newColors = theme.contrastColorValues;
 
   // Create values for sliders
   let Values = [];
