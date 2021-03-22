@@ -67,3 +67,13 @@ test('should return closest match (ascending)', function() {
 
   expect(searchResult).toBe(3.1);
 });
+
+test('should return closest match (descending)', function() {
+  let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
+  let value = 3.09;
+  let baseLum = 0.4;
+  let searchIndex = binarySearch(list, value, baseLum); // returns index
+  let searchResult = list[searchIndex];
+
+  expect(searchResult).toBe(3.1);
+});
