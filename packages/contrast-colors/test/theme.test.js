@@ -30,8 +30,8 @@ test('should generate theme for three colors', function() {
         {"name": "gray400", "contrast": 2, "value": "#a0a0a0"},
         {"name": "gray500", "contrast": 3, "value": "#808080"},
         {"name": "gray600", "contrast": 4.5, "value": "#646464"},
-        {"name": "gray700", "contrast": 6, "value": "#525252"},
-        {"name": "gray800", "contrast": 8, "value": "#404040"},
+        {"name": "gray700", "contrast": 6, "value": "#515151"},
+        {"name": "gray800", "contrast": 8, "value": "#3f3f3f"},
         {"name": "gray900", "contrast": 12, "value": "#232323"},
         {"name": "gray1000", "contrast": 21, "value": "#000000"}
       ]
@@ -39,10 +39,10 @@ test('should generate theme for three colors', function() {
     {
       "name": 'blue',
       "values": [
-        {"name": "blue100", "contrast": 2, "value": "#b18cff"},
+        {"name": "blue100", "contrast": 2, "value": "#b18bff"},
         {"name": "blue200", "contrast": 3, "value": "#8d63ff"},
         {"name": "blue300", "contrast": 4.5, "value": "#623aff"},
-        {"name": "blue400", "contrast": 8, "value": "#1c0ad1"},
+        {"name": "blue400", "contrast": 8, "value": "#1c0ad0"},
         {"name": "blue500", "contrast": 12, "value": "#211068"}
       ]
     },
@@ -50,10 +50,10 @@ test('should generate theme for three colors', function() {
       "name": 'red',
       "values": [
         {"name": "red100", "contrast": 2, "value": "#ff7474"},
-        {"name": "red200", "contrast": 3, "value": "#ff1313"},
+        {"name": "red200", "contrast": 3, "value": "#ff1212"},
         {"name": "red300", "contrast": 4.5, "value": "#cc0000"},
-        {"name": "red400", "contrast": 8, "value": "#860000"},
-        {"name": "red500", "contrast": 12, "value": "#500000"}
+        {"name": "red400", "contrast": 8, "value": "#850000"},
+        {"name": "red500", "contrast": 12, "value": "#4f0000"}
       ]
     }
   ]);
@@ -78,7 +78,7 @@ test('should generate theme for three colors in LCH format', function() {
         {"name": "gray400", "contrast": 2, "value": "lch(66%, 0, 0deg)"},
         {"name": "gray500", "contrast": 3, "value": "lch(54%, 0, 0deg)"},
         {"name": "gray600", "contrast": 4.5, "value": "lch(42%, 0, 0deg)"},
-        {"name": "gray700", "contrast": 6, "value": "lch(35%, 0, 0deg)"},
+        {"name": "gray700", "contrast": 6, "value": "lch(34%, 0, 0deg)"},
         {"name": "gray800", "contrast": 8, "value": "lch(27%, 0, 0deg)"},
         {"name": "gray900", "contrast": 12, "value": "lch(14%, 0, 0deg)"},
         {"name": "gray1000", "contrast": 21, "value": "lch(0%, 0, 0deg)"}
@@ -87,10 +87,10 @@ test('should generate theme for three colors in LCH format', function() {
     {
       "name": 'blue',
       "values": [
-        {"name": "blue100", "contrast": 2, "value": "lch(65%, 62, 302deg)"},
+        {"name": "blue100", "contrast": 2, "value": "lch(65%, 63, 302deg)"},
         {"name": "blue200", "contrast": 3, "value": "lch(53%, 86, 301deg)"},
         {"name": "blue300", "contrast": 4.5, "value": "lch(41%, 109, 301deg)"},
-        {"name": "blue400", "contrast": 8, "value": "lch(25%, 110, 301deg)"},
+        {"name": "blue400", "contrast": 8, "value": "lch(25%, 109, 301deg)"},
         {"name": "blue500", "contrast": 12, "value": "lch(13%, 57, 301deg)"}
       ]
     },
@@ -100,8 +100,8 @@ test('should generate theme for three colors in LCH format', function() {
         {"name": "red100", "contrast": 2, "value": "lch(66%, 61, 27deg)"},
         {"name": "red200", "contrast": 3, "value": "lch(55%, 103, 39deg)"},
         {"name": "red300", "contrast": 4.5, "value": "lch(43%, 90, 41deg)"},
-        {"name": "red400", "contrast": 8, "value": "lch(28%, 65, 39deg)"},
-        {"name": "red500", "contrast": 12, "value": "lch(14%, 42, 33deg)"}
+        {"name": "red400", "contrast": 8, "value": "lch(27%, 65, 39deg)"},
+        {"name": "red500", "contrast": 12, "value": "lch(14%, 41, 33deg)"}
       ]
     }
   ]);
@@ -128,8 +128,8 @@ test('should generate theme for three colors with negative ratios', function() {
             {"name": "gray400", "contrast": 2, "value": "#a0a0a0"},
             {"name": "gray500", "contrast": 3, "value": "#808080"},
             {"name": "gray600", "contrast": 4.5, "value": "#646464"},
-            {"name": "gray700", "contrast": 6, "value": "#525252"},
-            {"name": "gray800", "contrast": 8, "value": "#404040"},
+            {"name": "gray700", "contrast": 6, "value": "#515151"},
+            {"name": "gray800", "contrast": 8, "value": "#3f3f3f"},
             {"name": "gray900", "contrast": 12, "value": "#232323"},
             {"name": "gray1000", "contrast": 21, "value": "#000000"}
           ]
@@ -137,10 +137,10 @@ test('should generate theme for three colors with negative ratios', function() {
         {
           "name": "blue",
           "values": [
-            {"name": "blue100", "contrast": 2, "value": "#b18cff"},
+            {"name": "blue100", "contrast": 2, "value": "#b18bff"},
             {"name": "blue200", "contrast": 3, "value": "#8d63ff"},
             {"name": "blue300", "contrast": 4.5, "value": "#623aff"},
-            {"name": "blue400", "contrast": 8, "value": "#1c0ad1"},
+            {"name": "blue400", "contrast": 8, "value": "#1c0ad0"},
             {"name": "blue500", "contrast": 12, "value": "#211068"}
           ]
         },
@@ -148,10 +148,10 @@ test('should generate theme for three colors with negative ratios', function() {
           "name": "red",
           "values": [
             {"name": "red100", "contrast": 2, "value": "#ff7474"},
-            {"name": "red200", "contrast": 3, "value": "#ff1313"},
+            {"name": "red200", "contrast": 3, "value": "#ff1212"},
             {"name": "red300", "contrast": 4.5, "value": "#cc0000"},
-            {"name": "red400", "contrast": 8, "value": "#860000"},
-            {"name": "red500", "contrast": 12, "value": "#500000"}
+            {"name": "red400", "contrast": 8, "value": "#850000"},
+            {"name": "red500", "contrast": 12, "value": "#4f0000"}
           ]
         }
       ]);
@@ -178,8 +178,8 @@ test('should generate theme for three colors using variables as parameters', fun
         {"name": "gray400", "contrast": 2, "value": "#a0a0a0"},
         {"name": "gray500", "contrast": 3, "value": "#808080"},
         {"name": "gray600", "contrast": 4.5, "value": "#646464"},
-        {"name": "gray700", "contrast": 6, "value": "#525252"},
-        {"name": "gray800", "contrast": 8, "value": "#404040"},
+        {"name": "gray700", "contrast": 6, "value": "#515151"},
+        {"name": "gray800", "contrast": 8, "value": "#3f3f3f"},
         {"name": "gray900", "contrast": 12, "value": "#232323"},
         {"name": "gray1000", "contrast": 21, "value": "#000000"}
       ]
@@ -187,10 +187,10 @@ test('should generate theme for three colors using variables as parameters', fun
     {
       "name": 'blue',
       "values": [
-        {"name": "blue100", "contrast": 2, "value": "#b18cff"},
+        {"name": "blue100", "contrast": 2, "value": "#b18bff"},
         {"name": "blue200", "contrast": 3, "value": "#8d63ff"},
         {"name": "blue300", "contrast": 4.5, "value": "#623aff"},
-        {"name": "blue400", "contrast": 8, "value": "#1c0ad1"},
+        {"name": "blue400", "contrast": 8, "value": "#1c0ad0"},
         {"name": "blue500", "contrast": 12, "value": "#211068"}
       ]
     },
@@ -198,10 +198,10 @@ test('should generate theme for three colors using variables as parameters', fun
       "name": 'red',
       "values": [
         {"name": "red100", "contrast": 2, "value": "#ff7474"},
-        {"name": "red200", "contrast": 3, "value": "#ff1313"},
+        {"name": "red200", "contrast": 3, "value": "#ff1212"},
         {"name": "red300", "contrast": 4.5, "value": "#cc0000"},
-        {"name": "red400", "contrast": 8, "value": "#860000"},
-        {"name": "red500", "contrast": 12, "value": "#500000"}
+        {"name": "red400", "contrast": 8, "value": "#850000"},
+        {"name": "red500", "contrast": 12, "value": "#4f0000"}
       ]
     }
   ]);
@@ -224,11 +224,11 @@ test('should generate theme with increased contrast', function() {
           {"name": "gray67", "contrast": -1.28, "value": "#fdfdfd"},
           {"name": "gray100", "contrast": 1, "value": "#e0e0e0"},
           {"name": "gray200", "contrast": 1.28, "value": "#c8c8c8"},
-          {"name": "gray300", "contrast": 1.56, "value": "#b6b6b6"},
+          {"name": "gray300", "contrast": 1.56, "value": "#b5b5b5"},
           {"name": "gray400", "contrast": 2.4, "value": "#919191"},
-          {"name": "gray500", "contrast": 3.8, "value": "#707070"},
+          {"name": "gray500", "contrast": 3.8, "value": "#6f6f6f"},
           {"name": "gray600", "contrast": 5.9, "value": "#525252"},
-          {"name": "gray700", "contrast": 8, "value": "#404040"},
+          {"name": "gray700", "contrast": 8, "value": "#3f3f3f"},
           {"name": "gray800", "contrast": 10.8, "value": "#2b2b2b"},
           {"name": "gray900", "contrast": 16.4, "value": "#000000"},
           {"name": "gray1000", "contrast": 29, "value": "#000000"}
@@ -240,7 +240,7 @@ test('should generate theme with increased contrast', function() {
           {"name": "blue100", "contrast": 2.4, "value": "#a179ff"},
           {"name": "blue200", "contrast": 3.8, "value": "#764bff"},
           {"name": "blue300", "contrast": 5.9, "value": "#3418ff"},
-          {"name": "blue400", "contrast": 10.8, "value": "#231086"},
+          {"name": "blue400", "contrast": 10.8, "value": "#231085"},
           {"name": "blue500", "contrast": 16.4, "value": "#000000"}
         ]
       },
@@ -266,20 +266,20 @@ test('should generate white theme with increased contrast', function() {
   let themeColors = theme.contrastColors;
 
   expect(themeColors).toEqual([
-    { "background": "#fefefe" },
+    { "background": "#ffffff" },
     {
       name: 'gray',
       values: [
         {"name": "gray33", "contrast": -2.6, "value": "#ffffff"},
         {"name": "gray67", "contrast": -1.4, "value": "#ffffff"},
-        {"name": "gray100", "contrast": 1, "value": "#fefefe"},
-        {"name": "gray200", "contrast": 1.4, "value": "#d9d9d9"},
-        {"name": "gray300", "contrast": 1.8, "value": "#c0c0c0"},
-        {"name": "gray400", "contrast": 3, "value": "#949494"},
+        {"name": "gray100", "contrast": 1, "value": "#ffffff"},
+        {"name": "gray200", "contrast": 1.4, "value": "#dadada"},
+        {"name": "gray300", "contrast": 1.8, "value": "#c1c1c1"},
+        {"name": "gray400", "contrast": 3, "value": "#959595"},
         {"name": "gray500", "contrast": 5, "value": "#6f6f6f"},
         {"name": "gray600", "contrast": 8, "value": "#505050"},
-        {"name": "gray700", "contrast": 11, "value": "#3b3b3b"},
-        {"name": "gray800", "contrast": 15, "value": "#272727"},
+        {"name": "gray700", "contrast": 11, "value": "#3c3c3c"},
+        {"name": "gray800", "contrast": 15, "value": "#262626"},
         {"name": "gray900", "contrast": 23, "value": "#000000"},
         {"name": "gray1000", "contrast": 41, "value": "#000000"}
       ]
@@ -287,18 +287,18 @@ test('should generate white theme with increased contrast', function() {
     {
       name: 'blue',
       values: [
-        {"name": "blue100", "contrast": 3, "value": "#a47cff"},
-        {"name": "blue200", "contrast": 5, "value": "#744aff"},
-        {"name": "blue300", "contrast": 8, "value": "#2610ff"},
-        {"name": "blue400", "contrast": 15, "value": "#221073"},
+        {"name": "blue100", "contrast": 3, "value": "#a57dff"},
+        {"name": "blue200", "contrast": 5, "value": "#754aff"},
+        {"name": "blue300", "contrast": 8, "value": "#2912ff"},
+        {"name": "blue400", "contrast": 15, "value": "#221075"},
         {"name": "blue500", "contrast": 23, "value": "#000000"}
       ]
     },
     {
       name: 'red',
       values: [
-        {"name": "red100", "contrast": 3, "value": "#ff5c5c"},
-        {"name": "red200", "contrast": 5, "value": "#e00000"},
+        {"name": "red100", "contrast": 3, "value": "#ff5d5d"},
+        {"name": "red200", "contrast": 5, "value": "#e10000"},
         {"name": "red300", "contrast": 8, "value": "#a60000"},
         {"name": "red400", "contrast": 15, "value": "#560000"},
         {"name": "red500", "contrast": 23, "value": "#000000"}
@@ -321,15 +321,15 @@ test('should generate dark theme with increased contrast', function() {
       name: 'gray',
       values: [
         {"name": "gray33", "contrast": -2.2, "value": "#000000"},
-        {"name": "gray67", "contrast": -1.3, "value": "#1c1c1c"},
+        {"name": "gray67", "contrast": -1.3, "value": "#1a1a1a"},
         {"name": "gray100", "contrast": 1, "value": "#303030"},
-        {"name": "gray200", "contrast": 1.3, "value": "#414141"},
+        {"name": "gray200", "contrast": 1.3, "value": "#424242"},
         {"name": "gray300", "contrast": 1.6, "value": "#4f4f4f"},
-        {"name": "gray400", "contrast": 2.5, "value": "#6b6b6b"},
+        {"name": "gray400", "contrast": 2.5, "value": "#6c6c6c"},
         {"name": "gray500", "contrast": 4, "value": "#8e8e8e"},
         {"name": "gray600", "contrast": 6.25, "value": "#b3b3b3"},
         {"name": "gray700", "contrast": 8.5, "value": "#d0d0d0"},
-        {"name": "gray800", "contrast": 11.5, "value": "#efefef"},
+        {"name": "gray800", "contrast": 11.5, "value": "#f0f0f0"},
         {"name": "gray900", "contrast": 17.5, "value": "#ffffff"},
         {"name": "gray1000", "contrast": 31, "value": "#ffffff"}
       ]
@@ -338,7 +338,7 @@ test('should generate dark theme with increased contrast', function() {
       name: 'blue',
       values: [
         {"name": "blue100", "contrast": 2.5, "value": "#6f45ff"},
-        {"name": "blue200", "contrast": 4, "value": "#9d73ff"},
+        {"name": "blue200", "contrast": 4, "value": "#9d74ff"},
         {"name": "blue300", "contrast": 6.25, "value": "#c3a3ff"},
         {"name": "blue400", "contrast": 11.5, "value": "#f4edff"},
         {"name": "blue500", "contrast": 17.5, "value": "#ffffff"}
@@ -349,7 +349,7 @@ test('should generate dark theme with increased contrast', function() {
       values: [
         {"name": "red100", "contrast": 2.5, "value": "#da0000"},
         {"name": "red200", "contrast": 4, "value": "#ff4b4b"},
-        {"name": "red300", "contrast": 6.25, "value": "#ff9494"},
+        {"name": "red300", "contrast": 6.25, "value": "#ff9595"},
         {"name": "red400", "contrast": 11.5, "value": "#ffebeb"},
         {"name": "red500", "contrast": 17.5, "value": "#ffffff"}
       ]
@@ -401,7 +401,7 @@ test('should generate colors with user-defined names', function() {
         {"name": "GRAY_5", "contrast": 1.4, "value": "#464646"},
         {"name": "GRAY_6", "contrast": 2, "value": "#5d5d5d"},
         {"name": "GRAY_7", "contrast": 3, "value": "#797979"},
-        {"name": "GRAY_8", "contrast": 4.5, "value": "#969696"},
+        {"name": "GRAY_8", "contrast": 4.5, "value": "#979797"},
         {"name": "GRAY_9", "contrast": 21, "value": "#ffffff"}
       ]
     },
@@ -418,7 +418,7 @@ test('should generate colors with user-defined names', function() {
       "name": 'red',
       "values": [
         {"name": "red--largeText", "contrast": 3, "value": "#f20000"},
-        {"name": "red--text", "contrast": 4.5, "value": "#ff6161"},
+        {"name": "red--text", "contrast": 4.5, "value": "#ff6262"},
         {"name": "red--highContrast", "contrast": 8, "value": "#ffb8b8"},
         {"name": "red--highestContrast", "contrast": 12, "value": "#fff1f1"}
       ]
@@ -469,7 +469,7 @@ test('should generate colors with user-defined names and increased contrast', fu
         {"name": "GRAY_4", "contrast": 1.24, "value": "#3f3f3f"},
         {"name": "GRAY_5", "contrast": 1.48, "value": "#4a4a4a"},
         {"name": "GRAY_6", "contrast": 2.2, "value": "#636363"},
-        {"name": "GRAY_7", "contrast": 3.4, "value": "#818181"},
+        {"name": "GRAY_7", "contrast": 3.4, "value": "#828282"},
         {"name": "GRAY_8", "contrast": 5.2, "value": "#a3a3a3"},
         {"name": "GRAY_9", "contrast": 25, "value": "#ffffff"}
       ]
@@ -486,9 +486,9 @@ test('should generate colors with user-defined names and increased contrast', fu
     {
       "name": 'red',
       "values": [
-        {"name": "red--largeText", "contrast": 3.4, "value": "#ff1919"},
+        {"name": "red--largeText", "contrast": 3.4, "value": "#ff1a1a"},
         {"name": "red--text", "contrast": 5.2, "value": "#ff7a7a"},
-        {"name": "red--highContrast", "contrast": 9.4, "value": "#ffcdcd"},
+        {"name": "red--highContrast", "contrast": 9.4, "value": "#ffcece"},
         {"name": "red--highestContrast", "contrast": 14.2, "value": "#ffffff"}
       ]
     }
@@ -513,7 +513,7 @@ test('should generate 2 colors (CAM02 interpolation)', function() {
   let theme = new Theme({colors: [gray], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#5490e0', '#2c66f1' ]);
+  expect(themeColors).toEqual([ '#548fe0', '#2c66f1' ]);
 
 });
 
@@ -527,7 +527,7 @@ test('should generate 2 named colors (CAM02 interpolation)', function() {
   let theme = new Theme({colors: [cerulean], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#5490e0', '#2c66f1' ]);
+  expect(themeColors).toEqual([ '#548fe0', '#2c66f1' ]);
 
 });
 
@@ -554,7 +554,7 @@ test('should generate 2 colors (LCH interpolation)', function() {
   let theme = new Theme({colors: [indigo], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#008fff', '#0065ff' ]);
+  expect(themeColors).toEqual([ '#008fff', '#0064ff' ]);
 });
 
 test('should generate 2 colors (HSL interpolation)', function() {
@@ -567,7 +567,7 @@ test('should generate 2 colors (HSL interpolation)', function() {
   let theme = new Theme({colors: [indigo], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#478cfe', '#2d62ff' ]);
+  expect(themeColors).toEqual([ '#478bfe', '#2d61ff' ]);
 });
 
 test('should generate 2 colors (HSLuv interpolation)', function() {
@@ -580,7 +580,7 @@ test('should generate 2 colors (HSLuv interpolation)', function() {
   let theme = new Theme({colors: [indigo], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#1896dc', '#066aea' ]);
+  expect(themeColors).toEqual([ '#1895dc', '#066aea' ]);
 });
 
 test('should generate 2 colors (HSV interpolation)', function() {
@@ -593,7 +593,7 @@ test('should generate 2 colors (HSV interpolation)', function() {
   let theme = new Theme({colors: [indigo], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#478cff', '#2d62ff' ]);
+  expect(themeColors).toEqual([ '#478bff', '#2d61ff' ]);
 });
 
 test('should generate 2 colors (RGB interpolation)', function() {
@@ -633,7 +633,7 @@ test('should generate 2 colors with bidirectional contrast (light background)', 
   let theme = new Theme({colors: [color], backgroundColor: '#D8D8D8'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#efeff6', '#56599a' ]);
+  expect(themeColors).toEqual([ '#efeff6', '#555799' ]);
 });
 
 test('should generate 2 colors with bidirectional contrast (dark background)', function() {
@@ -647,7 +647,7 @@ test('should generate 2 colors with bidirectional contrast (dark background)', f
   let theme = new Theme({colors: [color], backgroundColor: '#323232'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#101c51', '#9695c0' ]);
+  expect(themeColors).toEqual([ '#101c51', '#9795c1' ]);
 });
 
 // Contrast gamuts
@@ -764,30 +764,31 @@ test('should generate slightly lighter & darker grays on a lighter midtone gray 
     }
   ]);
 });
-// test('should generate slightly lighter & darker oranges on a darker midtone slate background', function() {
-//   let color = new Color({
-//     name: 'Color', 
-//     colorKeys: ["#ff8602","#ab3c00","#ffd88b"], 
-//     ratios: [1.2, -1.2], 
-//     colorspace: "LCH"
-//   }); // positive & negative ratios
-//   let theme = new Theme({colors: [color], backgroundColor: '#537a9c'}); 
-//   let themeColors = theme.contrastColorValues;
+test('should generate slightly lighter & darker oranges on a darker midtone slate background', function() {
+  let color = new Color({
+    name: 'Color', 
+    colorKeys: ["#ff8602","#ab3c00","#ffd88b"], 
+    ratios: [1.2, -1.2], 
+    colorspace: "LCH"
+  }); // positive & negative ratios
+  let theme = new Theme({colors: [color], backgroundColor: '#537a9c'}); 
+  let themeColors = theme.contrastColorValues;
 
-//   expect(themeColors).toEqual([ '#d66102', '#b64601' ]);
-// });
-// test('should generate slightly lighter & darker oranges on a lighter midtone slate background', function() {
-//   let color = new Color({
-//     name: 'Color', 
-//     colorKeys: ["#ff8602","#ab3c00","#ffd88b"], 
-//     ratios: [1.2, -1.2], 
-//     colorspace: "LCH"
-//   }); // positive & negative ratios
-//   let theme = new Theme({colors: [color], backgroundColor: '#537a9c'}); 
-//   let themeColors = theme.contrastColorValues;
+  expect(themeColors).toEqual([ '#d66002', '#b64500' ]);
+});
 
-//   expect(themeColors).toEqual([ '#b84601', '#d76202' ]);
-// });
+test('should generate slightly lighter & darker oranges on a lighter midtone slate background', function() {
+  let color = new Color({
+    name: 'Color', 
+    colorKeys: ["#ff8602","#ab3c00","#ffd88b"], 
+    ratios: [1.2, -1.2], 
+    colorspace: "LCH"
+  }); // positive & negative ratios
+  let theme = new Theme({colors: [color], backgroundColor: '#537b9d'}); 
+  let themeColors = theme.contrastColorValues;
+
+  expect(themeColors).toEqual([ '#d66002', '#b64500' ]);
+});
 
 
 
