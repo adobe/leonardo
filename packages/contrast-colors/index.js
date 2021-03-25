@@ -94,7 +94,7 @@ class Theme {
   _setLightness(backgroundColor) {
     if(typeof backgroundColor === 'string') {
       // If it's a string, convert to Color object and assign lightness.
-      const newBackgroundColor = new BackgroundColor({name: 'background', colorKeys: [backgroundColor]});
+      const newBackgroundColor = new BackgroundColor({name: 'background', colorKeys: [backgroundColor], output: this._output});
       const calcLightness = Number((d3.hsluv(backgroundColor).v).toFixed());
       // console.log(`Original color is ${backgroundColor} \n Lightness calculated at ${calcLightness} \n Returned new color is ${newBackgroundColor.backgroundColorScale[calcLightness]}`)
 
@@ -129,7 +129,6 @@ class Theme {
             ratios[key] = multiplyRatios(ratios[key], contrastMultiplier);
           }
         }
-        
       });
     };
   };
@@ -139,7 +138,7 @@ class Theme {
     const baseV = this._lightness / 100;
 
     let baseObj = {
-      background: this._backgroundColorValue,
+      background: convertColorValue(this._backgroundColorValue, this._output),
     };
 
     let returnColors = []; // Array to be populated with JSON objects for each color, including names & contrast values
@@ -180,17 +179,23 @@ class Theme {
           swatchNames = Object.keys(color.ratios);
           ratioValues = Object.values(color.ratios);
         }
+
+
         // Return color matching target ratio, or closest number
         for (let i=0; i < ratioLength; i++){
           // Find the index of each target ratio in the array of all possible contrasts
-          let r = binarySearch(contrasts, ratioValues[i]);
+          let r = getMatchingRatioIndex(contrasts, ratioValues[i]);
+          let match = color.colorScale[r];
+
           // Use the index from matching contrasts (r) to index the corresponding
           // color value from the color scale array.
-          // use fixColorValue function to convert each color to the specified 
+          // use convertColorValue function to convert each color to the specified 
           // output format and push to the new array 'contrastColors'
-          contrastColors.push(fixColorValue(color.colorScale[r], this._output));
+          contrastColors.push(convertColorValue(match, this._output));
         }
-  
+
+        // console.log(contrastColors)
+
         for (let i=0; i < contrastColors.length; i++) {
           let n;
           if(!swatchNames) {
@@ -323,7 +328,7 @@ class Color {
     const colorScale = createScale({swatches: 3000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth});
 
     colorScale.map(color => {
-      return fixColorValue(color, this._output);
+      return convertColorValue(color, this._output);
     });
 
     // Remove duplicate color values
@@ -353,6 +358,9 @@ class BackgroundColor extends Color {
     // create massive scale
     let backgroundColorScale = createScale({swatches: 1000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth});
 
+    // Inject original keycolors to ensure they are present in the background options
+    backgroundColorScale.push(this.colorKeys);
+
     let colorObj = backgroundColorScale
       // Convert to HSLuv and keep track of original indices
       .map((c, i) => { return { value: Math.round(cArray(c)[2]), index: i } });
@@ -360,21 +368,13 @@ class BackgroundColor extends Color {
     let bgColorArrayFiltered = removeDuplicates(colorObj, "value")
       .map(data => backgroundColorScale[data.index]);
 
-    // Remove midtone value to reduce array number by one. 
-    // Chose to remove midtone as these values should be avoided anyway
-    // let midToneVal = bgColorArrayFiltered[50];
-    // for(let i = 0; i < bgColorArrayFiltered.length; i++){ 
-    //   if ( bgColorArrayFiltered[i] === midToneVal) { 
-    //     bgColorArrayFiltered.splice(i, 1); 
-    //   }
-    // }
-    // // Manually add white back into the background color array
-    // // since the original scale has removed it.
-    bgColorArrayFiltered.pop()
+    // Manually cap the background array at 100 colors, then add white back to the end
+    // since it sometimes gets removed.
+    bgColorArrayFiltered.length = 100;
     bgColorArrayFiltered.push('#ffffff');
 
     this._backgroundColorScale = bgColorArrayFiltered.map(color => {
-      return fixColorValue(color, this._output);
+      return convertColorValue(color, this._output);
     });
 
     return this._backgroundColorScale;
@@ -692,12 +692,12 @@ function filterNaN(x) {
 }
 
 // Helper function for rounding color values to whole numbers
-function fixColorValue(color, format, object = false) {
+function convertColorValue(color, format, object = false) {
   if(!color) {
-    throw new Error(`Cannot fix color value of ${color}`)
+    throw new Error(`Cannot convert color value of ${color}`)
   }
   if(!format) {
-    throw new Error(`Colorspace ${color} cannot be formatted`)
+    throw new Error(`Cannot convert to colorspace ${format}`)
   }
   let colorObj = colorSpaces[format].function(color);
   let propArray = colorSpaces[format].channels;
@@ -812,24 +812,31 @@ function contrast(color, base, baseV) {
   let baseLum = luminance(base[0], base[1], base[2]);
 
 
-  let cr1 = (colorLum + 0.05) / (baseLum + 0.05);
-  let cr2 = (baseLum + 0.05) / (colorLum + 0.05);
+  let cr1 = (colorLum + 0.05) / (baseLum + 0.05); // will return value >=1 if color is darker than background
+  let cr2 = (baseLum + 0.05) / (colorLum + 0.05); // will return value >=1 if color is lighter than background
 
   if (baseV <= 0.51) { // Dark themes
+    // If color is darker than background, return cr1 which will be whole number
     if (cr1 >= 1) {
       return cr1;
     }
+    // If color is lighter than background, return cr2 as negative whole number
     else {
       return cr2 * -1;
-    } // Return as whole negative number
+    } 
   }
   else if (baseV > 0.51) { // Light themes
+    // If color is lighter than background, return cr2 which will be whole number
     if (cr1 < 1) {
       return cr2;
     }
+    // If color is darker than background, return cr1 as negative whole number
+    else if (cr1 === 1) {
+      return cr1;
+    }
     else {
       return cr1 * -1;
-    } // Return as whole negative number
+    } 
   }
 }
 
@@ -876,15 +883,15 @@ function ratioName(r) {
 
 // Binary search to find index of contrast ratio that is input
 // Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
-function binarySearch(list, value) {
+function getMatchingRatioIndex(list, value) {
+  // If a value of -1 is passed, it should be positive since 1 is the zero-point
+  if(value === -1) value = 1;
   // initial values for start, middle and end
   let start = 0
   let stop = list.length - 1
   let middle = Math.floor((start + stop) / 2)
   let descending = list[0] > list[list.length - 1];
-  let listMin = Math.min(...list);
-  let listMax = Math.max(...list);
-
+  let positiveValue = (Math.sign(value) === 1) ? true : false;
 
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {
@@ -909,25 +916,37 @@ function binarySearch(list, value) {
   }
 
   // Create mini array focusing around the middle value
-  let newMin, newMax;
-  if(descending) {
-    newMin = (list[middle + 1] === undefined) ? listMin : (list[middle + 1] <= listMin) ? listMin : list[middle + 1];
-    newMax = (list[middle - 1] === undefined) ? listMax : (list[middle - 1] >= listMax) ? listMax : list[middle - 1];
-  } else {
-    newMin = (list[middle - 1] === undefined) ? listMin : (list[middle - 1] <= listMin) ? listMin : list[middle - 1];
-    newMax = (list[middle + 1] === undefined) ? listMax : (list[middle + 1] >= listMax) ? listMax : list[middle + 1];  
-  }
-  // let newMin = (list[middle - 1] === undefined) ? listMin : (list[middle - 1] <= listMin) ? listMin : list[middle - 1];
-  // let newMax = (list[middle + 1] === undefined) ? listMax : (list[middle + 1] >= listMax) ? listMax : list[middle + 1];
-  let newArray = Array(newMin, list[middle], newMax);
+  // Shift the middle value if it's on either end of the list array
+  // and create a new start/stop for the new array based on the new middle
+  let newMiddle = (list[middle - 1] === undefined) ? middle + 2 : ((list[middle + 1] === undefined) ? middle - 2 : middle);
+  let newStart = list[newMiddle - 1];
+  let newStop =  list[newMiddle + 1];
+  let newArray = Array(newStart, list[newMiddle], newStop);
+
   // Then, find the next larger positive number or next smaller negative number from that array
-  let nextClosestValue = (value > newMax) ? newMax : ((value < newMin) ? newMin : (value > 0) ? newArray.find(element => element > value) : newArray.find(element => element < value));
-  
-  // Result value should be the index of the exact match, or the next closest value
-  let result = (list[middle] !== value) ? ((nextClosestValue !== undefined) ? list.findIndex(element => element === nextClosestValue) : middle) : middle
-  // Cap the result index in case it is outside of available indexes
-  // if(result > list.length - 1) result = list.length - 1;
-  // else if(result < 0) result = 0;
+  // let nextClosestValue = ((value >= newMax && positiveValue) || (value <= newMax && positiveValue === false)) ? newMax : (((value <= newMin && positiveValue) || (value >= newMin && positiveValue === false)) ? newMin : (value > 0) ? newArray.find(element => element > value) : newArray.find(element => element < value));
+  let nextLargestValue  = (list[newMiddle] >= value) ? list[newMiddle] : newArray.find(element => element > value);
+  let nextSmallestValue = (list[newMiddle] <= value) ? list[newMiddle] : newArray.find(element => element < value);
+  let nextClosestValue  = (positiveValue === true) ? nextLargestValue : nextSmallestValue;
+
+  let result = (list[middle] !== value && nextClosestValue !== undefined) ? (((descending && value <=1) || (descending === false && value > 1)) ? list.lastIndexOf(nextClosestValue) : list.indexOf(nextClosestValue)) : middle;
+
+  // To be extra safe, cap the possible result index
+  // to be no less than 0 and no greater than the list's length:
+  if (result < 0) result = 0;
+  else if (result > list.length - 1) result = list.length - 1;
+  // if(positiveValue && descending) console.log(`Descending list searching for (positive) ${value} (positive = ${positiveValue}) \n ${list} \n Returning result ${list[result]}`)
+  // if(!positiveValue && descending) console.log(`Descending list searching for (negative) ${value} (positive = ${positiveValue}) \n ${list} \n Returning result ${list[result]}`)
+
+  // if(positiveValue && !descending) console.log(`Ascending list searching for (positive) ${value} (positive = ${positiveValue}) \n ${list} \n Returning result ${list[result]}`)
+  // if(!positiveValue && !descending) console.log(`Ascending list searching for (negative) ${value} (positive = ${positiveValue}) \n ${list} \n Returning result ${list[result]}`)
+
+  // if(value === 1.25 || value === -1.25) {
+  //   // if(!positiveValue && !descending) console.log(`Negative value searched: ${value} \nNew list: ${newArray} \nNext closest value: ${nextClosestValue} \nResult: ${result}`)
+  //   let temp;
+  //   if(descending) temp = `Descending list`; else temp = `Ascending list`;
+  //   console.log(`${temp} \nSearching for ${value} \n Value is positive: ${positiveValue} \nResult is ${list[result]} at index ${result} of list length ${list.length - 1} \nNew list middle of ${newMiddle}: ${list[newMiddle]} \nNext largest: ${nextLargestValue}   |  Next smallest: ${nextSmallestValue} | Next closest: ${nextClosestValue}\nUsing new list: ${newArray}\nWith new start: ${newStart} and new stop: ${newStop} \nFrom list: ${list}`)
+  // }
 
   return result;
 }
@@ -936,10 +955,10 @@ module.exports = {
   createScale,
   luminance,
   contrast,
-  binarySearch,
+  getMatchingRatioIndex,
   minPositive,
   ratioName,
-  fixColorValue,
+  convertColorValue,
   Color,
   BackgroundColor,
   Theme
