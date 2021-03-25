@@ -24,7 +24,7 @@ test('should generate theme for three colors', function() {
     {
       "name": 'gray',
       "values": [
-        {"name": "gray100", "contrast": 1, "value": "#e0e0e0"},
+        {"name": "gray100", "contrast": 1, "value": "#e1e1e1"},
         {"name": "gray200", "contrast": 1.2, "value": "#cecece"},
         {"name": "gray300", "contrast": 1.4, "value": "#bfbfbf"},
         {"name": "gray400", "contrast": 2, "value": "#a0a0a0"},
@@ -39,7 +39,7 @@ test('should generate theme for three colors', function() {
     {
       "name": 'blue',
       "values": [
-        {"name": "blue100", "contrast": 2, "value": "#b18bff"},
+        {"name": "blue100", "contrast": 2, "value": "#b08bff"},
         {"name": "blue200", "contrast": 3, "value": "#8d63ff"},
         {"name": "blue300", "contrast": 4.5, "value": "#623aff"},
         {"name": "blue400", "contrast": 8, "value": "#1c0ad0"},
@@ -68,11 +68,11 @@ test('should generate theme for three colors in LCH format', function() {
   let themeColors = theme.contrastColors;
 
   expect(themeColors).toEqual([
-    { "background": "#e1e1e1" },
+    { "background": "lch(90%, 0, 0deg)" },
     {
       "name": 'gray',
       "values": [
-        {"name": "gray100", "contrast": 1, "value": "lch(89%, 0, 0deg)"},
+        {"name": "gray100", "contrast": 1, "value": "lch(90%, 0, 0deg)"},
         {"name": "gray200", "contrast": 1.2, "value": "lch(83%, 0, 0deg)"},
         {"name": "gray300", "contrast": 1.4, "value": "lch(77%, 0, 0deg)"},
         {"name": "gray400", "contrast": 2, "value": "lch(66%, 0, 0deg)"},
@@ -122,7 +122,7 @@ test('should generate theme for three colors with negative ratios', function() {
           "values": [
             {"name": "gray33", "contrast": -1.8, "value": "#ffffff"},
             {"name": "gray67", "contrast": -1.2, "value": "#f5f5f5"},
-            {"name": "gray100", "contrast": 1, "value": "#e0e0e0"},
+            {"name": "gray100", "contrast": 1, "value": "#e1e1e1"},
             {"name": "gray200", "contrast": 1.2, "value": "#cecece"},
             {"name": "gray300", "contrast": 1.4, "value": "#bfbfbf"},
             {"name": "gray400", "contrast": 2, "value": "#a0a0a0"},
@@ -137,7 +137,7 @@ test('should generate theme for three colors with negative ratios', function() {
         {
           "name": "blue",
           "values": [
-            {"name": "blue100", "contrast": 2, "value": "#b18bff"},
+            {"name": "blue100", "contrast": 2, "value": "#b08bff"},
             {"name": "blue200", "contrast": 3, "value": "#8d63ff"},
             {"name": "blue300", "contrast": 4.5, "value": "#623aff"},
             {"name": "blue400", "contrast": 8, "value": "#1c0ad0"},
@@ -172,7 +172,7 @@ test('should generate theme for three colors using variables as parameters', fun
     {
       "name": 'gray',
       "values": [
-        {"name": "gray100", "contrast": 1, "value": "#e0e0e0"},
+        {"name": "gray100", "contrast": 1, "value": "#e1e1e1"},
         {"name": "gray200", "contrast": 1.2, "value": "#cecece"},
         {"name": "gray300", "contrast": 1.4, "value": "#bfbfbf"},
         {"name": "gray400", "contrast": 2, "value": "#a0a0a0"},
@@ -187,7 +187,7 @@ test('should generate theme for three colors using variables as parameters', fun
     {
       "name": 'blue',
       "values": [
-        {"name": "blue100", "contrast": 2, "value": "#b18bff"},
+        {"name": "blue100", "contrast": 2, "value": "#b08bff"},
         {"name": "blue200", "contrast": 3, "value": "#8d63ff"},
         {"name": "blue300", "contrast": 4.5, "value": "#623aff"},
         {"name": "blue400", "contrast": 8, "value": "#1c0ad0"},
@@ -222,7 +222,7 @@ test('should generate theme with increased contrast', function() {
         "values": [
           {"name": "gray33", "contrast": -2.12, "value": "#ffffff"},
           {"name": "gray67", "contrast": -1.28, "value": "#fdfdfd"},
-          {"name": "gray100", "contrast": 1, "value": "#e0e0e0"},
+          {"name": "gray100", "contrast": 1, "value": "#e1e1e1"},
           {"name": "gray200", "contrast": 1.28, "value": "#c8c8c8"},
           {"name": "gray300", "contrast": 1.56, "value": "#b5b5b5"},
           {"name": "gray400", "contrast": 2.4, "value": "#919191"},
@@ -321,7 +321,7 @@ test('should generate dark theme with increased contrast', function() {
       name: 'gray',
       values: [
         {"name": "gray33", "contrast": -2.2, "value": "#000000"},
-        {"name": "gray67", "contrast": -1.3, "value": "#1a1a1a"},
+        {"name": "gray67", "contrast": -1.3, "value": "#1b1b1b"},
         {"name": "gray100", "contrast": 1, "value": "#303030"},
         {"name": "gray200", "contrast": 1.3, "value": "#424242"},
         {"name": "gray300", "contrast": 1.6, "value": "#4f4f4f"},
@@ -386,7 +386,7 @@ test('should generate colors with user-defined names', function() {
   let gray = new BackgroundColor({"name": 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: grayRatios});
   let blue = new Color({"name": 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: blueRatios});
   let red = new Color({"name": 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: redRatios});
-  let theme = new Theme({colors: [gray, blue, red], backgroundColor: gray, lightness: 20, contrast: 1}); 
+  let theme = new Theme({colors: [gray, blue, red], backgroundColor: gray, lightness: 20}); 
   let themeColors = theme.contrastColors;
 
   expect(themeColors).toEqual([
@@ -513,23 +513,10 @@ test('should generate 2 colors (CAM02 interpolation)', function() {
   let theme = new Theme({colors: [gray], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#548fe0', '#2c66f1' ]);
+  expect(themeColors).toEqual([ '#538fe0', '#2c66f1' ]);
 
 });
 
-test('should generate 2 named colors (CAM02 interpolation)', function() {
-  let cerulean = new Color({
-    name: 'Cerulean', 
-    colorKeys: ['#2451FF', '#C9FEFE', '#012676'], 
-    ratios: [3, 4.5], 
-    colorspace: 'CAM02'
-  });
-  let theme = new Theme({colors: [cerulean], backgroundColor: '#f5f5f5'}); 
-  let themeColors = theme.contrastColorValues;
-
-  expect(themeColors).toEqual([ '#548fe0', '#2c66f1' ]);
-
-});
 
 test('should generate 2 colors (LAB interpolation)', function() {
   let indigo = new Color({
@@ -593,7 +580,7 @@ test('should generate 2 colors (HSV interpolation)', function() {
   let theme = new Theme({colors: [indigo], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#478bff', '#2d61ff' ]);
+  expect(themeColors).toEqual([ '#468bff', '#2d61ff' ]);
 });
 
 test('should generate 2 colors (RGB interpolation)', function() {
@@ -633,7 +620,7 @@ test('should generate 2 colors with bidirectional contrast (light background)', 
   let theme = new Theme({colors: [color], backgroundColor: '#D8D8D8'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#efeff6', '#555799' ]);
+  expect(themeColors).toEqual([ '#f0eff6', '#56589a' ]);
 });
 
 test('should generate 2 colors with bidirectional contrast (dark background)', function() {
@@ -678,7 +665,7 @@ test('should generate white when ratio lighter than available colors', function(
   expect(themeColors).toEqual([ '#ffffff' ]);
 });
 
-test('should generate white when negative ratio lighter than available colors', function() {
+test('should generate white when negative ratio lighter than available colors (light gray background)', function() {
   let color = new Color({
     name: 'Color', 
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'], 
@@ -690,7 +677,7 @@ test('should generate white when negative ratio lighter than available colors', 
 
   expect(themeColors).toEqual([ '#ffffff' ]);
 });
-test('should generate white when negative ratio lighter than available colors', function() {
+test('should generate white when negative ratio lighter than available colors (white background)', function() {
   let color = new Color({
     name: 'Color', 
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'], 
@@ -703,7 +690,7 @@ test('should generate white when negative ratio lighter than available colors', 
   expect(themeColors).toEqual([ '#ffffff' ]);
 });
 
-test('should generate black when negative ratio lighter than available colors', function() {
+test('should generate black when negative ratio darker than available colors (gray background)', function() {
   let color = new Color({
     name: 'Color', 
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'], 
@@ -716,7 +703,7 @@ test('should generate black when negative ratio lighter than available colors', 
   expect(themeColors).toEqual([ '#000000' ]);
 });
 
-test('should generate black when negative ratio lighter than available colors', function() {
+test('should generate black when negative ratio darker than available colors (black background)', function() {
   let color = new Color({
     name: 'Color', 
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'], 
@@ -737,10 +724,10 @@ test('should generate slightly lighter & darker grays on a darker midtone gray b
     ratios: [1.2, -1.2], 
     colorspace: "LCH"
   }); // positive & negative ratios
-  let theme = new Theme({colors: [color], backgroundColor: '#737373'}); 
+  let theme = new Theme({colors: [color], backgroundColor: '#6b6b6b'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#808080', '#666666' ]);
+  expect(themeColors).toEqual([ '#787878', '#5f5f5f' ]);
 });
 test('should generate slightly lighter & darker grays on a lighter midtone gray background', function() {
   let color = new Color({
@@ -758,8 +745,8 @@ test('should generate slightly lighter & darker grays on a lighter midtone gray 
     {
       "name": 'Color',
       "values": [
-        {"name": "Color50", "contrast": -1.2, "value": "#6b6b6b"},
-        {"name": "Color100", "contrast": 1.2, "value": "#858585"},
+        {"name": "Color50", "contrast": -1.2, "value": "#858585"},
+        {"name": "Color100", "contrast": 1.2, "value": "#6b6b6b"},
       ]
     }
   ]);
@@ -774,7 +761,7 @@ test('should generate slightly lighter & darker oranges on a darker midtone slat
   let theme = new Theme({colors: [color], backgroundColor: '#537a9c'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#d66002', '#b64500' ]);
+  expect(themeColors).toEqual([ '#d66102', '#b64601' ]);
 });
 
 test('should generate slightly lighter & darker oranges on a lighter midtone slate background', function() {
@@ -787,7 +774,7 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
   let theme = new Theme({colors: [color], backgroundColor: '#537b9d'}); 
   let themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual([ '#d66002', '#b64500' ]);
+  expect(themeColors).toEqual([ '#d76202', '#b84601' ]);
 });
 
 
