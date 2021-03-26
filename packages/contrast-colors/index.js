@@ -17,21 +17,24 @@ const { catmullRom2bezier, prepareCurve } = require('./curve.js');
 
 class Theme {
   constructor({colors, backgroundColor, lightness, contrast = 1, output = 'HEX'}) {
-    this._colors = colors;
-    this._backgroundColor = backgroundColor;
-    this._lightness = lightness;
-    this._contrast = contrast;
     this._output = output;
+    this._colors = colors;
+    this._lightness = lightness;
+
+    this._setBackgroundColor(backgroundColor);
+    this._setBackgroundColorValue();
+    
+    this._contrast = contrast;
     if (!this._colors) {
       throw new Error(`No colors are defined`);
     }
     if (!this._backgroundColor) {
       throw new Error(`Background color is undefined`);
     }
-
-    this._setLightness(this._backgroundColor);
+    colors.forEach(color => {
+      if(!color.ratios) throw new Error(`Color ${color.name}'s ratios are undefined`);
+    });
     
-    this._getBackgroundColorValue();
     this._setContrasts(this._contrast);
     this._findContrastColors();
     this._findContrastColorValues();
@@ -48,8 +51,7 @@ class Theme {
 
   set lightness(lightness) {
     this._lightness = lightness;
-    // have to reset the background color value prop
-    this._getBackgroundColorValue();
+    this._setBackgroundColor(this._backgroundColor);
     this._findContrastColors();
   }
   get lightness() {
@@ -57,13 +59,14 @@ class Theme {
   }
   
   set backgroundColor(backgroundColor) {
-    this._backgroundColor = backgroundColor;
-    // have to reset the background color value prop
-    this._getBackgroundColorValue();
+    this._setBackgroundColor(backgroundColor);
     this._findContrastColors();
   }
   get backgroundColorValue() {
     return this._backgroundColorValue;
+  }
+  get backgroundColor() {
+    return this._backgroundColor;
   }
   
   // Add a getter and setter for colors
@@ -77,6 +80,11 @@ class Theme {
 
   set output(output) {
     this._output = output;
+    this._colors.forEach(element => {
+      element.output = this._output;
+    });
+    this._backgroundColor.output = this._output;
+
     this._findContrastColors();
   }
   get output() {
@@ -91,20 +99,26 @@ class Theme {
     return this._contrastColorValues;
   }
 
-  _setLightness(backgroundColor) {
+  _setBackgroundColor(backgroundColor) {
     if(typeof backgroundColor === 'string') {
       // If it's a string, convert to Color object and assign lightness.
-      const newBackgroundColor = new BackgroundColor({name: 'background', colorKeys: [backgroundColor], output: this._output});
+      const newBackgroundColor = new BackgroundColor({name: 'background', colorKeys: [backgroundColor], output: 'RGB'});
       const calcLightness = Number((d3.hsluv(backgroundColor).v).toFixed());
-      // console.log(`Original color is ${backgroundColor} \n Lightness calculated at ${calcLightness} \n Returned new color is ${newBackgroundColor.backgroundColorScale[calcLightness]}`)
 
-      this._backgroundColor = newBackgroundColor;
-      this._lightness = calcLightness;
+      return this._backgroundColor = newBackgroundColor, this._lightness = calcLightness, this._backgroundColorValue = newBackgroundColor[this._lightness];
+      // console.log(`String background color of ${backgroundColor} converted to ${newBackgroundColor}`)
+    } else {
+      // console.log(`NOT a string for background, instead it is ${JSON.stringify(backgroundColor)}`)
+      backgroundColor.output = 'RGB';
+      const calcBackgroundColorValue = backgroundColor.backgroundColorScale[this._lightness];
+
+      // console.log(`Object background \nLightness: ${this._lightness} \nBackground scale: ${backgroundColor.backgroundColorScale}\nCalculated background value of ${calcBackgroundColorValue}`)
+      return this._backgroundColor = backgroundColor, this._backgroundColorValue = calcBackgroundColorValue;
     }
   }
-  
-  _getBackgroundColorValue() {
-    this._backgroundColorValue = this._backgroundColor.backgroundColorScale[this._lightness];
+
+  _setBackgroundColorValue() {
+    return this._backgroundColorValue = this._backgroundColor.backgroundColorScale[this._lightness];
   }
 
   _setContrasts(contrastMultiplier) {
@@ -194,8 +208,6 @@ class Theme {
           contrastColors.push(convertColorValue(match, this._output));
         }
 
-        // console.log(contrastColors)
-
         for (let i=0; i < contrastColors.length; i++) {
           let n;
           if(!swatchNames) {
@@ -218,11 +230,6 @@ class Theme {
         }
         returnColors.push(colorObj);
       }
-      // else {
-      //   Need to investigate why colors are being sent through this function
-      //   with undefined ratios? Ratios should already be set from the Color class
-      //   console.log(`Color ${color.name} has ratios of ${color.ratios}`)
-      // }
     });
     this._contrastColorValues = returnColorValues;
     this._contrastColors = returnColors;
@@ -257,12 +264,6 @@ class Color {
         throw new Error('Color Key missing hash #');
       }
     }
-    // if (!this._ratios) {
-    //   throw new Error(`Ratios are undefined`);
-    // }
-    // if(!Array.isArray(this._ratios)) {
-    //   console.log(`These ratios are not an array: ${JSON.stringify(this._ratios)}`)
-    // }    const outputFormat = colorSpaces[this._output];
     if (!this._output) {
       throw new Error(`Colorspace “${this._output}” not supported`);
     }
@@ -699,6 +700,7 @@ function convertColorValue(color, format, object = false) {
   if(!format) {
     throw new Error(`Cannot convert to colorspace ${format}`)
   }
+
   let colorObj = colorSpaces[format].function(color);
   let propArray = colorSpaces[format].channels;
 
@@ -935,18 +937,6 @@ function getMatchingRatioIndex(list, value) {
   // to be no less than 0 and no greater than the list's length:
   if (result < 0) result = 0;
   else if (result > list.length - 1) result = list.length - 1;
-  // if(positiveValue && descending) console.log(`Descending list searching for (positive) ${value} (positive = ${positiveValue}) \n ${list} \n Returning result ${list[result]}`)
-  // if(!positiveValue && descending) console.log(`Descending list searching for (negative) ${value} (positive = ${positiveValue}) \n ${list} \n Returning result ${list[result]}`)
-
-  // if(positiveValue && !descending) console.log(`Ascending list searching for (positive) ${value} (positive = ${positiveValue}) \n ${list} \n Returning result ${list[result]}`)
-  // if(!positiveValue && !descending) console.log(`Ascending list searching for (negative) ${value} (positive = ${positiveValue}) \n ${list} \n Returning result ${list[result]}`)
-
-  // if(value === 1.25 || value === -1.25) {
-  //   // if(!positiveValue && !descending) console.log(`Negative value searched: ${value} \nNew list: ${newArray} \nNext closest value: ${nextClosestValue} \nResult: ${result}`)
-  //   let temp;
-  //   if(descending) temp = `Descending list`; else temp = `Ascending list`;
-  //   console.log(`${temp} \nSearching for ${value} \n Value is positive: ${positiveValue} \nResult is ${list[result]} at index ${result} of list length ${list.length - 1} \nNew list middle of ${newMiddle}: ${list[newMiddle]} \nNext largest: ${nextLargestValue}   |  Next smallest: ${nextSmallestValue} | Next closest: ${nextClosestValue}\nUsing new list: ${newArray}\nWith new start: ${newStart} and new stop: ${newStop} \nFrom list: ${list}`)
-  // }
 
   return result;
 }

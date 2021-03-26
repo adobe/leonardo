@@ -512,6 +512,7 @@ test('should generate 2 colors (CAM02 interpolation)', function() {
   });
   let theme = new Theme({colors: [gray], backgroundColor: '#f5f5f5'}); 
   let themeColors = theme.contrastColorValues;
+  theme.output = 'HEX';
 
   expect(themeColors).toEqual([ '#538fe0', '#2c66f1' ]);
 
@@ -778,79 +779,93 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
 });
 
 
+// Output formats 
+test('should generate 2 colors in HEX format', function() {
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5'}); 
+  theme.output = 'HEX';
+  let themeColors = theme.contrastColorValues;
 
+  expect(themeColors).toEqual([ '#538fe0', '#2c66f1' ]);
+});
+test('should generate 2 colors in RGB format', function() {
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5'}); 
+  theme.output = 'RGB';
+  let themeColors = theme.contrastColorValues;
 
+  expect(themeColors).toEqual([ 'rgb(83, 143, 224)', 'rgb(44, 102, 241)' ]);
+});
+test('should generate 2 colors in HSL format', function() {
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5'}); 
+  theme.output = 'HSL';
+  let themeColors = theme.contrastColorValues;
 
-// // Output formats 
-// test('should generate 2 colors in HEX format', function() {
-//   let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02'});;
+  expect(themeColors).toEqual([ 'hsl(214deg, 69%, 60%)', 'hsl(222deg, 88%, 56%)' ]);
+});
+test('should generate 2 colors in HSV format', function() {
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5', output: 'HSV'}); 
+  let themeColors = theme.contrastColorValues;
 
-//   expect(colors).toEqual([ '#5490e0', '#2c66f1' ]);
-// });
-// test('should generate 2 colors in RGB format', function() {
-//   let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'RGB'});;
+  expect(themeColors).toEqual([ 'hsv(214deg, 63%, 88%)', 'hsv(222deg, 82%, 95%)' ]);
+});
+test('should generate 2 colors in LAB format', function() {
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5', output: 'LAB'}); 
+  let themeColors = theme.contrastColorValues;
 
-//   expect(colors).toEqual([ 'rgb(84, 144, 224)', 'rgb(44, 102, 241)' ]);
-// });
-// test('should generate 2 colors in HSL format', function() {
-//   let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'HSL'});;
+  expect(themeColors).toEqual([ 'lab(58%, -1, -48)', 'lab(46%, 22, -77)' ]);
+});
+test('should generate 2 colors in LCH format', function() {
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5', output: 'LCH'}); 
 
-//   expect(colors).toEqual([ 'hsl(214deg, 69%, 60%)', 'hsl(222deg, 88%, 56%)' ]);
-// });
-// test('should generate 2 colors in HSV format', function() {
-//   let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'HSV'});;
+  let themeColors = theme.contrastColorValues;
 
-//   expect(colors).toEqual([ 'hsv(214deg, 63%, 88%)', 'hsv(222deg, 82%, 95%)' ]);
-// });
-// test('should generate 2 colors in LAB format', function() {
-//   let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'LAB'});;
+  expect(themeColors).toEqual([ 'lch(58%, 48, 269deg)', 'lch(46%, 80, 286deg)' ]);
+});
 
-//   expect(colors).toEqual([ 'lab(58%, -1, -47)', 'lab(46%, 22, -77)' ]);
-// });
-// test('should generate 2 colors in LCH format', function() {
-//   let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5', ratios: [3, 4.5], colorspace: 'CAM02', output: 'LCH'});;
+// Expected errors
+test('should generate no colors, missing colorKeys', function() {
+  expect(
+    () => {
+      let color = new Color({name: 'Color', ratios: [3, 4.5]}) // no key colors
+    }
+  ).toThrow();
+});
 
-//   expect(colors).toEqual([ 'lch(58%, 47, 269deg)', 'lch(46%, 80, 286deg)' ]);
-// });
+test('should generate no colors, missing ratios', function() {
+  expect(
+    () => {
+      let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676']}) // no ratios
+      let theme = new Theme({colors: [color], background: '#ffffff'}) 
+    }
+  ).toThrow();
+});
 
-// // Expected errors
-// test('should generate no colors, missing colorKeys', function() {
-//   expect(
-//     () => {
-//       let color = new Color({base: '#f5f5f5', ratios: [3, 4.5]}) // no key colors
-//     }
-//   ).toThrow();
-// });
+test('should generate no colors, missing background', function() {
+  expect(
+    () => {
+      let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5]}) 
+      let theme = new Theme({colors: [color]}) // no base
+    }
+  ).toThrow();
+});
 
-// test('should generate no colors, missing ratios', function() {
+test('should throw error, missing hash on hex value', function() {
+  expect(
+    () => {
+      let color = new Color({name: 'Color', colorKeys: ['#2451FF', 'C9FEFE', '#012676'], ratios: [3, 4.5]}) // third color missing hash #
+    }
+  ).toThrow();
+});
 
-//   expect(
-//     () => {
-//       let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], base: '#f5f5f5'}) // no ratios
-//     }
-//   ).toThrow();
-// });
-
-// test('should generate no colors, missing base', function() {
-//   expect(
-//     () => {
-//       let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5]}) // no base
-//     }
-//   ).toThrow();
-// });
-
-// test('should throw error, missing hash on hex value', function() {
-//   expect(
-//     () => {
-//       let color = new Color({name: 'Color', colorKeys: ['#2451FF', 'C9FEFE', '#012676'], ratios: [3, 4.5]}) // third color missing hash #
-//     }
-//   ).toThrow();
-// });
-
-// test('should throw error, incomplete hex value', function() {
-//   expect(
-//     () => {
-//       let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEF', '#012676'], ratios: [3, 4.5]}) // third color missing final hex code
-//     }
-//   ).toThrow();
-// });
+test('should throw error, incomplete hex value', function() {
+  expect(
+    () => {
+      let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEF', '#012676'], ratios: [3, 4.5]}) // third color missing final hex code
+    }
+  ).toThrow();
+});
