@@ -34,6 +34,9 @@ class Theme {
     colors.forEach(color => {
       if(!color.ratios) throw new Error(`Color ${color.name}'s ratios are undefined`);
     });
+    if (!colorSpaces[this._output]) {
+      throw new Error(`Output “${colorspace}” not supported`);
+    }
     
     this._setContrasts(this._contrast);
     this._findContrastColors();
@@ -255,6 +258,12 @@ class Color {
     if (!this._colorKeys) {
       throw new Error(`Color Keys are undefined`);
     }
+    if (!colorSpaces[this._colorspace]) {
+      throw new Error(`Colorspace “${colorspace}” not supported`);
+    }
+    if (!colorSpaces[this._output]) {
+      throw new Error(`Output “${colorspace}” not supported`);
+    }
     // validate color keys
     for (let i=0; i<this._colorKeys.length; i++) {
       if (this._colorKeys[i].length < 6) {
@@ -263,9 +272,6 @@ class Color {
       else if (this._colorKeys[i].length == 6 && this._colorKeys[i].charAt(0) != 0) {
         throw new Error('Color Key missing hash #');
       }
-    }
-    if (!this._output) {
-      throw new Error(`Colorspace “${this._output}” not supported`);
     }
 
     // Run function to generate this array of colors:
