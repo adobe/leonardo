@@ -899,7 +899,7 @@ function getMatchingRatioIndex(list, value) {
   let stop = list.length - 1
   let middle = Math.floor((start + stop) / 2)
   let descending = list[0] > list[list.length - 1];
-  let positiveValue = (Math.sign(value) === 1) ? true : false;
+  let positiveValue = Math.sign(value) === 1;
 
   // While the middle is not what we're looking for and the list does not have a single item
   while (list[middle] !== value && start < stop) {
