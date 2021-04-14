@@ -941,8 +941,8 @@ function getMatchingRatioIndex(list, value) {
 
   // To be extra safe, cap the possible result index
   // to be no less than 0 and no greater than the list's length:
-  if (result < 0) result = 0;
-  else if (result > list.length - 1) result = list.length - 1;
+  if (result < 0) return 0;
+  if (result > list.length - 1) return list.length - 1;
 
   return result;
 }
