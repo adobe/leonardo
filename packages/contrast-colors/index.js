@@ -833,7 +833,7 @@ function contrast(color, base, baseV) {
       return cr2 * -1;
     } 
   }
-  else if (baseV > 0.51) { // Light themes
+  else { // Light themes
     // If color is lighter than background, return cr2 which will be whole number
     if (cr1 < 1) {
       return cr2;
