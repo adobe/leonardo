@@ -941,8 +941,7 @@ function getMatchingRatioIndex(list, value) {
   // to be no less than 0 and no greater than the list's length:
   if (result < 0) return 0;
   if (result > list.length - 1) return list.length - 1;
-
-  return result;
+  else return result;
 }
 
 module.exports = {
