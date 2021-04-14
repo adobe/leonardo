@@ -935,7 +935,7 @@ function getMatchingRatioIndex(list, value) {
   let nextSmallestValue = (list[newMiddle] <= value) ? list[newMiddle] : newArray.find(element => element < value);
   let nextClosestValue  = (positiveValue === true) ? nextLargestValue : nextSmallestValue;
 
-  let result = (list[middle] !== value && nextClosestValue !== undefined) ? (((descending && value <=1) || (descending === false && value > 1)) ? list.lastIndexOf(nextClosestValue) : list.indexOf(nextClosestValue)) : middle;
+  let result = list[middle] !== value && nextClosestValue !== undefined ? (((descending && value <= 1) || (!descending && value > 1)) ? list.lastIndexOf(nextClosestValue) : list.indexOf(nextClosestValue)) : middle;
 
   // To be extra safe, cap the possible result index
   // to be no less than 0 and no greater than the list's length:
