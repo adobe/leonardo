@@ -781,7 +781,7 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
 
 // Output formats 
 test('should generate 2 colors in HEX format', function() {
-  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});
   let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5'}); 
   theme.output = 'HEX';
   let themeColors = theme.contrastColorValues;
@@ -789,7 +789,7 @@ test('should generate 2 colors in HEX format', function() {
   expect(themeColors).toEqual([ '#538fe0', '#2c66f1' ]);
 });
 test('should generate 2 colors in RGB format', function() {
-  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});
   let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5'}); 
   theme.output = 'RGB';
   let themeColors = theme.contrastColorValues;
@@ -797,7 +797,7 @@ test('should generate 2 colors in RGB format', function() {
   expect(themeColors).toEqual([ 'rgb(83, 143, 224)', 'rgb(44, 102, 241)' ]);
 });
 test('should generate 2 colors in HSL format', function() {
-  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});
   let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5'}); 
   theme.output = 'HSL';
   let themeColors = theme.contrastColorValues;
@@ -805,21 +805,21 @@ test('should generate 2 colors in HSL format', function() {
   expect(themeColors).toEqual([ 'hsl(214deg, 69%, 60%)', 'hsl(222deg, 88%, 56%)' ]);
 });
 test('should generate 2 colors in HSV format', function() {
-  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});
   let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5', output: 'HSV'}); 
   let themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual([ 'hsv(214deg, 63%, 88%)', 'hsv(222deg, 82%, 95%)' ]);
 });
 test('should generate 2 colors in LAB format', function() {
-  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});
   let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5', output: 'LAB'}); 
   let themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual([ 'lab(58%, -1, -48)', 'lab(46%, 22, -77)' ]);
 });
 test('should generate 2 colors in LCH format', function() {
-  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});;
+  let color = new Color({name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02'});
   let theme = new Theme({colors: [color], backgroundColor: '#f5f5f5', output: 'LCH'}); 
 
   let themeColors = theme.contrastColorValues;
