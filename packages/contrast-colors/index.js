@@ -926,10 +926,8 @@ function getMatchingRatioIndex(list, value) {
   // Create mini array focusing around the middle value
   // Shift the middle value if it's on either end of the list array
   // and create a new start/stop for the new array based on the new middle
-  let newMiddle = (list[middle - 1] === undefined) ? middle + 2 : ((list[middle + 1] === undefined) ? middle - 2 : middle);
-  let newStart = list[newMiddle - 1];
-  let newStop =  list[newMiddle + 1];
-  let newArray = Array(newStart, list[newMiddle], newStop);
+  let newMiddle = middle === 0 ? middle + 2 : ((middle === list.length - 1) ? middle - 2 : middle);
+  let newArray = list.slice(newMiddle - 1, newMiddle + 2);
 
   // Then, find the next larger positive number or next smaller negative number from that array
   // let nextClosestValue = ((value >= newMax && positiveValue) || (value <= newMax && positiveValue === false)) ? newMax : (((value <= newMin && positiveValue) || (value >= newMin && positiveValue === false)) ? newMin : (value > 0) ? newArray.find(element => element > value) : newArray.find(element => element < value));
