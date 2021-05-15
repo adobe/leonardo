@@ -32,8 +32,8 @@ d3plus.interpolateJch = (start, end) => {
     return d ? linear(a, d) : constant(isNaN(a) ? b : a);
   }
 
-  start = d3.jch(start);
-  end = d3.jch(end);
+  start = d3plus.jch(start);
+  end = d3plus.jch(end);
 
   const zero = Math.abs(start.h - end.h);
   const plus = Math.abs(start.h - (end.h + 360));
