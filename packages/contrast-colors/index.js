@@ -37,15 +37,18 @@ class Theme {
     if (!colorSpaces[this._output]) {
       throw new Error(`Output “${colorspace}” not supported`);
     }
+
+    this._modifiedColors = this._colors;
+    // console.log(`${this._colors} \n ----------------- \n ${this._modifiedColors}`)
+    // this._setContrasts(this._contrast);
     
-    this._setContrasts(this._contrast);
     this._findContrastColors();
     this._findContrastColorValues();
   }
   
   set contrast(contrast) {
     this._contrast = contrast;
-    this._setContrasts(contrast);
+    // this._setContrasts(contrast);
     this._findContrastColors();
   }
   get contrast() {
@@ -124,32 +127,6 @@ class Theme {
     return this._backgroundColorValue = this._backgroundColor.backgroundColorScale[this._lightness];
   }
 
-  _setContrasts(contrastMultiplier) {
-    // Only multiply contrast ratios if they are greater than 1:1,
-    // otherwise it's just useless math.
-    if(contrastMultiplier != 1) {
-      // Iterate over each color, remap contrast values after
-      // multiplying them by the theme multiplier (this._contrast)
-      this._colors.map(color => {
-        let ratios = color.ratios;
-        let newRatios;
-        // assign ratios array whether input is array or object
-        if(Array.isArray(ratios)) {
-          newRatios = ratios.map(function(d) {
-            return multiplyRatios(d, contrastMultiplier)
-          });
-
-          return color.ratios = newRatios;
-
-        } else {
-          for (let key of Object.keys(ratios)) {
-            ratios[key] = multiplyRatios(ratios[key], contrastMultiplier);
-          }
-        }
-      });
-    };
-  };
-
   _findContrastColors() {
     const bgRgbArray = [d3.rgb(this._backgroundColorValue).r, d3.rgb(this._backgroundColorValue).g, d3.rgb(this._backgroundColorValue).b];
     const baseV = this._lightness / 100;
@@ -162,7 +139,7 @@ class Theme {
     let returnColorValues = []; // Array to be populated with flat list of all color values
     returnColors.push(baseObj);
 
-    this._colors.map(color => {
+    this._modifiedColors.map(color => {
 
       if (color.ratios !== undefined) {
         let swatchNames;
@@ -197,6 +174,9 @@ class Theme {
           ratioValues = Object.values(color.ratios);
         }
 
+        // modify target ratio based on contrast multiplier
+        let newRatioValues = ratioValues.map(ratio => multiplyRatios(ratio, this._contrast) );
+        if(this._contrast !==1) ratioValues = newRatioValues;
 
         // Return color matching target ratio, or closest number
         for (let i=0; i < ratioLength; i++){
