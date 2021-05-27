@@ -110,7 +110,7 @@ Available output formats conform to the [W3C CSS Color Module Level 4](https://w
 Class function used to define colors for a theme. Parameters are destructured and need to be explicitly called.
 
 | Parameter | Type | Description |
-|-----------|-------------|
+|-----------|-------|------|
 | `name` | String | User-defined name for a color, (eg "Blue"). Used to name output color values |
 | `colorKeys` | Array of strings | List of specific colors to interpolate between in order to generate a full lightness scale of the color. |
 | `colorspace` | Enum | The [colorspace](#Supported-interpolation-colorspaces) in which the key colors will be interpolated within. 
