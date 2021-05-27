@@ -773,6 +773,7 @@ function themeInput() {
     let colorConfigsArray = [];
     let colorNameArray = [];
     let backgroundColor = "#ffffff";
+    let backgroundColorName = '#ffffff'
 
     for (let i = 0; i < items.length; i++) {
       let id = items[i].id;
@@ -796,6 +797,7 @@ function themeInput() {
         colorClass = new Leo.BackgroundColor(configs);
         colorNameArray.push(name);
         backgroundColor = colorClass;
+        backgroundColorName = name;
         colorsArray.push(colorClass);
       } else {
         let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
@@ -921,6 +923,7 @@ function themeInput() {
     paramsOutput.innerHTML = `${colorConfigsArray.join(`\n`)}
 let ${themeName} = new Theme({
   colors: [${colorNameArray}],
+  backgroundColor: ${backgroundColorName},
   lightness: ${themeConfigs.brightness},
   contrast: ${themeConfigs.contrast}
 });`
