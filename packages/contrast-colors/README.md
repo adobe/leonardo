@@ -113,8 +113,7 @@ Class function used to define colors for a theme. Parameters are destructured an
 |-----------|-------|------|
 | `name` | String | User-defined name for a color, (eg "Blue"). Used to name output color values |
 | `colorKeys` | Array of strings | List of specific colors to interpolate between in order to generate a full lightness scale of the color. |
-| `colorspace` | Enum | The [colorspace](#Supported-interpolation-colorspaces) in which the key colors will be interpolated within. 
- |
+| `colorspace` | Enum | The [colorspace](#Supported-interpolation-colorspaces) in which the key colors will be interpolated within. |
 | `ratios` | Array or Object | List of target contrast ratios, or object with named keys for each value. |
 | `smooth` | Boolean | Applies bezier smoothing to interpolation (false by default) |
 | `output` | Enum | Desired color output format |
