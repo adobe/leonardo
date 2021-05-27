@@ -765,19 +765,16 @@ function updateParams(c, b, r, m) {
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
-  var call = 'generateContrastColors({ ';
+  var call = `new Color({ \n name: 'myColor',\n`;
   var pcol = 'colorKeys: [' + cStrings + '], ';
-  var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';
   var pmod = ' colorspace: "' + m + '"});';
   let text1 = document.createTextNode(call);
   let text2 = document.createTextNode(pcol);
-  let text3 = document.createTextNode(pbas);
   let text4 = document.createTextNode(prat);
   let text7 = document.createTextNode(pmod);
   p.appendChild(text1);
   p.appendChild(text2);
-  p.appendChild(text3);
   p.appendChild(text4);
   p.appendChild(text7);
 }
