@@ -472,6 +472,7 @@ function addColorScale(c, k, s, r) {
 
 }
 
+
 window.addColorScaleUpdate = addColorScaleUpdate;
 function addColorScaleUpdate(c, k, s, r) {
   addColorScale(c, k, s, r);
@@ -491,22 +492,11 @@ document.getElementById('themeBase').addEventListener('input', throttle(themeUpd
 
 function themeRamp(colors, n = window.innerWidth - 272, dest) {
   let container = document.getElementById(dest);
-  container = d3.select(container);
+  let gradient = document.createElement('div');
+  gradient.className = 'gradient'
 
-  let canvas = container.append("canvas")
-    .attr("width", n)
-    .attr("height", 1);
-  let context = canvas.node().getContext("2d");
-
-  canvas.style.height = "32px";
-  canvas.style.width = n;
-  canvas.style.imageRendering = "pixelated";
-  canvas.className = 'themeColor_canvas';
-  for (let i = 1; i < n; ++i) {
-    context.fillStyle = colors[i];
-    context.fillRect(i, 0, 1, 32);
-  }
-  return canvas;
+  gradient.style.backgroundImage = `linear-gradient(to right, ${colors})`;
+  container.appendChild(gradient)
 }
 
 function themeSwatchRamp(colors, dest) {
