@@ -190,16 +190,17 @@ new Color({
 ]
 ```
 
+---
 
-### Output examples
+## Output examples
 There are two types of output you can get from the `Theme` class:
 | Getter | Description of output |
 |--------|-----------------------|
-| `.contrastColors` | Returns array of color objects with key-value pairs |
-| `.contrastColorValues` | Returns flat array of color values |
+| `Theme.contrastColors` | Returns array of color objects with key-value pairs |
+| `Theme.contrastColorValues` | Returns flat array of color values |
 
 
-#### `.contrastColors` output
+### `.contrastColors` output
 Each color instance is named by concatenating the user-defined color name with a numeric value (eg `name: 'gray'`; `gray100`).
 
 Example output:
@@ -227,7 +228,7 @@ Example output:
 ]
 ```
 
-#### `.contrastColorValues` output
+### `.contrastColorValues` output
 For the same example theme shown above, these values would be returned in a flat array when calling `Theme.contrastColorValues`.
 
 Example output:
