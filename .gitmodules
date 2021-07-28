@@ -1,0 +1,3 @@
+[submodule "packages/contrast-colors/SAPC-APCA"]
+	path = packages/contrast-colors/SAPC-APCA
+	url = git@github.com:Myndex/SAPC-APCA.git

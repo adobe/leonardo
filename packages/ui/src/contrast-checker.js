@@ -53,12 +53,14 @@ import * as d3hsv from 'd3-hsv';
 import * as d33d from 'd3-3d';
 Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
 
-import * as contrastColors from '@adobe/leonardo-contrast-colors';
+// import * as Leo from '@adobe/leonardo-contrast-colors';
+import * as Leo from '../../contrast-colors/index.js';
 
 // expose functions so they can be ran in the console
-window.luminance = contrastColors.luminance;
-window.contrast = contrastColors.contrast;
-window.contrastColors = contrastColors;
+window.luminance = Leo.luminance;
+window.contrast = Leo.contrast;
+window.calculateContrast = Leo.calculateContrast;
+window.Leo = Leo;
 
 let inputForeground = document.getElementById('foregroundInput');
 let inputBackground = document.getElementById('backgroundInput');
@@ -66,6 +68,7 @@ let output = document.getElementById('output');
 // let type = document.getElementById('type');
 let colorInputForeground = document.getElementById('foregroundColorInput');
 let colorInputBackground = document.getElementById('backgroundColorInput');
+let methodInput = document.getElementById('contrastMethod');
 
 function setup() {
   inputForeground.defaultValue = 'rgb(0, 0, 0)';
@@ -237,7 +240,6 @@ function sliderRangeInteraction(value) {
   let pos = value / 100;
   let posString = ', ' + `${pos}` + ')';
 
-  let colorInput = document.getElementById('foregroundInput');
   let inputVal = colorInput.value;
   let newVal = inputVal;
 
@@ -292,6 +294,7 @@ function returnContrast() {
 
   let foregroundInput = inputForeground.value;
   let backgroundInput = inputBackground.value;
+  let method = methodInput.value;
   let output = document.getElementById('ratioOutput');
   output.innerHTML = ' ';
 
@@ -318,11 +321,15 @@ function returnContrast() {
   // blend alpha foreground over background in case color is transparent
   let fgBlend = alphaBlend(fg, bg);
 
-  let ratio = contrastColors.contrast(fgBlend, bg, baseV);
-  // get rid of that negative ratio...
-  if (ratio < 0) {
-    ratio = ratio * -1;
+  let ratio = Leo.calculateContrast(method, fgBlend, bg, baseV);
+
+  // get rid of that negative ratio for Relative lum formula...
+  if (method === 'WCAG') {
+    if (ratio < 0) {
+      ratio = ratio * -1;
+    }
   }
+
   if (isNaN(ratio)) {
     ratio = '-';
   }
@@ -432,7 +439,7 @@ colorInputForeground.addEventListener('input', function() { inputForeground.valu
 colorInputBackground.addEventListener('input', function() { inputBackground.value = colorInputBackground.value; returnContrast(); });
 inputForeground.addEventListener('input', returnContrast);
 inputBackground.addEventListener('input', returnContrast);
-// type.addEventListener('input', returnColor);
+methodInput.addEventListener('input', returnContrast);
 
 setup();
 returnContrast();

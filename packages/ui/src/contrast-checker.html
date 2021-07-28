@@ -57,27 +57,26 @@
   <div id="converterGroup">
     <div>
       <h1 class="spectrum-Heading spectrum-Heading--XXL spectrum-Heading--heavy"> Color Contrast Checker </h1>
-      <p class="spectrum-Body spectrum-Body--S"> Uses WCAG relative luminance formula and Level AA criteria      </p>
+      <p class="spectrum-Body spectrum-Body--S"> Check the contrast of foreground and background colors with WCAG 2.0 relative luminance and WCAG 3.0 APCA (advanced perceptual contrast) formulas.</p>
     </div>
 
     <div class="converter--row">
       <div class="converter--column" id="contrastCheckInput">
         <div id="inputWrapper">
           <div class="spectrum-Form">
-            <div class="spectrum-Form-item">
-              <!-- <div class="spectrum-Form-item">
-                <label for="formula" class="spectrum-FieldLabel">Contrast formula:</label>
-                <div class="spectrum-Dropdown">
-                  <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="formula" id="formula">
-                    <option>WCAG relative luminance</option>
-                    <option>SAPC (beta)</option>
+            <div class="spectrum-Form-item--row">
+              <div class="spectrum-Form-item">
+                <label class="spectrum-FieldLabel">Contrast formula:</label>
+                <div class="spectrum-Dropdown" id="contrastMethodDropdown">
+                  <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="contrastMethod" id="contrastMethod">
+                    <option value="WCAG">WCAG</option>
+                    <option value="APCA">APCA (draft)</option>
                   </select>
                   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
                     <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
                   </svg>
                 </div>
-              </div> -->
-      
+              </div>
             </div>
             <div class="spectrum-Form-item--row">
               <div class="spectrum-Form-item">

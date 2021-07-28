@@ -602,6 +602,9 @@ function colorInput() {
   var background = document.getElementById('bgField').value;
   let mode = document.querySelector('select[name="mode"]').value;
 
+  let methodPicker = document.getElementById('contrastMethod');
+  let method = methodPicker.value;
+
   // Clamp ratios convert decimal numbers to whole negatives and disallow
   // inputs less than 1 and greater than -1.
   for(let i=0; i<ratioFields.length; i++) {
@@ -646,7 +649,7 @@ function colorInput() {
   // let rampData = newColor.colorScale;
   let rampData = Leonardo.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
-  let theme = new Theme({colors: [newColor], backgroundColor: background});
+  let theme = new Theme({colors: [newColor], backgroundColor: background, method: method});
   newColors = theme.contrastColorValues;
 
   // Create values for sliders

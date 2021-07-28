@@ -452,6 +452,7 @@ body {
   }
 }
 .spectrum-Form--row {
+  display: flex;
   flex-direction: row;
   .spectrum-Form-item ~ .spectrum-Form-item {
     margin-left: 16px;
@@ -1137,4 +1138,21 @@ a:focus {
 
 #addFromURLinput {
   width: 100%;
+}
+
+.spectrum-Divider {
+  -webkit-appearnce: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+}
+
+.spectrum-Divider--medium {
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--spectrum-global-color-gray-300);
 }

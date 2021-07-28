@@ -168,6 +168,19 @@
           </form>
         </div>
         <div id="contrastConfigs">
+          <div class="spectrum-Form--row">
+            <label class="spectrum-FieldLabel spectrum-FieldLabel--left">Contrast formula:</label>
+            <div class="spectrum-Dropdown" id="contrastMethodDropdown">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="contrastMethod" onInput="colorInput()" id="contrastMethod">
+                <option value="WCAG">WCAG</option>
+                <option value="APCA">APCA (draft)</option>
+              </select>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </div>
+          </div>
+          <span class="spectrum-Divider spectrum-Divider--medium"></span>
           <div>
             <input type="color" class="" id="bgField" value="#ffffff"></input>
             <label for="bgField" class="spectrum-FieldLabel spectrum-FieldLabel--right">Base color</label>
