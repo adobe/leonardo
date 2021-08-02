@@ -1,3 +1,4 @@
+const chroma = require('chroma-js');
 const d3 = require('./d3');
 const { catmullRom2bezier, prepareCurve } = require('./curve');
 
@@ -80,6 +81,9 @@ function multiplyRatios(ratio, multiplier) {
 
 function cArray(c) {
   const color = d3.hsluv(c);
+  // console.color(String(c));
+  // console.log(color);
+  // console.log(chroma(String(c)).luv());
   const L = color.l;
   const U = color.u;
   const V = color.v;

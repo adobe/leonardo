@@ -147,3 +147,24 @@ exports.rgb2jch = (rgb) => cat02_jch(xyz_cat02(rgb_xyz(rgb)));
 exports.rgb2cat = (rgb) => xyz_cat02(rgb_xyz(rgb));
 exports.jch2rgb = (jch) => xyz_rgb(cat02_xyz(jch_cat02(jch)));
 exports.cat2rgb = (cat) => xyz_rgb(cat02_xyz(cat));
+const coefs = { k_l: 1, c1: 0.007, c2: 0.0228 };
+exports.rgb2jab = (rgb) => {
+  const jch = cat02_jch(xyz_cat02(rgb_xyz(rgb)));
+  const [J, C, H] = jch;
+  const M = C * (CIECAM02_fl ** 0.25);
+  let j = ((1 + 100 * coefs.c1) * J) / (1 + coefs.c1 * J);
+  j /= coefs.k_l;
+  const MPrime = (1 / coefs.c2) * Math.log(1.0 + coefs.c2 * M);
+  const a = MPrime * Math.cos(H * (π / 180));
+  const b = MPrime * Math.sin(H * (π / 180));
+  return [j, a, b];
+};
+exports.jab2rgb = (jab) => {
+  const [j, a, b] = jab;
+  const newMPrime = Math.sqrt(a * a + b * b);
+  const newM = (Math.exp(newMPrime * coefs.c2) - 1) / coefs.c2;
+  const newh = ((180 / π) * Math.atan2(b, a) + 360) % 360;
+  const newC = newM / (CIECAM02_fl ** 0.25);
+  const newCam02J = j / (1 + coefs.c1 * (100 - j));
+  return xyz_rgb(cat02_xyz(jch_cat02([newCam02J, newC, newh])));
+};
