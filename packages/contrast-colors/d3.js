@@ -19,21 +19,21 @@ const d3plus = {
   ...d3,
   ...d3cam02,
   ...d3hsluv,
-  ...d3hsv
+  ...d3hsv,
 };
 
 d3plus.interpolateJch = (start, end) => {
   // constant, linear, and colorInterpolate are taken from d3-interpolate
   // the colorInterpolate function is `nogamma` in the d3-interpolate's color.js
-  const constant = x => () => x;
-  const linear = (a, d) => t => a + t * d;
+  const constant = (x) => () => x;
+  const linear = (a, d) => (t) => a + t * d;
   const colorInterpolate = (a, b) => {
     const d = b - a;
-    return d ? linear(a, d) : constant(isNaN(a) ? b : a);
-  }
+    return d ? linear(a, d) : constant(Number.isNaN(a) ? b : a);
+  };
 
-  start = d3plus.jch(start);
-  end = d3plus.jch(end);
+  start = d3.jch(start);
+  end = d3.jch(end);
 
   const zero = Math.abs(start.h - end.h);
   const plus = Math.abs(start.h - (end.h + 360));
@@ -45,8 +45,8 @@ d3plus.interpolateJch = (start, end) => {
     end.h -= 360;
   }
 
-  const startc = d3.hcl(start + '').c;
-  const endc = d3.hcl(end + '').c;
+  const startc = d3.hcl(`${start}`).c;
+  const endc = d3.hcl(`${end}`).c;
   if (!startc) {
     start.h = end.h;
   }
@@ -54,17 +54,17 @@ d3plus.interpolateJch = (start, end) => {
     end.h = start.h;
   }
 
-  const J = colorInterpolate(start.J, end.J),
-        C = colorInterpolate(start.C, end.C),
-        h = colorInterpolate(start.h, end.h),
-        opacity = colorInterpolate(start.opacity, end.opacity);
+  const J = colorInterpolate(start.J, end.J);
+  const C = colorInterpolate(start.C, end.C);
+  const h = colorInterpolate(start.h, end.h);
+  const opacity = colorInterpolate(start.opacity, end.opacity);
 
-  return t => {
+  return (t) => {
     start.J = J(t);
     start.C = C(t);
     start.h = h(t);
     start.opacity = opacity(t);
-    return start + '';
+    return `${start}`;
   };
 };
 

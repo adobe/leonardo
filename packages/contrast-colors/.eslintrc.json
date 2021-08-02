@@ -1,0 +1,23 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 12
+    },
+    "rules": {
+        "max-len": "off",
+        "no-param-reassign": "off",
+        "no-plusplus": "off",
+        "object-curly-newline": ["error", { "multiline": true }],
+        "no-floating-decimal": "off",
+        "prefer-destructuring": ["error", {"object": true, "array": false}],
+        "consistent-return": "off",
+        "no-underscore-dangle": "off",
+        "no-console": "error"
+    }
+}
