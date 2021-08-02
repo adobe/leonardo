@@ -180,6 +180,7 @@ function createScale({
   shift = 1,
   fullScale = true,
   smooth = false,
+  asFun = false,
 } = {}) {
   const space = colorSpaces[colorspace];
   if (!space) {
@@ -252,6 +253,9 @@ function createScale({
       .range(ColorsArray)
       .domain(domains)
       .interpolate(space.interpolator);
+  }
+  if (asFun) {
+    return scale;
   }
 
   const Colors = d3.range(swatches).map((d) => scale(d));
@@ -512,6 +516,56 @@ function getMatchingRatioIndex(list, value) {
   return result;
 }
 
+const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
+  const colorLen = 3000;
+  const colorScale = createScale({
+    swatches: colorLen,
+    colorKeys: color._colorKeys,
+    colorspace: color._colorspace,
+    shift: 1,
+    smooth: color._smooth,
+    asFun: true,
+  });
+  const ccache = {};
+  // let ccounter = 0;
+  const getContrast2 = (i) => {
+    if (ccache[i]) {
+      return ccache[i];
+    }
+    const rgb = d3.rgb(colorScale(i));
+    const rgbArray = [rgb.r, rgb.g, rgb.b];
+    const c = getContrast(rgbArray, bgRgbArray, baseV);
+    ccache[i] = c;
+    // ccounter++;
+    return c;
+  };
+  const colorSearch = (x) => {
+    const first = getContrast2(0);
+    const last = getContrast2(colorLen - 1);
+    const dir = first < last ? 1 : -1;
+    const α = 0.01;
+    x += 0.005;
+    let step = colorLen / 2;
+    let dot = step;
+    let val = getContrast2(dot);
+    let counter = 100;
+    while (Math.abs(val - x) > α && counter) {
+      counter--;
+      step /= 2;
+      if (val < x) {
+        dot += step * dir;
+      } else {
+        dot -= step * dir;
+      }
+      val = getContrast2(dot);
+    }
+    return dot;
+  };
+  const outputColors = [];
+  ratioValues.forEach((ratio) => outputColors.push(colorScale(colorSearch(+ratio))));
+  return outputColors;
+};
+
 module.exports = {
   multiplyRatios,
   createScale,
@@ -525,4 +579,5 @@ module.exports = {
   uniq,
   cArray,
   colorSpaces,
+  searchColors,
 };
