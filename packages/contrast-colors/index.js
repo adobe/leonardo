@@ -23,6 +23,7 @@ const {
 const { Color } = require('./color');
 const { BackgroundColor } = require('./backgroundcolor');
 const { Theme } = require('./theme');
+// const { rgb2jch, jch2rgb, rgb2cat, cat2rgb } = require('./ciecam02');
 
 module.exports = {
   Color,

@@ -18,6 +18,7 @@
         "prefer-destructuring": ["error", {"object": true, "array": false}],
         "consistent-return": "off",
         "no-underscore-dangle": "off",
-        "no-console": "error"
+        "no-console": "error",
+        "camelcase": "off"
     }
 }
