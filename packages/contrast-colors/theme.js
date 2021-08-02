@@ -2,11 +2,10 @@ const d3 = require('./d3');
 
 const {
   multiplyRatios,
-  getContrast,
-  getMatchingRatioIndex,
   ratioName,
   convertColorValue,
   colorSpaces,
+  searchColors,
 } = require('./utils');
 
 const { BackgroundColor } = require('./backgroundcolor');
@@ -133,7 +132,8 @@ class Theme {
   }
 
   _findContrastColors() {
-    const bgRgbArray = [d3.rgb(this._backgroundColorValue).r, d3.rgb(this._backgroundColorValue).g, d3.rgb(this._backgroundColorValue).b];
+    const rgb = d3.rgb(this._backgroundColorValue);
+    const bgRgbArray = [rgb.r, rgb.g, rgb.b];
     const baseV = this._lightness / 100;
 
     const baseObj = { background: convertColorValue(this._backgroundColorValue, this._output) };
@@ -150,46 +150,20 @@ class Theme {
           name: color.name,
           values: newArr,
         };
-        // This needs to be looped for each value in the color.colorScale array
-        // Keeping the number of contrasts calculated equal to the number of colors
-        // available in each color's colorScale array
-        let contrasts = d3.range(color.colorScale.length).map((d) => {
-          const rgbArray = [d3.rgb(color.colorScale[d]).r, d3.rgb(color.colorScale[d]).g, d3.rgb(color.colorScale[d]).b];
-          const ca = getContrast(rgbArray, bgRgbArray, baseV).toFixed(2);
-          return Number(ca);
-        });
 
-        contrasts = contrasts.filter((el) => el != null);
-
-        const contrastColors = [];
-        let ratioLength;
         let ratioValues;
 
         if (Array.isArray(color.ratios)) {
-          ratioLength = color.ratios.length;
           ratioValues = color.ratios;
         } else if (!Array.isArray(color.ratios)) {
-          ratioLength = Object.keys(color.ratios).length;
           swatchNames = Object.keys(color.ratios);
           ratioValues = Object.values(color.ratios);
         }
 
         // modify target ratio based on contrast multiplier
-        const newRatioValues = ratioValues.map((ratio) => multiplyRatios(ratio, this._contrast));
-        if (this._contrast !== 1) ratioValues = newRatioValues;
+        ratioValues = ratioValues.map((ratio) => multiplyRatios(ratio, this._contrast));
 
-        // Return color matching target ratio, or closest number
-        for (let i = 0; i < ratioLength; i++) {
-          // Find the index of each target ratio in the array of all possible contrasts
-          const r = getMatchingRatioIndex(contrasts, ratioValues[i]);
-          const match = color.colorScale[r];
-
-          // Use the index from matching contrasts (r) to index the corresponding
-          // color value from the color scale array.
-          // use convertColorValue function to convert each color to the specified
-          // output format and push to the new array 'contrastColors'
-          contrastColors.push(convertColorValue(match, this._output));
-        }
+        const contrastColors = searchColors(color, bgRgbArray, baseV, ratioValues).map((clr) => convertColorValue(clr, this._output));
 
         for (let i = 0; i < contrastColors.length; i++) {
           let n;
