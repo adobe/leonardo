@@ -59,7 +59,7 @@ body {
   height: calc(100vh - var(--header-height));
   overflow: hidden;
   display: grid;
-  grid-template-columns: 324px auto 240px;
+  grid-template-columns: 400px auto 240px;
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -633,7 +633,7 @@ colorOutput-field {
   padding: 2px; /* To ensure focus rings are visible */
   margin: -2px;
   flex-wrap: wrap;
-  min-height: 80px;
+  min-height: 40px;
   max-height: 88px;
   overflow: auto;
 }
@@ -676,8 +676,8 @@ a:focus {
 
 .ratio-Field {
   padding-left: var(--spectrum-global-dimension-size-400);
-  width: 70%;
-  margin-right: 8px;
+  // width: 100%;
+  // margin-right: 8px;
 }
 #toggleMetrics {
   margin-top: -8px;
@@ -785,10 +785,10 @@ a:focus {
     width: auto;
   }
 }
-#addRatio {
-  margin-top: 8px;
-  width: 100%;
-}
+// #addRatio {
+//   margin-top: 8px;
+//   width: 100%;
+// }
 
 #colorspaceLabel {
   text-transform: capitalize;
@@ -1155,4 +1155,35 @@ a:focus {
   height: 2px;
   border-radius: 2px;
   background-color: var(--spectrum-global-color-gray-300);
+}
+
+#contrastMethodDropdown {
+  width: 116px;
+}
+
+/* Style formatting templates for columns of each Ratio Item
+   and the labels above the ratio inputs */ 
+
+.ratioGrid {
+  display: grid;
+  grid-template-columns: 112px 54px 72px 32px;
+  column-gap: 8px;
+  grid-template-areas: 
+  'ratio fontSize fontWeight actions';
+
+  .spectrum-Textfield {
+    width: 100%;
+  }
+}
+.ratioGrid--fontSize {
+  grid-area: fontSize;
+}
+.ratioGrid--fontWeight {
+  grid-area: fontWeight;
+}
+.ratioGrid--ratio {
+  grid-area: ratio;
+}
+.ratioGrid--actions {
+  grid-area: actions;
 }

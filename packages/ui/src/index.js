@@ -41,6 +41,8 @@ import '@adobe/focus-ring-polyfill';
 
 import * as Leonardo from '@adobe/leonardo-contrast-colors';
 
+import apcaLookup from './APCAlookup';
+
 // expose functions so they can be ran in the console
 window.createScale = Leonardo.createScale;
 window.luminance = Leonardo.luminance;
@@ -88,6 +90,9 @@ var colorOutputField = document.getElementById('colorOutput');
 
 var colorspace = document.getElementById('mode');
 let ratioFields = document.getElementsByClassName('ratio-Field');
+
+var APCAminValue = '-113.6';
+var APCAmaxValue = '112.5';
 
 window.ratioInputs = [];
 let newColors;
@@ -170,12 +175,30 @@ function paramSetup() {
       ratios = [3, 4.5];
     } else { }
 
-    for(let i=0; i<ratios.length; i++) {
-      addRatio(ratios[i]);
+    if(params.has('fontSizes') && params.has('fontWeights')) {
+      let fontSizes = params.get('fontSizes');
+      let fs = fontSizes.split(',');
+      fs = fs.map(Number);
+
+      let fontWeights = params.get('fontWeights');
+      let fw = fontWeights.split(',');
+      fw = fw.map(Number);
+
+      for(let i=0; i<ratios.length; i++) {
+        addRatio(ratios[i], fs[i], fw[i]);
+      }
+    } else {
+      for(let i=0; i<ratios.length; i++) {
+        addRatio(ratios[i]);
+      }
     }
+
   }
   if(params.has('mode')) {
     document.querySelector('select[name="mode"]').value = params.get('mode');
+  }
+  if(params.has('method')) {
+    document.getElementById('contrastMethod').value = params.get('method');
   }
   else {
     addColor('#6fa7ff');
@@ -188,7 +211,10 @@ function paramSetup() {
 paramSetup();
 
 // Add ratio inputs
-function addRatio(v, s = '#cacaca') {
+function addRatio(v, fs, fw) {
+  let s = '#cacaca';
+  let methodPicker = document.getElementById('contrastMethod');
+  let method = methodPicker.value;
   // increment by default
   if(v == undefined) {
     // find highest value
@@ -209,25 +235,50 @@ function addRatio(v, s = '#cacaca') {
   var slider = document.createElement('input');
 
   var randId = randomId();
-  div.className = 'ratio-Item';
+  div.className = 'ratio-Item ratioGrid';
   div.id = randId + '-item';
+  var inputWrapper = document.createElement('span');
+
   var sw = document.createElement('span');
   sw.className = 'ratio-Swatch';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
-  var input = document.createElement('input');
-  input.className = 'spectrum-Textfield ratio-Field';
-  input.type = "number";
-  input.min = '-10';
-  input.max = '21';
-  input.step = '.01';
-  input.placeholder = 4.5;
-  input.id = randId;
-  input.value = v;
-  input.onkeydown = checkRatioStepModifiers;
-  input.oninput = debounce(colorInput, 100);
+  var ratioInput = document.createElement('input');
+  ratioInput.className = 'spectrum-Textfield ratio-Field ratioGrid--ratio';
+  ratioInput.type = "number";
+  ratioInput.min = (method === 'APCA') ? APCAminValue : '-10';
+  ratioInput.max = (method === 'APCA') ? APCAmaxValue : '21';
+  ratioInput.step = '.01';
+  ratioInput.placeholder = (method === 'WCAG') ? 4.5 : 60;
+  ratioInput.id = randId;
+  ratioInput.value = v;
+  ratioInput.onkeydown = checkRatioStepModifiers;
+  // ratioInput.oninput = debounce(colorInput, 100);
+  ratioInput.oninput = syncRatioInputs;
+
+  var fontSizeInput = document.createElement('input');
+  fontSizeInput.className = 'spectrum-Textfield ratioGrid--fontSize';
+  fontSizeInput.type = "number";
+  fontSizeInput.min = '12';
+  fontSizeInput.step = '1';
+  fontSizeInput.id = randId + "-fontSize";
+  fontSizeInput.value = fs;
+  fontSizeInput.oninput = syncRatioInputs;
+
+  var fontWeightInput = document.createElement('input');
+  fontWeightInput.className = 'spectrum-Textfield ratioGrid--fontWeight';
+  fontWeightInput.type = "number";
+  fontWeightInput.step = '100';
+  fontWeightInput.min = '100';
+  fontWeightInput.max = '900';
+  fontWeightInput.placeholder = '400';
+  fontWeightInput.id = randId + "-fontWeight";
+  fontWeightInput.value = fw;
+  fontWeightInput.oninput = syncRatioInputs;
+  // fontWeightInput.defaultValue = '400';
+
   var button = document.createElement('button');
-  button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
+  button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet ratioGrid--actions';
   button.title = 'Delete contrast ratio';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
@@ -245,8 +296,11 @@ function addRatio(v, s = '#cacaca') {
   sliderWrapper.appendChild(slider);
 
   button.onclick = deleteRatio;
-  div.appendChild(sw);
-  div.appendChild(input);
+  inputWrapper.appendChild(sw);
+  inputWrapper.appendChild(ratioInput);
+  div.appendChild(fontSizeInput);
+  div.appendChild(fontWeightInput);
+  div.appendChild(inputWrapper)
   div.appendChild(button);
   ratios.appendChild(div);
 }
@@ -267,6 +321,85 @@ function newColor(e) {
 
   sw.value = v;
 
+  colorInput();
+}
+
+function syncRatioInputs(e) {
+  let thisId = e.target.id;
+  let val = e.target.value;
+  let fontWeight;
+  let fontSize;
+  let targetContrast;
+
+  // if input is a font size, only change the ratio input to match
+  // required value for the combination of size + weight values
+  // if input id contains -fontSize in the string = it's a font size input
+  if(thisId.includes('-fontSize')) {
+    fontSize = val;
+    let baseId = thisId.replace('-fontSize', '');
+    let fontWeightInput = document.getElementById(baseId + '-fontWeight');
+    // If no font weight defined, default to 400, otherwise use the
+    // font weight value for the lookup table
+    if(!fontWeightInput.value) {
+      fontWeight = '400';
+      fontWeightInput.value = fontWeight;
+    } else {
+      fontWeight = `${fontWeightInput.value}`;
+    }
+    let ratioInput = document.getElementById(baseId);
+    let node = apcaLookup[val];
+
+    if(!node) {
+      // Need to find closest ratios in lookup table
+      // and if ratioInput.value is less than the lower of the
+      // two values, it needs to be changed.
+
+      targetContrast = ratioInput.value;
+    } else {
+      targetContrast = apcaLookup[val][fontWeight]
+      ratioInput.value = targetContrast;
+    }
+  }
+
+  // if input is a font weight, only change the ratio input to match
+  // required value for the combination of size + weight values
+  // if input id contains -fontWeight in the string = it's a font weight input
+  else if (thisId.includes('-fontWeight')) {
+    let baseId = thisId.replace('-fontWeight', '');
+    let fontSizeInput = document.getElementById(baseId + '-fontSize');
+    fontSize = fontSizeInput.value;
+    fontWeight = val;
+
+    let ratioInput = document.getElementById(baseId);
+    targetContrast = apcaLookup[fontSize][val];
+
+    if(targetContrast) {
+      ratioInput.value = targetContrast;
+    } else {
+      targetContrast = ratioInput.value;
+    }
+  }
+
+  // if input is a Ratio, increase the font size value based on
+  // lookup table and current font weight. If no weight, default to 400
+  else {
+    let fontWeightInput = document.getElementById(thisId + '-fontWeight');
+    let fontSizeInput = document.getElementById(thisId + '-fontSize');
+    let fontWeight = (fontWeightInput.value) ? fontWeightInput.value : '400';
+    targetContrast = val;
+    
+    if(!fontWeightInput.value) fontWeightInput.value = '400';
+    let fontSize;
+    for (const property in apcaLookup) {
+      if(apcaLookup[property][fontWeight] === targetContrast) {
+        fontSize = property; 
+        fontSizeInput.value = fontSize;
+      }
+    }
+  }
+
+  console.log(`${targetContrast}, ${fontSize}, ${fontWeight}`)
+  // Then, run the colorinput funtion to update all values.
   colorInput();
 }
 
@@ -437,7 +570,9 @@ function randomId() {
 }
 exports.randomId = randomId;
 
-function createDemo(c, z) {
+
+function createDemo(c, z, fontSize, fontWeight, method) {
+  console.log(`Type args: ${fontSize}, ${fontWeight}`)
   var smallText = 'Small text demo';
   var largeText = 'Large text';
   var buttonText = 'Button';
@@ -446,74 +581,94 @@ function createDemo(c, z) {
   let item = document.createElement('div');
   item.className = 'demoItem';
   let demo = document.createElement('div');
-  demo.className = 'spectrum-Typography demo';
-  let h = document.createElement('h4');
-  h.className = 'spectrum-Heading2 demoHeading';
-  let title = document.createTextNode(largeText);
-  let p = document.createElement('p');
-  p.className = 'spectrum-Body3 demoText';
-  let text = document.createTextNode(smallText);
-  let b = document.createElement('button');
-  b.className = 'spectrum-Button demoButton';
-  let bF = document.createElement('button');
-  bF.className = 'spectrum-Button demoButton';
-  let label = document.createTextNode(buttonText);
-  let label2 = document.createTextNode(buttonText);
 
-  h.appendChild(title);
-  p.appendChild(text);
-  b.appendChild(label);
-  bF.appendChild(label2);
-  demo.appendChild(h);
-  demo.appendChild(p);
-  demo.appendChild(b);
-  demo.appendChild(bF);
+  if(method === 'WCAG') {
+    demo.className = 'spectrum-Typography demo';
 
-  let demoIn = document.createElement('div');
-  demoIn.className = 'spectrum-Typography demoInverted';
-  let hIn = document.createElement('h4');
-  hIn.className = 'spectrum-Heading2 demoHeading';
-  let pIn = document.createElement('p');
-  pIn.className = 'spectrum-Body3 demoText';
-  let bIn = document.createElement('button');
-  bIn.className = 'spectrum-Button demoButton';
-  let bFIn = document.createElement('button');
-  bFIn.className = 'spectrum-Button demoButton';
-  let titleIn = document.createTextNode('Large text');
-  let textIn = document.createTextNode(smallText);
-  let labelIn = document.createTextNode(buttonText);
-  let labelIn2 = document.createTextNode(buttonText);
+    let h = document.createElement('h4');
+    h.className = 'spectrum-Heading2 demoHeading';
+    let title = document.createTextNode(largeText);
+    let p = document.createElement('p');
+    p.className = 'spectrum-Body3 demoText';
+    let text = document.createTextNode(smallText);
+    let b = document.createElement('button');
+    b.className = 'spectrum-Button demoButton';
+    let bF = document.createElement('button');
+    bF.className = 'spectrum-Button demoButton';
+    let label = document.createTextNode(buttonText);
+    let label2 = document.createTextNode(buttonText);
+  
+    h.appendChild(title);
+    p.appendChild(text);
+    b.appendChild(label);
+    bF.appendChild(label2);
+    demo.appendChild(h);
+    demo.appendChild(p);
+    demo.appendChild(b);
+    demo.appendChild(bF);
+  
+    let demoIn = document.createElement('div');
+    demoIn.className = 'spectrum-Typography demoInverted';
+    let hIn = document.createElement('h4');
+    hIn.className = 'spectrum-Heading2 demoHeading';
+    let pIn = document.createElement('p');
+    pIn.className = 'spectrum-Body3 demoText';
+    let bIn = document.createElement('button');
+    bIn.className = 'spectrum-Button demoButton';
+    let bFIn = document.createElement('button');
+    bFIn.className = 'spectrum-Button demoButton';
+    let titleIn = document.createTextNode('Large text');
+    let textIn = document.createTextNode(smallText);
+    let labelIn = document.createTextNode(buttonText);
+    let labelIn2 = document.createTextNode(buttonText);
+  
+    hIn.appendChild(titleIn);
+    pIn.appendChild(textIn);
+    bIn.appendChild(labelIn);
+    bFIn.appendChild(labelIn2);
+    demoIn.appendChild(hIn);
+    demoIn.appendChild(pIn);
+    demoIn.appendChild(bIn);
+    demoIn.appendChild(bFIn);
 
-  hIn.appendChild(titleIn);
-  pIn.appendChild(textIn);
-  bIn.appendChild(labelIn);
-  bFIn.appendChild(labelIn2);
-  demoIn.appendChild(hIn);
-  demoIn.appendChild(pIn);
-  demoIn.appendChild(bIn);
-  demoIn.appendChild(bFIn);
+    item.appendChild(demo);
+    item.appendChild(demoIn);
+    wrap.appendChild(item);
+  
+    demoIn.style.backgroundColor = c;
+    demoIn.style.color = z;
+    demo.style.color = c;
+    p.style.color = c;
+    h.style.color = c;
+    b.style.color = c;
+    bF.style.backgroundColor = c;
+    bF.style.borderColor = c;
+    bF.style.color = z;
+    bFIn.style.color = c;
+    bFIn.style.backgroundColor = z;
+    bFIn.style.borderColor = z;
+    b.style.borderColor = c;
+    pIn.style.color = z;
+    hIn.style.color = z;
+    bIn.style.color = z;
+    bIn.style.borderColor = z;
+  }
+  else if (method === 'APCA') {
+    demo.className = 'demo';
 
-  item.appendChild(demo);
-  item.appendChild(demoIn);
-  wrap.appendChild(item);
-
-  demoIn.style.backgroundColor = c;
-  demoIn.style.color = z;
-  demo.style.color = c;
-  p.style.color = c;
-  h.style.color = c;
-  b.style.color = c;
-  bF.style.backgroundColor = c;
-  bF.style.borderColor = c;
-  bF.style.color = z;
-  bFIn.style.color = c;
-  bFIn.style.backgroundColor = z;
-  bFIn.style.borderColor = z;
-  b.style.borderColor = c;
-  pIn.style.color = z;
-  hIn.style.color = z;
-  bIn.style.color = z;
-  bIn.style.borderColor = z;
+    let labelString = `Sample text`;
+    let label = document.createTextNode(labelString);
+    let labelWrapper = document.createElement('p');
+    labelWrapper.style.fontFamily = "Helvetica Neue, Helvetica, Arial";
+    labelWrapper.style.fontSize = fontSize;
+    labelWrapper.style.fontWeight = fontWeight;
+    labelWrapper.style.color = c;
+    labelWrapper.style.marginBottom = 0;
+    labelWrapper.appendChild(label);
+    demo.appendChild(labelWrapper);
+    item.appendChild(demo);
+    wrap.appendChild(item);
+  }
 
   demoWrapper.style.backgroundColor = z;
 }
@@ -605,9 +760,26 @@ function colorInput() {
   let methodPicker = document.getElementById('contrastMethod');
   let method = methodPicker.value;
 
+  // Gather font information
+  let fontSizeInputs = document.getElementsByClassName('ratioGrid--fontSize');
+  let fontweightInputs = document.getElementsByClassName('ratioGrid--fontWeight');
+  let fontSizes = [];
+  let fontWeights = [];
+  // start loop at 1 because first entry will be the label
+  for(let i = 1; i < fontSizeInputs.length; i++) {
+    fontSizes.push(fontSizeInputs[i].value);
+  }
+  // start loop at 1 because first entry will be the label
+  for(let i = 1; i < fontweightInputs.length; i++) {
+    fontWeights.push(fontweightInputs[i].value);
+  }
+
   // Clamp ratios convert decimal numbers to whole negatives and disallow
   // inputs less than 1 and greater than -1.
   for(let i=0; i<ratioFields.length; i++) {
+    ratioFields[i].min = (method === 'APCA') ? APCAminValue : '-10';
+    ratioFields[i].max = (method === 'APCA') ? APCAmaxValue : '21';
+
     val = ratioFields[i].value;
     if (val < 1 && val > -1) {
       ratioFields[i].value = (10 / (val * 10)).toFixed(2) * -1;
@@ -735,14 +907,15 @@ function colorInput() {
     } else {
       colorOutput.style.color = '#000000';
     }
-    createDemo(newColors[i], background);
+
+    createDemo(newColors[i], background, fontSizes[i], fontWeights[i], method);
   }
 
   var copyColors = document.getElementById('copyAllColors');
   copyColors.setAttribute('data-clipboard-text', newColors);
 
   // update URL parameters
-  updateParams(inputColors, background.substr(1), ratioInputs, mode);
+  updateParams(inputColors, background.substr(1), ratioInputs, mode, method, fontSizes, fontWeights);
 
   let data = chartData.createData(scaleData);
   charts.showCharts('CAM02', data);
@@ -751,7 +924,7 @@ function colorInput() {
 window.onresize = colorInput;
 
 // Passing variable parameters to URL
-function updateParams(c, b, r, m) {
+function updateParams(c, b, r, m, method, fs, fw) {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   let tabColor = document.getElementById("tabColor");
@@ -759,7 +932,10 @@ function updateParams(c, b, r, m) {
   params.set('colorKeys', c);
   params.set('base', b);
   params.set('ratios', r);
+  params.set('fontSizes', fs);
+  params.set('fontWeights', fw);
   params.set('mode', m);
+  params.set('method', method);
 
   var cStrings = c.toString().replace(/[#\/]/g, '"#').replace(/[,\/]/g, '",');
   cStrings = cStrings + '"';
@@ -771,15 +947,18 @@ function updateParams(c, b, r, m) {
   var call = `new Color({ \n name: 'myColor',\n`;
   var pcol = 'colorKeys: [' + cStrings + '], ';
   var prat = 'ratios: [' + r + '], ';
-  var pmod = ' colorspace: "' + m + '"});';
+  var pmod = ' colorspace: "' + m + '"';
+  var pmethod = ` method: ${method}});`
   let text1 = document.createTextNode(call);
   let text2 = document.createTextNode(pcol);
   let text4 = document.createTextNode(prat);
   let text7 = document.createTextNode(pmod);
+  let text8 = document.createTextNode(pmethod);
   p.appendChild(text1);
   p.appendChild(text2);
   p.appendChild(text4);
   p.appendChild(text7);
+  p.appendChild(text8);
 }
 
 // Sort swatches in UI

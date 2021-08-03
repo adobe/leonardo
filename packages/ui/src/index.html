@@ -181,34 +181,45 @@
             </div>
           </div>
           <span class="spectrum-Divider spectrum-Divider--medium"></span>
-          <div>
+          <div style="display:flex">
+            <label for="bgField" class="spectrum-FieldLabel spectrum-FieldLabel--left">Background color</label>
             <input type="color" class="" id="bgField" value="#ffffff"></input>
-            <label for="bgField" class="spectrum-FieldLabel spectrum-FieldLabel--right">Base color</label>
           </div>
+          <span class="spectrum-Divider spectrum-Divider--medium"></span>
           <div class="spectrum-ButtonGroup">
-            <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
                 <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
               </svg>
-              <span class="spectrum-ActionButton-label">Sort</span>
+              <!-- <span class="spectrum-ActionButton-label">Sort</span> -->
             </button>
-            <button title="Distribute ratios" id="distribute" onclick="distributeCube()" class="spectrum-ActionButton spectrum-ActionButton--quiet">
+            <button title="Distribute ratios" id="distribute" onclick="distributeCube()" class="spectrum-ActionButton">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Redistribute">
                 <use xlink:href="#spectrum-icon-24-DistributeVerticalCenter" /> <!-- DistributeVertically DistributeSpaceVert DistributeVerticalCenter -->
               </svg>
-              <span class="spectrum-ActionButton-label">Distribute</span>
+              <!-- <span class="spectrum-ActionButton-label">Distribute</span> -->
+            </button>
+            <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                <use xlink:href="#spectrum-icon-18-Add" />
+              </svg>
+              <!-- <span class="spectrum-ActionButton-label">Add contrast ratio</span> -->
             </button>
           </div>
 
           <div id="ratioInput-wrapper">
-            <label for="ratio" class="spectrum-FieldLabel">Contrast ratios</label>
+            <div class="ratioGrid">
+              <label for="ratio" class="spectrum-FieldLabel ratioGrid--fontSize">Font size</label>
+              <label for="ratio" class="spectrum-FieldLabel ratioGrid--fontWeight">Font weight</label>
+              <label for="ratio" class="spectrum-FieldLabel ratioGrid--ratio">Ratio</label>  
+            </div>
           </div>
-          <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
+          <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
               <use xlink:href="#spectrum-icon-18-Add" />
             </svg>
             <span class="spectrum-ActionButton-label">Add contrast ratio</span>
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
@@ -346,7 +357,7 @@
       <p class="spectrum-Body5">* This option creates contrast swatches based on each key color's contrast ratio with the base color.</p>
     </span>
     <div class="spectrum-Form spectrum-Form--labelsAbove">
-      <label for="bgField_2" class="spectrum-FieldLabel">Base color</label>
+      <label for="bgField_2" class="spectrum-FieldLabel">Background color</label>
       <input type="color" class="" id="bgField_2" value="#ffffff" onChange="colorInput()" ></input>
     </div>
   </div>
