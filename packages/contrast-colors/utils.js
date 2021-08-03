@@ -6,19 +6,16 @@ const colorSpaces = {
   CAM02: {
     name: 'jab',
     channels: ['J', 'a', 'b'],
-    interpolator: d3.interpolateJab,
     function: d3.jab,
   },
   CAM02p: {
     name: 'jch',
     channels: ['J', 'C', 'h'],
-    interpolator: d3.interpolateJch,
     function: d3.jch,
   },
   LCH: {
     name: 'lch', // named per correct color definition order
     channels: ['h', 'c', 'l'],
-    interpolator: d3.interpolateHcl,
     white: d3.hcl(NaN, 0, 100),
     black: d3.hcl(NaN, 0, 0),
     function: d3.hcl,
@@ -26,19 +23,16 @@ const colorSpaces = {
   LAB: {
     name: 'lab',
     channels: ['l', 'a', 'b'],
-    interpolator: d3.interpolateLab,
     function: d3.lab,
   },
   HSL: {
     name: 'hsl',
     channels: ['h', 's', 'l'],
-    interpolator: d3.interpolateHsl,
     function: d3.hsl,
   },
   HSLuv: {
     name: 'hsluv',
     channels: ['l', 'u', 'v'],
-    interpolator: d3.interpolateHsluv,
     white: d3.hsluv(NaN, NaN, 100),
     black: d3.hsluv(NaN, NaN, 0),
     function: d3.hsluv,
@@ -46,22 +40,24 @@ const colorSpaces = {
   RGB: {
     name: 'rgb',
     channels: ['r', 'g', 'b'],
-    interpolator: d3.interpolateRgb,
     function: d3.rgb,
   },
   HSV: {
     name: 'hsv',
     channels: ['h', 's', 'v'],
-    interpolator: d3.interpolateHsv,
     function: d3.hsv,
   },
   HEX: {
     name: 'hex',
     channels: ['r', 'g', 'b'],
-    interpolator: d3.interpolateRgb,
     function: d3.rgb,
   },
 };
+
+function round(x, n = 0) {
+  const ten = 10 ** n;
+  return Math.round(x * ten) / ten;
+}
 
 function multiplyRatios(ratio, multiplier) {
   let r;
@@ -76,24 +72,16 @@ function multiplyRatios(ratio, multiplier) {
     r = 1;
   }
 
-  return Number(r.toFixed(2));
+  return round(r, 2);
 }
 
 function cArray(c) {
-  const color = d3.hsluv(c);
-  // console.color(String(c));
-  // console.log(color);
-  // console.log(chroma(String(c)).luv());
-  const L = color.l;
-  const U = color.u;
-  const V = color.v;
-
-  return [L, U, V];
+  return chroma(String(c)).hsluv();
 }
 
 function smoothScale(ColorsArray, domains, space) {
   const points = space.channels.map(() => []);
-  ColorsArray.forEach((color, i) => points.forEach((point, j) => point.push(domains[i], color[space.channels[j]])));
+  ColorsArray.forEach((color, i) => points.forEach((point, j) => point.push(domains[i], color[j])));
   if (space.name === 'hcl') {
     const point = points[1];
     for (let i = 1; i < point.length; i += 2) {
@@ -117,7 +105,7 @@ function smoothScale(ColorsArray, domains, space) {
     // all are grey case
     if (nans.length) {
       // hue is not important except for JCh
-      const safeJChHue = d3.jch('#ccc').h;
+      const safeJChHue = chroma('#ccc').jch()[2];
       nans.forEach((j) => { point[j] = safeJChHue; });
     }
     nans.length = 0;
@@ -173,8 +161,14 @@ function smoothScale(ColorsArray, domains, space) {
       ch[1] = 0;
     }
 
-    return `${d3[space.name](...ch)}`;
+    return chroma[space.name](...ch).hex();
   };
+}
+
+function makePowScale(exp = 1, domains = [0, 1], range = [0, 1]) {
+  const m = (range[1] - range[0]) / (domains[1] ** exp - domains[0] ** exp);
+  const c = range[0] - m * domains[0] ** exp;
+  return (x) => m * x ** exp + c;
 }
 
 function createScale({
@@ -195,24 +189,15 @@ function createScale({
   }
 
   let domains = colorKeys
-    .map((key) => swatches - swatches * (d3.hsluv(key).v / 100))
+    .map((key) => swatches - swatches * (chroma(key).hsluv()[2] / 100))
     .sort((a, b) => a - b)
     .concat(swatches);
 
   domains.unshift(0);
 
   // Test logarithmic domain (for non-contrast-based scales)
-  let sqrtDomains = d3.scalePow()
-    .exponent(shift)
-    .domain([1, swatches])
-    .range([1, swatches]);
-
-  sqrtDomains = domains.map((d) => {
-    if (sqrtDomains(d) < 0) {
-      return 0;
-    }
-    return sqrtDomains(d);
-  });
+  let sqrtDomains = makePowScale(shift, [1, swatches], [1, swatches]);
+  sqrtDomains = domains.map((d) => Math.max(0, sqrtDomains(d)));
 
   // Transform square root in order to smooth gradient
   domains = sqrtDomains;
@@ -233,36 +218,34 @@ function createScale({
   } else {
     ColorsArray = sortedColor;
   }
-  const stringColors = ColorsArray;
-  ColorsArray = ColorsArray.map((d) => d3[space.name](d));
-  if (space.name === 'hcl') {
-    // special case for HCL if C is NaN we should treat it as 0
-    ColorsArray.forEach((c) => { c.c = Number.isNaN(c.c) ? 0 : c.c; });
-  }
-  if (space.name === 'jch') {
-    // JCh has some “random” hue for grey colors.
-    // Replacing it to NaN, so we can apply the same method of dealing with them.
-    for (let i = 0; i < stringColors.length; i++) {
-      const color = d3.hcl(stringColors[i]);
-      if (!color.c) {
-        ColorsArray[i].h = NaN;
-      }
-    }
-  }
 
   if (smooth) {
+    const stringColors = ColorsArray;
+    ColorsArray = ColorsArray.map((d) => chroma(String(d))[space.name]());
+    if (space.name === 'hcl') {
+      // special case for HCL if C is NaN we should treat it as 0
+      ColorsArray.forEach((c) => { c[1] = Number.isNaN(c[1]) ? 0 : c[1]; });
+    }
+    if (space.name === 'jch') {
+      // JCh has some “random” hue for grey colors.
+      // Replacing it to NaN, so we can apply the same method of dealing with them.
+      for (let i = 0; i < stringColors.length; i++) {
+        const color = chroma(stringColors[i]).hcl();
+        if (!color[1]) {
+          ColorsArray[i][2] = NaN;
+        }
+      }
+    }
     scale = smoothScale(ColorsArray, domains, space);
   } else {
-    scale = d3.scaleLinear()
-      .range(ColorsArray)
-      .domain(domains)
-      .interpolate(space.interpolator);
+    // scale = chroma.scale(ColorsArray.map((triplet) => chroma[space.name](...triplet))).domain(domains).mode(space.name);
+    scale = chroma.scale(ColorsArray.map(String)).domain(domains).mode(space.name);
   }
   if (asFun) {
     return scale;
   }
 
-  const Colors = d3.range(swatches).map((d) => scale(d));
+  const Colors = new Array(swatches).fill().map((_, d) => scale(d));
 
   const colors = Colors.filter((el) => el != null);
 
@@ -296,88 +279,56 @@ function filterNaN(x) {
 // Helper function for rounding color values to whole numbers
 function convertColorValue(color, format, object = false) {
   if (!color) {
-    throw new Error(`Cannot convert color value of ${color}`);
+    throw new Error(`Cannot convert color value of “${color}”`);
   }
-  if (!format) {
-    throw new Error(`Cannot convert to colorspace ${format}`);
+  if (!colorSpaces[format]) {
+    throw new Error(`Cannot convert to colorspace “${format}”`);
   }
-
-  const colorObj = colorSpaces[format].function(color);
-  const propArray = colorSpaces[format].channels;
-
-  const newColorObj = {
-    [propArray[0]]: filterNaN(colorObj[propArray[0]]),
-    [propArray[1]]: filterNaN(colorObj[propArray[1]]),
-    [propArray[2]]: filterNaN(colorObj[propArray[2]]),
-  };
-
-  // HSLuv
-  if (format === 'HSLuv') {
-    for (let i = 0; i < propArray.length; i++) {
-      const roundedPct = Math.round(newColorObj[propArray[i]]);
-      newColorObj[propArray[i]] = roundedPct;
-    }
-  } else if (format === 'LAB' || format === 'LCH' || format === 'CAM02' || format === 'CAM02p') { // LAB, LCH, JAB, JCH
-    for (let i = 0; i < propArray.length; i++) {
-      let roundedPct = Math.round(newColorObj[propArray[i]]);
-
-      if (propArray[i] === 'h' && !object) {
-        roundedPct += 'deg';
-      }
-      if ((propArray[i] === 'l' && !object) || (propArray[i] === 'J' && !object)) {
-        roundedPct += '%';
-      }
-
-      newColorObj[propArray[i]] = roundedPct;
-    }
-  } else {
-    for (let i = 0; i < propArray.length; i++) {
-      if (propArray[i] === 's' || propArray[i] === 'l' || propArray[i] === 'v') {
-        // leave as decimal format
-        const roundedPct = parseFloat(newColorObj[propArray[i]].toFixed(2));
-        if (object) {
-          newColorObj[propArray[i]] = roundedPct;
-        } else {
-          newColorObj[propArray[i]] = `${Math.round(roundedPct * 100)}%`;
-        }
-      } else {
-        let roundedPct = parseFloat(newColorObj[propArray[i]].toFixed());
-        if (propArray[i] === 'h' && !object) {
-          roundedPct += 'deg';
-        }
-        newColorObj[propArray[i]] = roundedPct;
-      }
-    }
-  }
-
-  const stringName = colorSpaces[format].name;
-  let stringValue;
-
+  const space = colorSpaces[format].name;
+  const colorObj = chroma(String(color))[space]();
   if (format === 'HEX') {
-    stringValue = d3.rgb(color).formatHex();
-  } else {
-    let str0;
-    let str1;
-    let str2;
-    if (format === 'LCH') {
-      // Have to force opposite direction of array index for LCH
-      // because d3 defines the channel order as "h, c, l" but we
-      // want the output to be in the correct format
-      str0 = newColorObj[propArray[2]];
-      str1 = newColorObj[propArray[1]];
-      str2 = newColorObj[propArray[0]];
-    } else {
-      str0 = newColorObj[propArray[0]];
-      str1 = newColorObj[propArray[1]];
-      str2 = newColorObj[propArray[2]];
+    if (object) {
+      const rgb = chroma(String(color)).rgb();
+      return { r: rgb[0], g: rgb[1], b: rgb[2] };
     }
-
-    stringValue = `${stringName}(${str0}, ${str1}, ${str2})`;
+    return colorObj;
   }
+
+  const colorObject = {};
+  let newColorObj = colorObj.map(filterNaN);
+
+  newColorObj = newColorObj.map((ch, i) => {
+    let rnd = round(ch);
+    const letter = space.charAt(i);
+    colorObject[letter] = rnd;
+    if (space in { lab: 1, lch: 1, jab: 1, jch: 1 }) {
+      if (!object) {
+        if (letter === 'l' || letter === 'j') {
+          rnd += '%';
+        }
+        if (letter === 'h') {
+          rnd += 'deg';
+        }
+      }
+    } else if (space !== 'hsluv') {
+      if (letter === 's' || letter === 'l' || letter === 'v') {
+        rnd = round(ch, 2);
+        colorObject[letter] = rnd;
+        if (!object) {
+          rnd += '%';
+        }
+      } else if (letter === 'h' && !object) {
+        rnd += 'deg';
+      }
+    }
+    return rnd;
+  });
+
+  const stringName = space;
+  const stringValue = `${stringName}(${newColorObj.join(', ')})`;
 
   if (object) {
-    // return colorObj;
-    return newColorObj;
+    return colorObject;
   }
   return stringValue;
 }
@@ -394,9 +345,9 @@ function getContrast(color, base, baseV) {
   if (baseV === undefined) { // If base is an array and baseV undefined
     const colorString = String(`rgb(${base[0]}, ${base[1]}, ${base[2]})`);
 
-    const baseLightness = Number((d3.hsluv(colorString).v));
+    const baseLightness = (chroma(colorString).hsluv()[2]);
     if (baseLightness > 0) {
-      baseV = Number((baseLightness / 100).toFixed(2));
+      baseV = round(baseLightness / 100, 2);
     } else if (baseLightness === 0) {
       baseV = 0;
     }
@@ -457,7 +408,7 @@ function ratioName(r) {
     const d = 1 / (rNeg.length + 1);
     const m = d * 100;
     const nVal = m * (i + 1);
-    nArr.push(Number(nVal.toFixed()));
+    nArr.push(round(nVal));
   }
   // Name the positive values
   for (let i = 0; i < rPos.length; i++) {
@@ -536,9 +487,8 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
     if (ccache[i]) {
       return ccache[i];
     }
-    const rgb = d3.rgb(colorScale(i));
-    const rgbArray = [rgb.r, rgb.g, rgb.b];
-    const c = getContrast(rgbArray, bgRgbArray, baseV);
+    const rgb = chroma(colorScale(i)).rgb();
+    const c = getContrast(rgb, bgRgbArray, baseV);
     ccache[i] = c;
     // ccounter++;
     return c;
