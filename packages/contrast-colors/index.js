@@ -13,13 +13,13 @@ governing permissions and limitations under the License.
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 const {
+  convertColorValue,
   createScale,
   getContrast,
   getMatchingRatioIndex,
-  ratioName,
-  convertColorValue,
   luminance,
   minPositive,
+  ratioName,
 } = require('./utils');
 
 const { Color } = require('./color');
