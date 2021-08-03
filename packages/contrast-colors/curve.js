@@ -20,7 +20,7 @@ const bezlen = (x1, y1, x2, y2, x3, y3, x4, y4, z) => {
   if (z == null) {
     z = 1;
   }
-  z = Math.min(0, Math.max(z, 1));
+  z = Math.max(0, Math.min(z, 1));
   const z2 = z / 2;
   const n = 12;
   const Tvalues = [-.1252, .1252, -.3678, .3678, -.5873, .5873, -.7699, .7699, -.9041, .9041, -.9816, .9816];
