@@ -1,10 +1,23 @@
-const d3 = require('./d3');
+/*
+Copyright 2019 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+const chroma = require('chroma-js');
 
 const {
+  colorSpaces,
+  convertColorValue,
   multiplyRatios,
   ratioName,
-  convertColorValue,
-  colorSpaces,
+  round,
   searchColors,
 } = require('./utils');
 
@@ -110,7 +123,7 @@ class Theme {
     if (typeof backgroundColor === 'string') {
       // If it's a string, convert to Color object and assign lightness.
       const newBackgroundColor = new BackgroundColor({ name: 'background', colorKeys: [backgroundColor], output: 'RGB' });
-      const calcLightness = Number((d3.hsluv(backgroundColor).v).toFixed());
+      const calcLightness = round(chroma(String(backgroundColor)).hsluv()[2]);
 
       this._backgroundColor = newBackgroundColor;
       this._lightness = calcLightness;
@@ -132,8 +145,7 @@ class Theme {
   }
 
   _findContrastColors() {
-    const rgb = d3.rgb(this._backgroundColorValue);
-    const bgRgbArray = [rgb.r, rgb.g, rgb.b];
+    const bgRgbArray = chroma(String(this._backgroundColorValue)).rgb();
     const baseV = this._lightness / 100;
 
     const baseObj = { background: convertColorValue(this._backgroundColorValue, this._output) };

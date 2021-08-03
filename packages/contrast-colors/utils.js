@@ -1,57 +1,28 @@
+/*
+Copyright 2019 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
 const chroma = require('chroma-js');
-const d3 = require('./d3');
 const { catmullRom2bezier, prepareCurve } = require('./curve');
 
 const colorSpaces = {
-  CAM02: {
-    name: 'jab',
-    channels: ['J', 'a', 'b'],
-    function: d3.jab,
-  },
-  CAM02p: {
-    name: 'jch',
-    channels: ['J', 'C', 'h'],
-    function: d3.jch,
-  },
-  LCH: {
-    name: 'lch', // named per correct color definition order
-    channels: ['h', 'c', 'l'],
-    white: d3.hcl(NaN, 0, 100),
-    black: d3.hcl(NaN, 0, 0),
-    function: d3.hcl,
-  },
-  LAB: {
-    name: 'lab',
-    channels: ['l', 'a', 'b'],
-    function: d3.lab,
-  },
-  HSL: {
-    name: 'hsl',
-    channels: ['h', 's', 'l'],
-    function: d3.hsl,
-  },
-  HSLuv: {
-    name: 'hsluv',
-    channels: ['l', 'u', 'v'],
-    white: d3.hsluv(NaN, NaN, 100),
-    black: d3.hsluv(NaN, NaN, 0),
-    function: d3.hsluv,
-  },
-  RGB: {
-    name: 'rgb',
-    channels: ['r', 'g', 'b'],
-    function: d3.rgb,
-  },
-  HSV: {
-    name: 'hsv',
-    channels: ['h', 's', 'v'],
-    function: d3.hsv,
-  },
-  HEX: {
-    name: 'hex',
-    channels: ['r', 'g', 'b'],
-    function: d3.rgb,
-  },
+  CAM02: 'jab',
+  CAM02p: 'jch',
+  HEX: 'hex',
+  HSL: 'hsl',
+  HSLuv: 'hsluv',
+  HSV: 'hsv',
+  LAB: 'lab',
+  LCH: 'lch', // named per correct color definition order
+  RGB: 'rgb',
 };
 
 function round(x, n = 0) {
@@ -65,9 +36,9 @@ function multiplyRatios(ratio, multiplier) {
   // by making 1 = 0. This ensures consistent application of increase/decrease
   // in contrast ratios. Then add 1 back to number for contextual ratio value.
   if (ratio > 1) {
-    r = ((ratio - 1) * multiplier) + 1;
+    r = (ratio - 1) * multiplier + 1;
   } else if (ratio < -1) {
-    r = ((ratio + 1) * multiplier) - 1;
+    r = (ratio + 1) * multiplier - 1;
   } else {
     r = 1;
   }
@@ -80,9 +51,9 @@ function cArray(c) {
 }
 
 function smoothScale(ColorsArray, domains, space) {
-  const points = space.channels.map(() => []);
+  const points = [[], [], []];
   ColorsArray.forEach((color, i) => points.forEach((point, j) => point.push(domains[i], color[j])));
-  if (space.name === 'hcl') {
+  if (space === 'hcl') {
     const point = points[1];
     for (let i = 1; i < point.length; i += 2) {
       if (Number.isNaN(point[i])) {
@@ -126,7 +97,7 @@ function smoothScale(ColorsArray, domains, space) {
       }
     }
     // force hue to go on the shortest route
-    if (space.name in { hcl: 1, hsl: 1, hsluv: 1, hsv: 1, jch: 1 }) {
+    if (space in { hcl: 1, hsl: 1, hsluv: 1, hsv: 1, jch: 1 }) {
       let prev = point[1];
       let addon = 0;
       for (let i = 3; i < point.length; i += 2) {
@@ -157,11 +128,11 @@ function smoothScale(ColorsArray, domains, space) {
       return null;
     });
 
-    if (space.name === 'jch' && ch[1] < 0) {
+    if (space === 'jch' && ch[1] < 0) {
       ch[1] = 0;
     }
 
-    return chroma[space.name](...ch).hex();
+    return chroma[space](...ch).hex();
   };
 }
 
@@ -214,19 +185,19 @@ function createScale({
 
   let scale;
   if (fullScale) {
-    ColorsArray = [space.white || '#ffffff', ...sortedColor, space.black || '#000000'];
+    ColorsArray = ['#fff', ...sortedColor, '#000'];
   } else {
     ColorsArray = sortedColor;
   }
 
   if (smooth) {
     const stringColors = ColorsArray;
-    ColorsArray = ColorsArray.map((d) => chroma(String(d))[space.name]());
-    if (space.name === 'hcl') {
+    ColorsArray = ColorsArray.map((d) => chroma(String(d))[space]());
+    if (space === 'hcl') {
       // special case for HCL if C is NaN we should treat it as 0
       ColorsArray.forEach((c) => { c[1] = Number.isNaN(c[1]) ? 0 : c[1]; });
     }
-    if (space.name === 'jch') {
+    if (space === 'jch') {
       // JCh has some “random” hue for grey colors.
       // Replacing it to NaN, so we can apply the same method of dealing with them.
       for (let i = 0; i < stringColors.length; i++) {
@@ -239,7 +210,7 @@ function createScale({
     scale = smoothScale(ColorsArray, domains, space);
   } else {
     // scale = chroma.scale(ColorsArray.map((triplet) => chroma[space.name](...triplet))).domain(domains).mode(space.name);
-    scale = chroma.scale(ColorsArray.map(String)).domain(domains).mode(space.name);
+    scale = chroma.scale(ColorsArray.map(String)).domain(domains).mode(space);
   }
   if (asFun) {
     return scale;
@@ -284,7 +255,7 @@ function convertColorValue(color, format, object = false) {
   if (!colorSpaces[format]) {
     throw new Error(`Cannot convert to colorspace “${format}”`);
   }
-  const space = colorSpaces[format].name;
+  const space = colorSpaces[format];
   const colorObj = chroma(String(color))[space]();
   if (format === 'HEX') {
     if (object) {
@@ -497,13 +468,13 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
     const first = getContrast2(0);
     const last = getContrast2(colorLen - 1);
     const dir = first < last ? 1 : -1;
-    const α = 0.01;
+    const ε = 0.01;
     x += 0.005;
     let step = colorLen / 2;
     let dot = step;
     let val = getContrast2(dot);
     let counter = 100;
-    while (Math.abs(val - x) > α && counter) {
+    while (Math.abs(val - x) > ε && counter) {
       counter--;
       step /= 2;
       if (val < x) {
@@ -521,17 +492,18 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
 };
 
 module.exports = {
-  multiplyRatios,
-  createScale,
-  luminance,
-  getContrast,
-  getMatchingRatioIndex,
-  minPositive,
-  ratioName,
-  convertColorValue,
-  removeDuplicates,
-  uniq,
   cArray,
   colorSpaces,
+  convertColorValue,
+  createScale,
+  getContrast,
+  getMatchingRatioIndex,
+  luminance,
+  minPositive,
+  multiplyRatios,
+  ratioName,
+  removeDuplicates,
+  round,
   searchColors,
+  uniq,
 };

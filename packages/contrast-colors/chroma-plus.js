@@ -1,15 +1,31 @@
+/*
+Copyright 2019 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
 const chromajs = require('chroma-js');
 const hsluv = require('hsluv');
 const { rgb2jch, jch2rgb, rgb2jab, jab2rgb } = require('./ciecam02');
 
 const con = console;
 
+// Usage:
+// console.color('rebeccapurple');
 con.color = (color, text = '') => {
   const col = chromajs(color);
   const l = col.luminance();
   con.log(`%c${color} ${text}`, `background-color: ${color};padding: 5px; border-radius: 5px; color: ${l > .5 ? '#000' : '#fff'}`);
 };
 
+// Usage:
+// console.ramp(chroma.scale(['yellow', 'navy']).mode('hsluv'))
 con.ramp = (scale) => {
   const canvas = document.createElement('canvas');
   const n = 200;
