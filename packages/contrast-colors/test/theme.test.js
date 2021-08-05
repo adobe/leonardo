@@ -736,8 +736,8 @@ test('should generate slightly lighter & darker grays on a lighter midtone gray 
     {
       name: 'Color',
       values: [
-        { name: 'Color50', contrast: -1.2, value: '#858585' },
-        { name: 'Color100', contrast: 1.2, value: '#6c6c6c' },
+        { name: 'Color50', contrast: 1.2, value: '#858585' },
+        { name: 'Color100', contrast: -1.2, value: '#6c6c6c' },
       ],
     },
   ]);
