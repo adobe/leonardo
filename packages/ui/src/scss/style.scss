@@ -185,6 +185,11 @@ body {
 .spectrum-Panel-Item--overflow ~ .spectrum-Panel-Item--overflow {
   max-height: 50%;
 }
+
+.spectrum-Panel-Item--bottomPadding {
+  padding-bottom: 32px;
+}
+
 .spectrum-Panel-Title {
   display: flex;
   justify-content: space-between;
@@ -215,6 +220,10 @@ body {
   margin-top: 8px;
 }
 
+.spectrum-Panel-Title .spectrum-Form-item {
+  margin-top: -7px;
+}
+
 #inputs {
   margin-bottom: 1em;
 }
@@ -228,15 +237,16 @@ body {
 #colorScale-wrapper {
   margin-top: 8px;
   margin-right: 18px;
-  height: var(--gradient-height);
-  width: 56px;
+  margin-bottom: 8px;
+  width: 100%;
+  height: 56px;
   display: block;
   position: relative;
 }
 #colorScale {
   display: flex;
   flex-direction: column;
-  height: var(--colors-height);
+  height: 56px;
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
@@ -275,8 +285,11 @@ body {
 }
 
 #colorSlider-wrapper {
+  /* temporarily until getting this to work */ 
+  display: none;
+
   position: relative;
-  display: flex;
+  // display: flex;
   padding: 0px 0px;
   margin-top: -1px;
   justify-content: center;
@@ -457,6 +470,24 @@ body {
   .spectrum-Form-item ~ .spectrum-Form-item {
     margin-left: 16px;
   }
+  + .spectrum-Form--row {
+    margin-top: 6px;
+  }
+}
+
+.spectrum-Form--spaced {
+  .spectrum-Form-item + .spectrum-Form-item {
+    margin-top: 8px;
+  }
+}
+
+.spectrum-Form-item--row {
+  display: flex;
+  flex-direction: row;
+
+  .spectrum-Slider + .spectrum-Slider {
+    margin-left: 24px;
+  }
 }
 
 main {
@@ -567,7 +598,7 @@ p {
   background-color: var(--spectrum-alias-background-color-default);
 }
 
-colorOutput-field {
+.colorOutput-field {
   position: relative;
   margin-bottom: 16px;
 }
@@ -746,9 +777,10 @@ a:focus {
  }
 
 #ratioInput-wrapper {
-  max-height: calc(var(--gradient-height) - 110px);
+  // max-height: calc(var(--gradient-height) - 110px);
   overflow: auto;
   display: flex;
+  margin-top: 16px;
 }
 
 .demoItem {
@@ -777,6 +809,10 @@ a:focus {
   }
 }
 
+#themeBaseDropdown {
+  width: 200px;
+}
+
 #addRatio,
 #addColor {
   justify-content: center;
@@ -803,6 +839,11 @@ a:focus {
 
 .tabcontent {
   display: none;
+}
+
+.paneltabcontent {
+  flex-direction: column;
+  height: 100%;
 }
 
 // Correct some oddities with Dialog buttons
@@ -864,8 +905,8 @@ a:focus {
     margin-left: 8px;
   }
 }
-#themeName {
-  width: 18ch;
+#themeNameInput {
+  width: 360px;
 }
 .themeConfig {
   display: flex;
@@ -880,16 +921,22 @@ a:focus {
   }
 }
 #themeColorWrapper {
-  padding: 16px;
-  background-color: var(--theme-background);
-  grid-area: themeDefault;
+  padding: 0 16px 16px;
+  // background-color: var(--theme-background);
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  align-items: center;
 }
 
 .themeColor_item {
   border-radius: 4px;
-  background-color: transparent;
+  background-color: var(--spectrum-global-color-gray-50);
+  border: 1px solid var(--spectrum-global-color-gray-300);
   overflow: hidden;
+  padding: 16px;
 
   .spectrum-Dropdown {
     width: 120px;
@@ -900,15 +947,30 @@ a:focus {
     top: 4px;
     margin-top: calc(var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75)) / -2);
   }
+  .spectrum-Form-item--row {
+    justify-content: space-between;
+  }
 }
+
 .themeColor_item ~ .themeColor_item {
   margin-top: 16px;
 }
+.themeColor_subheading {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
 .themeColor_gradient {
   position: relative;
   display: flex;
   flex-direction: row;
-  height: 32px;
+  border-radius: 4px;
+  height: 56px;
+  margin: 8px 0;
   width: 100%;
   -webkit-transition: height 200ms;
   transition: height 200ms;
@@ -916,6 +978,7 @@ a:focus {
   .gradient {
     height: 100%;
     width: 100%;
+    border-radius: 4px;
   }
 
   &.is-large {
@@ -929,16 +992,16 @@ a:focus {
 }
 .themeColor_configs {
   display: flex;
-  border-left: 1px solid var(--spectrum-panel-border-color);
-  border-right: 1px solid var(--spectrum-panel-border-color);
-  border-bottom: 1px solid var(--spectrum-panel-border-color);
-  border-top: 0px solid transparent;
-  background-color: var(--spectrum-global-color-gray-50);
+  // border-left: 1px solid var(--spectrum-panel-border-color);
+  // border-right: 1px solid var(--spectrum-panel-border-color);
+  // border-bottom: 1px solid var(--spectrum-panel-border-color);
+  // border-top: 0px solid transparent;
+  // background-color: var(--spectrum-global-color-gray-50);
   height: auto;
   flex-direction: row;
   align-items: flex-start;
   flex-wrap: wrap;
-  padding: 8px 16px 16px;
+  // padding: 8px 16px 16px;
   opacity: 1;
   -webkit-transition: height 200ms, padding 200ms;
   transition: height 200ms, padding 200ms;
@@ -969,11 +1032,6 @@ a:focus {
     padding-top: 16px;
     margin-top: 8px;
   }
-  .keyColorActions {
-    padding-right: 16px;
-    border-right: 2px solid var(--spectrum-global-color-gray-200);
-
-  }
 }
 .keyColorsWrapper {
   position: relative;
@@ -984,19 +1042,29 @@ a:focus {
   margin: -2px;
   flex-wrap: wrap;
   min-height: 32px;
-  // max-height: 32px;
-  min-width: 120px;
-  max-width: 216px;
+  width: 100%;
   overflow: auto;
 }
 
 .colorNameInput {
-  width: 18ch;
+  width: 240px;
 }
 
 #themeOutputs {
   display:flex;
   flex-direction: column;
+  background-color: var(--theme-background);
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.outputHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .themeOutputColor {
@@ -1008,8 +1076,8 @@ a:focus {
 
 .themeOutputSwatch {
   display: inline-flex;
-  width: 26px;
-  height: 26px;
+  width: 48px;
+  height: 48px;
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   margin: 2px 4px 2px 0;
@@ -1166,10 +1234,10 @@ a:focus {
 
 .ratioGrid {
   display: grid;
-  grid-template-columns: 112px 54px 72px 32px;
+  grid-template-columns: 112px 54px 72px 54px 32px;
   column-gap: 8px;
   grid-template-areas: 
-  'ratio fontSize fontWeight actions';
+  'ratio fontSize fontWeight luminosity actions';
 
   .spectrum-Textfield {
     width: 100%;
@@ -1184,6 +1252,61 @@ a:focus {
 .ratioGrid--ratio {
   grid-area: ratio;
 }
+.ratioGrid--luminosity {
+  grid-area: luminosity;
+}
 .ratioGrid--actions {
   grid-area: actions;
+}
+
+.spectrum-Panel-Tabs {
+  padding: 0 16px;
+}
+
+#typeScaleBase {
+  width: 10ch;
+}
+#typeScaleRatio {
+  width: 10ch;
+}
+#typeScaleDecrement {
+  width: 10ch;
+}
+#typeScaleIncrement {
+  width: 10ch;
+}
+#sampleText,
+#themeTitleInput {
+  width: 360px;
+}
+
+#typeScaleSampleWrapper {
+  white-space: nowrap;
+  color: var(--spectrum-global-color-gray-700);
+}
+.sampleTextItem {
+  color: var(--spectrum-global-color-gray-900);
+  line-height: 1.3;
+  margin-left: 12px;
+}
+
+.spectrum-ColorCard {
+  margin: 16px;
+  background-color: var(--spectrum-global-color-gray-50);
+  border: 1px solid var(--spectrum-global-color-gray-300);
+  border-radius: 4px;
+  // box-shadow: 0 3px 6px rgb(0 0 0 / 5%);
+}
+.spectrum-ColorCard-content {
+  padding: 16px;
+}
+
+#outputWrapper {
+  flex-direction: column;
+  padding: 16px;
+}
+
+.spectrum-Dropdown-trigger {
+  padding-right: 24px;
+  text-overflow: ellipsis;
 }

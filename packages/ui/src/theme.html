@@ -1,4 +1,4 @@
-<html>
+<html dir="ltr">
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156021617-1"></script>
@@ -64,6 +64,9 @@
       </div>
     </div>
   </div>
+
+  <div id="themeTitle"></div>
+
   <div class="spectrum-AppHeader_item">
     <a href="https://medium.com/@NateBaldwin/leonardo-an-open-source-contrast-based-color-generator-92d61b6521d2" class="spectrum-ActionButton spectrum-ActionButton--quiet">About</a>
     <a href="https://www.github.com/adobe/leonardo#leonardo" class="spectrum-ActionButton spectrum-ActionButton--quiet">Docs</a>
@@ -73,12 +76,87 @@
     <a href="https://www.github.com/adobe/leonardo" id="octo-link"> <img id="octocat" src="images/GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
   </div>
 </header>
-<div class="appFramePanelLeft">
-  <div id="themeWrapper">
-    <div class="themeConfigWrapper">
-      <div class="themeTitle">
-        <h1 class="spectrum-Heading6">Adaptive Theme Configuration</h1>
-        <div class="spectrum-Form spectrum-Form--row">
+<div class="appFramePanels">
+  <div class="spectrum-Panel">
+    <div class="spectrum-Panel-Tabs">
+      <div class="spectrum-Tabs spectrum-Tabs--horizontal">
+        <div id="tabThemeConfigs" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'themeConfigs')">
+          <label class="spectrum-Tabs-itemLabel">Theme</label>
+        </div>
+        <div id="tabTypeScale" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'typeScale')">
+          <label class="spectrum-Tabs-itemLabel">Type scale</label>
+        </div>
+
+        <div id="tabColorScales" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'colorScales')">
+          <label class="spectrum-Tabs-itemLabel">Color scales</label>
+        </div>
+        <div id="tabContrastSwatches" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'contrastSwatches')">
+          <label class="spectrum-Tabs-itemLabel">Contrast swatches</label>
+        </div>
+      </div>
+    </div>
+    <div id="themeConfigs" class="paneltabcontent">
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Form spectrum-Form--spaced">
+          <div class="spectrum-Form-item">
+            <label for="themeNameInput" class="spectrum-FieldLabel spectrum-FieldLabel">Theme name</label>
+            <input type='text' class="spectrum-Textfield" id="themeNameInput" placeholder="My Theme"/>
+          </div>
+          <div class="spectrum-Form-item spectrum-Form-item--row">
+            <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-FieldLabel--left is-disabled">Background color scale</label>
+            <div class="spectrum-Dropdown is-disabled" id="themeBaseDropdown">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="themeBase" id="themeBase" disabled>
+              </select>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </div>
+            <span>TH</span>
+          </div>
+        </div>
+      </div>
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Heading6">
+            Adaptive theme controls
+          </h3>
+        </div>
+        <div class="spectrum-Form-item spectrum-Form-item--row">
+          <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Brightness</label>
+              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()" disabled></input>
+          </div>
+          <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
+              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">1</div>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="1" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" onInput="sliderInput()" disabled></input>
+          </div>
+        </div>
+      </div>
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Heading6">
+            Accessibility
+          </h3>
+        </div>
+        <div class="spectrum-Form spectrum-Form--spaced">
+          <div class="spectrum-Form-item">
+            <label class="spectrum-FieldLabel spectrum-FieldLabel--left">Contrast formula:</label>
+            <div class="spectrum-Dropdown" id="contrastMethodDropdown">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="contrastMethod" onInput="colorInput()" id="contrastMethod">
+                <option value="WCAG">WCAG</option>
+                <option value="APCA">APCA (draft)</option>
+              </select>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </div>
+          </div>
           <div class="spectrum-Form-item">
             <label for="cvdMode" class="spectrum-FieldLabel spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
             <div class="spectrum-Dropdown is-disabled" id="cvdModeDropdown">
@@ -98,94 +176,152 @@
               </svg>
             </div>
           </div>
-          <div class="spectrum-Form-item">
-            <label for="view" class="spectrum-FieldLabel spectrum-FieldLabel--left">View</label>
-            <div class="spectrum-Dropdown is-disabled" id="viewDropdown">
-              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="view" id="view" oninput="toggleConfigs()">
-                <option value="viewScaleConfig">Configuration</option>
-                <option value="viewScaleOnly">Color scales</option>
-                <option value="viewSwatch">Swatches</option>
-              </select>
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="themeConfig">
-        <div class="spectrum-Form spectrum-Form--row">
-          <div class="spectrum-Form-item">
-            <label for="themeName" class="spectrum-FieldLabel">Theme name</label>
-            <input type="text" placeholder="My Theme" name="themeName" id="themeName" value="" class="spectrum-Textfield">
-          </div>
-          <div class="spectrum-Form-item">
-            <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel is-disabled">Base color</label>
-            <div class="spectrum-Dropdown is-disabled" id="modeDropdown">
-              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="themeBase" id="themeBase" disabled>
-              </select>
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-              </svg>
-            </div>
-          </div>
-          <div class="spectrum-Form-item">
-            <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled">
-              <div class="spectrum-Slider-labelContainer">
-                <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Default brightness</label>
-                <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
-              </div>
-              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()" disabled></input>
-            </div>
-          </div>
-          <div class="spectrum-Form-item">
-            <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled">
-              <div class="spectrum-Slider-labelContainer">
-                <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
-                <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">1</div>
-              </div>
-              <input class="spectrum-Slider-controls" type="range" min="1" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" onInput="sliderInput()" disabled></input>
-            </div>
-          </div>
-        </div>
-        <div class="spectrum-ButtonGroup">
-          <button class="spectrum-ActionButton" onClick="addFromURLDialog()">
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Import from URL">
-              <use xlink:href="#spectrum-icon-18-Import" />
-            </svg>
-            <span class="spectrum-ActionButton-label">Import from URL</span>
-          </button>
-          <button class="spectrum-ActionButton" onClick="addColorScaleUpdate()">
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
-              <use xlink:href="#spectrum-icon-18-Add" />
-            </svg>
-            <span class="spectrum-ActionButton-label">Add color</span>
-          </button>
         </div>
       </div>
     </div>
-    <div id="themeColorWrapper">
-      <!-- Empty state -->
-      <div id="themeColorEmptyState" class="spectrum-IllustratedMessage">
-        <!-- <svg class="spectrum-IllustratedMessage-illustration" xmlns="http://www.w3.org/2000/svg" width="200" height="98" viewBox="0 0 199 97.7"><defs><style>.cls-1,.cls-2{fill:none;stroke-linecap:round;stroke-linejoin:round;}.cls-1{stroke-width:3px;}.cls-2{stroke-width:2px;}</style></defs><title>Asset 1</title><g id="Layer_2" data-name="Layer 2"><g id="illustrations"><path class="cls-1" d="M110.53,85.66,100.26,95.89a1.09,1.09,0,0,1-1.52,0L88.47,85.66"/><line class="cls-1" x1="99.5" y1="95.5" x2="99.5" y2="58.5"/><path class="cls-1" d="M105.5,73.5h19a2,2,0,0,0,2-2v-43"/><path class="cls-1" d="M126.5,22.5h-19a2,2,0,0,1-2-2V1.5h-31a2,2,0,0,0-2,2v68a2,2,0,0,0,2,2h19"/><line class="cls-1" x1="105.5" y1="1.5" x2="126.5" y2="22.5"/><path class="cls-2" d="M47.93,50.49a5,5,0,1,0-4.83-5A4.93,4.93,0,0,0,47.93,50.49Z"/><path class="cls-2" d="M36.6,65.93,42.05,60A2.06,2.06,0,0,1,45,60l12.68,13.2"/><path class="cls-2" d="M3.14,73.23,22.42,53.76a1.65,1.65,0,0,1,2.38,0l19.05,19.7"/><path class="cls-1" d="M139.5,36.5H196A1.49,1.49,0,0,1,197.5,38V72A1.49,1.49,0,0,1,196,73.5H141A1.49,1.49,0,0,1,139.5,72V32A1.49,1.49,0,0,1,141,30.5H154a2.43,2.43,0,0,1,1.67.66l6,5.66"/><rect class="cls-1" x="1.5" y="34.5" width="58" height="39" rx="2" ry="2"/></g></g></svg> -->
+    <div id="contrastSwatches" class="paneltabcontent">
+      <div class="spectrum-Panel-Item">
 
-        <h2 class="spectrum-Heading spectrum-Heading--pageTitle spectrum-IllustratedMessage-heading">Add a color to begin</h2>
-        <p class="spectrum-Body--secondary spectrum-IllustratedMessage-description">Add colors and configurations to build your adaptive theme.</p>
+        <div class="spectrum-Form spectrum-Form--spaced">
+          <div class="spectrum-Form-item">
+            <div class="spectrum-Switch">
+              <input type="checkbox" class="spectrum-Switch-input" id="typeScaleSync" checked>
+              <span class="spectrum-Switch-switch"></span>
+              <label class="spectrum-Switch-label" for="typeScaleSync">Sync with typescale</label>
+            </div>
+          </div>
+          <div class="spectrum-Form-item spectrum-ButtonGroup">
+            <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                <use xlink:href="#spectrum-icon-18-Add" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Add swatch</span>
+            </button>
+            <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeXS" focusable="false" aria-hidden="true" aria-label="Sort">
+                <use xlink:href="#spectrum-css-icon-ArrowDownSmall" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Sort</span>
+            </button>
+          </div>
+        </div>
+
+
+
+        <div id="ratioInput-wrapper">
+          <div class="ratioGrid">
+            <label class="spectrum-FieldLabel ratioGrid--ratio">Ratio</label>  
+            <label class="spectrum-FieldLabel ratioGrid--fontSize">Font size</label>
+            <label class="spectrum-FieldLabel ratioGrid--fontWeight">Font weight</label>
+            <label class="spectrum-FieldLabel ratioGrid--luminosity">Luminosity</label>  
+          </div>
+        </div>
+        <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add contrast ratio</span>
+        </button> -->
+      </div>
+
+
+      <div class="spectrum-Panel-Item">
+        <div class="charts">
+          <div class="chartGroup">
+            <h3 class="spectrum-Heading6">Swatch Distribution</h3>
+            <div id="contrastChart"></div>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- end Theme Color Wrapper -->
-  </div>
-  <div class="spectrum-Panel spectrum-Panel--small spectrum-Panel--right">
-    <div class="spectrum-Panel-Item spectrum-Panel-Item--overflow">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Heading6">Generated Colors</h3>
-        <button id="copyThemeColors" class="spectrum-ActionButton copyButton">
-          <span class="spectrum-ActionButton-label">Copy All</span>
+    <div id="colorScales" class="paneltabcontent">
+      <div class="spectrum-Panel-Item">
+        <button class="spectrum-ActionButton" onClick="addColorScaleUpdate()">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add color</span>
         </button>
       </div>
-      <div id="themeOutputs">
+
+      <div id="themeColorWrapper">
+        <div id="themeColorEmptyState" class="spectrum-IllustratedMessage">  
+          <h2 class="spectrum-Heading spectrum-Heading3 spectrum-IllustratedMessage-heading">Add a color scale to begin</h2> 
+          <!-- <p class="spectrum-Body--secondary spectrum-IllustratedMessage-description">.</p>  -->
+        </div>
+      </div>
+
+    </div>
+    <div id="typeScale" class="paneltabcontent">
+      <div class="spectrum-Panel-Item spectrum-Panel-Item--bottomPadding">
+        <div class="spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <label for="typeScaleBase" class="spectrum-FieldLabel spectrum-FieldLabel">Base font size</label>
+            <input type='number' class="spectrum-Textfield" id="typeScaleBase" value="16"/>
+          </div>
+          <div class="spectrum-Form-item">
+            <label for="typeScaleRatio" class="spectrum-FieldLabel spectrum-FieldLabel">Type scale</label>
+            <input type='number' class="spectrum-Textfield" id="typeScaleRatio" value="1.25" step="0.0125"/>
+          </div>
+          <div class="spectrum-Form-item">
+            <label for="typeScaleDecrement" class="spectrum-FieldLabel spectrum-FieldLabel">Sizes smaller</label>
+            <input type='number' class="spectrum-Textfield" id="typeScaleDecrement" min="0" value="2"/>
+          </div>
+          <div class="spectrum-Form-item">
+            <label for="typeScaleIncrement" class="spectrum-FieldLabel spectrum-FieldLabel">Sizes larger</label>
+            <input type='number' class="spectrum-Textfield" id="typeScaleIncrement" min="0" value="8"/>
+          </div>
+        </div>
+        <div class="spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <label for="sampleText" class="spectrum-FieldLabel spectrum-FieldLabel">Sample text</label>
+            <input type='text' class="spectrum-Textfield" id="sampleText" value="Text"/>
+          </div>
+        </div>
+      </div>
+      <div class="spectrum-Panel-Item">
+        <div id="typeScaleSampleWrapper"></div>
       </div>
     </div>
+
+
+  </div>
+
+  <main>
+    <div id="contentTabWrapper">
+      <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+        <div id="tabOutput" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'outputWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Output</label>
+        </div>
+        <div id="tabCharts" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'chartsWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Charts</label>
+        </div>
+        <div id="tabModel" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'modelWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Model</label>
+        </div>
+      </div>
+    </div>
+
+    <div id="outputWrapper">
+      <div class="outputHeader">
+        <h3 class="spectrum-Heading6">Generated Colors</h3>
+        <div class="spectrum-ButtonGroup">
+          <button id="copyThemeColors" class="spectrum-ActionButton copyButton">
+            <span class="spectrum-ActionButton-label">Copy All</span>
+          </button>
+          <button id="downloadThemeColorsSvg" class="spectrum-ActionButton copyButton">
+            <span class="spectrum-ActionButton-label">Download as SVG</span>
+          </button>  
+        </div>
+      </div>
+      <div id="themeOutputs"></div>
+    </div>
+    <div id="chartsWrapper"></div>
+    <div id="modelWrapper"></div>
+
+  </main>
+  
+  <div class="spectrum-Panel spectrum-Panel--small spectrum-Panel--right">
     <div class="spectrum-Panel-Item spectrum-Panel-Item--overflow">
       <div class="spectrum-Panel-Title">
         <h3 class="spectrum-Heading6">Function Parameters</h3>

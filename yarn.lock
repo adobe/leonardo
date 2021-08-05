@@ -2197,6 +2197,11 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/slider/-/slider-2.1.0.tgz#2bc83c522b07c5ce5b57ba267021fb24984d2a0b"
   integrity sha512-oROCNx6HMY5nPPXBmH515dDpE/45hssaUleIC/HtgdOdwHiNdbGVFV3IK5xpPgYPCAzNlrB9BRsL8DSz2nDUQw==
 
+"@spectrum-css/switch@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/switch/-/switch-1.0.2.tgz#f0b4c69271964573e02b08e90998096e49e1de44"
+  integrity sha512-zqmHpgWPNg1gEwdUNFYV3CBX5JaeALfIqcJIxE0FLZqr9d1C4+oLE0ItIFzt1bwr4bFAOmkEpvtiY+amluzGxQ==
+
 "@spectrum-css/tabs@^2.1.1":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@spectrum-css/tabs/-/tabs-2.1.5.tgz#5f64eac57b228c3929cfcf25676aa680ec2c3bfe"
@@ -2236,6 +2241,11 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
+
+"@spectrum-css/vars@^3.0.1":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-3.0.2.tgz#ea9062c3c98dfc6ba59e5df14a03025ad8969999"
+  integrity sha512-vzS9KqYXot4J3AEER/u618MXWAS+IoMvYMNrOoscKiLLKYQWenaueakUWulFonToPd/9vIpqtdbwxznqrK5qDw==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.15"

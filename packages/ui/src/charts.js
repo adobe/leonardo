@@ -25,17 +25,18 @@ Create 2d and 3d chart heights and widths based on known
 paddings and panel dimensions, based on viewport height/width.
 */
 function createChartWidth() {
-  let leftPanel = 304;
-  let rightPanel = 240;
-  let paddings = 100;
-  let offset = leftPanel + rightPanel + paddings;
-  let viewportWidth = window.innerWidth;
+  // let leftPanel = 304;
+  // let rightPanel = 240;
+  // let paddings = 100;
+  // let offset = leftPanel + rightPanel + paddings;
+  // let viewportWidth = window.innerWidth;
 
-  if((viewportWidth - offset) / 2 > 300) {
-    return (viewportWidth - offset) / 2;
-  } else {
-    return 300;
-  }
+  // if((viewportWidth - offset) / 2 > 300) {
+  //   return (viewportWidth - offset) / 2;
+  // } else {
+  //   return 300;
+  // }
+  return 366;
 }
 
 function createChartHeight() {

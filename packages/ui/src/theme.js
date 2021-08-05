@@ -27,6 +27,7 @@ import '@spectrum-css/textfield/dist/index-vars.css';
 import '@spectrum-css/dropdown/dist/index-vars.css';
 import '@spectrum-css/fieldlabel/dist/index-vars.css';
 import '@spectrum-css/checkbox/dist/index-vars.css';
+import '@spectrum-css/switch/dist/index-vars.css';
 import '@spectrum-css/buttongroup/dist/index-vars.css';
 import '@spectrum-css/tooltip/dist/index-vars.css';
 import '@spectrum-css/slider/dist/index-vars.css';
@@ -67,6 +68,7 @@ new ClipboardJS('.themeOutputSwatch');
 // window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
 
 var currentBackgroundColor;
+window.ratioInputs = [];
 
 let cvdModeDropdown = document.getElementById('cvdMode');
 
@@ -244,13 +246,10 @@ function addColorScale(c, k, s, r) {
 
   // Color Name Input
   let colorName = document.createElement('div');
-  colorName.className = 'spectrum-Form-item';
-  let colorNameLabel = document.createElement('label');
-  colorNameLabel.className = 'spectrum-FieldLabel';
-  colorNameLabel.for = thisId.concat('_colorName');
+  colorName.className = 'spectrum-Form-item spectrum-Form-item--row';
   let colorNameInput = document.createElement('input');
   colorNameInput.type = 'text';
-  colorNameInput.className = 'spectrum-Textfield colorNameInput';
+  colorNameInput.className = 'spectrum-Textfield spectrum-Textfield--quiet colorNameInput';
   colorNameInput.id = thisId.concat('_colorName');
   colorNameInput.name = thisId.concat('_colorName');
 
@@ -270,29 +269,29 @@ function addColorScale(c, k, s, r) {
 
 
   colorNameInput.oninput = throttle(themeUpdateParams, 10);
-  colorNameLabel.innerHTML = 'Color scale name';
-  colorName.appendChild(colorNameLabel);
+  // colorNameLabel.innerHTML = 'Color scale name';
+  // colorName.appendChild(colorNameLabel);
   colorName.appendChild(colorNameInput);
 
   // Key Color Input
   let keyColors = document.createElement('div');
-  keyColors.className = 'spectrum-Form-item';
-  let keyColorsLabel = document.createElement('label');
-  keyColorsLabel.className = 'spectrum-FieldLabel';
+  keyColors.className = 'themeColor_subheading';
+  let keyColorsLabel = document.createElement('h4');
+  keyColorsLabel.className = 'spectrum-Heading6';
   keyColorsLabel.for = thisId.concat('_keyColors');
+
   let keyColorsInput = document.createElement('div');
   keyColorsInput.className = 'keyColorsWrapper';
   let keyColorsId = thisId.concat('_keyColors');
   keyColorsInput.id = keyColorsId;
   keyColorsLabel.innerHTML = 'Key colors';
   keyColors.appendChild(keyColorsLabel);
-  keyColors.appendChild(keyColorsInput);
 
   // Key Colors Actions
   let addColors = document.createElement('div');
-  addColors.className = 'spectrum-Form-item labelSpacer keyColorActions';
+  addColors.className = 'keyColorActions';
   let addButton = document.createElement('button');
-  addButton.className = 'spectrum-ActionButton';
+  addButton.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   let buttonId = thisId.concat('_addKeyColor');
   addButton.id = buttonId;
   addButton.title = "Add key color"
@@ -303,7 +302,7 @@ function addColorScale(c, k, s, r) {
   </svg>
   `;
   let bulkButton = document.createElement('button');
-  bulkButton.className = 'spectrum-ActionButton';
+  bulkButton.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   let bulkId = thisId.concat('_addBulk');
   bulkButton.title = "Add bulk key colors"
   bulkButton.id = bulkId;
@@ -316,14 +315,15 @@ function addColorScale(c, k, s, r) {
 
   addColors.appendChild(addButton);
   addColors.appendChild(bulkButton);
+  keyColors.appendChild(addColors);
 
   // Interpolation mode
   let interp = document.createElement('div');
-  interp.className = 'spectrum-Form-item';
+  interp.className = 'spectrum-Form-item spectrum-Form-item--row';
   let interpLabel = document.createElement('label');
-  interpLabel.className = 'spectrum-FieldLabel';
+  interpLabel.className = 'spectrum-FieldLabel spectrum-FieldLabel--left';
   interpLabel.for = thisId.concat('_mode');
-  let interpLabelText = 'Colorspace interpolation';
+  let interpLabelText = 'Mode';
   let interpDropdown = document.createElement('div');
   interpDropdown.className = 'spectrum-Dropdown';
   interpDropdown.id = thisId.concat('_modeDropdown');
@@ -366,35 +366,31 @@ function addColorScale(c, k, s, r) {
     interpSelect.value = s;
   }
 
-
-  // Ratios
-  let ratios = document.createElement('div');
-  ratios.className = 'spectrum-Form-item';
-  let ratiosLabel = document.createElement('label');
-  ratiosLabel.className = 'spectrum-FieldLabel';
-  ratiosLabel.innerHTML = 'Contrast ratios';
-  ratiosLabel.for = thisId.concat('_ratios');
-  let ratiosInput = document.createElement('input');
-  ratiosInput.type = 'text';
-  if(r == undefined) {
-    ratiosInput.value = '3, 4.5';
-  }
-  else {
-    ratiosInput.value = r;
-  }
-
-  ratiosInput.className = 'spectrum-Textfield';
-  ratiosInput.id = thisId.concat('_ratios');
-  ratiosInput.name = thisId.concat('_ratios');
-  ratiosInput.oninput = throttle(themeUpdateParams, 10);
-  ratios.appendChild(ratiosLabel);
-  ratios.appendChild(ratiosInput);
+  // Smoothing
+  let smoothFormItem = document.createElement('div');
+  smoothFormItem.className = 'spectrum-Form-item';
+  let smoothWrapper = document.createElement('div');
+  smoothWrapper.className = 'spectrum-Switch';
+  let smoothInput = document.createElement('input');
+  smoothInput.type = 'checkbox';
+  smoothInput.className = 'spectrum-Switch-input';
+  smoothInput.id = thisId.concat('_smooth');
+  let smoothSwitch = document.createElement('span');
+  smoothSwitch.className = 'spectrum-Switch-switch';
+  let smoothLabel = document.createElement('label');
+  smoothLabel.className = 'spectrum-Switch-label';
+  smoothLabel.htmlFor = thisId.concat('_smooth');
+  smoothLabel.innerHTML = 'Smooth';
+  smoothWrapper.appendChild(smoothInput);
+  smoothWrapper.appendChild(smoothSwitch);
+  smoothWrapper.appendChild(smoothLabel);
+  smoothFormItem.appendChild(smoothWrapper);
 
   // Actions
   let actions = document.createElement('div');
   actions.className = 'spectrum-ButtonGroup spectrum-Form-item labelSpacer';
   let edit = document.createElement('button');
-  edit.className = 'spectrum-ActionButton';
+  edit.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   edit.title = "Edit color scale in new tab"
   edit.innerHTML = `
   <!-- <span class="spectrum-ActionButton-label">Add from URL</span> -->
@@ -404,7 +400,7 @@ function addColorScale(c, k, s, r) {
   edit.addEventListener('click', themeEditItem);
   // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
   let deleteColor = document.createElement('button');
-  deleteColor.className = 'spectrum-ActionButton';
+  deleteColor.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   deleteColor.title = 'Delete color scale'
   deleteColor.id = thisId.concat('_delete');
   deleteColor.innerHTML = `
@@ -416,14 +412,20 @@ function addColorScale(c, k, s, r) {
   actions.appendChild(edit);
   actions.appendChild(deleteColor);
 
-  // Put it all together
-  inputs.appendChild(colorName);
-  inputs.appendChild(keyColors);
-  inputs.appendChild(addColors)
-  inputs.appendChild(interp);
-  inputs.appendChild(ratios);
-  inputs.appendChild(actions);
+  colorName.appendChild(actions);
 
+  // Put it all together
+  // inputs.appendChild(colorName);
+  inputs.appendChild(interp);
+  inputs.appendChild(smoothFormItem);
+
+  inputs.appendChild(keyColors);
+  inputs.appendChild(keyColorsInput);
+
+  // inputs.appendChild(ratios);
+  // inputs.appendChild(actions);
+
+  item.appendChild(colorName);
   item.appendChild(gradient);
   item.appendChild(inputs);
 
@@ -441,29 +443,14 @@ function addColorScale(c, k, s, r) {
   }
   // generate the number of values equal to the width of the item
   let n = window.innerWidth - 272;
-  let rampData = new Leo.Color({name: c, colorKeys: ['#000000'], colorspace: 'LAB'});
-  // let rampData = contrastColors.createScale({swatches: n, colorKeys: ['#000000'], colorspace: 'LAB'});
+  // let rampData = new Leo.Color({name: c, colorKeys: ['#000000'], colorspace: 'LAB'});
+  let rampData = Leo.createScale({swatches: 30, colorKeys: ['#000000'], colorspace: 'LAB'});
 
   let colors = rampData.colorScale;
 
-  themeRamp(colors, n, gradientId);
+  themeRamp(colors, gradientId);
   toggleControls();
   baseScaleOptions();
-
-  let select = document.getElementById('view');
-  let value = select.value;
-
-  if(value == 'viewScaleOnly') {
-    inputs.classList.add('is-hidden');
-    gradient.classList.add('is-large');
-  }
-
-  else if(value == 'viewScaleConfig') { }
-
-  else if (value == 'viewSwatch') {
-    inputs.classList.add('is-hidden');
-  }
-
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
   document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
@@ -473,6 +460,7 @@ function addColorScale(c, k, s, r) {
 
 window.addColorScaleUpdate = addColorScaleUpdate;
 function addColorScaleUpdate(c, k, s, r) {
+  if (!c) c = 'nameIsMissingSomewhere';
   addColorScale(c, k, s, r);
   themeInput();
   let config = getThemeData();
@@ -484,11 +472,11 @@ function addColorScaleUpdate(c, k, s, r) {
 }
 
 // Update theme when theme name is changed
-document.getElementById('themeName').addEventListener('input', throttle(themeUpdateParams, 50));
+document.getElementById('themeNameInput').addEventListener('input', throttle(themeUpdateParams, 50));
 // Update theme when base color selection is changed
 document.getElementById('themeBase').addEventListener('input', throttle(themeUpdateParams, 50));
 
-function themeRamp(colors, n = window.innerWidth - 272, dest) {
+function themeRamp(colors, dest) {
   let container = document.getElementById(dest);
   let gradient = document.createElement('div');
   gradient.className = 'gradient'
@@ -626,7 +614,7 @@ function toggleControls() {
   let contrastSliderWrap = document.getElementById('contrastSliderWrapper');
   let contrastSlider = document.getElementById('themeContrastSlider');
   let themeBaseLabel = document.getElementById('themeBaseLabel');
-  let modeDropdown = document.getElementById('modeDropdown');
+  let themeBaseDropdown = document.getElementById('themeBaseDropdown');
   let baseSelect = document.getElementById('themeBase');
 
   if(items.length > 0) {
@@ -634,7 +622,7 @@ function toggleControls() {
     brightnessSliderWrap.classList.remove('is-disabled');
     contrastSliderWrap.classList.remove('is-disabled');
     themeBaseLabel.classList.remove('is-disabled');
-    modeDropdown.classList.remove('is-disabled');
+    themeBaseDropdown.classList.remove('is-disabled');
     brightnessSlider.disabled = false;
     contrastSlider.disabled = false;
     baseSelect.disabled = false;
@@ -644,7 +632,7 @@ function toggleControls() {
     brightnessSliderWrap.classList.add('is-disabled');
     contrastSliderWrap.classList.add('is-disabled');
     themeBaseLabel.classList.add('is-disabled');
-    modeDropdown.classList.add('is-disabled');
+    themeBaseDropdown.classList.add('is-disabled');
     brightnessSlider.disabled = true;
     contrastSlider.disabled = true;
     baseSelect.disabled = true;
@@ -796,9 +784,9 @@ function themeInput() {
       }
       let colors = Leo.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
 
-      colors = cvdColors(colors);
+      let colors = cvdColors(colors);
 
-      themeRamp(colors, n, gradientId);
+      themeRamp(colors, gradientId);
     }
 
     let theme = new Leo.Theme({
@@ -902,7 +890,7 @@ function themeInput() {
       themeOutputs.appendChild(wrapper);
     }
     // Run toggle to ensure proper visibility shown based on view mode
-    toggleConfigs();
+    // toggleConfigs();
 
     let copyThemeColors = document.getElementById('copyThemeColors');
     copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
@@ -1032,115 +1020,115 @@ window.bulkItemColorInput = function bulkItemColorInput(e) {
   bulkInputs.value = " ";
 }
 
-window.addFromURL = addFromURL;
-function addFromURL() {
-  let input = document.getElementById('addFromURLinput');
-  let value = input.value;
+// window.addFromURL = addFromURL;
+// function addFromURL() {
+//   let input = document.getElementById('addFromURLinput');
+//   let value = input.value;
 
-  let url = new URL(value);
-  let params = new URLSearchParams(url.search.slice(1));
-  let pathName = url.pathname;
+//   let url = new URL(value);
+//   let params = new URLSearchParams(url.search.slice(1));
+//   let pathName = url.pathname;
 
-  let crs, ratios, mode;
-  let cName = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+//   let crs, ratios, mode;
+//   let cName = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
 
-  // // If parameters exist, use parameter; else use default html input values
-  if(params.has('colorKeys')) {
-    let cr = params.get('colorKeys');
-    crs = cr.split(',');
-  }
+//   // // If parameters exist, use parameter; else use default html input values
+//   if(params.has('colorKeys')) {
+//     let cr = params.get('colorKeys');
+//     crs = cr.split(',');
+//   }
 
-  if(params.has('ratios')) {
-    // transform parameter values into array of numbers
-    let rat = params.get('ratios');
-    ratios = rat.split(',');
-    ratios = ratios.map(Number);
+//   if(params.has('ratios')) {
+//     // transform parameter values into array of numbers
+//     let rat = params.get('ratios');
+//     ratios = rat.split(',');
+//     ratios = ratios.map(Number);
 
-    if(ratios[0] == 0) { // if no parameter value, default to [3, 4.5]
-      ratios = [3, 4.5];
-    } else { }
-  }
-  if(params.has('mode')) {
-    mode = params.get('mode');
-  }
-  else {
-    // do nothing
-  }
-  addColorScaleUpdate(cName, crs, mode, ratios);
+//     if(ratios[0] == 0) { // if no parameter value, default to [3, 4.5]
+//       ratios = [3, 4.5];
+//     } else { }
+//   }
+//   if(params.has('mode')) {
+//     mode = params.get('mode');
+//   }
+//   else {
+//     // do nothing
+//   }
+//   addColorScaleUpdate(cName, crs, mode, ratios);
 
-  cancelURL();
-  // Run colorinput
-  // throttle(themeInput, 10);
-  // Clear out value when done
-  input.value = ' ';
-}
+//   cancelURL();
+//   // Run colorinput
+//   // throttle(themeInput, 10);
+//   // Clear out value when done
+//   input.value = ' ';
+// }
 
-window.toggleConfigs = toggleConfigs;
-function toggleConfigs() {
-  let select = document.getElementById('view');
-  let value = select.value;
-  let configs = document.getElementsByClassName('themeColor_configs');
-  let gradient = document.getElementsByClassName('themeColor_gradient');
-  let swatches = document.getElementsByClassName('gradientColorSwatchWrapper');
+// window.toggleConfigs = toggleConfigs;
+// function toggleConfigs() {
+//   let select = document.getElementById('view');
+//   // let value = select.value;
+//   let configs = document.getElementsByClassName('themeColor_configs');
+//   let gradient = document.getElementsByClassName('themeColor_gradient');
+//   let swatches = document.getElementsByClassName('gradientColorSwatchWrapper');
 
-  if(value == 'viewScaleOnly') {
-    for (let i = 0; i < configs.length; i ++) {
-      if (!configs[i].classList.contains('is-hidden')) {
-        configs[i].classList.add('is-hidden');
-      }
-      if (!gradient[i].classList.contains('is-large')) {
-        gradient[i].classList.add('is-large');
-      }
-      if (gradient[i].classList.contains('is-hidden')) {
-        gradient[i].classList.remove('is-hidden');
-      }
-      if (!swatches[i].classList.contains('is-hidden')) {
-        swatches[i].classList.add('is-hidden');
-      }
-      if (swatches[i].classList.contains('is-large')) {
-        swatches[i].classList.remove('is-large');
-      }
-    }
-  }
-  else if(value == 'viewScaleConfig') {
-    for (let i = 0; i < configs.length; i ++) {
-      if (configs[i].classList.contains('is-hidden')) {
-        configs[i].classList.remove('is-hidden');
-      }
-      if (gradient[i].classList.contains('is-large')) {
-        gradient[i].classList.remove('is-large');
-      }
-      if (gradient[i].classList.contains('is-hidden')) {
-        gradient[i].classList.remove('is-hidden');
-      }
-      if (!swatches[i].classList.contains('is-hidden')) {
-        swatches[i].classList.add('is-hidden');
-      }
-      if (swatches[i].classList.contains('is-large')) {
-        swatches[i].classList.remove('is-large');
-      }
-    }
-  }
-  else if (value == 'viewSwatch') {
-    for (let i = 0; i < configs.length; i ++) {
-      if (!configs[i].classList.contains('is-hidden')) {
-        configs[i].classList.add('is-hidden');
-      }
-      if (!gradient[i].classList.contains('is-large')) {
-        gradient[i].classList.add('is-large');
-      }
-      if (!gradient[i].classList.contains('is-hidden')) {
-        gradient[i].classList.add('is-hidden');
-      }
-      if (swatches[i].classList.contains('is-hidden')) {
-        swatches[i].classList.remove('is-hidden');
-      }
-      if (!swatches[i].classList.contains('is-large')) {
-        swatches[i].classList.add('is-large');
-      }
-    }
-  }
-}
+//   if(value == 'viewScaleOnly') {
+//     for (let i = 0; i < configs.length; i ++) {
+//       if (!configs[i].classList.contains('is-hidden')) {
+//         configs[i].classList.add('is-hidden');
+//       }
+//       if (!gradient[i].classList.contains('is-large')) {
+//         gradient[i].classList.add('is-large');
+//       }
+//       if (gradient[i].classList.contains('is-hidden')) {
+//         gradient[i].classList.remove('is-hidden');
+//       }
+//       if (!swatches[i].classList.contains('is-hidden')) {
+//         swatches[i].classList.add('is-hidden');
+//       }
+//       if (swatches[i].classList.contains('is-large')) {
+//         swatches[i].classList.remove('is-large');
+//       }
+//     }
+//   }
+//   else if(value == 'viewScaleConfig') {
+//     for (let i = 0; i < configs.length; i ++) {
+//       if (configs[i].classList.contains('is-hidden')) {
+//         configs[i].classList.remove('is-hidden');
+//       }
+//       if (gradient[i].classList.contains('is-large')) {
+//         gradient[i].classList.remove('is-large');
+//       }
+//       if (gradient[i].classList.contains('is-hidden')) {
+//         gradient[i].classList.remove('is-hidden');
+//       }
+//       if (!swatches[i].classList.contains('is-hidden')) {
+//         swatches[i].classList.add('is-hidden');
+//       }
+//       if (swatches[i].classList.contains('is-large')) {
+//         swatches[i].classList.remove('is-large');
+//       }
+//     }
+//   }
+//   else if (value == 'viewSwatch') {
+//     for (let i = 0; i < configs.length; i ++) {
+//       if (!configs[i].classList.contains('is-hidden')) {
+//         configs[i].classList.add('is-hidden');
+//       }
+//       if (!gradient[i].classList.contains('is-large')) {
+//         gradient[i].classList.add('is-large');
+//       }
+//       if (!gradient[i].classList.contains('is-hidden')) {
+//         gradient[i].classList.add('is-hidden');
+//       }
+//       if (swatches[i].classList.contains('is-hidden')) {
+//         swatches[i].classList.remove('is-hidden');
+//       }
+//       if (!swatches[i].classList.contains('is-large')) {
+//         swatches[i].classList.add('is-large');
+//       }
+//     }
+//   }
+// }
 
 window.showToast = showToast;
 function showToast() {
@@ -1228,12 +1216,13 @@ function getColorItemData(id) {
   let mode = modeSelect.value;
 
   // 4. find ratios
-  let ratiosId = id.concat('_ratios');
-  let ratiosInput = document.getElementById(ratiosId);
-  let rVals = ratiosInput.value;
-  let r = new Array(rVals);
-  let rSplit = r.join("").split(',');
-  let ratios = rSplit.map(x => parseFloat(x));
+  // let ratiosId = id.concat('_ratios');
+  // let ratiosInput = document.getElementById(ratiosId);
+  // let rVals = ratiosInput.value;
+  // let r = new Array(rVals);
+  // let rSplit = r.join("").split(',');
+  // let ratios = rSplit.map(x => parseFloat(x));
+  let ratios = getContrastRatios();
   // TODO: remove all values of NaN
 
   return {
@@ -1244,9 +1233,19 @@ function getColorItemData(id) {
   }
 }
 
+// GET all contrast ratios
+function getContrastRatios() {
+  let ratioInputs = document.getElementsByClassName('ratio-Field');
+  let ratios = [];
+  for(let i = 0; i < ratioInputs.length; i++) {
+    ratios.push(ratioInputs[i].value);
+  }
+  return ratios;
+}
+
 function getThemeName() {
   // Get name
-  let themeNameInput = document.getElementById('themeName');
+  let themeNameInput = document.getElementById('themeNameInput');
   let themeName = themeNameInput.value;
   return themeName;
 }
@@ -1291,4 +1290,352 @@ function getThemeData() {
     brightness: brightness,
     contrast: contrast
   }
+}
+
+
+// Type scale 
+let typeScaleSampleWrapper = document.getElementById('typeScaleSampleWrapper');
+let typeScaleBaseInput = document.getElementById('typeScaleBase');
+let typeScaleRatioInput = document.getElementById('typeScaleRatio');
+let typeScaleDecrementInput = document.getElementById('typeScaleDecrement');
+let typeScaleIncrementInput = document.getElementById('typeScaleIncrement');
+let typeScaleSampleText = document.getElementById('sampleText');
+
+function createTypeScale() {
+  typeScaleSampleWrapper.innerHTML = ' ';
+  let base = Number(typeScaleBaseInput.value);
+  let ratio = Number(typeScaleRatioInput.value);
+  let decrement = Number(typeScaleDecrementInput.value);
+  let increment = Number(typeScaleIncrementInput.value);
+
+  let sizes = [];
+
+  for(let i = 0; i < decrement; i ++) {
+    let value = base / Math.pow(ratio, i+1);
+    sizes.push(value)
+  }
+  for(let i = 0; i < increment; i ++) {
+    let value = base * Math.pow(ratio, i);
+    sizes.push(value)
+  }
+
+  // Sort them all.
+  // sizes = sizes.sort((a,b) => a-b);
+  sizes = sizes.sort((a,b) => b-a);
+
+  for(let i = 0; i < sizes.length; i++) {
+    let size = Math.round(sizes[i]);
+    let sampleText = document.createTextNode(typeScaleSampleText.value);
+    let text = document.createTextNode(`${size}px`);
+    let div = document.createElement('div');
+    let span = document.createElement('span');
+    span.style.fontSize = `${size}px`;
+    span.className = 'sampleTextItem';
+    span.appendChild(sampleText);
+    div.appendChild(text);
+    div.appendChild(span);
+    typeScaleSampleWrapper.appendChild(div);
+  }
+}
+createTypeScale();
+
+typeScaleBaseInput.addEventListener('input', createTypeScale);
+typeScaleRatioInput.addEventListener('input', createTypeScale);
+typeScaleDecrementInput.addEventListener('input', createTypeScale);
+typeScaleIncrementInput.addEventListener('input', createTypeScale);
+typeScaleSampleText.addEventListener('input', createTypeScale);
+
+// Theme configs
+let themeTitleInput = document.getElementById('themeNameInput');
+let themeTitle = document.getElementById('themeTitle');
+
+function updateThemeTitle() {
+  themeTitle.innerHTML = ' ';
+  let title = themeTitleInput.value;
+  if(title) themeTitle.innerHTML = title;
+}
+themeTitleInput.addEventListener('input', updateThemeTitle);
+window.updateThemeTitle = updateThemeTitle;
+
+
+window.openPanelTab = function openPanelTab(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("paneltabcontent");
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+  tablinks = document.getElementsByClassName("panel-Tabs-item");
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "flex";
+  evt.currentTarget.className += " is-selected";
+}
+document.getElementById("tabThemeConfigs").click();
+
+window.openTab = function openTab(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+  tablinks = document.getElementsByClassName("main-Tabs-item");
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "flex";
+  evt.currentTarget.className += " is-selected";
+}
+document.getElementById("tabOutput").click();
+
+
+// When adding new ratios in UI, run colorinput as well
+window.addNewRatio = function addNewRatio() {
+  addRatio();
+}
+
+
+// Add ratio inputs
+function addRatio(v, fs, fw) {
+  let s = '#cacaca';
+  let methodPicker = document.getElementById('contrastMethod');
+  let method = methodPicker.value;
+  // increment by default
+  if(v == undefined) {
+    // find highest value
+    var hi = Math.max(...ratioInputs);
+    var lo = Math.min(...ratioInputs);
+
+    if(hi < 20) {
+      v = Number(hi + 1).toFixed(2);
+    }
+    if(hi == 21) {
+      v = Number(hi - 1).toFixed(2);
+    }
+  }
+
+  var ratios = document.getElementById('ratioInput-wrapper');
+  var div = document.createElement('div');
+  // var sliderWrapper = document.getElementById('colorSlider-wrapper');
+  // var slider = document.createElement('input');
+
+  var randId = randomId();
+  div.className = 'ratio-Item ratioGrid';
+  div.id = randId + '-item';
+  var inputWrapper = document.createElement('span');
+
+  var sw = document.createElement('span');
+  sw.className = 'ratio-Swatch';
+  sw.id = randId + '-sw';
+  sw.style.backgroundColor = s;
+  var ratioInput = document.createElement('input');
+  ratioInput.className = 'spectrum-Textfield ratio-Field ratioGrid--ratio';
+  ratioInput.type = "number";
+  ratioInput.min = (method === 'APCA') ? APCAminValue : '-10';
+  ratioInput.max = (method === 'APCA') ? APCAmaxValue : '21';
+  ratioInput.step = '.01';
+  ratioInput.placeholder = (method === 'WCAG') ? 4.5 : 60;
+  ratioInput.id = randId;
+  ratioInput.value = v;
+  ratioInput.onkeydown = checkRatioStepModifiers;
+  // ratioInput.oninput = debounce(colorInput, 100);
+  ratioInput.oninput = syncRatioInputs;
+
+  var fontSizeInput = document.createElement('input');
+  fontSizeInput.className = 'spectrum-Textfield ratioGrid--fontSize';
+  fontSizeInput.type = "number";
+  fontSizeInput.min = '12';
+  fontSizeInput.step = '1';
+  fontSizeInput.id = randId + "-fontSize";
+  fontSizeInput.value = fs;
+  fontSizeInput.oninput = syncRatioInputs;
+
+  var fontWeightInput = document.createElement('input');
+  fontWeightInput.className = 'spectrum-Textfield ratioGrid--fontWeight';
+  fontWeightInput.type = "number";
+  fontWeightInput.step = '100';
+  fontWeightInput.min = '100';
+  fontWeightInput.max = '900';
+  fontWeightInput.placeholder = '400';
+  fontWeightInput.id = randId + "-fontWeight";
+  fontWeightInput.value = fw;
+  fontWeightInput.oninput = syncRatioInputs;
+  // fontWeightInput.defaultValue = '400';
+
+  var luminosityInput = document.createElement('input');
+  luminosityInput.className = 'spectrum-Textfield ratioGrid--luminosity';
+  luminosityInput.type = "number";
+  luminosityInput.min = '0';
+  luminosityInput.max = '100';
+  luminosityInput.step = '1';
+  luminosityInput.id = randId + "_luminosity";
+  // luminosityInput.oninput = syncRatioInputs;
+
+  var button = document.createElement('button');
+  button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet ratioGrid--actions';
+  button.title = 'Delete contrast ratio';
+  button.innerHTML = `
+  <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
+    <use xlink:href="#spectrum-icon-18-Delete" />
+  </svg>`;
+
+  // slider.type = 'range';
+  // slider.min = '0';
+  // slider.max = '100';
+  // slider.value = v;
+  // slider.step = '.01';
+  // slider.className = 'colorSlider'
+  // slider.id = randId + "-sl";
+  // slider.disabled = true;
+  // sliderWrapper.appendChild(slider);
+
+  button.onclick = deleteRatio;
+  inputWrapper.appendChild(sw);
+  inputWrapper.appendChild(ratioInput);
+  div.appendChild(fontSizeInput);
+  div.appendChild(fontWeightInput);
+  div.appendChild(luminosityInput);
+  div.appendChild(inputWrapper)
+  div.appendChild(button);
+  ratios.appendChild(div);
+}
+
+function syncRatioInputs(e) {
+  let thisId = e.target.id;
+  let val = e.target.value;
+  let fontWeight;
+  let fontSize;
+  let targetContrast;
+
+  // if input is a font size, only change the ratio input to match
+  // required value for the combination of size + weight values
+  // if input id contains -fontSize in the string = it's a font size input
+  if(thisId.includes('-fontSize')) {
+    fontSize = val;
+    let baseId = thisId.replace('-fontSize', '');
+    let fontWeightInput = document.getElementById(baseId + '-fontWeight');
+    // If no font weight defined, default to 400, otherwise use the
+    // font weight value for the lookup table
+    if(!fontWeightInput.value) {
+      fontWeight = '400';
+      fontWeightInput.value = fontWeight;
+    } else {
+      fontWeight = `${fontWeightInput.value}`;
+    }
+    let ratioInput = document.getElementById(baseId);
+    let node = apcaLookup[val];
+
+    if(!node) {
+      // Need to find closest ratios in lookup table
+      // and if ratioInput.value is less than the lower of the
+      // two values, it needs to be changed.
+
+      targetContrast = ratioInput.value;
+    } else {
+      targetContrast = apcaLookup[val][fontWeight]
+      ratioInput.value = targetContrast;
+    }
+  }
+
+  // if input is a font weight, only change the ratio input to match
+  // required value for the combination of size + weight values
+  // if input id contains -fontWeight in the string = it's a font weight input
+  else if (thisId.includes('-fontWeight')) {
+    let baseId = thisId.replace('-fontWeight', '');
+    let fontSizeInput = document.getElementById(baseId + '-fontSize');
+    fontSize = fontSizeInput.value;
+    fontWeight = val;
+
+    let ratioInput = document.getElementById(baseId);
+    targetContrast = apcaLookup[fontSize][val];
+
+    if(targetContrast) {
+      ratioInput.value = targetContrast;
+    } else {
+      targetContrast = ratioInput.value;
+    }
+  }
+
+  // if input is a Ratio, increase the font size value based on
+  // lookup table and current font weight. If no weight, default to 400
+  else {
+    let fontWeightInput = document.getElementById(thisId + '-fontWeight');
+    let fontSizeInput = document.getElementById(thisId + '-fontSize');
+    let fontWeight = (fontWeightInput.value) ? fontWeightInput.value : '400';
+    targetContrast = val;
+    
+    if(!fontWeightInput.value) fontWeightInput.value = '400';
+    let fontSize;
+    for (const property in apcaLookup) {
+      if(apcaLookup[property][fontWeight] === targetContrast) {
+        fontSize = property; 
+        fontSizeInput.value = fontSize;
+      }
+    }
+  }
+
+  // Then, run the colorinput funtion to update all values.
+  // colorInput();
+}
+
+// Sort swatches in UI
+function sort() {
+  ratioInputs.sort(function(a, b){return a-b});
+
+  // Update ratio inputs with new values
+  for (let i=0; i<ratioInputs.length; i++) {
+    ratioFields[i].value = ratioInputs[i];
+  }
+}
+
+window.sortRatios = function sortRatios() {
+  sort();
+  // colorInput();
+}
+
+function checkRatioStepModifiers(e) {
+  if (!e.shiftKey) return;
+  if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+  e.preventDefault();
+  const value = Number(e.target.value);
+  let newValue;
+  switch (e.key) {
+    case 'ArrowDown':
+      newValue = value - 1;
+      e.target.value = newValue.toFixed(2);
+      e.target.oninput(e);
+      break;
+    case 'ArrowUp':
+      newValue = value + 1;
+      e.target.value = newValue.toFixed(2);
+      e.target.oninput(e);
+      break;
+    default:
+  }
+}
+
+// Delete ratio input
+function deleteRatio(e) {
+  var id = e.target.parentNode.id;
+  var self = document.getElementById(id);
+  var sliderid = id.replace('-item', '') + '-sl';
+  var slider = document.getElementById(sliderid);
+
+  self.remove();
+  slider.remove();
+  // colorInput();
 }
