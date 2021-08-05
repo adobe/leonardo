@@ -257,6 +257,9 @@ function convertColorValue(color, format, object = false) {
   }
   const space = colorSpaces[format];
   const colorObj = chroma(String(color))[space]();
+  if (format === 'HSL') {
+    colorObj.pop();
+  }
   if (format === 'HEX') {
     if (object) {
       const rgb = chroma(String(color)).rgb();
@@ -283,7 +286,7 @@ function convertColorValue(color, format, object = false) {
       }
     } else if (space !== 'hsluv') {
       if (letter === 's' || letter === 'l' || letter === 'v') {
-        rnd = round(ch, 2);
+        rnd = round(ch * 100);
         colorObject[letter] = rnd;
         if (!object) {
           rnd += '%';
@@ -314,14 +317,8 @@ function luminance(r, g, b) {
 
 function getContrast(color, base, baseV) {
   if (baseV === undefined) { // If base is an array and baseV undefined
-    const colorString = String(`rgb(${base[0]}, ${base[1]}, ${base[2]})`);
-
-    const baseLightness = (chroma(colorString).hsluv()[2]);
-    if (baseLightness > 0) {
-      baseV = round(baseLightness / 100, 2);
-    } else if (baseLightness === 0) {
-      baseV = 0;
-    }
+    const baseLightness = chroma.rgb(...base).hsluv()[2];
+    baseV = round(baseLightness / 100, 2);
   }
 
   const colorLum = luminance(color[0], color[1], color[2]);
@@ -330,7 +327,7 @@ function getContrast(color, base, baseV) {
   const cr1 = (colorLum + 0.05) / (baseLum + 0.05); // will return value >=1 if color is darker than background
   const cr2 = (baseLum + 0.05) / (colorLum + 0.05); // will return value >=1 if color is lighter than background
 
-  if (baseV <= 0.51) { // Dark themes
+  if (baseV < 0.5) { // Dark themes
     // If color is darker than background, return cr1 which will be whole number
     if (cr1 >= 1) {
       return cr1;
@@ -353,14 +350,7 @@ function getContrast(color, base, baseV) {
 function minPositive(r) {
   if (!r) { throw new Error('Array undefined'); }
   if (!Array.isArray(r)) { throw new Error('Passed object is not an array'); }
-  const arr = [];
-
-  for (let i = 0; i < r.length; i++) {
-    if (r[i] >= 1) {
-      arr.push(r[i]);
-    }
-  }
-  return Math.min(...arr);
+  return Math.min(...r.filter((val) => val >= 1));
 }
 
 function ratioName(r) {

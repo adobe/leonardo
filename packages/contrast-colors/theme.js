@@ -173,7 +173,7 @@ class Theme {
         }
 
         // modify target ratio based on contrast multiplier
-        ratioValues = ratioValues.map((ratio) => multiplyRatios(ratio, this._contrast));
+        ratioValues = ratioValues.map((ratio) => multiplyRatios(+ratio, this._contrast));
 
         const contrastColors = searchColors(color, bgRgbArray, baseV, ratioValues).map((clr) => convertColorValue(clr, this._output));
 
