@@ -936,7 +936,8 @@ a:focus {
   background-color: var(--spectrum-global-color-gray-50);
   border: 1px solid var(--spectrum-global-color-gray-300);
   overflow: hidden;
-  padding: 16px;
+  padding: 8px 16px;
+  flex-shrink: 0;
 
   .spectrum-Dropdown {
     width: 120px;
@@ -1003,8 +1004,9 @@ a:focus {
   flex-wrap: wrap;
   // padding: 8px 16px 16px;
   opacity: 1;
-  -webkit-transition: height 200ms, padding 200ms;
-  transition: height 200ms, padding 200ms;
+  -webkit-transition: height 100ms, padding 100ms;
+  transition: height 100ms, padding 100ms;
+  padding: 0 0 8px;
 
   &.is-hidden {
     padding: 0;
@@ -1076,13 +1078,14 @@ a:focus {
 
 .themeOutputSwatch {
   display: inline-flex;
-  width: 48px;
-  height: 48px;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  margin: 2px 4px 2px 0;
+  width: 66px;
+  height: 70px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  margin: 2px 12px 2px 0;
   cursor: pointer;
   transition: border .25s ease-out, box-shadow .25s ease-out;
+  padding: 4px 6px;
 
   &:focus {
     border-color: var(--spectrum-alias-background-color-default);
@@ -1094,6 +1097,11 @@ a:focus {
     box-shadow: 0 0 0 1px var(--spectrum-alias-border-color-focus);
     transition: border .075s ease-out, box-shadow .075s ease-out;
   }
+}
+
+.themeOutputSwatch_contrast {
+  align-self: flex-end;
+  font-size: 12px;
 }
 
 #cvdModeDropdown {
@@ -1234,10 +1242,10 @@ a:focus {
 
 .ratioGrid {
   display: grid;
-  grid-template-columns: 112px 54px 72px 54px 32px;
+  grid-template-columns: 112px 88px 32px;
   column-gap: 8px;
   grid-template-areas: 
-  'ratio fontSize fontWeight luminosity actions';
+  'ratio luminosity actions';
 
   .spectrum-Textfield {
     width: 100%;
@@ -1263,7 +1271,8 @@ a:focus {
   padding: 0 16px;
 }
 
-#typeScaleBase {
+#typeScaleBase,
+#fontWeight {
   width: 10ch;
 }
 #typeScaleRatio {
@@ -1275,7 +1284,9 @@ a:focus {
 #typeScaleIncrement {
   width: 10ch;
 }
-#sampleText,
+#sampleText {
+  width: 264px;
+}
 #themeTitleInput {
   width: 360px;
 }
@@ -1309,4 +1320,14 @@ a:focus {
 .spectrum-Dropdown-trigger {
   padding-right: 24px;
   text-overflow: ellipsis;
+}
+
+.spectrum-ActionButton > .spectrum-Icon {
+  transition: transform, 150ms;
+}
+
+#brightnessSliderWrapper,
+#contrastSliderWrapper {
+  width: 300px;
+  margin-left: 8px;
 }

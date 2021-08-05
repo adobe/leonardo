@@ -242,7 +242,8 @@ function addColorScale(c, k, s, r) {
 
   // Create form container
   let inputs = document.createElement('div');
-  inputs.className = 'spectrum-Form spectrum-Form--row themeColor_configs';
+  inputs.className = `spectrum-Form spectrum-Form--row themeColor_configs is-hidden`;
+  inputs.id = `${thisId}-themeColor_configs`
 
   // Color Name Input
   let colorName = document.createElement('div');
@@ -254,7 +255,7 @@ function addColorScale(c, k, s, r) {
   colorNameInput.name = thisId.concat('_colorName');
 
   // if first color item, just name it gray.
-  if(c == undefined) {
+  if(!c) {
     if(items.length == 0) {
       // if first color with undefined c argument:
       c = 'Gray'
@@ -264,7 +265,6 @@ function addColorScale(c, k, s, r) {
       c = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
     }
   }
-
   colorNameInput.value = c;
 
 
@@ -391,13 +391,14 @@ function addColorScale(c, k, s, r) {
   actions.className = 'spectrum-ButtonGroup spectrum-Form-item labelSpacer';
   let edit = document.createElement('button');
   edit.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
-  edit.title = "Edit color scale in new tab"
+  edit.id = `${thisId}-toggleConfig`;
+  edit.title = "Show / hide configurations"
   edit.innerHTML = `
   <!-- <span class="spectrum-ActionButton-label">Add from URL</span> -->
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-    <use xlink:href="#spectrum-icon-18-Edit" />
+    <use xlink:href="#spectrum-icon-18-ChevronLeft" />
   </svg>`
-  edit.addEventListener('click', themeEditItem);
+  edit.addEventListener('click', toggleCardConfigs);
   // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
   let deleteColor = document.createElement('button');
   deleteColor.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
@@ -460,7 +461,7 @@ function addColorScale(c, k, s, r) {
 
 window.addColorScaleUpdate = addColorScaleUpdate;
 function addColorScaleUpdate(c, k, s, r) {
-  if (!c) c = 'nameIsMissingSomewhere';
+  // if (!c) c = 'nameIsMissingSomewhere';
   addColorScale(c, k, s, r);
   themeInput();
   let config = getThemeData();
@@ -468,7 +469,8 @@ function addColorScaleUpdate(c, k, s, r) {
 
   config = JSON.stringify(config);
 
-  updateParams(name, config);
+  // TODO: Uncomment this and get it working.
+  // updateParams(name, config);
 }
 
 // Update theme when theme name is changed
@@ -541,7 +543,8 @@ function themeAddColorUpdate(c, thisId = this.id) {
 
   config = JSON.stringify(config);
 
-  updateParams(name, config);
+  // TODO: uncomment and get this working
+  // updateParams(name, config);
 }
 
 function themeDeleteItem(e) {
@@ -795,7 +798,10 @@ function themeInput() {
       lightness: Number(themeConfigs.brightness),
       contrast: Number(themeConfigs.contrast)
     }).contrastColors;
-
+    
+    const themeBackgroundColor = theme[0].background;
+    const themeBackgroundColorArray = [d3.rgb(themeBackgroundColor).r, d3.rgb(themeBackgroundColor).g, d3.rgb(themeBackgroundColor).b]
+    const backgroundLum = d3.hsluv(themeBackgroundColor).v;
     // console.log(theme)
 
     // Loop again after generating theme.
@@ -828,6 +834,7 @@ function themeInput() {
       if (theme[i].values) {
         let p = document.createElement('p');
         p.className = 'spectrum-Subheading';
+        p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
         p.innerHTML = theme[i].name;
 
         wrapper.appendChild(p);
@@ -839,6 +846,18 @@ function themeInput() {
           // transform original color based on preview mode
           let value = cvdColors(originalValue);
 
+          // get the ratio to print inside the swatch
+          let contrast = theme[i].values[j].contrast;
+          console.log(originalValue, themeBackgroundColor)
+          let colorArray = [d3.rgb(originalValue).r, d3.rgb(originalValue).g, d3.rgb(originalValue).b]
+          let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
+          let contrastRounded = (Math.round(actualContrast * 100))/100;
+          let contrastText = document.createTextNode(contrastRounded);
+          let contrastTextSpan = document.createElement('span');
+          contrastTextSpan.className = 'themeOutputSwatch_contrast';
+          contrastTextSpan.appendChild(contrastText);
+          contrastTextSpan.style.color = (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
+
           // create CSS property
           document.documentElement.style
             .setProperty(prop, value);
@@ -849,7 +868,8 @@ function themeInput() {
           div.setAttribute('data-clipboard-text', originalValue);
           div.setAttribute('tabindex', '0');
           div.style.backgroundColor = value;
-
+          div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
+          div.appendChild(contrastTextSpan);
 
           swatchWrapper.appendChild(div);
           themeColorArray.push(originalValue);
@@ -860,6 +880,7 @@ function themeInput() {
         let p = document.createElement('p');
         p.className = 'spectrum-Subheading';
         p.innerHTML = 'Background';
+        p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
 
         wrapper.appendChild(p);
 
@@ -880,6 +901,7 @@ function themeInput() {
         div.setAttribute('tabindex', '0');
         div.setAttribute('data-clipboard-text', originalValue);
         div.style.backgroundColor = value;
+        div.style.borderColor = (backgroundLum > 50) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
 
         swatchWrapper.appendChild(div);
         wrapper.appendChild(swatchWrapper);
@@ -913,7 +935,8 @@ function themeUpdateParams() {
 
   config = JSON.stringify(config);
 
-  updateParams(name, config);
+  // TODO: uncomment and get this working
+  // updateParams(name, config);
 }
 
 let sliderB = document.getElementById('themeBrightnessSlider');
@@ -1300,6 +1323,7 @@ let typeScaleRatioInput = document.getElementById('typeScaleRatio');
 let typeScaleDecrementInput = document.getElementById('typeScaleDecrement');
 let typeScaleIncrementInput = document.getElementById('typeScaleIncrement');
 let typeScaleSampleText = document.getElementById('sampleText');
+let fontWeightInput = document.getElementById('fontWeight');
 
 function createTypeScale() {
   typeScaleSampleWrapper.innerHTML = ' ';
@@ -1329,7 +1353,9 @@ function createTypeScale() {
     let text = document.createTextNode(`${size}px`);
     let div = document.createElement('div');
     let span = document.createElement('span');
+    span.style.fontFamily = 'Helvetica, Arial, sans-serif';
     span.style.fontSize = `${size}px`;
+    span.style.fontWeight = `${fontWeightInput.value}`
     span.className = 'sampleTextItem';
     span.appendChild(sampleText);
     div.appendChild(text);
@@ -1344,6 +1370,7 @@ typeScaleRatioInput.addEventListener('input', createTypeScale);
 typeScaleDecrementInput.addEventListener('input', createTypeScale);
 typeScaleIncrementInput.addEventListener('input', createTypeScale);
 typeScaleSampleText.addEventListener('input', createTypeScale);
+fontWeightInput.addEventListener('input', createTypeScale);
 
 // Theme configs
 let themeTitleInput = document.getElementById('themeNameInput');
@@ -1455,26 +1482,26 @@ function addRatio(v, fs, fw) {
   // ratioInput.oninput = debounce(colorInput, 100);
   ratioInput.oninput = syncRatioInputs;
 
-  var fontSizeInput = document.createElement('input');
-  fontSizeInput.className = 'spectrum-Textfield ratioGrid--fontSize';
-  fontSizeInput.type = "number";
-  fontSizeInput.min = '12';
-  fontSizeInput.step = '1';
-  fontSizeInput.id = randId + "-fontSize";
-  fontSizeInput.value = fs;
-  fontSizeInput.oninput = syncRatioInputs;
+  // var fontSizeInput = document.createElement('input');
+  // fontSizeInput.className = 'spectrum-Textfield ratioGrid--fontSize';
+  // fontSizeInput.type = "number";
+  // fontSizeInput.min = '12';
+  // fontSizeInput.step = '1';
+  // fontSizeInput.id = randId + "-fontSize";
+  // fontSizeInput.value = fs;
+  // fontSizeInput.oninput = syncRatioInputs;
 
-  var fontWeightInput = document.createElement('input');
-  fontWeightInput.className = 'spectrum-Textfield ratioGrid--fontWeight';
-  fontWeightInput.type = "number";
-  fontWeightInput.step = '100';
-  fontWeightInput.min = '100';
-  fontWeightInput.max = '900';
-  fontWeightInput.placeholder = '400';
-  fontWeightInput.id = randId + "-fontWeight";
-  fontWeightInput.value = fw;
-  fontWeightInput.oninput = syncRatioInputs;
-  // fontWeightInput.defaultValue = '400';
+  // var fontWeightInput = document.createElement('input');
+  // fontWeightInput.className = 'spectrum-Textfield ratioGrid--fontWeight';
+  // fontWeightInput.type = "number";
+  // fontWeightInput.step = '100';
+  // fontWeightInput.min = '100';
+  // fontWeightInput.max = '900';
+  // fontWeightInput.placeholder = '400';
+  // fontWeightInput.id = randId + "-fontWeight";
+  // fontWeightInput.value = fw;
+  // fontWeightInput.oninput = syncRatioInputs;
+  // // fontWeightInput.defaultValue = '400';
 
   var luminosityInput = document.createElement('input');
   luminosityInput.className = 'spectrum-Textfield ratioGrid--luminosity';
@@ -1483,7 +1510,7 @@ function addRatio(v, fs, fw) {
   luminosityInput.max = '100';
   luminosityInput.step = '1';
   luminosityInput.id = randId + "_luminosity";
-  // luminosityInput.oninput = syncRatioInputs;
+  luminosityInput.oninput = syncRatioInputs;
 
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet ratioGrid--actions';
@@ -1506,91 +1533,120 @@ function addRatio(v, fs, fw) {
   button.onclick = deleteRatio;
   inputWrapper.appendChild(sw);
   inputWrapper.appendChild(ratioInput);
-  div.appendChild(fontSizeInput);
-  div.appendChild(fontWeightInput);
+  // div.appendChild(fontSizeInput);
+  // div.appendChild(fontWeightInput);
   div.appendChild(luminosityInput);
   div.appendChild(inputWrapper)
   div.appendChild(button);
   ratios.appendChild(div);
 }
 
+// function syncRatioInputs(e) {
+//   let thisId = e.target.id;
+//   let val = e.target.value;
+//   // let fontWeight;
+//   // let fontSize;
+//   let targetContrast;
+//   let luminosity;
+
+//   // if input is a font size, only change the ratio input to match
+//   // required value for the combination of size + weight values
+//   // if input id contains -fontSize in the string = it's a font size input
+//   if(thisId.includes('-fontSize')) {
+//     fontSize = val;
+//     let baseId = thisId.replace('-fontSize', '');
+//     let fontWeightInput = document.getElementById(baseId + '-fontWeight');
+//     // If no font weight defined, default to 400, otherwise use the
+//     // font weight value for the lookup table
+//     if(!fontWeightInput.value) {
+//       fontWeight = '400';
+//       fontWeightInput.value = fontWeight;
+//     } else {
+//       fontWeight = `${fontWeightInput.value}`;
+//     }
+//     let ratioInput = document.getElementById(baseId);
+//     let node = apcaLookup[val];
+
+//     if(!node) {
+//       // Need to find closest ratios in lookup table
+//       // and if ratioInput.value is less than the lower of the
+//       // two values, it needs to be changed.
+
+//       targetContrast = ratioInput.value;
+//     } else {
+//       targetContrast = apcaLookup[val][fontWeight]
+//       ratioInput.value = targetContrast;
+//     }
+//   }
+
+//   // if input is a font weight, only change the ratio input to match
+//   // required value for the combination of size + weight values
+//   // if input id contains -fontWeight in the string = it's a font weight input
+//   else if (thisId.includes('-fontWeight')) {
+//     let baseId = thisId.replace('-fontWeight', '');
+//     let fontSizeInput = document.getElementById(baseId + '-fontSize');
+//     fontSize = fontSizeInput.value;
+//     fontWeight = val;
+
+//     let ratioInput = document.getElementById(baseId);
+//     targetContrast = apcaLookup[fontSize][val];
+
+//     if(targetContrast) {
+//       ratioInput.value = targetContrast;
+//     } else {
+//       targetContrast = ratioInput.value;
+//     }
+//   }
+//   // if input is a Ratio, increase the font size value based on
+//   // lookup table and current font weight. If no weight, default to 400
+//   else {
+//     let fontWeightInput = document.getElementById(thisId + '-fontWeight');
+//     let fontSizeInput = document.getElementById(thisId + '-fontSize');
+//     let fontWeight = (fontWeightInput.value) ? fontWeightInput.value : '400';
+//     targetContrast = val;
+    
+//     if(!fontWeightInput.value) fontWeightInput.value = '400';
+//     let fontSize;
+//     for (const property in apcaLookup) {
+//       if(apcaLookup[property][fontWeight] === targetContrast) {
+//         fontSize = property; 
+//         fontSizeInput.value = fontSize;
+//       }
+//     }
+//   }
+
+//   // Then, run the colorinput funtion to update all values.
+//   // colorInput();
+// }
+
 function syncRatioInputs(e) {
   let thisId = e.target.id;
   let val = e.target.value;
-  let fontWeight;
-  let fontSize;
   let targetContrast;
-
-  // if input is a font size, only change the ratio input to match
-  // required value for the combination of size + weight values
-  // if input id contains -fontSize in the string = it's a font size input
-  if(thisId.includes('-fontSize')) {
-    fontSize = val;
-    let baseId = thisId.replace('-fontSize', '');
-    let fontWeightInput = document.getElementById(baseId + '-fontWeight');
-    // If no font weight defined, default to 400, otherwise use the
-    // font weight value for the lookup table
-    if(!fontWeightInput.value) {
-      fontWeight = '400';
-      fontWeightInput.value = fontWeight;
-    } else {
-      fontWeight = `${fontWeightInput.value}`;
-    }
+  let luminosity;
+  
+  if (thisId.includes('_luminosity')) {
+    let baseId = thisId.replace('_luminosity', '');
     let ratioInput = document.getElementById(baseId);
-    let node = apcaLookup[val];
-
-    if(!node) {
-      // Need to find closest ratios in lookup table
-      // and if ratioInput.value is less than the lower of the
-      // two values, it needs to be changed.
-
-      targetContrast = ratioInput.value;
-    } else {
-      targetContrast = apcaLookup[val][fontWeight]
-      ratioInput.value = targetContrast;
-    }
-  }
-
-  // if input is a font weight, only change the ratio input to match
-  // required value for the combination of size + weight values
-  // if input id contains -fontWeight in the string = it's a font weight input
-  else if (thisId.includes('-fontWeight')) {
-    let baseId = thisId.replace('-fontWeight', '');
-    let fontSizeInput = document.getElementById(baseId + '-fontSize');
-    fontSize = fontSizeInput.value;
-    fontWeight = val;
-
-    let ratioInput = document.getElementById(baseId);
-    targetContrast = apcaLookup[fontSize][val];
-
-    if(targetContrast) {
-      ratioInput.value = targetContrast;
-    } else {
-      targetContrast = ratioInput.value;
-    }
+    luminosity = val;
+    
+    ratioInput.val = '3'
   }
 
   // if input is a Ratio, increase the font size value based on
   // lookup table and current font weight. If no weight, default to 400
   else {
-    let fontWeightInput = document.getElementById(thisId + '-fontWeight');
-    let fontSizeInput = document.getElementById(thisId + '-fontSize');
-    let fontWeight = (fontWeightInput.value) ? fontWeightInput.value : '400';
+    let luminosityInputId = `${thisId}_luminosity`;
+    let luminosityInput = document.getElementById(luminosityInputId);
+    luminosityInput.val = 100;
     targetContrast = val;
-    
-    if(!fontWeightInput.value) fontWeightInput.value = '400';
-    let fontSize;
-    for (const property in apcaLookup) {
-      if(apcaLookup[property][fontWeight] === targetContrast) {
-        fontSize = property; 
-        fontSizeInput.value = fontSize;
-      }
-    }
   }
 
   // Then, run the colorinput funtion to update all values.
   // colorInput();
+  themeInput();
 }
+
 
 // Sort swatches in UI
 function sort() {
@@ -1638,4 +1694,26 @@ function deleteRatio(e) {
   self.remove();
   slider.remove();
   // colorInput();
+}
+
+// Collapse / expand color scale cards
+function toggleCardConfigs(e) {
+  let element = e.target.id;
+  let button = document.getElementById(element);
+  let svgs = button.getElementsByTagName('svg');
+
+  let id = element.replace('-toggleConfig', '');
+  let configs = document.getElementById(`${id}-themeColor_configs`);
+
+  if(!configs.classList.contains('is-hidden')) {
+    for (let svg of svgs) {
+      svg.style.transform = 'rotate(0deg)';
+    }
+    configs.classList.add('is-hidden');
+  } else {
+    for (let svg of svgs) {
+      svg.style.transform = 'rotate(-90deg)';
+    }
+    configs.classList.remove('is-hidden');
+  }
 }

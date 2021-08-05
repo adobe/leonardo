@@ -121,7 +121,7 @@
             Adaptive theme controls
           </h3>
         </div>
-        <div class="spectrum-Form-item spectrum-Form-item--row">
+        <div class="spectrum-Form-item">
           <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled">
             <div class="spectrum-Slider-labelContainer">
               <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Brightness</label>
@@ -211,8 +211,6 @@
         <div id="ratioInput-wrapper">
           <div class="ratioGrid">
             <label class="spectrum-FieldLabel ratioGrid--ratio">Ratio</label>  
-            <label class="spectrum-FieldLabel ratioGrid--fontSize">Font size</label>
-            <label class="spectrum-FieldLabel ratioGrid--fontWeight">Font weight</label>
             <label class="spectrum-FieldLabel ratioGrid--luminosity">Luminosity</label>  
           </div>
         </div>
@@ -264,15 +262,19 @@
             <input type='number' class="spectrum-Textfield" id="typeScaleRatio" value="1.25" step="0.0125"/>
           </div>
           <div class="spectrum-Form-item">
-            <label for="typeScaleDecrement" class="spectrum-FieldLabel spectrum-FieldLabel">Sizes smaller</label>
+            <label for="typeScaleDecrement" class="spectrum-FieldLabel spectrum-FieldLabel">Smaller sizes</label>
             <input type='number' class="spectrum-Textfield" id="typeScaleDecrement" min="0" value="2"/>
           </div>
           <div class="spectrum-Form-item">
-            <label for="typeScaleIncrement" class="spectrum-FieldLabel spectrum-FieldLabel">Sizes larger</label>
+            <label for="typeScaleIncrement" class="spectrum-FieldLabel spectrum-FieldLabel">Larger sizes</label>
             <input type='number' class="spectrum-Textfield" id="typeScaleIncrement" min="0" value="8"/>
           </div>
         </div>
         <div class="spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <label for="fontWeight" class="spectrum-FieldLabel spectrum-FieldLabel">Font weight</label>
+            <input type='number' class="spectrum-Textfield" id="fontWeight" value="400" min="100" max="900" step="100"/>
+          </div>
           <div class="spectrum-Form-item">
             <label for="sampleText" class="spectrum-FieldLabel spectrum-FieldLabel">Sample text</label>
             <input type='text' class="spectrum-Textfield" id="sampleText" value="Text"/>
