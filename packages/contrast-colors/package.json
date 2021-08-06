@@ -19,11 +19,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "chroma-js": "^2.1.2",
-    "d3": "^5.14.2",
-    "d3-3d": "0.0.9",
-    "d3-cam02": "^0.1.5",
-    "d3-hsluv": "^0.1.2",
-    "d3-hsv": "^0.1.0",
+    "ciebase": "^0.1.1",
+    "ciecam02": "^0.4.6",
     "hsluv": "^0.1.0"
   },
   "devDependencies": {

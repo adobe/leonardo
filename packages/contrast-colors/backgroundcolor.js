@@ -36,7 +36,7 @@ class BackgroundColor extends Color {
     const backgroundColorScale = createScale({ swatches: 1000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth });
 
     // Inject original keycolors to ensure they are present in the background options
-    backgroundColorScale.push(this.colorKeys);
+    backgroundColorScale.push(...this.colorKeys);
 
     const colorObj = backgroundColorScale
       // Convert to HSLuv and keep track of original indices

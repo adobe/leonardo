@@ -216,7 +216,7 @@ function createScale({
     return scale;
   }
 
-  const Colors = new Array(swatches).fill().map((_, d) => scale(d));
+  const Colors = new Array(swatches).fill().map((_, d) => scale(d).hex());
 
   const colors = Colors.filter((el) => el != null);
 
@@ -273,8 +273,15 @@ function convertColorValue(color, format, object = false) {
 
   newColorObj = newColorObj.map((ch, i) => {
     let rnd = round(ch);
-    const letter = space.charAt(i);
-    colorObject[letter] = rnd;
+    let j = i;
+    if (space === 'hsluv') {
+      j += 2;
+    }
+    let letter = space.charAt(j);
+    if (space === 'jch' && letter === 'c') {
+      letter = 'C';
+    }
+    colorObject[letter === 'j' ? 'J' : letter] = rnd;
     if (space in { lab: 1, lch: 1, jab: 1, jch: 1 }) {
       if (!object) {
         if (letter === 'l' || letter === 'j') {
@@ -286,9 +293,9 @@ function convertColorValue(color, format, object = false) {
       }
     } else if (space !== 'hsluv') {
       if (letter === 's' || letter === 'l' || letter === 'v') {
-        rnd = round(ch * 100);
-        colorObject[letter] = rnd;
+        colorObject[letter] = round(ch, 2);
         if (!object) {
+          rnd = round(ch * 100);
           rnd += '%';
         }
       } else if (letter === 'h' && !object) {
@@ -456,10 +463,10 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
   };
   const colorSearch = (x) => {
     const first = getContrast2(0);
-    const last = getContrast2(colorLen - 1);
+    const last = getContrast2(colorLen);
     const dir = first < last ? 1 : -1;
     const ε = 0.01;
-    x += 0.005;
+    x += 0.005 * Math.sign(x);
     let step = colorLen / 2;
     let dot = step;
     let val = getContrast2(dot);
@@ -474,7 +481,7 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
       }
       val = getContrast2(dot);
     }
-    return dot;
+    return round(dot, 3);
   };
   const outputColors = [];
   ratioValues.forEach((ratio) => outputColors.push(colorScale(colorSearch(+ratio))));
