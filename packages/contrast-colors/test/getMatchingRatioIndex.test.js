@@ -8,94 +8,92 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
+/* global test, expect */
 
-const { getMatchingRatioIndex } = require('../index.js');
+const { getMatchingRatioIndex } = require('../index');
 
-test('should return index of exact match (ascending)', function() {
-  let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
-  let value = 3.12;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
-
-  expect(searchIndex).toBe(5); // list[5] // 3.12 indexed at 5
-});
-
-test('should return index of exact match (descending)', function() {
-  let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
-  let value = 3.12;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
+test('should return index of exact match (ascending)', () => {
+  const list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
+  const value = 3.12;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
 
   expect(searchIndex).toBe(5); // list[5] // 3.12 indexed at 5
 });
 
-test('should return index of closest match (ascending)', function() {
-  let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
-  let value = 3.09;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
+test('should return index of exact match (descending)', () => {
+  const list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
+  const value = 3.12;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
+
+  expect(searchIndex).toBe(5); // list[5] // 3.12 indexed at 5
+});
+
+test('should return index of closest match (ascending)', () => {
+  const list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
+  const value = 3.09;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
 
   expect(searchIndex).toBe(4); // list[4] // 3.1 indexed at 4
 });
 
-
-test('should return index of closest match (descending)', function() {
-  let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
-  let value = 3.09;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
+test('should return index of closest match (descending)', () => {
+  const list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
+  const value = 3.09;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
 
   expect(searchIndex).toBe(6); // list[4] // 3.1 indexed at 4
 });
 
-test('should return exact match (ascending)', function() {
-  let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
-  let value = 3.12;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
-  let searchResult = list[searchIndex];
+test('should return exact match (ascending)', () => {
+  const list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
+  const value = 3.12;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
+  const searchResult = list[searchIndex];
 
   expect(searchResult).toBe(3.12);
 });
 
-test('should return exact match (descending)', function() {
-  let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
-  let value = 3.12;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
-  let searchResult = list[searchIndex];
+test('should return exact match (descending)', () => {
+  const list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
+  const value = 3.12;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
+  const searchResult = list[searchIndex];
 
   expect(searchResult).toBe(3.12);
 });
 
-test('should return closest match (ascending)', function() {
-  let list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
-  let value = 3.09;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
-  let searchResult = list[searchIndex];
+test('should return closest match (ascending)', () => {
+  const list = [1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
+  const value = 3.09;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
+  const searchResult = list[searchIndex];
 
   expect(searchResult).toBe(3.1);
 });
 
-test('should return closest match (descending)', function() {
-  let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
-  let value = 3.09;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
-  let searchResult = list[searchIndex];
+test('should return closest match (descending)', () => {
+  const list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1];
+  const value = 3.09;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
+  const searchResult = list[searchIndex];
 
   expect(searchResult).toBe(3.1);
 });
 
-
-test('should return closest match with negative values', function() {
-  let list = [-3.12, -3.1, -3.07, -3, -2, 1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
-  let value = -3.08;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
-  let searchResult = list[searchIndex];
+test('should return closest match with negative values', () => {
+  const list = [-3.12, -3.1, -3.07, -3, -2, 1, 2, 3, 3.07, 3.1, 3.12, 3.13, 3.14, 3.3, 5, 12];
+  const value = -3.08;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
+  const searchResult = list[searchIndex];
 
   expect(searchResult).toBe(-3.1);
 });
 
-
-test('should return closest match with negative values (descending)', function() {
-  let list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1, -3.07, -3.1];
-  let value = -3.06;
-  let searchIndex = getMatchingRatioIndex(list, value); // returns index
-  let searchResult = list[searchIndex];
+test('should return closest match with negative values (descending)', () => {
+  const list = [12, 5, 3.3, 3.14, 3.13, 3.12, 3.1, 3.07, 3, 2, 1, -3.07, -3.1];
+  const value = -3.06;
+  const searchIndex = getMatchingRatioIndex(list, value); // returns index
+  const searchResult = list[searchIndex];
 
   expect(searchResult).toBe(-3.07);
 });

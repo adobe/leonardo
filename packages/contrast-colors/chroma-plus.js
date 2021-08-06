@@ -12,7 +12,51 @@ governing permissions and limitations under the License.
 
 const chromajs = require('chroma-js');
 const hsluv = require('hsluv');
-const { rgb2jch, jch2rgb, rgb2jab, jab2rgb } = require('./ciecam02');
+const ciebase = require('ciebase');
+const ciecam02 = require('ciecam02');
+
+const cam = ciecam02.cam({
+  whitePoint: ciebase.illuminant.D65,
+  adaptingLuminance: 40,
+  backgroundLuminance: 20,
+  surroundType: 'average',
+  discounting: false,
+}, ciecam02.cfs('JCh'));
+
+const xyz = ciebase.xyz(ciebase.workspace.sRGB, ciebase.illuminant.D65);
+const jch2rgb = (jch) => xyz.toRgb(cam.toXyz({ J: jch[0], C: jch[1], h: jch[2] }));
+const rgb2jch = (rgb) => {
+  const jch = cam.fromXyz(xyz.fromRgb(rgb));
+  return [jch.J, jch.C, jch.h];
+};
+const [jch2jab, jab2jch] = (() => {
+  const coefs = { k_l: 1, c1: 0.007, c2: 0.0228 };
+  const π = Math.PI;
+  const CIECAM02_la = (64 / π) / 5;
+  const CIECAM02_k = 1 / ((5 * CIECAM02_la) + 1);
+  const CIECAM02_fl = (0.2 * (CIECAM02_k ** 4) * (5 * CIECAM02_la)) + 0.1 * ((1 - (CIECAM02_k ** 4)) ** 2) * ((5 * CIECAM02_la) ** (1 / 3));
+  return [(jch) => {
+    const [J, C, h] = jch;
+    const M = C * (CIECAM02_fl ** 0.25);
+    let j = ((1 + 100 * coefs.c1) * J) / (1 + coefs.c1 * J);
+    j /= coefs.k_l;
+    const MPrime = (1 / coefs.c2) * Math.log(1.0 + coefs.c2 * M);
+    const a = MPrime * Math.cos(h * (π / 180));
+    const b = MPrime * Math.sin(h * (π / 180));
+    return [j, a, b];
+  }, (jab) => {
+    const [j, a, b] = jab;
+    const newMPrime = Math.sqrt(a * a + b * b);
+    const newM = (Math.exp(newMPrime * coefs.c2) - 1) / coefs.c2;
+    const h = ((180 / π) * Math.atan2(b, a) + 360) % 360;
+    const C = newM / (CIECAM02_fl ** 0.25);
+    const J = j / (1 + coefs.c1 * (100 - j));
+    return [J, C, h];
+  }];
+})();
+
+const jab2rgb = (jab) => jch2rgb(jab2jch(jab));
+const rgb2jab = (rgb) => jch2jab(rgb2jch(rgb));
 
 const con = console;
 

@@ -8,19 +8,18 @@ the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
+/* global test, expect */
 
-const { minPositive } = require('../index.js');
+const { minPositive } = require('../index');
 
-test('should return 1', function() {
-  let result = minPositive([1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);
+test('should return 1', () => {
+  const result = minPositive([1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);
 
   expect(result).toEqual(1);
-
 });
 
-test('should return 2', function() {
-  let result = minPositive([-3, -2, -1.2, 2, 3, 4.5, 6, 8, 12, 21]);
+test('should return 2', () => {
+  const result = minPositive([-3, -2, -1.2, 2, 3, 4.5, 6, 8, 12, 21]);
 
   expect(result).toEqual(2);
-
 });

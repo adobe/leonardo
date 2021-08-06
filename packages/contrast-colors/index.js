@@ -40,6 +40,8 @@ extendChroma(chroma);
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('jab'))
 // console.log('hsluv');
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('hsluv'))
+// const colors = new BackgroundColor({ name: 'Color', colorKeys: ['#6FA7FF', '#B5E6FF'], colorspace: 'HSLuv' }).backgroundColorScale;
+// console.log(convertColorValue('#2c66f1', 'CAM02p'));
 
 module.exports = {
   Color,
