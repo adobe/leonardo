@@ -123,19 +123,38 @@ exports.extendChroma = (chroma) => {
     jab: rgb2jab,
     hsluv: hsluv.rgbToHsluv,
   };
+  const lerpH = (a, b, t) => {
+    const m = 360;
+    const d = Math.abs(a - b);
+    if (d > m / 2) {
+      if (a > b) {
+        b += m;
+      } else {
+        a += m;
+      }
+    }
+    return ((1 - t) * a + t * b) % m;
+  };
+
   chroma.interpolate = (col1, col2, f = 0.5, mode = 'lrgb') => {
     if (mode === 'hsluv') {
       if (typeof col1 !== 'object') col1 = new chroma.Color(col1);
       if (typeof col2 !== 'object') col2 = new chroma.Color(col2);
       const xyz1 = RGB2[mode](col1.gl());
       const xyz2 = RGB2[mode](col2.gl());
-      if (!xyz1[1]) {
+      if (xyz1[1] < 1e-10) {
         xyz1[0] = xyz2[0];
       }
-      if (!xyz2[1]) {
+      if (xyz1[1] === 0) { // black or white
+        xyz1[1] = xyz2[1];
+      }
+      if (xyz2[1] < 1e-10) {
         xyz2[0] = xyz1[0];
       }
-      const X = xyz1[0] + (xyz2[0] - xyz1[0]) * f;
+      if (xyz2[1] === 0) { // black or white
+        xyz2[1] = xyz1[1];
+      }
+      const X = lerpH(xyz1[0], xyz2[0], f);
       const Y = xyz1[1] + (xyz2[1] - xyz1[1]) * f;
       const Z = xyz1[2] + (xyz2[2] - xyz1[2]) * f;
       return chroma[mode](X, Y, Z).alpha(col1.alpha() + f * (col2.alpha() - col1.alpha()));
