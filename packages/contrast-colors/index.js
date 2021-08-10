@@ -29,19 +29,7 @@ const { Theme } = require('./theme');
 extendChroma(chroma);
 
 // console.color('#6fa7ff');
-// console.log(chroma("#fff").hsluv());
-// console.log('rgb');
-// console.ramp(chroma.scale(['yellow', 'navy']))
-// console.log('lab');
-// console.ramp(chroma.scale(['yellow', 'navy']).mode('lab'))
-// console.log('hsl');
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('hsl'))
-// console.log('ciecam02');
-// console.ramp(chroma.scale(['yellow', 'navy']).mode('jab'))
-// console.log('hsluv');
-// console.ramp(chroma.scale(['yellow', 'navy']).mode('hsluv'))
-// const colors = new BackgroundColor({ name: 'Color', colorKeys: ['#6FA7FF', '#B5E6FF'], colorspace: 'HSLuv' }).backgroundColorScale;
-// console.log(convertColorValue('#2c66f1', 'CAM02p'));
 
 module.exports = {
   Color,
