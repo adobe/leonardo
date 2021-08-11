@@ -89,8 +89,23 @@ exports.catmullRom2bezier = (crp, z) => {
   return d;
 };
 
+const bezlen2 = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
+  const n = 5;
+  let x0 = p1x;
+  let y0 = p1y;
+  let len = 0;
+  for (let i = 1; i < n; i++) {
+    const { x, y } = findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, i / n);
+    len += Math.hypot(x - x0, y - y0);
+    x0 = x;
+    y0 = y;
+  }
+  len += Math.hypot(p2x - x0, p2y - y0);
+  return len;
+};
+
 exports.prepareCurve = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
-  const len = Math.floor(bezlen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) * .75);
+  const len = Math.floor(bezlen2(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) * .75);
   const map = new Map();
   for (let i = 0; i <= len; i++) {
     const t = i / len;
