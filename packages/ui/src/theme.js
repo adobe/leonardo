@@ -1717,3 +1717,13 @@ function toggleCardConfigs(e) {
     configs.classList.remove('is-hidden');
   }
 }
+
+window.toggleTooltip = toggleTooltip;
+function toggleTooltip(targetId) {
+  let tooltip = document.getElementById(targetId);
+  if(!tooltip.classList.contains('is-open')) {
+    tooltip.classList.add('is-open');
+  } else {
+    tooltip.classList.remove('is-open');
+  }
+}

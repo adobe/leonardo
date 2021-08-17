@@ -111,7 +111,20 @@
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
               </svg>
             </div>
-            <span>TH</span>
+            <span>
+              
+              <button id="addRatio" class="spectrum-ActionButton spectrum-ActionButton--quiet" onclick="toggleTooltip('BackgroundScaleTooltip')">
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                  <use xlink:href="#spectrum-icon-18-Info" />
+                </svg>
+                <span class="spectrum-ActionButton-label is-hidden">More information</span>
+              </button>
+              <span id="BackgroundScaleTooltip" class="spectrum-Tooltip spectrum-Tooltip--top">
+                <span class="spectrum-Tooltip-label">Choose one of your color scales to be used as the background.</span>
+                <span class="spectrum-Tooltip-tip"></span>
+              </span>
+
+            </span>
           </div>
         </div>
       </div>

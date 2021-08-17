@@ -978,7 +978,7 @@ a:focus {
 
   .gradient {
     height: 100%;
-    width: 100%;
+    width: 332px;
     border-radius: 4px;
   }
 
@@ -1330,4 +1330,22 @@ a:focus {
 #contrastSliderWrapper {
   width: 300px;
   margin-left: 8px;
+}
+
+.is-hidden {
+  display: none;
+}
+
+#BackgroundScaleTooltip{ 
+  &.spectrum-Tooltip--top .spectrum-Tooltip-tip {
+    right: 24px;
+    left: auto;
+  }
+  &.spectrum-Tooltip--top {
+    position: absolute;
+    max-width: 30ch;
+  }
+  &.spectrum-Tooltip--top {
+    transform: translate(190px, -48px);
+  }
 }
