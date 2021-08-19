@@ -69,32 +69,72 @@ con.color = (color, text = '') => {
 };
 
 // Usage:
-// console.ramp(chroma.scale(['yellow', 'navy']).mode('hsluv'))
-con.ramp = (scale) => {
-  const canvas = document.createElement('canvas');
-  const n = 200;
-  canvas.setAttribute('width', n);
-  canvas.setAttribute('height', 1);
-  let context;
-  try {
-    context = canvas.getContext('2d');
-  } catch (e) {
-    // Not browser environment
-  }
-  if (context) {
-    canvas.style.width = `${n}px`;
-    canvas.style.height = '16px';
-    canvas.style.position = 'absolute';
-    // canvas.style.imageRendering = "-moz-crisp-edges";
-    // canvas.style.imageRendering = "pixelated";
-    for (let i = 0; i < n; ++i) {
-      context.fillStyle = chromajs(scale(i / (n - 1))).hex();
-      context.fillRect(i, 0, 1, 1);
-    }
-    const url = canvas.toDataURL();
-    con.log('%c ', `font-size: 1px;line-height: 16px;background-image: url(${url});padding: 0 0 0 ${n - 1}px; border-radius: 2px;`);
-  }
+// console.ramp(chroma.scale(['yellow', 'navy']).mode('hsluv'));
+// console.ramp(scale, 3000); // if you need to specify the length of the scale
+con.ramp = (scale, length = 1) => {
+  con.log('%c ', `font-size: 1px;line-height: 16px;background: ${chromajs.getCSSGradient(scale, length)};padding: 0 0 0 200px; border-radius: 2px;`);
 };
+
+const online = (x1, y1, x2, y2, x3, y3, ε = .1) => {
+  if (x1 === x2 || y1 === y2) {
+    return true;
+  }
+  const m = (y2 - y1) / (x2 - x1);
+  const x4 = (y3 + x3 / m - y1 + m * x1) / (m + 1 / m);
+  const y4 = y3 + x3 / m - x4 / m;
+  return (x3 - x4) ** 2 + (y3 - y4) ** 2 < ε ** 2;
+};
+
+const div = (ƒ, dot1, dot2, ε) => {
+  const x3 = (dot1[0] + dot2[0]) / 2;
+  const y3 = ƒ(x3);
+  if (online(...dot1, ...dot2, x3, y3, ε)) {
+    return null;
+  }
+  return [x3, y3];
+};
+
+const split = (ƒ, from, to, ε = .1) => {
+  const step = (to - from) / 10;
+  const points = [];
+  for (let i = from; i < to; i += step) {
+    points.push([i, ƒ(i)]);
+  }
+  points.push([to, ƒ(to)]);
+  for (let i = 0; i < points.length - 1; i++) {
+    const dot = div(ƒ, points[i], points[i + 1], ε);
+    if (dot) {
+      points.splice(i + 1, 0, dot);
+      i--;
+    }
+  }
+  for (let i = 0; i < points.length - 2; i++) {
+    if (online(...points[i], ...points[i + 2], ...points[i + 1], ε)) {
+      points.splice(i + 1, 1);
+      i--;
+    }
+  }
+  return points;
+};
+
+const round = (x, r = 4) => Math.round(x * 10 ** r) / 10 ** r;
+
+const getCSSGradient = (scale, length = 1, deg = 90, ε = 1e-2) => {
+  const ptsr = split((x) => scale(x).gl()[0], 0, length, ε);
+  const ptsg = split((x) => scale(x).gl()[1], 0, length, ε);
+  const ptsb = split((x) => scale(x).gl()[2], 0, length, ε);
+  const points = Array.from(
+    new Set(
+      [
+        ...ptsr.map((a) => round(a[0])),
+        ...ptsg.map((a) => round(a[0])),
+        ...ptsb.map((a) => round(a[0])),
+      ].sort((a, b) => a - b),
+    ),
+  );
+  return `linear-gradient(${deg}deg, ${points.map((x) => `${scale(x).hex()} ${round(x * 100)}%`).join()});`;
+};
+
 exports.extendChroma = (chroma) => {
   // JCH
   chroma.Color.prototype.jch = function () {
@@ -171,4 +211,6 @@ exports.extendChroma = (chroma) => {
     }
     return oldInterpol(col1, col2, f, mode);
   };
+
+  chroma.getCSSGradient = getCSSGradient;
 };
