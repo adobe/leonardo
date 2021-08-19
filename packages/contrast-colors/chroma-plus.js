@@ -119,7 +119,7 @@ const split = (ƒ, from, to, ε = .1) => {
 
 const round = (x, r = 4) => Math.round(x * 10 ** r) / 10 ** r;
 
-const getCSSGradient = (scale, length = 1, deg = 90, ε = 1e-2) => {
+const getCSSGradient = (scale, length = 1, deg = 90, ε = .005) => {
   const ptsr = split((x) => scale(x).gl()[0], 0, length, ε);
   const ptsg = split((x) => scale(x).gl()[1], 0, length, ε);
   const ptsb = split((x) => scale(x).gl()[2], 0, length, ε);
