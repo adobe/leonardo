@@ -387,58 +387,6 @@ function ratioName(r) {
   return nArr;
 }
 
-// Binary search to find index of contrast ratio that is input
-// Modified from https://medium.com/hackernoon/programming-with-js-binary-search-aaf86cef9cb3
-function getMatchingRatioIndex(list, value) {
-  // If a value of -1 is passed, it should be positive since 1 is the zero-point
-  if (value === -1) value = 1;
-  // initial values for start, middle and end
-  let start = 0;
-  let stop = list.length - 1;
-  let middle = Math.floor((start + stop) / 2);
-  const descending = list[0] > list[list.length - 1];
-  const positiveValue = Math.sign(value) === 1;
-
-  // While the middle is not what we're looking for and the list does not have a single item
-  while (list[middle] !== value && start < stop) {
-    if (descending) { // descending list
-      if (value > list[middle]) {
-        stop = middle - 1;
-      } else {
-        start = middle + 1;
-      }
-    } else if (value > list[middle]) { // ascending list
-      start = middle + 1;
-    } else {
-      stop = middle - 1;
-    }
-    // recalculate middle on every iteration
-    middle = Math.floor((start + stop) / 2);
-  }
-
-  // Create mini array focusing around the middle value
-  // Shift the middle value if it's on either end of the list array
-  // and create a new start/stop for the new array based on the new middle
-  const mid2 = (middle === list.length - 1) ? middle - 2 : middle;
-  const newMiddle = middle === 0 ? middle + 2 : mid2;
-  const newArray = list.slice(newMiddle - 1, newMiddle + 2);
-
-  // Then, find the next larger positive number or next smaller negative number from that array
-  // let nextClosestValue = ((value >= newMax && positiveValue) || (value <= newMax && positiveValue === false)) ? newMax : (((value <= newMin && positiveValue) || (value >= newMin && positiveValue === false)) ? newMin : (value > 0) ? newArray.find(element => element > value) : newArray.find(element => element < value));
-  const nextLargestValue = (list[newMiddle] >= value) ? list[newMiddle] : newArray.find((element) => element > value);
-  const nextSmallestValue = (list[newMiddle] <= value) ? list[newMiddle] : newArray.find((element) => element < value);
-  const nextClosestValue = (positiveValue === true) ? nextLargestValue : nextSmallestValue;
-
-  const mid3 = ((descending && value <= 1) || (!descending && value > 1)) ? list.lastIndexOf(nextClosestValue) : list.indexOf(nextClosestValue);
-  const result = list[middle] !== value && nextClosestValue !== undefined ? mid3 : middle;
-
-  // To be extra safe, cap the possible result index
-  // to be no less than 0 and no greater than the list's length:
-  if (result < 0) return 0;
-  if (result > list.length - 1) return list.length - 1;
-  return result;
-}
-
 const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
   const colorLen = 3000;
   const colorScale = createScale({
@@ -494,7 +442,6 @@ module.exports = {
   convertColorValue,
   createScale,
   getContrast,
-  getMatchingRatioIndex,
   luminance,
   minPositive,
   multiplyRatios,
