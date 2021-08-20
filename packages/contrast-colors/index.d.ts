@@ -14,7 +14,7 @@ export as namespace ContrastColors;
 export = ContrastColors;
 
 declare namespace ContrastColors {
-  type InterpolationColorspace = 'CAM02' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV';
+  type InterpolationColorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV';
   type Colorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV' | 'HEX';
   
   type RGBArray = number[];

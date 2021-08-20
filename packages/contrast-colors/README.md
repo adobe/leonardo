@@ -18,105 +18,68 @@ npm i @adobe/leonardo-contrast-colors
 #### CJS (Node 12.x)
 
 ```js
-const { generateAdaptiveTheme } = require('@adobe/leonardo-contrast-colors');
+const { Theme, Color, BackgroundColor } = require('@adobe/leonardo-contrast-colors');
 ```
 
 #### ESM (Node 13.x)
 
 ```js
-import { generateAdaptiveTheme } from '@adobe/leonardo-contrast-colors';
+import { Theme, Color, BackgroundColor } from '@adobe/leonardo-contrast-colors';
 ```
 
-### Pass your colors and desired ratios (see additional options below):
+### Create and pass colors and a background color to a new Theme (see additional options below):
 
 ```js
-// returns theme colors as JSON
-let myTheme = generateAdaptiveTheme({
-  colorScales: [
-    {
+let gray = new BackgroundColor({
       name: 'gray',
       colorKeys: ['#cacaca'],
-      ratios: {
-        'GRAY_LOW_CONTRAST': 2,
-        'GRAY_LARGE_TEXT': 3,
-        'GRAY_TEXT': 4.5,
-        'GRAY_HIGH_CONTRAST': 8
-      }
-    },
-    {
+      ratios: [2, 3, 4.5, 8]
+    });
+
+let blue = new Color({
       name: 'blue',
       colorKeys: ['#5CDBFF', '#0000FF'],
-      ratios: {
-        'BLUE_LARGE_TEXT': 3,
-        'BLUE_TEXT': 4.5
-      }
-    },
-    {
+      ratios: [3, 4.5]
+    });
+
+let red = new Color({
       name: 'red',
       colorKeys: ['#FF9A81', '#FF0000'],
-      ratios: {
-        'RED_LARGE_TEXT': 3,
-        'RED_TEXT': 4.5
-      }
-    }
-  ],
-  baseScale: 'gray',
-  brightness: 97
-});
+      ratios: [3, 4.5]
+    });
+
+let theme = new Theme({colors: [gray, blue, red], backgroundColor: gray, lightness: 97});
+
+// returns theme colors as JSON
+let colors = theme.contrastColors;
 ```
 
 ## API Reference
 
-### `generateAdaptiveTheme`
+### `Theme`
 
-Function used to create a fully adaptive contrast-based color palette/theme using Leonardo. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`. Parameters can be passed as a config JSON file for modularity and simplicity.
+Class function used to generate adaptive contrast-based colors. Parameters are destructured and need to be explicitly called.
 
-```js
-generateAdaptiveTheme({colorScales, baseScale});              // returns function
-generateAdaptiveTheme({colorScales, baseScale, brightness});  // returns color objects
-```
+| Parameter | Type | Description |
+|-----------|-------|------------|
+| `colors` | Array | List of `Color` classes to generate theme colors for. A single `BackgroundColor` class is required. |
+| `lightness` | Number | Value from 0-100 for desired lightness of generated theme background color (whole number)|
+| `contrast` | Number | Multiplier to increase or decrease contrast for all theme colors (default is `1`) |
+| `output` | Enum | Desired color output format |
 
-Returned function:
-```js
-myTheme(brightness, contrast);
-```
 
-#### `colorScales` *[array of objects]*:
-Each object contains the necessary parameters for [generating colors by contrast](#generateContrastColors) with the exception of the `name` and `ratios` parameter. For `generateAdaptiveTheme`, [ratios can be an array or an object](#ratios-array-or-object).
+#### Setters
+| Setter | Description of output |
+|--------|-----------------------|
+| `.lightness()` | Sets the theme's lightness value |
+| `.contrast()` | Sets the theme's contrast value |
+| `.backgroundColor()` | Sets the theme's background color (creates a new `BackgroundColor` if passing a string) |
+| `.colors()` | Sets colors for theme (must pass `Color`)|
+| `.output()` | Sets output format for theme |
 
-Example of `colorScales` object with all options:
 
-```js
-  {
-    name: 'blue',
-    colorKeys: ['#5CDBFF', '#0000FF'],
-    colorSpace: 'LCH',
-    ratios: {
-      'blue--largeText': 3,
-      'blue--normalText': 4.5
-    }
-  }
-```
-
-#### `baseScale` *string (enum)*:
-String value matching the `name` of a `colorScales` object to be used as a [base scale](#generateBaseScale) (background color). This creates a scale of values from 0-100 in lightness, which is used for `brightness` parameter. Ie. `brightness: 90` returns the 90% lightness value of the base scale.
-
-#### `name` *string*:
-Unique name for each color scale. This value refers to the entire color group _(eg "blue")_ and will be used for the output color keys, ie `blue100: '#5CDBFF'`
-
-#### `ratios` *array* or *object*:
-List of numbers to be used as target contrast ratios. If entered as an array, swatch names are incremented in `100`s such as `blue100`, `blue200` based on the color scale [name](#name-string).
-
-Alternatively, `ratios` can be an object with custom keys to name each color, such as `['Blue_Large_Text', 'Blue_Normal_Text']`.
-
-#### `brightness` *number*:
-Optional value from 0-100 indicating the brightness of the base / background color. If undefined, `generateAdaptiveTheme` will return a function
-
-#### `contrast` *integer*:
-Optional value to increase contrast of your generated colors. This value is multiplied against all ratios defined for each color scale.
-
-#### `output` *string (enum)*:
-String value of the desired color space and output format for the generated colors. Output formats conform to the [W3C CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) spec for the supported options.
+#### Supported output formats:
+Available output formats conform to the [W3C CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) spec for the supported options, as listed below:
 
 | Output option | Sample value |
 |---------------|--------------|
@@ -130,15 +93,106 @@ String value of the desired color space and output format for the generated colo
 | `'CAM02'`     | `jab(100%, 0, 0)`|
 | `'CAM02p'`    | `jch(100%, 0, 360deg)` |
 
+----------
 
-#### Function outputs and examples
-The `generateAdaptiveTheme` function returns an array of color objects. Each key is named by concatenating the user-defined color name (above) with a numeric value.
+### `Color` 
+Class function used to define colors for a theme. Parameters are destructured and need to be explicitly called.
 
-Colors with a **positive contrast ratio** with the base (ie, 2:1) will be named in increments of 100. For example, `gray100`, `gray200`.
+| Parameter | Type | Description |
+|-----------|-------|------|
+| `name` | String | User-defined name for a color, (eg "Blue"). Used to name output color values |
+| `colorKeys` | Array of strings | List of specific colors to interpolate between in order to generate a full lightness scale of the color. |
+| `colorspace` | Enum | The [colorspace](#Supported-interpolation-colorspaces) in which the key colors will be interpolated within. |
+| `ratios` | Array or Object | List of target contrast ratios, or object with named keys for each value. |
+| `smooth` | Boolean | Applies bezier smoothing to interpolation (false by default) |
+| `output` | Enum | Desired color output format |
 
-Colors with a **negative contrast ratio** with the base (ie -2:1) will be named in increments less than 100 and based on the number of negative values declared. For example, if there are 3 negative values `[-1.4, -1.3, -1.2, 1, 2, 3]`, the name for those values will be incremented by 100/4 (length plus one to avoid a `0` value), such as `gray25`, `gray50`, and `gray75`.
+#### Setters
+| Setter | Description of output |
+|--------|-----------------------|
+| `.colorKeys()` | Sets the color keys |
+| `.colorspace()` | Sets the interpolation colorspace |
+| `.ratios()` | Sets the ratios |
+| `.name()` | Sets the name |
+| `.smooth()` | Sets the smoothing option |
+| `.output()` | Sets the output format |
 
-Here is an example output from a theme:
+#### Supported interpolation colorspaces:
+Below are the available options for interpolation in Leonardo:
+
+- [LCH](https://en.wikipedia.org/wiki/HCL_color_space)
+- [LAB](https://en.wikipedia.org/wiki/CIELAB_color_space)
+- [CAM02](https://en.wikipedia.org/wiki/CIECAM02)
+- [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV)
+- [HSLuv](https://en.wikipedia.org/wiki/HSLuv)
+- [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)
+- [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
+
+#### Ratios as an array
+When passing a flat array of target ratios, the output colors in your Theme will be generated by concatenating the color name (eg "Blue") with numeric increments. Colors with a **positive contrast ratio** with the base (ie, 2:1) will be named in increments of 100. For example, `gray100`, `gray200`.
+
+Colors with a **negative contrast ratio** with the base (ie -2:1) will be named in increments less than 100 and _based on the number of negative values declared_. For example, if there are 3 negative values `[-1.4, -1.3, -1.2, 1, 2, 3]`, the name for those values will be incremented by 100/4 (length plus one to avoid a `0` value), such as `gray25`, `gray50`, and `gray75`.
+
+For example:
+```js
+new Color({
+  name: 'blue',
+  colorKeys: ['#5CDBFF', '#0000FF'],
+  colorSpace: 'LCH',
+  ratios: [3, 4.5]
+});
+
+// Returns:
+[
+  {
+    name: 'blue',
+    values: [
+      {name: "blue100", contrast: 3, value: "#8d63ff"},
+      {name: "blue200", contrast: 4.5, value: "#623aff"}
+    ]
+  }
+]
+```
+
+#### Ratios as an object
+When defining ratios as an object with key-value pairs, you define what name will be output in your Leonardo theme.
+```js
+new Color({
+  name: 'blue',
+  colorKeys: ['#5CDBFF', '#0000FF'],
+  colorSpace: 'LCH',
+  ratios: {
+    'blue--largeText': 3,
+    'blue--normalText': 4.5
+  }
+});
+
+// Returns:
+[
+  {
+    name: 'blue',
+    values: [
+      {name: "blue--largeText", contrast: 3, value: "#8d63ff"},
+      {name: "blue--normalText", contrast: 4.5, value: "#623aff"}
+    ]
+  }
+]
+```
+
+---
+
+## Output examples
+There are two types of output you can get from the `Theme` class:
+| Getter | Description of output |
+|--------|-----------------------|
+| `Theme.contrastColors` | Returns array of color objects with key-value pairs |
+| `Theme.contrastColorValues` | Returns flat array of color values |
+
+
+### `.contrastColors` output
+Each color instance is named by concatenating the user-defined color name with a numeric value (eg `name: 'gray'`; `gray100`).
+
+Example output:
 ```js
 [
   { background: "#e0e0e0" },
@@ -163,48 +217,29 @@ Here is an example output from a theme:
 ]
 ```
 
-#### Examples
-###### Creating your theme as a function
+### `.contrastColorValues` output
+For the same example theme shown above, these values would be returned in a flat array when calling `Theme.contrastColorValues`.
+
+Example output:
 ```js
-let myPalette = {
-  colorScales: [
-    {
-      name: 'gray',
-      colorKeys: ['#cacaca'],
-      colorspace: 'HSL',
-      ratios: [1, 2, 3, 4.5, 8, 12]
-    },
-    {
-      name: 'blue',
-      colorKeys: ['#5CDBFF', '#0000FF'],
-      colorspace: 'HSL',
-      ratios: [3, 4.5]
-    },
-    {
-      name: 'red',
-      colorKeys: ['#FF9A81', '#FF0000'],
-      colorspace: 'HSL',
-      ratios: [3, 4.5]
-    }
-  ],
-  baseScale: 'gray'
-}
-
-let myTheme = generateAdaptiveTheme(myPalette);
-
-myTheme(95, 1.2) // outputs colors with background lightness of 95 and ratios increased by 1.2
+[
+  "#e0e0e0",
+  "#a0a0a0",
+  "#808080",
+  "#646464",
+  "#b18cff",
+  "#8d63ff",
+  "#623aff",
+  "#1c0ad1"
+]
 ```
 
-###### Creating static instances of your theme
-```js
-// theme on light gray
-let lightTheme = generateAdaptiveTheme(95);
+---
 
-// theme on dark gray with increased contrast
-let darkTheme = generateAdaptiveTheme(20, 1.3);
-```
+## Leonardo with CSS variables
+Here are a few examples of how you can utilize Leonardo to dynamically create or modify CSS variables for your application.
 
-###### Assigning output to CSS properties
+### Vanilla JS
 ```js
 let varPrefix = '--';
 
@@ -224,44 +259,172 @@ for (let i = 0; i < myTheme.length; i++) {
 }
 ```
 
-### generateContrastColors
+### React
+Create a new Theme component `Theme.js` with your parameters:
+```js
+import * as Leo from '@adobe/leonardo-contrast-colors';
 
-Primary function used to generate colors based on target contrast ratios. Parameters are destructured and need to be explicitly called, such as `colorKeys: ["#f26322"]`.
+const Theme = () => {  
+  let gray = new Leo.BackgroundColor({
+    name: 'gray',
+    colorKeys: ['#cacaca'],
+    ratios: [2, 3, 4.5, 8]
+  });
+
+  let blue = new Leo.Color({
+    name: 'blue',
+    colorKeys: ['#5CDBFF', '#0000FF'],
+    ratios: [3, 4.5]
+  });
+
+  let red = new Leo.Color({
+    name: 'red',
+    colorKeys: ['#FF9A81', '#FF0000'],
+    ratios: [3, 4.5]
+  });
+  
+  const adaptiveTheme = new Leo.Theme({
+    colors: [
+      gray, 
+      blue,
+      red
+    ], 
+    backgroundColor: gray, 
+    lightness: 97,
+    contrast: 1,
+  });
+  
+  return adaptiveTheme;
+}
+
+export default Theme;
+```
+Then import your Theme component at the top level of your application, and pass the Theme as a property of your app:
 
 ```js
-generateContrastColors({colorKeys, base, ratios, colorspace})
+// index.js
+import Theme from './components/Theme';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App adaptiveTheme={Theme()}/>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 ```
 
-#### `colorKeys` *[array]*:
-List of colors referenced to generate a lightness scale. Much like [key frames](https://en.wikipedia.org/wiki/Key_frame), key colors are single points by which additional colors will be interpolated between.
+In your App.js file, import `useTheme` from `css-vars-hook` and provide the following within your App function in order to format Leonardo's output in the structure required for `css-vars-hook`. 
+```js
+// App.js
+import {useTheme} from 'css-vars-hook';
 
-#### `base` *string*:
-References the color value that the color is to be generated from.
+function App(props) {
+  const [lightness, setLightness] = useState(100);
+  const [contrast, setContrast] = useState(1);
 
-#### `ratios` *[array]*:
-List of numbers to be used as target contrast ratios.
+  const _createThemeObject = () => {
+    let themeObj = {}
+    props.adaptiveTheme.contrastColors.forEach(color => {      
+      if(color.name) {
+        let values = color.values;
+        values.forEach(instance => {
+          let name = instance.name;
+          let val = instance.value;
+          themeObj[name] = val;
+        });
+      } else {
+        // must be the background
+        let name = 'background'
+        let val = color.background;
+        themeObj[name] = val;
+      }
+    })
+    return themeObj;
+  };
 
-#### `colorspace` *string*:
-The colorspace in which the key colors will be interpolated within. Below are the available options:
+  const theme = useState( _createThemeObject() );
 
-- [LCH](https://en.wikipedia.org/wiki/HCL_color_space)
-- [LAB](https://en.wikipedia.org/wiki/CIELAB_color_space)
-- [CAM02](https://en.wikipedia.org/wiki/CIECAM02)
-- [HSL](https://en.wikipedia.org/wiki/HSL_and_HSV)
-- [HSLuv](https://en.wikipedia.org/wiki/HSLuv)
-- [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)
-- [RGB](https://en.wikipedia.org/wiki/RGB_color_space)
+  const {setRef, setVariable} = useTheme(theme);
 
-### generateBaseScale
+  return (
+    <div 
+      className="App" 
+      ref={setRef}
+      >
+    </div>
+  )
+}
 
-This function is used to generate a color scale tailored specifically for use as a brightness scale when using Leonardo for brightness and contrast controls. Colors are generated that match HSLuv lightness values from `0` to `100` and are output as hex values.
+```
+To make your application adaptive, include a function for updating your theme before your return function:
 
 ```js
-generateBaseScale({colorKeys, colorspace})
+  function _updateColorVariables() {
+    let themeInstance = _createThemeObject();    
+
+    for (const [key, value] of Object.entries( themeInstance )) {
+      setVariable(key, value);
+    }
+  };
+  // call function to set initial values
+  _updateColorVariables();
 ```
 
-Only accepts **colorKeys** and **colorspace** parameters, as defined above for [`generateContrastColors`](#generateContrastColors)
+Finally, reference this function and set the theme parameters when your users interact with slider components (do the same for Contrast):
+```js
+<label htmlFor="lightness">
+  Lightness
+</label>
+<input
+  value={lightness}
+  id="lightness"
+  type="range"
+  min={ sliderMin }
+  max={ sliderMax }
+  step="1"
+  onChange={e => {
+    setLightness(e.target.value)
+    props.adaptiveTheme.lightness = e.target.value
+    _updateColorVariables()
+  }}
+/>
+<label htmlFor="contrast">
+  Contrast
+</label>
+<input
+  value={contrast}
+  id="contrast"
+  type="range"
+  min="0.25"
+  max="3"
+  step="0.025"
+  onChange={e => {
+    setContrast(e.target.value)
+    props.adaptiveTheme.contrast = e.target.value
+    _updateColorVariables()
+  }}
+/>
 
+```
+
+### Dark mode support in React
+Include the following in your App.js file to listen for dark mode. This will pass a different lightness value (of your choice) to Leonardo. It's recommended to restrict the lightness range based on mode in order to avoid inaccessible ranges and to provide a better overall experience
+```js
+const mq = window.matchMedia('(prefers-color-scheme: dark)');
+// Update lightness and slider min/max to be conditional:
+const [lightness, setLightness] = useState((mq.matches) ? 8 : 100);
+const [sliderMin, setSliderMin] = useState((mq.matches) ? 0 : 80);
+const [sliderMax, setSliderMax] = useState((mq.matches) ? 30 : 100);
+
+// Listener to update when user device mode changes:
+mq.addEventListener('change', function (evt) {
+  props.adaptiveTheme.lightness = ((mq.matches) ? 11 : 100)
+  setLightness((mq.matches) ? 11 : 100)
+  setSliderMin((mq.matches) ? 0 : 80);
+  setSliderMax((mq.matches) ? 30 : 100);
+});
+```
+---
 
 ## Why are not all contrast ratios available?
 You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.
@@ -279,6 +442,9 @@ Contrast ratio: **8.57**:1
 If 8.58 is input as the target ratio with the starting color of blue, the output will not be exact. This is exaggerated by the various colorspace interpolations.
 
 Since the WCAG requirement is defined as a *minimum contrast requirement*, it should be fine to generate colors that are a little *more* accessible than the minimum.
+
+
+---
 
 ## D3 Color
 This project is currently built using [D3 color](https://github.com/d3/d3-color). Although functionality is comparable to [Chroma.js](https://gka.github.io/chroma.js/), the choice of D3 color is based on the additional modules available for state-of-the-art [color appearance models](https://en.wikipedia.org/wiki/Color_appearance_model), such as [CIE CAM02](https://gramaz.io/d3-cam02/).

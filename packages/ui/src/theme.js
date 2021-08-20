@@ -40,7 +40,7 @@ import './scss/style.scss';
 
 import '@adobe/focus-ring-polyfill';
 
-import * as contrastColors from '@adobe/leonardo-contrast-colors';
+import * as Leo from '@adobe/leonardo-contrast-colors';
 
 import * as blinder from 'color-blind';
 
@@ -59,11 +59,12 @@ loadIcons('./spectrum-icons.svg');
 
 // import {randomId, throttle, deleteColor} from './index.js'
 import ClipboardJS from 'clipboard';
+import { Color } from '@adobe/leonardo-contrast-colors';
 
 new ClipboardJS('.copyButton');
 new ClipboardJS('.themeOutputSwatch');
 
-window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
+// window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
 
 var currentBackgroundColor;
 
@@ -442,9 +443,10 @@ function addColorScale(c, k, s, r) {
   }
   // generate the number of values equal to the width of the item
   let n = window.innerWidth - 272;
-  let rampData = contrastColors.createScale({swatches: n, colorKeys: ['#000000'], colorspace: 'LAB'});
+  let rampData = new Leo.Color({name: c, colorKeys: ['#000000'], colorspace: 'LAB'});
+  // let rampData = contrastColors.createScale({swatches: n, colorKeys: ['#000000'], colorspace: 'LAB'});
 
-  let colors = rampData.colors;
+  let colors = rampData.colorScale;
 
   themeRamp(colors, n, gradientId);
   toggleControls();
@@ -470,6 +472,7 @@ function addColorScale(c, k, s, r) {
 
 }
 
+
 window.addColorScaleUpdate = addColorScaleUpdate;
 function addColorScaleUpdate(c, k, s, r) {
   addColorScale(c, k, s, r);
@@ -489,22 +492,11 @@ document.getElementById('themeBase').addEventListener('input', throttle(themeUpd
 
 function themeRamp(colors, n = window.innerWidth - 272, dest) {
   let container = document.getElementById(dest);
-  container = d3.select(container);
+  let gradient = document.createElement('div');
+  gradient.className = 'gradient'
 
-  let canvas = container.append("canvas")
-    .attr("width", n)
-    .attr("height", 1);
-  let context = canvas.node().getContext("2d");
-
-  canvas.style.height = "32px";
-  canvas.style.width = n;
-  canvas.style.imageRendering = "pixelated";
-  canvas.className = 'themeColor_canvas';
-  for (let i = 1; i < n; ++i) {
-    context.fillStyle = colors[i];
-    context.fillRect(i, 0, 1, 32);
-  }
-  return canvas;
+  gradient.style.backgroundImage = `linear-gradient(to right, ${colors})`;
+  container.appendChild(gradient)
 }
 
 function themeSwatchRamp(colors, dest) {
@@ -743,6 +735,8 @@ var themeName = document.getElementById('themeName');
 
 window.themeInput = themeInput;
 function themeInput() {
+  let inputThemeName = getThemeName();
+  let themeName = (!inputThemeName) ? 'theme': inputThemeName;
   let items = document.getElementsByClassName('themeColor_item');
   let colorScales = [];
   let themeOutputs = document.getElementById('themeOutputs');
@@ -765,33 +759,59 @@ function themeInput() {
   }
   // Create color scale objects
   else if (items.length > 0) {
+    let colorsArray = [];
+    let colorConfigsArray = [];
+    let colorNameArray = [];
+    let backgroundColor = "#ffffff";
+    let backgroundColorName = '#ffffff'
+
     for (let i = 0; i < items.length; i++) {
       let id = items[i].id;
+
       let thisElement = document.getElementById(id);
-
       let colorData = getColorItemData(id);
-
       let colorArgs = colorData.colorArgs;
       let mode = colorData.mode;
+      let ratios = colorData.ratios;
+      let name = colorData.colorName;
 
       let gradientId = id.concat('_gradient');
       let gradient = document.getElementById(gradientId);
       gradient.innerHTML = ' ';
       let n = window.innerWidth - 272;
-      let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
-      let colors = rampData.colors;
+
+      let colorClass;
+      if(name === themeConfigs.baseScale) {
+        let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
+        colorConfigsArray.push(`let ${name} = new BackgroundColor(${JSON.stringify(configs)});`);
+        colorClass = new Leo.BackgroundColor(configs);
+        colorNameArray.push(name);
+        backgroundColor = colorClass;
+        backgroundColorName = name;
+        colorsArray.push(colorClass);
+      } else {
+        let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
+        colorConfigsArray.push(`let ${name} = new Color(${JSON.stringify(configs)});`);
+        colorClass = new Leo.Color(configs);
+        colorNameArray.push(name);
+        colorsArray.push(colorClass);
+      }
+      // let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
+      let colors = colorClass.colorScale;
 
       colors = cvdColors(colors);
 
       themeRamp(colors, n, gradientId);
     }
 
-    let theme = contrastColors.generateAdaptiveTheme({
-      baseScale: themeConfigs.baseScale,
-      colorScales: themeConfigs.colorScales,
-      brightness: themeConfigs.brightness,
-      contrast: themeConfigs.contrast
-    });
+    let theme = new Leo.Theme({
+      colors: colorsArray,
+      backgroundColor: backgroundColor,
+      lightness: Number(themeConfigs.brightness),
+      contrast: Number(themeConfigs.contrast)
+    }).contrastColors;
+
+    // console.log(theme)
 
     // Loop again after generating theme.
     for (let i = 0; i < items.length; i++) {
@@ -889,7 +909,14 @@ function themeInput() {
 
     let copyThemeColors = document.getElementById('copyThemeColors');
     copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
-    paramsOutput.innerHTML = JSON.stringify(themeConfigs, null, 2);
+
+    paramsOutput.innerHTML = `${colorConfigsArray.join(`\n`)}
+let ${themeName} = new Theme({
+  colors: [${colorNameArray}],
+  backgroundColor: ${backgroundColorName},
+  lightness: ${themeConfigs.brightness},
+  contrast: ${themeConfigs.contrast}
+});`
   }
 }
 

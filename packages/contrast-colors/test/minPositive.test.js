@@ -12,14 +12,14 @@ governing permissions and limitations under the License.
 const { minPositive } = require('../index.js');
 
 test('should return 1', function() {
-  let result = minPositive([1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);;
+  let result = minPositive([1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);
 
   expect(result).toEqual(1);
 
 });
 
 test('should return 2', function() {
-  let result = minPositive([-3, -2, -1.2, 2, 3, 4.5, 6, 8, 12, 21]);;
+  let result = minPositive([-3, -2, -1.2, 2, 3, 4.5, 6, 8, 12, 21]);
 
   expect(result).toEqual(2);
 

@@ -39,18 +39,18 @@ import './scss/style.scss';
 
 import '@adobe/focus-ring-polyfill';
 
-import * as contrastColors from '@adobe/leonardo-contrast-colors';
+import * as Leonardo from '@adobe/leonardo-contrast-colors';
 
 // expose functions so they can be ran in the console
-window.createScale = contrastColors.createScale;
-window.luminance = contrastColors.luminance;
-window.contrast = contrastColors.contrast;
-window.generateContrastColors = contrastColors.generateContrastColors;
-window.contrastColors = contrastColors;
-window.generateBaseScale = contrastColors.generateBaseScale;
-window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
-window.minPositive = contrastColors.minPositive;
-window.ratioName = contrastColors.ratioName;
+window.createScale = Leonardo.createScale;
+window.luminance = Leonardo.luminance;
+window.contrast = Leonardo.contrast;
+window.Color = Leonardo.Color;
+window.Leonardo = Leonardo;
+window.BackgroundColor = Leonardo.BackgroundColor;
+window.Theme = Leonardo.Theme;
+window.minPositive = Leonardo.minPositive;
+window.ratioName = Leonardo.ratioName;
 
 import loadIcons from 'loadicons';
 loadIcons('./spectrum-css-icons.svg');
@@ -72,6 +72,9 @@ Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
 
 import * as charts from './charts.js';
 import * as chartData from './data.js';
+import { Theme } from '@adobe/leonardo-contrast-colors';
+import { Color } from '@adobe/leonardo-contrast-colors';
+import { BackgroundColor } from '@adobe/leonardo-contrast-colors';
 
 var bgFieldInput = document.getElementById('bgField');
 var background = bgFieldInput.value;
@@ -342,7 +345,7 @@ window.bulkColorInput = function bulkColorInput() {
   if (isSwatch) {
     // create ratio inputs for each contrast
     for (let i=0; i<bulkValues.length; i++) {
-      let cr = contrastColors.contrast([d3.rgb(bulkValues[i]).r, d3.rgb(bulkValues[i]).g, d3.rgb(bulkValues[i]).b], [d3.rgb(bgInput).r, d3.rgb(bgInput).g, d3.rgb(bgInput).b]);
+      let cr = Leonardo.contrast([d3.rgb(bulkValues[i]).r, d3.rgb(bulkValues[i]).g, d3.rgb(bulkValues[i]).b], [d3.rgb(bgInput).r, d3.rgb(bgInput).g, d3.rgb(bgInput).b]);
       addRatio(cr.toFixed(2));
     }
     bg.value = bgInput;
@@ -550,7 +553,6 @@ function colorspaceOptions() {
 
 // Ramp function to create HTML canvas color scale
 function ramp(color, n) {
-  n = window.innerHeight - 284;
   let container = d3.select('#colorScale');
   let canvas = container.append("canvas")
     .attr("height", n)
@@ -634,12 +636,18 @@ function colorInput() {
   let clamping = document.getElementById('sequentialClamp').checked;
 
   // Generate scale data so we have access to all 3000 swatches to draw the gradient on the left
-  let scaleData = contrastColors.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  let scaleData = Leonardo.createScale({swatches: 3000, colorKeys: colorArgs, colorspace: mode, shift: shift});
   let n = window.innerHeight - 282;
 
-  let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
+  // let rampData = Leonardo.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
-  newColors = contrastColors.generateContrastColors({colorKeys: colorArgs, base: background, ratios: ratioInputs, colorspace: mode, shift: shift});
+  let newColor = new Color({name: 'color', colorKeys: colorArgs, colorspace: mode, ratios: ratioInputs});  
+
+  // let rampData = newColor.colorScale;
+  let rampData = Leonardo.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode, shift: shift});
+
+  let theme = new Theme({colors: [newColor], backgroundColor: background});
+  newColors = theme.contrastColorValues;
 
   // Create values for sliders
   let Values = [];
@@ -687,7 +695,7 @@ function colorInput() {
   }
 
   // Generate Gradient as HTML Canvas element
-  let filteredColors = rampData.colors;
+  let filteredColors = rampData;
   ramp(filteredColors, n);
 
   var backgroundR = d3.rgb(background).r;
@@ -704,7 +712,7 @@ function colorInput() {
     var colorOutputVal = newColors[i];
     var colorOutputText = document.createTextNode(d3.rgb(colorOutputVal).hex());
     var bg = d3.color(background).rgb();
-    var outputRatio = contrastColors.contrast([d3.rgb(newColors[i]).r, d3.rgb(newColors[i]).g, d3.rgb(newColors[i]).b], [bg.r, bg.g, bg.b]);
+    var outputRatio = Leonardo.contrast([d3.rgb(newColors[i]).r, d3.rgb(newColors[i]).g, d3.rgb(newColors[i]).b], [bg.r, bg.g, bg.b]);
     var ratioText = document.createTextNode(outputRatio.toFixed(2));
     var s1 = document.createElement('span');
     var s2 = document.createElement('span');
@@ -719,7 +727,7 @@ function colorInput() {
     colorOutput.appendChild(s1);
     colorOutput.appendChild(s2);
 
-    if (contrastColors.luminance(d3.rgb(newColors[i]).r, d3.rgb(newColors[i]).g, d3.rgb(newColors[i]).b) < 0.275) {
+    if (Leonardo.luminance(d3.rgb(newColors[i]).r, d3.rgb(newColors[i]).g, d3.rgb(newColors[i]).b) < 0.275) {
       colorOutput.style.color = "#ffffff";
     } else {
       colorOutput.style.color = '#000000';
@@ -733,7 +741,7 @@ function colorInput() {
   // update URL parameters
   updateParams(inputColors, background.substr(1), ratioInputs, mode);
 
-  let data = chartData.createData(scaleData.colors);
+  let data = chartData.createData(scaleData);
   charts.showCharts('CAM02', data);
   colorSpaceFeedback('CAM02'); // manually enter default of CAM02
 }
@@ -757,19 +765,16 @@ function updateParams(c, b, r, m) {
 
   var p = document.getElementById('params');
   p.innerHTML = " ";
-  var call = 'generateContrastColors({ ';
+  var call = `new Color({ \n name: 'myColor',\n`;
   var pcol = 'colorKeys: [' + cStrings + '], ';
-  var pbas = 'base: "#'+ b + '", ';
   var prat = 'ratios: [' + r + '], ';
   var pmod = ' colorspace: "' + m + '"});';
   let text1 = document.createTextNode(call);
   let text2 = document.createTextNode(pcol);
-  let text3 = document.createTextNode(pbas);
   let text4 = document.createTextNode(prat);
   let text7 = document.createTextNode(pmod);
   p.appendChild(text1);
   p.appendChild(text2);
-  p.appendChild(text3);
   p.appendChild(text4);
   p.appendChild(text7);
 }
@@ -858,7 +863,7 @@ window.distributeLum = function distributeLum() {
     var rgbArray = [d3.rgb(NewRGB).r, d3.rgb(NewRGB).g, d3.rgb(NewRGB).b];
     var baseRgbArray = [d3.rgb(background).r, d3.rgb(background).g, d3.rgb(background).b];
 
-    NewContrast.push(contrastColors.contrast(rgbArray, baseRgbArray).toFixed(2));
+    NewContrast.push(Leonardo.contrast(rgbArray, baseRgbArray).toFixed(2));
   }
 
   // Concatenate first and last contrast array with new contrast array (middle)
@@ -938,6 +943,5 @@ function updateCharts(selectObject) {
 window.updateCharts = updateCharts;
 
 // Temporary
-window.generateBaseScale = generateBaseScale;
 window.minPositive = minPositive;
 window.ratioName = ratioName;
