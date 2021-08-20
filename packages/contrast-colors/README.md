@@ -1,7 +1,12 @@
 # `@adobe/leonardo-contrast-colors`
 
-[![npm version](https://badge.fury.io/js/%40adobe%2Fleonardo-contrast-colors.svg)](https://badge.fury.io/js/%40adobe%2Fleonardo-contrast-colors)
-![Libraries.io dependency status for latest release, scoped npm package](https://img.shields.io/librariesio/release/npm/@adobe/leonardo-contrast-colors) [![license](https://img.shields.io/github/license/adobe/leonardo)](https://github.com/adobe/leonardo/blob/master/LICENSE)  [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-blueviolet)](https://github.com/adobe/leonardo/blob/master/.github/CONTRIBUTING.md) 
+[![npm version](https://badge.fury.io/js/%40adobe%2Fleonardo-contrast-colors.svg)](https://www.npmjs.com/package/@adobe/leonardo-contrast-colors)
+[![Package size](https://badgen.net/packagephobia/publish/@adobe/leonardo-contrast-colors)](https://packagephobia.com/result?p=%40adobe%2Fleonardo-contrast-colors)
+[![Minified size](https://badgen.net/bundlephobia/min/@adobe/leonardo-contrast-colors)](https://bundlephobia.com/package/@adobe/leonardo-contrast-colors)
+[![Minified and gzipped size](https://badgen.net/bundlephobia/minzip/@adobe/leonardo-contrast-colors)](https://bundlephobia.com/package/@adobe/leonardo-contrast-colors)
+[![license](https://img.shields.io/github/license/adobe/leonardo)](https://github.com/adobe/leonardo/blob/master/LICENSE)
+![Libraries.io dependency status for latest release, scoped npm package](https://img.shields.io/librariesio/release/npm/@adobe/leonardo-contrast-colors) [![license](https://img.shields.io/github/license/adobe/leonardo)](https://github.com/adobe/leonardo/blob/master/LICENSE)  
+[![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-blueviolet)](https://github.com/adobe/leonardo/blob/master/.github/CONTRIBUTING.md) 
 
 This package contains all the functions for generating colors by target contrast ratio.
 
