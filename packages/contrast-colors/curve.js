@@ -16,7 +16,7 @@ const base3 = (t, p1, p2, p3, p4) => {
   return t * t2 - 3 * p1 + 3 * p2;
 };
 
-const belzen = exports.bezlen = (x1, y1, x2, y2, x3, y3, x4, y4, z) => {
+const bezlen = exports.bezlen = (x1, y1, x2, y2, x3, y3, x4, y4, z) => {
   if (z == null) {
     z = 1;
   }

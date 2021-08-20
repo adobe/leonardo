@@ -575,8 +575,8 @@ function getChartColors(mode) {
   // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
   let chartRGB = contrastColors.createScale({swatches: 340, colorKeys: colorArgs, colorspace: mode, shift: shift});
 
-  for (let i=0; i<chartRGB.colorsHex.length; i++) {
-    chartColors.push(chartRGB.colorsHex[i]);
+  for (let i=0; i<chartRGB.length; i++) {
+    chartColors.push(chartRGB[i]);
   }
 
   return chartColors;

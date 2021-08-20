@@ -912,12 +912,17 @@ a:focus {
   -webkit-transition: height 200ms;
   transition: height 200ms;
 
+  .gradient {
+    height: 100%;
+    width: 100%;
+  }
+
   &.is-large {
     height: 64px;
     -webkit-transition: height 200ms;
     transition: height 200ms;
   }
-  &.is-hidden canvas {
+  &.is-hidden .gradient {
     display: none;
   }
 }
