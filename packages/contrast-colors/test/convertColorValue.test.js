@@ -87,28 +87,28 @@ test('should return string format for HSLuv color', function() {
 test('should return color object for LAB color', function() {
   let result = convertColorValue('#2c66f1', 'LAB', true);
 
-  expect(result).toEqual({ "l": 46, "a": 22, "b": -77});
+  expect(result).toEqual({ l: 47, a: 32, b: -75 });
 
 });
 
 test('should return string format for LAB color', function() {
   let result = convertColorValue('#2c66f1', 'LAB');
 
-  expect(result).toEqual('lab(46%, 22, -77)');
+  expect(result).toEqual('lab(47%, 32, -75)');
 
 });
 
 test('should return color object for LCH color', function() {
   let result = convertColorValue('#2c66f1', 'LCH', true);
 
-  expect(result).toEqual({ "l": 46, "c": 80, "h": 286});
+  expect(result).toEqual({ l: 47, c: 81, h: 293 });
 
 });
 
 test('should return string format for LCH color', function() {
   let result = convertColorValue('#2c66f1', 'LCH');
 
-  expect(result).toEqual('lch(46%, 80, 286deg)');
+  expect(result).toEqual('lch(47%, 81, 293deg)');
 
 });
 
@@ -116,7 +116,7 @@ test('should return string format for LCH color', function() {
 test('should return color object for CAM02 color', function() {
   let result = convertColorValue('#2c66f1', 'CAM02', true);
 
-  expect(result).toEqual({ "J": 48, "a": -7, "b": -35});
+  expect(result).toEqual({ J: 48, a: -7, b: -35 });
 
 });
 
@@ -130,14 +130,14 @@ test('should return string format for CAM02 color', function() {
 test('should return color object for CAM02 (polar) color', function() {
   let result = convertColorValue('#2c66f1', 'CAM02p', true);
 
-  expect(result).toEqual({ "J": 35, "C": 75, "h": 258});
+  expect(result).toEqual({ J: 36, C: 75, h: 258 });
 
 });
 
 test('should return string format for CAM02 (polar) color', function() {
   let result = convertColorValue('#2c66f1', 'CAM02p');
 
-  expect(result).toEqual('jch(35%, 75, 258deg)');
+  expect(result).toEqual('jch(36%, 75, 258deg)');
 
 });
 
