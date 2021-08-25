@@ -258,17 +258,15 @@ function addColorScale(c, k, s, r) {
   if(c == undefined) {
     if(items.length == 0) {
       // if first color with undefined c argument:
-      colorNameInput.value = 'Gray';
+      c = 'Gray'
     }
     else {
       // if not first, c not defined, randomly assign color name:
-      colorNameInput.value = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+      c = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
     }
   }
-  else {
-    // if c defined argument, this should be color name.
-    colorNameInput.value = c;
-  }
+
+  colorNameInput.value = c;
 
 
   colorNameInput.oninput = throttle(themeUpdateParams, 10);
