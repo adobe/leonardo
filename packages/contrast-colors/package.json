@@ -18,13 +18,15 @@
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "d3-cam02": "^0.1.5",
-    "d3-color": "^3.0.1",
-    "d3-hsluv": "^0.1.2",
-    "d3-hsv": "^0.1.0",
-    "d3-interpolate": "^3.0.1"
+    "chroma-js": "^2.1.2",
+    "ciebase": "^0.1.1",
+    "ciecam02": "^0.4.6",
+    "hsluv": "^0.1.0"
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
     "jest": "^26.6.3"
   },
   "publishConfig": {
