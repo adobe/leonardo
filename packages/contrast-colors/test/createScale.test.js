@@ -8,22 +8,23 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
+/* global test, expect */
 
-const { createScale } = require('../index.js');
+const { createScale } = require('../index');
 
-test('should generate 8 colors in Lab', function() {
-  let scale = createScale({swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true});
+test('should generate 8 colors in Lab', () => {
+  const scale = createScale({ swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true });
 
   expect(scale).toEqual(
     [
-      'rgb(255, 255, 255)',
-      'rgb(196, 229, 169)',
-      'rgb(181, 187, 168)',
-      'rgb(163, 144, 166)',
-      'rgb(143, 103, 162)',
-      'rgb(120, 60, 157)',
-      'rgb(92, 3, 146)',
-      'rgb(49, 15, 72)'
-    ]
+      '#ffffff',
+      '#c5e6a9',
+      '#b6bba8',
+      '#a591a6',
+      '#9068a2',
+      '#793d9d',
+      '#5c0392',
+      '#311048',
+    ],
   );
 });
