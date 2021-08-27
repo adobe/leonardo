@@ -237,6 +237,56 @@ test('should generate theme for three colors using variables as parameters', () 
   ]);
 });
 
+test('should increase contrast of existing theme', () => {
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90});
+  theme.contrast = 1.4;
+  const themeColors = theme.contrastColors;
+
+  expect(themeColors).toEqual([
+    { background: '#e1e1e1' },
+    {
+      name: 'gray',
+      values: [
+        { name: 'gray33', contrast: -2.12, value: '#ffffff' },
+        { name: 'gray67', contrast: -1.28, value: '#fdfdfd' },
+        { name: 'gray100', contrast: 1, value: '#e0e0e0' },
+        { name: 'gray200', contrast: 1.28, value: '#c8c8c8' },
+        { name: 'gray300', contrast: 1.56, value: '#b5b5b5' },
+        { name: 'gray400', contrast: 2.4, value: '#919191' },
+        { name: 'gray500', contrast: 3.8, value: '#6f6f6f' },
+        { name: 'gray600', contrast: 5.9, value: '#525252' },
+        { name: 'gray700', contrast: 8, value: '#404040' },
+        { name: 'gray800', contrast: 10.8, value: '#2b2b2b' },
+        { name: 'gray900', contrast: 16.4, value: '#000000' },
+        { name: 'gray1000', contrast: 29, value: '#000000' },
+      ],
+    },
+    {
+      name: 'blue',
+      values: [
+        { name: 'blue100', contrast: 2.4, value: '#a378ff' },
+        { name: 'blue200', contrast: 3.8, value: '#774aff' },
+        { name: 'blue300', contrast: 5.9, value: '#3418ff' },
+        { name: 'blue400', contrast: 10.8, value: '#251183' },
+        { name: 'blue500', contrast: 16.4, value: '#000000' },
+      ],
+    },
+    {
+      name: 'red',
+      values: [
+        { name: 'red100', contrast: 2.4, value: '#ff5555' },
+        { name: 'red200', contrast: 3.8, value: '#e10000' },
+        { name: 'red300', contrast: 5.9, value: '#aa0000' },
+        { name: 'red400', contrast: 10.8, value: '#5f0000' },
+        { name: 'red500', contrast: 16.4, value: '#000000' },
+      ],
+    },
+  ]);
+});
+
 test('should generate theme with increased contrast', () => {
   const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
   const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
@@ -291,6 +341,63 @@ test('should generate white theme with increased contrast', () => {
   const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
   const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 100, contrast: 2 });
+  const themeColors = theme.contrastColors;
+
+  expect(themeColors).toEqual([
+    { background: '#ffffff' },
+    {
+      name: 'gray',
+      values: [
+        { name: 'gray33', contrast: -2.6, value: '#ffffff' },
+        { name: 'gray67', contrast: -1.4, value: '#ffffff' },
+        { name: 'gray100', contrast: 1, value: '#fefefe' },
+        { name: 'gray200', contrast: 1.4, value: '#d9d9d9' },
+        { name: 'gray300', contrast: 1.8, value: '#c1c1c1' },
+        { name: 'gray400', contrast: 3, value: '#959595' },
+        { name: 'gray500', contrast: 5, value: '#6f6f6f' },
+        { name: 'gray600', contrast: 8, value: '#505050' },
+        { name: 'gray700', contrast: 11, value: '#3c3c3c' },
+        { name: 'gray800', contrast: 15, value: '#262626' },
+        { name: 'gray900', contrast: 23, value: '#000000' },
+        { name: 'gray1000', contrast: 41, value: '#000000' },
+      ],
+    },
+    {
+      name: 'blue',
+      values: [
+        { name: 'blue100', contrast: 3, value: '#a77cff' },
+        { name: 'blue200', contrast: 5, value: '#764aff' },
+        { name: 'blue300', contrast: 8, value: '#2912ff' },
+        { name: 'blue400', contrast: 15, value: '#241172' },
+        { name: 'blue500', contrast: 23, value: '#000000' },
+      ],
+    },
+    {
+      name: 'red',
+      values: [
+        { name: 'red100', contrast: 3, value: '#ff5d5d' },
+        { name: 'red200', contrast: 5, value: '#e10000' },
+        { name: 'red300', contrast: 8, value: '#a60000' },
+        { name: 'red400', contrast: 15, value: '#570000' },
+        { name: 'red500', contrast: 23, value: '#000000' },
+      ],
+    },
+  ]);
+});
+
+
+test('should set contrast multiple times', () => {
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 100, contrast: 1 });
+
+  theme.contrast = 3;
+  theme.contrast = 1.2;
+  theme.contrast = 0.875;
+  theme.contrast = 1.4
+  theme.contrast = 2;
+
   const themeColors = theme.contrastColors;
 
   expect(themeColors).toEqual([
@@ -856,6 +963,70 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
   expect(themeColors).toEqual(['#b74601', '#d86202']);
 });
 
+test('should update predefined color keys', () => {
+  const color = new Color({
+    name: 'Color',
+    colorKeys: ['#cacaca'],
+    ratios: [1.2, -1.2],
+    colorspace: 'LCH',
+  }); // positive & negative ratios
+  const theme = new Theme({ colors: [color], backgroundColor: '#537b9d' });
+
+  theme.updateColor = {color: 'Color', colorKeys: ['#ff8602', '#ab3c00', '#ffd88b']}
+  const themeColors = theme.contrastColorValues;
+
+  // expect(themeColors).toEqual(['#b74601', '#d86202']);
+  expect(themeColors).toEqual(['#d86202', '#b74601']);
+});
+test('should update predefined color keys as object return', () => {
+  const color = new Color({
+    name: 'Color',
+    colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
+    ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+    colorspace: 'RGB',
+  }); // positive & negative ratios
+  const theme = new Theme({ colors: [color], backgroundColor: '#e1e1e1' });
+  theme.updateColor = {color: 'Color', colorKeys: ['#ff00ff']}
+  theme.updateColor = {color: 'Color', colorKeys: ['#000000']}
+
+  const themeColors = theme.contrastColors;
+
+  // expect(themeColors).toEqual([ '#6b6b6b', '#858585' ]);
+  expect(themeColors).toEqual([
+    { background: '#e1e1e1' },
+    {
+      name: 'Color',
+      values: [
+        { name: 'Color100', contrast: 1, value: '#e1e1e1' },
+        { name: 'Color200', contrast: 1.2, value: '#cecece' },
+        { name: 'Color300', contrast: 1.4, value: '#bfbfbf' },
+        { name: 'Color400', contrast: 2, value: '#a0a0a0' },
+        { name: 'Color500', contrast: 3, value: '#808080' },
+        { name: 'Color600', contrast: 4.5, value: '#646464' },
+        { name: 'Color700', contrast: 6, value: '#515151' },
+        { name: 'Color800', contrast: 8, value: '#3f3f3f' },
+        { name: 'Color900', contrast: 12, value: '#232323' },
+        { name: 'Color1000', contrast: 21, value: '#000000' },
+      ],
+    },
+  ]);
+});
+
+test('should update predefined colors interpolation', () => {
+  const color = new Color({
+    name: 'Color',
+    colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
+    ratios: [1.2, -1.2],
+    colorspace: 'RGB',
+  }); // positive & negative ratios
+  const theme = new Theme({ colors: [color], backgroundColor: '#537b9d' });
+
+  theme.updateColor = {color: 'Color', colorspace: 'LCH'}
+  const themeColors = theme.contrastColorValues;
+
+  expect(themeColors).toEqual(['#d86202', '#b74601']);
+});
+
 // Output formats
 test('should generate 2 colors in HEX format', () => {
   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
@@ -899,6 +1070,118 @@ test('should generate 2 colors in LCH format', () => {
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['lch(59%, 47, 277deg)', 'lch(47%, 81, 293deg)']);
+});
+
+// Add color to theme
+test('should add a color to existing theme', () => {
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90 });
+
+  const yellow = new Color({ name: 'yellow', colorKeys: ['#ffff00'], colorspace: 'HSL', ratios: [2, 3, 4.5, 8, 12]});
+  theme.addColor = yellow;
+
+  const themeColors = theme.contrastColors;
+
+  expect(themeColors).toEqual([
+    { background: '#e1e1e1' },
+    {
+      name: 'gray',
+      values: [
+        { name: 'gray100', contrast: 1, value: '#e0e0e0' },
+        { name: 'gray200', contrast: 1.2, value: '#cecece' },
+        { name: 'gray300', contrast: 1.4, value: '#bfbfbf' },
+        { name: 'gray400', contrast: 2, value: '#a0a0a0' },
+        { name: 'gray500', contrast: 3, value: '#808080' },
+        { name: 'gray600', contrast: 4.5, value: '#646464' },
+        { name: 'gray700', contrast: 6, value: '#515151' },
+        { name: 'gray800', contrast: 8, value: '#404040' },
+        { name: 'gray900', contrast: 12, value: '#232323' },
+        { name: 'gray1000', contrast: 21, value: '#000000' },
+      ],
+    },
+    {
+      name: 'blue',
+      values: [
+        { name: 'blue100', contrast: 2, value: '#b28bff' },
+        { name: 'blue200', contrast: 3, value: '#8f62ff' },
+        { name: 'blue300', contrast: 4.5, value: '#6339ff' },
+        { name: 'blue400', contrast: 8, value: '#1e0bcf' },
+        { name: 'blue500', contrast: 12, value: '#221165' },
+      ],
+    },
+    {
+      name: 'red',
+      values: [
+        { name: 'red100', contrast: 2, value: '#ff7474' },
+        { name: 'red200', contrast: 3, value: '#ff1010' },
+        { name: 'red300', contrast: 4.5, value: '#cc0000' },
+        { name: 'red400', contrast: 8, value: '#850000' },
+        { name: 'red500', contrast: 12, value: '#4f0000' },
+      ],
+    },
+    {
+      name: 'yellow',
+      values: [
+        { name: 'yellow100', contrast: 2, value: '#a5a500' },
+        { name: 'yellow200', contrast: 3, value: '#858500' },
+        { name: 'yellow300', contrast: 4.5, value: '#686800' },
+        { name: 'yellow400', contrast: 8, value: '#414100' },
+        { name: 'yellow500', contrast: 12, value: '#252500' },
+      ],
+    }
+  ]);
+});
+
+test('should remove a color from existing theme', () => {
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const yellow = new Color({ name: 'yellow', colorKeys: ['#ffff00'], colorspace: 'HSL', ratios: [2, 3, 4.5, 8, 12]});
+  const theme = new Theme({ colors: [gray, blue, red, yellow], backgroundColor: gray, lightness: 90 });
+  theme.removeColor = yellow;
+
+  const themeColors = theme.contrastColors;
+
+  expect(themeColors).toEqual([
+    { background: '#e1e1e1' },
+    {
+      name: 'gray',
+      values: [
+        { name: 'gray100', contrast: 1, value: '#e0e0e0' },
+        { name: 'gray200', contrast: 1.2, value: '#cecece' },
+        { name: 'gray300', contrast: 1.4, value: '#bfbfbf' },
+        { name: 'gray400', contrast: 2, value: '#a0a0a0' },
+        { name: 'gray500', contrast: 3, value: '#808080' },
+        { name: 'gray600', contrast: 4.5, value: '#646464' },
+        { name: 'gray700', contrast: 6, value: '#515151' },
+        { name: 'gray800', contrast: 8, value: '#404040' },
+        { name: 'gray900', contrast: 12, value: '#232323' },
+        { name: 'gray1000', contrast: 21, value: '#000000' },
+      ],
+    },
+    {
+      name: 'blue',
+      values: [
+        { name: 'blue100', contrast: 2, value: '#b28bff' },
+        { name: 'blue200', contrast: 3, value: '#8f62ff' },
+        { name: 'blue300', contrast: 4.5, value: '#6339ff' },
+        { name: 'blue400', contrast: 8, value: '#1e0bcf' },
+        { name: 'blue500', contrast: 12, value: '#221165' },
+      ],
+    },
+    {
+      name: 'red',
+      values: [
+        { name: 'red100', contrast: 2, value: '#ff7474' },
+        { name: 'red200', contrast: 3, value: '#ff1010' },
+        { name: 'red300', contrast: 4.5, value: '#cc0000' },
+        { name: 'red400', contrast: 8, value: '#850000' },
+        { name: 'red500', contrast: 12, value: '#4f0000' },
+      ],
+    }
+  ]);
 });
 
 // Expected errors

@@ -236,7 +236,7 @@ class Theme {
         ratioValues = ratioValues.map((ratio) => multiplyRatios(+ratio, this._contrast));
 
         const contrastColors = searchColors(color, bgRgbArray, baseV, ratioValues).map((clr) => convertColorValue(clr, this._output));
-
+        
         for (let i = 0; i < contrastColors.length; i++) {
           let n;
           if (!swatchNames) {
