@@ -214,6 +214,8 @@ function createScale({
       }
     }
     scale = smoothScale(ColorsArray, domains, space);
+
+    const temp = new Array(swatches).fill().map((_, d) => scale(d));
   } else {
     scale = chroma.scale(ColorsArray.map((color) => {
       if (typeof color === 'object' && color.constructor === chroma.Color) {
