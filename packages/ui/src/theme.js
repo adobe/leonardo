@@ -67,6 +67,27 @@ new ClipboardJS('.themeOutputSwatch');
 
 // window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
 
+const tempGray = new Leo.Color({
+  name: 'Gray',
+  colorKeys: ['#cacaca'],
+  colorspace: 'RGB',
+  ratios: [3, 4.5]
+});
+const tempBackground = new Leo.BackgroundColor({
+  name: 'Gray',
+  colorKeys: ['#cacaca'],
+  colorspace: 'RGB',
+  ratios: [3, 4.5]
+});
+let _theme = new Leo.Theme({
+  colors: [ tempGray ],
+  backgroundColor: tempBackground,
+  lightness: 98,
+  contrast: 1
+})
+// Initialize with temporary theme object to modify later.
+// console.log(testTheme)
+
 var currentBackgroundColor;
 window.ratioInputs = [];
 
@@ -100,6 +121,7 @@ function throttle(func, wait) {
 
 function deleteColor(e) {
   var id = e.target.parentNode.id;
+  console.log(id)
   var self = document.getElementById(id);
 
   self.remove();
@@ -129,13 +151,26 @@ function paramSetup() {
       contrast = config.contrast;
     }
 
-    for(let i = 0; i < colorScales.length; i++) {
-      let colorName = colorScales[i].name;
-      let keyColors = colorScales[i].colorKeys;
-      let colorSpace = colorScales[i].colorspace;
-      let ratios = colorScales[i].ratios;
-      // Create color scale item
-      addColorScale(colorName, keyColors, colorSpace, ratios);
+    // for(let i = 0; i < colorScales.length; i++) {
+    //   let colorName = colorScales[i].name;
+    //   let keyColors = colorScales[i].colorKeys;
+    //   let colorSpace = colorScales[i].colorspace;
+    //   let ratios = colorScales[i].ratios;
+    //   // Create color scale item
+    //   addColorScale(colorName, keyColors, colorSpace, ratios);
+    // }
+
+    if(colorScales.length > 0) {
+      colorScales.map(color => {
+        let colorName = color.name;
+        let keyColors = color.colorKeys;
+        let colorSpace = color.colorspace;
+        let ratios = color.ratios;
+        // Create color scale item
+        addColorScale(colorName, keyColors, colorSpace, ratios);
+      })
+    } else {
+      addColorScale('Gray', ['#000000'], 'CIECAM02', [3, 4.5]);
     }
 
     let slider = document.getElementById('themeBrightnessSlider');
@@ -150,6 +185,9 @@ function paramSetup() {
 
     let themeBase = document.getElementById('themeBase');
     themeBase.value = baseScale;
+  }
+  else if(!params.has('config') || params.get('config') === undefined) {
+    addColorScale('Gray', ['#000000'], 'CAM02', [3, 4.5]);
   }
 
   sliderInput();
@@ -216,6 +254,35 @@ window.addColorScale = addColorScale;
 function addColorScale(c, k, s, r) {
   // for checking to see if items already exist
   let items = document.getElementsByClassName('themeColor_item');
+  // if first color item, just name it gray.
+  if(!c) {
+    if(items.length == 0) {
+      // if first color with undefined c argument:
+      c = 'Gray'
+    }
+    else {
+      // if not first, c not defined, randomly assign color name:
+      c = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+    }
+  }
+  if (s == undefined) {
+    s = 'CAM02';
+  }
+  if (k == undefined) {
+    k = ['#000000']
+  }
+  if(r == undefined) {
+    r = [3, 4.5];
+  }
+
+  let newColor = new Leo.Color({
+    name: c,
+    colorKeys: k,
+    colorspace: s,
+    ratios: r
+  })
+  _theme.addColor = newColor;
+
   // create unique ID for color object
   let thisId = randomId();
   // generate color input objects:
@@ -253,22 +320,10 @@ function addColorScale(c, k, s, r) {
   colorNameInput.className = 'spectrum-Textfield spectrum-Textfield--quiet colorNameInput';
   colorNameInput.id = thisId.concat('_colorName');
   colorNameInput.name = thisId.concat('_colorName');
-
-  // if first color item, just name it gray.
-  if(!c) {
-    if(items.length == 0) {
-      // if first color with undefined c argument:
-      c = 'Gray'
-    }
-    else {
-      // if not first, c not defined, randomly assign color name:
-      c = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
-    }
-  }
   colorNameInput.value = c;
 
-
   colorNameInput.oninput = throttle(themeUpdateParams, 10);
+
   // colorNameLabel.innerHTML = 'Color scale name';
   // colorName.appendChild(colorNameLabel);
   colorName.appendChild(colorNameInput);
@@ -332,6 +387,10 @@ function addColorScale(c, k, s, r) {
   interpSelect.id = thisId.concat('_mode');
   interpSelect.name = thisId.concat('_mode');
   interpSelect.oninput = throttle(themeUpdateParams, 20);
+  interpSelect.addEventListener('change', (e) => {
+    _theme.updateColor = {color: c, colorspace: e.target.value}
+  })
+
   let interpDropdownIcon = document.createElement('span');
   interpDropdownIcon.className = 'spectrum-Dropdown-iconWrapper';
   interpDropdownIcon.innerHTML = `
@@ -349,7 +408,8 @@ function addColorScale(c, k, s, r) {
   interpSelect.options.length = 0;
 
   let opts = {
-    'CAM02': 'CIECAM02',
+    'CAM02': 'Jab',
+    'CAM02p': 'JCh',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',
@@ -359,12 +419,7 @@ function addColorScale(c, k, s, r) {
   };
 
   for(let index in opts) { interpSelect.options[interpSelect.options.length] = new Option(opts[index], index); }
-  if (s == undefined) {
-    interpSelect.value = 'CAM02';
-  }
-  else {
-    interpSelect.value = s;
-  }
+  interpSelect.value = s;
 
   // Smoothing
   let smoothFormItem = document.createElement('div');
@@ -375,6 +430,12 @@ function addColorScale(c, k, s, r) {
   smoothInput.type = 'checkbox';
   smoothInput.className = 'spectrum-Switch-input';
   smoothInput.id = thisId.concat('_smooth');
+  smoothInput.oninput = throttle(themeUpdateParams, 20);
+  smoothInput.addEventListener('change', (e) => {
+    console.log(e.target.checked)
+    let checked = e.target.checked;
+    _theme.updateColor = {color: c, smooth: e.target.value}
+  })
   let smoothSwitch = document.createElement('span');
   smoothSwitch.className = 'spectrum-Switch-switch';
   let smoothLabel = document.createElement('label');
@@ -385,6 +446,23 @@ function addColorScale(c, k, s, r) {
   smoothWrapper.appendChild(smoothSwitch);
   smoothWrapper.appendChild(smoothLabel);
   smoothFormItem.appendChild(smoothWrapper);
+
+  // Ratios
+  let ratios = document.createElement('div');
+  ratios.className = 'spectrum-Form-item';
+  let ratiosLabel = document.createElement('label');
+  ratiosLabel.className = 'spectrum-FieldLabel';
+  ratiosLabel.innerHTML = 'Contrast ratios';
+  ratiosLabel.for = thisId.concat('_ratios');
+  let ratiosInput = document.createElement('input');
+  ratiosInput.type = 'text';
+  ratiosInput.className = 'spectrum-Textfield';
+  ratiosInput.id = thisId.concat('_ratios');
+  ratiosInput.name = thisId.concat('_ratios');
+  ratiosInput.oninput = throttle(themeUpdateParams, 10);
+  ratios.appendChild(ratiosLabel);
+  ratios.appendChild(ratiosInput);
+  ratiosInput.value = r.toString();
 
   // Actions
   let actions = document.createElement('div');
@@ -409,7 +487,6 @@ function addColorScale(c, k, s, r) {
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
-  deleteColor.addEventListener('click', themeDeleteItem);
   actions.appendChild(edit);
   actions.appendChild(deleteColor);
 
@@ -423,7 +500,7 @@ function addColorScale(c, k, s, r) {
   inputs.appendChild(keyColors);
   inputs.appendChild(keyColorsInput);
 
-  // inputs.appendChild(ratios);
+  inputs.appendChild(ratios);
   // inputs.appendChild(actions);
 
   item.appendChild(colorName);
@@ -433,15 +510,10 @@ function addColorScale(c, k, s, r) {
   wrapper.appendChild(item);
 
   // Then run functions on the basic placeholder inputs
-  // document.getElementById(buttonId).click();
-  if (k == undefined) {
-    document.getElementById(buttonId).click();
+  for (let i = 0; i < k.length; i++) {
+    themeAddColor(k[i], buttonId);
   }
-  else {
-    for (let i = 0; i < k.length; i++) {
-      themeAddColor(k[i], buttonId);
-    }
-  }
+  
   // generate the number of values equal to the width of the item
   let n = window.innerWidth - 272;
   // let rampData = new Leo.Color({name: c, colorKeys: ['#000000'], colorspace: 'LAB'});
@@ -454,10 +526,13 @@ function addColorScale(c, k, s, r) {
   baseScaleOptions();
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
-  document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
+  // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
 
+  deleteColor.addEventListener('click', themeDeleteItem);
+  deleteColor.addEventListener('click', function(){ return _theme.removeColor = newColor});
+  
+  console.log(_theme)
 }
-
 
 window.addColorScaleUpdate = addColorScaleUpdate;
 function addColorScaleUpdate(c, k, s, r) {
@@ -547,9 +622,11 @@ function themeAddColorUpdate(c, thisId = this.id) {
   // updateParams(name, config);
 }
 
+// Deletes a Color class from Theme
 function themeDeleteItem(e) {
   let id = e.target.parentNode.parentNode.parentNode.id;
   let self = document.getElementById(id);
+  console.log(`Deleting color ${id}`)
 
   self.remove();
   baseScaleOptions();
@@ -731,6 +808,7 @@ function themeInput() {
   let themeOutputs = document.getElementById('themeOutputs');
   themeOutputs.innerHTML = ' ';
   let themeConfigs = getThemeData();
+
   let paramsOutput = document.getElementById('themeParams');
 
   if (items.length == 0) {
@@ -763,6 +841,7 @@ function themeInput() {
       let mode = colorData.mode;
       let ratios = colorData.ratios;
       let name = colorData.colorName;
+      let smooth = colorData.smooth;
 
       let gradientId = id.concat('_gradient');
       let gradient = document.getElementById(gradientId);
@@ -785,19 +864,35 @@ function themeInput() {
         colorNameArray.push(name);
         colorsArray.push(colorClass);
       }
-      let colors = Leo.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
+      let colors = Leo.createScale({swatches: 30, colorKeys: colorArgs, colorspace: mode, smooth: smooth});
+      // let colors = colorClass.colorScale;
 
       let colors = cvdColors(colors);
 
       themeRamp(colors, gradientId);
     }
 
-    let theme = new Leo.Theme({
+    // if(colorsArray !== themeClass.colors) {
+    //   themeClass.colors = colorsArray;
+    // }
+    // if(backgroundColor !== themeClass.backgroundColor) {
+    //   themeClass.colors = colorsArray;
+    // }
+    // if(Number(themeConfigs.brightness) !== themeClass.lightness) {
+    //   themeClass.lightness = Number(themeConfigs.brightness);
+    // }
+    // if(Number(themeConfigs.contrast) !== themeClass.contrast) {
+    //   themeClass.contrast = Number(themeConfigs.contrast);
+    // }
+
+    let themeClass = new Leo.Theme({
       colors: colorsArray,
       backgroundColor: backgroundColor,
       lightness: Number(themeConfigs.brightness),
       contrast: Number(themeConfigs.contrast)
-    }).contrastColors;
+    });
+
+    let theme = themeClass.contrastColors;
     
     const themeBackgroundColor = theme[0].background;
     const themeBackgroundColorArray = [d3.rgb(themeBackgroundColor).r, d3.rgb(themeBackgroundColor).g, d3.rgb(themeBackgroundColor).b]
@@ -926,6 +1021,7 @@ let ${themeName} = new Theme({
 });`
   }
 }
+
 
 window.themeUpdateParams = themeUpdateParams;
 function themeUpdateParams() {
@@ -1238,6 +1334,11 @@ function getColorItemData(id) {
   let modeSelect = document.getElementById(modeId);
   let mode = modeSelect.value;
 
+  // 4. Find smoothing
+  let smoothId = id.concat('_smooth');
+  let smoothSwitch = document.getElementById(smoothId);
+  let smooth = smoothSwitch.checked;
+
   // 4. find ratios
   // let ratiosId = id.concat('_ratios');
   // let ratiosInput = document.getElementById(ratiosId);
@@ -1252,6 +1353,7 @@ function getColorItemData(id) {
     colorName: colorName,
     colorArgs: colorArgs,
     mode: mode,
+    smooth: smooth,
     ratios: ratios
   }
 }
@@ -1272,6 +1374,7 @@ function getThemeName() {
   let themeName = themeNameInput.value;
   return themeName;
 }
+
 
 // GET Theme Data
 function getThemeData() {
