@@ -13,9 +13,7 @@ governing permissions and limitations under the License.
 const chroma = require('chroma-js');
 const {
   colorSpaces,
-  convertColorValue,
   createScale,
-  uniq,
 } = require('./utils');
 
 class Color {
@@ -109,14 +107,9 @@ class Color {
   _generateColorScale() {
     // This would create 3000 color values based on all parameters
     // and return an array of colors:
-    const colorScale = createScale({ swatches: 3000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth });
+    const colorScale = createScale({ swatches: 3000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth, asFun: true });
 
-    colorScale.map((color) => convertColorValue(color, this._output));
-
-    // Remove duplicate color values
-    this._colorScale = uniq(colorScale);
-
-    return this._colorScale;
+    this._colorScale = colorScale;
   }
 }
 module.exports = { Color };

@@ -202,7 +202,7 @@ function createScale({
       // Replacing it to NaN, so we can apply the same method of dealing with them.
       for (let i = 0; i < stringColors.length; i++) {
         const color = chroma(stringColors[i]).hcl();
-        if (!color[1]) {
+        if (Number.isNaN(color[0])) {
           ColorsArray[i][2] = NaN;
         }
       }
@@ -216,7 +216,7 @@ function createScale({
     return scale;
   }
 
-  const Colors = new Array(swatches).fill().map((_, d) => scale(d).hex());
+  const Colors = new Array(swatches).fill().map((_, d) => chroma(scale(d)).hex());
 
   const colors = Colors.filter((el) => el != null);
 
