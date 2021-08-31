@@ -186,8 +186,8 @@ exports.extendChroma = (chroma) => {
       }
       const xyz1 = RGB2[mode](col1.gl());
       const xyz2 = RGB2[mode](col2.gl());
-      const grey1 = !col1.hsl()[0];
-      const grey2 = !col2.hsl()[0];
+      const grey1 = Number.isNaN(col1.hsl()[0]);
+      const grey2 = Number.isNaN(col2.hsl()[0]);
       let X;
       let Y;
       let Z;
