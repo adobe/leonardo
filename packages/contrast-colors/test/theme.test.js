@@ -67,6 +67,7 @@ test('should output theme as key-value pairs', () => {
   const themeColors = theme.contrastColorPairs;
 
   expect(themeColors).toEqual({
+    background: '#e1e1e1',
     gray100:'#e0e0e0',
     gray200: '#cecece',
     gray300: '#bfbfbf',
@@ -449,6 +450,62 @@ test('should generate colors with user-defined names', () => {
       ],
     },
   ]);
+});
+
+
+test('should generate colors with user-defined names as key-value pairs', () => {
+  const grayRatios = {
+    GRAY_1: -1.8,
+    GRAY_2: -1.2,
+    GRAY_3: 1,
+    GRAY_4: 1.2,
+    GRAY_5: 1.4,
+    GRAY_6: 2,
+    GRAY_7: 3,
+    GRAY_8: 4.5,
+    GRAY_9: 21,
+  };
+  const blueRatios = {
+    BLUE_LARGE_TEXT: 3,
+    BLUE_TEXT: 4.5,
+    BLUE_HIGH_CONTRAST: 8,
+    BLUE_HIGHEST_CONTRAST: 12,
+  };
+  const redRatios = {
+    'red--largeText': 3,
+    'red--text': 4.5,
+    'red--highContrast': 8,
+    'red--highestContrast': 12,
+  };
+
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: grayRatios });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: blueRatios });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: redRatios });
+  const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20 });
+  const themeColors = theme.contrastColorPairs;
+
+  expect(themeColors).toEqual(
+    { 
+      background: '#303030', 
+      'GRAY_1': '#000000' ,
+      'GRAY_2': '#222222' ,
+      'GRAY_3': '#313131' ,
+      'GRAY_4': '#3c3c3c' ,
+      'GRAY_5': '#464646' ,
+      'GRAY_6': '#5d5d5d' ,
+      'GRAY_7': '#787878' ,
+      'GRAY_8': '#969696' ,
+      'GRAY_9': '#ffffff' ,
+      'BLUE_LARGE_TEXT': '#8457ff' ,
+      'BLUE_TEXT': '#a97fff' ,
+      'BLUE_HIGH_CONTRAST': '#d8beff' ,
+      'BLUE_HIGHEST_CONTRAST': '#f7f2ff' ,
+      'red--largeText': '#f20000' ,
+      'red--text': '#ff6262' ,
+      'red--highContrast': '#ffb7b7' ,
+      'red--highestContrast': '#fff1f1' 
+    }
+  );
 });
 
 test('should generate colors with user-defined names and increased contrast', () => {

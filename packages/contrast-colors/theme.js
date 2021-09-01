@@ -152,12 +152,12 @@ class Theme {
   _findContrastColors() {
     const bgRgbArray = chroma(String(this._backgroundColorValue)).rgb();
     const baseV = this._lightness / 100;
-
-    const baseObj = { background: convertColorValue(this._backgroundColorValue, this._output) };
+    const convertedBackgroundColorValue = convertColorValue(this._backgroundColorValue, this._output);
+    const baseObj = { background: convertedBackgroundColorValue };
 
     const returnColors = []; // Array to be populated with JSON objects for each color, including names & contrast values
     const returnColorValues = []; // Array to be populated with flat list of all color values
-    const returnColorPairs = {}; // Objext to be populated with flat list of all color values as named key-value pairs
+    const returnColorPairs = {...baseObj}; // Objext to be populated with flat list of all color values as named key-value pairs
     returnColors.push(baseObj);
 
     this._modifiedColors.map((color) => {
