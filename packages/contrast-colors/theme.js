@@ -51,6 +51,7 @@ class Theme {
     // this._setContrasts(this._contrast);
 
     this._findContrastColors();
+    this._findContrastColorPairs();
     this._findContrastColorValues();
   }
 
@@ -115,6 +116,10 @@ class Theme {
     return this._contrastColors;
   }
 
+  get contrastColorPairs() {
+    return this._contrastColorPairs;
+  }
+
   get contrastColorValues() {
     return this._contrastColorValues;
   }
@@ -152,6 +157,7 @@ class Theme {
 
     const returnColors = []; // Array to be populated with JSON objects for each color, including names & contrast values
     const returnColorValues = []; // Array to be populated with flat list of all color values
+    const returnColorPairs = {}; // Objext to be populated with flat list of all color values as named key-value pairs
     returnColors.push(baseObj);
 
     this._modifiedColors.map((color) => {
@@ -192,6 +198,8 @@ class Theme {
             value: contrastColors[i],
           };
           newArr.push(obj);
+          // Push the same values to the returnColorPairs object
+          returnColorPairs[n] = contrastColors[i];
           // Push the same value to the returnColorValues array
           returnColorValues.push(contrastColors[i]);
         }
@@ -200,8 +208,13 @@ class Theme {
       return null;
     });
     this._contrastColorValues = returnColorValues;
+    this._contrastColorPairs = returnColorPairs;
     this._contrastColors = returnColors;
     return this._contrastColors;
+  }
+
+  _findContrastColorPairs() {
+    return this._contrastColorPairs;
   }
 
   _findContrastColorValues() {

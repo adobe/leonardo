@@ -58,6 +58,38 @@ test('should generate theme for three colors', () => {
   ]);
 });
 
+
+test('should output theme as key-value pairs', () => {
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90 });
+  const themeColors = theme.contrastColorPairs;
+
+  expect(themeColors).toEqual({
+    gray100:'#e0e0e0',
+    gray200: '#cecece',
+    gray300: '#bfbfbf',
+    gray400:'#a0a0a0',
+    gray500:'#808080',
+    gray600: '#646464',
+    gray700:'#515151',
+    gray800:'#404040',
+    gray900: '#232323',
+    gray1000: '#000000',
+    blue100: '#b28bff',
+    blue200: '#8f62ff',
+    blue300: '#6339ff',
+    blue400: '#1e0bcf',
+    blue500: '#221165',
+    red100: '#ff7474',
+    red200: '#ff1010',
+    red300: '#cc0000',
+    red400:'#850000',
+    red500: '#4f0000',
+  });
+});
+
 test('should generate theme for three colors in LCH format', () => {
   const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
   const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
