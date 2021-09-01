@@ -191,13 +191,13 @@ There are two types of output you can get from the `Theme` class:
 | Getter | Description of output |
 |--------|-----------------------|
 | `Theme.contrastColors` | Returns array of color objects with key-value pairs |
+| `Theme.contrastColorPairs` | Returns object with key-value pairs |
 | `Theme.contrastColorValues` | Returns flat array of color values |
 
 
-### `.contrastColors` output
-Each color instance is named by concatenating the user-defined color name with a numeric value (eg `name: 'gray'`; `gray100`).
+### `Theme.contrastColors`
+Each color is an object named by user-defined value (eg `name: 'gray'`). "Values" array consists of all generated color values for the color, with properties `name`, `contrast`, and `value`:
 
-Example output:
 ```js
 [
   { background: "#e0e0e0" },
@@ -222,10 +222,25 @@ Example output:
 ]
 ```
 
-### `.contrastColorValues` output
-For the same example theme shown above, these values would be returned in a flat array when calling `Theme.contrastColorValues`.
+### `Theme.contrastColorPairs`
+Simplified format as an object of key-value pairs. Property is equal to the [generated](#Ratios-as-an-array) or [user-defined name](#Ratios-as-an-object) for each generated value.
 
-Example output:
+```js
+{
+  "gray100": "#e0e0e0";
+  "gray200": "#a0a0a0";
+  "gray300": "#808080";
+  "gray400": "#646464";
+  "blue100": "#b18cff";
+  "blue200": "#8d63ff";
+  "blue300": "#623aff";
+  "blue400": "#1c0ad1";
+}
+```
+
+### `Theme..contrastColorValues`
+Returns all color values in a flat array.
+
 ```js
 [
   "#e0e0e0",
