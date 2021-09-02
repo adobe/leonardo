@@ -243,12 +243,22 @@ function init3dChart(){
 
   let pi = Math.PI;
 
-  if (spaceOpt == 'CAM02') {
+  if (spaceOpt === 'CAM02') {
     for(let i=0; i<CAMArrayA.length; i++) {
       colorPlot.push({x: CAMArrayA[i]/10, y: CAMArrayJ[i]/10 * -1, z: CAMArrayB[i]/10, id: 'point_' + cnt++});
     }
   }
-  if (spaceOpt == 'LCH') {
+  if (spaceOpt === 'CAM02p') {
+    for(let i=0; i<JCHArrayC.length; i++) {
+      let angle = JCHArrayH[i] * (pi/180);
+      let r = JCHArrayC[i];
+      // Polar:
+      colorPlot.push({x: (r * Math.cos(angle))/13, y: JCHArrayJ[i]/13 * -1, z: (r * Math.sin(angle))/13, id: 'point_' + cnt++});
+      // Cartesian:
+      // colorPlot.push({x: JCHArrayH[i]/(Math.PI * 10), y: JCHArrayJ[i]/10 * -1, z: JCHArrayC[i]/10, id: 'point_' + cnt++});
+    }
+  }
+  if (spaceOpt === 'LCH') {
     for(let i=0; i<LCHArrayC.length; i++) {
       let angle = LCHArrayH[i] * (pi/180);
       let r = LCHArrayC[i];
@@ -258,12 +268,12 @@ function init3dChart(){
       // colorPlot.push({x: LCHArrayH[i]/(Math.PI * 10), y: LCHArrayL[i]/10 * -1, z: LCHArrayC[i]/10, id: 'point_' + cnt++});
     }
   }
-  if (spaceOpt == 'LAB') {
+  if (spaceOpt === 'LAB') {
     for(let i=0; i<LABArrayA.length; i++) {
       colorPlot.push({x: LABArrayA[i]/13, y: LABArrayL[i]/13 * -1, z: LABArrayB[i]/13, id: 'point_' + cnt++});
     }
   }
-  if (spaceOpt == 'HSL') {
+  if (spaceOpt === 'HSL') {
     for(let i=0; i<HSLArrayL.length; i++) {
       let angle = HSLArrayH[i] * (pi/180);
       let r = HSLArrayS[i];
@@ -273,7 +283,7 @@ function init3dChart(){
       // colorPlot.push({x: HSLArrayH[i]/(10*pi) - 7, y: HSLArrayL[i]*10 * -1, z: HSLArrayS[i]*10 - 7, id: 'point_' + cnt++});
     }
   }
-  if (spaceOpt == 'HSLuv') {
+  if (spaceOpt === 'HSLuv') {
     for(let i=0; i<HSLuvArrayL.length; i++) {
       let angle = HSLuvArrayL[i] * (pi/180);
       let r = HSLuvArrayU[i];
@@ -283,7 +293,7 @@ function init3dChart(){
       // colorPlot.push({x: HSLuvArrayL[i]/(10*pi) - 7, y: HSLuvArrayV[i]/10 * -1, z: HSLuvArrayU[i]/10 -10, id: 'point_' + cnt++});
     }
   }
-  if (spaceOpt == 'HSV') {
+  if (spaceOpt === 'HSV') {
     for(let i=0; i<HSVArrayL.length; i++) {
       let angle = HSVArrayH[i] * (pi/180);
       let r = HSVArrayS[i];
@@ -293,7 +303,7 @@ function init3dChart(){
       // colorPlot.push({x: HSVArrayH[i]/(10*pi) - 7, y: HSVArrayL[i]*10 * -1, z: HSVArrayS[i]*10 -7, id: 'point_' + cnt++});
     }
   }
-  if (spaceOpt == 'RGB') {
+  if (spaceOpt === 'RGB') {
     for(let i=0; i<RGBArrayR.length; i++) {
       colorPlot.push({x: RGBArrayR[i]/30 - 5, y: RGBArrayG[i]/30 * -1, z: RGBArrayB[i]/30 - 5, id: 'point_' + cnt++});
     }
@@ -508,6 +518,14 @@ function createAllCharts(mode) {
     createChart(lchDataH, 'Hue', 'Lightness', "#chart2", 0, 360);
     createChartHeader('Chroma / Hue', 'chart3');
     createChart(lchDataCH, 'Chroma', 'Hue', "#chart3", 0, 100);
+  }
+  if (mode=="CAM02p") {
+    createChartHeader('Chroma / Lightness', 'chart1');
+    createChart(jchDataC, 'Chroma', 'Lightness', "#chart1", 0, 100);
+    createChartHeader('Hue / Lightness', 'chart2');
+    createChart(jchDataH, 'Hue', 'Lightness', "#chart2", 0, 360);
+    createChartHeader('Chroma / Hue', 'chart3');
+    createChart(jchDataCH, 'Chroma', 'Hue', "#chart3", 0, 100);
   }
   if (mode=="LAB") {
     createChartHeader('Green Red / Lightness', 'chart1');

@@ -17,6 +17,9 @@ function createData(colors) {
   let CAM_J = [];
   let CAM_A = [];
   let CAM_B = [];
+  let JCH_J = [];
+  let JCH_C = [];
+  let JCH_H = [];
   let LAB_L = [];
   let LAB_A = [];
   let LAB_B = [];
@@ -40,6 +43,9 @@ function createData(colors) {
     CAM_J.push(d3.jab(colors[i]).J);
     CAM_A.push(d3.jab(colors[i]).a);
     CAM_B.push(d3.jab(colors[i]).b);
+    JCH_J.push(d3.jch(colors[i]).J);
+    JCH_C.push(d3.jch(colors[i]).C);
+    JCH_H.push(d3.jch(colors[i]).h);
     LAB_L.push(d3.lab(colors[i]).l);
     LAB_A.push(d3.lab(colors[i]).a);
     LAB_B.push(d3.lab(colors[i]).b);
@@ -64,6 +70,9 @@ function createData(colors) {
   CAM_J = CAM_J.filter(function(value) {return !Number.isNaN(value);});
   CAM_A = CAM_A.filter(function(value) {return !Number.isNaN(value);});
   CAM_B = CAM_B.filter(function(value) {return !Number.isNaN(value);});
+  JCH_J = JCH_J.filter(function(value) {return !Number.isNaN(value);});
+  JCH_C = JCH_C.filter(function(value) {return !Number.isNaN(value);});
+  JCH_H = JCH_H.filter(function(value) {return !Number.isNaN(value);});
   LAB_L = LAB_L.filter(function(value) {return !Number.isNaN(value);});
   LAB_A = LAB_A.filter(function(value) {return !Number.isNaN(value);});
   LAB_B = LAB_B.filter(function(value) {return !Number.isNaN(value);});
@@ -86,6 +95,9 @@ function createData(colors) {
   window.CAMArrayJ = [];
   window.CAMArrayA = [];
   window.CAMArrayB = [];
+  window.JCHArrayJ = [];
+  window.JCHArrayC = [];
+  window.JCHArrayH = [];
   window.LABArrayL = [];
   window.LABArrayA = [];
   window.LABArrayB = [];
@@ -108,6 +120,9 @@ function createData(colors) {
   window.CAMArrayJmin = [];
   window.CAMArrayAmin = [];
   window.CAMArrayBmin = [];
+  window.JCHArrayJmin = [];
+  window.JCHArrayCmin = [];
+  window.JCHArrayHmin = [];
   window.LABArrayLmin = [];
   window.LABArrayAmin = [];
   window.LABArrayBmin = [];
@@ -139,6 +154,15 @@ function createData(colors) {
   }
   for (let i = 0; i < CAM_B.length; i=i+delta) {
     CAMArrayB.push(CAM_B[i]);
+  }
+  for (let i = 0; i < JCH_J.length; i=i+delta) {
+    JCHArrayJ.push(JCH_J[i]);
+  }
+  for (let i = 0; i < JCH_C.length; i=i+delta) {
+    JCHArrayC.push(JCH_C[i]);
+  }
+  for (let i = 0; i < JCH_H.length; i=i+delta) {
+    JCHArrayH.push(JCH_H[i]);
   }
   for (let i = 0; i < LAB_L.length; i=i+delta) {
     LABArrayL.push(LAB_L[i]);
@@ -208,6 +232,17 @@ function createData(colors) {
   for (let i = 0; i < CAM_B.length; i=i+deltamin) {
     CAMArrayBmin.push(CAM_B[i]);
   }
+
+  for (let i = 0; i < JCH_J.length; i=i+deltamin) {
+    JCHArrayJmin.push(JCH_J[i]);
+  }
+  for (let i = 0; i < JCH_C.length; i=i+deltamin) {
+    JCHArrayCmin.push(JCH_C[i]);
+  }
+  for (let i = 0; i < JCH_H.length; i=i+deltamin) {
+    JCHArrayHmin.push(JCH_H[i]);
+  }
+
   for (let i = 0; i < LAB_L.length; i=i+deltamin) {
     LABArrayLmin.push(LAB_L[i]);
   }
@@ -296,6 +331,25 @@ function createData(colors) {
     {
       x: CAMArrayAmin,
       y: CAMArrayBmin
+    }
+  ];
+  
+  window.jchDataC = [
+    {
+      x: JCHArrayJmin,
+      y: JCHArrayCmin
+    }
+  ];
+  window.jchDataH = [
+    {
+      x: JCHArrayJmin,
+      y: JCHArrayHmin
+    }
+  ];
+  window.jchDataCH = [
+    {
+      x: JCHArrayHmin,
+      y: JCHArrayCmin
     }
   ];
 

@@ -525,6 +525,7 @@ function colorspaceOptions() {
 
   var opts = {
     'CAM02': 'CIECAM02',
+    'CAM02p': 'CAM02 (polar)',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',
@@ -534,6 +535,7 @@ function colorspaceOptions() {
   };
   var opts2 = {
     'CAM02': 'CIECAM02 (recommended)',
+    'CAM02p': 'CIECAM02 (polar)',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',

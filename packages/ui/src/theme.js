@@ -350,6 +350,7 @@ function addColorScale(c, k, s, r) {
 
   let opts = {
     'CAM02': 'CIECAM02',
+    'CAM02p': 'CAM02 (polar)',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',
