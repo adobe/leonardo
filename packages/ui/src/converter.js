@@ -83,6 +83,11 @@ function convert(c, typeId = type.value) {
       B = d3.jab(c).a;
       C = d3.jab(c).b;
     }
+    if(typeId == 'CAM02p') {
+      A = d3.jch(c).J;
+      B = d3.jch(c).C;
+      C = d3.jch(c).h;
+    }
     if(typeId == 'Lab') {
       A = d3.lab(c).l;
       B = d3.lab(c).a;
@@ -133,6 +138,11 @@ function returnColor() {
     valArr = valNums.split(','); // split numbers into array
     val = d3.jab(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
   }
+  if(val.match(/^jch\(/)) {
+    valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
+    valArr = valNums.split(','); // split numbers into array
+    val = d3.jch(Number(valArr[0]), Number(valArr[1]), Number(valArr[2])).formatHsl();
+  }
   if(val.match(/^hsluv\(/)) {
     valNums = val.match(/\(.*?\)/g).toString().replace("(", "").replace(")", "").trim(); // find numbers only
     valArr = valNums.split(','); // split numbers into array
@@ -150,6 +160,7 @@ function returnColor() {
   if(typeId == 'HSL') { typeArr = ['H', 'S', 'L']; }
   if(typeId == 'HSLuv') { typeArr = ['H (l)', 'S (u)', 'L (v)']; }
   if(typeId == 'CAM02') { typeArr = ['J', 'a', 'b']; typeId = 'jab';}
+  if(typeId == 'CAM02p') { typeArr = ['J', 'c', 'h']; typeId = 'jch';}
   if(typeId == 'Lab') { typeArr = ['L', 'a', 'b']; }
   if(typeId == 'Lch') { typeArr = ['L', 'c', 'h']; }
   if(typeId == 'RGB') { typeArr = ['R', 'G', 'B']; }
