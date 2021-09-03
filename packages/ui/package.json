@@ -38,6 +38,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "ghpages": "^0.0.10",
+    "highlight.js": "^11.2.0",
     "parcel-bundler": "^1.12.4",
     "sass": "^1.23.6"
   },

@@ -843,7 +843,8 @@ a:focus {
 
 .paneltabcontent {
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 56px);
+  overflow-y: auto;
 }
 
 // Correct some oddities with Dialog buttons
@@ -923,7 +924,7 @@ a:focus {
 #themeColorWrapper {
   padding: 0 16px 16px;
   // background-color: var(--theme-background);
-  overflow: auto;
+  // overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -962,7 +963,7 @@ a:focus {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 0 0 8px;
 }
 
 .themeColor_gradient {
@@ -1041,7 +1042,7 @@ a:focus {
   flex-direction: row;
   flex-wrap: wrap;
   padding: 2px; /* To ensure focus rings are visible */
-  margin: -2px;
+  margin: -2px -2px 8px -2px;
   flex-wrap: wrap;
   min-height: 32px;
   width: 100%;
@@ -1060,6 +1061,10 @@ a:focus {
   margin-right: -16px;
   padding: 16px;
   margin-top: 16px;
+}
+
+#themeParams {
+  white-space: break-spaces;
 }
 
 .outputHeader {
@@ -1094,7 +1099,7 @@ a:focus {
   }
   &:active {
     border-color: var(--spectrum-alias-background-color-default);
-    box-shadow: 0 0 0 1px var(--spectrum-alias-border-color-focus);
+    box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
     transition: border .075s ease-out, box-shadow .075s ease-out;
   }
 }
@@ -1295,6 +1300,10 @@ a:focus {
   white-space: nowrap;
   color: var(--spectrum-global-color-gray-700);
 }
+.typeScaleFontSize {
+  display: inline-flex;
+  width: 32px;
+}
 .sampleTextItem {
   color: var(--spectrum-global-color-gray-900);
   line-height: 1.3;
@@ -1348,4 +1357,37 @@ a:focus {
   &.spectrum-Tooltip--top {
     transform: translate(190px, -48px);
   }
+}
+
+    /* Code syntax highlighting aliases */
+.hljs-keyword {
+  color: var(--spectrum-global-color-fuchsia-600);
+}
+.hljs-section {
+  color: var(--spectrum-global-color-red-600);
+}
+.hljs-literal,
+.hljs-number {
+  color: var(--spectrum-global-color-purple-600);
+}
+.hljs-attribute {
+  color: var(--spectrum-global-color-seafoam-600);
+}
+.hljs-title {
+  color: var(--spectrum-global-color-indigo-600);
+}
+.hljs-title.class_ {
+  color: var(--spectrum-global-color-blue-600);
+}
+.hljs-variable {
+  color: var(--spectrum-global-color-magenta-600);
+}
+.hljs-string {
+  color: var(--spectrum-global-color-fuchsia-600);
+}
+.hljs-function {
+  color: var(--spectrum-global-color-blue-600);
+}
+.hljs-comment {
+  color: var(--spectrum-global-color-gray-500);
 }

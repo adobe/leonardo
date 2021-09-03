@@ -1322,7 +1322,19 @@ function addColorScale(c, k, s, r) {
     <use xlink:href="#spectrum-icon-18-BoxAdd" />
   </svg>
   `;
+  let clearKeyColorsButton = document.createElement('button');
+  clearKeyColorsButton.className = 'spectrum-ActionButton';
+  let clearColorsId = thisId.concat('_clearAllColors');
+  clearKeyColorsButton.title = "Clear all key colors"
+  clearKeyColorsButton.id = clearColorsId;
+  clearKeyColorsButton.addEventListener('click', clearAllColors);
+  clearKeyColorsButton.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+    <use xlink:href="#spectrum-icon-18-CloseCircle" />
+  </svg>
+  `;
 
+  addColors.appendChild(clearKeyColorsButton);
   addColors.appendChild(addButton);
   addColors.appendChild(bulkButton);
 
