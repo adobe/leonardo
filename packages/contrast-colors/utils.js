@@ -185,10 +185,12 @@ function createScale({
 
   let scale;
   if (fullScale) {
+    const white = space === 'lch' ? chroma.lch(...chroma('#fff').lch()) : '#fff';
+    const black = space === 'lch' ? chroma.lch(...chroma('#000').lch()) : '#000';
     ColorsArray = [
-      chroma[space](...chroma('#fff')[space]()),
+      white,
       ...sortedColor,
-      chroma[space](...chroma('#000')[space]()),
+      black,
     ];
   } else {
     ColorsArray = sortedColor;
