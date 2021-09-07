@@ -13,9 +13,7 @@ governing permissions and limitations under the License.
 const chroma = require('chroma-js');
 const {
   colorSpaces,
-  convertColorValue,
   createScale,
-  uniq,
 } = require('./utils');
 
 class Color {
@@ -46,13 +44,13 @@ class Color {
     }
 
     // Run function to generate this array of colors:
-    this._generateColorScale();
+    this._colorScale = null;
   }
 
   // Setting and getting properties of the Color class
   set colorKeys(colorKeys) {
     this._colorKeys = colorKeys;
-    this._generateColorScale();
+    this._colorScale = null;
   }
 
   get colorKeys() {
@@ -61,7 +59,7 @@ class Color {
 
   set colorspace(colorspace) {
     this._colorspace = colorspace;
-    this._generateColorScale();
+    this._colorScale = null;
   }
 
   get colorspace() {
@@ -86,7 +84,7 @@ class Color {
 
   set smooth(smooth) {
     this._smooth = smooth;
-    this._generateColorScale();
+    this._colorScale = null;
   }
 
   get smooth() {
@@ -95,7 +93,7 @@ class Color {
 
   set output(output) {
     this._output = output;
-    this._generateColorScale();
+    this._colorScale = null;
   }
 
   get output() {
@@ -103,20 +101,23 @@ class Color {
   }
 
   get colorScale() {
+    if (!this._colorScale) {
+      this._generateColorScale();
+    }
     return this._colorScale;
   }
 
   _generateColorScale() {
     // This would create 3000 color values based on all parameters
     // and return an array of colors:
-    const colorScale = createScale({ swatches: 3000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth });
-
-    colorScale.map((color) => convertColorValue(color, this._output));
-
-    // Remove duplicate color values
-    this._colorScale = uniq(colorScale);
-
-    return this._colorScale;
+    this._colorScale = createScale({
+      swatches: 3000,
+      colorKeys: this._colorKeys,
+      colorspace: this._colorspace,
+      shift: 1,
+      smooth: this._smooth,
+      asFun: true,
+    });
   }
 }
 module.exports = { Color };
