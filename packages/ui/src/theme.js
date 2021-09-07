@@ -48,6 +48,7 @@ import * as charts2d from './charts2d.js';
 import * as charts from './charts';
 import * as chartData from './data.js';
 
+
 import * as d3 from 'd3';
 
 // Import d3 plugins and add them to the d3 namespace
@@ -56,6 +57,7 @@ import * as d3hsluv from 'd3-hsluv';
 import * as d3hsv from 'd3-hsv';
 import * as d33d from 'd3-3d';
 Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
+
 
 import hljs from 'highlight.js/lib/core';
 // import hljs from 'highlight.js/lib/common';
@@ -71,8 +73,6 @@ import ClipboardJS from 'clipboard';
 
 new ClipboardJS('.copyButton');
 new ClipboardJS('.themeOutputSwatch');
-
-// window.generateAdaptiveTheme = contrastColors.generateAdaptiveTheme;
 
 const tempGray = new Leo.Color({
   name: 'Gray',
@@ -128,7 +128,7 @@ function throttle(func, wait) {
 
 function deleteColor(e) {
   var id = e.target.parentNode.id;
-  console.log(id)
+  // console.log(id)
   var self = document.getElementById(id);
 
   self.remove();
@@ -487,7 +487,7 @@ function addColorScale(c, k, s) {
 
   // Actions
   let actions = document.createElement('div');
-  actions.className = 'spectrum-ButtonGroup spectrum-Form-item labelSpacer';
+  actions.className = 'spectrum-ButtonGroup spectrum-Form-item spectrum-Form-item--row labelSpacer';
   let edit = document.createElement('button');
   edit.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
   edit.id = `${thisId}-toggleConfig`;
@@ -554,7 +554,7 @@ function addColorScale(c, k, s) {
   deleteColor.addEventListener('click', themeDeleteItem);
   deleteColor.addEventListener('click', function(){ return _theme.removeColor = newColor});
   
-  console.log(_theme)
+  // console.log(_theme)
 }
 
 window.addColorScaleUpdate = addColorScaleUpdate;
@@ -649,7 +649,7 @@ function themeAddColorUpdate(c, thisId = this.id) {
 function themeDeleteItem(e) {
   let id = e.target.parentNode.parentNode.parentNode.id;
   let self = document.getElementById(id);
-  console.log(`Deleting color ${id}`)
+  // console.log(`Deleting color ${id}`)
 
   self.remove();
   baseScaleOptions();
@@ -834,6 +834,8 @@ function themeInput() {
 
   let paramsOutput = document.getElementById('themeParams');
 
+  // get all key colors and plot them on a color wheel?
+  let allKeyColors = [];
   let allRatios = [];
 
   if (items.length == 0) {
@@ -869,6 +871,7 @@ function themeInput() {
       let smooth = colorData.smooth;
 
       allRatios.push(colorData.ratios);
+      allKeyColors.push(colorArgs);
 
       let gradientId = id.concat('_gradient');
       let gradient = document.getElementById(gradientId);
@@ -1058,6 +1061,14 @@ function themeInput() {
 
     // charts2d.createContrastRatioChart(chartRatios);
     createRatioChart(chartRatios);
+
+    // Create dots for color wheel
+    let allKeyColorsMerged = [].concat.apply([], allKeyColors);
+    let colorWheelModeDropdown = document.getElementById('colorWheelMode');
+    let colorWheelMode = colorWheelModeDropdown.value
+    let arr = getConvertedColorCoodrindates(allKeyColorsMerged, colorWheelMode);
+    createColorWheelDots(arr);
+    console.log(arr)
   }
 }
 
@@ -1907,4 +1918,262 @@ function toggleTooltip(targetId) {
   } else {
     tooltip.classList.remove('is-open');
   }
+}
+
+
+/** Color wheel functions */
+const colorWheelSize = 300;
+const dotSize = 16;
+
+// function convertToCartesian(c, h) {
+//   let radians = 180/Math.PI;
+//   let xAxis = c * Math.cos(h / radians);
+//   let yAxis = c * Math.sin(h / radians);
+
+//   return{
+//     x: xAxis,
+//     y: yAxis
+//   };
+// }
+
+function convertToCartesian(s, h) {
+  if(s > 100) s = 100;
+  // convert degrees to radians
+  let hRad = (h * Math.PI) / 180;
+  let xAxis = s * Math.cos(hRad);
+  let yAxis = s * Math.sin(hRad);
+
+  return{
+    x: xAxis,
+    y: yAxis
+  };
+}
+
+console.log(d3.jch('red'))
+
+function filterNaN(x) {
+  if(isNaN(x)) {
+    return 0;
+  } else {
+    return x;
+  }
+}
+
+function shiftValue(v) {
+  v = filterNaN(v);
+
+  const midPoint = colorWheelSize /2;
+  const scaledValue = (v/100) * midPoint;
+
+  const shiftedValue = scaledValue + midPoint;
+  // subtract half of the width of the dots to centrally position it.
+  const centeredVal = shiftedValue - (dotSize/2) - 2;
+  return centeredVal;
+}
+
+
+function getConvertedColorCoodrindates(colorValues, mode) {
+  let size = colorWheelSize;
+
+  let arr = [];
+  colorValues.map(color => {
+    let c,h; 
+    if(mode === 'hsl') {
+      c = d3.hsl(color).s * 100;
+      h = d3.hsl(color).h
+    } 
+    if(mode === 'hsluv') {
+      c = d3.hsluv(color).u;
+      h = d3.hsluv(color).l
+    }
+    if(mode === 'hsv') {
+      c = d3.hsv(color).s * 100;
+      h = d3.hsv(color).h
+    }
+    if(mode === 'lch') {
+      c = d3.hcl(color).c;
+      h = d3.hcl(color).h
+    }
+    if(mode === 'jch') {
+      c = d3.jch(color).C;
+      h = d3.jch(color).h
+    }
+    
+    const conversion = convertToCartesian(c, h);
+    let newX = shiftValue(conversion.x);
+    let newY = shiftValue(conversion.y)
+
+    if(isNaN(newX)) newX = 142;
+    if(isNaN(newY)) newY = 142;
+
+    arr.push({
+      x: newX,
+      y: newY,
+      color: color
+    });
+  })
+  return arr;
+}
+
+function removeElementsByClass(className){
+  const elements = document.getElementsByClassName(className);
+  while(elements.length > 0){
+      elements[0].parentNode.removeChild(elements[0]);
+  }
+}
+
+function createColorWheelDots(arr) {
+  let container = document.getElementById('colorWheel');
+  removeElementsByClass('colorDot');
+
+  arr.map(obj => {
+    let dot = document.createElement('div');
+    dot.className = 'colorDot';
+    dot.style.backgroundColor = obj.color;
+    dot.style.top = obj.y;
+    dot.style.left = obj.x;
+    container.appendChild(dot)
+  })
+}
+
+function createColorWheel(mode, lightness) {  
+  console.log(mode)
+  
+  let size = colorWheelSize;
+  let container = d3.select('#colorWheel');
+  let canvas = container.append("canvas")
+    .attr("height", size)
+    .attr("width", size)
+    .attr("id", 'colorWheelCanvas');
+  const context = canvas.node().getContext('2d');
+
+  var x = size / 2;
+  var y = size / 2;
+  var radius = size / 2;
+  var counterClockwise = false;
+
+  for(var angle=0; angle<=360; angle+=1){
+    var shift = 0;
+    var startAngle = (angle+shift-2)*Math.PI/180;
+    var endAngle = (angle+shift) * Math.PI/180;
+    context.beginPath();
+    context.moveTo(x, y);
+    context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+    context.closePath();
+    var gradient = context.createRadialGradient(x, y, 0, x, y, radius);
+
+    let colorStartHsl, colorMid1Hsl, colorMid2Hsl, colorMid3Hsl, colorStopHsl;
+
+    if(mode === 'hsl') {
+      let colorStart = d3.hsl(angle, 0, lightness/100);
+      let colorMid1 = d3.hsl(angle, 0.25, lightness/100);
+      let colorMid2 = d3.hsl(angle, 0.5, lightness/100);
+      let colorMid3 = d3.hsl(angle, 0.75, lightness/100);
+      let colorStop = d3.hsl(angle, 1, lightness/100);
+      colorStartHsl = d3.hsl(colorStart).toString();
+      colorMid1Hsl = d3.hsl(colorMid1).toString();
+      colorMid2Hsl = d3.hsl(colorMid2).toString();
+      colorMid3Hsl = d3.hsl(colorMid3).toString();
+      colorStopHsl = d3.hsl(colorStop).toString();
+    }
+    else if(mode === 'hsv') {
+      let colorStart = d3.hsv(angle, 0, lightness/100);
+      let colorMid1 = d3.hsv(angle, 0.25, lightness/100);
+      let colorMid2 = d3.hsv(angle, 0.5, lightness/100);
+      let colorMid3 = d3.hsv(angle, 0.75, lightness/100);
+      let colorStop = d3.hsv(angle, 1, lightness/100);
+      colorStartHsl = d3.hsl(colorStart).toString();
+      colorMid1Hsl = d3.hsl(colorMid1).toString();
+      colorMid2Hsl = d3.hsl(colorMid2).toString();
+      colorMid3Hsl = d3.hsl(colorMid3).toString();
+      colorStopHsl = d3.hsl(colorStop).toString();
+    }
+    else if(mode === 'lch') {
+      let colorStart = d3.hcl(angle, 0, lightness);
+      let colorMid1 = d3.hcl(angle, 25, lightness);
+      let colorMid2 = d3.hcl(angle, 50, lightness);
+      let colorMid3 = d3.hcl(angle, 75, lightness);
+      let colorStop = d3.hcl(angle, 100, lightness);
+      colorStartHsl = d3.hsl(colorStart).toString();
+      colorMid1Hsl = d3.hsl(colorMid1).toString();
+      colorMid2Hsl = d3.hsl(colorMid2).toString();
+      colorMid3Hsl = d3.hsl(colorMid3).toString();
+      colorStopHsl = d3.hsl(colorStop).toString();
+    }
+    else if(mode === 'hsluv') {
+      let colorStart = d3.hsluv(angle, 0, lightness);
+      let colorMid1 = d3.hsluv(angle, 25, lightness);
+      let colorMid2 = d3.hsluv(angle, 50, lightness);
+      let colorMid3 = d3.hsluv(angle, 75, lightness);
+      let colorStop = d3.hsluv(angle, 100, lightness);
+      
+      colorStartHsl = d3.hsl(colorStart).toString();
+      colorMid1Hsl = d3.hsl(colorMid1).toString();
+      colorMid2Hsl = d3.hsl(colorMid2).toString();
+      colorMid3Hsl = d3.hsl(colorMid3).toString();
+      colorStopHsl = d3.hsl(colorStop).toString();
+    }
+    else if(mode === 'jch') {
+      let colorStart = d3.jch(lightness, 0, angle); 
+      let colorMid1 = d3.jch(lightness, 25, angle);
+      let colorMid2 = d3.jch(lightness, 50, angle);
+      let colorMid3 = d3.jch(lightness, 75, angle);
+      let colorStop = d3.jch(lightness, 100, angle);
+      colorStartHsl = d3.hsl(colorStart).toString();
+      colorMid1Hsl = d3.hsl(colorMid1).toString();
+      colorMid2Hsl = d3.hsl(colorMid2).toString();
+      colorMid3Hsl = d3.hsl(colorMid3).toString(); 
+      colorStopHsl = d3.hsl(colorStop).toString();
+    }
+
+    gradient.addColorStop(0, colorStartHsl);
+    gradient.addColorStop(0.25, colorMid1Hsl);
+    gradient.addColorStop(0.5, colorMid2Hsl);
+    gradient.addColorStop(0.75, colorMid3Hsl);
+    gradient.addColorStop(1, colorStopHsl);
+
+    context.fillStyle = gradient;
+    context.fill();
+  }
+}
+
+const colorWheelMode = document.getElementById('colorWheelMode');
+const colorWheelLightness = document.getElementById('colorWheelLightness');
+
+createColorWheel(colorWheelMode.value, colorWheelLightness.value);
+
+colorWheelMode.addEventListener('input', function(e) { 
+  let canvas = document.getElementById('colorWheelCanvas');
+  canvas.parentNode.removeChild(canvas);
+
+  let lightness = colorWheelLightness.value;
+  let mode = e.target.value;
+  createColorWheel(mode, lightness);
+
+  let allKeys = getAllColorKeys();
+  let arr = getConvertedColorCoodrindates(allKeys, mode);
+  createColorWheelDots(arr);
+});
+
+colorWheelLightness.addEventListener('input', function(e) { 
+  let canvas = document.getElementById('colorWheelCanvas');
+  canvas.parentNode.removeChild(canvas);
+  
+  let mode = colorWheelMode.value
+  let lightness = e.target.value;
+  createColorWheel(mode, lightness);
+});
+
+function getAllColorKeys() {
+  let colorKeys = [];
+  let data = getThemeData();
+  let scales = data.colorScales;
+  scales.map(scale => {
+    let keys = scale.colorKeys;
+    keys.forEach(key => {
+      colorKeys.push(key)
+    })
+  });
+
+  return colorKeys;
 }

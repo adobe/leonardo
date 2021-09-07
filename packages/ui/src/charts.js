@@ -365,7 +365,6 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
         ylabel = "Y Axis Label";
 
     function chart(selection) {
-      console.log(selection)
       selection.each(function(datasets) {
           // If no min/max defined, base on min/max from data
           if (yMin == undefined) { yMin = d3.min(datasets, function(d) { return d3.min(d.y); }) }

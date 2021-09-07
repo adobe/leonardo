@@ -84,11 +84,11 @@
           <label class="spectrum-Tabs-itemLabel">Theme</label>
         </div>
         <div id="tabTypeScale" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'typeScale')">
-          <label class="spectrum-Tabs-itemLabel">Type scale</label>
+          <label class="spectrum-Tabs-itemLabel">Typography</label>
         </div>
 
         <div id="tabColorScales" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'colorScales')">
-          <label class="spectrum-Tabs-itemLabel">Color scales</label>
+          <label class="spectrum-Tabs-itemLabel">Colors</label>
         </div>
         <div id="tabContrastSwatches" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'contrastSwatches')">
           <label class="spectrum-Tabs-itemLabel">Contrast swatches</label>
@@ -158,7 +158,7 @@
           </h3>
         </div>
         <div class="spectrum-Form spectrum-Form--spaced">
-          <div class="spectrum-Form-item">
+          <div class="spectrum-Form-item spectrum-Form-item--row">
             <label class="spectrum-FieldLabel spectrum-FieldLabel--left">Contrast formula:</label>
             <div class="spectrum-Dropdown" id="contrastMethodDropdown">
               <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="contrastMethod" onInput="colorInput()" id="contrastMethod">
@@ -170,9 +170,9 @@
               </svg>
             </div>
           </div>
-          <div class="spectrum-Form-item">
+          <div class="spectrum-Form-item spectrum-Form-item--row">
             <label for="cvdMode" class="spectrum-FieldLabel spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
-            <div class="spectrum-Dropdown is-disabled" id="cvdModeDropdown">
+            <div class="spectrum-Dropdown" id="cvdModeDropdown">
               <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="cvdMode" id="cvdMode" oninput="themeInput()">
                 <option value="None">None</option>
                 <option value="Deuteranomaly">Deuteranomaly (common)</option>
@@ -203,7 +203,7 @@
               <label class="spectrum-Switch-label" for="typeScaleSync">Sync with typescale</label>
             </div>
           </div> -->
-          <div class="spectrum-Form-item spectrum-ButtonGroup">
+          <div class="spectrum-Form-item spectrum-Form-item--row spectrum-ButtonGroup">
             <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
                 <use xlink:href="#spectrum-icon-18-Add" />
@@ -246,8 +246,33 @@
       </div>
     </div>
     <div id="colorScales" class="paneltabcontent">
-      <div class="spectrum-Panel-Item">
-        (Add color wheel here)
+      <div class="spectrum-Panel-Item" id="colorWheelWrapper">
+        <div id="colorWheel"></div>
+        <div class="spectrum-Form spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <label for="colorWheelMode" class="spectrum-FieldLabel spectrum-FieldLabel--left">Color wheel mode</label>
+            <div class="spectrum-Dropdown" id="colorWheelModeDropdown">
+              <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="colorWheelMode" id="colorWheelMode">
+                <option value="jch">CAM02</option>
+                <option value="lch">LCh / Lab</option>
+                <option value="hsl">HSL / HSV / RGB</option>
+                <!-- <option value="hsv">HSV</option> -->
+                <option value="hsluv">HSLuv</option>
+              </select>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </div>
+          </div>
+          <div class="spectrum-Form-item">
+            <div id="colorWheelLightnessWrapper" class="spectrum-Slider">
+              <div class="spectrum-Slider-labelContainer">
+                <label class="spectrum-Slider-label" id="colorWheelLightnessLabel" for="colorWheelLightness">Lightness</label>
+              </div>
+              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="colorWheelLightness" name="colorWheelLightness"></input>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="spectrum-Panel-Item">
         <button class="spectrum-ActionButton" onClick="addColorScaleUpdate()">
