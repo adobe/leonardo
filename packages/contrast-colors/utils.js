@@ -185,7 +185,13 @@ function createScale({
 
   let scale;
   if (fullScale) {
-    ColorsArray = ['#fff', ...sortedColor, '#000'];
+    const white = space === 'lch' ? chroma.lch(...chroma('#fff').lch()) : '#fff';
+    const black = space === 'lch' ? chroma.lch(...chroma('#000').lch()) : '#000';
+    ColorsArray = [
+      white,
+      ...sortedColor,
+      black,
+    ];
   } else {
     ColorsArray = sortedColor;
   }
@@ -202,21 +208,25 @@ function createScale({
       // Replacing it to NaN, so we can apply the same method of dealing with them.
       for (let i = 0; i < stringColors.length; i++) {
         const color = chroma(stringColors[i]).hcl();
-        if (!color[1]) {
+        if (Number.isNaN(color[0])) {
           ColorsArray[i][2] = NaN;
         }
       }
     }
     scale = smoothScale(ColorsArray, domains, space);
   } else {
-    // scale = chroma.scale(ColorsArray.map((triplet) => chroma[space.name](...triplet))).domain(domains).mode(space.name);
-    scale = chroma.scale(ColorsArray.map(String)).domain(domains).mode(space);
+    scale = chroma.scale(ColorsArray.map((color) => {
+      if (typeof color === 'object' && color.constructor === chroma.Color) {
+        return color;
+      }
+      return String(color);
+    })).domain(domains).mode(space);
   }
   if (asFun) {
     return scale;
   }
 
-  const Colors = new Array(swatches).fill().map((_, d) => scale(d).hex());
+  const Colors = new Array(swatches).fill().map((_, d) => chroma(scale(d)).hex());
 
   const colors = Colors.filter((el) => el != null);
 

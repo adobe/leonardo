@@ -21,6 +21,9 @@ const { Color } = require('./color');
 
 class BackgroundColor extends Color {
   get backgroundColorScale() {
+    if (!this._backgroundColorScale) {
+      this._generateColorScale();
+    }
     return this._backgroundColorScale;
   }
 

@@ -106,31 +106,21 @@ const bezlen2 = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
 
 exports.prepareCurve = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
   const len = Math.floor(bezlen2(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) * .75);
-  const map = new Map();
+  const fs = [];
+  let oldi = 0;
   for (let i = 0; i <= len; i++) {
     const t = i / len;
-    map.set(t, findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t));
-  }
-  return (x) => {
-    const keys = Array.from(map.keys());
-    let p = map.get(keys[0]);
-    const last = map.get(keys[keys.length - 1]);
-    if (x < p.x || x > last.x) {
-      return null;
-    }
-    for (let i = 0; i < keys.length; i++) {
-      const value = map.get(keys[i]);
-      if (value.x >= x) {
-        const x1 = p.x;
-        const x2 = value.x;
-        const y1 = p.y;
-        const y2 = value.y;
-        if (!i) {
-          return y2;
-        }
-        return ((x - x1) * (y2 - y1)) / (x2 - x1) + y1;
+    const xy = findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t);
+    const index = Math.round(xy.x);
+    fs[index] = xy.y;
+    if (index - oldi > 1) {
+      const s = fs[oldi];
+      const f = fs[index];
+      for (let j = oldi + 1; j < index; j++) {
+        fs[j] = s + ((f - s) / (index - oldi)) * (j - oldi);
       }
-      p = value;
     }
-  };
+    oldi = index;
+  }
+  return (x) => fs[Math.round(x)] || null;
 };
