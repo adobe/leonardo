@@ -540,7 +540,7 @@ main {
   justify-content: flex-start;
   align-items: flex-start;
   max-width: fit-content;
-  margin-bottom: 24px;
+  // margin-bottom: 24px;
   padding: 0;
 }
 .charts ~ .charts {
@@ -558,6 +558,11 @@ main {
     color: var(--spectrum-global-color-gray-500);
   }
 }
+
+// #contrastChart {
+//   width: 350px;
+//   height: 300px;
+// }
 
 .chartGroup {
   .spectrum-Heading6 {
@@ -845,6 +850,10 @@ a:focus {
   flex-direction: column;
   height: calc(100% - 56px);
   overflow-y: auto;
+}
+
+#contrastSwatches {
+  justify-content: space-between;
 }
 
 // Correct some oddities with Dialog buttons

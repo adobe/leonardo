@@ -42,8 +42,9 @@ governing permissions and limitations under the License.
 }
 
 .axis > text {
-  display: none;
+  // display: none;
   fill: var(--spectrum-global-color-gray-600);
+  font-size: 12px;
 }
 
 #colorMetrics {

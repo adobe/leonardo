@@ -40,18 +40,19 @@ function createChartWidth() {
 }
 
 function createChartHeight() {
-  let headerHeight = 58;
-  let tabHeight = 48;
-  let paddings = 164;
-  let offset = headerHeight + tabHeight + paddings;
-  let viewportHeight = window.innerHeight;
-  let height = (viewportHeight - offset) / 3;
-  if (height < 160) {
-    return 160;
-  }
-  else {
-    return height;
-  }
+  // let headerHeight = 58;
+  // let tabHeight = 48;
+  // let paddings = 164;
+  // let offset = headerHeight + tabHeight + paddings;
+  // let viewportHeight = window.innerHeight;
+  // let height = (viewportHeight - offset) / 3;
+  // if (height < 160) {
+  //   return 160;
+  // }
+  // else {
+  //   return height;
+  // }
+  return 275;
 }
 
 function create3dChartWidth() {
@@ -75,63 +76,63 @@ function create3dChartHeight() {
   return (viewportHeight - offset);
 }
 
-let chartWidth = create3dChartWidth();
-let chartHeight = create3dChartHeight();
-let modelScale;
-let yOrigin;
-let viewportHeight = window.innerHeight;
+// let chartWidth = create3dChartWidth();
+// let chartHeight = create3dChartHeight();
+// let modelScale;
+// let yOrigin;
+// let viewportHeight = window.innerHeight;
 
-if (viewportHeight < 640) {
-  modelScale = 20;
-  yOrigin = chartHeight;
-} else if (viewportHeight >= 640 && viewportHeight < 800) {
-  modelScale = 30;
-  yOrigin = chartHeight/1.25;
-} else if (viewportHeight >= 800 && viewportHeight < 900) {
-  modelScale = 40;
-  yOrigin = chartHeight/1.25;
-}  else if (viewportHeight >= 900) {
-  modelScale = 50;
-  yOrigin = chartHeight/1.25;
-}
+// if (viewportHeight < 640) {
+//   modelScale = 20;
+//   yOrigin = chartHeight;
+// } else if (viewportHeight >= 640 && viewportHeight < 800) {
+//   modelScale = 30;
+//   yOrigin = chartHeight/1.25;
+// } else if (viewportHeight >= 800 && viewportHeight < 900) {
+//   modelScale = 40;
+//   yOrigin = chartHeight/1.25;
+// }  else if (viewportHeight >= 900) {
+//   modelScale = 50;
+//   yOrigin = chartHeight/1.25;
+// }
 
-let origin = [chartWidth/1.85, chartHeight/1.25], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
-dest.style.width = chartWidth;
-dest.style.height = chartHeight;
+// let origin = [chartWidth/1.85, chartHeight/1.25], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+// dest.style.width = chartWidth;
+// dest.style.height = chartHeight;
 
-let svg = d3.select(dest)
-  .call(
-    d3.drag()
-      .on('drag', dragged)
-      .on('start', dragStart)
-      .on('end', dragEnd)
-    )
-  .append('g');
+// let svg = d3.select(dest)
+//   .call(
+//     d3.drag()
+//       .on('drag', dragged)
+//       .on('start', dragStart)
+//       .on('end', dragEnd)
+//     )
+//   .append('g');
 
-let mx, my, mouseX, mouseY;
+// let mx, my, mouseX, mouseY;
 
-let grid3d = d3._3d()
-    .shape('GRID', 20)
-    .origin(origin)
-    .rotateY( startAngle)
-    .rotateX(-startAngle)
-    .scale(scale);
+// let grid3d = d3._3d()
+//     .shape('GRID', 20)
+//     .origin(origin)
+//     .rotateY( startAngle)
+//     .rotateX(-startAngle)
+//     .scale(scale);
 
-let point3d = d3._3d()
-    .x(function(d){ return d.x; })
-    .y(function(d){ return d.y; })
-    .z(function(d){ return d.z; })
-    .origin(origin)
-    .rotateY( startAngle)
-    .rotateX(-startAngle)
-    .scale(scale);
+// let point3d = d3._3d()
+//     .x(function(d){ return d.x; })
+//     .y(function(d){ return d.y; })
+//     .z(function(d){ return d.z; })
+//     .origin(origin)
+//     .rotateY( startAngle)
+//     .rotateX(-startAngle)
+//     .scale(scale);
 
-let yScale3d = d3._3d()
-    .shape('LINE_STRIP')
-    .origin(origin)
-    .rotateY( startAngle)
-    .rotateX(-startAngle)
-    .scale(scale);
+// let yScale3d = d3._3d()
+//     .shape('LINE_STRIP')
+//     .origin(origin)
+//     .rotateY( startAngle)
+//     .rotateX(-startAngle)
+//     .scale(scale);
 
 function processData(data, tt){
   let colorInterpSpace = document.querySelector('select[name="mode"]').value;
@@ -345,7 +346,7 @@ function createChartHeader(x, dest) {
 }
 
 // Make 2d color charts
-function createChart(data, yLabel, xLabel, dest, yMin, yMax) {
+function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false) {
 
   let xy_chart = d3_xy_chart()
     .width(createChartWidth())
@@ -364,6 +365,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax) {
         ylabel = "Y Axis Label";
 
     function chart(selection) {
+      console.log(selection)
       selection.each(function(datasets) {
           // If no min/max defined, base on min/max from data
           if (yMin == undefined) { yMin = d3.min(datasets, function(d) { return d3.min(d.y); }) }
@@ -371,15 +373,15 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax) {
           //
           // Create the plot.
           //
-          let margin = {top: 8, right: 8, bottom: 20, left: 32};
+          let margin = {top: 8, right: 8, bottom: 36, left: 32};
           let innerwidth = width - margin.left - margin.right;
           let innerheight = height - margin.top - margin.bottom;
-
+          
           let x_scale = d3.scaleLinear()
             .range([0, innerwidth])
             .domain([ d3.min(datasets, function(d) { return d3.min(d.x); }),
                       d3.max(datasets, function(d) { return d3.max(d.x); }) ]) ;
-
+          
           let y_scale = d3.scaleLinear()
             .range([innerheight, 0])
             .domain([ yMin, yMax ]);
@@ -396,6 +398,11 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax) {
           let x_grid = d3.axisBottom(x_scale)
             .tickSize(-innerheight)
             .tickFormat("") ;
+
+          if(finiteScale) {
+            x_axis.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
+            x_grid.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
+          }
 
           let y_grid = d3.axisLeft(y_scale)
             .tickSize(-innerwidth)
@@ -426,9 +433,10 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax) {
             .attr("transform", "translate(0," + innerheight + ")")
             .call(x_axis)
             .append("text")
-            .attr("dy", "-.71em")
-            .attr("x", innerwidth)
-            .style("text-anchor", "end")
+            // .attr("dy", "-.71em")
+            .attr("dy", "2.75em")
+            .attr("x", (innerwidth/2))
+            .style("text-anchor", "middle")
             .text(xlabel) ;
 
           svg.append("g")
@@ -436,9 +444,10 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax) {
             .call(y_axis)
             .append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", "0.71em")
-            .style("text-anchor", "end")
+            // .attr("y", 6)
+            .attr("dy", "-2em")
+            .attr('x', (-innerheight/2))
+            .style("text-anchor", "middle")
             .text(ylabel) ;
 
           let data_lines = svg.selectAll(".d3_xy_chart_line")
@@ -594,9 +603,18 @@ function showCharts(mode, interpolation) {
   createAllCharts(mode);
 };
 
+function showContrastChart() {
+  document.getElementById('contrastChart').innerHTML = ' ';
+  createChartHeader('Contrast Ratios', 'contrastChart');
+  createChart(window.contrastData, 'Contrast', 'Swatches', "#contrastChart");
+}
+
 exports.init3dChart = init3dChart;
 // exports.update3dChart = update3dChart;
 // exports.updateCharts = updateCharts;
 exports.showCharts = showCharts;
 // window.update3dChart = update3dChart;
 // window.updateCharts = updateCharts;
+exports.showContrastChart = showContrastChart;
+exports.createChartHeader = createChartHeader;
+exports.createChart = createChart;

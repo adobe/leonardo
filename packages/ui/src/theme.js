@@ -44,6 +44,9 @@ import '@adobe/focus-ring-polyfill';
 import * as Leo from '@adobe/leonardo-contrast-colors';
 
 import * as blinder from 'color-blind';
+import * as charts2d from './charts2d.js';
+import * as charts from './charts';
+import * as chartData from './data.js';
 
 import * as d3 from 'd3';
 
@@ -831,6 +834,8 @@ function themeInput() {
 
   let paramsOutput = document.getElementById('themeParams');
 
+  let allRatios = [];
+
   if (items.length == 0) {
     // If no items, clear parameters and URL
     themeConfigs.baseScale = undefined;
@@ -862,6 +867,8 @@ function themeInput() {
       let ratios = colorData.ratios;
       let name = colorData.colorName;
       let smooth = colorData.smooth;
+
+      allRatios.push(colorData.ratios);
 
       let gradientId = id.concat('_gradient');
       let gradient = document.getElementById(gradientId);
@@ -1042,10 +1049,38 @@ function themeInput() {
     const highlightedCode = hljs.highlight(paramOutputString, {language: 'javascript'}).value
     paramsOutput.innerHTML = highlightedCode;
 
-    // hljs.highlightAll();
+    // TODO: Need to merge the allRatios array into a single array of unique values.
+    // Although currently it will merely be a duplication of the same array of ratios,
+    // which is why this solution is sufficient for the time being.
+    let chartRatios = allRatios[0].map(ratio => {
+      return Number(ratio);
+    });
+
+    // charts2d.createContrastRatioChart(chartRatios);
+    createRatioChart(chartRatios);
   }
 }
 
+function createRatioChart(chartRatios) {
+  let dest = document.getElementById('contrastChart');
+  dest.innerHTML = ' ';
+
+  const fillRange = (start, end) => {
+    return Array(end - start + 1).fill().map((item, index) => start + index);
+  };
+  let dataXcontrast = fillRange(1, chartRatios.length);
+  let dataContrast = [
+    {
+      x: dataXcontrast,
+      y: chartRatios.map(function(d) {return parseFloat(d);}) // convert to number
+    }
+  ];
+  let minRatio = Math.min(...chartRatios);
+  let maxRatio = Math.max(...chartRatios);
+  let yMin = (minRatio < 1) ? minRatio: 1;
+  let yMax = (maxRatio < 7) ? 7 : ((maxRatio < 12) ? 12 : 21);
+  charts.createChart(dataContrast, 'Contrast ratio', 'Swatches (sorted)', "#contrastChart", yMin, yMax, true);
+}
 
 window.themeUpdateParams = themeUpdateParams;
 function themeUpdateParams() {
@@ -1677,6 +1712,8 @@ function addRatio(v, fs, fw) {
   div.appendChild(inputWrapper)
   div.appendChild(button);
   ratios.appendChild(div);
+
+  // charts2d.createContrastRatioChart(data, 'contrastChart', 'line');
 }
 
 function addRatios(ratios) {
