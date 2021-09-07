@@ -26,7 +26,7 @@ test('should provide APCA contrast for second test case', function() {
 test('should provide APCA contrast for third test case', function() {
   let contrastValue = APCAcontrast(0x112233, 0xddeeff);
 
-  expect(contrastValue).toBe(-98.44863435731266);
+  expect(contrastValue).toBe(-98.44863435731264);
 });
 
 test('should provide APCA contrast for fourth test case', function() {

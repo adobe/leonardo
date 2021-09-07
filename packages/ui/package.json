@@ -72,6 +72,7 @@
     "@spectrum-css/typography": "^2.0.2",
     "@spectrum-css/underlay": "^2.0.2",
     "@spectrum-css/vars": "^3.0.1",
+    "c3": "^0.7.20",
     "clipboard": "^2.0.4",
     "color-blind": "^0.1.1",
     "d3": "^5.12.0",
@@ -79,6 +80,7 @@
     "d3-cam02": "^0.1.5",
     "d3-hsluv": "^0.1.2",
     "d3-hsv": "^0.1.0",
+    "highlight.js": "^11.2.0",
     "loadicons": "^1.0.0"
   }
 }

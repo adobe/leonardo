@@ -894,7 +894,7 @@ function themeInput() {
       let colors = Leo.createScale({swatches: 30, colorKeys: colorArgs, colorspace: mode, smooth: smooth});
       // let colors = colorClass.colorScale;
 
-      let colors = cvdColors(colors);
+      colors = cvdColors(colors);
 
       themeRamp(colors, gradientId);
     }

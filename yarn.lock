@@ -2232,20 +2232,20 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/underlay/-/underlay-2.0.10.tgz#8b75b646605a311850f6620caa18d4996cd64ed7"
   integrity sha512-PmsmkzeGD/rY4pp3ILXHt9w8BW7uaEqXe08hQRS7rGki7wqCpG4mE0/8N3yEcA3QxWQclmG9gdkg5uz6wMmYzA==
 
-"@spectrum-css/vars@^2.0.2", "@spectrum-css/vars@^2.3.0":
+"@spectrum-css/vars@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-2.3.0.tgz#0ce716fb5ee65f4af9e2d2a7aaae55e8ba4d4c8f"
   integrity sha512-k4YwFbv9+7QzBrc3ezvGuHxI3nDTG/6qJsAmhYS1vEyxpxjKmRfiz59P+fqT12PQNjxeNYHyVz1kRgaLA6gw2w==
-
-"@tootallnate/once@1":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
-  integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
 "@spectrum-css/vars@^3.0.1":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-3.0.2.tgz#ea9062c3c98dfc6ba59e5df14a03025ad8969999"
   integrity sha512-vzS9KqYXot4J3AEER/u618MXWAS+IoMvYMNrOoscKiLLKYQWenaueakUWulFonToPd/9vIpqtdbwxznqrK5qDw==
+
+"@tootallnate/once@1":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
+  integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.15"
@@ -3132,6 +3132,13 @@ byte-size@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/byte-size/-/byte-size-5.0.1.tgz#4b651039a5ecd96767e71a3d7ed380e48bed4191"
   integrity sha512-/XuKeqWocKsYa/cBY1YbSJSWWqTi4cFgr9S6OyM7PBaPbr9zvNGwWP33vt0uqGhwDdN+y3yhbXVILEUpnwEWGw==
+
+c3@^0.7.20:
+  version "0.7.20"
+  resolved "https://registry.yarnpkg.com/c3/-/c3-0.7.20.tgz#48cb3dbeeb0a5253aee6c3d795aaaf350e9f1147"
+  integrity sha512-QZg4q5M32x2TEgoiQPgc+G+rAuDErTjtG2AeLxS8s0ZLxHBoqsaRcraVvLBG8Zbmj8hOefz2DCWSlX3gaV/11g==
+  dependencies:
+    d3 "^5.8.0"
 
 cacache@^12.0.0, cacache@^12.0.3:
   version "12.0.4"
@@ -4295,7 +4302,7 @@ d3-zoom@1:
     d3-selection "1"
     d3-transition "1"
 
-d3@^5.12.0:
+d3@^5.12.0, d3@^5.8.0:
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/d3/-/d3-5.16.0.tgz#9c5e8d3b56403c79d4ed42fbd62f6113f199c877"
   integrity sha512-4PL5hHaHwX4m7Zr1UapXW23apo6pexCgdetdJ5kTmADpG/7T9Gkxw0M0tf/pjoB63ezCCm0u5UaFYy2aMt0Mcw==
@@ -5887,6 +5894,11 @@ hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
+
+highlight.js@^11.2.0:
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.2.0.tgz#a7e3b8c1fdc4f0538b93b2dc2ddd53a40c6ab0f0"
+  integrity sha512-JOySjtOEcyG8s4MLR2MNbLUyaXqUunmSnL2kdV/KuGJOmHZuAR5xC54Ko7goAXBWNhf09Vy3B+U7vR62UZ/0iw==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
