@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 import '@spectrum-css/vars/dist/spectrum-global.css';
 import '@spectrum-css/vars/dist/spectrum-medium.css';
 import '@spectrum-css/vars/dist/spectrum-light.css';
+import '@spectrum-css/vars/dist/spectrum-darkest.css';
 
 import '@spectrum-css/page/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
@@ -73,6 +74,27 @@ import ClipboardJS from 'clipboard';
 
 new ClipboardJS('.copyButton');
 new ClipboardJS('.themeOutputSwatch');
+
+window.matchMedia('(prefers-color-scheme: dark)')
+  .addEventListener('change', event => {
+  if (event.matches) {
+    //dark mode
+    document.querySelector('body').classList.remove('spectrum--light');
+    document.querySelector('body').classList.add('spectrum--darkest');
+  } else {
+    //light mode
+    document.querySelector('body').classList.add('spectrum--light');
+    document.querySelector('body').classList.remove('spectrum--darkest');
+  }
+})
+const mq = window.matchMedia('(prefers-color-scheme: dark)');
+if (mq.matches) {
+  //dark mode
+  document.querySelector('body').classList.add('spectrum--darkest');
+} else {
+  //light mode
+  document.querySelector('body').classList.add('spectrum--light');
+}
 
 const tempGray = new Leo.Color({
   name: 'Gray',

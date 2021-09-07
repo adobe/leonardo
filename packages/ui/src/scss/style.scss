@@ -19,8 +19,8 @@ governing permissions and limitations under the License.
   --gradient-slider-height: var(--gradient-height);
   --slider-thumb-size: 8px; // 24px
   --header-height: 58px;
-  --spectrum-panel-border-color: var(--spectrum-global-color-gray-300, #e1e1e1);
-  --spectrum-panel-background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
+  --panelBorder: var(--spectrum-global-color-gray-300, #e1e1e1);
+  --panelBackground: var(--spectrum-global-color-gray-100, #f5f5f5);
   // Define here but override in js after user creates theme
   --theme-background: var(--spectrum-global-color-gray-100, #f5f5f5);
 
@@ -31,6 +31,28 @@ governing permissions and limitations under the License.
   --spectrum-ease-out: cubic-bezier(0, 0, 0.40, 1);
   --spectrum-ease-in-out: cubic-bezier(0.45, 0, 0.40, 1);
   --spectrum-ease-in: cubic-bezier(0.50, 0, 1, 1);
+
+  // defaults
+  --headerBackground: var(--spectrum-global-color-gray-50);
+  --panelBackground: var(--spectrum-global-color-gray-100);
+  --panelBorder: var(--spectrum-global-color-gray-300);
+}
+
+@media(prefers-color-scheme: light) {
+  .spectrum {
+    --theme-background: var(--spectrum-global-color-gray-100, #f5f5f5);
+    --headerBackground: var(--spectrum-global-color-gray-50, #ffffff);
+    --panelBackground: var(--spectrum-global-color-gray-100, #f5f5f5);
+    --panelBorder: var(--spectrum-global-color-gray-300);
+  }
+}
+@media(prefers-color-scheme: dark) {
+  .spectrum {
+    --theme-background: var(--spectrum-global-color-gray-100, #1d1d1d);
+    --headerBackground: var(--spectrum-global-color-gray-100);
+    --panelBackground: var(--spectrum-global-color-gray-100);
+    --panelBorder: var(--spectrum-global-color-gray-50);
+  }
 }
 
 body {
@@ -84,8 +106,8 @@ body {
   display: flex;
   flex-direction: row;
   max-height: var(--spectrum-global-dimension-size-400); // 32px
-  border-bottom: 2px solid var(--spectrum-panel-border-color);
-  background-color: var(--spectrum-panel-background-color);
+  border-bottom: 2px solid var(--panelBorder);
+  background-color: var(--headerBackground);
   margin: 0;
   padding: var(--spectrum-global-dimension-size-150) var(--spectrum-global-dimension-size-200);
   align-items: center;
@@ -155,9 +177,9 @@ body {
   display: flex;
   flex-direction: column;
 
-  background-color: var(--spectrum-panel-background-color);
+  background-color: var(--panelBackground);
   min-width: calc(var(--spectrum-global-dimension-size-3000) + 32px);
-  border-right: 2px solid var(--spectrum-panel-border-color);
+  border-right: 2px solid var(--panelBorder);
   padding: 0;
   overflow: hidden;
 }
@@ -169,7 +191,7 @@ body {
   max-height: calc(100vh - 56px);
   grid-area: rightPanel;
   border-right: 0;
-  border-left: 2px solid var(--spectrum-panel-border-color);
+  border-left: 2px solid var(--panelBorder);
   justify-content: space-between;
 }
 .spectrum-Panel--custom {
@@ -204,7 +226,7 @@ body {
   padding-top: 0px;
 }
 .spectrum-Panel-Item ~ .spectrum-Panel-Item {
-  border-top: 2px solid var(--spectrum-panel-border-color);
+  border-top: 2px solid var(--panelBorder);
 }
 .spectrum-Panel-Item--row {
   display: flex;
@@ -505,7 +527,7 @@ main {
   height: 47px;
   min-height: fit-content;
   padding: 0 16px;
-  border-bottom: 2px solid var(--spectrum-panel-border-color);
+  border-bottom: 2px solid var(--panelBorder);
 
   .spectrum-Tabs {
     margin-bottom: -4px;
@@ -898,12 +920,12 @@ a:focus {
     "themeConfig"
     "themeDefault";
 
-  background-color: var(--spectrum-panel-background-color);
+  background-color: var(--panelBackground);
 }
 .themeConfigWrapper {
   padding: 8px 16px 16px;
   grid-area: themeConfig;
-  border-bottom: 2px solid var(--spectrum-panel-border-color);
+  border-bottom: 2px solid var(--panelBorder);
 }
 .themeTitle {
   display: flex;
@@ -1006,9 +1028,9 @@ a:focus {
 }
 .themeColor_configs {
   display: flex;
-  // border-left: 1px solid var(--spectrum-panel-border-color);
-  // border-right: 1px solid var(--spectrum-panel-border-color);
-  // border-bottom: 1px solid var(--spectrum-panel-border-color);
+  // border-left: 1px solid var(--panelBorder);
+  // border-right: 1px solid var(--panelBorder);
+  // border-bottom: 1px solid var(--panelBorder);
   // border-top: 0px solid transparent;
   // background-color: var(--spectrum-global-color-gray-50);
   height: auto;
