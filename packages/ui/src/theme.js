@@ -794,8 +794,7 @@ function themeInput() {
         colorNameArray.push(name);
         colorsArray.push(colorClass);
       }
-      // let rampData = contrastColors.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
-      let colors = colorClass.colorScale;
+      let colors = Leo.createScale({swatches: n, colorKeys: colorArgs, colorspace: mode});
 
       colors = cvdColors(colors);
 
