@@ -2135,7 +2135,7 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/colorloupe/-/colorloupe-1.0.2.tgz#f1802d4606886f6eb8ca3547c80df8207e966eba"
   integrity sha512-lC6RxSJOzt460FEGgYhDeDhKHbIZLTIlXaAvsenLwrF15bp8eWiXSQ9Apd4j+LhvV1fZ/maY8yauW2a2MvhsFQ==
 
-"@spectrum-css/colorslider@^1.0.0-beta.2":
+"@spectrum-css/colorslider@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/colorslider/-/colorslider-1.0.2.tgz#c11c184ab6f5515d886593a708ba74ebd2af28c7"
   integrity sha512-+OGW+F8refqxTc5RjUq2+Awm4Z4BA/sinEuVykNlyAeYumSM520d6htvXivZM83f7zJCLgvmpBqXe0XBISx/Iw==
