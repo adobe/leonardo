@@ -83,7 +83,9 @@ class Color {
   }
 
   set smooth(smooth) {
-    this._smooth = smooth;
+    let boolValue = smooth.toLowerCase() == 'true' ? true : false; //returns true
+
+    this._smooth = boolValue;
     this._colorScale = null;
   }
 
