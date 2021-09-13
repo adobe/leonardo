@@ -79,7 +79,8 @@ class Theme {
   set saturation(saturation) {
     this._saturation = saturation;
     // Update all colors key colors
-    // this._findContrastColors();
+    this._updateColorSaturation(saturation);
+    this._findContrastColors();
   }
 
   get saturation() {
@@ -107,6 +108,36 @@ class Theme {
 
   get colors() {
     return this._colors;
+  }
+
+  // add individual new colors
+  set addColor(color) {
+    this._colors.push(color);
+    this._findContrastColors();
+  }
+  // remove individual colors
+  set removeColor(color) {
+    const filteredColors = this._colors.filter(entry => {return entry.name !== color.name});
+    this._colors = filteredColors;
+    this._findContrastColors();
+  }
+  // modify individual colors
+  set updateColor(param) {
+    // pass arguments in the format _updateColorParameter(color: 'ColorToChange', [propertyToChange]: 'newValue')
+    // eg, changing the name of a color: _updateColorParameter(color: 'blue', name: 'cerulean')
+    let currentColor = this._colors.filter(entry => {return entry.name === param.color});
+    currentColor = currentColor[0];
+    const filteredColors = this._colors.filter(entry => {return entry.name !== param.color});
+    if(param.name) currentColor.name = param.name;
+    if(param.colorKeys) currentColor.colorKeys = param.colorKeys;
+    if(param.ratios) currentColor.ratios = param.ratios;
+    if(param.colorspace) currentColor.colorspace = param.colorspace;
+    if(param.smooth) currentColor.smooth = param.smooth;
+
+    filteredColors.push(currentColor);
+    this._colors = filteredColors;
+
+    this._findContrastColors();
   }
 
   set output(output) {
@@ -160,10 +191,21 @@ class Theme {
     this._backgroundColorValue = this._backgroundColor.backgroundColorScale[this._lightness];
   }
 
-  _adjustSaturation() {
-    this._modifiedColors.map(color) => {
-      // Do something.
-    }
+  _updateColorSaturation(saturation) {
+    this._modifiedColors.map((color) => {
+      const colorKeys = color.colorKeys;
+      let newColorKeys = [];
+      colorKeys.forEach(key => {
+        let currentHsluv = chroma.hsluv(key);
+        let currentSaturation = currentHsluv.u;
+        let newSaturation = currentSaturation * (saturation / 100);
+        let newHsluv = chroma.hsluv(currentHsluv.l, newSaturation, currentHsluv.v);
+        let newColor = chroma.rgb(newHsluv).hex();
+        newColorKeys.push(newColor);
+      });
+      // set each colors color keys with new modified array
+      color.colorKeys = newColorKeys;
+    })
   }
 
   _findContrastColors() {
