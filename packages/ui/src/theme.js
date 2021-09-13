@@ -299,19 +299,21 @@ let predefinedColorNames = [
 window.addColorScale = addColorScale;
 function addColorScale(newColor) {
   // if first color item, just name it gray.
+  let colorNameValue;
   if(!newColor) {
-    let colorName;
-    if(_theme.colors.length == 0) colorName = 'Gray';
-    else colorName = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+    if(_theme.colors.length == 0) colorNameValue = 'Gray';
+    else colorNameValue = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
     let ratios = getContrastRatios();
     if (ratios === undefined) ratios = [4.5]
 
     newColor = new Leo.Color({
-      name: colorName,
+      name: colorNameValue,
       colorKeys: ['#000000'],
       colorspace: 'CAM02',
       ratios: ratios
     })
+  } else {
+    colorNameValue = newColor.name;
   }
 
   _theme.addColor = newColor;
@@ -353,7 +355,8 @@ function addColorScale(newColor) {
 
   colorNameInput.onblur = throttle(themeUpdateParams, 10);
   colorNameInput.addEventListener('change', (e) => {
-    _theme.updateColor = {color: c, name: e.target.value}
+    let newValue = e.target.value;
+    _theme.updateColor = {color: colorNameValue, name: newValue}
   });
   colorNameInputWrapper.appendChild(colorNameInput)
   colorName.appendChild(colorNameInputWrapper);
@@ -2139,10 +2142,11 @@ function showColorDetails(e) {
   colorNameInput.value = colorData.name;
 
   // colorNameInput.oninput = throttle(themeUpdateParams, 10);
-  colorNameInput.oninput = () => {
+  colorNameInput.onchange = (e) => {
     let paletteNameInput = document.getElementById(thisId.concat('_colorName'));
-    paletteNameInput.value = e.target.value;
-    // _theme.updateColor = {color: currentColor, name: e.target.value}
+    const newName = `${e.target.value}`;
+    paletteNameInput.value = newName;
+    _theme.updateColor = {color: colorData.name, name: e.target.value}
   };
 
   // colorNameLabel.innerHTML = 'Color scale name';
