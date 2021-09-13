@@ -88,19 +88,35 @@ body {
   grid-template-areas:
     "leftPanel main rightPanel";
 }
+
 .appFramePanelLeft {
   margin: 0;
   padding: 0;
   height: calc(100vh - var(--header-height));
   overflow: hidden;
   display: grid;
-  grid-template-columns: auto 240px;
+  grid-template-columns: 388px auto;
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas:
-    "main rightPanel";
+    "leftPanel main";
 }
+
+.appFrameSideNav {
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 240px auto;
+  grid-template-rows: auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    "leftPanel main";
+}
+
 .spectrum-AppHeader {
   grid-area: header;
   display: flex;
@@ -173,7 +189,17 @@ body {
   height: 32px;
 }
 
+.sideNavContent {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.sortIcon {
+  transform: rotate(90deg);
+  width: 10px;
+  height: 10px;
+}
 .spectrum-Panel {
+  position: relative;
   display: flex;
   flex-direction: column;
 
@@ -198,8 +224,9 @@ body {
   flex-direction: row;
   min-width: 160px;
 }
+
 .spectrum-Panel-Item {
-  padding: 8px 16px 16px;
+  padding: var(--spectrum-global-dimension-size-200);
 }
 .spectrum-Panel-Item--overflow {
   overflow: auto;
@@ -212,10 +239,14 @@ body {
   padding-bottom: 32px;
 }
 
+.spectrum-Panel-ContentWrapper {
+  height: 100%;
+}
+
 .spectrum-Panel-Title {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0 4px;
+  padding: 0 0 var(--spectrum-global-dimension-size-100);
 
   .spectrum-ActionButton {
     margin-top: -7px;
@@ -244,6 +275,16 @@ body {
 
 .spectrum-Panel-Title .spectrum-Form-item {
   margin-top: -7px;
+}
+
+#colorConfigPanel {
+  display: none;
+  flex-direction: column;
+  position: absolute; // Temporarily remove this to make sure all parts interactive
+  background-color: var(--panelBackground);
+  width: 100%;
+  height: 100%;
+  z-index: 2;
 }
 
 #inputs {
@@ -291,20 +332,20 @@ body {
   position: relative;
   // margin-bottom: 14px;
 }
-#color {
-  // height: 60px;
-  // width: 60px;
-  height: var(--color-size);
-  width: var(--color-size);
-  font-size: var(--spectrum-global-dimension-font-size-50);
-  display: flex;
-  position: absolute;
-  left: 0;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  justify-content: center;
-  align-items: center;
-}
+// #color {
+//   // height: 60px;
+//   // width: 60px;
+//   height: var(--color-size);
+//   width: var(--color-size);
+//   font-size: var(--spectrum-global-dimension-font-size-50);
+//   display: flex;
+//   position: absolute;
+//   left: 0;
+//   border-radius: 4px;
+//   border: 1px solid rgba(0, 0, 0, 0.25);
+//   justify-content: center;
+//   align-items: center;
+// }
 
 #colorSlider-wrapper {
   /* temporarily until getting this to work */ 
@@ -543,6 +584,13 @@ main {
   overflow: auto;
 }
 
+#parameterWrapper {
+  flex-direction: column;
+  padding: var(--spectrum-global-dimension-size-200);
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
 #chartsWrapper,
 #modelWrapper {
   background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
@@ -646,6 +694,7 @@ p {
 
 .ratio-Swatch {
   position: absolute;
+  z-index: 20;
   margin-top: var(--spectrum-global-dimension-size-100);
   margin-left: var(--spectrum-global-dimension-size-100);
   border-radius: 2px;
@@ -779,8 +828,8 @@ a:focus {
   border: 1px solid var(--spectrum-global-color-gray-200);
   border-radius: 4px;
   padding: 8px;
-  margin: 0 -8px;
-  width: calc(100% - 4px);
+  margin: 0;
+  // width: calc(100% - 4px);
   overflow: auto;
 }
 
@@ -788,6 +837,7 @@ a:focus {
   max-height: calc(100% - 60px);
   overflow: auto;
   display: flex;
+  margin-top: var(--spectrum-global-dimension-size-100);
 }
 
 #contrastConfigs, #ratioInput-wrapper {
@@ -810,7 +860,7 @@ a:focus {
   // max-height: calc(var(--gradient-height) - 110px);
   overflow: auto;
   display: flex;
-  margin-top: 16px;
+  margin-bottom: var(--spectrum-global-dimension-size-100);
 }
 
 .demoItem {
@@ -877,9 +927,12 @@ a:focus {
   overflow-y: auto;
 }
 
-#contrastSwatches {
-  justify-content: space-between;
+.tabDetailContent {
+  display: none;
+  flex-direction: column;
+  padding: var(--spectrum-global-dimension-size-200) 0;
 }
+
 
 // Correct some oddities with Dialog buttons
 .spectrum-Dialog-footer > *, .spectrum-Dialog-footer > .spectrum-Button + .spectrum-Button {
@@ -902,7 +955,7 @@ a:focus {
   width: calc(100vw - 624px);
 }
 
-.spectrum-Dropdown--quiet {
+.spectrum-Picker--quiet {
   min-width: var(--spectrum-dropdown-quiet-min-width, 200px);
 }
 
@@ -964,28 +1017,55 @@ a:focus {
   justify-content: flex-start;
   height: 100%;
   align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .themeColor_item {
+  display: inline-flex;
+  align-items: center;
   border-radius: 4px;
+  width: 100%;
   background-color: var(--spectrum-global-color-gray-50);
   border: 1px solid var(--spectrum-global-color-gray-300);
   overflow: hidden;
-  padding: 8px 16px;
+  padding: 0 var(--spectrum-global-dimension-size-200) 0 0;
   flex-shrink: 0;
 
-  .spectrum-Dropdown {
+  .spectrum-Picker {
     width: 120px;
-  }
-  .spectrum-Dropdown select + .spectrum-Dropdown-iconWrapper {
-    position: absolute;
-    right: var(--spectrum-dropdown-padding-x, var(--spectrum-global-dimension-size-150));
-    top: 4px;
-    margin-top: calc(var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75)) / -2);
   }
   .spectrum-Form-item--row {
     justify-content: space-between;
   }
+}
+
+.panelBackButtonLabel {
+  display: inline-flex;
+  margin-top: calc(var(--spectrum-global-dimension-size-50) + 1px);
+  margin-left: var(--spectrum-global-dimension-size-100);
+}
+
+.pickerMode {
+  width: 100px;
+}
+
+.spectrum-Textfield--fullwidth {
+  width: 100%;
+}
+
+[dir="ltr"] .spectrum-Picker {
+  padding: 0 8px;
+  height: 32px;
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.spectrum-Picker + .spectrum-Picker-icon {
+  position: absolute;
+  right: var(--spectrum-dropdown-padding-x, var(--spectrum-global-dimension-size-150));
+  top: 4px;
+  margin-top: calc(var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75)) / -2);
 }
 
 .themeColor_item ~ .themeColor_item {
@@ -1000,20 +1080,37 @@ a:focus {
   padding: 0 0 8px;
 }
 
+.gradientSwatch {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  border-top-left-radius: var(--spectrum-global-dimension-size-50);
+  border-bottom-left-radius: var(--spectrum-global-dimension-size-50);
+  margin-right:  var(--spectrum-global-dimension-size-100);
+  overflow: clip;
+
+  .gradient {
+    height: 100%;
+    width: 100%;
+  }
+}
+
 .themeColor_gradient {
   position: relative;
   display: flex;
+  align-items: center;
   flex-direction: row;
+  flex-shrink: 0;
   border-radius: 4px;
-  height: 56px;
+  height: 72px;
   margin: 8px 0;
-  width: 100%;
+  width: calc(100% - var(--spectrum-global-dimension-size-400));
   -webkit-transition: height 200ms;
   transition: height 200ms;
 
   .gradient {
     height: 100%;
-    width: 332px;
+    width: 100%;
     border-radius: 4px;
   }
 
@@ -1084,7 +1181,8 @@ a:focus {
 }
 
 .colorNameInput {
-  width: 240px;
+  width: 192px;
+  margin-right: var(--spectrum-global-dimension-size-200);
 }
 
 #themeOutputs {
@@ -1094,11 +1192,27 @@ a:focus {
   margin-left: -16px;
   margin-right: -16px;
   padding: 16px;
-  margin-top: 16px;
 }
 
 #themeParams {
   white-space: break-spaces;
+}
+#colorMainContent-Wrapper {
+  position: relative;
+  width: 100%;
+}
+#colorMainContent {
+  padding: var(--spectrum-global-dimension-size-200);
+}
+#colorDetails {
+  display: none;
+  flex-direction: column;
+  padding: var(--spectrum-global-dimension-size-200);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f5;
+  z-index: 10;
 }
 
 .outputHeader {
@@ -1308,6 +1422,12 @@ a:focus {
 
 .spectrum-Panel-Tabs {
   padding: 0 16px;
+  height: 44px;
+  border-bottom: 2px solid #e1e1e1;
+}
+.spectrum-Content-Tabs {
+  padding: 0 16px;
+  height: 44px;  
 }
 
 #typeScaleBase,
@@ -1360,7 +1480,7 @@ a:focus {
   padding: 16px;
 }
 
-.spectrum-Dropdown-trigger {
+.spectrum-Picker-trigger {
   padding-right: 24px;
   text-overflow: ellipsis;
 }
@@ -1430,12 +1550,12 @@ a:focus {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 8px;
+  padding: var(--spectrum-global-dimension-size-200);
 }
 #colorWheel {
   position: relative;
-  margin: 0 auto;
-  width: 300px;
+  margin: 0 auto var(--spectrum-global-dimension-size-100);
+  // width: 244px;
 }
 .colorDot {
   width: 16px;
@@ -1444,4 +1564,31 @@ a:focus {
   border: 2px solid #ffffff;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, 0.5);
   position: absolute;
+}
+
+.sideNav-Wrapper,
+.home-Wrapper {
+  padding: var(--spectrum-global-dimension-size-600);
+
+  .spectrum-Body {
+    max-width: 70ch;
+  }
+}
+
+.sideNavContent {
+  display: none;
+}
+
+#homeCTA {
+  margin-bottom: var(--spectrum-global-dimension-size-400);
+}
+
+.themeRampDot {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #ffffff;
+  position: absolute;
+  z-index: 10;
+  border-radius: 100%;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, 0.5);
 }

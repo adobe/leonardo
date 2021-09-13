@@ -67,6 +67,31 @@ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
 g.d3_xy_chart_line path.line {
   stroke: #76D0C5;
 }
+
+// Hack specific overrides for RGB chart only
+#RGBchart {
+  g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+    stroke: #ff0000;
+  }
+  g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+    stroke: #00b100;
+  }
+  g.d3_xy_chart_line path.line {
+    stroke: #0000ff;
+  }
+
+  .tick {
+    display: none;
+  }
+}
+
+#interpolationChart,
+#interpolationChart2 {
+  .x.axis text {
+    display: none;
+  }
+}
+
 // Overrides for grid
 ._3d.grid {
   stroke: rgba(50, 50, 50, 0.1);

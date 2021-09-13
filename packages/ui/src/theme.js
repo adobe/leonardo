@@ -16,16 +16,19 @@ import '@spectrum-css/vars/dist/spectrum-light.css';
 import '@spectrum-css/vars/dist/spectrum-darkest.css';
 
 import '@spectrum-css/page/dist/index-vars.css';
-import '@spectrum-css/typography/dist/index-vars.css';
 import '@spectrum-css/icon/dist/index-vars.css';
 import '@spectrum-css/link/dist/index-vars.css';
 import '@spectrum-css/alert/dist/index-vars.css';
 import '@spectrum-css/radio/dist/index-vars.css';
+import '@spectrum-css/sidenav/dist/index-vars.css';
 import '@spectrum-css/dialog/dist/index-vars.css';
 import '@spectrum-css/button/dist/index-vars.css';
+import '@spectrum-css/actionbutton/dist/index-vars.css';
+import '@spectrum-css/actiongroup/dist/index-vars.css';
+import '@spectrum-css/divider/dist/index-vars.css';
 import '@spectrum-css/fieldgroup/dist/index-vars.css';
 import '@spectrum-css/textfield/dist/index-vars.css';
-import '@spectrum-css/dropdown/dist/index-vars.css';
+import '@spectrum-css/picker/dist/index-vars.css';
 import '@spectrum-css/fieldlabel/dist/index-vars.css';
 import '@spectrum-css/checkbox/dist/index-vars.css';
 import '@spectrum-css/switch/dist/index-vars.css';
@@ -35,6 +38,7 @@ import '@spectrum-css/slider/dist/index-vars.css';
 import '@spectrum-css/tabs/dist/index-vars.css';
 import '@spectrum-css/toast/dist/index-vars.css';
 import '@spectrum-css/illustratedmessage/dist/index-vars.css';
+import '@spectrum-css/typography/dist/index-vars.css';
 
 import './scss/colorinputs.scss';
 import './scss/charts.scss';
@@ -71,6 +75,7 @@ loadIcons('./spectrum-icons.svg');
 
 // import {randomId, throttle, deleteColor} from './index.js'
 import ClipboardJS from 'clipboard';
+import { getContrast } from '@adobe/leonardo-contrast-colors/utils';
 
 new ClipboardJS('.copyButton');
 new ClipboardJS('.themeOutputSwatch');
@@ -196,10 +201,17 @@ function paramSetup() {
         let colorSpace = color.colorspace;
         let ratios = color.ratios;
         // Create color scale item
-        addColorScale(colorName, keyColors, colorSpace, ratios);
+        let newColor = new Leo.Color({
+          name: colorName,
+          colorKeys: keyColors,
+          colorspace: colorSpace,
+          ratios: ratios
+        })
+
+        addColorScale(newColor);
       })
     } else {
-      addColorScale('Gray', ['#000000'], 'CIECAM02', [3, 4.5]);
+      // addColorScale('Gray', ['#000000'], 'CIECAM02', [3, 4.5]);
     }
 
     let slider = document.getElementById('themeBrightnessSlider');
@@ -217,7 +229,11 @@ function paramSetup() {
   }
   else if(!params.has('config') || params.get('config') === undefined) {
     addRatios([3, 4.5]);
-    addColorScale('Gray', ['#000000'], 'CAM02');
+    // addColorScale('Gray', ['#000000'], 'CAM02');
+    let length = _theme.colors.length;
+    for(let i=0; i<length; i++) {
+      addColorScale(_theme.colors[i]);
+    }
   }
 
   sliderInput();
@@ -281,43 +297,28 @@ let predefinedColorNames = [
 ];
 
 window.addColorScale = addColorScale;
-function addColorScale(c, k, s) {
-  // for checking to see if items already exist
-  let items = document.getElementsByClassName('themeColor_item');
+function addColorScale(newColor) {
   // if first color item, just name it gray.
-  if(!c) {
-    if(items.length == 0) {
-      // if first color with undefined c argument:
-      c = 'Gray'
-    }
-    else {
-      // if not first, c not defined, randomly assign color name:
-      c = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
-    }
-  }
-  if (s == undefined) {
-    s = 'CAM02';
-  }
-  if (k == undefined) {
-    k = ['#000000']
-  }
-  let r = getContrastRatios();
-  if (r === undefined) {
-    r = [4.5];
+  if(!newColor) {
+    let colorName;
+    if(_theme.colors.length == 0) colorName = 'Gray';
+    else colorName = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+    let ratios = getContrastRatios();
+    if (ratios === undefined) ratios = [4.5]
+
+    newColor = new Leo.Color({
+      name: colorName,
+      colorKeys: ['#000000'],
+      colorspace: 'CAM02',
+      ratios: ratios
+    })
   }
 
-  let newColor = new Leo.Color({
-    name: c,
-    colorKeys: k,
-    colorspace: s,
-    ratios: r
-  })
   _theme.addColor = newColor;
 
   // create unique ID for color object
   let thisId = randomId();
-  // generate color input objects:
-  // gradient, inputs, etc.
+
   let wrapper = document.getElementById('themeColorWrapper');
   let emptyState = document.getElementById('themeColorEmptyState');
   // Remove empty state
@@ -328,201 +329,51 @@ function addColorScale(c, k, s) {
   }
 
   // Create theme item
-  let item = document.createElement('div');
+  let item = document.createElement('button');
   item.className = 'themeColor_item';
   item.id = thisId;
 
-  // Create gradient
-  let gradient = document.createElement('div');
-  gradient.className = 'themeColor_gradient';
-  let gradientId = thisId.concat('_gradient');
-  gradient.id = gradientId;
-
-  // Create form container
-  let inputs = document.createElement('div');
-  inputs.className = `spectrum-Form spectrum-Form--row themeColor_configs is-hidden`;
-  inputs.id = `${thisId}-themeColor_configs`
+  // Create color gradient swatch
+  let gradientSwatch = document.createElement('div');
+  let gradientSwatchId = thisId.concat('_gradientSwatch');
+  gradientSwatch.id = gradientSwatchId;
+  gradientSwatch.className = 'gradientSwatch';
 
   // Color Name Input
   let colorName = document.createElement('div');
   colorName.className = 'spectrum-Form-item spectrum-Form-item--row';
+  let colorNameInputWrapper = document.createElement('div');
+  colorNameInputWrapper.className = 'spectrum-Textfield spectrum-Textfield--quiet';
   let colorNameInput = document.createElement('input');
   colorNameInput.type = 'text';
-  colorNameInput.className = 'spectrum-Textfield spectrum-Textfield--quiet colorNameInput';
+  colorNameInput.className = 'spectrum-Textfield-input colorNameInput';
   colorNameInput.id = thisId.concat('_colorName');
   colorNameInput.name = thisId.concat('_colorName');
-  colorNameInput.value = c;
+  colorNameInput.value = newColor.name;
 
-  colorNameInput.oninput = throttle(themeUpdateParams, 10);
-
-  // colorNameLabel.innerHTML = 'Color scale name';
-  // colorName.appendChild(colorNameLabel);
-  colorName.appendChild(colorNameInput);
-
-  // Key Color Input
-  let keyColors = document.createElement('div');
-  keyColors.className = 'themeColor_subheading';
-  let keyColorsLabel = document.createElement('h4');
-  keyColorsLabel.className = 'spectrum-Heading6';
-  keyColorsLabel.for = thisId.concat('_keyColors');
-
-  let keyColorsInput = document.createElement('div');
-  keyColorsInput.className = 'keyColorsWrapper';
-  let keyColorsId = thisId.concat('_keyColors');
-  keyColorsInput.id = keyColorsId;
-  keyColorsLabel.innerHTML = 'Key colors';
-  keyColors.appendChild(keyColorsLabel);
-
-  // Key Colors Actions
-  let addColors = document.createElement('div');
-  addColors.className = 'keyColorActions';
-  let addButton = document.createElement('button');
-  addButton.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
-  let buttonId = thisId.concat('_addKeyColor');
-  addButton.id = buttonId;
-  addButton.title = "Add key color"
-  addButton.addEventListener('click', themeAddColorUpdate);
-  addButton.innerHTML = `
-  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-    <use xlink:href="#spectrum-icon-18-Add" />
-  </svg>
-  `;
-  let bulkButton = document.createElement('button');
-  bulkButton.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
-  let bulkId = thisId.concat('_addBulk');
-  bulkButton.title = "Add bulk key colors"
-  bulkButton.id = bulkId;
-  bulkButton.addEventListener('click', addBulk);
-  bulkButton.innerHTML = `
-  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-    <use xlink:href="#spectrum-icon-18-BoxAdd" />
-  </svg>
-  `;
-  let clearKeyColorsButton = document.createElement('button');
-  clearKeyColorsButton.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
-  let clearColorsId = thisId.concat('_clearAllColors');
-  clearKeyColorsButton.title = "Clear all key colors"
-  clearKeyColorsButton.id = clearColorsId;
-  clearKeyColorsButton.addEventListener('click', clearAllColors);
-  clearKeyColorsButton.innerHTML = `
-  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-    <use xlink:href="#spectrum-icon-18-CloseCircle" />
-  </svg>
-  `;
-
-  addColors.appendChild(clearKeyColorsButton);
-
-  addColors.appendChild(addButton);
-  addColors.appendChild(bulkButton);
-  keyColors.appendChild(addColors);
-
-  // Interpolation mode
-  let interp = document.createElement('div');
-  interp.className = 'spectrum-Form-item spectrum-Form-item--row';
-  let interpLabel = document.createElement('label');
-  interpLabel.className = 'spectrum-FieldLabel spectrum-FieldLabel--left';
-  interpLabel.for = thisId.concat('_mode');
-  let interpLabelText = 'Color space';
-  let interpDropdown = document.createElement('div');
-  interpDropdown.className = 'spectrum-Dropdown';
-  interpDropdown.id = thisId.concat('_modeDropdown');
-  let interpSelect = document.createElement('select');
-  interpSelect.className = 'spectrum-FieldButton spectrum-Dropdown-trigger';
-  interpSelect.id = thisId.concat('_mode');
-  interpSelect.name = thisId.concat('_mode');
-  interpSelect.oninput = throttle(themeUpdateParams, 20);
-  interpSelect.addEventListener('change', (e) => {
-    _theme.updateColor = {color: c, colorspace: e.target.value}
-  })
-
-  let interpDropdownIcon = document.createElement('span');
-  interpDropdownIcon.className = 'spectrum-Dropdown-iconWrapper';
-  interpDropdownIcon.innerHTML = `
-  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
-    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-  </svg>`;
-
-  interpLabel.innerHTML = interpLabelText;
-  interpDropdown.appendChild(interpSelect);
-  interpDropdown.appendChild(interpDropdownIcon);
-  interp.appendChild(interpLabel);
-  interp.appendChild(interpDropdown);
-
-  // Interpolation options
-  interpSelect.options.length = 0;
-
-  let opts = {
-    'CAM02': 'Jab',
-    'CAM02p': 'JCh',
-    'LCH': 'Lch',
-    'LAB': 'Lab',
-    'HSL': 'HSL',
-    'HSLuv': 'HSLuv',
-    'HSV': 'HSV',
-    'RGB': 'RGB'
-  };
-
-  for(let index in opts) { interpSelect.options[interpSelect.options.length] = new Option(opts[index], index); }
-  interpSelect.value = s;
-
-  // Smoothing
-  let smoothFormItem = document.createElement('div');
-  smoothFormItem.className = 'spectrum-Form-item';
-  let smoothWrapper = document.createElement('div');
-  smoothWrapper.className = 'spectrum-Switch';
-  let smoothInput = document.createElement('input');
-  smoothInput.type = 'checkbox';
-  smoothInput.className = 'spectrum-Switch-input';
-  smoothInput.id = thisId.concat('_smooth');
-  smoothInput.oninput = throttle(themeUpdateParams, 20);
-  smoothInput.addEventListener('input', (e) => {
-    let checked = e.target.checked;
-    _theme.updateColor = {color: c, smooth: checked}
-  })
-  let smoothSwitch = document.createElement('span');
-  smoothSwitch.className = 'spectrum-Switch-switch';
-  let smoothLabel = document.createElement('label');
-  smoothLabel.className = 'spectrum-Switch-label';
-  smoothLabel.htmlFor = thisId.concat('_smooth');
-  smoothLabel.innerHTML = 'Smooth';
-  smoothWrapper.appendChild(smoothInput);
-  smoothWrapper.appendChild(smoothSwitch);
-  smoothWrapper.appendChild(smoothLabel);
-  smoothFormItem.appendChild(smoothWrapper);
-
-  // Ratios
-  // let ratios = document.createElement('div');
-  // ratios.className = 'spectrum-Form-item';
-  // let ratiosLabel = document.createElement('label');
-  // ratiosLabel.className = 'spectrum-FieldLabel';
-  // ratiosLabel.innerHTML = 'Contrast ratios';
-  // ratiosLabel.for = thisId.concat('_ratios');
-  // let ratiosInput = document.createElement('input');
-  // ratiosInput.type = 'text';
-  // ratiosInput.className = 'spectrum-Textfield';
-  // ratiosInput.id = thisId.concat('_ratios');
-  // ratiosInput.name = thisId.concat('_ratios');
-  // ratiosInput.oninput = throttle(themeUpdateParams, 10);
-  // ratios.appendChild(ratiosLabel);
-  // ratios.appendChild(ratiosInput);
-  // ratiosInput.value = r.toString();
+  colorNameInput.onblur = throttle(themeUpdateParams, 10);
+  colorNameInput.addEventListener('change', (e) => {
+    _theme.updateColor = {color: c, name: e.target.value}
+  });
+  colorNameInputWrapper.appendChild(colorNameInput)
+  colorName.appendChild(colorNameInputWrapper);
 
   // Actions
   let actions = document.createElement('div');
   actions.className = 'spectrum-ButtonGroup spectrum-Form-item spectrum-Form-item--row labelSpacer';
   let edit = document.createElement('button');
-  edit.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
+  edit.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
   edit.id = `${thisId}-toggleConfig`;
   edit.title = "Show / hide configurations"
   edit.innerHTML = `
   <!-- <span class="spectrum-ActionButton-label">Add from URL</span> -->
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-    <use xlink:href="#spectrum-icon-18-ChevronLeft" />
+    <use xlink:href="#spectrum-icon-18-Properties" />
   </svg>`
-  edit.addEventListener('click', toggleCardConfigs);
+  edit.addEventListener('click', showColorDetails);
   // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
   let deleteColor = document.createElement('button');
-  deleteColor.className = 'spectrum-ActionButton spectrum-ActionButton--quiet';
+  deleteColor.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
   deleteColor.title = 'Delete color scale'
   deleteColor.id = thisId.concat('_delete');
   deleteColor.innerHTML = `
@@ -534,48 +385,26 @@ function addColorScale(c, k, s) {
   actions.appendChild(deleteColor);
 
   colorName.appendChild(actions);
-
-  // Put it all together
-  // inputs.appendChild(colorName);
-
-  inputs.appendChild(keyColors);
-  inputs.appendChild(keyColorsInput);
-  
-  inputs.appendChild(interp);
-  inputs.appendChild(smoothFormItem);
-
-
-  // inputs.appendChild(ratios);
-  // inputs.appendChild(actions);
-
+  item.appendChild(gradientSwatch);
   item.appendChild(colorName);
-  item.appendChild(gradient);
-  item.appendChild(inputs);
 
   wrapper.appendChild(item);
 
-  // Then run functions on the basic placeholder inputs
-  for (let i = 0; i < k.length; i++) {
-    themeAddColor(k[i], buttonId);
-  }
-  
-  // generate the number of values equal to the width of the item
-  let n = window.innerWidth - 272;
-  // let rampData = new Leo.Color({name: c, colorKeys: ['#000000'], colorspace: 'LAB'});
-  let rampData = Leo.createScale({swatches: 30, colorKeys: ['#000000'], colorspace: 'LAB'});
+  let rampData = Leo.createScale({swatches: 30, colorKeys: newColor.colorKeys, colorspace: newColor.colorspace});
+  let colors = rampData;
 
-  let colors = rampData.colorScale;
-
-  themeRamp(colors, gradientId);
+  themeRamp(colors, gradientSwatchId, '200');
   toggleControls();
   baseScaleOptions();
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
   // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
 
-  deleteColor.addEventListener('click', themeDeleteItem);
-  deleteColor.addEventListener('click', function(){ return _theme.removeColor = newColor});
-  
+  // deleteColor.addEventListener('click', );
+  deleteColor.addEventListener('click', function(e){ 
+    themeDeleteItem(e);
+    _theme.removeColor = newColor;
+  });
   // console.log(_theme)
 }
 
@@ -598,13 +427,34 @@ document.getElementById('themeNameInput').addEventListener('input', throttle(the
 // Update theme when base color selection is changed
 document.getElementById('themeBase').addEventListener('input', throttle(themeUpdateParams, 50));
 
-function themeRamp(colors, dest) {
+function themeRamp(colors, dest, angle) {
+  if(!angle) angle = '270';
+  angle = `${angle}deg`;
   let container = document.getElementById(dest);
   let gradient = document.createElement('div');
   gradient.className = 'gradient'
 
-  gradient.style.backgroundImage = `linear-gradient(to right, ${colors})`;
+  gradient.style.backgroundImage = `linear-gradient(${angle}, ${colors})`;
   container.appendChild(gradient)
+}
+
+function themeRampKeyColors(colorKeys, dest) {
+  let container = document.getElementById(dest);
+
+  colorKeys.map(key => {
+    let lightness = d3.hsluv(key).v;
+    let lightnessPerc = 100/lightness;
+    // Adjust offset based on same percentage of the 
+    // width of the dot, essentially framing the dot
+    // min/max positions within the ramp itself
+    let dotOffset = 32 / lightnessPerc;
+    let leftPosition = `calc(${Math.round(lightness)}% - ${Math.round(dotOffset)}px)`;
+    let dot = document.createElement('div');
+    dot.className = 'themeRampDot';
+    dot.style.backgroundColor = key;
+    dot.style.left = leftPosition;
+    container.appendChild(dot);
+  })
 }
 
 function themeSwatchRamp(colors, dest) {
@@ -622,10 +472,8 @@ function themeSwatchRamp(colors, dest) {
   container.appendChild(wrapper);
 }
 
-
 // Recreation of addColor function, specifying items needed for theme UI
-function themeAddColor(c, thisId = this.id) {
-  // let thisId = this.id;
+function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
   let parent = thisId.replace('_addKeyColor', '');
   let destId = parent.concat('_keyColors');
   let dest = document.getElementById(destId);
@@ -637,34 +485,118 @@ function themeAddColor(c, thisId = this.id) {
   let sw = document.createElement('input');
   sw.type = "color";
   sw.value = c;
-  sw.oninput = throttle(themeUpdateParams, 50);
+
+  let currentColor = _theme.colors.filter(entry => {return entry.name === currentColorName});
+  currentColor = currentColor[0];
+
+  sw.oninput = (e) => {
+    // Replace current indexed value from color keys with new value from color input field
+    let currentKeys = currentColor.colorKeys;
+    currentKeys.splice(index, 1, e.target.value)
+    _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
+
+    updateRamps(currentColor, parent)
+    updateColorDots();
+    // throttle(themeUpdateParams, 50)
+  };
 
   sw.className = 'keyColor-Item';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = c;
 
   let button = document.createElement('button');
-  button.className = 'spectrum-ActionButton';
+  button.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  button.addEventListener('click', deleteColor);
+  // button.addEventListener('click', deleteColor);
+  button.addEventListener('click',  function(e) {
+    // Remove current indexed value from color keys
+    let currentKeys = currentColor.colorKeys;
+    currentKeys.splice(index, 1)
+    _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
+
+    var id = e.target.parentNode.id;
+    // console.log(id)
+    var self = document.getElementById(id);
+    updateRamps(currentColor, parent)
+    updateColorDots();
+
+    self.remove();
+    // throttle(themeUpdateParams, 50)
+  });
+
   div.appendChild(sw);
   div.appendChild(button);
   dest.appendChild(div);
 }
 
-function themeAddColorUpdate(c, thisId = this.id) {
-  themeAddColor(c, thisId = this.id);
-  let config = getThemeData();
-  let name = getThemeName();
 
-  config = JSON.stringify(config);
+function addKeyColor(e) {
+  let thisId = e.target.id;
+  let parentId = thisId.replace('_addKeyColor', '');
 
-  // TODO: uncomment and get this working
-  // updateParams(name, config);
+  let currentColorNameInput = parentId.concat('_colorName2');
+  let currentColorName = document.getElementById(currentColorNameInput).value;
+
+  let currentColor = _theme.colors.filter(entry => {return entry.name === currentColorName});
+  currentColor = currentColor[0];
+  let currentKeys = [...currentColor.colorKeys];
+
+  let lastIndex = currentColor.colorKeys.length;
+  if(!lastIndex) lastIndex = 0;
+  let lastColor = (lastIndex > 0) ? d3.hsluv(currentColor.colorKeys[lastIndex - 1]) : d3.hsluv(currentColor.colorKeys[0]);
+  let lastColorLightness = lastColor.v;
+  let fCtintHalf = (100 - lastColorLightness) / 2;
+  let fCshadeHalf = lastColorLightness / 2;
+  let c = ( lastColorLightness >= 50) ? d3.hsluv(lastColor.l, lastColor.u, fCshadeHalf) :  d3.hsluv(lastColor.l, lastColor.u, fCtintHalf);
+  c = d3.rgb(c).formatHex();
+  // console.log(d3.rgb(lastColor).formatHex())
+  currentKeys.push(c)
+
+  // Update color class arguments via the theme class
+  _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
+  addKeyColorInput(c, thisId, currentColorName, lastIndex);
+
+  console.log(currentColor.colorKeys)
+  // Update gradient
+  updateRamps(currentColor, parentId);
+  updateColorDots();
+}
+
+function updateRamps(color, id) {
+  // Upate ramp in color detail view
+  let rampData = Leo.createScale({swatches: 30, colorKeys: color.colorKeys, colorspace: color.colorspace, smooth: color.smooth});
+  let colors = rampData;
+  let gradientId = id.concat('_gradient');
+  document.getElementById(gradientId).innerHTML = ' ';
+  themeRamp(colors, gradientId);
+  
+  // Create key color dots
+  themeRampKeyColors(color.colorKeys, gradientId);
+
+  // Update gradient swatch from panel view
+  let gradientSwatchId = id.concat('_gradientSwatch');
+  document.getElementById(gradientSwatchId).innerHTML = ' ';
+  themeRamp(colors, gradientSwatchId, '200');
+
+  createRGBchannelChart(rampData);
+
+  let chartsModeSelect = document.getElementById('chartsMode');
+  let chartsMode = chartsModeSelect.value;
+  createInterpolationCharts(rampData, chartsMode)
+}
+
+function updateColorDots() {
+  // Create dots for color wheel
+  let colorWheelModeDropdown = document.getElementById('colorWheelMode');
+  let colorWheelMode = colorWheelModeDropdown.value
+
+  let allKeys = getAllColorKeys();
+  let arr = getConvertedColorCoodrindates(allKeys, colorWheelMode);
+  createColorWheelDots(arr);
 }
 
 // Deletes a Color class from Theme
@@ -688,33 +620,15 @@ function themeDeleteItem(e) {
   }
 }
 
-function themeEditItem(e) {
-  let id = e.target.parentNode.parentNode.parentNode.id;
-  let thisElement = document.getElementById(id);
+// function themeEditColor(e) {
+//   let id = e.target.parentNode.parentNode.parentNode.id;
+//   let thisElement = document.getElementById(id);
 
-  let c = getColorItemData(id).colorArgs;
-  let b = 'ffffff'; // get generated background color...
-  let m = getColorItemData(id).mode;
-  let r = getColorItemData(id).ratios;
-
-  // take the configs and craft a URL for editing the palette
-  let location = window.location.origin;
-  let url = new URL(location);
-  let params = new URLSearchParams(url.search.slice(1));
-
-  params.set('colorKeys', c);
-  params.set('base', b);
-  params.set('ratios', r);
-  params.set('mode', m);
-
-  // window.history.replaceState({}, '', '?' + params); // update the page's URL.
-
-  // open new tab with url based on color scale's parameters
-  let newURL = location.toString().concat('/?').concat(params);
-  window.open(newURL, "_blank");
-
-  // Now how do we apply this *back* to the theme itself?...
-  // I don't think this is possible without some serious magic from a real engineer.
+//   let data = getColorItemClass(id)
+//   console.log(data)
+// }
+function themeEditColor(Color) {
+  console.log(Color)
 }
 
 // Create options for colors to use as base scale
@@ -739,7 +653,6 @@ function toggleControls() {
   let contrastSliderWrap = document.getElementById('contrastSliderWrapper');
   let contrastSlider = document.getElementById('themeContrastSlider');
   let themeBaseLabel = document.getElementById('themeBaseLabel');
-  let themeBaseDropdown = document.getElementById('themeBaseDropdown');
   let baseSelect = document.getElementById('themeBase');
 
   if(items.length > 0) {
@@ -747,7 +660,7 @@ function toggleControls() {
     brightnessSliderWrap.classList.remove('is-disabled');
     contrastSliderWrap.classList.remove('is-disabled');
     themeBaseLabel.classList.remove('is-disabled');
-    themeBaseDropdown.classList.remove('is-disabled');
+    baseSelect.classList.remove('is-disabled');
     brightnessSlider.disabled = false;
     contrastSlider.disabled = false;
     baseSelect.disabled = false;
@@ -757,7 +670,7 @@ function toggleControls() {
     brightnessSliderWrap.classList.add('is-disabled');
     contrastSliderWrap.classList.add('is-disabled');
     themeBaseLabel.classList.add('is-disabled');
-    themeBaseDropdown.classList.add('is-disabled');
+    baseSelect.classList.add('is-disabled');
     brightnessSlider.disabled = true;
     contrastSlider.disabled = true;
     baseSelect.disabled = true;
@@ -844,200 +757,123 @@ function cvdColors(colors) {
 
 var themeName = document.getElementById('themeName');
 
+// Theme input function should be reserved for theme-level outputs
+// such as displaying output colors, function parameters, and doc title
 window.themeInput = themeInput;
 function themeInput() {
   let inputThemeName = getThemeName();
   let themeName = (!inputThemeName) ? 'theme': inputThemeName;
   let items = document.getElementsByClassName('themeColor_item');
-  let colorScales = [];
+  // console.log(`Items are ${items.length}`)
+  // console.log(`Colors are ${_theme.colors.length}`)
   let themeOutputs = document.getElementById('themeOutputs');
   themeOutputs.innerHTML = ' ';
-  let themeConfigs = getThemeData();
 
   let paramsOutput = document.getElementById('themeParams');
 
-  // get all key colors and plot them on a color wheel?
   let allKeyColors = [];
-  let allRatios = [];
 
-  if (items.length == 0) {
-    // If no items, clear parameters and URL
-    themeConfigs.baseScale = undefined;
-    themeConfigs.colorScales = undefined;
-    themeConfigs.brightness = undefined;
-    themeConfigs.contrast = undefined;
-    clearParams();
+  let colorsArray = [];
+  let colorConfigsArray = [];
+  let colorNameArray = [];
+  let backgroundColor = "#ffffff";
+  let backgroundColorName = '#ffffff'
 
-    let emptyState = document.getElementById('themeColorEmptyState');
-    emptyState.classList.remove('is-hidden');
+  for (let i = 0; i < items.length; i++) {
+    let id = items[i].id;
 
-    paramsOutput.innerHTML = ' ';
+    let thisElement = document.getElementById(id);
+    let colorData = getColorItemClass(id);
+
+    let colorArgs = colorData.colorKeys;
+    let mode = colorData.colorspace;
+    let ratios = colorData.ratios;
+    let name = colorData.name;
+    let smooth = colorData.smooth;
+
+    allKeyColors.push(colorArgs);
+
+    let colorClass;
+    if(name === _theme.backgroundColor.name) {
+      let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
+      colorConfigsArray.push(`let ${name} = new BackgroundColor(${JSON.stringify(configs)});`);
+      colorClass = new Leo.BackgroundColor(configs);
+      colorNameArray.push(name);
+      backgroundColor = colorClass;
+      backgroundColorName = name;
+      colorsArray.push(colorClass);
+    } else {
+      let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
+      colorConfigsArray.push(`let ${name} = new Color(${JSON.stringify(configs)});`);
+      colorClass = new Leo.Color(configs);
+      colorNameArray.push(name);
+      colorsArray.push(colorClass);
+    }
+    let colors = Leo.createScale({swatches: 30, colorKeys: colorArgs, colorspace: mode, smooth: smooth});
+
+    colors = cvdColors(colors);
+
   }
-  // Create color scale objects
-  else if (items.length > 0) {
-    let colorsArray = [];
-    let colorConfigsArray = [];
-    let colorNameArray = [];
-    let backgroundColor = "#ffffff";
-    let backgroundColorName = '#ffffff'
 
-    for (let i = 0; i < items.length; i++) {
-      let id = items[i].id;
+  let theme = _theme.contrastColors;
+  
+  const themeBackgroundColor = theme[0].background;
+  const themeBackgroundColorArray = [d3.rgb(themeBackgroundColor).r, d3.rgb(themeBackgroundColor).g, d3.rgb(themeBackgroundColor).b]
+  const backgroundLum = d3.hsluv(themeBackgroundColor).v;
 
-      let thisElement = document.getElementById(id);
-      let colorData = getColorItemData(id);
-      let colorArgs = colorData.colorArgs;
-      let mode = colorData.mode;
-      let ratios = colorData.ratios;
-      let name = colorData.colorName;
-      let smooth = colorData.smooth;
+  // Loop again after generating theme.
+  for (let i = 0; i < items.length; i++) {
+    let id = items[i].id;
+    let thisElement = document.getElementById(id);
+    // let gradientId = id.concat('_gradient');
+    // let gradient = document.getElementById(gradientId);
+    let colorObjs = theme[i+1].values;
+    let arr = [];
 
-      allRatios.push(colorData.ratios);
-      allKeyColors.push(colorArgs);
-
-      let gradientId = id.concat('_gradient');
-      let gradient = document.getElementById(gradientId);
-      gradient.innerHTML = ' ';
-      let n = window.innerWidth - 272;
-
-      let colorClass;
-      if(name === themeConfigs.baseScale) {
-        let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
-        colorConfigsArray.push(`let ${name} = new BackgroundColor(${JSON.stringify(configs)});`);
-        colorClass = new Leo.BackgroundColor(configs);
-        colorNameArray.push(name);
-        backgroundColor = colorClass;
-        backgroundColorName = name;
-        colorsArray.push(colorClass);
-      } else {
-        let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
-        colorConfigsArray.push(`let ${name} = new Color(${JSON.stringify(configs)});`);
-        colorClass = new Leo.Color(configs);
-        colorNameArray.push(name);
-        colorsArray.push(colorClass);
-      }
-      let colors = Leo.createScale({swatches: 30, colorKeys: colorArgs, colorspace: mode, smooth: smooth});
-      // let colors = colorClass.colorScale;
-
-      colors = cvdColors(colors);
-
-      themeRamp(colors, gradientId);
+    for(let i = 0; i < colorObjs.length; i ++) {
+      arr.push(cvdColors(colorObjs[i].value));
     }
+    // themeSwatchRamp(arr, gradientId);
+  }
 
-    // if(colorsArray !== themeClass.colors) {
-    //   themeClass.colors = colorsArray;
-    // }
-    // if(backgroundColor !== themeClass.backgroundColor) {
-    //   themeClass.colors = colorsArray;
-    // }
-    // if(Number(themeConfigs.brightness) !== themeClass.lightness) {
-    //   themeClass.lightness = Number(themeConfigs.brightness);
-    // }
-    // if(Number(themeConfigs.contrast) !== themeClass.contrast) {
-    //   themeClass.contrast = Number(themeConfigs.contrast);
-    // }
+  let themeColorArray = [];
 
-    let themeClass = new Leo.Theme({
-      colors: colorsArray,
-      backgroundColor: backgroundColor,
-      lightness: Number(themeConfigs.brightness),
-      contrast: Number(themeConfigs.contrast)
-    });
+  let varPrefix = '--';
 
-    let theme = themeClass.contrastColors;
-    
-    const themeBackgroundColor = theme[0].background;
-    const themeBackgroundColorArray = [d3.rgb(themeBackgroundColor).r, d3.rgb(themeBackgroundColor).g, d3.rgb(themeBackgroundColor).b]
-    const backgroundLum = d3.hsluv(themeBackgroundColor).v;
-    // console.log(theme)
+  // Iterate each color from theme except 1st object (background)
+  for (let i=0; i<theme.length; i++) {
+    let wrapper = document.createElement('div');
 
-    // Loop again after generating theme.
-    for (let i = 0; i < items.length; i++) {
-      let id = items[i].id;
-      let thisElement = document.getElementById(id);
-      let gradientId = id.concat('_gradient');
-      let gradient = document.getElementById(gradientId);
-      let colorObjs = theme[i+1].values;
-      let arr = [];
+    let swatchWrapper = document.createElement('div');
+    swatchWrapper.className = 'themeOutputColor';
 
-      for(let i = 0; i < colorObjs.length; i ++) {
-        arr.push(cvdColors(colorObjs[i].value));
-      }
-      themeSwatchRamp(arr, gradientId);
-    }
+    // Iterate each color value
+    if (theme[i].values) {
+      let p = document.createElement('p');
+      p.className = 'spectrum-Detail spectrum-Detail--sizeS';
+      p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
+      p.innerHTML = theme[i].name;
 
-    let themeColorArray = [];
+      wrapper.appendChild(p);
 
-    let varPrefix = '--';
-
-    // Iterate each color from theme except 1st object (background)
-    for (let i=0; i<theme.length; i++) {
-      let wrapper = document.createElement('div');
-
-      let swatchWrapper = document.createElement('div');
-      swatchWrapper.className = 'themeOutputColor';
-
-      // Iterate each color value
-      if (theme[i].values) {
-        let p = document.createElement('p');
-        p.className = 'spectrum-Subheading';
-        p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-        p.innerHTML = theme[i].name;
-
-        wrapper.appendChild(p);
-
-        for(let j=0; j<theme[i].values.length; j++) { // for each value object
-          let key = theme[i].values[j].name; // output "name" of color
-          let prop = varPrefix.concat(key);
-          let originalValue = theme[i].values[j].value; // output value of color
-          // transform original color based on preview mode
-          let value = cvdColors(originalValue);
-
-          // get the ratio to print inside the swatch
-          let contrast = theme[i].values[j].contrast;
-          // console.log(originalValue, themeBackgroundColor)
-          let colorArray = [d3.rgb(originalValue).r, d3.rgb(originalValue).g, d3.rgb(originalValue).b]
-          let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
-          let contrastRounded = (Math.round(actualContrast * 100))/100;
-          let contrastText = document.createTextNode(contrastRounded);
-          let contrastTextSpan = document.createElement('span');
-          contrastTextSpan.className = 'themeOutputSwatch_contrast';
-          contrastTextSpan.appendChild(contrastText);
-          contrastTextSpan.style.color = (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
-
-          // create CSS property
-          document.documentElement.style
-            .setProperty(prop, value);
-          // create swatch
-          let div = document.createElement('div');
-          div.className = 'themeOutputSwatch';
-          // copy text should be for value of original color, not of preview color.
-          div.setAttribute('data-clipboard-text', originalValue);
-          div.setAttribute('tabindex', '0');
-          div.style.backgroundColor = value;
-          div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
-          div.appendChild(contrastTextSpan);
-
-          swatchWrapper.appendChild(div);
-          themeColorArray.push(originalValue);
-        }
-        wrapper.appendChild(swatchWrapper);
-      }
-      else if (theme[i].background) {
-        let p = document.createElement('p');
-        p.className = 'spectrum-Subheading';
-        p.innerHTML = 'Background';
-        p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-
-        wrapper.appendChild(p);
-
-        // grab background color data
-        let key = 'theme-background'; // "name" of color
+      for(let j=0; j<theme[i].values.length; j++) { // for each value object
+        let key = theme[i].values[j].name; // output "name" of color
         let prop = varPrefix.concat(key);
-        let originalValue = theme[i].background; // output value of color
-        // set global variable value. Probably shouldn't do it this way.
-        currentBackgroundColor = originalValue;
+        let originalValue = theme[i].values[j].value; // output value of color
+        // transform original color based on preview mode
         let value = cvdColors(originalValue);
+
+        // get the ratio to print inside the swatch
+        let contrast = theme[i].values[j].contrast;
+        // console.log(originalValue, themeBackgroundColor)
+        let colorArray = [d3.rgb(originalValue).r, d3.rgb(originalValue).g, d3.rgb(originalValue).b]
+        let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
+        let contrastRounded = (Math.round(actualContrast * 100))/100;
+        let contrastText = document.createTextNode(contrastRounded);
+        let contrastTextSpan = document.createElement('span');
+        contrastTextSpan.className = 'themeOutputSwatch_contrast';
+        contrastTextSpan.appendChild(contrastText);
+        contrastTextSpan.style.color = (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
 
         // create CSS property
         document.documentElement.style
@@ -1045,53 +881,91 @@ function themeInput() {
         // create swatch
         let div = document.createElement('div');
         div.className = 'themeOutputSwatch';
-        div.setAttribute('tabindex', '0');
+        // copy text should be for value of original color, not of preview color.
         div.setAttribute('data-clipboard-text', originalValue);
+        div.setAttribute('tabindex', '0');
         div.style.backgroundColor = value;
-        div.style.borderColor = (backgroundLum > 50) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
+        div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
+        div.appendChild(contrastTextSpan);
 
         swatchWrapper.appendChild(div);
-        wrapper.appendChild(swatchWrapper);
-
         themeColorArray.push(originalValue);
       }
-
-      themeOutputs.appendChild(wrapper);
+      wrapper.appendChild(swatchWrapper);
     }
-    // Run toggle to ensure proper visibility shown based on view mode
-    // toggleConfigs();
+    else if (theme[i].background) {
+      let p = document.createElement('p');
+      p.className = 'spectrum-Detail spectrum-Detail--sizeS';
+      p.innerHTML = 'Background color';
+      p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
 
-    let copyThemeColors = document.getElementById('copyThemeColors');
-    copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
+      wrapper.appendChild(p);
 
-    let paramOutputString = `${colorConfigsArray.join(`\n`)}
-    let ${themeName} = new Theme({
-      colors: [${colorNameArray}],
-      backgroundColor: ${backgroundColorName},
-      lightness: ${themeConfigs.brightness},
-      contrast: ${themeConfigs.contrast}
-    });`;
-    const highlightedCode = hljs.highlight(paramOutputString, {language: 'javascript'}).value
-    paramsOutput.innerHTML = highlightedCode;
+      // grab background color data
+      let key = 'theme-background'; // "name" of color
+      let prop = varPrefix.concat(key);
+      let originalValue = theme[i].background; // output value of color
+      // set global variable value. Probably shouldn't do it this way.
+      currentBackgroundColor = originalValue;
+      let value = cvdColors(originalValue);
 
-    // TODO: Need to merge the allRatios array into a single array of unique values.
-    // Although currently it will merely be a duplication of the same array of ratios,
-    // which is why this solution is sufficient for the time being.
-    let chartRatios = allRatios[0].map(ratio => {
-      return Number(ratio);
-    });
+      // create CSS property
+      document.documentElement.style
+        .setProperty(prop, value);
+      // create swatch
+      let div = document.createElement('div');
+      div.className = 'themeOutputSwatch';
+      div.setAttribute('tabindex', '0');
+      div.setAttribute('data-clipboard-text', originalValue);
+      div.style.backgroundColor = value;
+      div.style.borderColor = (backgroundLum > 50) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
 
-    // charts2d.createContrastRatioChart(chartRatios);
-    createRatioChart(chartRatios);
+      swatchWrapper.appendChild(div);
+      wrapper.appendChild(swatchWrapper);
 
-    // Create dots for color wheel
-    let allKeyColorsMerged = [].concat.apply([], allKeyColors);
-    let colorWheelModeDropdown = document.getElementById('colorWheelMode');
-    let colorWheelMode = colorWheelModeDropdown.value
-    let arr = getConvertedColorCoodrindates(allKeyColorsMerged, colorWheelMode);
-    createColorWheelDots(arr);
-    console.log(arr)
+      themeColorArray.push(originalValue);
+    }
+
+    themeOutputs.appendChild(wrapper);
   }
+  // Run toggle to ensure proper visibility shown based on view mode
+  // toggleConfigs();
+
+  let copyThemeColors = document.getElementById('copyThemeColors');
+  copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
+
+  let paramOutputString = `${colorConfigsArray.join(`\n`)}
+  let ${themeName} = new Theme({
+    colors: [${colorNameArray}],
+    backgroundColor: ${backgroundColorName},
+    lightness: ${_theme.brightness},
+    contrast: ${_theme.contrast}
+  });`;
+  const highlightedCode = hljs.highlight(paramOutputString, {language: 'javascript'}).value
+  paramsOutput.innerHTML = highlightedCode;
+
+
+  let chartRatios = getContrastRatios();
+  createRatioChart(chartRatios);
+
+  // Create dots for color wheel
+  // let allKeyColorsMerged = [].concat.apply([], allKeyColors);
+  let colorWheelModeDropdown = document.getElementById('colorWheelMode');
+  let colorWheelMode = colorWheelModeDropdown.value
+
+  let allKeys = getAllColorKeys();
+  let arr = getConvertedColorCoodrindates(allKeys, colorWheelMode);
+  createColorWheelDots(arr);
+
+  // console.log(arr)
+  // }
+}
+
+
+// Temporary for debugging
+window.getTheme = getTheme;
+function getTheme(param) {
+  return _theme[`${param}`];
 }
 
 function createRatioChart(chartRatios) {
@@ -1115,13 +989,168 @@ function createRatioChart(chartRatios) {
   charts.createChart(dataContrast, 'Contrast ratio', 'Swatches (sorted)', "#contrastChart", yMin, yMax, true);
 }
 
+
+function createRGBchannelChart(colors) {
+  let dest = document.getElementById('RGBchart');
+  dest.innerHTML = ' ';
+  colors = [...colors];
+  colors.push('#000000');
+
+  // Create chart headers
+  let RGBheader = document.createElement('h5');
+  RGBheader.className = 'spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS';
+  RGBheader.innerHTML = "RGB channels";
+  dest.appendChild(RGBheader);
+
+  const fillRange = (start, end) => {
+    return Array(end - start + 1).fill().map((item, index) => start + index);
+  };
+  let dataX = fillRange(1, colors.length);
+  let sortedDataX = dataX.sort((a, b) => b-a);
+
+  let data = [
+    {
+      x: sortedDataX,
+      y: colors.map(function(d) {return d3.rgb(d).r;}) 
+    },
+    {
+      x: sortedDataX,
+      y: colors.map(function(d) {return d3.rgb(d).g;}) 
+    },
+    {
+      x: sortedDataX,
+      y: colors.map(function(d) {return d3.rgb(d).b;}) 
+    }
+  ];
+
+  charts.createChart(data, ' ', ' ', "#RGBchart", 0, 255);
+}
+
+function createInterpolationCharts(colors, mode) {
+  let dest = document.getElementById('interpolationChart');
+  dest.innerHTML = ' ';
+  let dest2 = document.getElementById('interpolationChart2');
+  dest2.innerHTML = ' ';
+
+  // Identify mode channels
+  let c1, c2, c3, func, yMin, yMax, c1Label, c2Label, yLabel;
+  if(mode === 'RGB') {
+    func = 'hsl';
+    c1 = 'h';
+    c1Label = `Hue (HSL - H)`;
+    c2 = 's';
+    c2Label = `Saturation (HSL - S)`;
+    // c3 = 'l';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'LAB') {
+    func = 'lab';
+    c1 = 'a';
+    c1Label = `Redness / Greenness (${mode} - A)`;
+    c2 = 'b';
+    c2Label = `Blueness / Yellowness (${mode} - B)`;
+    // c3 = 'l';
+  }
+  if(mode === 'LCH') {
+    func = 'lch';
+    c1 = 'h';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 'c';
+    c2Label = `Chroma (${mode} - C)`;
+    // c3 = 'l';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'CAM02') {
+    func = 'jab';
+    c1 = 'a';
+    c1Label = `Redness / Greenness (${mode} - A)`;
+    c2 = 'b';
+    c2Label = `Blueness / Yellowness (${mode} - B)`;
+    // c3 = 'J';
+  }
+  if(mode === 'CAM02p') {
+    func = 'jch';
+    c1 = 'h';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 'c';
+    c2Label = `Chroma (${mode} - C)`;
+    // c3 = 'J';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'HSL') {
+    func = 'hsl';
+    c1 = 'h';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 's';
+    c2Label = `Saturation (${mode} - S)`;
+    // c3 = 'l';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'HSLuv') {
+    func = 'hsluv';
+    c1 = 'l';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 'u';
+    c2Label = `Saturation (${mode} - S)`;
+    // c3 = 'v';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'HSV') {
+    func = 'hsv';
+    c1 = 'h';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 's';
+    c2Label = `Saturation (${mode} - S)`;
+    // c3 = 'v';
+    yMin = 0;
+    yMax = 360;
+  }
+  // Create chart header
+  let InterpolationHeader = document.createElement('h5');
+  InterpolationHeader.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+  InterpolationHeader.innerHTML = `${c1Label}`;
+  dest.appendChild(InterpolationHeader);
+  let InterpolationHeader2 = document.createElement('h5');
+  InterpolationHeader2.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+  InterpolationHeader2.innerHTML = `${c2Label}`;
+  dest2.appendChild(InterpolationHeader2);
+
+  const fillRange = (start, end) => {
+    return Array(end - start).fill().map((item, index) => start + index);
+  };
+  let dataX = fillRange(1, colors.length);
+  let sortedDataX = dataX.sort((a, b) => b-a);
+
+  let dataA = [
+    {
+      x: sortedDataX,
+      y: colors.map(function(d) {return filterNaN(d3[func](d)[c1]);}) 
+    }
+  ];
+  let dataB = [
+    {
+      x: sortedDataX,
+      y: colors.map(function(d) {return filterNaN(d3[func](d)[c2]);}) 
+    }
+  ];
+  
+  charts.createChart(dataA, ' ', ' ', "#interpolationChart", yMin, yMax);
+  charts.createChart(dataB, ' ', ' ', "#interpolationChart2", yMin, yMax);
+}
+
+
 window.themeUpdateParams = themeUpdateParams;
 function themeUpdateParams() {
   themeInput();
-  let config = getThemeData();
-  let name = getThemeName();
+  // let config = getThemeData();
+  // let name = getThemeName();
 
-  config = JSON.stringify(config);
+  // config = JSON.stringify(config);
 
   // TODO: uncomment and get this working
   // updateParams(name, config);
@@ -1211,7 +1240,7 @@ window.bulkItemColorInput = function bulkItemColorInput(e) {
 
   // add key colors for each input
   for(let i=0; i<bulkValues.length; i++) {
-    themeAddColor(d3.color(bulkValues[i]).formatHex(), itemId);
+    addKeyColorInput(d3.color(bulkValues[i]).formatHex(), itemId);
   }
   // if (isSwatch) {
   //   // create ratio inputs for each contrast
@@ -1412,50 +1441,29 @@ function clearParams() {
 /////////////////////////////////////
 
 // GET Color Scale Data
-function getColorItemData(id) {
+function getColorItemClass(id) {
   let thisElement = document.getElementById(id);
-  // 1. find color name
+  // 1. find color name from id
   let colorNameInput = id.concat('_colorName');
   let colorName = document.getElementById(colorNameInput).value;
-  // 2. find all key colors
-  let colorKeys = thisElement.getElementsByClassName('keyColor-Item');
-  let inputColors = [];
-  let tempArgs = [];
-  for(let i=0; i<colorKeys.length; i++) {
-    inputColors.push(colorKeys[i].value);
-  }
-  // Convert input value into a split array of hex values.
-  // remove any whitespace from inputColors
-  tempArgs.push(inputColors);
-  let colorArgs = tempArgs.join("").split(',').filter(String);
 
-  // 3. find mode
-  let modeId = id.concat('_mode');
-  let modeSelect = document.getElementById(modeId);
-  let mode = modeSelect.value;
+  // 2. Scrape information from the color class of the same name
+  let currentColor = _theme.colors.filter(color => {return color.name === colorName})
+  currentColor = currentColor[0];
 
-  // 4. Find smoothing
-  let smoothId = id.concat('_smooth');
-  let smoothSwitch = document.getElementById(smoothId);
-  let smooth = smoothSwitch.checked;
+  // let colorArgs = currentColor.colorKeys;
+  // let mode = currentColor.colorspace;
+  // let smooth = currentColor.smooth;
+  // let ratios = currentColor.ratios;
 
-  // 4. find ratios
-  // let ratiosId = id.concat('_ratios');
-  // let ratiosInput = document.getElementById(ratiosId);
-  // let rVals = ratiosInput.value;
-  // let r = new Array(rVals);
-  // let rSplit = r.join("").split(',');
-  // let ratios = rSplit.map(x => parseFloat(x));
-  let ratios = getContrastRatios();
-  // TODO: remove all values of NaN
-
-  return {
-    colorName: colorName,
-    colorArgs: colorArgs,
-    mode: mode,
-    smooth: smooth,
-    ratios: ratios
-  }
+  // return {
+  //   colorName: colorName,
+  //   colorArgs: colorArgs,
+  //   mode: mode,
+  //   smooth: smooth,
+  //   ratios: ratios
+  // }
+  return currentColor;
 }
 
 // GET all contrast ratios
@@ -1479,36 +1487,42 @@ function getThemeName() {
 // GET Theme Data
 function getThemeData() {
   // Get base scale
-  let baseSelect = document.getElementById('themeBase');
-  let baseSelectValue = baseSelect.value;
+  // let baseSelect = document.getElementById('themeBase');
+  // let baseSelectValue = baseSelect.value;
 
-  // Get brightness
-  let brightnessSlider = document.getElementById('themeBrightnessSlider');
-  let brightness = brightnessSlider.value;
+  // // Get brightness
+  // let brightnessSlider = document.getElementById('themeBrightnessSlider');
+  // let brightness = brightnessSlider.value;
 
-  // Get contrast
-  let contrastSlider = document.getElementById('themeContrastSlider');
-  let contrast = contrastSlider.value;
+  // // Get contrast
+  // let contrastSlider = document.getElementById('themeContrastSlider');
+  // let contrast = contrastSlider.value;
 
-  // For each item
-  let items = document.getElementsByClassName('themeColor_item');
-  let colorScales = [];
+  // // For each item
+  // let items = document.getElementsByClassName('themeColor_item');
+  // let colorScales = [];
 
-  for (let i = 0; i < items.length; i++) {
-    let id = items[i].id;
-    let thisElement = document.getElementById(id);
+  // for (let i = 0; i < items.length; i++) {
+  //   let id = items[i].id;
+  //   let thisElement = document.getElementById(id);
 
-    let colorData = getColorItemData(id);
+  //   let colorData = getColorItemClass(id);
 
-    let colorObj = {
-      name: colorData.colorName,
-      colorKeys: colorData.colorArgs,
-      colorspace: colorData.mode,
-      ratios: colorData.ratios
-    };
+  //   let colorObj = {
+  //     name: colorData.name,
+  //     colorKeys: colorData.colorKeys,
+  //     colorspace: colorData.colorspace,
+  //     ratios: colorData.ratios
+  //   };
 
-    colorScales.push(colorObj);
-  }
+  //   colorScales.push(colorObj);
+  // }
+
+  // UPDATED to pull data from theme object
+  let baseSelectValue = _theme.backgroundColor.name;
+  let colorScales = _theme.colors;
+  let brightness = _theme.lightness;
+  let contrast = _theme.contrast;
 
   return {
     baseScale: baseSelectValue,
@@ -1611,7 +1625,7 @@ window.openPanelTab = function openPanelTab(evt, tabName) {
   document.getElementById(tabName).style.display = "flex";
   evt.currentTarget.className += " is-selected";
 }
-document.getElementById("tabThemeConfigs").click();
+document.getElementById("tabPanelColorScales").click();
 
 window.openTab = function openTab(evt, tabName) {
   // Declare all variables
@@ -1635,6 +1649,106 @@ window.openTab = function openTab(evt, tabName) {
 }
 document.getElementById("tabOutput").click();
 
+window.openDetailTab = function openDetailTab(evt, tabName, colors) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+    let thisId = evt.target.id;
+    if(!tabName) tabName = thisId.concat('Content')
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabDetailContent");
+    for (let i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+    // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+    tablinks = document.getElementsByClassName("detail-Tabs-item");
+    for (let i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tabName).style.display = "flex";
+    evt.currentTarget.className += " is-selected";
+
+    if(tabName === 'tabModelContent') {
+      // chartData.createData(colors);
+      // charts.init3dChart()
+    };
+}
+
+window.openAppTab = function openAppTab(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("AppTab");
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+  tablinks = document.getElementsByClassName("app-Tabs-item");
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "grid";
+  evt.currentTarget.className += " is-selected";
+}
+document.getElementById("tabHome").click();
+
+// Add event listener so that homepage CTA button initaites themes tab
+document.getElementById('homeCTA').addEventListener('click', function() {
+  document.getElementById('tabTheme').click();
+})
+
+window.openSideNavItem = function openSideNavItem(evt, contentName) {
+  // Declare all variables
+  var i, sidenavcontent, sidenavlinks;
+
+  // Get all elements with class="sideNavContent" and hide them
+  sidenavcontent = document.getElementsByClassName("sideNavContent");
+  for (let i = 0; i < sidenavcontent.length; i++) {
+    sidenavcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="spectrum-SideNav-item" and remove the class "is-selected"
+  sidenavlinks = document.getElementsByClassName("spectrum-SideNav-item");
+  for (let i = 0; i < sidenavlinks.length; i++) {
+    sidenavlinks[i].className = sidenavlinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(contentName).style.display = "flex";
+  evt.currentTarget.parentNode.className += " is-selected";
+}
+document.getElementById("welcome").click();
+
+
+window.openColorTab = function openColorTab(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("colorTabsWrapper");
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+  tablinks = document.getElementsByClassName("color-Tabs-item");
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "flex";
+  evt.currentTarget.className += " is-selected";
+}
+document.getElementById("tabColorWheel").click();
+
 
 // When adding new ratios in UI, run colorinput as well
 window.addNewRatio = function addNewRatio() {
@@ -1647,8 +1761,9 @@ function addRatio(v, fs, fw) {
   let s = '#cacaca';
   let methodPicker = document.getElementById('contrastMethod');
   let method = methodPicker.value;
+  let ratioInputs = getContrastRatios();
   // increment by default
-  if(v == undefined) {
+  if(v === undefined) {
     // find highest value
     var hi = Math.max(...ratioInputs);
     var lo = Math.min(...ratioInputs);
@@ -1676,7 +1791,9 @@ function addRatio(v, fs, fw) {
   sw.id = randId + '-sw';
   sw.style.backgroundColor = s;
   var ratioInput = document.createElement('input');
-  ratioInput.className = 'spectrum-Textfield ratio-Field ratioGrid--ratio';
+  let ratioInputWrapper = document.createElement('div');
+  ratioInputWrapper.className = 'spectrum-Textfield ratioGrid--ratio';
+  ratioInput.className = 'spectrum-Textfield-input ratio-Field';
   ratioInput.type = "number";
   ratioInput.min = (method === 'APCA') ? APCAminValue : '-10';
   ratioInput.max = (method === 'APCA') ? APCAmaxValue : '21';
@@ -1710,7 +1827,10 @@ function addRatio(v, fs, fw) {
   // // fontWeightInput.defaultValue = '400';
 
   var luminosityInput = document.createElement('input');
-  luminosityInput.className = 'spectrum-Textfield ratioGrid--luminosity';
+  let luminosityInputWrapper = document.createElement('div');
+  luminosityInputWrapper.className = 'spectrum-Textfield ratioGrid--luminosity';
+
+  luminosityInput.className = 'spectrum-Textfield-input';
   luminosityInput.type = "number";
   luminosityInput.min = '0';
   luminosityInput.max = '100';
@@ -1719,7 +1839,7 @@ function addRatio(v, fs, fw) {
   luminosityInput.oninput = syncRatioInputs;
 
   var button = document.createElement('button');
-  button.className = 'spectrum-ActionButton spectrum-ActionButton--quiet ratioGrid--actions';
+  button.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet ratioGrid--actions';
   button.title = 'Delete contrast ratio';
   button.innerHTML = `
   <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
@@ -1738,15 +1858,18 @@ function addRatio(v, fs, fw) {
 
   button.onclick = deleteRatio;
   inputWrapper.appendChild(sw);
-  inputWrapper.appendChild(ratioInput);
+  ratioInputWrapper.appendChild(ratioInput);
+  inputWrapper.appendChild(ratioInputWrapper);
   // div.appendChild(fontSizeInput);
   // div.appendChild(fontWeightInput);
-  div.appendChild(luminosityInput);
+  luminosityInputWrapper.appendChild(luminosityInput);
+  div.appendChild(luminosityInputWrapper);
   div.appendChild(inputWrapper)
   div.appendChild(button);
   ratios.appendChild(div);
 
   // charts2d.createContrastRatioChart(data, 'contrastChart', 'line');
+  themeInput();
 }
 
 function addRatios(ratios) {
@@ -1855,7 +1978,6 @@ function syncRatioInputs(e) {
     luminosityInput.val = 100;
     targetContrast = val;
   }
-
   // Then, run the colorinput funtion to update all values.
   // colorInput();
   themeInput();
@@ -1911,25 +2033,418 @@ function deleteRatio(e) {
 }
 
 // Collapse / expand color scale cards
-function toggleCardConfigs(e) {
+// function showColorDetails(e) {
+//   let element = e.target.id;
+//   let button = document.getElementById(element);
+//   let svgs = button.getElementsByTagName('svg');
+
+//   let id = element.replace('-toggleConfig', '');
+//   let configs = document.getElementById(`${id}-themeColor_configs`);
+
+//   if(!configs.classList.contains('is-hidden')) {
+//     for (let svg of svgs) {
+//       svg.style.transform = 'rotate(0deg)';
+//     }
+//     configs.classList.add('is-hidden');
+//   } else {
+//     for (let svg of svgs) {
+//       svg.style.transform = 'rotate(-90deg)';
+//     }
+//     configs.classList.remove('is-hidden');
+//   }
+// }
+function showColorDetails(e) {
   let element = e.target.id;
   let button = document.getElementById(element);
-  let svgs = button.getElementsByTagName('svg');
-
   let id = element.replace('-toggleConfig', '');
-  let configs = document.getElementById(`${id}-themeColor_configs`);
 
-  if(!configs.classList.contains('is-hidden')) {
-    for (let svg of svgs) {
-      svg.style.transform = 'rotate(0deg)';
-    }
-    configs.classList.add('is-hidden');
-  } else {
-    for (let svg of svgs) {
-      svg.style.transform = 'rotate(-90deg)';
-    }
-    configs.classList.remove('is-hidden');
+  let colorData = getColorItemClass(id);
+
+  // Clear main container
+  let contentArea = document.getElementById('colorDetails');
+  // contentArea.innerHTML = ' ';
+  contentArea.style.display = 'flex';
+  // Clear config panel, just to be safe
+  let configPanel = document.getElementById('colorConfigPanel');
+  configPanel.innerHTML = ' ';
+  configPanel.style.display = 'flex';
+
+  let configPanelItem = document.createElement('div');
+  configPanelItem.className = 'spectrum-Panel-Item';
+
+  // create unique ID for color object
+  let thisId = id;
+  // generate color input objects:
+  // gradient, inputs, etc.
+  let wrapper = contentArea;
+
+  // Create back button
+  let panelHeader = document.createElement('div');
+  panelHeader.className = 'spectrum-Panel-Item';
+  let backButton = document.createElement('button');
+  backButton.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
+  backButton.title = 'Back to all colors'
+  backButton.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+    <use xlink:href="#spectrum-icon-18-ChevronLeft" />
+  </svg>
+  `;
+  backButton.onclick = () => {
+    contentArea.innerHTML = ' ';
+    contentArea.style.display = 'none';
+    configPanel.innerHTML = ' ';
+    configPanel.style.display = 'none';
+    // themeUpdateParams()
   }
+  let backLabel = document.createElement('span')
+  backLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
+  backLabel.innerHTML = 'Back to all colors';
+
+  panelHeader.appendChild(backButton);
+  panelHeader.appendChild(backLabel);
+
+  // Create gradient
+  let gradient = document.createElement('div');
+  gradient.className = 'themeColor_gradient';
+  let gradientId = thisId.concat('_gradient');
+  gradient.id = gradientId;
+
+  // Create form container
+  let inputs = document.createElement('div');
+  inputs.className = `spectrum-Form spectrum-Form--row themeColor_configs`;
+  inputs.id = `${thisId}-themeColor_configs`
+
+  // Field label
+  let colorNameLabel = document.createElement('label');
+  colorNameLabel.className = 'spectrum-Fieldlabel spectrum-Fieldlabel--sizeM';
+  colorNameLabel.innerHTML = 'Color name'
+  // Color Name Input
+  let colorName = document.createElement('div');
+  colorName.className = 'spectrum-Form-item';
+  let colorNameInput = document.createElement('input');
+  let colorNameWrapper = document.createElement('div');
+  colorNameWrapper.className = 'spectrum-Textfield spectrum-Textfield--sizeM';
+  colorNameInput.type = 'text';
+  colorNameInput.className = 'spectrum-Textfield-input colorNameInput';
+  colorNameInput.id = thisId.concat('_colorName2');
+  colorNameInput.name = thisId.concat('_colorName2');
+  colorNameInput.value = colorData.name;
+
+  // colorNameInput.oninput = throttle(themeUpdateParams, 10);
+  colorNameInput.oninput = () => {
+    let paletteNameInput = document.getElementById(thisId.concat('_colorName'));
+    paletteNameInput.value = e.target.value;
+    // _theme.updateColor = {color: currentColor, name: e.target.value}
+  };
+
+  // colorNameLabel.innerHTML = 'Color scale name';
+  // colorName.appendChild(colorNameLabel);
+  colorNameWrapper.appendChild(colorNameInput);
+  colorName.appendChild(colorNameLabel);
+  colorName.appendChild(colorNameWrapper);
+
+  // Key Color Input
+  let keyColors = document.createElement('div');
+  keyColors.className = 'themeColor_subheading';
+  let keyColorsLabel = document.createElement('h4');
+  keyColorsLabel.className = 'spectrum-Heading6';
+  keyColorsLabel.for = thisId.concat('_keyColors');
+
+  let keyColorsInput = document.createElement('div');
+  keyColorsInput.className = 'keyColorsWrapper';
+  let keyColorsId = thisId.concat('_keyColors');
+  keyColorsInput.id = keyColorsId;
+  keyColorsLabel.innerHTML = 'Key colors';
+  keyColors.appendChild(keyColorsLabel);
+
+  // Key Colors Actions
+  let addColors = document.createElement('div');
+  addColors.className = 'keyColorActions';
+  let addButton = document.createElement('button');
+  addButton.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
+  let buttonId = thisId.concat('_addKeyColor');
+  addButton.id = buttonId;
+  addButton.title = "Add key color"
+  addButton.addEventListener('click', addKeyColor);
+  addButton.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+    <use xlink:href="#spectrum-icon-18-Add" />
+  </svg>
+  `;
+  let bulkButton = document.createElement('button');
+  bulkButton.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
+  let bulkId = thisId.concat('_addBulk');
+  bulkButton.title = "Add bulk key colors"
+  bulkButton.id = bulkId;
+  bulkButton.addEventListener('click', addBulk);
+  bulkButton.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+    <use xlink:href="#spectrum-icon-18-BoxAdd" />
+  </svg>
+  `;
+  let clearKeyColorsButton = document.createElement('button');
+  clearKeyColorsButton.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
+  let clearColorsId = thisId.concat('_clearAllColors');
+  clearKeyColorsButton.title = "Clear all key colors"
+  clearKeyColorsButton.id = clearColorsId;
+  clearKeyColorsButton.addEventListener('click', clearAllColors);
+  clearKeyColorsButton.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+    <use xlink:href="#spectrum-icon-18-CloseCircle" />
+  </svg>
+  `;
+
+  addColors.appendChild(clearKeyColorsButton);
+
+  addColors.appendChild(addButton);
+  addColors.appendChild(bulkButton);
+  keyColors.appendChild(addColors);
+
+  // Interpolation mode
+  let interp = document.createElement('div');
+  interp.className = 'spectrum-Form-item spectrum-Form-item--row';
+  let interpLabel = document.createElement('label');
+  interpLabel.className = 'spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left';
+  interpLabel.for = thisId.concat('_mode');
+  let interpLabelText = 'Color space';
+  // let interpDropdown = document.createElement('div');
+  // interpDropdown.className = 'spectrum-Picker spectrum-Picker--sizeM';
+  // interpDropdown.id = thisId.concat('_modeDropdown');
+  let interpSelect = document.createElement('select');
+  interpSelect.className = 'spectrum-Picker spectrum-Picker--sizeM pickerMode';
+  interpSelect.id = thisId.concat('_mode');
+  interpSelect.name = thisId.concat('_mode');
+  interpSelect.oninput = throttle(themeUpdateParams, 20);
+  interpSelect.addEventListener('change', (e) => {
+    _theme.updateColor = {color: colorData.name, colorspace: e.target.value}
+    updateRamps(colorData, thisId)
+  })
+
+  let interpDropdownIcon = document.createElement('span');
+  interpDropdownIcon.className = 'spectrum-Picker-iconWrapper';
+  interpDropdownIcon.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+  </svg>`;
+
+  interpLabel.innerHTML = interpLabelText;
+  // interpDropdown.appendChild(interpSelect);
+  interpSelect.appendChild(interpDropdownIcon);
+  interp.appendChild(interpLabel);
+  interp.appendChild(interpSelect);
+
+  // Interpolation options
+  interpSelect.options.length = 0;
+
+  let opts = {
+    'CAM02': 'Jab',
+    'CAM02p': 'JCh',
+    'LCH': 'Lch',
+    'LAB': 'Lab',
+    'HSL': 'HSL',
+    'HSLuv': 'HSLuv',
+    'HSV': 'HSV',
+    'RGB': 'RGB'
+  };
+
+  for(let index in opts) { interpSelect.options[interpSelect.options.length] = new Option(opts[index], index); }
+  interpSelect.value = colorData.colorspace;
+
+  // Smoothing
+  let smoothFormItem = document.createElement('div');
+  smoothFormItem.className = 'spectrum-Form-item';
+  let smoothWrapper = document.createElement('div');
+  smoothWrapper.className = 'spectrum-Switch';
+  let smoothInput = document.createElement('input');
+  smoothInput.type = 'checkbox';
+  smoothInput.className = 'spectrum-Switch-input';
+  smoothInput.id = thisId.concat('_smooth');
+  // smoothInput.oninput = throttle(themeUpdateParams, 20);
+  smoothInput.addEventListener('input', (e) => {
+    let checked = e.target.checked;
+    const boolean = checked.toString();
+    _theme.updateColor = {color: colorData.name, smooth: boolean}
+    updateRamps(colorData, thisId)
+  })
+  let smoothSwitch = document.createElement('span');
+  smoothSwitch.className = 'spectrum-Switch-switch';
+  let smoothLabel = document.createElement('label');
+  smoothLabel.className = 'spectrum-Switch-label';
+  smoothLabel.htmlFor = thisId.concat('_smooth');
+  smoothLabel.innerHTML = 'Smooth';
+  smoothWrapper.appendChild(smoothInput);
+  smoothWrapper.appendChild(smoothSwitch);
+  smoothWrapper.appendChild(smoothLabel);
+  smoothFormItem.appendChild(smoothWrapper);
+
+  // Actions
+  let actions = document.createElement('div');
+  actions.className = 'spectrum-ButtonGroup';
+  let deleteColor = document.createElement('button');
+  deleteColor.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--warning';
+  deleteColor.title = 'Delete color scale'
+  deleteColor.id = thisId.concat('_delete');
+  deleteColor.innerHTML = 'Delete color scale'
+  let deletePanel = document.createElement('div');
+  deletePanel.className = 'spectrum-Panel-Item';
+  // deleteColor.innerHTML = `
+  // <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
+  // <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+  //   <use xlink:href="#spectrum-icon-18-Delete" />
+  // </svg>`;
+  deletePanel.appendChild(deleteColor);
+
+  colorName.appendChild(actions);
+
+  // Title
+  let title = document.createElement('h2');
+  title.className = 'spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS'
+  title.innerHTML = 'Color scale'
+
+  // Tabs
+  let tabs = document.createElement('div');
+  tabs.className = 'spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet';
+  let tabItem1 = document.createElement('div');
+  tabItem1.className = 'spectrum-Tabs-item detail-Tabs-item';
+  tabItem1.id = 'tabInterpCharts';
+  let tabItem1Label = document.createElement('label');
+  tabItem1Label.className = 'spectrum-Tabs-itemLabel';
+  tabItem1Label.innerHTML = 'Charts';
+
+  let tabItem2 = document.createElement('div');
+  tabItem2.className = 'spectrum-Tabs-item detail-Tabs-item';
+  tabItem2.id = 'tabRGBChannels';
+  let tabItem2Label = document.createElement('label');
+  tabItem2Label.className = 'spectrum-Tabs-itemLabel';
+  tabItem2Label.innerHTML = 'RGB Channels';
+
+  let tabItem3 = document.createElement('div');
+  tabItem3.className = 'spectrum-Tabs-item detail-Tabs-item';
+  tabItem3.id = 'tabModel';
+  let tabItem3Label = document.createElement('label');
+  tabItem3Label.className = 'spectrum-Tabs-itemLabel';
+  tabItem3Label.innerHTML = '3d model';
+
+  let tabContent1 = document.createElement('div');
+  tabContent1.id = 'tabInterpChartsContent';
+  tabContent1.className = 'tabDetailContent';
+
+  let tabContent2 = document.createElement('div');
+  tabContent2.id = 'tabRGBChannelsContent';
+  tabContent2.className = 'tabDetailContent';
+
+  let tabContent3 = document.createElement('div');
+  tabContent3.id = 'tabModelContent';
+  tabContent3.className = 'tabDetailContent';
+
+  // Chart colorspace preview picker
+  let chartsMode = document.createElement('div');
+  chartsMode.className = 'spectrum-Form-item spectrum-Form-item--row';
+  let chartsModeLabel = document.createElement('label');
+  chartsModeLabel.className = 'spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left';
+  chartsModeLabel.for = 'chartsMode';
+  let chartsModeLabelText = 'Charts mode';
+  let chartsModeSelect = document.createElement('select');
+  chartsModeSelect.className = 'spectrum-Picker spectrum-Picker--sizeM pickerMode';
+  chartsModeSelect.id = 'chartsMode';
+  chartsModeSelect.name = 'chartsMode';
+  // chartsModeSelect.oninput = throttle(themeUpdateParams, 20);
+  chartsModeSelect.addEventListener('change', (e) => {
+    createInterpolationCharts(colors, e.target.value)
+  })
+
+  let chartsModeDropdownIcon = document.createElement('span');
+  chartsModeDropdownIcon.className = 'spectrum-Picker-iconWrapper';
+  chartsModeDropdownIcon.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+  </svg>`;
+
+  chartsModeLabel.innerHTML = chartsModeLabelText;
+  // chartsModeDropdown.appendChild(chartsModeSelect);
+  chartsModeSelect.appendChild(chartsModeDropdownIcon);
+  chartsMode.appendChild(chartsModeLabel);
+  chartsMode.appendChild(chartsModeSelect);
+
+  // Interpolation options
+  chartsModeSelect.options.length = 0;
+
+  for(let index in opts) { chartsModeSelect.options[chartsModeSelect.options.length] = new Option(opts[index], index); }
+  chartsModeSelect.value = 'CAM02';
+
+
+  // Put the tabs together
+  tabItem1.appendChild(tabItem1Label);
+  tabItem2.appendChild(tabItem2Label);
+  tabItem3.appendChild(tabItem3Label);
+  tabs.appendChild(tabItem1);
+  tabs.appendChild(tabItem2);
+  tabs.appendChild(tabItem3);
+  tabs.appendChild(chartsMode);
+
+  // Put it all together
+  inputs.appendChild(keyColors);
+  inputs.appendChild(keyColorsInput);
+  
+  inputs.appendChild(interp);
+  inputs.appendChild(smoothFormItem);
+
+  configPanelItem.appendChild(colorName);
+  configPanelItem.appendChild(inputs);
+  configPanel.appendChild(panelHeader);
+  configPanel.appendChild(configPanelItem);
+  configPanel.appendChild(deletePanel);
+
+  // Content area needs to be appended with items
+  wrapper.appendChild(title);
+  wrapper.appendChild(gradient);
+  // Create divs for charts
+  let chart1 = document.createElement('div');
+  chart1.id = 'interpolationChart';
+  let chart2 = document.createElement('div');
+  chart2.id = 'interpolationChart2';
+  let chart3 = document.createElement('div');
+  chart3.id = 'RGBchart';
+
+  tabContent1.appendChild(chart1);
+  tabContent1.appendChild(chart2);
+  tabContent2.appendChild(chart3);
+
+  wrapper.appendChild(tabs)
+  wrapper.appendChild(tabContent1);
+  wrapper.appendChild(tabContent2);
+  wrapper.appendChild(tabContent3);
+
+  // Then run functions on the basic placeholder inputs
+  let colorKeys = colorData.colorKeys;
+  for (let i = 0; i < colorKeys.length; i++) {
+    addKeyColorInput(colorKeys[i], buttonId, colorData.name, i);
+  }
+
+  let rampData = Leo.createScale({swatches: 30, colorKeys: colorKeys, colorspace: colorData.colorspace, smooth: colorData.smooth});
+
+  let colors = rampData;
+
+  themeRamp(colors, gradientId);
+  themeRampKeyColors(colorKeys, gradientId);
+  createRGBchannelChart(colors);
+  createInterpolationCharts(colors, 'CAM02')
+  // charts.createAllCharts(colorData.colorspace, colors);
+  
+  toggleControls();
+  baseScaleOptions();
+
+  document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
+  // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
+  // document.getElementById('tabChartContent').click();
+  document.getElementById('tabInterpCharts').addEventListener('click', (e) => {openDetailTab(e, 'tabInterpChartsContent')});
+  document.getElementById('tabRGBChannels').addEventListener('click', (e) => {openDetailTab(e, 'tabRGBChannelsContent')});
+  document.getElementById('tabModel').addEventListener('click', (e) => {openDetailTab(e, 'tabModelContent', colors)});
+  document.getElementById('tabInterpCharts').click();
+
+  deleteColor.addEventListener('click', themeDeleteItem);
+  deleteColor.addEventListener('click', function(){ return _theme.removeColor = newColor});
+  // console.log(_theme)
 }
 
 window.toggleTooltip = toggleTooltip;
@@ -1944,8 +2459,23 @@ function toggleTooltip(targetId) {
 
 
 /** Color wheel functions */
-const colorWheelSize = 300;
-const dotSize = 16;
+function getSmallestWindowDimension() {
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  let adjustedWidth = windowWidth - 386;// subtract panel width and padding from measurement
+  let adjustedHeight = windowHeight - 80;// subtract heading, tabs height and padding from measurement
+  let smallestDimension = (adjustedWidth < adjustedHeight) ? adjustedWidth : adjustedHeight;
+  return smallestDimension;
+}
+getSmallestWindowDimension();
+
+function getColorWheelSize() {
+  let dynamicSize = getSmallestWindowDimension() - 200;
+  let minSize = 300;
+  let maxSize = 800;
+  let colorWheelSize = (dynamicSize > maxSize) ? maxSize : ((dynamicSize < minSize) ? minSize : dynamicSize);
+  return colorWheelSize;
+}
 
 // function convertToCartesian(c, h) {
 //   let radians = 180/Math.PI;
@@ -1971,8 +2501,6 @@ function convertToCartesian(s, h) {
   };
 }
 
-console.log(d3.jch('red'))
-
 function filterNaN(x) {
   if(isNaN(x)) {
     return 0;
@@ -1981,7 +2509,7 @@ function filterNaN(x) {
   }
 }
 
-function shiftValue(v) {
+function shiftValue(v, colorWheelSize, dotSize) {
   v = filterNaN(v);
 
   const midPoint = colorWheelSize /2;
@@ -1995,7 +2523,10 @@ function shiftValue(v) {
 
 
 function getConvertedColorCoodrindates(colorValues, mode) {
-  let size = colorWheelSize;
+  // Cant seem to use the constant colorWheelSize or dotSize here, so we calculate it
+  let size = getColorWheelSize();
+  let dotSize = 16;
+  let defaultAchromaticDotOffset = (size / 2) - (dotSize / 2);
 
   let arr = [];
   colorValues.map(color => {
@@ -2022,11 +2553,11 @@ function getConvertedColorCoodrindates(colorValues, mode) {
     }
     
     const conversion = convertToCartesian(c, h);
-    let newX = shiftValue(conversion.x);
-    let newY = shiftValue(conversion.y)
+    let newX = shiftValue(conversion.x, size, dotSize);
+    let newY = shiftValue(conversion.y, size, dotSize);
 
-    if(isNaN(newX)) newX = 142;
-    if(isNaN(newY)) newY = 142;
+    if(isNaN(newX)) newX = defaultAchromaticDotOffset;
+    if(isNaN(newY)) newY = defaultAchromaticDotOffset;
 
     arr.push({
       x: newX,
@@ -2058,10 +2589,9 @@ function createColorWheelDots(arr) {
   })
 }
 
-function createColorWheel(mode, lightness) {  
-  console.log(mode)
-  
-  let size = colorWheelSize;
+function createColorWheel(mode, lightness) {    
+  const size = getColorWheelSize();
+
   let container = d3.select('#colorWheel');
   let canvas = container.append("canvas")
     .attr("height", size)
@@ -2162,34 +2692,41 @@ function createColorWheel(mode, lightness) {
 const colorWheelMode = document.getElementById('colorWheelMode');
 const colorWheelLightness = document.getElementById('colorWheelLightness');
 
-createColorWheel(colorWheelMode.value, colorWheelLightness.value);
 
-colorWheelMode.addEventListener('input', function(e) { 
+function updateColorWheel(mode, lightness, dots) {
   let canvas = document.getElementById('colorWheelCanvas');
-  canvas.parentNode.removeChild(canvas);
-
-  let lightness = colorWheelLightness.value;
-  let mode = e.target.value;
+  if(canvas) {
+    canvas.parentNode.removeChild(canvas);
+  }
   createColorWheel(mode, lightness);
 
-  let allKeys = getAllColorKeys();
-  let arr = getConvertedColorCoodrindates(allKeys, mode);
-  createColorWheelDots(arr);
+  // Flag for if we want to regenerate all the dots too.
+  if(dots) {
+    let allKeys = getAllColorKeys();
+    let arr = getConvertedColorCoodrindates(allKeys, mode);
+    createColorWheelDots(arr);  
+  }
+}
+
+updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true);
+
+window.onresize = () => {
+  updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true)
+};
+
+colorWheelMode.addEventListener('input', function(e) { 
+  let mode = e.target.value;
+  updateColorWheel(mode, colorWheelLightness.value, true);
 });
 
 colorWheelLightness.addEventListener('input', function(e) { 
-  let canvas = document.getElementById('colorWheelCanvas');
-  canvas.parentNode.removeChild(canvas);
-  
-  let mode = colorWheelMode.value
   let lightness = e.target.value;
-  createColorWheel(mode, lightness);
+  updateColorWheel(colorWheelMode.value, lightness);
 });
 
 function getAllColorKeys() {
   let colorKeys = [];
-  let data = getThemeData();
-  let scales = data.colorScales;
+  let scales = _theme.colors;
   scales.map(scale => {
     let keys = scale.colorKeys;
     keys.forEach(key => {
@@ -2199,3 +2736,4 @@ function getAllColorKeys() {
 
   return colorKeys;
 }
+

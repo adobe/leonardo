@@ -16,6 +16,7 @@ import * as d33d from 'd3-3d';
 Object.assign(d3, d33d);
 
 import * as contrastColors from '@adobe/leonardo-contrast-colors';
+import * as data from './data';
 
 let chart3dColorspace = document.getElementById('chart3dColorspace');
 let dest = document.querySelector('.chart3D');
@@ -24,7 +25,7 @@ let dest = document.querySelector('.chart3D');
 Create 2d and 3d chart heights and widths based on known
 paddings and panel dimensions, based on viewport height/width.
 */
-function createChartWidth() {
+function createChartWidth(dest) {
   // let leftPanel = 304;
   // let rightPanel = 240;
   // let paddings = 100;
@@ -36,7 +37,8 @@ function createChartWidth() {
   // } else {
   //   return 300;
   // }
-  return 366;
+  if(dest === 'interpolationChart') {console.log('INTERP'); return 500;}
+  else return 366;
 }
 
 function createChartHeight() {
@@ -228,8 +230,8 @@ let pi = Math.PI;
 function init3dChart(){
 
   let cnt = 0;
-  xGrid = [], scatter = [], yLine = [], colorPlot = [];
-
+  let xGrid = [], scatter = [], yLine = [], colorPlot = [];
+  let j = 10;
   // Taking J from origin argument...
   // z = -10; z < 10; z++ is what it's saying.
   for(let z = -j; z < j; z++){
@@ -241,8 +243,8 @@ function init3dChart(){
       // colorPlot.push({x: LABArrayA[j]/10, y: LABArrayL[j]/10 * -1, z: LABArrayB[j]/10, id: 'point_' + cnt++});
     }
   }
-  let spaceOpt = document.getElementById('chart3dColorspace').value;
-
+  let spaceOpt = document.getElementById('chartsMode').value;
+  
   let pi = Math.PI;
 
   if (spaceOpt == 'CAM02') {
@@ -347,10 +349,32 @@ function createChartHeader(x, dest) {
 
 // Make 2d color charts
 function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false) {
+  let chartWidth, chartHeight;
+
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  let adjustedHeight = (windowHeight - 300) / 2;// subtract heading, tabs height and padding from measurement
+
+  if(dest === '#interpolationChart' || dest === '#interpolationChart2') {
+    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
+  
+    chartWidth = adjustedWidth;
+    chartHeight = adjustedHeight;
+  }
+  if(dest === '#RGBchart') {
+    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
+
+    chartWidth = adjustedWidth;
+    chartHeight = adjustedHeight * 1.5;
+  } 
+  if(dest === '#contrastChart') {
+    chartWidth = 366;
+    chartHeight = 275;
+  }
 
   let xy_chart = d3_xy_chart()
-    .width(createChartWidth())
-    .height(createChartHeight())
+    .width(chartWidth)
+    .height(chartHeight)
     .xlabel(xLabel)
     .ylabel(yLabel);
 
@@ -359,8 +383,8 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     .call(xy_chart);
 
   function d3_xy_chart() {
-    let width = createChartWidth(),
-        height = createChartHeight(),
+    let width = chartWidth,
+        height = chartHeight,
         xlabel = "X Axis Label",
         ylabel = "Y Axis Label";
 
@@ -373,6 +397,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
           // Create the plot.
           //
           let margin = {top: 8, right: 8, bottom: 36, left: 32};
+
           let innerwidth = width - margin.left - margin.right;
           let innerheight = height - margin.top - margin.bottom;
           
@@ -418,36 +443,72 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")") ;
 
-          svg.append("g")
-            .attr("class", "x grid")
-            .attr("transform", "translate(0," + innerheight + ")")
-            .call(x_grid) ;
+          // If dest is RGB chart, don't show ticks
+          if(dest !== '#RGBchart') {
+            svg.append("g")
+              .attr("class", "x grid")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(x_grid) ;
 
-          svg.append("g")
-            .attr("class", "y grid")
-            .call(y_grid) ;
+            svg.append("g")
+              .attr("class", "y grid")
+              .call(y_grid) ;
 
-          svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + innerheight + ")")
-            .call(x_axis)
-            .append("text")
-            // .attr("dy", "-.71em")
-            .attr("dy", "2.75em")
-            .attr("x", (innerwidth/2))
-            .style("text-anchor", "middle")
-            .text(xlabel) ;
+            svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(x_axis)
+              .append("text")
+              // .attr("dy", "-.71em")
+              .attr("dy", "2.75em")
+              .attr("x", (innerwidth/2))
+              .style("text-anchor", "middle")
+              .text(xlabel) ;
 
-          svg.append("g")
-            .attr("class", "y axis")
-            .call(y_axis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            // .attr("y", 6)
-            .attr("dy", "-2em")
-            .attr('x', (-innerheight/2))
-            .style("text-anchor", "middle")
-            .text(ylabel) ;
+            svg.append("g")
+              .attr("class", "y axis")
+              .call(y_axis)
+              .append("text")
+              .attr("transform", "rotate(-90)")
+              // .attr("y", 6)
+              .attr("dy", "-2em")
+              .attr('x', (-innerheight/2))
+              .style("text-anchor", "middle")
+              .text(ylabel) ;
+          } 
+          else {
+            svg.append("g")
+              .attr("class", "x grid")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(x_grid) ;
+
+            svg.append("g")
+              .attr("class", "y grid")
+              .call(y_grid) ;
+
+            svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(x_axis)
+              // .append("text")
+              // .attr("dy", "-.71em")
+              // .attr("dy", "2.75em")
+              // .attr("x", (innerwidth/2))
+              // .style("text-anchor", "middle")
+              // .text(xlabel) ;
+
+            svg.append("g")
+              .attr("class", "y axis")
+              .call(y_axis)
+              // .append("text")
+              // .attr("transform", "rotate(-90)")
+              // .attr("y", 6)
+              // .attr("dy", "-2em")
+              // .attr('x', (-innerheight/2))
+              // .style("text-anchor", "middle")
+              // .text(ylabel) ;
+          }
+
 
           let data_lines = svg.selectAll(".d3_xy_chart_line")
             .data(datasets.map(function(d) {return d3.zip(d.x, d.y);}))
@@ -499,6 +560,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
   }
 }
 
+
 function toggleGraphs() {
   let panel = document.getElementById('colorMetrics');
   let toggle = document.getElementById('toggleMetrics');
@@ -506,9 +568,11 @@ function toggleGraphs() {
   toggle.classList.toggle('is-selected');
 }
 
-function createAllCharts(mode) {
-  mode = document.getElementById('chart2dColorspace').value;
-  let chart3 = document.getElementById('chart3Wrapper');
+function createAllCharts(mode, colors) {
+  // mode = document.getElementById('chart2dColorspace').value;
+
+  // let chart3 = document.getElementById('chart3Wrapper');
+  data.createData(colors, mode);
 
   if (mode=="LCH") {
     createChartHeader('Chroma / Lightness', 'chart1');
@@ -567,8 +631,8 @@ function createAllCharts(mode) {
     createChart(rgbDataB, 'Blue', 'Red', "#chart3", 0, 255);
   }
 
-  createChartHeader('Contrast Ratios', 'contrastChart');
-  createChart(window.contrastData, 'Contrast', 'Swatches', "#contrastChart");
+  // createChartHeader('Contrast Ratios', 'contrastChart');
+  // createChart(window.contrastData, 'Contrast', 'Swatches', "#contrastChart");
 
   init3dChart();
 }
@@ -577,7 +641,8 @@ function createAllCharts(mode) {
 let chartColors = [];
 
 function getChartColors(mode) {
-  let shift = document.getElementById('shiftInput').value;
+  // let shift = document.getElementById('shiftInput').value;
+  let shift = 1;
 
   let chartColors = [];
 
@@ -593,12 +658,12 @@ function getChartColors(mode) {
 
 
 function showCharts(mode, interpolation) {
-  document.getElementById('chart1').innerHTML = ' ';
-  document.getElementById('chart2').innerHTML = ' ';
-  document.getElementById('chart3').innerHTML = ' ';
-  document.getElementById('contrastChart').innerHTML = ' ';
+  // document.getElementById('chart1').innerHTML = ' ';
+  // document.getElementById('chart2').innerHTML = ' ';
+  // document.getElementById('chart3').innerHTML = ' ';
+  // document.getElementById('contrastChart').innerHTML = ' ';
 
-  chartColors = getChartColors(interpolation);
+  // chartColors = getChartColors(interpolation);
   createAllCharts(mode);
 };
 
@@ -616,4 +681,5 @@ exports.showCharts = showCharts;
 // window.updateCharts = updateCharts;
 exports.showContrastChart = showContrastChart;
 exports.createChartHeader = createChartHeader;
+exports.createAllCharts = createAllCharts;
 exports.createChart = createChart;
