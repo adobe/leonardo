@@ -1069,7 +1069,7 @@ a:focus {
 }
 
 .themeColor_item ~ .themeColor_item {
-  margin-top: 16px;
+  margin-top: var(--spectrum-global-dimension-size-100);
 }
 .themeColor_subheading {
   width: 100%;
@@ -1484,8 +1484,7 @@ a:focus {
   transition: transform, 150ms;
 }
 
-#brightnessSliderWrapper,
-#contrastSliderWrapper {
+.themeSettingsSlider {
   width: 300px;
   margin-left: 8px;
 }

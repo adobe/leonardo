@@ -184,19 +184,26 @@
         </h3>
       </div>
       <div class="spectrum-Form-item">
-        <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled">
+        <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
           <div class="spectrum-Slider-labelContainer">
             <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Brightness</label>
             <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
           </div>
           <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()" disabled></input>
         </div>
-        <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled">
+        <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
           <div class="spectrum-Slider-labelContainer">
             <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
             <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">1</div>
           </div>
           <input class="spectrum-Slider-controls" type="range" min="0.25" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" onInput="sliderInput()" disabled></input>
+        </div>
+        <div id="saturationSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+          <div class="spectrum-Slider-labelContainer">
+            <label class="spectrum-Slider-label" id="themeSaturationLabel" for="themeSaturationSlider">Saturation</label>
+            <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeSaturationLabel" id="themeSaturationValue">100</div>
+          </div>
+          <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" step="1" id="themeSaturationSlider" name="themeSaturationSlider" onInput="sliderInput()" disabled></input>
         </div>
       </div>
     </div>

@@ -345,10 +345,10 @@ function addColorScale(newColor) {
   let colorName = document.createElement('div');
   colorName.className = 'spectrum-Form-item spectrum-Form-item--row';
   let colorNameInputWrapper = document.createElement('div');
-  colorNameInputWrapper.className = 'spectrum-Textfield spectrum-Textfield--quiet';
+  colorNameInputWrapper.className = 'spectrum-Textfield spectrum-Textfield--quiet colorNameInput';
   let colorNameInput = document.createElement('input');
   colorNameInput.type = 'text';
-  colorNameInput.className = 'spectrum-Textfield-input colorNameInput';
+  colorNameInput.className = 'spectrum-Textfield-input';
   colorNameInput.id = thisId.concat('_colorName');
   colorNameInput.name = thisId.concat('_colorName');
   colorNameInput.value = newColor.name;
@@ -371,7 +371,7 @@ function addColorScale(newColor) {
   edit.innerHTML = `
   <!-- <span class="spectrum-ActionButton-label">Add from URL</span> -->
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-    <use xlink:href="#spectrum-icon-18-Properties" />
+    <use xlink:href="#spectrum-icon-18-Edit" />
   </svg>`
   edit.addEventListener('click', showColorDetails);
   // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
