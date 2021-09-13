@@ -2056,7 +2056,7 @@ function deleteRatio(e) {
 function showColorDetails(e) {
   let element = e.target.id;
   let button = document.getElementById(element);
-  let id = element.replace('-toggleConfig', '');
+  const id = element.replace('-toggleConfig', '');
 
   let colorData = getColorItemClass(id);
 
@@ -2109,10 +2109,18 @@ function showColorDetails(e) {
   let gradientId = thisId.concat('_gradient');
   gradient.id = gradientId;
 
+  // Create first panel item
+  let panelColorName = document.createElement('div');
+  panelColorName.className = 'spectrum-Panel-Item';
+
   // Create form container
   let inputs = document.createElement('div');
   inputs.className = `spectrum-Form spectrum-Form--row themeColor_configs`;
   inputs.id = `${thisId}-themeColor_configs`
+
+  let interpInputs = document.createElement('div');
+  interpInputs.className = `spectrum-Form spectrum-Form--row`;
+  interpInputs.id = `${thisId}-themeColor_keyColors`
 
   // Field label
   let colorNameLabel = document.createElement('label');
@@ -2143,6 +2151,10 @@ function showColorDetails(e) {
   colorName.appendChild(colorNameLabel);
   colorName.appendChild(colorNameWrapper);
 
+  // Create second panel item
+  let panelKeyColors = document.createElement('div');
+  panelKeyColors.className = 'spectrum-Panel-Item';
+  
   // Key Color Input
   let keyColors = document.createElement('div');
   keyColors.className = 'themeColor_subheading';
@@ -2200,6 +2212,10 @@ function showColorDetails(e) {
   addColors.appendChild(bulkButton);
   keyColors.appendChild(addColors);
 
+  // Create third panel item
+  let panelInterpolationMode = document.createElement('div');
+  panelInterpolationMode.className = 'spectrum-Panel-Item';
+  
   // Interpolation mode
   let interp = document.createElement('div');
   interp.className = 'spectrum-Form-item spectrum-Form-item--row';
@@ -2349,9 +2365,7 @@ function showColorDetails(e) {
   chartsModeSelect.id = 'chartsMode';
   chartsModeSelect.name = 'chartsMode';
   // chartsModeSelect.oninput = throttle(themeUpdateParams, 20);
-  chartsModeSelect.addEventListener('change', (e) => {
-    createInterpolationCharts(colors, e.target.value)
-  })
+
 
   let chartsModeDropdownIcon = document.createElement('span');
   chartsModeDropdownIcon.className = 'spectrum-Picker-iconWrapper';
@@ -2386,13 +2400,17 @@ function showColorDetails(e) {
   inputs.appendChild(keyColors);
   inputs.appendChild(keyColorsInput);
   
-  inputs.appendChild(interp);
-  inputs.appendChild(smoothFormItem);
+  interpInputs.appendChild(interp);
+  interpInputs.appendChild(smoothFormItem);
 
   configPanelItem.appendChild(colorName);
-  configPanelItem.appendChild(inputs);
+  panelKeyColors.appendChild(inputs);
+  panelInterpolationMode.appendChild(interpInputs);
+
   configPanel.appendChild(panelHeader);
   configPanel.appendChild(configPanelItem);
+  configPanel.appendChild(panelKeyColors);
+  configPanel.appendChild(panelInterpolationMode);
   configPanel.appendChild(deletePanel);
 
   // Content area needs to be appended with items
@@ -2425,6 +2443,13 @@ function showColorDetails(e) {
 
   let colors = rampData;
 
+  chartsModeSelect.addEventListener('change', (e) => {
+    const thisColorId = id;
+    let colorData = getColorItemClass(thisColorId);
+    let colors = Leo.createScale({swatches: 30, colorKeys: colorData.colorKeys, colorspace: colorData.colorspace, smooth: colorData.smooth});
+    createInterpolationCharts(colors, e.target.value)
+  })
+  
   themeRamp(colors, gradientId);
   themeRampKeyColors(colorKeys, gradientId);
   createRGBchannelChart(colors);
