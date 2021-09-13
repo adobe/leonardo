@@ -24,10 +24,11 @@ const {
 const { BackgroundColor } = require('./backgroundcolor');
 
 class Theme {
-  constructor({ colors, backgroundColor, lightness, contrast = 1, output = 'HEX' }) {
+  constructor({ colors, backgroundColor, lightness, contrast = 1, saturation = 100, output = 'HEX' }) {
     this._output = output;
     this._colors = colors;
     this._lightness = lightness;
+    this._saturatoin = saturation;
 
     this._setBackgroundColor(backgroundColor);
     this._setBackgroundColorValue();
@@ -73,6 +74,16 @@ class Theme {
 
   get lightness() {
     return this._lightness;
+  }
+
+  set saturation(saturation) {
+    this._saturation = saturation;
+    // Update all colors key colors
+    // this._findContrastColors();
+  }
+
+  get saturation() {
+    return this._saturation;
   }
 
   set backgroundColor(backgroundColor) {
@@ -147,6 +158,12 @@ class Theme {
 
   _setBackgroundColorValue() {
     this._backgroundColorValue = this._backgroundColor.backgroundColorScale[this._lightness];
+  }
+
+  _adjustSaturation() {
+    this._modifiedColors.map(color) => {
+      // Do something.
+    }
   }
 
   _findContrastColors() {
