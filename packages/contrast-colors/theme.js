@@ -196,10 +196,10 @@ class Theme {
       const colorKeys = color.colorKeys;
       let newColorKeys = [];
       colorKeys.forEach(key => {
-        let currentHsluv = chroma.hsluv(key);
-        let currentSaturation = currentHsluv.u;
+        let currentHsluv = chroma(`${key}`).hsluv();
+        let currentSaturation = currentHsluv[1];
         let newSaturation = currentSaturation * (saturation / 100);
-        let newHsluv = chroma.hsluv(currentHsluv.l, newSaturation, currentHsluv.v);
+        let newHsluv = chroma.hsluv(currentHsluv[0], newSaturation, currentHsluv[2]);
         let newColor = chroma.rgb(newHsluv).hex();
         newColorKeys.push(newColor);
       });
