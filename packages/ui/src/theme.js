@@ -2501,7 +2501,7 @@ getSmallestWindowDimension();
 function getColorWheelSize() {
   let dynamicSize = getSmallestWindowDimension() - 200;
   let minSize = 300;
-  let maxSize = 800;
+  let maxSize = 600;
   let colorWheelSize = (dynamicSize > maxSize) ? maxSize : ((dynamicSize < minSize) ? minSize : dynamicSize);
   return colorWheelSize;
 }

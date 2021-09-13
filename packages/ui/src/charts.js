@@ -237,7 +237,7 @@ function init3dChart(){
   for(let z = -j; z < j; z++){
     for(let x = -j; x < j; x++){
       xGrid.push([x, 1, z]);
-      // This is where the point data is gathered:
+      // This is where the point CAMArrayAdata is gathered:
       scatter.push({x: x, y: d3.randomUniform(0, -10)(), z: z, id: 'point_' + cnt++});
       // dividing LAB data by 10 to fit current grid. Negative y let since chart is in negative space?
       // colorPlot.push({x: LABArrayA[j]/10, y: LABArrayL[j]/10 * -1, z: LABArrayB[j]/10, id: 'point_' + cnt++});
@@ -368,8 +368,8 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     chartHeight = adjustedHeight * 1.5;
   } 
   if(dest === '#contrastChart') {
-    chartWidth = 366;
-    chartHeight = 275;
+    chartWidth = 356;
+    chartHeight = 272;
   }
 
   let xy_chart = d3_xy_chart()
@@ -396,7 +396,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
           //
           // Create the plot.
           //
-          let margin = {top: 8, right: 8, bottom: 36, left: 32};
+          let margin = {top: 8, right: 8, bottom: 36, left: 36};
 
           let innerwidth = width - margin.left - margin.right;
           let innerheight = height - margin.top - margin.bottom;
@@ -460,7 +460,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
               .call(x_axis)
               .append("text")
               // .attr("dy", "-.71em")
-              .attr("dy", "2.75em")
+              .attr("dy", "2.5em")
               .attr("x", (innerwidth/2))
               .style("text-anchor", "middle")
               .text(xlabel) ;
@@ -471,7 +471,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
               .append("text")
               .attr("transform", "rotate(-90)")
               // .attr("y", 6)
-              .attr("dy", "-2em")
+              .attr("dy", "-2.25em")
               .attr('x', (-innerheight/2))
               .style("text-anchor", "middle")
               .text(ylabel) ;
