@@ -70,18 +70,55 @@ Class function used to generate adaptive contrast-based colors. Parameters are d
 | `colors` | Array | List of `Color` classes to generate theme colors for. A single `BackgroundColor` class is required. |
 | `lightness` | Number | Value from 0-100 for desired lightness of generated theme background color (whole number)|
 | `contrast` | Number | Multiplier to increase or decrease contrast for all theme colors (default is `1`) |
+| `saturation` | Number | Value from 0-100 for decreasing saturation of all theme colors (default is `100`) |
 | `output` | Enum | Desired color output format |
 
 
 #### Setters
 | Setter | Description of output |
 |--------|-----------------------|
-| `.lightness()` | Sets the theme's lightness value |
-| `.contrast()` | Sets the theme's contrast value |
-| `.backgroundColor()` | Sets the theme's background color (creates a new `BackgroundColor` if passing a string) |
-| `.colors()` | Sets colors for theme (must pass `Color`)|
-| `.output()` | Sets output format for theme |
+| `Theme.lightness` | Sets the theme's lightness value |
+| `Theme.contrast` | Sets the theme's contrast value |
+| `Theme.saturation` | Sets the theme's saturation value |
+| `Theme.backgroundColor` | Sets the theme's background color (creates a new `BackgroundColor` if passing a string) |
+| `Theme.colors` | Sets colors for theme (must pass `Color`)|
+| `Theme.output` | Sets output format for theme |
+| [`Theme.addColor`](#themeaddcolor--color) | Add a `Color` to the theme |
+| [`Theme.removeColor`](#themeremovecolor--color) | Remove a `Color` from the theme |
+| [`Theme.updateColor`](#themeupdatecolor--name-property) | Update a `Color` via its setters from the theme |
 
+#### `Theme.addColor = color`
+Add a `Color` to an existing theme
+```js
+const red = new Color({...})
+
+theme.addColor = red;
+```
+
+#### `Theme.removeColor = color`
+Remove a `Color` from an existing theme. Accepts an object with the `Color`'s name and value, or by passing the `Color` class itself.
+```js
+// Remove via color name
+theme.removeColor = {name: 'Red'};
+
+// Remove via Color class
+const red = new Color({...})
+theme.removeColor = red;
+```
+
+#### `Theme.updateColor = {name, property}`
+Update a `Color` via its setters from the theme. Accepts an object with the name of the color you wish to modify, followed by the property and the new value you wish to modify.
+```js
+const red = new Color({...})
+// Change the colors ratios
+theme.updateColor = {name: 'red', ratios: [3, 4.5, 7]};
+
+// Change the colors colorKeys
+theme.updateColor = {name: 'red', colorKeys: ['#ff0000']};
+
+// Change the color's name
+theme.updateColor = {name: 'red', name: 'Crimson'};
+```
 
 #### Supported output formats:
 Available output formats conform to the [W3C CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) spec for the supported options, as listed below:
@@ -115,12 +152,12 @@ Class function used to define colors for a theme. Parameters are destructured an
 #### Setters
 | Setter | Description of output |
 |--------|-----------------------|
-| `.colorKeys()` | Sets the color keys |
-| `.colorspace()` | Sets the interpolation colorspace |
-| `.ratios()` | Sets the ratios |
-| `.name()` | Sets the name |
-| `.smooth()` | Sets the smoothing option |
-| `.output()` | Sets the output format |
+| `Color.colorKeys` | Sets the color keys |
+| `Color.colorspace` | Sets the interpolation colorspace |
+| `Color.ratios` | Sets the ratios |
+| `Color.name` | Sets the name |
+| `Color.smooth` | Sets the smoothing option |
+| `Color.output` | Sets the output format |
 
 #### Supported interpolation colorspaces:
 Below are the available options for interpolation in Leonardo:
@@ -238,7 +275,7 @@ Simplified format as an object of key-value pairs. Property is equal to the [gen
 }
 ```
 
-### `Theme..contrastColorValues`
+### `Theme.contrastColorValues`
 Returns all color values in a flat array.
 
 ```js
