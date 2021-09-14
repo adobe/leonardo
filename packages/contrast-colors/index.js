@@ -29,15 +29,6 @@ extendChroma(chroma);
 
 // console.color('#6fa7ff');
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('hsl'))
-// const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [1] });
-// const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-// const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
-// const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20, contrast: 1.5 });
-// theme.contrastColorValues.forEach((value) => console.color(value));
-
-// theme.saturation = 0;
-// console.log('============== New colors:')
-// theme.contrastColorValues.forEach((value) => console.color(value));
 
 module.exports = {
   Color,

@@ -70,6 +70,7 @@ Class function used to generate adaptive contrast-based colors. Parameters are d
 | `colors` | Array | List of `Color` classes to generate theme colors for. A single `BackgroundColor` class is required. |
 | `lightness` | Number | Value from 0-100 for desired lightness of generated theme background color (whole number)|
 | `contrast` | Number | Multiplier to increase or decrease contrast for all theme colors (default is `1`) |
+| `saturation` | Number | Value from 0-100 for decreasing saturation of all theme colors (default is `100`) |
 | `output` | Enum | Desired color output format |
 
 
@@ -78,6 +79,7 @@ Class function used to generate adaptive contrast-based colors. Parameters are d
 |--------|-----------------------|
 | `.lightness()` | Sets the theme's lightness value |
 | `.contrast()` | Sets the theme's contrast value |
+| `.saturation()` | Sets the theme's saturation value |
 | `.backgroundColor()` | Sets the theme's background color (creates a new `BackgroundColor` if passing a string) |
 | `.colors()` | Sets colors for theme (must pass `Color`)|
 | `.output()` | Sets output format for theme |
@@ -238,7 +240,7 @@ Simplified format as an object of key-value pairs. Property is equal to the [gen
 }
 ```
 
-### `Theme..contrastColorValues`
+### `Theme.contrastColorValues`
 Returns all color values in a flat array.
 
 ```js
