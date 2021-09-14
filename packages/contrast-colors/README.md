@@ -83,9 +83,9 @@ Class function used to generate adaptive contrast-based colors. Parameters are d
 | `Theme.backgroundColor` | Sets the theme's background color (creates a new `BackgroundColor` if passing a string) |
 | `Theme.colors` | Sets colors for theme (must pass `Color`)|
 | `Theme.output` | Sets output format for theme |
-| [`Theme.addColor`](#themeaddcolor-=-color) | Add a `Color` to the theme |
-| [`Theme.removeColor`](#themeremovecolor-=-color) | Remove a `Color` from the theme |
-| [`Theme.updateColor`](#themeupdatecolor-=-{name,-property}) | Update a `Color` via its setters from the theme |
+| [`Theme.addColor`](#themeaddcolor--color) | Add a `Color` to the theme |
+| [`Theme.removeColor`](#themeremovecolor--color) | Remove a `Color` from the theme |
+| [`Theme.updateColor`](#themeupdatecolor--name-property) | Update a `Color` via its setters from the theme |
 
 #### `Theme.addColor = color`
 Add a `Color` to an existing theme
