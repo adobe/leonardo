@@ -47,10 +47,6 @@ class Theme {
       throw new Error(`Output “${output}” not supported`);
     }
 
-    this._modifiedColors = this._colors;
-    // console.log(`${this._colors} \n ----------------- \n ${this._modifiedColors}`)
-    // this._setContrasts(this._contrast);
-
     this._findContrastColors();
     this._findContrastColorPairs();
     this._findContrastColorValues();
@@ -58,7 +54,6 @@ class Theme {
 
   set contrast(contrast) {
     this._contrast = contrast;
-    // this._setContrasts(contrast);
     this._findContrastColors();
   }
 
@@ -192,7 +187,7 @@ class Theme {
   }
 
   _updateColorSaturation(saturation) {
-    this._modifiedColors.map((color) => {
+    this._colors.map((color) => {
       const colorKeys = color.colorKeys;
       let newColorKeys = [];
       colorKeys.forEach(key => {
@@ -219,7 +214,7 @@ class Theme {
     const returnColorPairs = {...baseObj}; // Objext to be populated with flat list of all color values as named key-value pairs
     returnColors.push(baseObj);
 
-    this._modifiedColors.map((color) => {
+    this._colors.map((color) => {
       if (color.ratios !== undefined) {
         let swatchNames;
         const newArr = [];

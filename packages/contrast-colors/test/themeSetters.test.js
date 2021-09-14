@@ -87,5 +87,89 @@ test('should set colorspace for one color in theme to CAM02', () => {
   expect(themeColors).toEqual(['#548fe0', '#2b66f0']);
 });
 
+test('should remove a color by its class', () => {
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20, contrast: 1.5 });
+
+  theme.removeColor = red;
+  
+  const themeColors = theme.contrastColors;
+
+  expect(themeColors).toEqual([
+    { background: '#303030' },
+    {
+      name: 'gray',
+      values: [
+        { name: 'gray33', contrast: -2.2, value: '#000000' },
+        { name: 'gray67', contrast: -1.3, value: '#1b1b1b' },
+        { name: 'gray100', contrast: 1, value: '#313131' },
+        { name: 'gray200', contrast: 1.3, value: '#424242' },
+        { name: 'gray300', contrast: 1.6, value: '#4f4f4f' },
+        { name: 'gray400', contrast: 2.5, value: '#6c6c6c' },
+        { name: 'gray500', contrast: 4, value: '#8d8d8d' },
+        { name: 'gray600', contrast: 6.25, value: '#b2b2b2' },
+        { name: 'gray700', contrast: 8.5, value: '#cfcfcf' },
+        { name: 'gray800', contrast: 11.5, value: '#efefef' },
+        { name: 'gray900', contrast: 17.5, value: '#ffffff' },
+        { name: 'gray1000', contrast: 31, value: '#ffffff' },
+      ],
+    },
+    {
+      name: 'blue',
+      values: [
+        { name: 'blue100', contrast: 2.5, value: '#7045ff' },
+        { name: 'blue200', contrast: 4, value: '#9f73ff' },
+        { name: 'blue300', contrast: 6.25, value: '#c4a2ff' },
+        { name: 'blue400', contrast: 11.5, value: '#f4ecff' },
+        { name: 'blue500', contrast: 17.5, value: '#ffffff' },
+      ],
+    },
+  ]);
+});
+
+
+test('should remove a color by its name', () => {
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20, contrast: 1.5 });
+
+  theme.removeColor = {name: 'red'};
+
+  const themeColors = theme.contrastColors;
+
+  expect(themeColors).toEqual([
+    { background: '#303030' },
+    {
+      name: 'gray',
+      values: [
+        { name: 'gray33', contrast: -2.2, value: '#000000' },
+        { name: 'gray67', contrast: -1.3, value: '#1b1b1b' },
+        { name: 'gray100', contrast: 1, value: '#313131' },
+        { name: 'gray200', contrast: 1.3, value: '#424242' },
+        { name: 'gray300', contrast: 1.6, value: '#4f4f4f' },
+        { name: 'gray400', contrast: 2.5, value: '#6c6c6c' },
+        { name: 'gray500', contrast: 4, value: '#8d8d8d' },
+        { name: 'gray600', contrast: 6.25, value: '#b2b2b2' },
+        { name: 'gray700', contrast: 8.5, value: '#cfcfcf' },
+        { name: 'gray800', contrast: 11.5, value: '#efefef' },
+        { name: 'gray900', contrast: 17.5, value: '#ffffff' },
+        { name: 'gray1000', contrast: 31, value: '#ffffff' },
+      ],
+    },
+    {
+      name: 'blue',
+      values: [
+        { name: 'blue100', contrast: 2.5, value: '#7045ff' },
+        { name: 'blue200', contrast: 4, value: '#9f73ff' },
+        { name: 'blue300', contrast: 6.25, value: '#c4a2ff' },
+        { name: 'blue400', contrast: 11.5, value: '#f4ecff' },
+        { name: 'blue500', contrast: 17.5, value: '#ffffff' },
+      ],
+    },
+  ]);
+});
 
 /** Multiple color updates */
