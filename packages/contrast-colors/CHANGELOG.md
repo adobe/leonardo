@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.12](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.11...@adobe/leonardo-contrast-colors@1.0.0-alpha.12) (2021-09-14)
+
+
+### Bug Fixes
+
+* typo in theme constructor for saturation ([#140](https://github.com/adobe/leonardo/issues/140)) ([beb6d88](https://github.com/adobe/leonardo/commit/beb6d888706f2f5480c1da3c1cb94f16acb65d61))
+
+
+
+
+
 # [1.0.0-alpha.11](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.10...@adobe/leonardo-contrast-colors@1.0.0-alpha.11) (2021-09-14)
 
 **Note:** Version bump only for package @adobe/leonardo-contrast-colors
