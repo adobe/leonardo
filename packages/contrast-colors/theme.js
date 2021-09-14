@@ -24,10 +24,11 @@ const {
 const { BackgroundColor } = require('./backgroundcolor');
 
 class Theme {
-  constructor({ colors, backgroundColor, lightness, contrast = 1, output = 'HEX' }) {
+  constructor({ colors, backgroundColor, lightness, contrast = 1, saturation = 100, output = 'HEX' }) {
     this._output = output;
     this._colors = colors;
     this._lightness = lightness;
+    this._saturatoin = saturation;
 
     this._setBackgroundColor(backgroundColor);
     this._setBackgroundColorValue();
@@ -46,10 +47,6 @@ class Theme {
       throw new Error(`Output “${output}” not supported`);
     }
 
-    this._modifiedColors = this._colors;
-    // console.log(`${this._colors} \n ----------------- \n ${this._modifiedColors}`)
-    // this._setContrasts(this._contrast);
-
     this._findContrastColors();
     this._findContrastColorPairs();
     this._findContrastColorValues();
@@ -57,7 +54,6 @@ class Theme {
 
   set contrast(contrast) {
     this._contrast = contrast;
-    // this._setContrasts(contrast);
     this._findContrastColors();
   }
 
@@ -73,6 +69,17 @@ class Theme {
 
   get lightness() {
     return this._lightness;
+  }
+
+  set saturation(saturation) {
+    this._saturation = saturation;
+    // Update all colors key colors
+    this._updateColorSaturation(saturation);
+    this._findContrastColors();
+  }
+
+  get saturation() {
+    return this._saturation;
   }
 
   set backgroundColor(backgroundColor) {
@@ -96,6 +103,36 @@ class Theme {
 
   get colors() {
     return this._colors;
+  }
+
+  // add individual new colors
+  set addColor(color) {
+    this._colors.push(color);
+    this._findContrastColors();
+  }
+  // remove individual colors
+  set removeColor(color) {
+    const filteredColors = this._colors.filter(entry => {return entry.name !== color.name});
+    this._colors = filteredColors;
+    this._findContrastColors();
+  }
+  // modify individual colors
+  set updateColor(param) {
+    // pass arguments in the format _updateColorParameter(color: 'ColorToChange', [propertyToChange]: 'newValue')
+    // eg, changing the name of a color: _updateColorParameter(color: 'blue', name: 'cerulean')
+    let currentColor = this._colors.filter(entry => {return entry.name === param.color});
+    currentColor = currentColor[0];
+    const filteredColors = this._colors.filter(entry => {return entry.name !== param.color});
+    if(param.name) currentColor.name = param.name;
+    if(param.colorKeys) currentColor.colorKeys = param.colorKeys;
+    if(param.ratios) currentColor.ratios = param.ratios;
+    if(param.colorspace) currentColor.colorspace = param.colorspace;
+    if(param.smooth) currentColor.smooth = param.smooth;
+
+    filteredColors.push(currentColor);
+    this._colors = filteredColors;
+
+    this._findContrastColors();
   }
 
   set output(output) {
@@ -149,6 +186,23 @@ class Theme {
     this._backgroundColorValue = this._backgroundColor.backgroundColorScale[this._lightness];
   }
 
+  _updateColorSaturation(saturation) {
+    this._colors.map((color) => {
+      const colorKeys = color.colorKeys;
+      let newColorKeys = [];
+      colorKeys.forEach(key => {
+        let currentHsluv = chroma(`${key}`).hsluv();
+        let currentSaturation = currentHsluv[1];
+        let newSaturation = currentSaturation * (saturation / 100);
+        let newHsluv = chroma.hsluv(currentHsluv[0], newSaturation, currentHsluv[2]);
+        let newColor = chroma.rgb(newHsluv).hex();
+        newColorKeys.push(newColor);
+      });
+      // set each colors color keys with new modified array
+      color.colorKeys = newColorKeys;
+    })
+  }
+
   _findContrastColors() {
     const bgRgbArray = chroma(String(this._backgroundColorValue)).rgb();
     const baseV = this._lightness / 100;
@@ -160,7 +214,7 @@ class Theme {
     const returnColorPairs = {...baseObj}; // Objext to be populated with flat list of all color values as named key-value pairs
     returnColors.push(baseObj);
 
-    this._modifiedColors.map((color) => {
+    this._colors.map((color) => {
       if (color.ratios !== undefined) {
         let swatchNames;
         const newArr = [];

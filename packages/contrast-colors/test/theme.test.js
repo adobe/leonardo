@@ -593,7 +593,6 @@ test('should generate 2 colors (CAM02 interpolation)', () => {
   });
   const theme = new Theme({ colors: [gray], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
-  theme.output = 'HEX';
 
   expect(themeColors).toEqual(['#548fe0', '#2b66f0']);
 });
@@ -860,24 +859,21 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
 // Output formats
 test('should generate 2 colors in HEX format', () => {
   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
-  const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5' });
-  theme.output = 'HEX';
+  const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'HEX'  });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['#548fe0', '#2b66f0']);
 });
 test('should generate 2 colors in RGB format', () => {
   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
-  const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5' });
-  theme.output = 'RGB';
+  const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB'  });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['rgb(84, 143, 224)', 'rgb(43, 102, 240)']);
 });
 test('should generate 2 colors in HSL format', () => {
   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
-  const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5' });
-  theme.output = 'HSL';
+  const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'HSL'  });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['hsl(215deg, 69%, 60%)', 'hsl(222deg, 87%, 55%)']);
