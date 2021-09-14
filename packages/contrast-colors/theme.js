@@ -28,7 +28,7 @@ class Theme {
     this._output = output;
     this._colors = colors;
     this._lightness = lightness;
-    this._saturatoin = saturation;
+    this._saturation = saturation;
 
     this._setBackgroundColor(backgroundColor);
     this._setBackgroundColorValue();
