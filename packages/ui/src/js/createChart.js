@@ -1,45 +1,38 @@
 /*
-Copyright 2021 Adobe. All rights reserved.
+Copyright 2019 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software distributed under
 the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-
 import * as d3 from 'd3';
-import * as c3 from 'c3';
 
-const chartWidth = 250;
-const chartHeight = 200;
+function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false) {
+  let chartWidth, chartHeight;
 
-const fillRange = (start, end) => {
-  return Array(end - start + 1).fill().map((item, index) => start + index);
-};
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  let adjustedHeight = (windowHeight - 300) / 2;// subtract heading, tabs height and padding from measurement
 
-/** Create chart for contrast ratios */
-function createContrastRatioChart(ratios) {
-  // manually add pound symbol for easier ux when running this function
-  let dest = `contrastChart`; 
-  let dataXcontrast = fillRange(0, ratios.length-1);
-  let data = [
-    {
-      x: dataXcontrast,
-      y: ratios.map(function(d) {return parseFloat(d);}) // convert to number
-    }
-  ];
-  console.log(data)
-  let xLabel = 'Swatches';
-  let yLabel = 'Contrast ratio';
+  if(dest === '#interpolationChart' || dest === '#interpolationChart2') {
+    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
+  
+    chartWidth = adjustedWidth;
+    chartHeight = adjustedHeight;
+  }
+  if(dest === '#RGBchart') {
+    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
 
-  let container = document.getElementById(dest);
-  let subhead = document.createElement('h6');
-  subhead.className = 'spectrum-Subheading';
-  subhead.innerText = 'Contrast ratios';
-  container.appendChild(subhead);
+    chartWidth = adjustedWidth;
+    chartHeight = adjustedHeight * 1.5;
+  } 
+  if(dest === '#contrastChart') {
+    chartWidth = 356;
+    chartHeight = 272;
+  }
 
   let xy_chart = d3_xy_chart()
     .width(chartWidth)
@@ -65,15 +58,16 @@ function createContrastRatioChart(ratios) {
           //
           // Create the plot.
           //
-          let margin = {top: 8, right: 8, bottom: 20, left: 32};
+          let margin = {top: 8, right: 8, bottom: 36, left: 36};
+
           let innerwidth = width - margin.left - margin.right;
           let innerheight = height - margin.top - margin.bottom;
-
+          
           let x_scale = d3.scaleLinear()
             .range([0, innerwidth])
             .domain([ d3.min(datasets, function(d) { return d3.min(d.x); }),
                       d3.max(datasets, function(d) { return d3.max(d.x); }) ]) ;
-
+          
           let y_scale = d3.scaleLinear()
             .range([innerheight, 0])
             .domain([ yMin, yMax ]);
@@ -91,6 +85,11 @@ function createContrastRatioChart(ratios) {
             .tickSize(-innerheight)
             .tickFormat("") ;
 
+          if(finiteScale) {
+            x_axis.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
+            x_grid.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
+          }
+
           let y_grid = d3.axisLeft(y_scale)
             .tickSize(-innerwidth)
             .tickFormat("") ;
@@ -106,34 +105,72 @@ function createContrastRatioChart(ratios) {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")") ;
 
-          svg.append("g")
-            .attr("class", "x grid")
-            .attr("transform", "translate(0," + innerheight + ")")
-            .call(x_grid) ;
+          // If dest is RGB chart, don't show ticks
+          if(dest !== '#RGBchart') {
+            svg.append("g")
+              .attr("class", "x grid")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(x_grid) ;
 
-          svg.append("g")
-            .attr("class", "y grid")
-            .call(y_grid) ;
+            svg.append("g")
+              .attr("class", "y grid")
+              .call(y_grid) ;
 
-          svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + innerheight + ")")
-            .call(x_axis)
-            .append("text")
-            .attr("dy", "-.71em")
-            .attr("x", innerwidth)
-            .style("text-anchor", "end")
-            .text(xlabel) ;
+            svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(x_axis)
+              .append("text")
+              // .attr("dy", "-.71em")
+              .attr("dy", "2.5em")
+              .attr("x", (innerwidth/2))
+              .style("text-anchor", "middle")
+              .text(xlabel) ;
 
-          svg.append("g")
-            .attr("class", "y axis")
-            .call(y_axis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", "0.71em")
-            .style("text-anchor", "end")
-            .text(ylabel) ;
+            svg.append("g")
+              .attr("class", "y axis")
+              .call(y_axis)
+              .append("text")
+              .attr("transform", "rotate(-90)")
+              // .attr("y", 6)
+              .attr("dy", "-2.25em")
+              .attr('x', (-innerheight/2))
+              .style("text-anchor", "middle")
+              .text(ylabel) ;
+          } 
+          else {
+            svg.append("g")
+              .attr("class", "x grid")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(x_grid) ;
+
+            svg.append("g")
+              .attr("class", "y grid")
+              .call(y_grid) ;
+
+            svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + innerheight + ")")
+              .call(x_axis)
+              // .append("text")
+              // .attr("dy", "-.71em")
+              // .attr("dy", "2.75em")
+              // .attr("x", (innerwidth/2))
+              // .style("text-anchor", "middle")
+              // .text(xlabel) ;
+
+            svg.append("g")
+              .attr("class", "y axis")
+              .call(y_axis)
+              // .append("text")
+              // .attr("transform", "rotate(-90)")
+              // .attr("y", 6)
+              // .attr("dy", "-2em")
+              // .attr('x', (-innerheight/2))
+              // .style("text-anchor", "middle")
+              // .text(ylabel) ;
+          }
+
 
           let data_lines = svg.selectAll(".d3_xy_chart_line")
             .data(datasets.map(function(d) {return d3.zip(d.x, d.y);}))
@@ -185,4 +222,4 @@ function createContrastRatioChart(ratios) {
   }
 }
 
-exports.createContrastRatioChart = createContrastRatioChart;
+module.exports = {createChart};

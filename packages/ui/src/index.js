@@ -63,20 +63,15 @@ import ClipboardJS from 'clipboard';
 new ClipboardJS('.copyButton');
 new ClipboardJS('.colorOutputBlock');
 
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
 
 // Import d3 plugins and add them to the d3 namespace
-import * as d3cam02 from 'd3-cam02';
-import * as d3hsluv from 'd3-hsluv';
-import * as d3hsv from 'd3-hsv';
-import * as d33d from 'd3-3d';
-Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
+// import * as d3cam02 from 'd3-cam02';
+// import * as d3hsluv from 'd3-hsluv';
+// import * as d3hsv from 'd3-hsv';
+// import * as d33d from 'd3-3d';
+// Object.assign(d3, d3cam02, d3hsluv, d3hsv, d33d);
 
-import * as charts from './charts.js';
-import * as chartData from './data.js';
-import { Theme } from '@adobe/leonardo-contrast-colors';
-import { Color } from '@adobe/leonardo-contrast-colors';
-import { BackgroundColor } from '@adobe/leonardo-contrast-colors';
 
 var bgFieldInput = document.getElementById('bgField');
 var background = bgFieldInput.value;

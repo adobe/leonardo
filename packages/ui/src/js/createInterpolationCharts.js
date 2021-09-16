@@ -1,0 +1,133 @@
+/*
+Copyright 2019 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+import * as d3 from './d3';
+import {createChart} from './createChart';
+import {filterNaN} from './utils';
+
+function createInterpolationCharts(colors, mode) {
+  let dest = document.getElementById('interpolationChart');
+  dest.innerHTML = ' ';
+  let dest2 = document.getElementById('interpolationChart2');
+  dest2.innerHTML = ' ';
+
+  // Identify mode channels
+  let c1, c2, c3, func, yMin, yMax, c1Label, c2Label, yLabel;
+  if(mode === 'RGB') {
+    func = 'hsl';
+    c1 = 'h';
+    c1Label = `Hue (HSL - H)`;
+    c2 = 's';
+    c2Label = `Saturation (HSL - S)`;
+    // c3 = 'l';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'LAB') {
+    func = 'lab';
+    c1 = 'a';
+    c1Label = `Redness / Greenness (${mode} - A)`;
+    c2 = 'b';
+    c2Label = `Blueness / Yellowness (${mode} - B)`;
+    // c3 = 'l';
+  }
+  if(mode === 'LCH') {
+    func = 'lch';
+    c1 = 'h';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 'c';
+    c2Label = `Chroma (${mode} - C)`;
+    // c3 = 'l';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'CAM02') {
+    func = 'jab';
+    c1 = 'a';
+    c1Label = `Redness / Greenness (${mode} - A)`;
+    c2 = 'b';
+    c2Label = `Blueness / Yellowness (${mode} - B)`;
+    // c3 = 'J';
+  }
+  if(mode === 'CAM02p') {
+    func = 'jch';
+    c1 = 'h';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 'c';
+    c2Label = `Chroma (${mode} - C)`;
+    // c3 = 'J';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'HSL') {
+    func = 'hsl';
+    c1 = 'h';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 's';
+    c2Label = `Saturation (${mode} - S)`;
+    // c3 = 'l';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'HSLuv') {
+    func = 'hsluv';
+    c1 = 'l';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 'u';
+    c2Label = `Saturation (${mode} - S)`;
+    // c3 = 'v';
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'HSV') {
+    func = 'hsv';
+    c1 = 'h';
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 's';
+    c2Label = `Saturation (${mode} - S)`;
+    // c3 = 'v';
+    yMin = 0;
+    yMax = 360;
+  }
+  // Create chart header
+  let InterpolationHeader = document.createElement('h5');
+  InterpolationHeader.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+  InterpolationHeader.innerHTML = `${c1Label}`;
+  dest.appendChild(InterpolationHeader);
+  let InterpolationHeader2 = document.createElement('h5');
+  InterpolationHeader2.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+  InterpolationHeader2.innerHTML = `${c2Label}`;
+  dest2.appendChild(InterpolationHeader2);
+
+  const fillRange = (start, end) => {
+    return Array(end - start).fill().map((item, index) => start + index);
+  };
+  let dataX = fillRange(1, colors.length);
+  let sortedDataX = dataX.sort((a, b) => b-a);
+
+  let dataA = [
+    {
+      x: sortedDataX,
+      y: colors.map(function(d) {return filterNaN(d3[func](d)[c1]);}) 
+    }
+  ];
+  let dataB = [
+    {
+      x: sortedDataX,
+      y: colors.map(function(d) {return filterNaN(d3[func](d)[c2]);}) 
+    }
+  ];
+  
+  createChart(dataA, ' ', ' ', "#interpolationChart", yMin, yMax);
+  createChart(dataB, ' ', ' ', "#interpolationChart2", yMin, yMax);
+}
+
+module.exports = {createInterpolationCharts}

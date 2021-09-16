@@ -339,303 +339,90 @@ function dragEnd(){
 
 // d3.selectAll('button').on('click', init3dChart);
 
-function createChartHeader(x, dest) {
-  let container = document.getElementById(dest);
-  let subhead = document.createElement('h6');
-  subhead.className = 'spectrum-Subheading';
-  subhead.innerText = x;
-  container.appendChild(subhead);
-}
+// function createChartHeader(x, dest) {
+//   let container = document.getElementById(dest);
+//   let subhead = document.createElement('h6');
+//   subhead.className = 'spectrum-Subheading';
+//   subhead.innerText = x;
+//   container.appendChild(subhead);
+// }
 
-// Make 2d color charts
-function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false) {
-  let chartWidth, chartHeight;
+// // Make 2d color charts
+// function toggleGraphs() {
+//   let panel = document.getElementById('colorMetrics');
+//   let toggle = document.getElementById('toggleMetrics');
+//   panel.classList.toggle('visible');
+//   toggle.classList.toggle('is-selected');
+// }
 
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-  let adjustedHeight = (windowHeight - 300) / 2;// subtract heading, tabs height and padding from measurement
+// function createAllCharts(mode, colors) {
+//   // mode = document.getElementById('chart2dColorspace').value;
 
-  if(dest === '#interpolationChart' || dest === '#interpolationChart2') {
-    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
-  
-    chartWidth = adjustedWidth;
-    chartHeight = adjustedHeight;
-  }
-  if(dest === '#RGBchart') {
-    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
+//   // let chart3 = document.getElementById('chart3Wrapper');
+//   data.createData(colors, mode);
 
-    chartWidth = adjustedWidth;
-    chartHeight = adjustedHeight * 1.5;
-  } 
-  if(dest === '#contrastChart') {
-    chartWidth = 356;
-    chartHeight = 272;
-  }
+//   if (mode=="LCH") {
+//     createChartHeader('Chroma / Lightness', 'chart1');
+//     createChart(lchDataC, 'Chroma', 'Lightness', "#chart1", 0, 100);
+//     createChartHeader('Hue / Lightness', 'chart2');
+//     createChart(lchDataH, 'Hue', 'Lightness', "#chart2", 0, 360);
+//     createChartHeader('Chroma / Hue', 'chart3');
+//     createChart(lchDataCH, 'Chroma', 'Hue', "#chart3", 0, 100);
+//   }
+//   if (mode=="LAB") {
+//     createChartHeader('Green Red / Lightness', 'chart1');
+//     createChart(labDataA, 'Green - Red', 'Lightness', "#chart1");
+//     createChartHeader('Blue Yellow / Lightness', 'chart2');
+//     createChart(labDataB, 'Blue - Yellow', 'Lightness', "#chart2");
+//     createChartHeader('Green Red / Blue Yellow', 'chart3');
+//     createChart(labDataAB, 'Green - Red', 'Blue - Yellow', "#chart3");
+//   }
+//   if (mode=="CAM02") {
+//     createChartHeader('Green Red / Lightness', 'chart1');
+//     createChart(camDataA, 'Green - Red', 'Lightness', "#chart1");
+//     createChartHeader('Blue Yellow / Lightness', 'chart2');
+//     createChart(camDataB, 'Blue - Yellow', 'Lightness', "#chart2");
+//     createChartHeader('Green Red / Blue Yellow', 'chart3');
+//     createChart(camDataAB, 'Green - Red', 'Blue - Yellow', "#chart3");
+//   }
+//   if (mode=="HSL") {
+//     createChartHeader('Hue / Lightness', 'chart1');
+//     createChart(hslDataH, 'Hue', 'Lightness', "#chart1", 0, 360);
+//     createChartHeader('Saturation / Lightness', 'chart2');
+//     createChart(hslDataS, 'Saturation', 'Lightness', "#chart2", 0, 1);
+//     createChartHeader('Saturation / Hue', 'chart3');
+//     createChart(hslDataHS, 'Saturation', 'Hue', "#chart3", 0, 1);
+//   }
+//   if (mode=="HSLuv") {
+//     createChartHeader('Hue / Lightness', 'chart1');
+//     createChart(hsluvDataL, 'Hue', 'Lightness', "#chart1", 0, 360);
+//     createChartHeader('Saturation / Lightness', 'chart2');
+//     createChart(hsluvDataU, 'Saturation', 'Lightness', "#chart2", 0, 100);
+//     createChartHeader('Saturation / Hue', 'chart3');
+//     createChart(hsluvDataLU, 'Saturation', 'Hue', "#chart3", 0, 100);
+//   }
+//   if (mode=="HSV") {
+//     createChartHeader('Hue / Lightness', 'chart1');
+//     createChart(hsvDataH, 'Hue', 'Lightness', "#chart1", 0, 360);
+//     createChartHeader('Saturation / Lightness', 'chart2');
+//     createChart(hsvDataS, 'Saturation', 'Lightness', "#chart2", 0, 1);
+//     createChartHeader('Saturation / Hue', 'chart3');
+//     createChart(hsvDataHS, 'Saturation', 'Hue', "#chart3", 0, 1);
+//   }
+//   if (mode=="RGB") {
+//     createChartHeader('Red / Green', 'chart1');
+//     createChart(rgbDataR, 'Red', 'Green', "#chart1", 0, 255);
+//     createChartHeader('Green / Blue', 'chart2');
+//     createChart(rgbDataG, 'Green', 'Blue', "#chart2", 0, 255);
+//     createChartHeader('Blue / Red', 'chart3');
+//     createChart(rgbDataB, 'Blue', 'Red', "#chart3", 0, 255);
+//   }
 
-  let xy_chart = d3_xy_chart()
-    .width(chartWidth)
-    .height(chartHeight)
-    .xlabel(xLabel)
-    .ylabel(yLabel);
+//   // createChartHeader('Contrast Ratios', 'contrastChart');
+//   // createChart(window.contrastData, 'Contrast', 'Swatches', "#contrastChart");
 
-  let svg = d3.select(dest).append("svg")
-    .datum(data)
-    .call(xy_chart);
-
-  function d3_xy_chart() {
-    let width = chartWidth,
-        height = chartHeight,
-        xlabel = "X Axis Label",
-        ylabel = "Y Axis Label";
-
-    function chart(selection) {
-      selection.each(function(datasets) {
-          // If no min/max defined, base on min/max from data
-          if (yMin == undefined) { yMin = d3.min(datasets, function(d) { return d3.min(d.y); }) }
-          if (yMax == undefined) { yMax = d3.max(datasets, function(d) { return d3.max(d.y); }) }
-          //
-          // Create the plot.
-          //
-          let margin = {top: 8, right: 8, bottom: 36, left: 36};
-
-          let innerwidth = width - margin.left - margin.right;
-          let innerheight = height - margin.top - margin.bottom;
-          
-          let x_scale = d3.scaleLinear()
-            .range([0, innerwidth])
-            .domain([ d3.min(datasets, function(d) { return d3.min(d.x); }),
-                      d3.max(datasets, function(d) { return d3.max(d.x); }) ]) ;
-          
-          let y_scale = d3.scaleLinear()
-            .range([innerheight, 0])
-            .domain([ yMin, yMax ]);
-                      // d3.min(datasets, function(d) { return d3.min(d.y); }),
-                      // d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
-
-          let color_scale = d3.scaleOrdinal(d3.schemeCategory10)
-            .domain(d3.range(datasets.length)) ;
-
-          let x_axis = d3.axisBottom(x_scale);
-
-          let y_axis = d3.axisLeft(y_scale);
-
-          let x_grid = d3.axisBottom(x_scale)
-            .tickSize(-innerheight)
-            .tickFormat("") ;
-
-          if(finiteScale) {
-            x_axis.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
-            x_grid.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
-          }
-
-          let y_grid = d3.axisLeft(y_scale)
-            .tickSize(-innerwidth)
-            .tickFormat("") ;
-
-          let draw_line = d3.line()
-            .curve(d3.curveLinear)
-            .x(function(d) { return x_scale(d[0]); })
-            .y(function(d) { return y_scale(d[1]); }) ;
-
-          let svg = d3.select(this)
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")") ;
-
-          // If dest is RGB chart, don't show ticks
-          if(dest !== '#RGBchart') {
-            svg.append("g")
-              .attr("class", "x grid")
-              .attr("transform", "translate(0," + innerheight + ")")
-              .call(x_grid) ;
-
-            svg.append("g")
-              .attr("class", "y grid")
-              .call(y_grid) ;
-
-            svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + innerheight + ")")
-              .call(x_axis)
-              .append("text")
-              // .attr("dy", "-.71em")
-              .attr("dy", "2.5em")
-              .attr("x", (innerwidth/2))
-              .style("text-anchor", "middle")
-              .text(xlabel) ;
-
-            svg.append("g")
-              .attr("class", "y axis")
-              .call(y_axis)
-              .append("text")
-              .attr("transform", "rotate(-90)")
-              // .attr("y", 6)
-              .attr("dy", "-2.25em")
-              .attr('x', (-innerheight/2))
-              .style("text-anchor", "middle")
-              .text(ylabel) ;
-          } 
-          else {
-            svg.append("g")
-              .attr("class", "x grid")
-              .attr("transform", "translate(0," + innerheight + ")")
-              .call(x_grid) ;
-
-            svg.append("g")
-              .attr("class", "y grid")
-              .call(y_grid) ;
-
-            svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + innerheight + ")")
-              .call(x_axis)
-              // .append("text")
-              // .attr("dy", "-.71em")
-              // .attr("dy", "2.75em")
-              // .attr("x", (innerwidth/2))
-              // .style("text-anchor", "middle")
-              // .text(xlabel) ;
-
-            svg.append("g")
-              .attr("class", "y axis")
-              .call(y_axis)
-              // .append("text")
-              // .attr("transform", "rotate(-90)")
-              // .attr("y", 6)
-              // .attr("dy", "-2em")
-              // .attr('x', (-innerheight/2))
-              // .style("text-anchor", "middle")
-              // .text(ylabel) ;
-          }
-
-
-          let data_lines = svg.selectAll(".d3_xy_chart_line")
-            .data(datasets.map(function(d) {return d3.zip(d.x, d.y);}))
-            .enter().append("g")
-            .attr("class", "d3_xy_chart_line") ;
-
-          data_lines.append("path")
-            .attr("class", "line")
-            .attr("d", function(d) {return draw_line(d); })
-            .attr("stroke", function(_, i) {return color_scale(i);}) ;
-
-          data_lines.append("text")
-            .datum(function(d, i) { return {name: datasets[i].label, final: d[d.length-1]}; })
-            .attr("transform", function(d) {
-                return ( "translate(" + x_scale(d.final[0]) + "," +
-                         y_scale(d.final[1]) + ")" ) ; })
-            .attr("x", 3)
-            .attr("dy", ".35em")
-            .attr("fill", function(_, i) { return color_scale(i); })
-            .text(function(d) { return d.name; }) ;
-        }) ;
-    }
-
-    chart.width = function(value) {
-      if (!arguments.length) return width;
-      width = value;
-      return chart;
-    };
-
-    chart.height = function(value) {
-      if (!arguments.length) return height;
-      height = value;
-      return chart;
-    };
-
-    chart.xlabel = function(value) {
-      if (!arguments.length) return xlabel ;
-      xlabel = value ;
-      return chart ;
-    };
-
-    chart.ylabel = function(value) {
-      if (!arguments.length) return ylabel ;
-      ylabel = value ;
-      return chart ;
-    };
-
-    return chart;
-  }
-}
-
-
-function toggleGraphs() {
-  let panel = document.getElementById('colorMetrics');
-  let toggle = document.getElementById('toggleMetrics');
-  panel.classList.toggle('visible');
-  toggle.classList.toggle('is-selected');
-}
-
-function createAllCharts(mode, colors) {
-  // mode = document.getElementById('chart2dColorspace').value;
-
-  // let chart3 = document.getElementById('chart3Wrapper');
-  data.createData(colors, mode);
-
-  if (mode=="LCH") {
-    createChartHeader('Chroma / Lightness', 'chart1');
-    createChart(lchDataC, 'Chroma', 'Lightness', "#chart1", 0, 100);
-    createChartHeader('Hue / Lightness', 'chart2');
-    createChart(lchDataH, 'Hue', 'Lightness', "#chart2", 0, 360);
-    createChartHeader('Chroma / Hue', 'chart3');
-    createChart(lchDataCH, 'Chroma', 'Hue', "#chart3", 0, 100);
-  }
-  if (mode=="LAB") {
-    createChartHeader('Green Red / Lightness', 'chart1');
-    createChart(labDataA, 'Green - Red', 'Lightness', "#chart1");
-    createChartHeader('Blue Yellow / Lightness', 'chart2');
-    createChart(labDataB, 'Blue - Yellow', 'Lightness', "#chart2");
-    createChartHeader('Green Red / Blue Yellow', 'chart3');
-    createChart(labDataAB, 'Green - Red', 'Blue - Yellow', "#chart3");
-  }
-  if (mode=="CAM02") {
-    createChartHeader('Green Red / Lightness', 'chart1');
-    createChart(camDataA, 'Green - Red', 'Lightness', "#chart1");
-    createChartHeader('Blue Yellow / Lightness', 'chart2');
-    createChart(camDataB, 'Blue - Yellow', 'Lightness', "#chart2");
-    createChartHeader('Green Red / Blue Yellow', 'chart3');
-    createChart(camDataAB, 'Green - Red', 'Blue - Yellow', "#chart3");
-  }
-  if (mode=="HSL") {
-    createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hslDataH, 'Hue', 'Lightness', "#chart1", 0, 360);
-    createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hslDataS, 'Saturation', 'Lightness', "#chart2", 0, 1);
-    createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hslDataHS, 'Saturation', 'Hue', "#chart3", 0, 1);
-  }
-  if (mode=="HSLuv") {
-    createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsluvDataL, 'Hue', 'Lightness', "#chart1", 0, 360);
-    createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsluvDataU, 'Saturation', 'Lightness', "#chart2", 0, 100);
-    createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hsluvDataLU, 'Saturation', 'Hue', "#chart3", 0, 100);
-  }
-  if (mode=="HSV") {
-    createChartHeader('Hue / Lightness', 'chart1');
-    createChart(hsvDataH, 'Hue', 'Lightness', "#chart1", 0, 360);
-    createChartHeader('Saturation / Lightness', 'chart2');
-    createChart(hsvDataS, 'Saturation', 'Lightness', "#chart2", 0, 1);
-    createChartHeader('Saturation / Hue', 'chart3');
-    createChart(hsvDataHS, 'Saturation', 'Hue', "#chart3", 0, 1);
-  }
-  if (mode=="RGB") {
-    createChartHeader('Red / Green', 'chart1');
-    createChart(rgbDataR, 'Red', 'Green', "#chart1", 0, 255);
-    createChartHeader('Green / Blue', 'chart2');
-    createChart(rgbDataG, 'Green', 'Blue', "#chart2", 0, 255);
-    createChartHeader('Blue / Red', 'chart3');
-    createChart(rgbDataB, 'Blue', 'Red', "#chart3", 0, 255);
-  }
-
-  // createChartHeader('Contrast Ratios', 'contrastChart');
-  // createChart(window.contrastData, 'Contrast', 'Swatches', "#contrastChart");
-
-  init3dChart();
-}
+//   init3dChart();
+// }
 
 
 let chartColors = [];
@@ -676,10 +463,10 @@ function showContrastChart() {
 exports.init3dChart = init3dChart;
 // exports.update3dChart = update3dChart;
 // exports.updateCharts = updateCharts;
-exports.showCharts = showCharts;
+// exports.showCharts = showCharts;
 // window.update3dChart = update3dChart;
 // window.updateCharts = updateCharts;
-exports.showContrastChart = showContrastChart;
-exports.createChartHeader = createChartHeader;
-exports.createAllCharts = createAllCharts;
-exports.createChart = createChart;
+// exports.showContrastChart = showContrastChart;
+// exports.createChartHeader = createChartHeader;
+// exports.createAllCharts = createAllCharts;
+// exports.createChart = createChart;
