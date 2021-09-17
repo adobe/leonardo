@@ -65,7 +65,7 @@ function addFromURL() {
 
   cancelURL();
   // Run colorinput
-  // throttle(themeInput, 10);
+  // throttle(themeUpdate, 10);
   // Clear out value when done
   input.value = ' ';
 }

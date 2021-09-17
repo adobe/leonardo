@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import {addColorScale} from './colorScale';
-import {addRatios} from './ratios';
+import {addRatioInputs} from './ratios';
 import {sliderInput} from './sliderInput';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {_theme} from './initialTheme';
@@ -74,7 +74,7 @@ function paramSetup() {
     themeBase.value = baseScale;
   }
   else if(!params.has('config') || params.get('config') === undefined) {
-    addRatios([3, 4.5]);
+    addRatioInputs([3, 4.5]);
     // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;
     for(let i=0; i<length; i++) {
@@ -91,7 +91,7 @@ function paramSetup() {
   }
 
   // sliderInput();
-  themeInput();
+  themeUpdate();
 }
 
 // Passing variable parameters to URL

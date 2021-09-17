@@ -28,9 +28,9 @@ function sliderInput(e) {
         id === 'themeSaturationSlider') ? 'saturation' : undefined
       );
   
-  _theme[property] = value;
+  _theme[property] = Number(value);
 
-  themeInput();
+  themeUpdate();
 }
 
 const sliderB = document.getElementById('themeBrightnessSlider');

@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {themeInput} from './themeUpdate';
+import {themeUpdate} from './themeUpdate';
 
 function showToast() {
   let toast = document.getElementById("toastCVDpreview");
@@ -33,7 +33,7 @@ function hideToast() {
 function exitPreview() {
   cvdModeDropdown.value = "None";
 
-  themeInput();
+  themeUpdate();
   hideToast();
 }
 

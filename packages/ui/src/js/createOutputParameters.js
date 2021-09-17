@@ -55,6 +55,10 @@ let ${themeName.replace(/\s/g, '')} = new Leo.Theme({
 }
 
 function createCSSOutput() {
+  let themeName = getThemeName();
+  let themeCssClass = `.${themeName.replace(/\s/g, '')}`
+  if(!themeName) themeCssClass = ':root';
+  
   let paramsOutput = document.getElementById('themeCSSParams');
 
   let contrastPairs = _theme.contrastColorPairs;
@@ -64,7 +68,7 @@ function createCSSOutput() {
   }
   const joinedDeclarations = declarations.join(`\n`);
   let paramOutputString =
-`:root {
+`${themeCssClass} {
 ${joinedDeclarations}
 }`;
 

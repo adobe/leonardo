@@ -226,7 +226,7 @@
         </div>
         <div class="spectrum-Form-item spectrum-Form-item--row">
           <label for="cvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
-          <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode" oninput="themeInput()">
+          <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode" oninput="themeUpdate()">
             <option value="None">None</option>
             <option value="Deuteranomaly">Deuteranomaly (common)</option>
             <option value="Deuteranopia">Deuteranopia (common)</option>
@@ -258,7 +258,7 @@
     <div class="spectrum-Content-Tabs">
       <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
         <div id="tabOutput" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'outputWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Output</label>
+          <label class="spectrum-Tabs-itemLabel">Preview</label>
         </div>
         <!-- <div id="tabDemo" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'demoWrapper')">
           <label class="spectrum-Tabs-itemLabel">Demo</label>

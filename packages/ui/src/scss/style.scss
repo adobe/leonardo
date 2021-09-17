@@ -827,7 +827,10 @@ a:focus {
 .spectrum-Subheading {
   color: var(--spectrum-global-color-gray-700);
 }
-
+.colorTabsWrapper {
+  flex-direction: column;
+  padding: var(--spectrum-global-dimension-size-200);
+}
 #functionParams,
 .themeOutputParams {
   background-color: var(--spectrum-global-color-gray-50);
@@ -1529,7 +1532,10 @@ a:focus {
 
 #outputWrapper {
   flex-direction: column;
-  padding: 16px;
+  padding: 2px 16px;
+}
+#colorOutputWrapper {
+  margin-top: 2px;
 }
 
 .spectrum-Picker-trigger {

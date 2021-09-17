@@ -67,8 +67,20 @@ function updateRamps(color, id) {
   createInterpolationCharts(rampData, chartsMode)
 }
 
+function createAllColorRamps() {
+  let dest = colorScalesWrapper;
+  _theme.colors.map((color) => {
+    let rampData = Leo.createScale({swatches: 30, colorKeys: color.colorKeys, colorspace: color.colorspace, smooth: color.smooth});
+    let colors = rampData;
+  
+    themeRamp(colors, dest)
+    // colors = cvdColors(colors);
+  })
+}
+
 module.exports = {
   themeRamp,
   themeRampKeyColors,
+  createAllColorRamps,
   updateRamps
 }

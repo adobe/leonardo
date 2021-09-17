@@ -19,6 +19,7 @@ import {
   getContrastRatios,
   getAllColorKeys
 } from './getThemeData';
+import {createOutputColors} from './createOutputColors';
 import {cvdColors} from './cvdColors'
 import {createRatioChart} from './createRatioChart';
 import {
@@ -31,181 +32,8 @@ import {throttle} from './utils';
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
 
-function themeInput() {
-  let inputThemeName = getThemeName();
-  let themeName = (!inputThemeName) ? 'theme': inputThemeName;
-  let items = document.getElementsByClassName('themeColor_item');
-  // console.log(`Items are ${items.length}`)
-  // console.log(`Colors are ${_theme.colors.length}`)
-  let themeOutputs = document.getElementById('themeOutputs');
-  themeOutputs.innerHTML = ' ';
-
-  let paramsOutput = document.getElementById('themeParams');
-
-  let allKeyColors = [];
-
-  let colorsArray = [];
-  let colorConfigsArray = [];
-  let colorNameArray = [];
-  let backgroundColor = "#ffffff";
-  let backgroundColorName = '#ffffff'
-
-  for (let i = 0; i < items.length; i++) {
-    let id = items[i].id;
-
-    let thisElement = document.getElementById(id);
-    let colorData = getColorItemClass(id);
-
-    let colorArgs = colorData.colorKeys;
-    let mode = colorData.colorspace;
-    let ratios = colorData.ratios;
-    let name = colorData.name;
-    let smooth = colorData.smooth;
-
-    allKeyColors.push(colorArgs);
-
-    let colorClass;
-    if(name === _theme.backgroundColor.name) {
-      let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
-      colorConfigsArray.push(`let ${name} = new BackgroundColor(${JSON.stringify(configs)});`);
-      colorClass = new Leo.BackgroundColor(configs);
-      colorNameArray.push(name);
-      backgroundColor = colorClass;
-      backgroundColorName = name;
-      colorsArray.push(colorClass);
-    } else {
-      let configs = {name: name, colorKeys: colorArgs, ratios: ratios, colorspace: mode};
-      colorConfigsArray.push(`let ${name} = new Color(${JSON.stringify(configs)});`);
-      colorClass = new Leo.Color(configs);
-      colorNameArray.push(name);
-      colorsArray.push(colorClass);
-    }
-    let colors = Leo.createScale({swatches: 30, colorKeys: colorArgs, colorspace: mode, smooth: smooth});
-
-    colors = cvdColors(colors);
-
-  }
-
-  let theme = _theme.contrastColors;
-  console.log(_theme)
-  
-  const themeBackgroundColor = theme[0].background;
-  const themeBackgroundColorArray = [d3.rgb(themeBackgroundColor).r, d3.rgb(themeBackgroundColor).g, d3.rgb(themeBackgroundColor).b]
-  const backgroundLum = d3.hsluv(themeBackgroundColor).v;
-
-  // Loop again after generating theme.
-  for (let i = 0; i < items.length; i++) {
-    let id = items[i].id;
-    let thisElement = document.getElementById(id);
-    // let gradientId = id.concat('_gradient');
-    // let gradient = document.getElementById(gradientId);
-    let colorObjs = theme[i+1].values;
-    let arr = [];
-
-    for(let i = 0; i < colorObjs.length; i ++) {
-      arr.push(cvdColors(colorObjs[i].value));
-    }
-    // themeSwatchRamp(arr, gradientId);
-  }
-
-  let themeColorArray = [];
-
-  let varPrefix = '--';
-
-  // Iterate each color from theme except 1st object (background)
-  for (let i=0; i<theme.length; i++) {
-    let wrapper = document.createElement('div');
-
-    let swatchWrapper = document.createElement('div');
-    swatchWrapper.className = 'themeOutputColor';
-
-    // Iterate each color value
-    if (theme[i].values) {
-      let p = document.createElement('p');
-      p.className = 'spectrum-Detail spectrum-Detail--sizeS';
-      p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-      p.innerHTML = theme[i].name;
-
-      wrapper.appendChild(p);
-
-      for(let j=0; j<theme[i].values.length; j++) { // for each value object
-        let key = theme[i].values[j].name; // output "name" of color
-        let prop = varPrefix.concat(key);
-        let originalValue = theme[i].values[j].value; // output value of color
-        // transform original color based on preview mode
-        let value = cvdColors(originalValue);
-
-        // get the ratio to print inside the swatch
-        let contrast = theme[i].values[j].contrast;
-        // console.log(originalValue, themeBackgroundColor)
-        let colorArray = [d3.rgb(originalValue).r, d3.rgb(originalValue).g, d3.rgb(originalValue).b]
-        let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
-        let contrastRounded = (Math.round(actualContrast * 100))/100;
-        let contrastText = document.createTextNode(contrastRounded);
-        let contrastTextSpan = document.createElement('span');
-        contrastTextSpan.className = 'themeOutputSwatch_contrast';
-        contrastTextSpan.appendChild(contrastText);
-        contrastTextSpan.style.color = (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
-
-        // create CSS property
-        document.documentElement.style
-          .setProperty(prop, value);
-        // create swatch
-        let div = document.createElement('div');
-        div.className = 'themeOutputSwatch';
-        // copy text should be for value of original color, not of preview color.
-        div.setAttribute('data-clipboard-text', originalValue);
-        div.setAttribute('tabindex', '0');
-        div.style.backgroundColor = value;
-        div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
-        div.appendChild(contrastTextSpan);
-
-        swatchWrapper.appendChild(div);
-        themeColorArray.push(originalValue);
-      }
-      wrapper.appendChild(swatchWrapper);
-    }
-    else if (theme[i].background) {
-      let p = document.createElement('p');
-      p.className = 'spectrum-Detail spectrum-Detail--sizeS';
-      p.innerHTML = 'Background color';
-      p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-
-      wrapper.appendChild(p);
-
-      // grab background color data
-      let key = 'theme-background'; // "name" of color
-      let prop = varPrefix.concat(key);
-      let originalValue = theme[i].background; // output value of color
-      // set global variable value. Probably shouldn't do it this way.
-      let currentBackgroundColor = originalValue;
-      let value = cvdColors(originalValue);
-
-      // create CSS property
-      document.documentElement.style
-        .setProperty(prop, value);
-      // create swatch
-      let div = document.createElement('div');
-      div.className = 'themeOutputSwatch';
-      div.setAttribute('tabindex', '0');
-      div.setAttribute('data-clipboard-text', originalValue);
-      div.style.backgroundColor = value;
-      div.style.borderColor = (backgroundLum > 50) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
-
-      swatchWrapper.appendChild(div);
-      wrapper.appendChild(swatchWrapper);
-
-      themeColorArray.push(originalValue);
-    }
-
-    themeOutputs.appendChild(wrapper);
-  }
-  // Run toggle to ensure proper visibility shown based on view mode
-  // toggleConfigs();
-
-  let copyThemeColors = document.getElementById('copyThemeColors');
-  copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
-
+function themeUpdate() {
+  createOutputColors();
   createOutputParameters();
 
   let chartRatios = getContrastRatios();
@@ -219,20 +47,10 @@ function themeInput() {
   let allKeys = getAllColorKeys();
   let arr = getConvertedColorCoodrindates(allKeys, colorWheelMode);
   createColorWheelDots(arr);
-
-  // console.log(arr)
-  // }
 }
 
 function themeUpdateParams() {
-  themeInput();
-  // let config = getThemeData();
-  // let name = getThemeName();
-
-  // config = JSON.stringify(config);
-
-  // TODO: uncomment and get this working
-  // updateParams(name, config);
+  themeUpdate();
 }
 
 // Toggle disabled state of adaptive theme controls
@@ -274,17 +92,16 @@ function toggleControls() {
   }
 }
 
-
 // Update theme when theme name is changed
 document.getElementById('themeNameInput').addEventListener('input', throttle(themeUpdateParams, 50));
 // Update theme when base color selection is changed
 document.getElementById('themeBase').addEventListener('input', throttle(themeUpdateParams, 50));
 
-window.themeInput = themeInput;
+window.themeUpdate = themeUpdate;
 window.themeUpdateParams = themeUpdateParams;
 
 module.exports = {
-  themeInput,
+  themeUpdate,
   themeUpdateParams,
   toggleControls
 }

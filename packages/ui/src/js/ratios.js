@@ -9,33 +9,42 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {getContrastRatios} from './getThemeData'
-import {themeInput} from './themeUpdate';
+import {getContrastRatios} from './getThemeData';
+import {_theme} from './initialTheme';
+import {createOutputColors} from './createOutputColors';
+import {createOutputParameters} from './createOutputParameters';
+import {createRatioChart} from './createRatioChart';
 import {randomId} from './utils';
 
-function addRatio(v, fs, fw) {
+function addRatio() {
+  // Gather all existing ratios from _theme
+  let themeRatios = getContrastRatios();
+  // find highest value
+  var hi = Math.max(...themeRatios);
+  // Assign an incremented value for the new ratio
+  let value;
+  if(hi < 20) value = Number(hi + 1).toFixed(2);
+  if(hi == 21) value = Number(hi - 1).toFixed(2);
+  // Add new value to array of existing ratios
+  themeRatios.push(value);
+  themeRatios = themeRatios.map((r) => {return Number(r)});
+  // Pass new array to function that updates all ratio values in the _theme
+  ratioUpdateValues(themeRatios);
+
+  // createHtmlElement
+  createRatioInput(value);
+  // Update the rest of the components dependent upon the ratios
+  ratioUpdate(themeRatios);
+}
+
+
+function createRatioInput(v) {
   let s = '#cacaca';
   let methodPicker = document.getElementById('contrastMethod');
   let method = methodPicker.value;
-  let ratioInputs = getContrastRatios();
-  // increment by default
-  if(v === undefined) {
-    // find highest value
-    var hi = Math.max(...ratioInputs);
-    var lo = Math.min(...ratioInputs);
-
-    if(hi < 20) {
-      v = Number(hi + 1).toFixed(2);
-    }
-    if(hi == 21) {
-      v = Number(hi - 1).toFixed(2);
-    }
-  }
 
   var ratios = document.getElementById('ratioInput-wrapper');
   var div = document.createElement('div');
-  // var sliderWrapper = document.getElementById('colorSlider-wrapper');
-  // var slider = document.createElement('input');
 
   var randId = randomId();
   div.className = 'ratio-Item ratioGrid';
@@ -54,33 +63,13 @@ function addRatio(v, fs, fw) {
   ratioInput.min = (method === 'APCA') ? APCAminValue : '-10';
   ratioInput.max = (method === 'APCA') ? APCAmaxValue : '21';
   ratioInput.step = '.01';
-  ratioInput.placeholder = (method === 'WCAG') ? 4.5 : 60;
+  let ratioInputDefaultValue = (method === 'WCAG') ? 4.5 : 60;
+  ratioInput.placeholder = ratioInputDefaultValue
   ratioInput.id = randId;
   ratioInput.value = v;
   ratioInput.onkeydown = checkRatioStepModifiers;
-  // ratioInput.oninput = debounce(colorInput, 100);
+
   ratioInput.oninput = syncRatioInputs;
-
-  // var fontSizeInput = document.createElement('input');
-  // fontSizeInput.className = 'spectrum-Textfield ratioGrid--fontSize';
-  // fontSizeInput.type = "number";
-  // fontSizeInput.min = '12';
-  // fontSizeInput.step = '1';
-  // fontSizeInput.id = randId + "-fontSize";
-  // fontSizeInput.value = fs;
-  // fontSizeInput.oninput = syncRatioInputs;
-
-  // var fontWeightInput = document.createElement('input');
-  // fontWeightInput.className = 'spectrum-Textfield ratioGrid--fontWeight';
-  // fontWeightInput.type = "number";
-  // fontWeightInput.step = '100';
-  // fontWeightInput.min = '100';
-  // fontWeightInput.max = '900';
-  // fontWeightInput.placeholder = '400';
-  // fontWeightInput.id = randId + "-fontWeight";
-  // fontWeightInput.value = fw;
-  // fontWeightInput.oninput = syncRatioInputs;
-  // // fontWeightInput.defaultValue = '400';
 
   var luminosityInput = document.createElement('input');
   let luminosityInputWrapper = document.createElement('div');
@@ -102,35 +91,21 @@ function addRatio(v, fs, fw) {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  // slider.type = 'range';
-  // slider.min = '0';
-  // slider.max = '100';
-  // slider.value = v;
-  // slider.step = '.01';
-  // slider.className = 'colorSlider'
-  // slider.id = randId + "-sl";
-  // slider.disabled = true;
-  // sliderWrapper.appendChild(slider);
-
   button.onclick = deleteRatio;
   inputWrapper.appendChild(sw);
   ratioInputWrapper.appendChild(ratioInput);
   inputWrapper.appendChild(ratioInputWrapper);
-  // div.appendChild(fontSizeInput);
-  // div.appendChild(fontWeightInput);
+
   luminosityInputWrapper.appendChild(luminosityInput);
   div.appendChild(luminosityInputWrapper);
   div.appendChild(inputWrapper)
   div.appendChild(button);
   ratios.appendChild(div);
-
-  // charts2d.createContrastRatioChart(data, 'contrastChart', 'line');
-  // themeInput();
 }
 
-function addRatios(ratios) {
+function addRatioInputs(ratios) {
   ratios.forEach(ratio => {
-    return addRatio(ratio)
+    return createRatioInput(ratio)
   })
 }
 
@@ -146,7 +121,7 @@ function sort() {
 
 function sortRatios() {
   sort();
-  // colorInput();
+  ratioUpdate();
 }
 
 function syncRatioInputs(e) {
@@ -171,9 +146,16 @@ function syncRatioInputs(e) {
     luminosityInput.val = 100;
     targetContrast = val;
   }
-  // Then, run the colorinput funtion to update all values.
-  // colorInput();
-  themeInput();
+
+  let themeRatios = getContrastRatios();
+  const index = themeRatios.indexOf(targetContrast);
+  if (index > -1) {
+    themeRatios[index] = targetContrast;
+  }
+
+  ratioUpdateValues();
+  ratioUpdate();
+  ratioUpdate();
 }
 
 function checkRatioStepModifiers(e) {
@@ -197,16 +179,40 @@ function checkRatioStepModifiers(e) {
   }
 }
 
-// Delete ratio input
+// Delete ratio
 function deleteRatio(e) {
-  var id = e.target.parentNode.id;
-  var self = document.getElementById(id);
-  var sliderid = id.replace('-item', '') + '-sl';
-  var slider = document.getElementById(sliderid);
+  let id = e.target.parentNode.id;
+  let inputId = id.replace('-item', '');
+  let input = document.getElementById(inputId);
+  let value = input.value;
+  let self = document.getElementById(id);
+  // var sliderid = id.replace('-item', '') + '-sl';
+  // var slider = document.getElementById(sliderid);
 
   self.remove();
-  slider.remove();
-  // colorInput();
+  // slider.remove();
+  let themeRatios = getContrastRatios();
+  const index = themeRatios.indexOf(value);
+  if (index > -1) {
+    themeRatios.splice(index, 1);
+  }
+
+  ratioUpdateValues();
+  ratioUpdate();
+}
+
+function ratioUpdate(chartRatios = getContrastRatios()) {
+  createOutputColors();
+  createRatioChart(chartRatios);
+  createOutputParameters();
+}
+
+function ratioUpdateValues(themeRatios = getContrastRatios()) {
+  themeRatios = themeRatios.map((r) => {return Number(r)});
+
+  _theme.colors.forEach((c) => {
+    _theme.updateColor = {color: c.name, ratios: themeRatios}
+  })
 }
 
 window.addRatio = addRatio;
@@ -214,7 +220,8 @@ window.sortRatios = sortRatios;
 
 module.exports = {
   addRatio,
-  addRatios,
+  createRatioInput,
+  addRatioInputs,
   sort,
   sortRatios,
   syncRatioInputs,

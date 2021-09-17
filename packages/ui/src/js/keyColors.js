@@ -15,7 +15,7 @@ import {updateRamps} from './ramps';
 import {updateColorDots} from './colorDisc'
 import {
   themeUpdateParams,
-  themeInput
+  themeUpdate
 } from './themeUpdate';
 import {_theme} from './initialTheme';
 
@@ -126,7 +126,7 @@ function clearAllColors(e) {
   let targetId = e.target.id;
   let keyColorsId = targetId.replace('_clearAllColors', '_keyColors');
   document.getElementById(keyColorsId).innerHTML = ' ';
-  themeInput();
+  themeUpdate();
 }
 
 window.clearAllColors = clearAllColors;

@@ -32,7 +32,7 @@ import {predefinedColorNames} from './predefinedColorNames';
 function addColorScaleUpdate(c, k, s, r) {
   // if (!c) c = 'nameIsMissingSomewhere';
   addColorScale(c, k, s, r);
-  themeInput();
+  themeUpdate();
   let config = getThemeData();
   let name = getThemeName();
 
@@ -51,7 +51,7 @@ function addColorScale(newColor, addToTheme = true) {
     let ratios = getContrastRatios();
     if (ratios === undefined) ratios = [4.5]
 
-    newColor = new Leo.Color({
+    newColor = new Leo.BackgroundColor({
       name: colorNameValue,
       colorKeys: ['#000000'],
       colorspace: 'CAM02',
@@ -100,10 +100,16 @@ function addColorScale(newColor, addToTheme = true) {
   colorNameInput.name = thisId.concat('_colorName');
   colorNameInput.value = newColor.name;
 
-  colorNameInput.onblur = throttle(themeUpdateParams, 10);
+  // colorNameInput.onblur = throttle(themeUpdateParams, 10);
+  colorNameInput.addEventListener('focus', (e) => {
+    colorNameValue = e.target.value;
+  })
   colorNameInput.addEventListener('change', (e) => {
     let newValue = e.target.value;
     _theme.updateColor = {color: colorNameValue, name: newValue}
+
+    baseScaleOptions();
+    colorNameValue = newValue;
   });
   colorNameInputWrapper.appendChild(colorNameInput)
   colorName.appendChild(colorNameInputWrapper);

@@ -75,7 +75,7 @@ function showColorDetails(e) {
     contentArea.style.display = 'none';
     configPanel.innerHTML = ' ';
     configPanel.style.display = 'none';
-    // themeUpdateParams()
+    themeUpdateParams()
   }
   let backLabel = document.createElement('span')
   backLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
@@ -118,13 +118,17 @@ function showColorDetails(e) {
   colorNameInput.id = thisId.concat('_colorName2');
   colorNameInput.name = thisId.concat('_colorName2');
   colorNameInput.value = colorData.name;
-
+  let originalName = colorData.name;
   // colorNameInput.oninput = throttle(themeUpdateParams, 10);
   colorNameInput.onchange = (e) => {
     let paletteNameInput = document.getElementById(thisId.concat('_colorName'));
     const newName = `${e.target.value}`;
     paletteNameInput.value = newName;
-    _theme.updateColor = {color: colorData.name, name: e.target.value}
+    _theme.updateColor = {color: originalName, name: newName}
+
+    baseScaleOptions();
+    
+    originalName = newName;
   };
 
   // colorNameLabel.innerHTML = 'Color scale name';
@@ -257,7 +261,7 @@ function showColorDetails(e) {
   smoothInput.type = 'checkbox';
   smoothInput.className = 'spectrum-Switch-input';
   smoothInput.id = thisId.concat('_smooth');
-  // smoothInput.oninput = throttle(themeUpdateParams, 20);
+  smoothInput.oninput = throttle(themeUpdateParams, 20);
   smoothInput.addEventListener('input', (e) => {
     let checked = e.target.checked;
     const boolean = checked.toString();
@@ -439,9 +443,10 @@ function showColorDetails(e) {
   // charts.createAllCharts(colorData.colorspace, colors);
   
   toggleControls();
-  baseScaleOptions();
 
-  document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
+  document.getElementById(thisId.concat('_colorName')).addEventListener('input', function(e) {
+
+  });
   // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
   // document.getElementById('tabChartContent').click();
   document.getElementById('tabInterpCharts').addEventListener('click', (e) => {openDetailTab(e, 'tabInterpChartsContent')});

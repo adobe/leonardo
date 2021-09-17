@@ -70,7 +70,7 @@ import {
   addColorScaleUpdate
 } from './js/colorScale';
 import {
-  themeInput,
+  themeUpdate,
   themeUpdateParams
 } from './js/themeUpdate';
 import {
