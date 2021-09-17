@@ -72,10 +72,18 @@ function getAllColorKeys() {
   else throw new Error('No color scales defined')
 }
 
+function getAllColorNames() {
+  let colors = _theme.colors;
+  let colorNames = [];
+  colors.forEach((color) => colorNames.push(color.name))
+  return colorNames;
+}
+
 module.exports = {
   getColorItemClass,
   getContrastRatios,
   getThemeName,
   getThemeData,
+  getAllColorNames,
   getAllColorKeys
 }

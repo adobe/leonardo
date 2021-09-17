@@ -25,6 +25,7 @@ import {
   getConvertedColorCoodrindates,
   createColorWheelDots
 } from './colorDisc';
+import {createOutputParameters} from './createOutputParameters';
 import {throttle} from './utils';
 
 import javascript from 'highlight.js/lib/languages/javascript';
@@ -86,6 +87,7 @@ function themeInput() {
   }
 
   let theme = _theme.contrastColors;
+  console.log(_theme)
   
   const themeBackgroundColor = theme[0].background;
   const themeBackgroundColorArray = [d3.rgb(themeBackgroundColor).r, d3.rgb(themeBackgroundColor).g, d3.rgb(themeBackgroundColor).b]
@@ -204,16 +206,7 @@ function themeInput() {
   let copyThemeColors = document.getElementById('copyThemeColors');
   copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
 
-  let paramOutputString = `${colorConfigsArray.join(`\n`)}
-  let ${themeName} = new Theme({
-    colors: [${colorNameArray}],
-    backgroundColor: ${backgroundColorName},
-    lightness: ${_theme.brightness},
-    contrast: ${_theme.contrast}
-  });`;
-  const highlightedCode = hljs.highlight(paramOutputString, {language: 'javascript'}).value
-  paramsOutput.innerHTML = highlightedCode;
-
+  createOutputParameters();
 
   let chartRatios = getContrastRatios();
   createRatioChart(chartRatios);
@@ -249,6 +242,8 @@ function toggleControls() {
   let brightnessSlider = document.getElementById('themeBrightnessSlider');
   let contrastSliderWrap = document.getElementById('contrastSliderWrapper');
   let contrastSlider = document.getElementById('themeContrastSlider');
+  let saturationSliderWrap = document.getElementById('saturationSliderWrapper');
+  let saturationSlider = document.getElementById('themeSaturationSlider');
   let themeBaseLabel = document.getElementById('themeBaseLabel');
   let baseSelect = document.getElementById('themeBase');
 
@@ -256,20 +251,24 @@ function toggleControls() {
     // if there are items, enable fields
     brightnessSliderWrap.classList.remove('is-disabled');
     contrastSliderWrap.classList.remove('is-disabled');
+    saturationSliderWrap.classList.remove('is-disabled');
     themeBaseLabel.classList.remove('is-disabled');
     baseSelect.classList.remove('is-disabled');
     brightnessSlider.disabled = false;
     contrastSlider.disabled = false;
+    saturationSlider.disabled = false;
     baseSelect.disabled = false;
   }
   else if(items.length == 0) {
     // disable fields
     brightnessSliderWrap.classList.add('is-disabled');
     contrastSliderWrap.classList.add('is-disabled');
+    saturationSliderWrap.classList.add('is-disabled');
     themeBaseLabel.classList.add('is-disabled');
     baseSelect.classList.add('is-disabled');
     brightnessSlider.disabled = true;
     contrastSlider.disabled = true;
+    saturationSlider.disabled = true;
     baseSelect.disabled = true;
     baseSelect.value = ' ';
   }

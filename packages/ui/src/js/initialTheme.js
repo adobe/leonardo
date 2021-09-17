@@ -22,7 +22,8 @@ let _theme = new Leo.Theme({
   colors: [ tempGray ],
   backgroundColor: tempGray,
   lightness: 98,
-  contrast: 1
+  contrast: 1,
+  saturation: 100
 });
 
 module.exports = {

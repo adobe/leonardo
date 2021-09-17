@@ -584,11 +584,17 @@ main {
   overflow: auto;
 }
 
-#parameterWrapper {
+#parameterWrapper,
+#cssWrapper,
+#tokensWrapper {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
   align-items: flex-end;
   justify-content: flex-start;
+}
+
+.spectrum-Code {
+  line-height: 1.3;
 }
 
 #chartsWrapper,
@@ -823,21 +829,24 @@ a:focus {
 }
 
 #functionParams,
-#themeFunctionParams {
+.themeOutputParams {
   background-color: var(--spectrum-global-color-gray-50);
   border: 1px solid var(--spectrum-global-color-gray-200);
   border-radius: 4px;
-  padding: 8px;
+  padding: var(--spectrum-global-dimension-size-200);
   margin: 0;
   // width: calc(100% - 4px);
   overflow: auto;
 }
 
-#themeFunctionParams {
+.themeOutputParams {
   max-height: calc(100% - 60px);
   overflow: auto;
   display: flex;
   margin-top: var(--spectrum-global-dimension-size-100);
+  // Have to subtract double of the left/right padding value
+  width: calc(100% - var(--spectrum-global-dimension-size-400));
+  justify-self: flex-start;
 }
 
 #contrastConfigs, #ratioInput-wrapper {
@@ -985,6 +994,7 @@ a:focus {
 #dialogOverlay {
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
+  display: none;
   top: 0;
   left: 0;
   height: 100vh;
@@ -1371,8 +1381,10 @@ a:focus {
   left: 50%;
   transform: translate(-50%, 100%);
   bottom: 0;
+  display: none;
 
   &.is-visible {
+    display: block;
     transform: translate(-50%, var(--toast-offset));
   }
 

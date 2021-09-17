@@ -55,9 +55,7 @@ import ClipboardJS from 'clipboard';
 new ClipboardJS('.copyButton');
 new ClipboardJS('.themeOutputSwatch');
 
-/** 
- * Import local Javascript functions
- */
+// Import local Javascript functions
 import {
   paramSetup
 } from './js/params';
@@ -137,6 +135,7 @@ if (mq.matches) {
   document.querySelector('body').classList.add('spectrum--light');
 }
 
+// Build the site based on URL parameters
 paramSetup();
 
 // Add event listener so that homepage CTA button initaites themes tab

@@ -9,15 +9,16 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import {getAllColorNames} from './getThemeData.js'
+
 // Create options for colors to use as base scale
 function baseScaleOptions() {
   let baseSelect = document.getElementById('themeBase');
-  baseSelect.options.length = 0;
+  let colorNames = getAllColorNames();
 
-  let colorNames = document.getElementsByClassName('colorNameInput');
   let opts = {};
   for (let i = 0; i < colorNames.length; i++) {
-    let colorname = colorNames[i].value;
+    let colorname = colorNames[i];
     opts[colorname] = colorname;
   }
 

@@ -42,7 +42,7 @@ function addColorScaleUpdate(c, k, s, r) {
   // updateParams(name, config);
 }
 
-function addColorScale(newColor) {
+function addColorScale(newColor, addToTheme = true) {
   // if first color item, just name it gray.
   let colorNameValue;
   if(!newColor) {
@@ -61,7 +61,9 @@ function addColorScale(newColor) {
     colorNameValue = newColor.name;
   }
 
-  _theme.addColor = newColor;
+  if(addToTheme) {
+    _theme.addColor = newColor;
+  }
 
   // create unique ID for color object
   let thisId = randomId();
@@ -143,7 +145,9 @@ function addColorScale(newColor) {
 
   themeRamp(colors, gradientSwatchId, '200');
   toggleControls();
-  baseScaleOptions();
+  if (addToTheme) {
+    baseScaleOptions();
+  }
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
   // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);

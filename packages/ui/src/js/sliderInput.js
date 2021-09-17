@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {themeUpdateParams} from './themeUpdate';
+import {_theme} from './initialTheme';
 
 function sliderValue(e) {
   let id = e.target.id;
@@ -19,18 +19,32 @@ function sliderValue(e) {
   label.innerHTML = slider.value;
 }
 
-function sliderInput() {
-  let items = document.getElementsByClassName('themeColor_item');
-  // If theme items are present, run themeInput
-  if (items !== undefined) {
-    themeUpdateParams();
-  }
+function sliderInput(e) {
+  let value = e.target.value;
+  let id = e.target.id;
+  let property = 
+    (id === 'themeBrightnessSlider') ? 'lightness' : (
+      (id === 'themeContrastSlider') ? 'contrast' : (
+        id === 'themeSaturationSlider') ? 'saturation' : undefined
+      );
+  
+  _theme[property] = value;
+
+  themeInput();
 }
 
 const sliderB = document.getElementById('themeBrightnessSlider');
 const sliderC = document.getElementById('themeContrastSlider');
+const sliderD = document.getElementById('themeSaturationSlider');
 sliderB.addEventListener('input', sliderValue);
+sliderB.addEventListener('input', sliderInput);
+
 sliderC.addEventListener('input', sliderValue);
+sliderC.addEventListener('input', sliderInput);
+
+sliderD.addEventListener('input', sliderValue);
+sliderD.addEventListener('input', sliderInput);
+
 
 window.sliderValue = sliderValue;
 window.sliderInput = sliderInput;

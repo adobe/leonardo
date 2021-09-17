@@ -12,12 +12,14 @@ governing permissions and limitations under the License.
 import {addColorScale} from './colorScale';
 import {addRatios} from './ratios';
 import {sliderInput} from './sliderInput';
+import {baseScaleOptions} from './createBaseScaleOptions';
 import {_theme} from './initialTheme';
 
 function paramSetup() {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   let pathName = url.pathname;
+  let themeBase = document.getElementById('themeBase');
 
   if(params.has('name')) {
     let themeNameInput = document.getElementById('themeName');
@@ -35,15 +37,6 @@ function paramSetup() {
     } else {
       contrast = config.contrast;
     }
-
-    // for(let i = 0; i < colorScales.length; i++) {
-    //   let colorName = colorScales[i].name;
-    //   let keyColors = colorScales[i].colorKeys;
-    //   let colorSpace = colorScales[i].colorspace;
-    //   let ratios = colorScales[i].ratios;
-    //   // Create color scale item
-    //   addColorScale(colorName, keyColors, colorSpace, ratios);
-    // }
 
     if(colorScales.length > 0) {
       colorScales.map(color => {
@@ -74,8 +67,10 @@ function paramSetup() {
     let contrastSliderVal = document.getElementById('themeContrastValue');
     contrastSlider.value = contrast;
     contrastSliderVal.innerHTML = contrast;
-
-    let themeBase = document.getElementById('themeBase');
+  
+    // generate the options for the base scale,
+    // then select the option defined in parameters
+    baseScaleOptions();
     themeBase.value = baseScale;
   }
   else if(!params.has('config') || params.get('config') === undefined) {
@@ -83,12 +78,20 @@ function paramSetup() {
     // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;
     for(let i=0; i<length; i++) {
-      addColorScale(_theme.colors[i]);
+      // add color scale to UI from the default theme,
+      // but do not add it to _theme, since they are already
+      // coming from the _theme class to begin with.
+      addColorScale(_theme.colors[i], false);
     }
+
+    // generate the options for the base scale,
+    // then select the option defined from the initial theme
+    baseScaleOptions();
+    themeBase.value = _theme.backgroundColor.name;
   }
 
-  sliderInput();
-  // themeInput();
+  // sliderInput();
+  themeInput();
 }
 
 // Passing variable parameters to URL

@@ -36,7 +36,11 @@ function throttle(func, wait) {
  };
 }
 
-
+function camelCase(str) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+    return index === 0 ? word.toLowerCase() : word.toUpperCase();
+  }).replace(/\s+/g, '');
+}
 
 function convertToCartesian(s, h) {
   if(s > 100) s = 100;
@@ -71,5 +75,6 @@ module.exports = {
   throttle,
   convertToCartesian,
   filterNaN,
+  camelCase,
   removeElementsByClass
 }

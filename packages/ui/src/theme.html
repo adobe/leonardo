@@ -189,21 +189,21 @@
             <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Brightness</label>
             <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
           </div>
-          <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" onInput="sliderInput()" disabled></input>
+          <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" disabled></input>
         </div>
         <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
           <div class="spectrum-Slider-labelContainer">
             <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
             <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">1</div>
           </div>
-          <input class="spectrum-Slider-controls" type="range" min="0.25" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" onInput="sliderInput()" disabled></input>
+          <input class="spectrum-Slider-controls" type="range" min="0.25" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" disabled></input>
         </div>
         <div id="saturationSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
           <div class="spectrum-Slider-labelContainer">
             <label class="spectrum-Slider-label" id="themeSaturationLabel" for="themeSaturationSlider">Saturation</label>
             <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeSaturationLabel" id="themeSaturationValue">100</div>
           </div>
-          <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" step="1" id="themeSaturationSlider" name="themeSaturationSlider" onInput="sliderInput()" disabled></input>
+          <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" step="1" id="themeSaturationSlider" name="themeSaturationSlider" disabled></input>
         </div>
       </div>
     </div>
@@ -266,10 +266,10 @@
         <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'parameterWrapper')">
           <label class="spectrum-Tabs-itemLabel">Javascript</label>
         </div>
-        <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" >
+        <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'cssWrapper')">
           <label class="spectrum-Tabs-itemLabel">CSS</label>
         </div>
-        <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" >
+        <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0"  onclick="openTab(event, 'tokensWrapper')">
           <label class="spectrum-Tabs-itemLabel">Design tokens</label>
         </div>
       </div>
@@ -284,13 +284,32 @@
     </div>
     <!-- <div id="demoWrapper" class="tabcontent"></div> -->
     <div id="parameterWrapper" class="tabcontent">
-      <button id="copyThemeParams" data-clipboard-target="#themeParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+      <button id="copyThemeParams" data-clipboard-target="#themeJSParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
         <span class="spectrum-ActionButton-label">Copy parameters</span>
       </button>
-      <div id="themeFunctionParams">
-        <pre id="themeParams" class="spectrum-Code5"></pre>
+      <div class="themeOutputParams">
+        <pre id="themeJSParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
       </div>
     </div>
+
+    <div id="cssWrapper" class="tabcontent">
+      <button id="copyThemeCSS" data-clipboard-target="#themeCSSParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+        <span class="spectrum-ActionButton-label">Copy CSS</span>
+      </button>
+      <div class="themeOutputParams">
+        <pre id="themeCSSParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
+      </div>
+    </div>
+
+    <div id="tokensWrapper" class="tabcontent">
+      <button id="copyThemeTokens" data-clipboard-target="#themeTokensParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+        <span class="spectrum-ActionButton-label">Copy Tokens</span>
+      </button>
+      <div class="themeOutputParams">
+        <pre id="themeTokensParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
+      </div>
+    </div>
+
   </main>
 </div>
 
