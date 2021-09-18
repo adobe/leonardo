@@ -12,18 +12,29 @@ governing permissions and limitations under the License.
 import d3 from './d3';
 import {filterNaN} from './utils';
 import {getAllColorKeys} from './getThemeData';
+import {_theme} from './initialTheme';
 import {
   convertToCartesian,
   removeElementsByClass
 } from './utils';
 
-function updateColorDots() {
+function updateColorDots(mode) {
   // Create dots for color wheel
   let colorWheelModeDropdown = document.getElementById('colorWheelMode');
   let colorWheelMode = colorWheelModeDropdown.value
+  let colorWheelLightnessDropdown = document.getElementById('colorWheelLightness');
+  let colorWheelLightness = colorWheelLightnessDropdown.value;
+  let colorDotsModeDropdown = document.getElementById('colorDotsMode');
+  let colorDotsMode = colorDotsModeDropdown.value;
+  if(!mode) mode = colorDotsMode;
+  let allColors;
+  if(mode === 'colorKeys') allColors = getAllColorKeys();
+  if(mode === 'colorScale') {
+    allColors = [];
+    _theme.colors.forEach((color) => { allColors.push(color.backgroundColorScale[colorWheelLightness])});
+}
 
-  let allKeys = getAllColorKeys();
-  let arr = getConvertedColorCoodrindates(allKeys, colorWheelMode);
+  let arr = getConvertedColorCoodrindates(allColors, colorWheelMode);
   createColorWheelDots(arr);
 }
 
@@ -218,7 +229,7 @@ function shiftValue(v, colorWheelSize, dotSize) {
   return centeredVal;
 }
 
-function updateColorWheel(mode, lightness, dots) {
+function updateColorWheel(mode, lightness, dots, dotsMode) {
   let canvas = document.getElementById('colorWheelCanvas');
   if(canvas) {
     canvas.parentNode.removeChild(canvas);
@@ -227,14 +238,16 @@ function updateColorWheel(mode, lightness, dots) {
 
   // Flag for if we want to regenerate all the dots too.
   if(dots) {
-    let allKeys = getAllColorKeys();
-    let arr = getConvertedColorCoodrindates(allKeys, mode);
-    createColorWheelDots(arr);  
+    updateColorDots(dotsMode)
+    // let allKeys = getAllColorKeys();
+    // let arr = getConvertedColorCoodrindates(allKeys, mode);
+    // createColorWheelDots(arr);  
   }
 }
 
 
 const colorWheelMode = document.getElementById('colorWheelMode');
+const colorDotsMode = document.getElementById('colorDotsMode');
 const colorWheelLightness = document.getElementById('colorWheelLightness');
 
 updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true);
@@ -245,12 +258,25 @@ window.onresize = () => {
 
 colorWheelMode.addEventListener('input', function(e) { 
   let mode = e.target.value;
-  updateColorWheel(mode, colorWheelLightness.value, true);
+  let colorDotsModeDropdown = document.getElementById('colorDotsMode');
+  let dotsMode = colorDotsModeDropdown.value;
+  let showDots = (dotsMode === 'colorScale') ? true : false;
+
+  updateColorWheel(mode, colorWheelLightness.value, showDots, dotsMode);
 });
 
 colorWheelLightness.addEventListener('input', function(e) { 
   let lightness = e.target.value;
-  updateColorWheel(colorWheelMode.value, lightness);
+  let colorDotsModeDropdown = document.getElementById('colorDotsMode');
+  let dotsMode = colorDotsModeDropdown.value;
+  let showDots = (dotsMode === 'colorScale') ? true : false;
+  updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode);
+});
+
+colorDotsMode.addEventListener('input', function(e) {
+  let mode = e.target.value;
+
+  updateColorDots(mode);
 });
 
 module.exports = {
