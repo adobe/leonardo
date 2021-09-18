@@ -14,7 +14,8 @@ import {_theme} from './initialTheme';
 import {
   getContrastRatios,
   getThemeData,
-  getThemeName
+  getThemeName,
+  getAllColorNames
 } from './getThemeData';
 import {
   randomId,
@@ -47,7 +48,11 @@ function addColorScale(newColor, addToTheme = true) {
   let colorNameValue;
   if(!newColor) {
     if(_theme.colors.length == 0) colorNameValue = 'Gray';
-    else colorNameValue = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+    else {
+      colorNameValue = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+      let existingColorNames = getAllColorNames();
+      if (existingColorNames.includes(colorNameValue)) colorName = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+    }
     let ratios = getContrastRatios();
     if (ratios === undefined) ratios = [4.5]
 

@@ -261,7 +261,7 @@ colorWheelMode.addEventListener('input', function(e) {
   let colorDotsModeDropdown = document.getElementById('colorDotsMode');
   let dotsMode = colorDotsModeDropdown.value;
 
-  updateColorWheel(mode, colorWheelLightness.value, true, dotsMode);
+  updateColorWheel(mode, colorWheelLightness.value, true);
 });
 
 colorWheelLightness.addEventListener('input', function(e) { 
