@@ -11,13 +11,17 @@ governing permissions and limitations under the License.
 
 import {_theme} from './initialTheme';
 
-function getColorItemClass(id) {
+function getColorClassById(id) {
   let thisElement = document.getElementById(id);
   // 1. find color name from id
   let colorNameInput = id.concat('_colorName');
   let colorName = document.getElementById(colorNameInput).value;
 
   // 2. Scrape information from the color class of the same name
+  getColorClassByName(colorName);
+}
+
+function getColorClassByName(colorName) {
   let currentColor = _theme.colors.filter(color => {return color.name === colorName})
   currentColor = currentColor[0];
 
@@ -80,10 +84,11 @@ function getAllColorNames() {
 }
 
 module.exports = {
-  getColorItemClass,
+  getColorClassById,
   getContrastRatios,
   getThemeName,
   getThemeData,
   getAllColorNames,
+  getColorClassByName,
   getAllColorKeys
 }

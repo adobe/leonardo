@@ -15,7 +15,7 @@ import * as d3 from './d3';
 import {_theme} from './initialTheme';
 import {
   getThemeName,
-  getColorItemClass,
+  getColorClassById,
   getContrastRatios,
   getAllColorKeys
 } from './getThemeData';
@@ -34,7 +34,6 @@ hljs.registerLanguage('javascript', javascript);
 
 function themeUpdate() {
   createOutputColors();
-  createOutputParameters();
 
   let chartRatios = getContrastRatios();
   createRatioChart(chartRatios);
@@ -51,6 +50,7 @@ function themeUpdate() {
 
 function themeUpdateParams() {
   themeUpdate();
+  createOutputParameters();
 }
 
 // Toggle disabled state of adaptive theme controls

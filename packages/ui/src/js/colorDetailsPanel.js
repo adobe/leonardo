@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
-import {getColorItemClass} from './getThemeData';
+import {getColorClassByName} from './getThemeData';
 import {
   addKeyColor,
   addKeyColorInput,
@@ -36,10 +36,15 @@ import {_theme} from './initialTheme';
 
 function showColorDetails(e) {
   let element = e.target.id;
+
   let button = document.getElementById(element);
   const id = element.replace('-toggleConfig', '');
+  let triggeredColorNameInputId = id.concat('_colorName');
+  let triggeredColorNameInput = document.getElementById(triggeredColorNameInputId);
+  let triggeredColorName = triggeredColorNameInput.value;
 
-  let colorData = getColorItemClass(id);
+  let colorData = getColorClassByName(triggeredColorName);
+  console.log(colorData)
 
   // Clear main container
   let contentArea = document.getElementById('colorDetails');
@@ -127,7 +132,7 @@ function showColorDetails(e) {
     _theme.updateColor = {color: originalName, name: newName}
 
     baseScaleOptions();
-    
+
     originalName = newName;
   };
 
@@ -431,7 +436,7 @@ function showColorDetails(e) {
 
   chartsModeSelect.addEventListener('change', (e) => {
     const thisColorId = id;
-    let colorData = getColorItemClass(thisColorId);
+    let colorData = getColorClassById(thisColorId);
     let colors = Leo.createScale({swatches: 30, colorKeys: colorData.colorKeys, colorspace: colorData.colorspace, smooth: colorData.smooth});
     createInterpolationCharts(colors, e.target.value)
   })
@@ -457,7 +462,7 @@ function showColorDetails(e) {
   deleteColor.addEventListener('click', themeDeleteItem);
   deleteColor.addEventListener('click', function(){ 
     const thisColorId = id;
-    let colorData = getColorItemClass(thisColorId);
+    let colorData = getColorClassById(thisColorId);
     return _theme.removeColor = colorData;
   });
   // console.log(_theme)
