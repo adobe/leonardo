@@ -51,6 +51,7 @@ class Color {
   set colorKeys(colorKeys) {
     this._colorKeys = colorKeys;
     this._colorScale = null;
+    this._generateColorScale();
   }
 
   get colorKeys() {
