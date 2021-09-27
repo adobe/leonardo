@@ -430,11 +430,13 @@
           </div>
   
   
-          <div class="spectrum-Panel-Item spectrum-Panel-Item--overflow">
+          <div class="spectrum-Panel-Item spectrum-Panel-Item--row">
+          <div id="luminosityGradient"></div>
           <div id="ratioInput-wrapper">
             <div class="ratioGrid">
-              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Ratio</label>  
+              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Contrast ratio</label>  
               <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Luminosity</label>  
+              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Suffix</label>  
             </div>
           </div>
           <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
@@ -494,54 +496,51 @@
         <div id="tabColorScales" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteModelWrapper')">
           <label class="spectrum-Tabs-itemLabel">Model</label>
         </div>
-        <div id="tabColorOutput" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorOutputWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Generated colors</label>
-        </div>
+      </div>
+
+      <div class="spectrum-Form-item spectrum-Form-item--row" style="display: inline-flex">
+        <label for="chartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Preview color space</label>
+          <select class="spectrum-Picker spectrum-Picker--sizeM" name="chartsMode" id="chartsMode">
+            <option value="CAM02">Jab</option>
+            <option value="CAM02p">JCh</option>
+            <option value="LAB">Lab</option>
+            <option value="LCH">LCh</option>
+            <option value="HSL">HSL</option>
+            <option value="HSV">HSV</option>
+            <option value="HSLuv">HSLuv</option>
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </select>
       </div>
     </div>
 
     <div id="colorWheelWrapper" class="colorTabsWrapper">
-      <div class="spectrum-Form spectrum-Form--row" id="chartsControls">
-        <div class="spectrum-Form-item">
-          <label for="chartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Charts mode</label>
-            <select class="spectrum-Picker spectrum-Picker--sizeM" name="chartsMode" id="chartsMode">
-              <!-- <option value="jch">CAM02</option>
-              <option value="lch">LCh / Lab</option>
-              <option value="hsl">HSL / HSV / RGB</option>
-              <option value="hsluv">HSLuv</option> -->
-              <option value="CAM02">Jab</option>
-              <option value="CAM02p">JCh</option>
-              <option value="LAB">Lab</option>
-              <option value="LCH">LCh</option>
-              <option value="HSL">HSL</option>
-              <option value="HSV">HSV</option>
-              <option value="HSLuv">HSLuv</option>
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-              </svg>
-            </select>
-        </div>
-        <div class="spectrum-Form-item">
-          <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>
-            <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorDotsMode" id="colorDotsMode">
-              <option value="colorScale">Color scale</option>
-              <option value="colorKeys">All color keys</option>
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-              </svg>
-            </select>
-        </div>
-        <div class="spectrum-Form-item">
-          <div id="colorWheelLightnessWrapper" class="spectrum-Slider">
-            <div class="spectrum-Slider-labelContainer">
-              <label class="spectrum-Slider-label" id="colorWheelLightnessLabel" for="colorWheelLightness">Lightness</label>
-            </div>
-            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="colorWheelLightness" name="colorWheelLightness"></input>
-          </div>
-        </div>
-      </div>
+
       <div class="flex-row">
-        <div id="colorWheel"></div>
+        <div id="colorWheel--controlsWrapper">
+          <div class="spectrum-Form spectrum-Form--row" id="chartsControls">
+            <div class="spectrum-Form-item">
+              <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>
+                <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorDotsMode" id="colorDotsMode">
+                  <option value="colorScale">Color scale</option>
+                  <option value="colorKeys">All color keys</option>
+                  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                  </svg>
+                </select>
+            </div>
+            <div class="spectrum-Form-item">
+              <div id="colorWheelLightnessWrapper" class="spectrum-Slider">
+                <div class="spectrum-Slider-labelContainer">
+                  <label class="spectrum-Slider-label" id="colorWheelLightnessLabel" for="colorWheelLightness">Color wheel lightness</label>
+                </div>
+                <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="colorWheelLightness" name="colorWheelLightness"></input>
+              </div>
+            </div>
+          </div>
+          <div id="colorWheel"></div>
+        </div>
         <div class="chart--labelless" id="paletteInterpolationChart"></div>
       </div>
       <div class="flex-row">
@@ -551,15 +550,8 @@
     </div>
 
     <div id="paletteModelWrapper" class="colorTabsWrapper">
-      <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--XS">
-        3D Model
-      </h2>
-    </div>
-
-    <div id="colorOutputWrapper" class="colorTabsWrapper">
-      <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--XS">
-        Generated colors
-      </h2>
+      model here
+      <div class="chart3D"></div>
     </div>
 
     </main>

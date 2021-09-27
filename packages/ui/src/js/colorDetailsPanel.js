@@ -37,6 +37,7 @@ import {openDetailTab} from './tabs';
 import {themeDeleteItem} from './colorScale';
 import {_theme} from './initialTheme';
 import {updateParams} from './params';
+import {create3dChart} from './create3dChart';
 
 function showColorDetails(e) {
   let element = e.target.id;
@@ -63,7 +64,7 @@ function showColorDetails(e) {
 
   // create unique ID for color object
   let thisId = id;
-  // generate color input objects:
+  // generate color select objects:
   // gradient, inputs, etc.
   let wrapper = contentArea;
 
@@ -189,19 +190,19 @@ function showColorDetails(e) {
     <use xlink:href="#spectrum-icon-18-BoxAdd" />
   </svg>
   `;
-  let clearKeyColorsButton = document.createElement('button');
-  clearKeyColorsButton.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
-  let clearColorsId = thisId.concat('_clearAllColors');
-  clearKeyColorsButton.title = "Clear all key colors"
-  clearKeyColorsButton.id = clearColorsId;
-  clearKeyColorsButton.addEventListener('click', clearAllColors);
-  clearKeyColorsButton.innerHTML = `
-  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-    <use xlink:href="#spectrum-icon-18-CloseCircle" />
-  </svg>
-  `;
+  // let clearKeyColorsButton = document.createElement('button');
+  // clearKeyColorsButton.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
+  // let clearColorsId = thisId.concat('_clearAllColors');
+  // clearKeyColorsButton.title = "Clear all key colors"
+  // clearKeyColorsButton.id = clearColorsId;
+  // clearKeyColorsButton.addEventListener('click', clearAllColors);
+  // clearKeyColorsButton.innerHTML = `
+  // <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+  //   <use xlink:href="#spectrum-icon-18-CloseCircle" />
+  // </svg>
+  // `;
 
-  addColors.appendChild(clearKeyColorsButton);
+  // addColors.appendChild(clearKeyColorsButton);
 
   addColors.appendChild(addButton);
   addColors.appendChild(bulkButton);
@@ -255,7 +256,7 @@ function showColorDetails(e) {
     'HSL': 'HSL',
     'HSLuv': 'HSLuv',
     'HSV': 'HSV',
-    // 'RGB': 'RGB'
+    'RGB': 'RGB'
   };
 
   for(let index in opts) { interpSelect.options[interpSelect.options.length] = new Option(opts[index], index); }
@@ -341,6 +342,9 @@ function showColorDetails(e) {
   title.innerHTML = 'Color scale'
 
   // Tabs
+  let tabsWrapper = document.createElement('div');
+  tabsWrapper.className = 'spectrum-Detail-Tabs'; 
+
   let tabs = document.createElement('div');
   tabs.className = 'spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet';
   let tabItem1 = document.createElement('div');
@@ -417,7 +421,8 @@ function showColorDetails(e) {
   tabs.appendChild(tabItem1);
   tabs.appendChild(tabItem2);
   tabs.appendChild(tabItem3);
-  tabs.appendChild(chartsMode);
+  tabsWrapper.appendChild(tabs);
+  tabsWrapper.appendChild(chartsMode);
 
   // Put it all together
   inputs.appendChild(keyColors);
@@ -452,7 +457,7 @@ function showColorDetails(e) {
   tabContent1.appendChild(chart2);
   tabContent2.appendChild(chart3);
 
-  wrapper.appendChild(tabs)
+  wrapper.appendChild(tabsWrapper)
   wrapper.appendChild(tabContent1);
   wrapper.appendChild(tabContent2);
   wrapper.appendChild(tabContent3);
@@ -479,7 +484,8 @@ function showColorDetails(e) {
   themeRamp(colors, gradientId);
   themeRampKeyColors(colorKeys, gradientId);
   createRGBchannelChart(colors);
-  createInterpolationCharts(colors, 'CAM02')
+  createInterpolationCharts(colors, 'CAM02');
+  create3dChart(colorData)
   // charts.createAllCharts(colorData.colorspace, colors);
   
   toggleControls();

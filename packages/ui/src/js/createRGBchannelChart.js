@@ -10,6 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import * as d3 from './d3';
+import {filterNaN} from './utils';
 import {createChart} from './createChart';
 
 function createRGBchannelChart(colors) {
@@ -25,23 +26,23 @@ function createRGBchannelChart(colors) {
   dest.appendChild(RGBheader);
 
   const fillRange = (start, end) => {
-    return Array((end + 2) - (start + 1)).fill().map((item, index) => start + index);
+    return Array((end + 2) - (start + 2)).fill().map((item, index) => start + index);
   };
   let dataX = fillRange(1, colors.length);
-  let sortedDataX = dataX.sort((a, b) => b-a);
+  let sortedDataX = dataX.sort((a, b) => a-b);
 
   let data = [
     {
       x: sortedDataX,
-      y: colors.map(function(d) {return d3.rgb(d).r;}) 
+      y: colors.map(function(d) {return filterNaN(d3.rgb(d).r)}) 
     },
     {
       x: sortedDataX,
-      y: colors.map(function(d) {return d3.rgb(d).g;}) 
+      y: colors.map(function(d) {return filterNaN(d3.rgb(d).g)}) 
     },
     {
       x: sortedDataX,
-      y: colors.map(function(d) {return d3.rgb(d).b;}) 
+      y: colors.map(function(d) {return filterNaN(d3.rgb(d).b)}) 
     }
   ];
 

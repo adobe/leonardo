@@ -24,6 +24,7 @@ import {
 import {createOutputColors} from './createOutputColors';
 import {cvdColors} from './cvdColors'
 import {createRatioChart} from './createRatioChart';
+import {create3dChart} from './create3dChart';
 import {
   getConvertedColorCoodrindates,
   createColorWheelDots,
@@ -47,8 +48,7 @@ function themeUpdate() {
   let colorWheelMode = colorWheelModeDropdown.value
 
   createPaletteCharts(colorWheelMode)
-
-  createPaletteCharts(colorWheelMode)
+  create3dChart()
 }
 
 function themeUpdateParams() {

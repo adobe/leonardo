@@ -75,13 +75,23 @@ function createRatioInput(v) {
   let luminosityInputWrapper = document.createElement('div');
   luminosityInputWrapper.className = 'spectrum-Textfield ratioGrid--luminosity';
 
-  luminosityInput.className = 'spectrum-Textfield-input';
+  luminosityInput.className = 'spectrum-Textfield-input luminosity-Field';
   luminosityInput.type = "number";
   luminosityInput.min = '0';
   luminosityInput.max = '100';
   luminosityInput.step = '1';
   luminosityInput.id = randId + "_luminosity";
   luminosityInput.oninput = syncRatioInputs;
+
+  // Customize swatch names input
+  var swatchNameInput = document.createElement('input');
+  let swatchNameInputWrapper = document.createElement('div');
+  swatchNameInputWrapper.className = 'spectrum-Textfield ratioGrid--swatchName';
+
+  swatchNameInput.className = 'spectrum-Textfield-input swatchName-Field';
+  swatchNameInput.type = "text";
+  swatchNameInput.id = randId + "_swatchName";
+  // swatchNameInput.oninput = syncRatioInputs;
 
   var button = document.createElement('button');
   button.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet ratioGrid--actions';
@@ -98,6 +108,8 @@ function createRatioInput(v) {
 
   luminosityInputWrapper.appendChild(luminosityInput);
   div.appendChild(luminosityInputWrapper);
+  swatchNameInputWrapper.appendChild(swatchNameInput);
+  div.appendChild(swatchNameInputWrapper);
   div.appendChild(inputWrapper)
   div.appendChild(button);
   ratios.appendChild(div);

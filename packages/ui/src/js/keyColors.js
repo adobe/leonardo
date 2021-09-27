@@ -17,6 +17,7 @@ import {
   themeUpdateParams,
   themeUpdate
 } from './themeUpdate';
+import {getColorClassById} from './getThemeData';
 import {_theme} from './initialTheme';
 
 function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
@@ -129,18 +130,24 @@ function deleteColor(e) {
   themeUpdateParams();
 }
 
-function clearAllColors(e) {
-  let targetId = e.target.id;
-  let keyColorsId = targetId.replace('_clearAllColors', '_keyColors');
-  document.getElementById(keyColorsId).innerHTML = ' ';
-  themeUpdate();
-}
+// function clearAllColors(e) {
+//   let targetId = e.target.id;
+//   let parentId = targetId.replace('_clearAllColors', '');
+//   let keyColorsId = targetId.replace('_clearAllColors', '_keyColors');
+//   document.getElementById(keyColorsId).innerHTML = ' ';
+  
+//   let color = getColorClassById(parentId);
+//   _theme.updateColor = {color: color.name, colorKeys: ['#cacaca']}
 
-window.clearAllColors = clearAllColors;
+//   updateRamps();
+//   // themeUpdate();
+// }
+
+// window.clearAllColors = clearAllColors;
 
 module.exports = {
   addKeyColor,
   deleteColor,
   addKeyColorInput,
-  clearAllColors
+  // clearAllColors
 }

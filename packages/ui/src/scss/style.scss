@@ -44,6 +44,7 @@ governing permissions and limitations under the License.
     --headerBackground: var(--spectrum-global-color-gray-50, #ffffff);
     --panelBackground: var(--spectrum-global-color-gray-100, #f5f5f5);
     --panelBorder: var(--spectrum-global-color-gray-300);
+    --translucentBorder: rgba(0, 0, 0, 0.15)
   }
 }
 @media(prefers-color-scheme: dark) {
@@ -52,6 +53,7 @@ governing permissions and limitations under the License.
     --headerBackground: var(--spectrum-global-color-gray-100);
     --panelBackground: var(--spectrum-global-color-gray-100);
     --panelBorder: var(--spectrum-global-color-gray-50);
+    --translucentBorder: rgba(255, 255, 255, 0.2)
   }
 }
 
@@ -238,6 +240,11 @@ body {
 
 .spectrum-Panel-Item--bottomPadding {
   padding-bottom: 32px;
+}
+
+.spectrum-Panel-Item--row {
+  display: flex;
+  flex-direction: row;
 }
 
 .spectrum-Panel-ContentWrapper {
@@ -799,9 +806,14 @@ a:focus {
 
 .ratio-Field {
   padding-left: var(--spectrum-global-dimension-size-400);
+  width: 12ch;
   // width: 100%;
   // margin-right: 8px;
 }
+.luminosity-Field {
+  width: 8ch;
+}
+
 #toggleMetrics {
   margin-top: -8px;
   margin-right: -8px;
@@ -880,6 +892,7 @@ a:focus {
   overflow: auto;
   display: flex;
   margin-bottom: var(--spectrum-global-dimension-size-100);
+  height: calc(100vh - 544px);
 }
 
 .demoItem {
@@ -1457,10 +1470,10 @@ a:focus {
 
 .ratioGrid {
   display: grid;
-  grid-template-columns: 112px 88px 32px;
+  grid-template-columns: 84px 56px 64px 32px;
   column-gap: 8px;
   grid-template-areas: 
-  'ratio luminosity actions';
+  'ratio luminosity swatchName actions';
 
   .spectrum-Textfield {
     width: 100%;
@@ -1478,6 +1491,9 @@ a:focus {
 .ratioGrid--luminosity {
   grid-area: luminosity;
 }
+.ratioGrid--swatchName {
+  grid-area: swatchName;
+}
 .ratioGrid--actions {
   grid-area: actions;
 }
@@ -1490,6 +1506,16 @@ a:focus {
 .spectrum-Content-Tabs {
   padding: 0 16px;
   height: 44px;  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.spectrum-Detail-Tabs {
+  height: 44px;  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 32px);
 }
 
 #typeScaleBase,
@@ -1616,6 +1642,12 @@ a:focus {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
 }
+#colorWheel--controlsWrapper{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+}
 #colorWheel {
   position: relative;
   margin: 0 auto var(--spectrum-global-dimension-size-100);
@@ -1723,5 +1755,20 @@ a:focus {
 }
 
 #chartsControls {
-  padding: 8px 0 24px;
+  padding: 8px 0 16px;
 }
+
+#chartsMode {
+  width: 12ch;
+}
+
+#luminosityGradient {
+  width: 64px;
+  height: calc(100vh - 536px);
+  background-image: linear-gradient(0deg, black, white);
+  margin-right: 12px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  box-shadow: inset 0px 0px 1px var(--spectrum-global-color-gray-900);
+}
+

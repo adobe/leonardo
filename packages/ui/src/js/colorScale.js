@@ -38,6 +38,7 @@ function addColorScaleUpdate(c, k, s, r) {
   let config = getThemeData();
   let name = getThemeName();
 
+  updateColorWheelDots();
   updateParams();
   // config = JSON.stringify(config);
   
@@ -60,8 +61,8 @@ function addColorScale(newColor, addToTheme = true) {
 
     newColor = new Leo.BackgroundColor({
       name: colorNameValue,
-      colorKeys: ['#000000'],
-      colorspace: 'CAM02',
+      colorKeys: ['#cacaca'],
+      colorspace: 'RGB',
       ratios: ratios
     })
   } else {

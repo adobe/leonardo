@@ -47,7 +47,7 @@ function getColorWheelSize() {
   // let maxSize = 600;
   // let colorWheelSize = (dynamicSize > maxSize) ? maxSize : ((dynamicSize < minSize) ? minSize : dynamicSize);
   let windowDimensions = getSmallestWindowDimension();
-  let colorWheelSize = windowDimensions - 16;
+  let colorWheelSize = windowDimensions;
   return colorWheelSize;
 }
 
@@ -101,6 +101,10 @@ function getConvertedColorCoodrindates(colorValues, mode) {
 function createColorWheelDots(arr) {
   let container = document.getElementById('colorWheel');
   removeElementsByClass('colorDot');
+  const c = document.getElementById("colorWheelCanvas");
+
+  let size = getColorWheelSize();
+  let center = (size / 2);
 
   arr.map(obj => {
     let dot = document.createElement('div');
@@ -108,7 +112,22 @@ function createColorWheelDots(arr) {
     dot.style.backgroundColor = obj.color;
     dot.style.top = obj.y;
     dot.style.left = obj.x;
-    container.appendChild(dot)
+    container.appendChild(dot);
+
+    // Create harmony lines
+    let ctx = c.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(center, center);
+    ctx.lineTo(obj.x + 8, obj.y + 8);
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.stroke();
+
+    ctx.moveTo(center, center);
+    ctx.lineTo(obj.x + 8, obj.y + 8);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'white';
+    ctx.stroke();
   })
 }
 
@@ -121,6 +140,7 @@ function createColorWheel(mode, lightness) {
     .attr("width", size)
     .attr("id", 'colorWheelCanvas');
   const context = canvas.node().getContext('2d');
+  canvas.id = 'colorWheelCanvas';
 
   var x = size / 2;
   var y = size / 2;
@@ -213,15 +233,12 @@ function createColorWheel(mode, lightness) {
   }
 }
 
-function getWheelHeight() {
-  return (window.innerHeight - 232) / 2;
-}
 
 function getSmallestWindowDimension() {
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   let adjustedWidth = windowWidth - 386;// subtract panel width and padding from measurement
-  let adjustedHeight = getWheelHeight();// subtract heading, tabs height and padding from measurement
+  let adjustedHeight = ((window.innerHeight - 232) / 2) - 64;// subtract heading, tabs height and padding from measurement
   let smallestDimension = (adjustedWidth < adjustedHeight) ? adjustedWidth : adjustedHeight;
   return smallestDimension;
 }
@@ -246,14 +263,15 @@ function updateColorWheel(mode, lightness, dots, dotsMode) {
     canvas.parentNode.removeChild(canvas);
   }
   createColorWheel(mode, lightness);
+  updateColorDots(dotsMode)
 
   // Flag for if we want to regenerate all the dots too.
-  if(dots) {
-    updateColorDots(dotsMode)
-    // let allKeys = getAllColorKeys();
-    // let arr = getConvertedColorCoodrindates(allKeys, mode);
-    // createColorWheelDots(arr);  
-  }
+  // if(dots) {
+  //   updateColorDots(dotsMode)
+  //   // let allKeys = getAllColorKeys();
+  //   // let arr = getConvertedColorCoodrindates(allKeys, mode);
+  //   // createColorWheelDots(arr);  
+  // }
 }
 
 
@@ -296,7 +314,6 @@ module.exports = {
   createColorWheelDots,
   createColorWheel,
   getSmallestWindowDimension,
-  getWheelHeight,
   shiftValue,
   updateColorWheel
 }

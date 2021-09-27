@@ -9,9 +9,6 @@ function createOutputColors() {
   let themeOutputs = document.getElementById('themeOutputs');
   themeOutputs.innerHTML = ' ';
 
-  let colorOutputsWrapper = document.getElementById('colorOutputWrapper');
-  colorOutputsWrapper.innerHTML = ' ';
-
   let theme = _theme.contrastColors;
   let themeBackgroundColor = theme[0].background;
   let themeBackgroundColorArray = [d3.rgb(themeBackgroundColor).r, d3.rgb(themeBackgroundColor).g, d3.rgb(themeBackgroundColor).b]
@@ -20,8 +17,7 @@ function createOutputColors() {
   let themeColorArray = [];
 
   themeOutputs.style.backgroundColor = themeBackgroundColor;
-  colorOutputsWrapper.style.backgroundColor = themeBackgroundColor;
-  let destinations = [ themeOutputs, colorOutputsWrapper ]
+  let destinations = [ themeOutputs ]
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
     for (let i=0; i<theme.length; i++) {
