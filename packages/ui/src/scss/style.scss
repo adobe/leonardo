@@ -1714,3 +1714,14 @@ a:focus {
     margin-bottom: 0px;
   }
 }
+
+.flex-row {
+  display: flex;
+  width: 100%;
+  flex-grow: 2;
+  flex-direction: row;
+}
+
+#chartsControls {
+  padding: 8px 0 24px;
+}

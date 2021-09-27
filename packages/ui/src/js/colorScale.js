@@ -153,10 +153,10 @@ function addColorScale(newColor, addToTheme = true) {
 
   wrapper.appendChild(item);
 
-  let rampData = Leo.createScale({swatches: 30, colorKeys: newColor.colorKeys, colorspace: newColor.colorspace});
+  let rampData = newColor.backgroundColorScale;
   let colors = rampData;
 
-  themeRamp(colors, gradientSwatchId, '200');
+  themeRamp(colors, gradientSwatchId, '45');
   toggleControls();
   if (addToTheme) {
     baseScaleOptions();
@@ -177,13 +177,12 @@ function addColorScale(newColor, addToTheme = true) {
 function themeDeleteItem(e) {
   let id = e.target.parentNode.parentNode.parentNode.id;
   let self = document.getElementById(id);
-  // console.log(`Deleting color ${id}`)
 
   self.remove();
   baseScaleOptions();
-  toggleControls();
+  // toggleControls();
 
-  themeUpdateParams();
+  // themeUpdateParams();
 
   let items = document.getElementsByClassName('themeColor_item');
   if(items.length == 0) {
@@ -196,6 +195,7 @@ function themeDeleteItem(e) {
 
 window.addColorScale = addColorScale;
 window.addColorScaleUpdate = addColorScaleUpdate;
+window.themeDeleteItem = themeDeleteItem;
 
 module.exports = {
   addColorScale,

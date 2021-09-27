@@ -20,29 +20,34 @@ import {
 
 function updateColorDots(mode) {
   // Create dots for color wheel
-  let colorWheelModeDropdown = document.getElementById('colorWheelMode');
-  let colorWheelMode = colorWheelModeDropdown.value
+  if(!mode) {
+    let colorDotsModeDropdown = document.getElementById('colorDotsMode');
+    let colorDotsMode = colorDotsModeDropdown.value;
+    mode = colorDotsMode;
+  }
   let colorWheelLightnessDropdown = document.getElementById('colorWheelLightness');
   let colorWheelLightness = colorWheelLightnessDropdown.value;
-  let colorDotsModeDropdown = document.getElementById('colorDotsMode');
-  let colorDotsMode = colorDotsModeDropdown.value;
-  if(!mode) mode = colorDotsMode;
+  let colorWheelModeDropdown = document.getElementById('chartsMode');
+  let colorWheelMode = colorWheelModeDropdown.value
+
   let allColors;
   if(mode === 'colorKeys') allColors = getAllColorKeys();
   if(mode === 'colorScale') {
     allColors = [];
     _theme.colors.forEach((color) => { allColors.push(color.backgroundColorScale[colorWheelLightness])});
-}
-
+  }
+  
   let arr = getConvertedColorCoodrindates(allColors, colorWheelMode);
   createColorWheelDots(arr);
 }
 
 function getColorWheelSize() {
-  let dynamicSize = getSmallestWindowDimension() - 200;
-  let minSize = 300;
-  let maxSize = 600;
-  let colorWheelSize = (dynamicSize > maxSize) ? maxSize : ((dynamicSize < minSize) ? minSize : dynamicSize);
+  // let dynamicSize = getSmallestWindowDimension() - 200;
+  // let minSize = 300;
+  // let maxSize = 600;
+  // let colorWheelSize = (dynamicSize > maxSize) ? maxSize : ((dynamicSize < minSize) ? minSize : dynamicSize);
+  let windowDimensions = getSmallestWindowDimension();
+  let colorWheelSize = windowDimensions - 16;
   return colorWheelSize;
 }
 
@@ -55,23 +60,23 @@ function getConvertedColorCoodrindates(colorValues, mode) {
   let arr = [];
   colorValues.map(color => {
     let c,h; 
-    if(mode === 'hsl') {
+    if(mode === 'HSL' || mode === 'RGB') {
       c = d3.hsl(color).s * 100;
       h = d3.hsl(color).h
     } 
-    if(mode === 'hsluv') {
+    if(mode === 'HSLuv') {
       c = d3.hsluv(color).u;
       h = d3.hsluv(color).l
     }
-    if(mode === 'hsv') {
+    if(mode === 'HSV') {
       c = d3.hsv(color).s * 100;
       h = d3.hsv(color).h
     }
-    if(mode === 'lch') {
+    if(mode === 'LCH' || mode === 'LAB') {
       c = d3.hcl(color).c;
       h = d3.hcl(color).h
     }
-    if(mode === 'jch') {
+    if(mode === 'CAM02p' || mode === 'CAM02') {
       c = d3.jch(color).C;
       h = d3.jch(color).h
     }
@@ -134,7 +139,7 @@ function createColorWheel(mode, lightness) {
 
     let colorStartHsl, colorMid1Hsl, colorMid2Hsl, colorMid3Hsl, colorStopHsl;
 
-    if(mode === 'hsl') {
+    if(mode === 'HSL' || mode === 'RGB') {
       let colorStart = d3.hsl(angle, 0, lightness/100);
       let colorMid1 = d3.hsl(angle, 0.25, lightness/100);
       let colorMid2 = d3.hsl(angle, 0.5, lightness/100);
@@ -146,7 +151,7 @@ function createColorWheel(mode, lightness) {
       colorMid3Hsl = d3.hsl(colorMid3).toString();
       colorStopHsl = d3.hsl(colorStop).toString();
     }
-    else if(mode === 'hsv') {
+    else if(mode === 'HSV') {
       let colorStart = d3.hsv(angle, 0, lightness/100);
       let colorMid1 = d3.hsv(angle, 0.25, lightness/100);
       let colorMid2 = d3.hsv(angle, 0.5, lightness/100);
@@ -158,7 +163,7 @@ function createColorWheel(mode, lightness) {
       colorMid3Hsl = d3.hsl(colorMid3).toString();
       colorStopHsl = d3.hsl(colorStop).toString();
     }
-    else if(mode === 'lch') {
+    else if(mode === 'LCH' || mode === 'LAB') {
       let colorStart = d3.hcl(angle, 0, lightness);
       let colorMid1 = d3.hcl(angle, 25, lightness);
       let colorMid2 = d3.hcl(angle, 50, lightness);
@@ -170,7 +175,7 @@ function createColorWheel(mode, lightness) {
       colorMid3Hsl = d3.hsl(colorMid3).toString();
       colorStopHsl = d3.hsl(colorStop).toString();
     }
-    else if(mode === 'hsluv') {
+    else if(mode === 'HSLuv') {
       let colorStart = d3.hsluv(angle, 0, lightness);
       let colorMid1 = d3.hsluv(angle, 25, lightness);
       let colorMid2 = d3.hsluv(angle, 50, lightness);
@@ -183,12 +188,13 @@ function createColorWheel(mode, lightness) {
       colorMid3Hsl = d3.hsl(colorMid3).toString();
       colorStopHsl = d3.hsl(colorStop).toString();
     }
-    else if(mode === 'jch') {
+    else if(mode === 'CAM02' || mode === 'CAM02p') {
       let colorStart = d3.jch(lightness, 0, angle); 
       let colorMid1 = d3.jch(lightness, 25, angle);
       let colorMid2 = d3.jch(lightness, 50, angle);
       let colorMid3 = d3.jch(lightness, 75, angle);
       let colorStop = d3.jch(lightness, 100, angle);
+
       colorStartHsl = d3.hsl(colorStart).toString();
       colorMid1Hsl = d3.hsl(colorMid1).toString();
       colorMid2Hsl = d3.hsl(colorMid2).toString();
@@ -207,15 +213,20 @@ function createColorWheel(mode, lightness) {
   }
 }
 
+function getWheelHeight() {
+  return (window.innerHeight - 232) / 2;
+}
+
 function getSmallestWindowDimension() {
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   let adjustedWidth = windowWidth - 386;// subtract panel width and padding from measurement
-  let adjustedHeight = windowHeight - 80;// subtract heading, tabs height and padding from measurement
+  let adjustedHeight = getWheelHeight();// subtract heading, tabs height and padding from measurement
   let smallestDimension = (adjustedWidth < adjustedHeight) ? adjustedWidth : adjustedHeight;
   return smallestDimension;
 }
 getSmallestWindowDimension();
+
 
 function shiftValue(v, colorWheelSize, dotSize) {
   v = filterNaN(v);
@@ -246,7 +257,7 @@ function updateColorWheel(mode, lightness, dots, dotsMode) {
 }
 
 
-const colorWheelMode = document.getElementById('colorWheelMode');
+const colorWheelMode = document.getElementById('chartsMode');
 const colorDotsMode = document.getElementById('colorDotsMode');
 const colorWheelLightness = document.getElementById('colorWheelLightness');
 
@@ -285,6 +296,7 @@ module.exports = {
   createColorWheelDots,
   createColorWheel,
   getSmallestWindowDimension,
+  getWheelHeight,
   shiftValue,
   updateColorWheel
 }

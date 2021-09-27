@@ -92,6 +92,7 @@ function paramSetup() {
 
   // sliderInput();
   // createOutputParameters();
+
   themeUpdate();
 }
 

@@ -9,6 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import * as d3 from 'd3';
+import {getSmallestWindowDimension, getWheelHeight} from './colorDisc';
 
 function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false) {
   let chartWidth, chartHeight;
@@ -244,13 +245,15 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
 function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors) {
   let chartWidth, chartHeight;
 
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-  let adjustedHeight = (windowHeight - 150) / 2;// subtract heading, tabs height and padding from measurement
+  // let adjustedWidth = smallestWidth / 2 - 16;
+  let width = window.innerWidth - 386 - 32;
+  let adjustedWidth = width / 2;
+
+  let adjustedHeight = getWheelHeight();// subtract heading, tabs height and padding from measurement
   const maxWidth = 800;
 
-  let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
-  adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+  // let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
+  // adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
   chartWidth = adjustedWidth;
   chartHeight = adjustedHeight;

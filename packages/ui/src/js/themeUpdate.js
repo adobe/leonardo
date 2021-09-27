@@ -26,7 +26,8 @@ import {cvdColors} from './cvdColors'
 import {createRatioChart} from './createRatioChart';
 import {
   getConvertedColorCoodrindates,
-  createColorWheelDots
+  createColorWheelDots,
+  updateColorDots
 } from './colorDisc';
 import {createOutputParameters} from './createOutputParameters';
 import {throttle} from './utils';
@@ -42,14 +43,12 @@ function themeUpdate() {
 
   // Create dots for color wheel
   // let allKeyColorsMerged = [].concat.apply([], allKeyColors);
-  let colorWheelModeDropdown = document.getElementById('colorWheelMode');
+  let colorWheelModeDropdown = document.getElementById('chartsMode');
   let colorWheelMode = colorWheelModeDropdown.value
 
-  let allKeys = getAllColorKeys();
-  let arr = getConvertedColorCoodrindates(allKeys, colorWheelMode);
-  createColorWheelDots(arr);
+  createPaletteCharts(colorWheelMode)
 
-  createPaletteCharts()
+  createPaletteCharts(colorWheelMode)
 }
 
 function themeUpdateParams() {
@@ -57,7 +56,7 @@ function themeUpdateParams() {
   let themeName = themeNameInput.value;
   themeUpdate();
 
-  updateParams();
+  // updateParams();
   createOutputParameters();
 }
 

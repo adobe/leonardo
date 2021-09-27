@@ -32,17 +32,24 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
   sw.type = "color";
   sw.value = c;
 
-  let currentColor = _theme.colors.filter(entry => {return entry.name === currentColorName});
-  currentColor = currentColor[0];
+  const currentColorIndex = _theme.colors.map(e => e.name).indexOf(currentColorName);
+
+  // let currentColor = _theme.colors.filter(entry => {return entry.name === currentColorName});
+  // currentColor = currentColor[0];
 
   sw.oninput = (e) => {
     // Replace current indexed value from color keys with new value from color input field
+    let currentColor = _theme.colors[currentColorIndex]
     let currentKeys = currentColor.colorKeys;
     currentKeys.splice(index, 1, e.target.value)
+
     _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
 
     updateRamps(currentColor, parent)
-    updateColorDots();
+
+    setTimeout(function() {
+      updateColorDots();
+    }, 100);
     // throttle(themeUpdateParams, 50)
   };
 
@@ -60,6 +67,7 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
   // button.addEventListener('click', deleteColor);
   button.addEventListener('click',  function(e) {
     // Remove current indexed value from color keys
+    let currentColor = _theme.colors[currentColorIndex]
     let currentKeys = currentColor.colorKeys;
     currentKeys.splice(index, 1)
     _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
@@ -106,7 +114,6 @@ function addKeyColor(e) {
   _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
   addKeyColorInput(c, thisId, currentColorName, lastIndex);
 
-  console.log(currentColor.colorKeys)
   // Update gradient
   updateRamps(currentColor, parentId);
   updateColorDots();

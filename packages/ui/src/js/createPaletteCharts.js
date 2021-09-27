@@ -151,10 +151,8 @@ function createPaletteInterpolationCharts(colors, mode) {
     }
   })
 
-  console.log(dataC)
-
   let visColors = colors.map((color) => {
-    return color[15];
+    return color[14];
   })
 
   let lightnessMax = (mode === 'HSL' || mode === 'HSV') ? 1 : 100;
@@ -164,11 +162,11 @@ function createPaletteInterpolationCharts(colors, mode) {
   createColorChart(dataC, ' ', ' ', "#paletteInterpolationChart3", 0, lightnessMax, visColors);
 }
 
-const modePicker = document.getElementById('paletteChartsMode');
+const modePicker = document.getElementById('chartsMode');
 
-function createPaletteCharts() {
-  let mode = modePicker.value;
-  if(mode === undefined) mode = 'CAM02'; // provide default
+function createPaletteCharts(mode) {
+  // let mode = modePicker.value;
+  // if(mode === undefined) mode = 'CAM02'; // provide default
   const colorClasses = _theme.colors;
   let colors = colorClasses.map((c) => {
     return createScale({swatches: 31, colorKeys: c.colorKeys, colorspace: c.colorspace, smooth: c.smooth});
@@ -182,6 +180,10 @@ function createPaletteCharts() {
   createPaletteInterpolationCharts(colorsCorrected, mode)
 }
 
-modePicker.addEventListener('change', createPaletteCharts);
+window.onresize = () => {
+  createPaletteCharts(modePicker.value)
+};
+
+modePicker.addEventListener('change', (e) => { createPaletteCharts(e.target.value) });
 
 module.exports = {createPaletteCharts}

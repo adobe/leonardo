@@ -26,6 +26,8 @@ let _theme = new Leo.Theme({
   saturation: 100
 });
 
+window._theme = _theme;
+
 module.exports = {
   tempGray,
   _theme

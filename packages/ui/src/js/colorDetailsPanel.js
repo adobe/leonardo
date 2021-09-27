@@ -83,6 +83,7 @@ function showColorDetails(e) {
     contentArea.style.display = 'none';
     configPanel.innerHTML = ' ';
     configPanel.style.display = 'none';
+
     themeUpdateParams()
   }
   let backLabel = document.createElement('span')
@@ -254,7 +255,7 @@ function showColorDetails(e) {
     'HSL': 'HSL',
     'HSLuv': 'HSLuv',
     'HSV': 'HSV',
-    'RGB': 'RGB'
+    // 'RGB': 'RGB'
   };
 
   for(let index in opts) { interpSelect.options[interpSelect.options.length] = new Option(opts[index], index); }
@@ -279,11 +280,11 @@ function showColorDetails(e) {
 
     const chartModeSelect = document.getElementById('chartsMode');
     const chartsMode = chartModeSelect.value;
-    const colors = Leo.createScale({swatches: 30, colorKeys: colorData2.colorKeys, colorspace: colorData2.colorspace, smooth: checked});
+    const colors = colorData2.backgroundColorScale;
     
     updateRamps(colorData2, thisId);
-    createRGBchannelChart(colors);
-    createInterpolationCharts(colors, chartsMode)  
+    // createRGBchannelChart(colors);
+    // createInterpolationCharts(colors, chartsMode)  
   })
   let smoothSwitch = document.createElement('span');
   smoothSwitch.className = 'spectrum-Switch-switch';
@@ -295,6 +296,19 @@ function showColorDetails(e) {
   smoothWrapper.appendChild(smoothSwitch);
   smoothWrapper.appendChild(smoothLabel);
   smoothFormItem.appendChild(smoothWrapper);
+
+  // Create output panel item
+  let panelOutput = document.createElement('div');
+  panelOutput.className = 'spectrum-Panel-Item';
+  let panelOutputLabel = document.createElement('span')
+  panelOutputLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
+  panelOutputLabel.innerHTML = 'Color scale output';
+  let panelOutputContent = document.createElement('div');
+  panelOutputContent.innerHTML = `TODO: Copy colors button... Color class??... download SVG gradient`
+
+  panelOutput.appendChild(panelOutputLabel);
+  panelOutput.appendChild(panelOutputContent);
+
 
   // Actions
   let actions = document.createElement('div');
@@ -314,6 +328,12 @@ function showColorDetails(e) {
   deletePanel.appendChild(deleteColor);
 
   colorName.appendChild(actions);
+
+  /**
+   * 
+   *  Now we build the main area of the UI
+   * 
+   */
 
   // Title
   let title = document.createElement('h2');
@@ -389,7 +409,7 @@ function showColorDetails(e) {
   for(let index in opts) { chartsModeSelect.options[chartsModeSelect.options.length] = new Option(opts[index], index); }
   chartsModeSelect.value = 'CAM02';
 
-
+    
   // Put the tabs together
   tabItem1.appendChild(tabItem1Label);
   tabItem2.appendChild(tabItem2Label);
@@ -414,6 +434,7 @@ function showColorDetails(e) {
   configPanel.appendChild(configPanelItem);
   configPanel.appendChild(panelKeyColors);
   configPanel.appendChild(panelInterpolationMode);
+  configPanel.appendChild(panelOutput);
   configPanel.appendChild(deletePanel);
 
   // Content area needs to be appended with items
@@ -442,7 +463,7 @@ function showColorDetails(e) {
     addKeyColorInput(colorKeys[i], buttonId, colorData.name, i);
   }
 
-  let rampData = Leo.createScale({swatches: 30, colorKeys: colorKeys, colorspace: colorData.colorspace, smooth: colorData.smooth});
+  let rampData = colorData.backgroundColorScale;
 
   let colors = rampData;
 
@@ -451,7 +472,7 @@ function showColorDetails(e) {
     console.log(thisColorId)
     let colorData = getColorClassById(thisColorId);
 
-    let colors = Leo.createScale({swatches: 30, colorKeys: colorData.colorKeys, colorspace: colorData.colorspace, smooth: colorData.smooth});
+    let colors = colorData.backgroundColorScale;
     createInterpolationCharts(colors, e.target.value)
   })
   
@@ -473,11 +494,27 @@ function showColorDetails(e) {
   document.getElementById('tabModel').addEventListener('click', (e) => {openDetailTab(e, 'tabModelContent', colors)});
   document.getElementById('tabInterpCharts').click();
 
-  deleteColor.addEventListener('click', themeDeleteItem);
-  deleteColor.addEventListener('click', function(){ 
+  // deleteColor.addEventListener('click', themeDeleteItem);
+  // deleteColor.addEventListener('click', function(){ 
+  //   const thisColorId = id;
+  //   let colorData = getColorClassById(thisColorId);
+  //   return _theme.removeColor = colorData;
+  // });
+  deleteColor.addEventListener('click', function(e){ 
     const thisColorId = id;
     let colorData = getColorClassById(thisColorId);
-    return _theme.removeColor = colorData;
+
+    // TODO: Figure out a way to remove the other
+    // UI element for the color in the palette view...
+    _theme.removeColor = colorData;
+
+    contentArea.innerHTML = ' ';
+    contentArea.style.display = 'none';
+    configPanel.innerHTML = ' ';
+    configPanel.style.display = 'none';
+
+    themeUpdateParams()
+
   });
   // console.log(_theme)
 }

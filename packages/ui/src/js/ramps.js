@@ -16,7 +16,7 @@ import {createRGBchannelChart} from './createRGBchannelChart';
 import {createInterpolationCharts} from './createInterpolationCharts';
 
 function themeRamp(colors, dest, angle) {
-  if(!angle) angle = '270';
+  if(!angle) angle = '90';
   angle = `${angle}deg`;
   let container = document.getElementById(dest);
   let gradient = document.createElement('div');
@@ -46,10 +46,7 @@ function themeRampKeyColors(colorKeys, dest) {
 }
 
 function updateRamps(color, id) {
-  console.log(_theme)
-  // Upate ramp in color detail view
-  const rampData = Leo.createScale({swatches: 30, colorKeys: color.colorKeys, colorspace: color.colorspace, smooth: color.smooth});
-  const colors = rampData;
+  let colors = color.backgroundColorScale;
   let gradientId = id.concat('_gradient');
   document.getElementById(gradientId).innerHTML = ' ';
   themeRamp(colors, gradientId);
@@ -60,19 +57,19 @@ function updateRamps(color, id) {
   // Update gradient swatch from panel view
   let gradientSwatchId = id.concat('_gradientSwatch');
   document.getElementById(gradientSwatchId).innerHTML = ' ';
-  themeRamp(colors, gradientSwatchId, '200');
+  themeRamp(colors, gradientSwatchId, '45');
 
-  createRGBchannelChart(rampData);
+  createRGBchannelChart(colors);
 
   let chartsModeSelect = document.getElementById('chartsMode');
   let chartsMode = chartsModeSelect.value;
-  createInterpolationCharts(rampData, chartsMode)
+  createInterpolationCharts(colors, chartsMode)
 }
 
 function createAllColorRamps() {
   let dest = colorScalesWrapper;
   _theme.colors.map((color) => {
-    let rampData = Leo.createScale({swatches: 30, colorKeys: color.colorKeys, colorspace: color.colorspace, smooth: color.smooth});
+    let rampData = color.backgroundColorScale;
     let colors = rampData;
   
     themeRamp(colors, dest)

@@ -491,9 +491,6 @@
         <div id="tabColorWheel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorWheelWrapper')">
           <label class="spectrum-Tabs-itemLabel">Color wheel</label>
         </div>
-        <div id="tabColorScales" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteChartsWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Charts</label>
-        </div>
         <div id="tabColorScales" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteModelWrapper')">
           <label class="spectrum-Tabs-itemLabel">Model</label>
         </div>
@@ -504,24 +501,31 @@
     </div>
 
     <div id="colorWheelWrapper" class="colorTabsWrapper">
-      <div class="spectrum-Form spectrum-Form--row">
+      <div class="spectrum-Form spectrum-Form--row" id="chartsControls">
         <div class="spectrum-Form-item">
-          <label for="colorWheelMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel mode</label>
-            <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorWheelMode" id="colorWheelMode">
-              <option value="jch">CAM02</option>
+          <label for="chartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Charts mode</label>
+            <select class="spectrum-Picker spectrum-Picker--sizeM" name="chartsMode" id="chartsMode">
+              <!-- <option value="jch">CAM02</option>
               <option value="lch">LCh / Lab</option>
               <option value="hsl">HSL / HSV / RGB</option>
-              <option value="hsluv">HSLuv</option>
+              <option value="hsluv">HSLuv</option> -->
+              <option value="CAM02">Jab</option>
+              <option value="CAM02p">JCh</option>
+              <option value="LAB">Lab</option>
+              <option value="LCH">LCh</option>
+              <option value="HSL">HSL</option>
+              <option value="HSV">HSV</option>
+              <option value="HSLuv">HSLuv</option>
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
               </svg>
             </select>
         </div>
         <div class="spectrum-Form-item">
-          <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel mode</label>
+          <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>
             <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorDotsMode" id="colorDotsMode">
-              <option value="colorKeys">Color keys</option>
               <option value="colorScale">Color scale</option>
+              <option value="colorKeys">All color keys</option>
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
               </svg>
@@ -536,33 +540,14 @@
           </div>
         </div>
       </div>
-      <div id="colorWheel"></div>
-
-    </div>
-
-    <div id="paletteChartsWrapper" class="colorTabsWrapper">
-      <div class="spectrum-Form spectrum-Form--row">
-        <div class="spectrum-Form-item">
-          <label for="paletteChartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Charts mode</label>
-            <select class="spectrum-Picker spectrum-Picker--sizeM" name="paletteChartsMode" id="paletteChartsMode">
-              <option value="CAM02">Jab</option>
-              <option value="CAM02p">JCh</option>
-              <option value="LAB">Lab</option>
-              <option value="LCH">LCh</option>
-              <option value="HSL">HSL</option>
-              <option value="HSV">HSV</option>
-              <option value="HSLuv">HSLuv</option>
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-              </svg>
-            </select>
-        </div>
-      </div>
-      <div id="paletteChartsWrapper">
+      <div class="flex-row">
+        <div id="colorWheel"></div>
         <div class="chart--labelless" id="paletteInterpolationChart"></div>
-        <div class="chart--labelless" id="paletteInterpolationChart2"></div>
-        <div class="chart--labelless" id="paletteInterpolationChart3"></div>  
       </div>
+      <div class="flex-row">
+        <div class="chart--labelless" id="paletteInterpolationChart2"></div>  
+        <div class="chart--labelless" id="paletteInterpolationChart3"></div> 
+      </div>  
     </div>
 
     <div id="paletteModelWrapper" class="colorTabsWrapper">

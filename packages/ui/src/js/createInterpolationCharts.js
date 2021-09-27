@@ -20,7 +20,7 @@ function createInterpolationCharts(colors, mode) {
   dest2.innerHTML = ' ';
 
   // Identify mode channels
-  let c1, c2, c3, func, yMin, yMax, c1Label, c2Label, yLabel;
+  let c1, c2, c3, func, yMin, yMax, yMin2, yMax2, c1Label, c2Label, yLabel;
   if(mode === 'RGB') {
     func = 'hsl';
     c1 = 'h';
@@ -30,6 +30,8 @@ function createInterpolationCharts(colors, mode) {
     // c3 = 'l';
     yMin = 0;
     yMax = 360;
+    yMin2 = 0;
+    yMax2 = 1;
   }
   if(mode === 'LAB') {
     func = 'lab';
@@ -61,7 +63,7 @@ function createInterpolationCharts(colors, mode) {
     func = 'jch';
     c1 = 'h';
     c1Label = `Hue (${mode} - H)`;
-    c2 = 'c';
+    c2 = 'C';
     c2Label = `Chroma (${mode} - C)`;
     // c3 = 'J';
     yMin = 0;
@@ -76,6 +78,8 @@ function createInterpolationCharts(colors, mode) {
     // c3 = 'l';
     yMin = 0;
     yMax = 360;
+    yMin2 = 0;
+    yMax2 = 1;
   }
   if(mode === 'HSLuv') {
     func = 'hsluv';
@@ -86,6 +90,8 @@ function createInterpolationCharts(colors, mode) {
     // c3 = 'v';
     yMin = 0;
     yMax = 360;
+    yMin2 = 0;
+    yMax2 = 100;
   }
   if(mode === 'HSV') {
     func = 'hsv';
@@ -96,6 +102,8 @@ function createInterpolationCharts(colors, mode) {
     // c3 = 'v';
     yMin = 0;
     yMax = 360;
+    yMin2 = 0;
+    yMax2 = 1;
   }
   // Create chart header
   let InterpolationHeader = document.createElement('h5');
@@ -127,7 +135,7 @@ function createInterpolationCharts(colors, mode) {
   ];
   
   createChart(dataA, ' ', ' ', "#interpolationChart", yMin, yMax);
-  createChart(dataB, ' ', ' ', "#interpolationChart2", yMin, yMax);
+  createChart(dataB, ' ', ' ', "#interpolationChart2", yMin2, yMax2);
 }
 
 module.exports = {createInterpolationCharts}
