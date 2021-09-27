@@ -63,15 +63,17 @@
           </svg>
         </label>
       </div>
-      <div id="tabTheme" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'theme')">
-        <label class="spectrum-Tabs-itemLabel">Theme</label>
-      </div>
+
       <div id="tabColor" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'color')">
         <label class="spectrum-Tabs-itemLabel">Color</label>
       </div>
       <div id="tabTypography" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'typography')">
         <label class="spectrum-Tabs-itemLabel">Typography</label>
       </div>
+      <div id="tabTheme" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'theme')">
+        <label class="spectrum-Tabs-itemLabel">Theme</label>
+      </div>
+
     </div>
   </div>
 
@@ -107,26 +109,106 @@
   </nav>
   <main class="home-Wrapper spectrum-Typography">
     <div class="sideNavContent" id="homeContent">
-      <h1 class="spectrum-Heading spectrum-Heading--sizeXXL spectrum-Heading--heavy">
-        Create beautiful, accessible colors
-      </h1>
-      <p class="spectrum-Body spectrum-Body--sizeXXL">
-        First of its kind contrast-ratio based, fully adaptive color theme generator
-      </p>
-      <button class="spectrum-Button spectrum-Button--cta spectrum-Button--sizeL" id='homeCTA'>Start building adaptive theme</button>
-      <section class="spectrum-Body spectrum-Body--sizeL">
-        <p>Leonardo generates colors based on desired contrast ratios. It allows you to create parameters for each color so that you can control the hue and saturation changes for color as it gets lighter or darker. </p>
-  
-        <p>Designers and engineers can both collaborate on this tool, as the parameters defined here can be passed into the leonardo npm module to generate colors during a build or dynamically in your product. </p>
-          
-        <p>The latter of those implementations enables innovative methods for your product to achieve dynamic accessibility, providing your customers with a wider array of color and contrast needs in their control.</p>
+      <div style="display: flex;
+      flex-direction: column;
+      align-items: flex-start;">
+        <h1 class="spectrum-Heading spectrum-Heading--sizeXXL spectrum-Heading--heavy">
+          Create beautiful, accessible colors
+        </h1>
+        <p class="spectrum-Body spectrum-Body--sizeXXL">
+          First of its kind contrast-ratio based, fully adaptive color theme generator
+        </p>
+        <button class="spectrum-Button spectrum-Button--cta spectrum-Button--sizeL" id='homeCTA'>Start building adaptive theme</button>
+        <section class="spectrum-Body spectrum-Body--sizeL">
+          <p>Leonardo generates colors based on desired contrast ratios. It allows you to create parameters for each color so that you can control the hue and saturation changes for color as it gets lighter or darker. </p>
     
-      </section>
+          <p>Designers and engineers can both collaborate on this tool, as the parameters defined here can be passed into the leonardo npm module to generate colors during a build or dynamically in your product. </p>
+            
+          <p>The latter of those implementations enables innovative methods for your product to achieve dynamic accessibility, providing your customers with a wider array of color and contrast needs in their control.</p>
+      
+        </section>
+      </div>
     </div>
 
-    <div class="sideNavContent" id="learnContent">
-      <h1 class="spectrum-Heading spectrum-Heading--sizeL spectrum-Heading--heavy">Learn to use Leonardo</h1>
-      <hr class="spectrum-Divider spectrum-Divider--sizeM">
+    <div class="sideNavContent sideNavContent--splitView" id="learnContent">
+      <div class="sideNavContent_main">
+        <h1 class="spectrum-Heading spectrum-Heading--sizeL spectrum-Heading--heavy">Learn Leonardo</h1>
+        <hr class="spectrum-Divider spectrum-Divider--sizeM">
+
+        <h2 class="spectrum-Heading spectrum-Heading--sizeM spectrum-Heading--heavy" id="colorSystem">
+          Color
+        </h2>
+        <p class="spectrum-Body spectrum-Body--sizeM">
+          The color system tab is for defining your color palette and the color scales for each color.
+        </p>
+        <p class="spectrum-Body spectrum-Body--sizeM">
+          Your <strong>color palette</strong> represents each primary color of your system. You can evaluate the 
+          <attr title="Color harmony is the relationship between colors on a color wheel">
+            color harmony
+          </attr>
+          of your palette. The color wheel is available to view in a variety of 
+          <a class="spectrum-Link" href="#">
+            color spaces
+          </a>.
+        </p>
+        <p class="spectrum-Body spectrum-Body--sizeM">
+          Your <strong>color scales</strong> are a full value scale for each of your palette colors. This allows you
+          to design color as a fluid continuum of tints and shades. 
+        </p>
+        <p class="spectrum-Body spectrum-Body--sizeM">
+          Color scales are defined by three parts: Color keys, interpolation colorspace, and smoothing.
+        </p>
+
+        <h3 class="spectrum-Heading spectrum-Heading--sizeS spectrum-Heading--heavy" id="colorKeys">
+          Color keys
+        </h3>
+        <p class="spectrum-Body spectrum-Body--sizeM">
+          Color keys are specific colors that you want the include within the scale. Each color key is automatically sorted 
+          and placed on the gradient by it's luminosity. This is to ensure the scale follows a consistent change in lightness 
+          from dark to light colors.
+        </p>
+
+        <h3 class="spectrum-Heading spectrum-Heading--sizeS spectrum-Heading--heavy" id="interpolationColorspace">
+          Interpolation colorspace
+        </h3>
+        <p class="spectrum-Body spectrum-Body--sizeM">
+          This specifies which color space you wish to interpolate between your color keys, black, and white. Color is defined
+          differently within each color space, so the resulting gradient of your color scale will appear differently for each. 
+        </p>
+
+        <h3 class="spectrum-Heading spectrum-Heading--sizeS spectrum-Heading--heavy" id="smoothing">
+          Smoothing
+        </h3>
+        <p class="spectrum-Body spectrum-Body--sizeM">
+          Leonardo offers 
+          <attr>
+            catmull-rom
+          </attr>
+          smoothing for all interpolation color spaces. By default, interpolation is linear. In some cases, this will yield good results.
+          For other cases, smoothing provides an adjustment to the interpolation that makes the transition of colors within your color 
+          scale appear much more balanced and smooth.
+        </p>
+
+  
+      </div>
+      <div class="sideNavContent_aside">
+        <ul class="aside_links">
+          <li> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#colorSystem"> Color </a> 
+            <ul class="aside_links--sublist">
+              <li> 
+                <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#colorKeys"> Color keys </a> 
+              </li>
+              <li> 
+                <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#interpolationColorspace"> Interpolation color space </a> 
+              </li>
+              <li> 
+                <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#smoothing"> Smoothing </a> 
+              </li>    
+            </ul>
+          </li>
+        </ul>
+      </div>
 
     </div>
     <div class="sideNavContent" id="articlesContent">
@@ -269,17 +351,13 @@
         <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'cssWrapper')">
           <label class="spectrum-Tabs-itemLabel">CSS</label>
         </div>
-        <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0"  onclick="openTab(event, 'tokensWrapper')">
+        <!-- <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0"  onclick="openTab(event, 'tokensWrapper')">
           <label class="spectrum-Tabs-itemLabel">Design tokens</label>
-        </div>
+        </div> -->
       </div>
     </div>
 
     <div id="outputWrapper" class="tabcontent">
-      <!-- <div class="outputHeader">
-        <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Colors</h3>
-
-      </div> -->
       <div id="themeOutputs"></div>
     </div>
     <!-- <div id="demoWrapper" class="tabcontent"></div> -->
@@ -301,14 +379,14 @@
       </div>
     </div>
 
-    <div id="tokensWrapper" class="tabcontent">
+    <!-- <div id="tokensWrapper" class="tabcontent">
       <button id="copyThemeTokens" data-clipboard-target="#themeTokensParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
         <span class="spectrum-ActionButton-label">Copy Tokens</span>
       </button>
       <div class="themeOutputParams">
         <pre id="themeTokensParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
       </div>
-    </div>
+    </div> -->
 
   </main>
 </div>
@@ -399,7 +477,7 @@
       </div>
     </div>
     <div id="colorConfigPanel" class="spectrum-Panel-ContentWrapper">
-        Back to colors y'all
+      <!-- Dynaic sidebar content will appear here -->
     </div>
   </div>
 
@@ -413,8 +491,11 @@
         <div id="tabColorWheel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorWheelWrapper')">
           <label class="spectrum-Tabs-itemLabel">Color wheel</label>
         </div>
-        <div id="tabColorScales" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorScalesWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Color scales</label>
+        <div id="tabColorScales" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteChartsWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Charts</label>
+        </div>
+        <div id="tabColorScales" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteModelWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Model</label>
         </div>
         <div id="tabColorOutput" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorOutputWrapper')">
           <label class="spectrum-Tabs-itemLabel">Generated colors</label>
@@ -423,7 +504,6 @@
     </div>
 
     <div id="colorWheelWrapper" class="colorTabsWrapper">
-      <div id="colorWheel"></div>
       <div class="spectrum-Form spectrum-Form--row">
         <div class="spectrum-Form-item">
           <label for="colorWheelMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel mode</label>
@@ -456,11 +536,38 @@
           </div>
         </div>
       </div>
+      <div id="colorWheel"></div>
+
     </div>
 
-    <div id="colorScalesWrapper" class="colorTabsWrapper">
+    <div id="paletteChartsWrapper" class="colorTabsWrapper">
+      <div class="spectrum-Form spectrum-Form--row">
+        <div class="spectrum-Form-item">
+          <label for="paletteChartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Charts mode</label>
+            <select class="spectrum-Picker spectrum-Picker--sizeM" name="paletteChartsMode" id="paletteChartsMode">
+              <option value="CAM02">Jab</option>
+              <option value="CAM02p">JCh</option>
+              <option value="LAB">Lab</option>
+              <option value="LCH">LCh</option>
+              <option value="HSL">HSL</option>
+              <option value="HSV">HSV</option>
+              <option value="HSLuv">HSLuv</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
+        </div>
+      </div>
+      <div id="paletteChartsWrapper">
+        <div class="chart--labelless" id="paletteInterpolationChart"></div>
+        <div class="chart--labelless" id="paletteInterpolationChart2"></div>
+        <div class="chart--labelless" id="paletteInterpolationChart3"></div>  
+      </div>
+    </div>
+
+    <div id="paletteModelWrapper" class="colorTabsWrapper">
       <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--XS">
-        Color scales
+        3D Model
       </h2>
     </div>
 

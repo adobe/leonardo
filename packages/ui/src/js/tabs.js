@@ -117,7 +117,7 @@ function openSideNavItem(evt, contentName) {
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(contentName).style.display = "flex";
+  document.getElementById(contentName).style.display = "grid";
   evt.currentTarget.parentNode.className += " is-selected";
 }
 

@@ -58,14 +58,24 @@ governing permissions and limitations under the License.
 }
 
 // Hack overrides for d3 category10 colors
-g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
-  stroke: #0F4F87;
+#interpolationChart
+#interpolationChart2
+#contrastChart {
+  g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+    stroke: #0F4F87;
+  }
+  g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+    stroke: #449CAD;
+  }
+  g.d3_xy_chart_line path.line {
+    stroke: #76D0C5;
+  }
 }
-g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
-  stroke: #449CAD;
-}
-g.d3_xy_chart_line path.line {
-  stroke: #76D0C5;
+
+.chart--labelless {
+  .x.axis .tick {
+    display: none;
+  }
 }
 
 // Hack specific overrides for RGB chart only

@@ -10,7 +10,10 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
-import {getColorClassByName} from './getThemeData';
+import {
+  getColorClassByName,
+  getColorClassById
+} from './getThemeData';
 import {
   addKeyColor,
   addKeyColorInput,
@@ -33,6 +36,7 @@ import {baseScaleOptions} from './createBaseScaleOptions';
 import {openDetailTab} from './tabs';
 import {themeDeleteItem} from './colorScale';
 import {_theme} from './initialTheme';
+import {updateParams} from './params';
 
 function showColorDetails(e) {
   let element = e.target.id;
@@ -44,7 +48,6 @@ function showColorDetails(e) {
   let triggeredColorName = triggeredColorNameInput.value;
 
   let colorData = getColorClassByName(triggeredColorName);
-  console.log(colorData)
 
   // Clear main container
   let contentArea = document.getElementById('colorDetails');
@@ -268,10 +271,19 @@ function showColorDetails(e) {
   smoothInput.id = thisId.concat('_smooth');
   smoothInput.oninput = throttle(themeUpdateParams, 20);
   smoothInput.addEventListener('input', (e) => {
-    let checked = e.target.checked;
+    const checked = e.target.checked;
     const boolean = checked.toString();
-    _theme.updateColor = {color: colorData.name, smooth: boolean}
-    updateRamps(colorData, thisId)
+    _theme.updateColor = {color: colorData.name, smooth: checked}
+
+    const colorData2 = getColorClassById(id);
+
+    const chartModeSelect = document.getElementById('chartsMode');
+    const chartsMode = chartModeSelect.value;
+    const colors = Leo.createScale({swatches: 30, colorKeys: colorData2.colorKeys, colorspace: colorData2.colorspace, smooth: checked});
+    
+    updateRamps(colorData2, thisId);
+    createRGBchannelChart(colors);
+    createInterpolationCharts(colors, chartsMode)  
   })
   let smoothSwitch = document.createElement('span');
   smoothSwitch.className = 'spectrum-Switch-switch';
@@ -436,7 +448,9 @@ function showColorDetails(e) {
 
   chartsModeSelect.addEventListener('change', (e) => {
     const thisColorId = id;
+    console.log(thisColorId)
     let colorData = getColorClassById(thisColorId);
+
     let colors = Leo.createScale({swatches: 30, colorKeys: colorData.colorKeys, colorspace: colorData.colorspace, smooth: colorData.smooth});
     createInterpolationCharts(colors, e.target.value)
   })

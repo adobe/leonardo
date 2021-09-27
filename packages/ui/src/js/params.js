@@ -91,20 +91,34 @@ function paramSetup() {
   }
 
   // sliderInput();
+  // createOutputParameters();
   themeUpdate();
 }
 
 // Passing variable parameters to URL
-function updateParams(n, t) {
-  let url = new URL(window.location);
-  let params = new URLSearchParams(url.search.slice(1));
-  let tabColor = document.getElementById("tabColor");
-
-  params.set('name', n);         // Theme name
-  params.set('config', t);       // Configurations
-
-  window.history.replaceState({}, '', '?' + params); // update the page's URL.
+window.updateParams = updateParams;
+function updateParams() {
+  console.log('WTF');
 }
+
+// function updateParams(name, theme) {
+//   let url = new URL(window.location);
+//   let params = new URLSearchParams(url.search.slice(1));
+//   let appTabs = document.getElementsByClassName('app-Tabs-item')
+//   let appTabId;
+//   appTabs.forEach((tab) => {
+//     if(tab.classList.contains('is-selected')) {
+//       appTabId = tab.id
+//     }
+//   })
+
+//   console.log(appTabId);
+
+//   params.set('name', name);         // Theme name
+//   params.set('config', theme);       // Configurations
+
+//   window.history.replaceState({}, '', '?' + params); // update the page's URL.
+// }
 
 function clearParams() {
   let uri = window.location.toString();

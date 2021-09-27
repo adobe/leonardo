@@ -57,7 +57,8 @@ new ClipboardJS('.themeOutputSwatch');
 
 // Import local Javascript functions
 import {
-  paramSetup
+  paramSetup,
+  updateParams
 } from './js/params';
 import { 
   throttle

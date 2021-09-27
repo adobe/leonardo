@@ -56,7 +56,7 @@ function convertToCartesian(s, h) {
 }
 
 function filterNaN(x) {
-  if(isNaN(x)) {
+  if(isNaN(x) || x === undefined) {
     return 0;
   } else {
     return x;

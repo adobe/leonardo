@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 
 import {_theme} from './initialTheme';
 
+window.getColorClassById = getColorClassById;
 function getColorClassById(id) {
   let thisElement = document.getElementById(id);
   // 1. find color name from id
@@ -18,7 +19,7 @@ function getColorClassById(id) {
   let colorName = document.getElementById(colorNameInput).value;
 
   // 2. Scrape information from the color class of the same name
-  getColorClassByName(colorName);
+  return getColorClassByName(colorName);
 }
 
 function getColorClassByName(colorName) {

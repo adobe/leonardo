@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import {_theme} from './initialTheme';
+import {updateParams} from './params';
 import {
   getContrastRatios,
   getThemeData,
@@ -37,8 +38,9 @@ function addColorScaleUpdate(c, k, s, r) {
   let config = getThemeData();
   let name = getThemeName();
 
-  config = JSON.stringify(config);
-
+  updateParams();
+  // config = JSON.stringify(config);
+  
   // TODO: Uncomment this and get it working.
   // updateParams(name, config);
 }

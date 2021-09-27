@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import * as d3 from './d3';
+import {_theme} from './initialTheme';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {createInterpolationCharts} from './createInterpolationCharts';
 
@@ -45,9 +46,10 @@ function themeRampKeyColors(colorKeys, dest) {
 }
 
 function updateRamps(color, id) {
+  console.log(_theme)
   // Upate ramp in color detail view
-  let rampData = Leo.createScale({swatches: 30, colorKeys: color.colorKeys, colorspace: color.colorspace, smooth: color.smooth});
-  let colors = rampData;
+  const rampData = Leo.createScale({swatches: 30, colorKeys: color.colorKeys, colorspace: color.colorspace, smooth: color.smooth});
+  const colors = rampData;
   let gradientId = id.concat('_gradient');
   document.getElementById(gradientId).innerHTML = ' ';
   themeRamp(colors, gradientId);

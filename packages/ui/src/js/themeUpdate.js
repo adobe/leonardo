@@ -13,6 +13,8 @@ import * as Leo from '@adobe/leonardo-contrast-colors'
 import hljs from 'highlight.js/lib/core';
 import * as d3 from './d3';
 import {_theme} from './initialTheme';
+import {createPaletteCharts} from './createPaletteCharts';
+import {updateParams} from './params';
 import {
   getThemeName,
   getColorClassById,
@@ -46,10 +48,16 @@ function themeUpdate() {
   let allKeys = getAllColorKeys();
   let arr = getConvertedColorCoodrindates(allKeys, colorWheelMode);
   createColorWheelDots(arr);
+
+  createPaletteCharts()
 }
 
 function themeUpdateParams() {
+  let themeNameInput = document.getElementById('themeNameInput');
+  let themeName = themeNameInput.value;
   themeUpdate();
+
+  updateParams();
   createOutputParameters();
 }
 
