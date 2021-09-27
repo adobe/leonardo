@@ -61,6 +61,7 @@ class Color {
   set colorspace(colorspace) {
     this._colorspace = colorspace;
     this._colorScale = null;
+    this._generateColorScale();
   }
 
   get colorspace() {
@@ -86,6 +87,7 @@ class Color {
   set smooth(smooth) {
     this._smooth = smooth;
     this._colorScale = null;
+    this._generateColorScale();
   }
 
   get smooth() {
