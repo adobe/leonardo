@@ -41,12 +41,15 @@ function addColorScaleUpdate(c, k, s, r) {
 function addColorScale(newColor, addToTheme = true) {
   // if first color item, just name it gray.
   let colorNameValue;
+  const existingColorNames = getAllColorNames();
+  let colorNameOptions = predefinedColorNames;
+
   if(!newColor) {
     if(_theme.colors.length == 0) colorNameValue = 'Gray';
     else {
-      colorNameValue = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
-      let existingColorNames = getAllColorNames();
-      if (existingColorNames.includes(colorNameValue)) colorName = predefinedColorNames[Math.floor(Math.random()*predefinedColorNames.length)];
+      // First, filter out all existing used color names from available random names
+      colorNameOptions = predefinedColorNames.filter(item => !existingColorNames.includes(item));
+      colorNameValue = colorNameOptions[Math.floor(Math.random()*colorNameOptions.length)];
     }
     let ratios = getContrastRatios();
     if (ratios === undefined) ratios = [4.5]
