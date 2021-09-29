@@ -44,7 +44,7 @@ governing permissions and limitations under the License.
     --headerBackground: var(--spectrum-global-color-gray-50, #ffffff);
     --panelBackground: var(--spectrum-global-color-gray-100, #f5f5f5);
     --panelBorder: var(--spectrum-global-color-gray-300);
-    --translucentBorder: rgba(0, 0, 0, 0.15)
+    --translucentBorder: rgba(0, 0, 0, 0.4)
   }
 }
 @media(prefers-color-scheme: dark) {
@@ -53,7 +53,7 @@ governing permissions and limitations under the License.
     --headerBackground: var(--spectrum-global-color-gray-100);
     --panelBackground: var(--spectrum-global-color-gray-100);
     --panelBorder: var(--spectrum-global-color-gray-50);
-    --translucentBorder: rgba(255, 255, 255, 0.2)
+    --translucentBorder: rgba(255, 255, 255, 0.4)
   }
 }
 
@@ -811,7 +811,7 @@ a:focus {
   // margin-right: 8px;
 }
 .luminosity-Field {
-  width: 8ch;
+  width: 10ch;
 }
 
 #toggleMetrics {
@@ -890,6 +890,7 @@ a:focus {
 #ratioInput-wrapper {
   // max-height: calc(var(--gradient-height) - 110px);
   overflow: auto;
+  padding-left: var(--spectrum-global-dimension-size-50);
   display: flex;
   margin-bottom: var(--spectrum-global-dimension-size-100);
   height: calc(100vh - 544px);
@@ -1470,7 +1471,7 @@ a:focus {
 
 .ratioGrid {
   display: grid;
-  grid-template-columns: 84px 56px 64px 32px;
+  grid-template-columns: 84px 70px 64px 32px;
   column-gap: 8px;
   grid-template-areas: 
   'ratio luminosity swatchName actions';
@@ -1661,6 +1662,15 @@ a:focus {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, 0.5);
   position: absolute;
 }
+.luminosityDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 1);
+  position: absolute;
+  left: calc(50% - 6px);
+}
 
 #colorWheelWrapper,
 #paletteChartsWrapper {
@@ -1763,12 +1773,13 @@ a:focus {
 }
 
 #luminosityGradient {
+  position: relative;
   width: 64px;
   height: calc(100vh - 536px);
   background-image: linear-gradient(0deg, black, white);
-  margin-right: 12px;
+  margin-right: var(--spectrum-global-dimension-size-100);
   flex-shrink: 0;
-  border-radius: 4px;
+  border-radius: var(--spectrum-global-dimension-size-50);
   box-shadow: inset 0px 0px 1px var(--spectrum-global-color-gray-900);
 }
 

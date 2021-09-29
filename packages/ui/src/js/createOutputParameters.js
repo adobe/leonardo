@@ -81,6 +81,8 @@ function createTokensOutput() {
 
 }
 
+createOutputParameters();
+
 module.exports = {
   createOutputParameters
 }

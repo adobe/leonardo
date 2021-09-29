@@ -26,6 +26,7 @@ import {
   themeUpdateParams,
   toggleControls
 } from './themeUpdate';
+import {updateColorDots} from './colorDisc';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {showColorDetails} from './colorDetailsPanel';
 import {themeRamp} from './ramps';
@@ -35,15 +36,6 @@ function addColorScaleUpdate(c, k, s, r) {
   // if (!c) c = 'nameIsMissingSomewhere';
   addColorScale(c, k, s, r);
   themeUpdate();
-  let config = getThemeData();
-  let name = getThemeName();
-
-  updateColorWheelDots();
-  updateParams();
-  // config = JSON.stringify(config);
-  
-  // TODO: Uncomment this and get it working.
-  // updateParams(name, config);
 }
 
 function addColorScale(newColor, addToTheme = true) {

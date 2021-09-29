@@ -9,6 +9,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import * as Leo from '@adobe/leonardo-contrast-colors';
+import * as d3 from './d3';
 import {getContrastRatios} from './getThemeData';
 import {_theme} from './initialTheme';
 import {createOutputColors} from './createOutputColors';
@@ -38,8 +40,17 @@ function addRatio() {
 }
 
 
-function createRatioInput(v) {
-  let s = '#cacaca';
+function createRatioInput(v, c) {
+  if(!c) {
+    const AllRatios = getContrastRatios();
+    let ratioIndex = AllRatios.length;
+    c =  _theme.contrastColors[1].values[ratioIndex].value;
+  }
+
+  const luminosityGradient = document.getElementById('luminosityGradient');
+  let luminosityValue = d3.hsluv(c).v;
+  let swatchColor = d3.hsluv(0, 0, luminosityValue).formatHex();
+
   let methodPicker = document.getElementById('contrastMethod');
   let method = methodPicker.value;
 
@@ -54,7 +65,7 @@ function createRatioInput(v) {
   var sw = document.createElement('span');
   sw.className = 'ratio-Swatch';
   sw.id = randId + '-sw';
-  sw.style.backgroundColor = s;
+  sw.style.backgroundColor = swatchColor;
   var ratioInput = document.createElement('input');
   let ratioInputWrapper = document.createElement('div');
   ratioInputWrapper.className = 'spectrum-Textfield ratioGrid--ratio';
@@ -79,18 +90,20 @@ function createRatioInput(v) {
   luminosityInput.type = "number";
   luminosityInput.min = '0';
   luminosityInput.max = '100';
-  luminosityInput.step = '1';
+  luminosityInput.step = '.01';
   luminosityInput.id = randId + "_luminosity";
+  luminosityInput.onkeydown = checkRatioStepModifiers;
   luminosityInput.oninput = syncRatioInputs;
 
   // Customize swatch names input
   var swatchNameInput = document.createElement('input');
   let swatchNameInputWrapper = document.createElement('div');
-  swatchNameInputWrapper.className = 'spectrum-Textfield ratioGrid--swatchName';
+  swatchNameInputWrapper.className = 'spectrum-Textfield ratioGrid--swatchName is-disabled';
 
-  swatchNameInput.className = 'spectrum-Textfield-input swatchName-Field';
+  swatchNameInput.className = 'spectrum-Textfield-input swatchName-Field is-disabled';
   swatchNameInput.type = "text";
   swatchNameInput.id = randId + "_swatchName";
+  swatchNameInput.disabled = true;
   // swatchNameInput.oninput = syncRatioInputs;
 
   var button = document.createElement('button');
@@ -102,22 +115,56 @@ function createRatioInput(v) {
   </svg>`;
 
   button.onclick = deleteRatio;
+
+
   inputWrapper.appendChild(sw);
   ratioInputWrapper.appendChild(ratioInput);
   inputWrapper.appendChild(ratioInputWrapper);
 
   luminosityInputWrapper.appendChild(luminosityInput);
-  div.appendChild(luminosityInputWrapper);
   swatchNameInputWrapper.appendChild(swatchNameInput);
-  div.appendChild(swatchNameInputWrapper);
   div.appendChild(inputWrapper)
+  div.appendChild(luminosityInputWrapper);
+  div.appendChild(swatchNameInputWrapper);
   div.appendChild(button);
   ratios.appendChild(div);
+
+  /** 
+   * Luminosity input and gradient dot need to be
+   * constructed AFTER the ratio input has been
+   * added to the DOM, that way we can find the 
+   * index of the new ratio (from all ratios) and
+   * use that index to identify a color sample from
+   * the output theme to calculate the luminosity
+   * value which will be populated in the luminosity
+   * input and used to position the dot.
+   */
+  // const AllRatios = getContrastRatios();
+
+  // let ratioIndex = AllRatios.indexOf(v);
+  // TODO: Remove condition, which currently stops the ui from breaking with paramSetup values...
+  // let tempColor = (_theme.contrastColors && ratioIndex > -1) ? _theme.contrastColors[1].values[ratioIndex].value : '#cacaca';
+  // let luminosityValue = d3.hsluv(tempColor).v;
+
+  let lDot = document.createElement('div');
+  lDot.className = 'luminosityDot';
+  lDot.id = randId.concat('_dot');
+
+  let lightnessPerc = 100 - luminosityValue;
+  let dotOffset = 0;
+  let topPosition = `${Math.round(lightnessPerc)}%`;
+
+  lDot.style.top = topPosition;
+  luminosityGradient.appendChild(lDot);
+
+  let lumInput = document.getElementById(randId + "_luminosity");
+  lumInput.value = luminosityValue.toFixed(2);
 }
 
-function addRatioInputs(ratios) {
-  ratios.forEach(ratio => {
-    return createRatioInput(ratio)
+function addRatioInputs(ratios, colors) {
+  console.log(ratios, colors)
+  ratios.forEach((ratio, index) => {
+    return createRatioInput(ratio, colors[index])
   })
 }
 
@@ -138,25 +185,32 @@ function sortRatios() {
 
 function syncRatioInputs(e) {
   let thisId = e.target.id;
+  let baseId = (thisId.includes('_luminosity')) ? thisId.replace('_luminosity', '') : thisId;
+  let swatchId = baseId.concat('-sw');
+
   let val = e.target.value;
-  let targetContrast;
-  let luminosity;
-  
+  let targetContrast, luminosity, swatchColor;
+  let swatch = document.getElementById(swatchId);
+
   if (thisId.includes('_luminosity')) {
-    let baseId = thisId.replace('_luminosity', '');
+    baseId = thisId.replace('_luminosity', '');
     let ratioInput = document.getElementById(baseId);
     luminosity = val;
-    
-    ratioInput.val = '3'
-  }
 
-  // if input is a Ratio, increase the font size value based on
-  // lookup table and current font weight. If no weight, default to 400
+    let currentSwatchColor = window.getComputedStyle(swatch).getPropertyValue('background-color');
+    let tempColorHsluv = d3.hsluv(currentSwatchColor);
+    swatchColor = d3.hsluv(tempColorHsluv.l, tempColorHsluv.u, val).formatHex();
+
+    let bg = _theme.contrastColors[0].background;
+    let fgArray = [d3.rgb(swatchColor).r, d3.rgb(swatchColor).g, d3.rgb(swatchColor).b]
+    let bgArray = [d3.rgb(bg).r, d3.rgb(bg).g, d3.rgb(bg).b]
+    targetContrast = Leo.contrast(fgArray, bgArray);
+
+    ratioInput.val = targetContrast;
+  }
   else {
-    let luminosityInputId = `${thisId}_luminosity`;
-    let luminosityInput = document.getElementById(luminosityInputId);
-    luminosityInput.val = 100;
     targetContrast = val;
+    baseId = thisId;
   }
 
   let themeRatios = getContrastRatios();
@@ -167,7 +221,29 @@ function syncRatioInputs(e) {
 
   ratioUpdateValues();
   ratioUpdate();
-  ratioUpdate();
+
+  if(!thisId.includes('_luminosity')) {
+    let luminosityInputId = `${thisId}_luminosity`;
+    let luminosityInput = document.getElementById(luminosityInputId);
+    // Must calculate luminosity of respective contrast value 
+    let tempColor = _theme.contrastColors[1].values[index].value;
+
+    luminosity = d3.hsluv(tempColor).v;
+    console.log(luminosity)
+    luminosityInput.value = luminosity.toFixed(2);
+
+    let swatchId = thisId.concat('-sw');
+    swatchColor = d3.hsluv(0, 0, luminosity).formatHex();
+  }
+
+  swatch.style.backgroundColor = swatchColor;
+
+  let lDotId = baseId.concat('_dot')
+  let lDot = document.getElementById(lDotId);
+  let lumReversed = 100 - luminosity;
+  let dotPercentOffset = (lumReversed/100) * 8;
+  let dotPosition = `calc(${Math.round(lumReversed)}% - ${Math.round(dotPercentOffset)}px)`;
+  lDot.style.top = dotPosition;
 }
 
 function checkRatioStepModifiers(e) {

@@ -13,6 +13,8 @@ import {
   getAllColorNames,
   getColorClassByName
 } from './getThemeData.js'
+import {createOutputColors} from './createOutputColors';
+import {createOutputParameters} from './createOutputParameters';
 import {_theme} from './initialTheme';
 
 // Create options for colors to use as base scale
@@ -40,6 +42,9 @@ baseSelect.addEventListener('change', function(e) {
   let colorName = `${e.target.value}`
   let colorClass = getColorClassByName(colorName);
   _theme.backgroundColor = colorClass;
+
+  createOutputColors();
+  createOutputParameters();
 })
 
 module.exports = {

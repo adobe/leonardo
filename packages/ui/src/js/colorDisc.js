@@ -260,6 +260,7 @@ function shiftValue(v, colorWheelSize, dotSize) {
 function updateColorWheel(mode, lightness, dots, dotsMode) {
   let canvas = document.getElementById('colorWheelCanvas');
   if(canvas) {
+    console.log('removing existing wheel')
     canvas.parentNode.removeChild(canvas);
   }
   createColorWheel(mode, lightness);
@@ -298,6 +299,7 @@ colorWheelLightness.addEventListener('input', function(e) {
   let colorDotsModeDropdown = document.getElementById('colorDotsMode');
   let dotsMode = colorDotsModeDropdown.value;
   let showDots = (dotsMode === 'colorScale') ? true : false;
+
   updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode);
 });
 

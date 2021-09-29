@@ -74,7 +74,7 @@ function paramSetup() {
     themeBase.value = baseScale;
   }
   else if(!params.has('config') || params.get('config') === undefined) {
-    addRatioInputs([3, 4.5]);
+    addRatioInputs([3, 4.5], ['#878787', '#6a6a6a']);
     // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;
     for(let i=0; i<length; i++) {
