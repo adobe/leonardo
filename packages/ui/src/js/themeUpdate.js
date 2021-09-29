@@ -19,11 +19,15 @@ import {
   getThemeName,
   getColorClassById,
   getContrastRatios,
-  getAllColorKeys
+  getAllColorKeys,
+  getLuminosities
 } from './getThemeData';
 import {createOutputColors} from './createOutputColors';
 import {cvdColors} from './cvdColors'
-import {createRatioChart} from './createRatioChart';
+import {
+  createRatioChart,
+  createLuminosityChart
+} from './createRatioChart';
 import {create3dChart} from './create3dChart';
 import {
   getConvertedColorCoodrindates,
@@ -47,8 +51,12 @@ function themeUpdate() {
   let colorWheelModeDropdown = document.getElementById('chartsMode');
   let colorWheelMode = colorWheelModeDropdown.value
 
-  createPaletteCharts(colorWheelMode)
-  create3dChart()
+  createPaletteCharts(colorWheelMode);
+  updateColorDots();
+  create3dChart();
+
+  let chartLuminosities = getLuminosities();
+  createLuminosityChart(chartLuminosities)
 }
 
 function themeUpdateParams() {

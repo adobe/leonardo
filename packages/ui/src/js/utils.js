@@ -70,11 +70,17 @@ function removeElementsByClass(className){
   }
 }
 
+function round(x, n = 0) {
+  const ten = 10 ** n;
+  return Math.round(x * ten) / ten;
+}
+
 module.exports = {
   randomId,
   throttle,
   convertToCartesian,
   filterNaN,
   camelCase,
+  round,
   removeElementsByClass
 }

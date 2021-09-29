@@ -30,7 +30,32 @@ function createRatioChart(chartRatios) {
   let yMin = (minRatio < 1) ? minRatio: 1;
   let yMax = (maxRatio < 7) ? 7 : ((maxRatio < 12) ? 12 : 21);
   
-  createChart(dataContrast, 'Contrast ratio', 'Swatches (sorted)', "#contrastChart", yMin, yMax, true);
+  createChart(dataContrast, 'Contrast ratio', 'Swatches', "#contrastChart", yMin, yMax, true);
 }
 
-module.exports = {createRatioChart};
+function createLuminosityChart(chartLuminosities) {
+  let dest = document.getElementById('luminosityChart');
+  dest.innerHTML = ' ';
+
+  const fillRange = (start, end) => {
+    return Array(end - start + 1).fill().map((item, index) => start + index);
+  };
+  let dataXluminosity = fillRange(1, chartLuminosities.length);
+  let dataLuminosity = [
+    {
+      x: dataXluminosity,
+      y: chartLuminosities.map(function(d) {return parseFloat(d);}) // convert to number
+    }
+  ];
+  // let minLum = Math.min(...chartLuminosities);
+  // let maxLum = Math.max(...chartLuminosities);
+  let yMin = 0;
+  let yMax = 100;
+  
+  createChart(dataLuminosity, 'Luminosity', 'Swatches', "#luminosityChart", yMin, yMax, true);
+}
+
+module.exports = {
+  createRatioChart,
+  createLuminosityChart
+};

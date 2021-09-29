@@ -39,6 +39,15 @@ function getContrastRatios() {
   return ratios;
 }
 
+function getLuminosities() {
+  let luminosityInputs = document.getElementsByClassName('luminosity-Field');
+  let luminosities = [];
+  for(let i = 0; i < luminosityInputs.length; i++) {
+    luminosities.push(Number(luminosityInputs[i].value));
+  }
+  return luminosities;
+}
+
 function getThemeName() {
   // Get name
   let themeNameInput = document.getElementById('themeNameInput');
@@ -90,6 +99,7 @@ module.exports = {
   getThemeName,
   getThemeData,
   getAllColorNames,
+  getLuminosities,
   getColorClassByName,
   getAllColorKeys
 }

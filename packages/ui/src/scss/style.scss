@@ -691,9 +691,12 @@ p {
   color: inherit;
 }
 
-.spectrum-Textfield--readonly {
+.spectrum-Textfield--readonly,
+.spectrum-Textfield .is-readonly {
   padding-left: var(--spectrum-global-dimension-size-400);
   background-color: var(--spectrum-alias-background-color-default);
+  border: none;
+  color: var(--spectrum-global-color-gray-700);
 }
 
 .colorOutput-field {
@@ -956,7 +959,7 @@ a:focus {
 
 .paneltabcontent {
   flex-direction: column;
-  height: calc(100% - 56px);
+  height: calc(100% - 47px);
   overflow-y: auto;
 }
 
@@ -1518,6 +1521,16 @@ a:focus {
   align-items: center;
   width: calc(100% - 32px);
 }
+.spectrum-Panel-SubTabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .spectrum-Heading--sizeXXS {
+    margin-bottom: 7px;
+  }
+}
 
 #typeScaleBase,
 #fontWeight {
@@ -1783,3 +1796,7 @@ a:focus {
   box-shadow: inset 0px 0px 1px var(--spectrum-global-color-gray-900);
 }
 
+#distribute {
+  width: 20ch;
+  display: inline-flex;
+}

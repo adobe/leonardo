@@ -47,9 +47,9 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     chartWidth = adjustedWidth;
     chartHeight = adjustedHeight * 1.5;
   } 
-  if(dest === '#contrastChart') {
+  if(dest === '#contrastChart' || dest === '#luminosityChart') {
     chartWidth = 356;
-    chartHeight = 272;
+    chartHeight = 264;
   }
 
   let xy_chart = d3_xy_chart()

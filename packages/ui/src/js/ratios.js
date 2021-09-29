@@ -11,12 +11,21 @@ governing permissions and limitations under the License.
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import * as d3 from './d3';
-import {getContrastRatios} from './getThemeData';
+import {
+  getContrastRatios, 
+  getLuminosities
+} from './getThemeData';
 import {_theme} from './initialTheme';
 import {createOutputColors} from './createOutputColors';
 import {createOutputParameters} from './createOutputParameters';
-import {createRatioChart} from './createRatioChart';
-import {randomId} from './utils';
+import {
+  createRatioChart, 
+  createLuminosityChart
+} from './createRatioChart';
+import {
+  randomId,
+  round
+} from './utils';
 
 function addRatio() {
   // Gather all existing ratios from _theme
@@ -98,12 +107,13 @@ function createRatioInput(v, c) {
   // Customize swatch names input
   var swatchNameInput = document.createElement('input');
   let swatchNameInputWrapper = document.createElement('div');
-  swatchNameInputWrapper.className = 'spectrum-Textfield ratioGrid--swatchName is-disabled';
+  swatchNameInputWrapper.className = 'spectrum-Textfield spectrum-Textfield--quiet ratioGrid--swatchName is-readonly';
 
-  swatchNameInput.className = 'spectrum-Textfield-input swatchName-Field is-disabled';
+  swatchNameInput.className = 'spectrum-Textfield-input swatchName-Field is-readonly';
   swatchNameInput.type = "text";
   swatchNameInput.id = randId + "_swatchName";
-  swatchNameInput.disabled = true;
+  swatchNameInput.readOnly = true;
+  swatchNameInput.value = 'color-100'
   // swatchNameInput.oninput = syncRatioInputs;
 
   var button = document.createElement('button');
@@ -162,7 +172,6 @@ function createRatioInput(v, c) {
 }
 
 function addRatioInputs(ratios, colors) {
-  console.log(ratios, colors)
   ratios.forEach((ratio, index) => {
     return createRatioInput(ratio, colors[index])
   })
@@ -170,6 +179,12 @@ function addRatioInputs(ratios, colors) {
 
 // Sort swatches in UI
 function sort() {
+  let ratioFields = document.getElementsByClassName('ratio-Field');
+  let ratioInputs = [];
+  for(let i=0; i < ratioFields.length; i++) {
+    ratioInputs.push(ratioFields[i].value);
+  }
+  
   ratioInputs.sort(function(a, b){return a-b});
 
   // Update ratio inputs with new values
@@ -204,9 +219,9 @@ function syncRatioInputs(e) {
     let bg = _theme.contrastColors[0].background;
     let fgArray = [d3.rgb(swatchColor).r, d3.rgb(swatchColor).g, d3.rgb(swatchColor).b]
     let bgArray = [d3.rgb(bg).r, d3.rgb(bg).g, d3.rgb(bg).b]
-    targetContrast = Leo.contrast(fgArray, bgArray);
+    targetContrast = round(Leo.contrast(fgArray, bgArray), 2);
 
-    ratioInput.val = targetContrast;
+    ratioInput.value = targetContrast;
   }
   else {
     targetContrast = val;
@@ -229,10 +244,8 @@ function syncRatioInputs(e) {
     let tempColor = _theme.contrastColors[1].values[index].value;
 
     luminosity = d3.hsluv(tempColor).v;
-    console.log(luminosity)
-    luminosityInput.value = luminosity.toFixed(2);
+    luminosityInput.value = round(luminosity, 2);
 
-    let swatchId = thisId.concat('-sw');
     swatchColor = d3.hsluv(0, 0, luminosity).formatHex();
   }
 
@@ -244,6 +257,15 @@ function syncRatioInputs(e) {
   let dotPercentOffset = (lumReversed/100) * 8;
   let dotPosition = `calc(${Math.round(lumReversed)}% - ${Math.round(dotPercentOffset)}px)`;
   lDot.style.top = dotPosition;
+}
+
+/**
+ *  TODO: Need to create a function for
+ *  UPDATING the swatch color and dot position
+ *  when theme background color lightness is updated.
+ */
+function updateRatioDotSwatches() {
+
 }
 
 function checkRatioStepModifiers(e) {
@@ -289,9 +311,10 @@ function deleteRatio(e) {
   ratioUpdate();
 }
 
-function ratioUpdate(chartRatios = getContrastRatios()) {
+function ratioUpdate(chartRatios = getContrastRatios(), chartLuminosities = getLuminosities()) {
   createOutputColors();
   createRatioChart(chartRatios);
+  createLuminosityChart(chartLuminosities);
   createOutputParameters();
 }
 
