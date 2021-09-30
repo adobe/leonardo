@@ -36,11 +36,12 @@ function createHtmlElement({
   dest.appendChild(el);
 }
 
-function createSVGelement({
+function createSvgElement({
   element,
   id,
   className,
   attributes,
+  styles,
   textContent,
   appendTo
 }) {
@@ -61,4 +62,9 @@ function createSVGelement({
   if(textContent) el.textContent = textContent;
   const dest = document.getElementById(appendTo);
   dest.appendChild(el);
+}
+
+module.exports = {
+  createHtmlElement,
+  createSvgElement
 }
