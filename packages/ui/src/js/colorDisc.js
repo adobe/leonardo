@@ -13,6 +13,7 @@ import d3 from './d3';
 import {filterNaN} from './utils';
 import {getAllColorKeys} from './getThemeData';
 import {_theme} from './initialTheme';
+import {createSvgElement} from './createHtmlElement';
 import {
   convertToCartesian,
   removeElementsByClass
@@ -102,9 +103,21 @@ function createColorWheelDots(arr) {
   let container = document.getElementById('colorWheel');
   removeElementsByClass('colorDot');
   const c = document.getElementById("colorWheelCanvas");
+  const existingLines = document.getElementById('colorWheelLines');
+  if(existingLines) existingLines.parentNode.removeChild(existingLines);
 
   let size = getColorWheelSize();
   let center = (size / 2);
+
+  const svg = createSvgElement({
+    element: 'svg',
+    id: 'colorWheelLines',
+    attributes: {
+      height: size,
+      width: size
+    },
+    appendTo: 'colorWheel'
+  })
 
   arr.map(obj => {
     let dot = document.createElement('div');
@@ -115,19 +128,25 @@ function createColorWheelDots(arr) {
     container.appendChild(dot);
 
     // Create harmony lines
-    let ctx = c.getContext("2d");
-    ctx.beginPath();
-    ctx.moveTo(center, center);
-    ctx.lineTo(obj.x + 8, obj.y + 8);
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
-    ctx.stroke();
-
-    ctx.moveTo(center, center);
-    ctx.lineTo(obj.x + 8, obj.y + 8);
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'white';
-    ctx.stroke();
+    createSvgElement({
+      element: 'line',
+      className: 'colorDot-HarmonyLine',
+      attributes: {
+        height: size,
+        width: size,
+        x1: center,
+        y1: center,
+        x2: obj.x + 8,
+        y2: obj.y + 8,
+      },
+      styles: {
+        stroke: 'rgb(255, 255, 255)',
+        strokeWidth: 2.5,
+        strokeLinecap: "round",
+        filter: 'drop-shadow( 0 0 1px rgba(0, 0, 0, .5))'
+      },
+      appendTo: 'colorWheelLines'
+    });
   })
 }
 
