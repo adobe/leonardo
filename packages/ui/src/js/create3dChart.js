@@ -122,12 +122,6 @@ let yScale3d = d3._3d()
     .scale(scale);
 
 function processData(data, tt, colors){
-  // let colorInterpSpace = document.querySelector('select[name="mode"]').value;
-  let color = () => { return colors };
-
-  // let color = d3.scaleOrdinal(chartColors);
-  // let color = () => { return '#ff00ff'};
-
   /* ----------- GRID ----------- */
 
   let xGrid = svg.selectAll('path.grid').data(data[0], key);
@@ -155,8 +149,6 @@ function processData(data, tt, colors){
     .merge(points)
     .transition().duration(tt)
     .attr('r', 5)
-    // .attr('stroke', function(d){ return d3.color(color(d.id)).darker(3); })
-    // Fill color as function...
     .attr('fill', function(d) {
       let index = Number(d.id.replace('point_', ''));
       return colors[index];
@@ -196,10 +188,10 @@ function processData(data, tt, colors){
         d.centroid = {x: d.rotated.x, y: d.rotated.y, z: d.rotated.z};
     })
     .attr('x', function(d){ return d.projected.x; })
-    .attr('y', function(d){ return d.projected.y; })
-    // .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; });
-    // .text(function(d) {return d;});
-    .text('-');
+    .attr('y', function(d){ return d.projected.y; });
+    // .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; })
+    // .text(function(d) {return d;})
+    // .text('-');
 
   yText.exit().remove();
 
@@ -214,9 +206,8 @@ function posPointY(d){
   return d.projected.y;
 }
 
-let pi = Math.PI;
 
-function init3dChart(colorData, mode, colors) {
+function init3dChart(colorData, colors) {
   let cnt = 0;
   let xGrid = [], scatter = [], yLine = [], colorPlot = [];
   let j = 10;
@@ -225,18 +216,13 @@ function init3dChart(colorData, mode, colors) {
   for(let z = -j; z < j; z++){
     for(let x = -j; x < j; x++){
       xGrid.push([x, 1, z]);
-      // This is where the point CAMArrayAdata is gathered:
       scatter.push({x: x, y: d3.randomUniform(0, -10)(), z: z, id: 'point_' + cnt++});
-      // dividing LAB data by 10 to fit current grid. Negative y let since chart is in negative space?
-      // colorPlot.push({x: LABArrayA[j]/10, y: LABArrayL[j]/10 * -1, z: LABArrayB[j]/10, id: 'point_' + cnt++});
     }
   }
 
   // Reset count so that the indexes match
   // with the colors being passed for the circles
   cnt = 0;
-
-  let pi = Math.PI;
 
   for(let j=0; j< colorData.length; j++) {
     let currentColor = colorData[j];
@@ -279,13 +265,11 @@ function create3dChart(color, mode = 'CAM02') {
     colors = [...dataColors];
   }
 
-  init3dChart(data, mode, colors);
+  init3dChart(data, colors);
 }
 
 function createColorData(color, mode) {
-  console.log(mode)
   const f = getChannelsAndFunction(mode);
-  const pi = Math.PI;
   const method = (d) => d3[f.func](d);
 
   let dataA = color.map(function(d) {
