@@ -42,8 +42,10 @@ function camelCase(str) {
   }).replace(/\s+/g, '');
 }
 
-function convertToCartesian(s, h) {
-  if(s > 100) s = 100;
+function convertToCartesian(s, h, clamp) {
+  if(clamp) {
+    if(s > 100) s = 100;
+  }
   // convert degrees to radians
   let hRad = (h * Math.PI) / 180;
   let xAxis = s * Math.cos(hRad);

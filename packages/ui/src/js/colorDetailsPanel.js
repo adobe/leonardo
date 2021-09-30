@@ -485,8 +485,10 @@ function showColorDetails(e) {
   themeRampKeyColors(colorKeys, gradientId);
   createRGBchannelChart(colors);
   createInterpolationCharts(colors, 'CAM02');
-  create3dChart(colorData)
-  // charts.createAllCharts(colorData.colorspace, colors);
+
+  // TODO: 3D chart in this context needs to be
+  // different -- just one color...
+  // create3dChart(colorData)
   
   toggleControls();
 

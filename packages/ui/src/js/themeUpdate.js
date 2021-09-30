@@ -53,7 +53,7 @@ function themeUpdate() {
 
   createPaletteCharts(colorWheelMode);
   updateColorDots();
-  create3dChart();
+  create3dChart(null, colorWheelMode);
 
   let chartLuminosities = getLuminosities();
   createLuminosityChart(chartLuminosities)

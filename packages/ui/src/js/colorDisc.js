@@ -14,6 +14,7 @@ import {filterNaN} from './utils';
 import {getAllColorKeys} from './getThemeData';
 import {_theme} from './initialTheme';
 import {createSvgElement} from './createHtmlElement';
+import {create3dChart} from './create3dChart';
 import {
   convertToCartesian,
   removeElementsByClass
@@ -82,7 +83,7 @@ function getConvertedColorCoodrindates(colorValues, mode) {
       h = d3.jch(color).h
     }
     
-    const conversion = convertToCartesian(c, h);
+    const conversion = convertToCartesian(c, h, 'clamp');
     let newX = shiftValue(conversion.x, size, dotSize);
     let newY = shiftValue(conversion.y, size, dotSize);
 
@@ -279,19 +280,10 @@ function shiftValue(v, colorWheelSize, dotSize) {
 function updateColorWheel(mode, lightness, dots, dotsMode) {
   let canvas = document.getElementById('colorWheelCanvas');
   if(canvas) {
-    console.log('removing existing wheel')
     canvas.parentNode.removeChild(canvas);
   }
   createColorWheel(mode, lightness);
   updateColorDots(dotsMode)
-
-  // Flag for if we want to regenerate all the dots too.
-  // if(dots) {
-  //   updateColorDots(dotsMode)
-  //   // let allKeys = getAllColorKeys();
-  //   // let arr = getConvertedColorCoodrindates(allKeys, mode);
-  //   // createColorWheelDots(arr);  
-  // }
 }
 
 
@@ -311,6 +303,7 @@ colorWheelMode.addEventListener('input', function(e) {
   let dotsMode = colorDotsModeDropdown.value;
 
   updateColorWheel(mode, colorWheelLightness.value, true);
+  create3dChart(null, mode)
 });
 
 colorWheelLightness.addEventListener('input', function(e) { 

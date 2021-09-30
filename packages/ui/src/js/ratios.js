@@ -184,7 +184,7 @@ function sort() {
   for(let i=0; i < ratioFields.length; i++) {
     ratioInputs.push(ratioFields[i].value);
   }
-  
+
   ratioInputs.sort(function(a, b){return a-b});
 
   // Update ratio inputs with new values

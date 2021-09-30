@@ -1714,8 +1714,13 @@ a:focus {
   display: none;
 }
 
-#homeCTA {
+#homeButtonGroup {
   margin-bottom: var(--spectrum-global-dimension-size-400);
+}
+.spectrum-ButtonGroup {
+  .spectrum-Button + .spectrum-Button {
+    margin-left: var(--spectrum-global-dimension-size-200);
+  }
 }
 
 .themeRampDot {

@@ -17,78 +17,73 @@ Object.assign(d3, d33d);
 
 import * as contrastColors from '@adobe/leonardo-contrast-colors';
 import {_theme} from './initialTheme';
-import {filterNaN} from './utils'
+import {
+  convertToCartesian,
+  filterNaN
+} from './utils'
 
-let chart3dColorspace = document.getElementById('chart3dColorspace');
+
+function dragStart(){
+  mx = d3.event.x;
+  my = d3.event.y;
+}
+
+function dragged(){
+  mouseX = mouseX || 0;
+  mouseY = mouseY || 0;
+  beta = (d3.event.x - mx + mouseX) * Math.PI / 600 ;
+  alpha = (d3.event.y - my + mouseY) * Math.PI / 600  * (-1);
+  let data = [
+    grid3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(xGrid),
+    point3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(colorPlot),
+    yScale3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)([yLine]),
+  ];
+  processData(data, 0, colors);
+}
+
+function dragEnd(){
+  mouseX = d3.event.x - mx + mouseX;
+  mouseY = d3.event.y - my + mouseY;
+}
+
 let dest = document.querySelector('.chart3D');
 
-/*
-Create 2d and 3d chart heights and widths based on known
-paddings and panel dimensions, based on viewport height/width.
-*/
-function createChartWidth(dest) {
-  // let leftPanel = 304;
-  // let rightPanel = 240;
-  // let paddings = 100;
-  // let offset = leftPanel + rightPanel + paddings;
-  // let viewportWidth = window.innerWidth;
-
-  // if((viewportWidth - offset) / 2 > 300) {
-  //   return (viewportWidth - offset) / 2;
-  // } else {
-  //   return 300;
-  // }
-  if(dest === 'interpolationChart') {console.log('INTERP'); return 500;}
-  else return 366;
-}
-
-function createChartHeight() {
-  // let headerHeight = 58;
-  // let tabHeight = 48;
-  // let paddings = 164;
-  // let offset = headerHeight + tabHeight + paddings;
-  // let viewportHeight = window.innerHeight;
-  // let height = (viewportHeight - offset) / 3;
-  // if (height < 160) {
-  //   return 160;
-  // }
-  // else {
-  //   return height;
-  // }
-  return 275;
-}
-
 function create3dChartWidth() {
-  return 400;
+  let viewportWidth = window.innerWidth;
+  let availableSpace = viewportWidth - 390 - 32;
+  return availableSpace;
 }
 
 function create3dChartHeight() {
   let viewportHeight = window.innerHeight;
-
-  return (viewportHeight - 100);
+  let availableSpace =  viewportHeight - 58 - 44;
+  return availableSpace;
 }
 
-let chartWidth = create3dChartWidth();
-let chartHeight = create3dChartHeight();
+const chartWidth = create3dChartWidth();
+const chartHeight = create3dChartHeight();
 let modelScale;
 let yOrigin;
-let viewportHeight = window.innerHeight;
+const viewportHeight = window.innerHeight;
 
-if (viewportHeight < 640) {
-  modelScale = 20;
-  yOrigin = chartHeight;
-} else if (viewportHeight >= 640 && viewportHeight < 800) {
-  modelScale = 30;
-  yOrigin = chartHeight/1.25;
-} else if (viewportHeight >= 800 && viewportHeight < 900) {
-  modelScale = 40;
-  yOrigin = chartHeight/1.25;
-}  else if (viewportHeight >= 900) {
-  modelScale = 50;
-  yOrigin = chartHeight/1.25;
-}
+// if (viewportHeight < 640) {
+//   modelScale = 20;
+//   yOrigin = chartHeight;
+// } else if (viewportHeight >= 640 && viewportHeight < 800) {
+//   modelScale = 30;
+//   yOrigin = chartHeight/1.25;
+// } else if (viewportHeight >= 800 && viewportHeight < 900) {
+//   modelScale = 40;
+//   yOrigin = chartHeight/1.25;
+// }  else if (viewportHeight >= 900) {
+//   modelScale = 50;
+//   yOrigin = chartHeight/1.25;
+// }
 
-let origin = [chartWidth/1.85, chartHeight/1.25], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+modelScale = 40;
+yOrigin = chartHeight/1.5;
+
+const origin = [chartWidth/2, yOrigin], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
 dest.style.width = chartWidth;
 dest.style.height = chartHeight;
 
@@ -126,12 +121,12 @@ let yScale3d = d3._3d()
     .rotateX(-startAngle)
     .scale(scale);
 
-function processData(data, tt){
+function processData(data, tt, colors){
   // let colorInterpSpace = document.querySelector('select[name="mode"]').value;
-  // let chartColors = getChartColors(colorInterpSpace);
+  let color = () => { return colors };
 
   // let color = d3.scaleOrdinal(chartColors);
-  let color = () => { return '#ff00ff'};
+  // let color = () => { return '#ff00ff'};
 
   /* ----------- GRID ----------- */
 
@@ -163,7 +158,8 @@ function processData(data, tt){
     // .attr('stroke', function(d){ return d3.color(color(d.id)).darker(3); })
     // Fill color as function...
     .attr('fill', function(d) {
-      return color(d.id);
+      let index = Number(d.id.replace('point_', ''));
+      return colors[index];
     })
     .attr('opacity', 1)
     .attr('cx', posPointX)
@@ -220,8 +216,7 @@ function posPointY(d){
 
 let pi = Math.PI;
 
-function init3dChart(colorData, spaceOpt) {
-
+function init3dChart(colorData, mode, colors) {
   let cnt = 0;
   let xGrid = [], scatter = [], yLine = [], colorPlot = [];
   let j = 10;
@@ -236,18 +231,19 @@ function init3dChart(colorData, spaceOpt) {
       // colorPlot.push({x: LABArrayA[j]/10, y: LABArrayL[j]/10 * -1, z: LABArrayB[j]/10, id: 'point_' + cnt++});
     }
   }
-  
+
+  // Reset count so that the indexes match
+  // with the colors being passed for the circles
+  cnt = 0;
+
   let pi = Math.PI;
 
   for(let j=0; j< colorData.length; j++) {
     let currentColor = colorData[j];
     for(let i=0; i< 100 ; i++) {
-      colorPlot.push({x: currentColor.a[i], y: currentColor.b[i], z: currentColor.c[i], id: 'point_' + cnt++});
+      colorPlot.push({x: currentColor.a[i]/10, y: currentColor.b[i]/10 * -1, z: currentColor.c[i]/10, id: 'point_' + cnt++});
     }
   }
-
-  // console.log(`Color plot`)
-  // console.log(colorPlot);
 
 
   d3.range(-1, 11, 1).forEach(d => yLine.push([-j, -d, -j]));
@@ -258,91 +254,63 @@ function init3dChart(colorData, spaceOpt) {
     yScale3d([yLine])
   ];
 
-  processData(data, 500); // 500 is the duration
+  processData(data, 500, colors); // 500 is the duration
 }
 
-function dragStart(){
-  mx = d3.event.x;
-  my = d3.event.y;
-}
 
-function dragged(){
-  mouseX = mouseX || 0;
-  mouseY = mouseY || 0;
-  beta = (d3.event.x - mx + mouseX) * Math.PI / 600 ;
-  alpha = (d3.event.y - my + mouseY) * Math.PI / 600  * (-1);
-  let data = [
-    grid3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(xGrid),
-    point3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(colorPlot),
-    yScale3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)([yLine]),
-  ];
-  processData(data, 0);
-}
-
-function dragEnd(){
-  mouseX = d3.event.x - mx + mouseX;
-  mouseY = d3.event.y - my + mouseY;
-}
-
-let chartColors = [];
-
-function getChartColors(mode) {
-  // let shift = document.getElementById('shiftInput').value;
-  let shift = 1;
-
-  let chartColors = [];
-
-  // GENERATE PROPER SCALE OF COLORS FOR 3d CHART:
-  let chartRGB = contrastColors.createScale({swatches: 340, colorKeys: colorArgs, colorspace: mode, shift: shift});
-
-  for (let i=0; i<chartRGB.length; i++) {
-    chartColors.push(chartRGB[i]);
-  }
-
-  return chartColors;
-}
-
-function create3dChart(color) {
+function create3dChart(color, mode = 'CAM02') {
   // Identify mode channels
   let data = [];
-  let mode = 'HSL'
-
+  let colors;
   // if no color defined, create all colors
-  if(!color) {
+  if(!color || color === undefined || color === null) {
+    colors = [];
     _theme.colors.map((c) => {
       // Create data objects for each color scale
       let dataColors = c.backgroundColorScale;
       data.push(createColorData(dataColors, mode));
+      dataColors.map((i) => {
+        colors.push(i)
+      })
     })
   } else {
     let dataColors = color.backgroundColorScale;
     data.push(createColorData(dataColors, mode));
+    colors = [...dataColors];
   }
 
-  init3dChart(data, mode);
-
-  // setTimeout(() => {
-  //   init3dChart(data, mode);
-  // }, 1000);
+  init3dChart(data, mode, colors);
 }
 
 function createColorData(color, mode) {
+  console.log(mode)
   const f = getChannelsAndFunction(mode);
-
+  const pi = Math.PI;
   const method = (d) => d3[f.func](d);
 
   let dataA = color.map(function(d) {
     let channelValue = method(d)[f.c1];
-    return filterNaN(channelValue);
+    // Need to do some geometry for polar colorspaces
+    if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
+      let s = (mode === 'HSL' || mode === 'HSV') ? method(d)[f.c2] * 100 : method(d)[f.c2];
+      let h = channelValue;
+      return filterNaN(convertToCartesian(s, h).x);
+    }
+    else return filterNaN(channelValue);
   });
   let dataB = color.map(function(d) {
-    let channelValue = method(d)[f.c2];
-    if(mode === 'HSL') channelValue = channelValue * 100;
+    let channelValue = method(d)[f.c3];
+    if(mode === 'HSL' || mode === 'HSV') channelValue = channelValue * 100;
     return filterNaN(channelValue);
   });
   let dataC = color.map(function(d) {
-    let channelValue = method(d)[f.c3];
-    if(mode === 'HSL') channelValue = channelValue * 100;
+    let channelValue = method(d)[f.c2];
+    // Need to do some geometry for polar colorspaces
+    if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
+      let s = (mode === 'HSL' || mode === 'HSV') ? channelValue * 100 : channelValue;
+      let h = method(d)[f.c1];
+      return filterNaN(convertToCartesian(s, h).y);
+    }
     return filterNaN(channelValue);
   });
 
