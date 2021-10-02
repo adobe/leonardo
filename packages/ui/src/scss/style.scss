@@ -1832,3 +1832,14 @@ a:focus {
 #swatchMainContent-Wrapper {
   padding: var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
 }
+
+#swatchAttributeSwitch-Wrapper {
+  margin-bottom: var(--spectrum-global-dimension-size-150)
+}
+
+.hideSwatchAttributes {
+  .themeOutputSwatch_luminosity,
+  .themeOutputSwatch_contrast {
+    display: none;
+  }
+}

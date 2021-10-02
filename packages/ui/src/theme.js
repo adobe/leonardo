@@ -118,6 +118,7 @@ import {
   downloadUiKit,
   createSVGuiKit
 } from './js/createSVGuiKit'
+import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
 import {createTypeScale} from './js/typeScale';
 
 window.matchMedia('(prefers-color-scheme: dark)')

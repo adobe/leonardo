@@ -111,7 +111,7 @@ function createSVGuiKit() {
         text.setAttribute('fill', textColor);
         text.setAttribute('font-size', 12);
         text.setAttribute('font-family', "Adobe Clean, AdobeClean-Regular, Adobe Clean");
-        text.textContent = values[j].contrast;
+        text.textContent = `${values[j].contrast}:1`;
         
         subHead.setAttribute('x', x);
         subHead.setAttribute('y', y - 11);
