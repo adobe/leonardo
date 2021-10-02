@@ -64,8 +64,11 @@
         </label>
       </div>
 
-      <div id="tabColor" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'color')">
-        <label class="spectrum-Tabs-itemLabel">Color</label>
+      <div id="tabPalette" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'palette')">
+        <label class="spectrum-Tabs-itemLabel">Palette</label>
+      </div>
+      <div id="tabSwatches" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'swatches')">
+        <label class="spectrum-Tabs-itemLabel">Swatches</label>
       </div>
       <div id="tabTypography" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'typography')">
         <label class="spectrum-Tabs-itemLabel">Typography</label>
@@ -525,11 +528,11 @@
   </main>
 </div>
 
-<!-- Color Tab -->
-<div id="color" class="AppTab appFramePanelLeft">
+<!-- Palette Tab -->
+<div id="palette" class="AppTab appFramePanelLeft">
   <div class="spectrum-Panel">
     <div class="spectrum-Panel-ContentWrapper">
-      <div class="spectrum-Panel-Tabs">
+      <!-- <div class="spectrum-Panel-Tabs">
         <div class="spectrum-Tabs spectrum-Tabs--horizontal">
           <div id="tabPanelColorScales" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'colorScales')">
             <label class="spectrum-Tabs-itemLabel">Palette</label>
@@ -538,83 +541,8 @@
             <label class="spectrum-Tabs-itemLabel">Swatches</label>
           </div>
         </div>
-      </div>
-      <div id="contrastSwatches" class="paneltabcontent">
-        <div class="spectrum-Panel-Item ">
-          <!-- <div class="spectrum-Form spectrum-Form--spaced"> -->
-            <!-- <div class="spectrum-Form-item">
-              <div class="spectrum-Switch">
-                <input type="checkbox" class="spectrum-Switch-input" id="typeScaleSync" checked>
-                <span class="spectrum-Switch-switch"></span>
-                <label class="spectrum-Switch-label" for="typeScaleSync">Sync with typescale</label>
-              </div>
-            </div> -->
-              <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
-                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-                  <use xlink:href="#spectrum-icon-18-Add" />
-                </svg>
-                <span class="spectrum-ActionButton-label">Add swatch</span>
-              </button>
-              <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
-                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true" aria-label="Sort">
-                  <use xlink:href="#spectrum-css-icon-Arrow100" />
-                </svg>
-                <span class="spectrum-ActionButton-label">Sort</span>
-              </button>
-              <!-- <button title="Sort ratios ascending" id="distribute" onclick="distributeRatios()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
-                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true" aria-label="Sort">
-                  <use xlink:href="#spectrum-css-icon-Arrow100" />
-                </svg>
-                <span class="spectrum-ActionButton-label">Distribute</span>
-              </button> -->
-                <select class="spectrum-Picker spectrum-Picker--sizeM" name="distribute" id="distribute">
-                  <option value="">Distribute by...</option>
-                  <option value="ratios">Contrast ratios</option>
-                  <option value="luminosity">Luminosity</option>
-                  <!-- <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-                    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-                  </svg> -->
-                </select>
-          </div>
-  
-  
-          <div class="spectrum-Panel-Item spectrum-Panel-Item--row">
-          <div id="luminosityGradient"></div>
-          <div id="ratioInput-wrapper">
-            <div class="ratioGrid">
-              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Contrast ratio</label>  
-              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Luminosity</label>  
-              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Naming</label>  
-            </div>
-          </div>
-          <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-              <use xlink:href="#spectrum-icon-18-Add" />
-            </svg>
-            <span class="spectrum-ActionButton-label">Add contrast ratio</span>
-          </button> -->
-        </div>
-  
-
-        <div class="spectrum-Panel-Item">
-          <div class="spectrum-Panel-SubTabs">
-            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Swatch Distribution</h3>
-            <div class="spectrum-Tabs spectrum-Tabs--compact spectrum-Tabs--horizontal">
-              <div id="tabSubPanelContrastChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openSwatchTab(event, 'contrastChart')">
-                <label class="spectrum-Tabs-itemLabel">Contrast ratio</label>
-              </div>
-              <div id="tabSubPanelLuminosityChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openSwatchTab(event, 'luminosityChart')">
-                <label class="spectrum-Tabs-itemLabel">Luminosity</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel-SubTab-Content" id="contrastChart"></div>
-          <div class="panel-SubTab-Content" id="luminosityChart"></div>
-          
-        </div>
-      </div>
-      <div id="colorScales" class="paneltabcontent">
+      </div> -->
+      <div id="colorScales">
         <div class="spectrum-Panel-Item">
           <!-- <div class="spectrum-Panel-Title">
             <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Color scales</h3>
@@ -711,6 +639,76 @@
     </div>
 
     </main>
+</div>
+
+<!-- Swatches Tab -->
+<div id="swatches" class="AppTab appFramePanelLeft">
+  <div class="spectrum-Panel">
+    <div id="contrastSwatches">
+      <div class="spectrum-Panel-Item ">
+        <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add swatch</span>
+        </button>
+        <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true" aria-label="Sort">
+            <use xlink:href="#spectrum-css-icon-Arrow100" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Sort</span>
+        </button>
+        <select class="spectrum-Picker spectrum-Picker--sizeM" name="distribute" id="distribute">
+          <option value="">Distribute by...</option>
+          <option value="ratios">Contrast ratios</option>
+          <option value="luminosity">Luminosity</option>
+        </select>
+      </div>
+
+
+      <div class="spectrum-Panel-Item spectrum-Panel-Item--row">
+        <div id="luminosityGradient"></div>
+        <div id="ratioInput-wrapper">
+          <div class="ratioGrid">
+            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Contrast ratio</label>  
+            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Luminosity</label>  
+            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Naming</label>  
+          </div>
+        </div>
+        <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Add" />
+          </svg>
+          <span class="spectrum-ActionButton-label">Add contrast ratio</span>
+        </button> -->
+      </div>
+
+
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-SubTabs">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Swatch Distribution</h3>
+          <div class="spectrum-Tabs spectrum-Tabs--compact spectrum-Tabs--horizontal">
+            <div id="tabSubPanelContrastChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openSwatchTab(event, 'contrastChart')">
+              <label class="spectrum-Tabs-itemLabel">Contrast ratio</label>
+            </div>
+            <div id="tabSubPanelLuminosityChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openSwatchTab(event, 'luminosityChart')">
+              <label class="spectrum-Tabs-itemLabel">Luminosity</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-SubTab-Content" id="contrastChart"></div>
+        <div class="panel-SubTab-Content" id="luminosityChart"></div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div id="swatchMainContent-Wrapper">
+    <div id="swatchesOutputs">
+      <!-- Generated colors will appear here -->
+    </div>
+  </div>
 </div>
 
 <!-- Typography Tab -->
