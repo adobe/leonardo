@@ -9,6 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import {round} from './utils';
 
 // Type scale 
 let typeScaleSampleWrapper = document.getElementById('typeScaleSampleWrapper');
@@ -20,6 +21,7 @@ let typeScaleSampleText = document.getElementById('sampleText');
 let fontWeightInput = document.getElementById('fontWeight');
 
 function createTypeScale() {
+  console.log('Creating typescale')
   typeScaleSampleWrapper.innerHTML = ' ';
   let base = Number(typeScaleBaseInput.value);
   let ratio = Number(typeScaleRatioInput.value);
@@ -44,18 +46,24 @@ function createTypeScale() {
   for(let i = 0; i < sizes.length; i++) {
     let size = Math.round(sizes[i]);
     let sampleText = document.createTextNode(typeScaleSampleText.value);
-    let text = document.createTextNode(`${size}px`);
+    let pixelSizeText = document.createTextNode(`${size}px / ${round(size/base, 2)}em`);
+    // let emSizeText = document.createTextNode(``);
     let div = document.createElement('div');
-    let span1 = document.createElement('span');
+    let fontSizePx = document.createElement('span');
+    let fontSizeEm = document.createElement('span');
     let span = document.createElement('span');
-    span1.className = 'typeScaleFontSize'
+    div.className = 'typeScale-Item'
+    fontSizePx.className = 'typeScaleFontSize'
+    // fontSizeEm.className = 'typeScaleFontSize'
     span.style.fontFamily = 'Helvetica, Arial, sans-serif';
     span.style.fontSize = `${size}px`;
     span.style.fontWeight = `${fontWeightInput.value}`
     span.className = 'sampleTextItem';
     span.appendChild(sampleText);
-    span1.appendChild(text)
-    div.appendChild(span1);
+    fontSizePx.appendChild(pixelSizeText)
+    // fontSizeEm.appendChild(emSizeText)
+    div.appendChild(fontSizePx);
+    // div.appendChild(fontSizeEm);
     div.appendChild(span);
     typeScaleSampleWrapper.appendChild(div);
   }

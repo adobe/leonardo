@@ -1533,20 +1533,15 @@ a:focus {
 }
 
 #typeScaleBase,
-#fontWeight {
-  width: 10ch;
-}
-#typeScaleRatio {
-  width: 10ch;
-}
-#typeScaleDecrement {
-  width: 10ch;
-}
-#typeScaleIncrement {
+#fontWeight,
+#typeScaleRatio,
+#typeScaleDecrement,
+#typeScaleIncrement,
+.typographyField {
   width: 10ch;
 }
 #sampleText {
-  width: 264px;
+  width: 360px;
 }
 #themeTitleInput {
   width: 360px;
@@ -1554,16 +1549,25 @@ a:focus {
 
 #typeScaleSampleWrapper {
   white-space: nowrap;
+  overflow: auto;
   color: var(--spectrum-global-color-gray-700);
+  padding: var(--spectrum-global-dimension-size-200);
 }
 .typeScaleFontSize {
   display: inline-flex;
-  width: 32px;
+  width: 92px;
 }
 .sampleTextItem {
-  color: var(--spectrum-global-color-gray-900);
+  color: var(--spectrum-global-color-gray-800);
   line-height: 1.3;
   margin-left: 12px;
+}
+.typeScale-Item {
+  padding: var(--spectrum-global-dimension-size-200) 0;
+
+  + .typeScale-Item {
+    border-top: 1px solid var(--panelBorder);
+  }
 }
 
 .spectrum-ColorCard {

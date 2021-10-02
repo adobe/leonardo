@@ -114,6 +114,7 @@ import {
   openColorTab
 } from './js/tabs';
 import toggleTooltip from './js/tooltip';
+import {createTypeScale} from './js/typeScale';
 
 window.matchMedia('(prefers-color-scheme: dark)')
   .addEventListener('change', event => {
