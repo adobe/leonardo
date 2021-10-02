@@ -63,7 +63,15 @@ function updateRamps(color, id) {
 
   let chartsModeSelect = document.getElementById('chartsMode');
   let chartsMode = chartsModeSelect.value;
-  createInterpolationCharts(colors, chartsMode)
+  createInterpolationCharts(colors, chartsMode);
+
+  let panelOutputContent = document.getElementById('panelColorScaleOutput');
+  panelOutputContent.innerHTML = ' ';
+  let abbreviatedColors = [];
+  colors.map((c, i) => {
+    if(Number.isInteger(i/10)) abbreviatedColors.push(c)
+  })
+  panelOutputContent.innerHTML = abbreviatedColors;
 }
 
 function createAllColorRamps() {

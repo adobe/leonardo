@@ -363,105 +363,108 @@
 
 <!-- Theme Tab -->
 <div id="theme" class="AppTab appFramePanelLeft">
-  <div class="spectrum-Panel">
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Form spectrum-Form--spaced">
-        <div class="spectrum-Form-item">
-          <label for="themeNameInput" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel">Theme name</label>
-          <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
-            <input type='text' class="spectrum-Textfield-input" id="themeNameInput" value="My Theme"/>
+  <div class="spectrum-Panel spectrum-Panel--spaced">
+    <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Form spectrum-Form--spaced">
+          <div class="spectrum-Form-item">
+            <label for="themeNameInput" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel">Theme name</label>
+            <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
+              <input type='text' class="spectrum-Textfield-input" id="themeNameInput" value="My Theme"/>
+            </div>
+          </div>
+          <div class="spectrum-Form-item spectrum-Form-item--row">
+            <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background color</label>
+              <select class="spectrum-Picker is-disabled" name="themeBase" id="themeBase" disabled>
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                  <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                </svg>
+              </select>
+            <span>
+              
+              <button id="addRatio" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" onclick="toggleTooltip('BackgroundScaleTooltip')">
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                  <use xlink:href="#spectrum-icon-18-Info" />
+                </svg>
+                <span class="spectrum-ActionButton-label is-hidden">More information</span>
+              </button>
+              <span id="BackgroundScaleTooltip" class="spectrum-Tooltip spectrum-Tooltip--top">
+                <span class="spectrum-Tooltip-label">Choose one of your color scales to be used as the background.</span>
+                <span class="spectrum-Tooltip-tip"></span>
+              </span>
+
+            </span>
           </div>
         </div>
-        <div class="spectrum-Form-item spectrum-Form-item--row">
-          <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background color</label>
-            <select class="spectrum-Picker is-disabled" name="themeBase" id="themeBase" disabled>
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+      </div>
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+            Adaptive theme controls
+          </h3>
+        </div>
+        <div class="spectrum-Form-item">
+          <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Brightness</label>
+              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" disabled></input>
+          </div>
+          <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
+              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">1</div>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="0.25" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" disabled></input>
+          </div>
+          <div id="saturationSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="themeSaturationLabel" for="themeSaturationSlider">Saturation</label>
+              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeSaturationLabel" id="themeSaturationValue">100</div>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" step="1" id="themeSaturationSlider" name="themeSaturationSlider" disabled></input>
+          </div>
+        </div>
+      </div>
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+            Accessibility
+          </h3>
+        </div>
+        <div class="spectrum-Form spectrum-Form--spaced">
+          <div class="spectrum-Form-item spectrum-Form-item--row">
+            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Contrast formula:</label>
+              <select class="spectrum-Picker" name="contrastMethod" onInput="colorInput()" id="contrastMethod">
+                <option value="WCAG">WCAG</option>
+                <option value="APCA">APCA (draft)</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
               </svg>
             </select>
-          <span>
-            
-            <button id="addRatio" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" onclick="toggleTooltip('BackgroundScaleTooltip')">
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-                <use xlink:href="#spectrum-icon-18-Info" />
-              </svg>
-              <span class="spectrum-ActionButton-label is-hidden">More information</span>
-            </button>
-            <span id="BackgroundScaleTooltip" class="spectrum-Tooltip spectrum-Tooltip--top">
-              <span class="spectrum-Tooltip-label">Choose one of your color scales to be used as the background.</span>
-              <span class="spectrum-Tooltip-tip"></span>
-            </span>
-
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
-          Adaptive theme controls
-        </h3>
-      </div>
-      <div class="spectrum-Form-item">
-        <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
-          <div class="spectrum-Slider-labelContainer">
-            <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Brightness</label>
-            <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
           </div>
-          <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" disabled></input>
-        </div>
-        <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
-          <div class="spectrum-Slider-labelContainer">
-            <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
-            <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">1</div>
-          </div>
-          <input class="spectrum-Slider-controls" type="range" min="0.25" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" disabled></input>
-        </div>
-        <div id="saturationSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
-          <div class="spectrum-Slider-labelContainer">
-            <label class="spectrum-Slider-label" id="themeSaturationLabel" for="themeSaturationSlider">Saturation</label>
-            <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeSaturationLabel" id="themeSaturationValue">100</div>
-          </div>
-          <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" step="1" id="themeSaturationSlider" name="themeSaturationSlider" disabled></input>
-        </div>
-      </div>
-    </div>
-    <div class="spectrum-Panel-Item">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
-          Accessibility
-        </h3>
-      </div>
-      <div class="spectrum-Form spectrum-Form--spaced">
-        <div class="spectrum-Form-item spectrum-Form-item--row">
-          <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Contrast formula:</label>
-            <select class="spectrum-Picker" name="contrastMethod" onInput="colorInput()" id="contrastMethod">
-              <option value="WCAG">WCAG</option>
-              <option value="APCA">APCA (draft)</option>
+          <div class="spectrum-Form-item spectrum-Form-item--row">
+            <label for="cvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
+            <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode" oninput="themeUpdate()">
+              <option value="None">None</option>
+              <option value="Deuteranomaly">Deuteranomaly (common)</option>
+              <option value="Deuteranopia">Deuteranopia (common)</option>
+              <option value="Protanomaly">Protanomaly (rare)</option>
+              <option value="Protanopia">Protanopia (rare)</option>
+              <option value="Tritanomaly">Tritanomaly (very rare)</option>
+              <option value="Tritanopia">Tritanopia (very rare)</option>
+              <option value="Achromatomaly">Achromatomaly (very rare)</option>
+              <option value="Achromatopsia">Achromatopsia (very rare)</option>
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
               <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
             </svg>
           </select>
         </div>
-        <div class="spectrum-Form-item spectrum-Form-item--row">
-          <label for="cvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
-          <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode" oninput="themeUpdate()">
-            <option value="None">None</option>
-            <option value="Deuteranomaly">Deuteranomaly (common)</option>
-            <option value="Deuteranopia">Deuteranopia (common)</option>
-            <option value="Protanomaly">Protanomaly (rare)</option>
-            <option value="Protanopia">Protanopia (rare)</option>
-            <option value="Tritanomaly">Tritanomaly (very rare)</option>
-            <option value="Tritanopia">Tritanopia (very rare)</option>
-            <option value="Achromatomaly">Achromatomaly (very rare)</option>
-            <option value="Achromatopsia">Achromatopsia (very rare)</option>
-          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
-            <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-          </svg>
-        </select>
-      </div>
+        </div>
       </div>
     </div>
+
     <div class="spectrum-Panel-Item">
       <div class="spectrum-ButtonGroup">
         <button id="downloadThemeColorsSvg" class="spectrum-Button spectrum-Button--cta spectrum-Button--sizeM">

@@ -38,6 +38,7 @@ import {themeDeleteItem} from './colorScale';
 import {_theme} from './initialTheme';
 import {updateParams} from './params';
 import {create3dChart} from './create3dChart';
+import {downloadSVGgradient} from './createSVGgradient';
 
 function showColorDetails(e) {
   let element = e.target.id;
@@ -58,6 +59,9 @@ function showColorDetails(e) {
   let configPanel = document.getElementById('colorConfigPanel');
   configPanel.innerHTML = ' ';
   configPanel.style.display = 'flex';
+
+  let configPanelTopWrapper = document.createElement('div');
+  configPanelTopWrapper.className = 'spectrum-Panel-Item spectrum-Panel-Item--noPadding'
 
   let configPanelItem = document.createElement('div');
   configPanelItem.className = 'spectrum-Panel-Item';
@@ -303,9 +307,15 @@ function showColorDetails(e) {
   panelOutput.className = 'spectrum-Panel-Item';
   let panelOutputLabel = document.createElement('span')
   panelOutputLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
-  panelOutputLabel.innerHTML = 'Color scale output';
+  panelOutputLabel.innerHTML = 'Color scale values';
   let panelOutputContent = document.createElement('div');
-  panelOutputContent.innerHTML = `TODO: Copy colors button... Color class??... download SVG gradient`
+  panelOutputContent.className = 'themeOutputParams';
+  panelOutputContent.id = 'panelColorScaleOutput';
+  let abbreviatedColors = [];
+  colorData.backgroundColorScale.map((c, i) => {
+    if(Number.isInteger(i/10)) abbreviatedColors.push(c)
+  })
+  panelOutputContent.innerHTML = abbreviatedColors;
 
   panelOutput.appendChild(panelOutputLabel);
   panelOutput.appendChild(panelOutputContent);
@@ -314,18 +324,30 @@ function showColorDetails(e) {
   // Actions
   let actions = document.createElement('div');
   actions.className = 'spectrum-ButtonGroup';
+
   let deleteColor = document.createElement('button');
   deleteColor.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--warning';
   deleteColor.title = 'Delete color scale'
   deleteColor.id = thisId.concat('_delete');
   deleteColor.innerHTML = 'Delete color scale'
+
+  let downloadGradient = document.createElement('button');
+  downloadGradient.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--cta';
+  downloadGradient.title = 'Download SVG gradient'
+  downloadGradient.id = thisId.concat('_downloadGradient');
+  downloadGradient.innerHTML = 'Download SVG'
+  downloadGradient.addEventListener('click', (e) => {
+    downloadSVGgradient(colorData);
+  })
+
   let deletePanel = document.createElement('div');
-  deletePanel.className = 'spectrum-Panel-Item';
+  deletePanel.className = 'spectrum-Panel-Item spectrum-ButtonGroup';
   // deleteColor.innerHTML = `
   // <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
   // <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
   //   <use xlink:href="#spectrum-icon-18-Delete" />
   // </svg>`;
+  deletePanel.appendChild(downloadGradient)
   deletePanel.appendChild(deleteColor);
 
   colorName.appendChild(actions);
@@ -435,11 +457,12 @@ function showColorDetails(e) {
   panelKeyColors.appendChild(inputs);
   panelInterpolationMode.appendChild(interpInputs);
 
-  configPanel.appendChild(panelHeader);
-  configPanel.appendChild(configPanelItem);
-  configPanel.appendChild(panelKeyColors);
-  configPanel.appendChild(panelInterpolationMode);
-  configPanel.appendChild(panelOutput);
+  configPanelTopWrapper.appendChild(panelHeader);
+  configPanelTopWrapper.appendChild(configPanelItem);
+  configPanelTopWrapper.appendChild(panelKeyColors);
+  configPanelTopWrapper.appendChild(panelInterpolationMode);
+  configPanelTopWrapper.appendChild(panelOutput);
+  configPanel.appendChild(configPanelTopWrapper);
   configPanel.appendChild(deletePanel);
 
   // Content area needs to be appended with items

@@ -227,6 +227,10 @@ body {
   min-width: 160px;
 }
 
+.spectrum-Panel--spaced {
+  justify-content: space-between;
+}
+
 .spectrum-Panel-Item {
   padding: var(--spectrum-global-dimension-size-200);
 }
@@ -245,6 +249,10 @@ body {
 .spectrum-Panel-Item--row {
   display: flex;
   flex-direction: row;
+}
+
+.spectrum-Panel-Item--noPadding {
+  padding: 0;
 }
 
 .spectrum-Panel-ContentWrapper {
@@ -288,10 +296,11 @@ body {
 #colorConfigPanel {
   display: none;
   flex-direction: column;
+  justify-content: space-between;
   position: absolute; // Temporarily remove this to make sure all parts interactive
   background-color: var(--panelBackground);
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 58px);
   z-index: 2;
 }
 
