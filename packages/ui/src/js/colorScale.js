@@ -165,6 +165,8 @@ function addColorScale(newColor, addToTheme = true) {
   deleteColor.addEventListener('click', function(e){ 
     themeDeleteItem(e);
     _theme.removeColor = newColor;
+    
+    themeUpdateParams();
   });
   // console.log(_theme)
 }

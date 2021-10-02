@@ -510,18 +510,20 @@ function showColorDetails(e) {
   // });
   deleteColor.addEventListener('click', function(e){ 
     const thisColorId = id;
-    let colorData = getColorClassById(thisColorId);
+    // let colorData = getColorClassById(thisColorId);
 
     // TODO: Figure out a way to remove the other
     // UI element for the color in the palette view...
-    _theme.removeColor = colorData;
+    // _theme.removeColor = colorData;
+    const deleteButton = document.getElementById(`${thisColorId}_delete`)
+    deleteButton.click();
 
     contentArea.innerHTML = ' ';
     contentArea.style.display = 'none';
     configPanel.innerHTML = ' ';
     configPanel.style.display = 'none';
 
-    themeUpdateParams()
+    // themeUpdateParams()
 
   });
   // console.log(_theme)

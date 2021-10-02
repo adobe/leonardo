@@ -34,7 +34,7 @@ function createOutputColors() {
     // Iterate each color value
     if (theme[i].values) {
       let p = document.createElement('p');
-      p.className = 'spectrum-Heading spectrum-Heading--sizeXS themeOutputItem--Heading';
+      p.className = 'spectrum-Heading spectrum-Heading--sizeXXS themeOutputItem--Heading';
       p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
       p.innerHTML = theme[i].name;
 
@@ -56,7 +56,7 @@ function createOutputColors() {
 
         let innerTextColor =  (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
         let contrastRounded = (Math.round(actualContrast * 100))/100;
-        let contrastText = document.createTextNode(contrastRounded + ':1');
+        let contrastText = document.createTextNode(contrastRounded + ' :1');
         let contrastTextSpan = document.createElement('span');
         contrastTextSpan.className = 'themeOutputSwatch_contrast';
         contrastTextSpan.appendChild(contrastText);
@@ -98,7 +98,7 @@ function createOutputColors() {
     }
     else if (theme[i].background && dest === themeOutputs) {
       let p = document.createElement('p');
-      p.className = 'spectrum-Heading spectrum-Heading--sizeXS  themeOutputItem--Heading';
+      p.className = 'spectrum-Heading spectrum-Heading--sizeXXS  themeOutputItem--Heading';
       p.innerHTML = 'Background color';
       p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
 
