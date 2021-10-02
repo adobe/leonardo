@@ -114,6 +114,10 @@ import {
   openColorTab
 } from './js/tabs';
 import toggleTooltip from './js/tooltip';
+import {
+  downloadUiKit,
+  createSVGuiKit
+} from './js/createSVGuiKit'
 import {createTypeScale} from './js/typeScale';
 
 window.matchMedia('(prefers-color-scheme: dark)')

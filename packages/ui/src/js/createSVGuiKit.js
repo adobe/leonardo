@@ -1,26 +1,46 @@
+import { saveAs } from 'file-saver';
+import d3 from './d3';
 import {_theme} from './initialTheme';
+import {getThemeName} from './getThemeData';
+import { createSvgElement } from './createHtmlElement';
 
 function createSVGuiKit() {
   let colors = _theme.contrastColors;
+  let bgLum = d3.hsluv(colors[0].background).v;  
+  let isDark = (bgLum > 50) ? false : true;
+  var svgns = "http://www.w3.org/2000/svg";
 
   const rectSize = 80;
   const marginX = rectSize + 16 ;
   const offsetX = 166;
-  const marginY = rectSize + 60;
-  const svgWrapper = document.getElementById( 'svgOne' );
-  const swatchesPerColor = 14;
+  const marginY = rectSize + 57;
+
+  const swatchesPerColor = colors[1].values.length;
   const numberOfColors = colors.length - 1;
   const maxSvgWidth = (marginX * swatchesPerColor) + offsetX;
   const maxSvgHeight = marginY * numberOfColors;
   let textColorPositive = (isDark) ? '#fff' : '#000';
   let textColorInverse = (isDark) ? '#000' : '#fff';
   
-  svgWrapper.style.width = maxSvgWidth + 'px';
-  svgWrapper.style.height = maxSvgHeight + 'px';
-  svgWrapper.style.backgroundColor = colors[0].background;
-  
-  var svgns = "http://www.w3.org/2000/svg";
-  
+  let svgWrapper = document.createElementNS(svgns, 'svg');
+  svgWrapper.setAttribute("xmlns", svgns);
+  svgWrapper.setAttribute("version", "1.1");
+  svgWrapper.setAttributeNS( null, 'width', maxSvgWidth + 'px' );
+  svgWrapper.setAttributeNS( null, 'height', maxSvgHeight + 'px' );
+  // svgWrapper.setAttributeNS( null, 'fill', colors[0].background );
+  // svgWrapper.style.backgroundColor = colors[0].background;
+  svgWrapper.setAttribute("aria-hidden", "true");
+
+  let background = document.createElementNS(svgns, 'rect');
+  background.setAttribute('fill', colors[0].background);
+  background.setAttribute('width', maxSvgWidth + 'px')
+  background.setAttribute('height', maxSvgHeight + 'px')
+
+  svgWrapper.appendChild(background);
+
+  let outerElement = document.createElement('div');
+  outerElement.id = 'UIkit';
+
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -30,15 +50,16 @@ function createSVGuiKit() {
       // skip it, it's the background
     } else {
       let name = colors[i].name;  
-      let tokenColorName = `${name}-`;
+      let tokenColorName = `${name}`;
       let values = colors[i].values;
-      let increment = i - 0.85;
+      let increment = i - 0.75;
       let y = marginY * increment;
-      console.log(name)
+
       var title = document.createElementNS( svgns,'text' );
       var descriptor = document.createElementNS( svgns,'text' );
+      var descriptor2 = document.createElementNS( svgns,'text' );
   
-      title.setAttribute('x', 0);
+      title.setAttribute('x', 16);
       title.setAttribute('y', y + 13);
       title.setAttribute('fill', textColorPositive);
       title.setAttribute('font-size', 18);
@@ -46,17 +67,27 @@ function createSVGuiKit() {
       title.setAttribute('font-family', "Adobe Clean, AdobeClean-Regular, Adobe Clean");
       title.textContent = capitalizeFirstLetter(name);
   
-      descriptor.setAttribute('x', 0);
-      descriptor.setAttribute('y', y + 70);
+      descriptor.setAttribute('x', 16);
+      descriptor.setAttribute('y', y + 60);
       descriptor.setAttribute('fill', textColorPositive);
       descriptor.setAttribute('font-size', 11);
       descriptor.setAttribute('letter-spacing', 0.6);
       descriptor.setAttribute('font-weight', 'bold');
       descriptor.setAttribute('font-family', "Adobe Clean, AdobeClean-Regular, Adobe Clean");
-      descriptor.textContent = `CONTRAST WITH BACKGROUND`
+      descriptor.textContent = `Contrast with`
+
+      descriptor2.setAttribute('x', 16);
+      descriptor2.setAttribute('y', y + 72);
+      descriptor2.setAttribute('fill', textColorPositive);
+      descriptor2.setAttribute('font-size', 11);
+      descriptor2.setAttribute('letter-spacing', 0.6);
+      descriptor2.setAttribute('font-weight', 'bold');
+      descriptor2.setAttribute('font-family', "Adobe Clean, AdobeClean-Regular, Adobe Clean");
+      descriptor2.textContent = `background color`
       
       svgWrapper.appendChild( title );
       svgWrapper.appendChild( descriptor );
+      svgWrapper.appendChild( descriptor2 );
       // loop each value to create a swatch
       for(let j=0; j < values.length; j++) {
         var rect = document.createElementNS( svgns,'rect' );
@@ -95,8 +126,33 @@ function createSVGuiKit() {
       }
     }
   }
+  outerElement.appendChild(svgWrapper);
+  document.body.appendChild(outerElement);
 }
 
+function downloadUiKit() {
+  createSVGuiKit();
+  let themeName = getThemeName();
+  let svg = document.getElementById('UIkit').innerHTML;
+
+  let filename = `${themeName}.svg`;
+  var blob = new Blob([`${svg}`], {type: "image/svg+xml;charset=utf-8"});
+
+  saveAs(blob, filename);
+
+  document.getElementById('UIkit').remove();
+}
+
+window.downloadUiKit = downloadUiKit;
+
+document.getElementById('downloadThemeColorsSvg').addEventListener('click', () => {
+  setTimeout(function() {
+    downloadUiKit()
+  }),
+  1000
+})
+
 module.exports = {
-  createSVGuiKit
+  createSVGuiKit,
+  downloadUiKit
 }
