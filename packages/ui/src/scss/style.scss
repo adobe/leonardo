@@ -598,6 +598,7 @@ main {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
   align-items: flex-end;
+  max-height: calc(100vh - 136px);
   justify-content: flex-start;
 }
 
@@ -865,7 +866,7 @@ a:focus {
 }
 
 .themeOutputParams {
-  max-height: calc(100% - 124px);
+  max-height: calc(100vh - 124px);
   overflow: auto;
   display: block;
   margin-top: var(--spectrum-global-dimension-size-100);
@@ -1267,7 +1268,7 @@ a:focus {
   margin-left: -16px;
   margin-right: -16px;
   padding: 16px;
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh - 136px);
   overflow: auto;
 }
 
@@ -1305,6 +1306,7 @@ a:focus {
 
 .themeOutputItem--Heading {
   display: table-cell;
+  min-width: 120px;
   vertical-align: top;
   padding-right: var(--spectrum-global-dimension-size-200);
 }
@@ -1830,6 +1832,7 @@ a:focus {
 }
 
 #swatchMainContent-Wrapper {
+  overflow: auto;
   padding: var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
 }
 
