@@ -866,7 +866,7 @@ a:focus {
 }
 
 .themeOutputParams {
-  max-height: calc(100vh - 124px);
+  max-height: calc(100vh - 208px);
   overflow: auto;
   display: block;
   margin-top: var(--spectrum-global-dimension-size-100);
@@ -1268,7 +1268,7 @@ a:focus {
   margin-left: -16px;
   margin-right: -16px;
   padding: 16px;
-  max-height: calc(100vh - 136px);
+  // max-height: calc(100vh - 136px);
   overflow: auto;
 }
 
