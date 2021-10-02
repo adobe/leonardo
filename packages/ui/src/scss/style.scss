@@ -865,9 +865,9 @@ a:focus {
 }
 
 .themeOutputParams {
-  max-height: calc(100% - 60px);
+  max-height: calc(100% - 124px);
   overflow: auto;
-  display: flex;
+  display: block;
   margin-top: var(--spectrum-global-dimension-size-100);
   // Have to subtract double of the left/right padding value
   width: calc(100% - var(--spectrum-global-dimension-size-400));

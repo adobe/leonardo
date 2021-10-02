@@ -24,15 +24,25 @@ import {
 
 
 function dragStart(){
-  mx = d3.event.x;
-  my = d3.event.y;
+  var coordinates= d3.mouse(this);
+  var x = coordinates[0];
+  var y = coordinates[1];
+  mx = x;
+  my = y;
+
+  // mx = d3.event.x;
+  // my = d3.event.y;
 }
 
 function dragged(){
+  var coordinates= d3.mouse(this);
+  var x = coordinates[0];
+  var y = coordinates[1];
+
   mouseX = mouseX || 0;
   mouseY = mouseY || 0;
-  beta = (d3.event.x - mx + mouseX) * Math.PI / 600 ;
-  alpha = (d3.event.y - my + mouseY) * Math.PI / 600  * (-1);
+  beta = (x - mx + mouseX) * Math.PI / 600 ;
+  alpha = (y - my + mouseY) * Math.PI / 600  * (-1);
   let data = [
     grid3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(xGrid),
     point3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(colorPlot),
@@ -42,8 +52,12 @@ function dragged(){
 }
 
 function dragEnd(){
-  mouseX = d3.event.x - mx + mouseX;
-  mouseY = d3.event.y - my + mouseY;
+  var coordinates= d3.mouse(this);
+  var x = coordinates[0];
+  var y = coordinates[1];
+
+  mouseX = x - mx + mouseX;
+  mouseY = y - my + mouseY;
 }
 
 let dest = document.querySelector('.chart3D');
@@ -66,24 +80,10 @@ let modelScale;
 let yOrigin;
 const viewportHeight = window.innerHeight;
 
-// if (viewportHeight < 640) {
-//   modelScale = 20;
-//   yOrigin = chartHeight;
-// } else if (viewportHeight >= 640 && viewportHeight < 800) {
-//   modelScale = 30;
-//   yOrigin = chartHeight/1.25;
-// } else if (viewportHeight >= 800 && viewportHeight < 900) {
-//   modelScale = 40;
-//   yOrigin = chartHeight/1.25;
-// }  else if (viewportHeight >= 900) {
-//   modelScale = 50;
-//   yOrigin = chartHeight/1.25;
-// }
-
 modelScale = 40;
 yOrigin = chartHeight/1.5;
 
-const origin = [chartWidth/2, yOrigin], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+let origin = [chartWidth/2, yOrigin], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
 dest.style.width = chartWidth;
 dest.style.height = chartHeight;
 
@@ -150,7 +150,7 @@ function processData(data, tt, colors){
     .transition().duration(tt)
     .attr('r', 5)
     .attr('fill', function(d) {
-      let index = Number(d.id.replace('point_', ''));
+      let index = Number(d.id.replace('point_', '')) - 400;
       return colors[index];
     })
     .attr('opacity', 1)
@@ -222,7 +222,7 @@ function init3dChart(colorData, colors) {
 
   // Reset count so that the indexes match
   // with the colors being passed for the circles
-  cnt = 0;
+  // cnt = 0;
 
   for(let j=0; j< colorData.length; j++) {
     let currentColor = colorData[j];
