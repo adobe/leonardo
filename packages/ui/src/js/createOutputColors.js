@@ -6,7 +6,9 @@ import {cvdColors} from './cvdColors';
 function createOutputColors() {
   let colorClasses = _theme.colors;
   
+  let swatchesOutputs = document.getElementById('swatchesOutputs')
   let themeOutputs = document.getElementById('themeOutputs');
+  swatchesOutputs.innerHTML = ' ';
   themeOutputs.innerHTML = ' ';
 
   let theme = _theme.contrastColors;
@@ -17,19 +19,21 @@ function createOutputColors() {
   let themeColorArray = [];
 
   themeOutputs.style.backgroundColor = themeBackgroundColor;
-  let destinations = [ themeOutputs ]
+  let destinations = [ themeOutputs, swatchesOutputs ]
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
     for (let i=0; i<theme.length; i++) {
     let wrapper = document.createElement('div');
+    wrapper.className = 'themeOutputItem';
 
     let swatchWrapper = document.createElement('div');
     swatchWrapper.className = 'themeOutputColor';
+    let colorName = theme[i].name;
 
     // Iterate each color value
     if (theme[i].values) {
       let p = document.createElement('p');
-      p.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+      p.className = 'spectrum-Heading spectrum-Heading--sizeXS themeOutputItem--Heading';
       p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
       p.innerHTML = theme[i].name;
 
@@ -37,6 +41,8 @@ function createOutputColors() {
 
       for(let j=0; j<theme[i].values.length; j++) { // for each value object
         let originalValue = theme[i].values[j].value; // output value of color
+        let swatchName = theme[i].values[j].name.replace(colorName, '');
+        
         // transform original color based on preview mode
         let value = cvdColors(originalValue);
 
@@ -45,12 +51,19 @@ function createOutputColors() {
         let colorArray = [d3.rgb(originalValue).r, d3.rgb(originalValue).g, d3.rgb(originalValue).b]
         let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
 
+        let innerTextColor =  (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
         let contrastRounded = (Math.round(actualContrast * 100))/100;
         let contrastText = document.createTextNode(contrastRounded);
         let contrastTextSpan = document.createElement('span');
         contrastTextSpan.className = 'themeOutputSwatch_contrast';
         contrastTextSpan.appendChild(contrastText);
-        contrastTextSpan.style.color = (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
+        contrastTextSpan.style.color = innerTextColor;
+
+        let swatchIndexText = document.createTextNode(swatchName);
+        let swatchIndexTextSpan = document.createElement('span');
+        swatchIndexTextSpan.className = 'themeOutputSwatch_index';
+        swatchIndexTextSpan.appendChild(swatchIndexText);
+        swatchIndexTextSpan.style.color = innerTextColor;
 
         let div = document.createElement('div');
         div.className = 'themeOutputSwatch';
@@ -59,6 +72,7 @@ function createOutputColors() {
         div.setAttribute('tabindex', '0');
         div.style.backgroundColor = value;
         div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
+        div.appendChild(swatchIndexTextSpan);
         div.appendChild(contrastTextSpan);
 
         swatchWrapper.appendChild(div);
@@ -66,9 +80,9 @@ function createOutputColors() {
       }
       wrapper.appendChild(swatchWrapper);
     }
-    else if (theme[i].background) {
+    else if (theme[i].background && dest === themeOutputs) {
       let p = document.createElement('p');
-      p.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+      p.className = 'spectrum-Heading spectrum-Heading--sizeXS  themeOutputItem--Heading';
       p.innerHTML = 'Background color';
       p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
 

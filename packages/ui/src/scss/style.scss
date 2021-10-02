@@ -896,7 +896,7 @@ a:focus {
   padding-left: var(--spectrum-global-dimension-size-50);
   display: flex;
   margin-bottom: var(--spectrum-global-dimension-size-100);
-  height: calc(100vh - 544px);
+  height: calc(100vh - 496px);
 }
 
 .demoItem {
@@ -1261,7 +1261,7 @@ a:focus {
 }
 
 #themeOutputs {
-  display:flex;
+  // display:flex;
   flex-direction: column;
   background-color: var(--theme-background);
   margin-left: -16px;
@@ -1299,8 +1299,19 @@ a:focus {
   align-items: center;
 }
 
+.themeOutputItem {
+  display: table-row;
+}
+
+.themeOutputItem--Heading {
+  display: table-cell;
+  vertical-align: top;
+  padding-right: var(--spectrum-global-dimension-size-200);
+}
+
 .themeOutputColor {
-  display: flex;
+  // display: flex;
+  display: table-cell;
   flex-wrap: wrap;
   flex-direction: row;
   margin-bottom: 8px;
@@ -1308,11 +1319,13 @@ a:focus {
 
 .themeOutputSwatch {
   display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 66px;
   height: 70px;
   border-radius: 8px;
   border: 1px solid transparent;
-  margin: 2px 12px 2px 0;
+  margin: 0 16px 16px 0;
   cursor: pointer;
   transition: border .25s ease-out, box-shadow .25s ease-out;
   padding: 4px 6px;
@@ -1330,7 +1343,7 @@ a:focus {
 }
 
 .themeOutputSwatch_contrast {
-  align-self: flex-end;
+  // justify-self: flex-end;
   font-size: 12px;
 }
 
@@ -1803,7 +1816,7 @@ a:focus {
 #luminosityGradient {
   position: relative;
   width: 64px;
-  height: calc(100vh - 536px);
+  height: calc(100vh - 496px);
   background-image: linear-gradient(0deg, black, white);
   margin-right: var(--spectrum-global-dimension-size-100);
   flex-shrink: 0;
@@ -1814,4 +1827,8 @@ a:focus {
 #distribute {
   width: 20ch;
   display: inline-flex;
+}
+
+#swatchMainContent-Wrapper {
+  padding: var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
 }
