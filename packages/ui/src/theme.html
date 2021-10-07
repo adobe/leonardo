@@ -124,11 +124,12 @@
         <p class="spectrum-Body spectrum-Body--sizeXXL">
           First of its kind <strong>contrast-ratio based</strong>, adaptive color theme generator
         </p>
-
         <div class="spectrum-ButtonGroup" id="homeButtonGroup">
           <button class="spectrum-Button spectrum-Button--cta spectrum-Button--sizeL" id='homeCTA'>Create new theme</button>
           <button class="spectrum-Button spectrum-Button--secondary spectrum-Button--sizeL" id='homeCTASecondary'>Start with existing theme</button>  
         </div>
+
+        <img src="/images/HomepageImage.png" style="width: 100%; max-width: 756px"/>
 
         <!-- <section class="spectrum-Body spectrum-Body--sizeL">
           <p>Leonardo generates colors based on desired contrast ratios. It allows you to create parameters for each color so that you can control the hue and saturation changes for color as it gets lighter or darker. </p>
@@ -548,14 +549,16 @@
       <div id="colorScales">
         <div class="spectrum-Panel-Item">
           <!-- <div class="spectrum-Panel-Title">
-            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Color scales</h3>
+            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">UI color scales</h3>
           </div> -->
-          <button class="spectrum-ActionButton spectrum-ActionButton--sizeM " onClick="addColorScaleUpdate()">
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
-              <use xlink:href="#spectrum-icon-18-Add" />
-            </svg>
-            <span class="spectrum-ActionButton-label">Add color</span>
-          </button>
+
+            <button class="spectrum-ActionButton spectrum-ActionButton--sizeM " onClick="addColorScaleUpdate()">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
+                <use xlink:href="#spectrum-icon-18-Add" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Add color</span>
+            </button>
+
         </div>
         <div id="themeColorWrapper">
           <div id="themeColorEmptyState" class="spectrum-IllustratedMessage">  
@@ -563,7 +566,6 @@
             <!-- <p class="spectrum-Body--secondary spectrum-IllustratedMessage-description">.</p>  -->
           </div>
         </div>
-
       </div>
     </div>
     <div id="colorConfigPanel" class="spectrum-Panel-ContentWrapper">
@@ -581,7 +583,10 @@
         <div id="tabColorWheel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorWheelWrapper')">
           <label class="spectrum-Tabs-itemLabel">Color wheel</label>
         </div>
-        <div id="tabColorScales" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteModelWrapper')">
+        <div id="tabPaletteCharts" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteChartsWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Charts</label>
+        </div>
+        <div id="tabPaletteModel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteModelWrapper')">
           <label class="spectrum-Tabs-itemLabel">Model</label>
         </div>
       </div>
@@ -605,19 +610,10 @@
 
     <div id="colorWheelWrapper" class="colorTabsWrapper">
 
-      <div class="flex-row">
         <div id="colorWheel--controlsWrapper">
-          <div class="spectrum-Form spectrum-Form--row" id="chartsControls">
-            <div class="spectrum-Form-item">
-              <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>
-                <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorDotsMode" id="colorDotsMode">
-                  <option value="colorScale">Color scale</option>
-                  <option value="colorKeys">All color keys</option>
-                  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-                    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-                  </svg>
-                </select>
-            </div>
+          <div id="colorWheel"></div>
+
+          <div class="spectrum-Form" id="chartsControls">
             <div class="spectrum-Form-item">
               <div id="colorWheelLightnessWrapper" class="spectrum-Slider">
                 <div class="spectrum-Slider-labelContainer">
@@ -626,15 +622,26 @@
                 <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="colorWheelLightness" name="colorWheelLightness"></input>
               </div>
             </div>
+
+            <div class="spectrum-Form-item">
+              <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>
+                <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorDotsMode" id="colorDotsMode">
+                  <option value="colorScale">Color scales</option>
+                  <option value="colorKeys">All key colors</option>
+                  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                  </svg>
+                </select>
+            </div>
           </div>
-          <div id="colorWheel"></div>
         </div>
-        <div class="chart--labelless" id="paletteInterpolationChart"></div>
-      </div>
-      <div class="flex-row">
-        <div class="chart--labelless" id="paletteInterpolationChart2"></div>  
-        <div class="chart--labelless" id="paletteInterpolationChart3"></div> 
-      </div>  
+
+    </div>
+
+    <div id="paletteChartsWrapper" class="colorTabsWrapper">
+      <div class="chart--labelless" id="paletteInterpolationChart"></div>
+      <div class="chart--labelless" id="paletteInterpolationChart2"></div>  
+      <div class="chart--labelless" id="paletteInterpolationChart3"></div> 
     </div>
 
     <div id="paletteModelWrapper" class="colorTabsWrapper">
@@ -710,12 +717,12 @@
   <div id="swatchMainContent-Wrapper">
     <!-- Switch to toggle visibility of swatch attributes -->
     <div class="spectrum-Switch" id="swatchAttributeSwitch-Wrapper">
-      <input type="checkbox" class="spectrum-Switch-input" id="swatchAttributeSwitch" checked>
+      <input type="checkbox" class="spectrum-Switch-input" id="swatchAttributeSwitch">
       <span class="spectrum-Switch-switch"></span>
       <label class="spectrum-Switch-label" for="swatchAttributeSwitch">Show swatch attributes</label>
     </div>
 
-    <div id="swatchesOutputs">
+    <div id="swatchesOutputs" class="hideSwatchAttributes">
       <!-- Generated colors will appear here -->
     </div>
   </div>

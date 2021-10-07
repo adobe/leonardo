@@ -35,7 +35,10 @@ import {createRGBchannelChart} from './createRGBchannelChart';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {openDetailTab} from './tabs';
 import {themeDeleteItem} from './colorScale';
-import {_theme} from './initialTheme';
+import {
+  _theme, 
+  _colorScales
+} from './initialTheme';
 import {updateParams} from './params';
 import {create3dChart} from './create3dChart';
 import {downloadSVGgradient} from './createSVGgradient';
@@ -48,6 +51,7 @@ function showColorDetails(e) {
   let triggeredColorNameInputId = id.concat('_colorName');
   let triggeredColorNameInput = document.getElementById(triggeredColorNameInputId);
   let triggeredColorName = triggeredColorNameInput.value;
+  // let triggeredScaleType = document.getElementById(id.concat('_scaleTypeBadge')).innerHTML;
 
   let colorData = getColorClassByName(triggeredColorName);
 
@@ -64,7 +68,7 @@ function showColorDetails(e) {
   configPanelTopWrapper.className = 'spectrum-Panel-Item spectrum-Panel-Item--noPadding'
 
   let configPanelItem = document.createElement('div');
-  configPanelItem.className = 'spectrum-Panel-Item';
+  configPanelItem.className = 'spectrum-Panel-Item spectrum-Form--row';
 
   // create unique ID for color object
   let thisId = id;
@@ -150,6 +154,105 @@ function showColorDetails(e) {
   colorNameWrapper.appendChild(colorNameInput);
   colorName.appendChild(colorNameLabel);
   colorName.appendChild(colorNameWrapper);
+
+  // Color scale type
+  // let scaleType = document.createElement('div');
+  // scaleType.className = 'spectrum-Form-item';
+  // // Field label
+  // let scaleTypeLabel = document.createElement('label');
+  // scaleTypeLabel.className = 'spectrum-Fieldlabel spectrum-Fieldlabel--sizeM';
+  // scaleTypeLabel.innerHTML = 'Color scale type';
+  // scaleTypeLabel.for = thisId.concat('_scaleType');
+  // // Color Scale type picker
+  // let scaleTypeSelect = document.createElement('select');
+  // scaleTypeSelect.className = 'spectrum-Picker spectrum-Picker--sizeM pickerMode';
+  // scaleTypeSelect.id = thisId.concat('_scaleType');
+  // scaleTypeSelect.name = thisId.concat('_scaleType');
+  // // scaleTypeSelect.oninput = throttle(themeUpdateParams, 20);
+  // // scaleTypeSelect.addEventListener('change', (e) => {
+  // //   _theme.updateColor = {color: colorData.name, colorspace: e.target.value}
+  // //   updateRamps(colorData, thisId)
+  // // })
+
+  // let scaleTypeBadge = document.getElementById( thisId.concat('_scaleTypeBadge'));
+
+  // let scaleTypeDropdownIcon = document.createElement('span');
+  // scaleTypeDropdownIcon.className = 'spectrum-Picker-iconWrapper';
+  // scaleTypeDropdownIcon.innerHTML = `
+  // <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+  //   <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+  // </svg>`;
+  // // Scale type options
+  // scaleTypeSelect.options.length = 0;  
+  // let scaleTypeOpts = {
+  //   'UIcolor': 'UI color',
+  //   'Sequential': 'Sequential',
+  //   'Diverging': 'Diverging',
+  //   'Categorical': 'Categorical'
+  // };
+  // for(let index in scaleTypeOpts) { scaleTypeSelect.options[scaleTypeSelect.options.length] = new Option(scaleTypeOpts[index], index); }
+  // let triggeredScaleTypeOption = (triggeredScaleType === 'UI color') ? 'UIcolor' : triggeredScaleType;
+  // scaleTypeSelect.value = triggeredScaleTypeOption;
+
+  // let prevScaleTypeValue;
+  // scaleTypeSelect.addEventListener('focus', function(e) {
+  //   prevScaleTypeValue = e.target.value;
+  // })
+  // scaleTypeSelect.addEventListener('change', function(e) {
+  //   let value = e.target.value;
+  //   if(prevScaleTypeValue === 'UIcolor') {
+  //     console.log('Was a UI color')
+  //     _theme.removeColor = colorData;
+  //     scaleTypeBadge.classList.remove('spectrum-Badge--neutral')
+  //   }
+  //   if(prevScaleTypeValue === 'Sequential') {
+  //     console.log('Was a Sequential color')
+  //     _colorScales.removeSequentialColor = colorData;
+  //     scaleTypeBadge.classList.remove('spectrum-Badge--informative')
+  //   }
+  //   if(prevScaleTypeValue === 'Diverging') {
+  //     console.log('Was a Diverging color')
+  //     _colorScales.removeDivergingColor = colorData;
+  //     scaleTypeBadge.classList.remove('spectrum-Badge--magenta')
+  //   }
+  //   if(prevScaleTypeValue === 'Categorical') {
+  //     console.log('Was a Categorical color')
+  //     _colorScales.removeCategoricalColor = colorData;
+  //     scaleTypeBadge.classList.remove('spectrum-Badge--seafoam')
+  //   }
+
+  //   if(value === 'UIcolor') {
+  //     console.log('Now a UI color')
+  //     _theme.addColor = colorData;
+  //     scaleTypeBadge.innerHTML = 'UI color';
+  //     scaleTypeBadge.classList.add('spectrum-Badge--neutral')
+  //   }
+  //   if(value === 'Sequential') {
+  //     console.log('Now a Sequential color')
+  //     _colorScales.addSequentialColor = colorData;
+  //     scaleTypeBadge.innerHTML = 'Sequential';
+  //     scaleTypeBadge.classList.add('spectrum-Badge--informative')
+  //   }
+  //   if(value === 'Diverging') {
+  //     console.log('Now a Diverging color')
+  //     _colorScales.addDivergingColor = colorData;
+  //     scaleTypeBadge.innerHTML = 'Diverging';
+  //     scaleTypeBadge.classList.add('spectrum-Badge--magenta')
+  //   }
+  //   if(value === 'Categorical') {
+  //     console.log('Now a Categorical color')
+  //     _colorScales.addCategoricalColor = colorData;
+  //     scaleTypeBadge.innerHTML = 'Categorical';
+  //     scaleTypeBadge.classList.add('spectrum-Badge--seafoam')
+  //   }
+
+  //   prevScaleTypeValue = e.target.value;
+  // })
+
+  // scaleTypeSelect.appendChild(scaleTypeDropdownIcon);
+  // scaleType.appendChild(scaleTypeLabel)
+  // scaleType.appendChild(scaleTypeSelect)
+
 
   // Create second panel item
   let panelKeyColors = document.createElement('div');
@@ -315,7 +418,7 @@ function showColorDetails(e) {
   colorData.backgroundColorScale.map((c, i) => {
     if(Number.isInteger(i/10)) abbreviatedColors.push(c)
   })
-  panelOutputContent.innerHTML = abbreviatedColors;
+  panelOutputContent.innerHTML = abbreviatedColors.toString().replaceAll(',', ', ');
 
   panelOutput.appendChild(panelOutputLabel);
   panelOutput.appendChild(panelOutputContent);
@@ -454,6 +557,7 @@ function showColorDetails(e) {
   interpInputs.appendChild(smoothFormItem);
 
   configPanelItem.appendChild(colorName);
+  // configPanelItem.appendChild(scaleType);
   panelKeyColors.appendChild(inputs);
   panelInterpolationMode.appendChild(interpInputs);
 
@@ -474,11 +578,14 @@ function showColorDetails(e) {
   let chart2 = document.createElement('div');
   chart2.id = 'interpolationChart2';
   let chart3 = document.createElement('div');
-  chart3.id = 'RGBchart';
+  chart3.id = 'interpolationChart3';
+  let chartRgb = document.createElement('div');
+  chartRgb.id = 'RGBchart';
 
   tabContent1.appendChild(chart1);
   tabContent1.appendChild(chart2);
-  tabContent2.appendChild(chart3);
+  tabContent1.appendChild(chart3);
+  tabContent2.appendChild(chartRgb);
 
   wrapper.appendChild(tabsWrapper)
   wrapper.appendChild(tabContent1);
@@ -498,7 +605,7 @@ function showColorDetails(e) {
   chartsModeSelect.addEventListener('change', (e) => {
     const thisColorId = id;
     console.log(thisColorId)
-    let colorData = getColorClassById(thisColorId);
+    let colorData = getColorClassById(thisColorId, prevScaleTypeValue);
 
     let colors = colorData.backgroundColorScale;
     createInterpolationCharts(colors, e.target.value)

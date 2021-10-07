@@ -58,8 +58,9 @@ governing permissions and limitations under the License.
 }
 
 // Hack overrides for d3 category10 colors
-#interpolationChart
-#interpolationChart2
+// #interpolationChart,
+// #interpolationChart2,
+// #interpolationChart3,
 #contrastChart {
   g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
     stroke: #0F4F87;
@@ -96,7 +97,8 @@ governing permissions and limitations under the License.
 }
 
 #interpolationChart,
-#interpolationChart2 {
+#interpolationChart2,
+#interpolationChart3 {
   .x.axis text {
     display: none;
   }

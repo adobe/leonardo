@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 import * as d3 from 'd3';
 import {getSmallestWindowDimension} from './colorDisc';
 
-function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false) {
+function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors) {
   let chartWidth, chartHeight;
 
   const windowWidth = window.innerWidth;
@@ -21,25 +21,26 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
 
   if(
       dest === '#interpolationChart' || 
-      dest === '#interpolationChart2'
+      dest === '#interpolationChart2' || 
+      dest === '#interpolationChart3'
     ) {
-    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
+    let adjustedWidth = windowWidth - (388 + 34);// subtract panel width and padding from measurement
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
     chartWidth = adjustedWidth;
-    chartHeight = adjustedHeight;
+    chartHeight = adjustedHeight - 90;
   }
   if(
     dest === '#paletteInterpolationChart' ||
     dest === '#paletteInterpolationChart2' ||
     dest === '#paletteInterpolationChart3'
   ) {
-  let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
-  adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
+    adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
-  chartWidth = adjustedWidth;
-  chartHeight = (windowHeight - 150) / 2;
-}
+    chartWidth = adjustedWidth;
+    chartHeight = (windowHeight - 150) / 2;
+  }
   if(dest === '#RGBchart') {
     let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
@@ -93,9 +94,13 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
                       // d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
 
 
-          let color_scale = d3.scaleOrdinal(d3.schemeCategory10)
+          let color_scale;
+          if(!visColors) { 
+            color_scale = d3.scaleOrdinal(d3.schemeCategory10)
             .domain(d3.range(datasets.length)) ;
-
+          } else {
+            color_scale = () => { return visColors };
+          }
           let x_axis = d3.axisBottom(x_scale);
 
           let y_axis = d3.axisLeft(y_scale);
@@ -246,14 +251,15 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors) {
   let chartWidth, chartHeight;
 
   // let adjustedWidth = smallestWidth / 2 - 16;
-  let width = window.innerWidth - 386 - 32;
-  let adjustedWidth = width / 2;
+  let width = window.innerWidth - 386 - 34;
+  let adjustedWidth = width;
 
-  let adjustedHeight = (window.innerHeight / 2) - 72;// subtract heading, tabs height and padding from measurement
+  let adjustedHeight = (window.innerHeight / 3) - 60;// subtract heading, tabs height and padding from measurement
   const maxWidth = 800;
 
   // let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
   // adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+  adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
   chartWidth = adjustedWidth;
   chartHeight = adjustedHeight;

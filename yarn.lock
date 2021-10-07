@@ -2120,10 +2120,15 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/alert/-/alert-2.0.5.tgz#d98980b3b43437f6741523c1969818e8a76e73ef"
   integrity sha512-dBC5vLSkNazPs5w7nz6hH5QBLTujosJh4PhwpKOS9BXWtx5HzmpA0ZoEpJJOWbfAwwT0x93F+eqHOfup7WBV4g==
 
-"@spectrum-css/button@^3.0.2":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@spectrum-css/button/-/button-3.0.3.tgz#2df1efaab6c7e0b3b06cb4b59e1eae59c7f1fc84"
-  integrity sha512-6CnLPqqtaU/PcSSIGeGRi0iFIIxIUByYLKFO6zn5NEUc12KQ28dJ4PLwB6WBa0L8vRoAGlnWWH2ZZweTijbXgg==
+"@spectrum-css/badge@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/badge/-/badge-1.0.1.tgz#18a24b5fe5b9b662b2ffc88e26f6dba35a43a7a1"
+  integrity sha512-Wtfezz4RmYltjH+mQ/XbTVtPZfZfj4pws++1ZuGRsVqgAYc6WrAEmsUKv4n6i/EGcgZfs0oPExWflPuNhh+A5g==
+
+"@spectrum-css/button@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/button/-/button-4.0.0.tgz#9941da416e23ff8a986207d3b4c59401d5f5f9cc"
+  integrity sha512-NRiJoXHjiGLgBMvGzwNiyHZmdMU27ukn76jIjL5LHjbrPDB7KjfDm27sODcT0GiP05KIfwVun/DHoXih7NV24A==
 
 "@spectrum-css/buttongroup@^3.0.2":
   version "3.0.3"
@@ -2177,10 +2182,10 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/fieldlabel/-/fieldlabel-3.0.3.tgz#f73c04d20734d4718ffb620dc46458904685b449"
   integrity sha512-nEvIkEXCD5n4fW67Unq6Iu7VXoauEd/JGpfTY02VsC5p4FJLnwKfPDbJUuUsqClAxqw7nAsmXVKtn4zQFf5yPQ==
 
-"@spectrum-css/icon@^3.0.2":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@spectrum-css/icon/-/icon-3.0.3.tgz#5c612822380927087aebd526855d82ed2c3e2cba"
-  integrity sha512-hyloKOejPCXhP3MBNsm3SjR9j8xT1R1S19p32KW/0Qhj+VMUtfyEPmevyFptpn7wcovQccdl/vZVIVDuML/imw==
+"@spectrum-css/icon@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/icon/-/icon-3.0.4.tgz#9837ebf3c7ed2dedbd48fe4d3e42e56eca1e346f"
+  integrity sha512-ZNxAwzY3uVEZ1/a+aTPuL7XxZ+/78rbzB56H4+loJFZdkRG3i72Yn/AQGtukCth7AvdXjEkzc/gvHLnMiIvaxA==
 
 "@spectrum-css/illustratedmessage@2.0.0":
   version "2.0.0"
@@ -2224,10 +2229,10 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/slider/-/slider-3.0.2.tgz#3a2595e6a6f81cb4f1e97081aeeca68bb514ff9f"
   integrity sha512-ZuBeP+P18tlmWRPh25EitaUDTB/DxqwlMCPepcwt+wwQRGOTPmN5zL8HcMTfNAoW9xPFl3/7WiBMrs0q4Y1uEQ==
 
-"@spectrum-css/switch@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@spectrum-css/switch/-/switch-1.0.2.tgz#f0b4c69271964573e02b08e90998096e49e1de44"
-  integrity sha512-zqmHpgWPNg1gEwdUNFYV3CBX5JaeALfIqcJIxE0FLZqr9d1C4+oLE0ItIFzt1bwr4bFAOmkEpvtiY+amluzGxQ==
+"@spectrum-css/switch@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/switch/-/switch-1.0.3.tgz#6a13309001cf64216ebe8e219e72127a75fd351e"
+  integrity sha512-Vs0wh3KwQaMPU5TWqHfD/0ckqFfi3Aj9aGA9LXOOXfdvL/EsI0EEMXAMysnX8/oEbHClrQzOsBSThuesSSVQXA==
 
 "@spectrum-css/tabs@^2.1.1":
   version "2.1.5"
@@ -2259,10 +2264,15 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/underlay/-/underlay-2.0.10.tgz#8b75b646605a311850f6620caa18d4996cd64ed7"
   integrity sha512-PmsmkzeGD/rY4pp3ILXHt9w8BW7uaEqXe08hQRS7rGki7wqCpG4mE0/8N3yEcA3QxWQclmG9gdkg5uz6wMmYzA==
 
-"@spectrum-css/vars@^3.0.1", "@spectrum-css/vars@^3.0.2":
+"@spectrum-css/vars@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-3.0.2.tgz#ea9062c3c98dfc6ba59e5df14a03025ad8969999"
   integrity sha512-vzS9KqYXot4J3AEER/u618MXWAS+IoMvYMNrOoscKiLLKYQWenaueakUWulFonToPd/9vIpqtdbwxznqrK5qDw==
+
+"@spectrum-css/vars@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-4.0.0.tgz#939c8883ca1524dd30669f09f7b29ccc609e0035"
+  integrity sha512-Bo1TflLD3kfuOVRySOEDR/ozEdKY+h5eFs+84UUIyb3Yz+MGVgLYuU0054gclcXldV31HvEK/RNVvGkIA2djOQ==
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -5314,6 +5324,11 @@ file-entry-cache@^6.0.1:
   integrity sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==
   dependencies:
     flat-cache "^3.0.4"
+
+file-saver@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
+  integrity sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==
 
 file-uri-to-path@1.0.0:
   version "1.0.0"

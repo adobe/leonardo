@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import * as d3 from './d3';
-import {createChart} from './createChart';
+import {createColorChart, createChart} from './createChart';
 import {filterNaN} from './utils';
 
 function createInterpolationCharts(colors, mode) {
@@ -18,6 +18,8 @@ function createInterpolationCharts(colors, mode) {
   dest.innerHTML = ' ';
   let dest2 = document.getElementById('interpolationChart2');
   dest2.innerHTML = ' ';
+  let dest3 = document.getElementById('interpolationChart3');
+  dest3.innerHTML = ' ';
 
   // Identify mode channels
   let c1, c2, c3, func, yMin, yMax, yMin2, yMax2, c1Label, c2Label, yLabel;
@@ -27,7 +29,7 @@ function createInterpolationCharts(colors, mode) {
     c1Label = `Hue (HSL - H)`;
     c2 = 's';
     c2Label = `Saturation (HSL - S)`;
-    // c3 = 'l';
+    c3 = 'l';
     yMin = 0;
     yMax = 360;
     yMin2 = 0;
@@ -39,7 +41,7 @@ function createInterpolationCharts(colors, mode) {
     c1Label = `Redness / Greenness (${mode} - A)`;
     c2 = 'b';
     c2Label = `Blueness / Yellowness (${mode} - B)`;
-    // c3 = 'l';
+    c3 = 'l';
   }
   if(mode === 'LCH') {
     func = 'lch';
@@ -47,7 +49,7 @@ function createInterpolationCharts(colors, mode) {
     c1Label = `Hue (${mode} - H)`;
     c2 = 'c';
     c2Label = `Chroma (${mode} - C)`;
-    // c3 = 'l';
+    c3 = 'l';
     yMin = 0;
     yMax = 360;
   }
@@ -57,7 +59,7 @@ function createInterpolationCharts(colors, mode) {
     c1Label = `Redness / Greenness (${mode} - A)`;
     c2 = 'b';
     c2Label = `Blueness / Yellowness (${mode} - B)`;
-    // c3 = 'J';
+    c3 = 'J';
   }
   if(mode === 'CAM02p') {
     func = 'jch';
@@ -65,7 +67,7 @@ function createInterpolationCharts(colors, mode) {
     c1Label = `Hue (${mode} - H)`;
     c2 = 'C';
     c2Label = `Chroma (${mode} - C)`;
-    // c3 = 'J';
+    c3 = 'J';
     yMin = 0;
     yMax = 360;
   }
@@ -75,7 +77,7 @@ function createInterpolationCharts(colors, mode) {
     c1Label = `Hue (${mode} - H)`;
     c2 = 's';
     c2Label = `Saturation (${mode} - S)`;
-    // c3 = 'l';
+    c3 = 'l';
     yMin = 0;
     yMax = 360;
     yMin2 = 0;
@@ -87,7 +89,7 @@ function createInterpolationCharts(colors, mode) {
     c1Label = `Hue (${mode} - H)`;
     c2 = 'u';
     c2Label = `Saturation (${mode} - S)`;
-    // c3 = 'v';
+    c3 = 'v';
     yMin = 0;
     yMax = 360;
     yMin2 = 0;
@@ -99,7 +101,7 @@ function createInterpolationCharts(colors, mode) {
     c1Label = `Hue (${mode} - H)`;
     c2 = 's';
     c2Label = `Saturation (${mode} - S)`;
-    // c3 = 'v';
+    c3 = 'v';
     yMin = 0;
     yMax = 360;
     yMin2 = 0;
@@ -114,28 +116,41 @@ function createInterpolationCharts(colors, mode) {
   InterpolationHeader2.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
   InterpolationHeader2.innerHTML = `${c2Label}`;
   dest2.appendChild(InterpolationHeader2);
+  let InterpolationHeader3 = document.createElement('h5');
+  InterpolationHeader3.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+  InterpolationHeader3.innerHTML =  'Lightness';// `${c3Label}`;
+  dest3.appendChild(InterpolationHeader3);
 
   const fillRange = (start, end) => {
     return Array(end - start).fill().map((item, index) => start + index);
   };
   let dataX = fillRange(1, colors.length);
-  let sortedDataX = dataX.sort((a, b) => b-a);
+  let visColors = colors[50];
 
   let dataA = [
     {
-      x: sortedDataX,
+      x: dataX,
       y: colors.map(function(d) {return filterNaN(d3[func](d)[c1]);}) 
     }
   ];
   let dataB = [
     {
-      x: sortedDataX,
+      x: dataX,
       y: colors.map(function(d) {return filterNaN(d3[func](d)[c2]);}) 
     }
   ];
-  
-  createChart(dataA, ' ', ' ', "#interpolationChart", yMin, yMax);
-  createChart(dataB, ' ', ' ', "#interpolationChart2", yMin2, yMax2);
+  let dataC = [
+    {
+      x: dataX,
+      y: colors.map(function(d) {return filterNaN(d3[func](d)[c3]);}) 
+    }
+  ];
+
+  let lightnessMax = (mode === 'HSL' || mode === 'HSV') ? 1 : 100;
+
+  createChart(dataA, ' ', ' ', "#interpolationChart", yMin, yMax, false, visColors);
+  createChart(dataB, ' ', ' ', "#interpolationChart2", yMin2, yMax2, false, visColors);
+  createChart(dataC, ' ', ' ', "#interpolationChart3", 0, lightnessMax, false, visColors);
 }
 
 module.exports = {createInterpolationCharts}

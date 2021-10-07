@@ -25,7 +25,7 @@ function createPaletteInterpolationCharts(colors, mode) {
 
   // Identify mode channels
   let c1, c2, c3, func, yMin, yMax, yMin2, yMax2, c1Label, c2Label, yLabel;
-  let c3Label = 'Lightness';
+  let c3Label;
 
   if(mode === 'LAB') {
     func = 'lab';
@@ -34,6 +34,7 @@ function createPaletteInterpolationCharts(colors, mode) {
     c2 = 'b';
     c2Label = `Blueness / Yellowness (${mode} - B)`;
     c3 = 'l';
+    c3Label = `Lightness (${mode} - L)`;
   }
   if(mode === 'LCH') {
     func = 'lch';
@@ -44,6 +45,7 @@ function createPaletteInterpolationCharts(colors, mode) {
     c3 = 'l';
     yMin = 0;
     yMax = 360;
+    c3Label = `Lightness (${mode} - L)`;
     // yMin2 = 0;
     // yMax2 = 100;
   }
@@ -54,6 +56,7 @@ function createPaletteInterpolationCharts(colors, mode) {
     c2 = 'b';
     c2Label = `Blueness / Yellowness (${mode} - B)`;
     c3 = 'J';
+    c3Label = `Lightness (${mode} - J)`;
   }
   if(mode === 'CAM02p') {
     func = 'jch';
@@ -64,6 +67,7 @@ function createPaletteInterpolationCharts(colors, mode) {
     c3 = 'J';
     yMin = 0;
     yMax = 360;
+    c3Label = `Lightness (${mode} - J)`;
     // yMin2 = 0;
     // yMax2 = 100;
   }
@@ -78,6 +82,7 @@ function createPaletteInterpolationCharts(colors, mode) {
     yMax = 360;
     yMin2 = 0;
     yMax2 = 1;
+    c3Label = `Lightness (${mode} - L)`;
   }
   if(mode === 'HSLuv') {
     func = 'hsluv';
@@ -86,6 +91,7 @@ function createPaletteInterpolationCharts(colors, mode) {
     c2 = 'u';
     c2Label = `Saturation (${mode} - S)`;
     c3 = 'v';
+    c3Label = `Lightness (${mode} - L)`;
     yMin = 0;
     yMax = 360;
     yMin2 = 0;
@@ -98,6 +104,7 @@ function createPaletteInterpolationCharts(colors, mode) {
     c2 = 's';
     c2Label = `Saturation (${mode} - S)`;
     c3 = 'v';
+    c3Label = `Value (${mode} - V)`;
     yMin = 0;
     yMax = 360;
     yMin2 = 0;

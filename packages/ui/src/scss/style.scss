@@ -262,13 +262,15 @@ body {
 .spectrum-Panel-Title {
   display: flex;
   justify-content: space-between;
-  padding: 0 0 var(--spectrum-global-dimension-size-100);
+  align-items: center;
+  // padding: 0 0 var(--spectrum-global-dimension-size-100);
 
-  .spectrum-ActionButton {
-    margin-top: -7px;
-    margin-bottom: 4px;
-  }
+  // .spectrum-ActionButton {
+  //   margin-top: -7px;
+  //   margin-bottom: 4px;
+  // }
 }
+
 .spectrum-Panel-Title + .spectrum-Panel-Item {
   padding-top: 0px;
 }
@@ -1125,8 +1127,9 @@ a:focus {
   .spectrum-Picker {
     width: 120px;
   }
-  .spectrum-Form-item--row {
+  > .spectrum-Form-item--row {
     justify-content: space-between;
+    width: 100%;
   }
 }
 
@@ -1173,6 +1176,7 @@ a:focus {
 .gradientSwatch {
   width: 48px;
   height: 48px;
+  flex-shrink: 0;
   display: inline-flex;
   border-top-left-radius: var(--spectrum-global-dimension-size-50);
   border-bottom-left-radius: var(--spectrum-global-dimension-size-50);
@@ -1195,6 +1199,7 @@ a:focus {
   height: 72px;
   margin: 8px 0;
   width: calc(100% - var(--spectrum-global-dimension-size-400));
+  max-width: 796px;
   -webkit-transition: height 200ms;
   transition: height 200ms;
 
@@ -1265,10 +1270,13 @@ a:focus {
   overflow: auto;
 }
 
-.colorNameInput {
-  width: 192px;
-  margin-right: var(--spectrum-global-dimension-size-200);
+.themeColor_item {
+  .colorNameInput {
+    width: 108px;
+    margin-right: var(--spectrum-global-dimension-size-200);
+  }
 }
+
 
 #themeOutputs {
   // display:flex;
@@ -1296,10 +1304,16 @@ a:focus {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
   position: absolute;
-  width: 100%;
+  width: calc(100vw - 420px);
+  align-items: center;
   height: 100%;
   background-color: var(--theme-background);
   z-index: 10;
+
+  .spectrum-Heading {
+    width: 100%;
+    max-width: 796px;
+  }
 }
 
 .outputHeader {
@@ -1544,6 +1558,7 @@ a:focus {
   justify-content: space-between;
   align-items: center;
   width: calc(100% - 32px);
+  max-width: 796px;
 }
 .spectrum-Panel-SubTabs {
   display: flex;
@@ -1687,7 +1702,7 @@ a:focus {
 #colorWheel--controlsWrapper{
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-grow: 2;
 }
 #colorWheel {
@@ -1719,11 +1734,10 @@ a:focus {
   left: calc(50% - 6px);
 }
 
-#colorWheelWrapper,
 #paletteChartsWrapper {
-  padding-top: 0;
+  align-items: center;
+  padding-bottom: 0;
 }
-
 
 .sideNav-Wrapper,
 .home-Wrapper {
@@ -1854,4 +1868,10 @@ a:focus {
   .themeOutputSwatch_contrast {
     display: none;
   }
+}
+
+.colorScaleType-badge {
+  height: var(--spectrum-global-dimension-size-175);
+  align-self: center;
+  margin-right: var(--spectrum-global-dimension-size-100);
 }

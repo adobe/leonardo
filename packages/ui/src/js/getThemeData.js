@@ -9,7 +9,10 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {_theme} from './initialTheme';
+import {
+  _theme,
+  _colorScales
+} from './initialTheme';
 
 window.getColorClassById = getColorClassById;
 function getColorClassById(id) {
@@ -23,7 +26,7 @@ function getColorClassById(id) {
 }
 
 function getColorClassByName(colorName) {
-  let currentColor = _theme.colors.filter(color => {return color.name === colorName})
+  let currentColor = _theme.colors.filter(color => {return color.name === colorName});
   currentColor = currentColor[0];
 
   return currentColor;

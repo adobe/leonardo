@@ -23,6 +23,7 @@ import '@spectrum-css/radio/dist/index-vars.css';
 import '@spectrum-css/sidenav/dist/index-vars.css';
 import '@spectrum-css/dialog/dist/index-vars.css';
 import '@spectrum-css/button/dist/index-vars.css';
+import '@spectrum-css/badge/dist/index-vars.css';
 import '@spectrum-css/actionbutton/dist/index-vars.css';
 import '@spectrum-css/actiongroup/dist/index-vars.css';
 import '@spectrum-css/divider/dist/index-vars.css';

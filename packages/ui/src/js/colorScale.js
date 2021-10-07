@@ -117,6 +117,13 @@ function addColorScale(newColor, addToTheme = true) {
   colorNameInputWrapper.appendChild(colorNameInput)
   colorName.appendChild(colorNameInputWrapper);
 
+  // Color scale type badge
+  // let scaleType = document.createElement('div');
+  // scaleType.className = 'spectrum-Badge spectrum-Badge--sizeS spectrum-Badge--neutral colorScaleType-badge';
+  // scaleType.id = thisId.concat('_scaleTypeBadge');
+  // scaleType.innerHTML = 'UI color'
+  // scaleType.title = 'UI colors are used to generate swatches'
+
   // Actions
   let actions = document.createElement('div');
   actions.className = 'spectrum-ButtonGroup spectrum-Form-item spectrum-Form-item--row labelSpacer';
@@ -140,6 +147,8 @@ function addColorScale(newColor, addToTheme = true) {
   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
+
+  // actions.appendChild(scaleType);
   actions.appendChild(edit);
   actions.appendChild(deleteColor);
 
