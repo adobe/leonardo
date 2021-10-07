@@ -53,13 +53,10 @@ loadIcons('./spectrum-icons.svg');
 
 import ClipboardJS from 'clipboard';
 
-new ClipboardJS('.copyButton');
-new ClipboardJS('.themeOutputSwatch');
-
 // Import local Javascript functions
 import {
   paramSetup,
-  updateParams,
+  // updateParams,
 } from './js/params';
 import { 
   throttle
@@ -121,6 +118,43 @@ import {
 } from './js/createSVGuiKit'
 import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
 import {createTypeScale} from './js/typeScale';
+
+
+
+function updateParams() {
+  let name = document.getElementById('themeNameInput').value;
+  let theme = {
+    baseScale: _theme.backgroundColor.name,
+    colorScales: _theme.colors.map((c) => {
+      return {
+        name: c.name,
+        colorKeys: c.colorKeys,
+        colorspace: c.colorspace,
+        ratios: c.ratios
+      }
+    }),
+    lightness: _theme.lightness,
+    contrast: _theme.contrast,
+    saturation: _theme.saturation
+  };
+  let url = new URL(window.location);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  params.set('name', name);         // Theme name
+  params.set('config', JSON.stringify(theme));       // Configurations
+
+  window.history.replaceState({}, '', '?' + params); // update the page's URL.
+}
+
+new ClipboardJS('.copyButton');
+new ClipboardJS('.themeOutputSwatch');
+new ClipboardJS('.copyThemeURL', {
+  text: function() {
+    updateParams();
+    return window.location.href;
+  }
+});
+
 
 window.matchMedia('(prefers-color-scheme: dark)')
   .addEventListener('change', event => {

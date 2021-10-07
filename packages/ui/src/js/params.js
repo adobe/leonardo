@@ -66,8 +66,8 @@ function paramSetup() {
       })
 
 
-      RATIOS = [...colorScales[2].ratios];
-      RATIOCOLORS = _theme.contrastColors[2].values.map((c) => {return c.value});
+      RATIOS = [...colorScales[0].ratios];
+      RATIOCOLORS = _theme.contrastColors[0].values.map((c) => {return c.value});
       // let sampleColors = _theme.contrastColors[2].values.map((c) => {return c.value});
       // addRatioInputs(colorScales[2].ratios, sampleColors)
     } else {
