@@ -89,6 +89,7 @@
     "file-saver": "^2.0.5",
     "highlight.js": "^11.2.0",
     "js": "^0.1.0",
-    "loadicons": "^1.0.0"
+    "loadicons": "^1.0.0",
+    "tinyurl": "^1.1.7"
   }
 }

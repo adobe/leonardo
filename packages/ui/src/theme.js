@@ -52,6 +52,7 @@ loadIcons('./spectrum-css-icons.svg');
 loadIcons('./spectrum-icons.svg');
 
 import ClipboardJS from 'clipboard';
+import TinyURL from 'tinyurl';
 
 // Import local Javascript functions
 import {
@@ -151,7 +152,20 @@ new ClipboardJS('.themeOutputSwatch');
 new ClipboardJS('.copyThemeURL', {
   text: function() {
     updateParams();
-    return window.location.href;
+    const params = window.location.href;
+    // const params = TinyURL.shorten(`${window.location.href}`, function(res, err) {
+    //   if (err)
+    //     console.log(err)
+    //     console.log(res);
+    //   return res
+    // });
+
+    let uri = window.location.toString();
+    let cleanURL = uri.substring(0, uri.indexOf("?"));
+  
+    window.history.replaceState({}, document.title, cleanURL);
+
+    return params;
   }
 });
 
@@ -186,3 +200,9 @@ document.getElementById('homeCTA').addEventListener('click', function() {
 })
 
 
+window.onload = function() {
+  let uri = window.location.toString();
+  let cleanURL = uri.substring(0, uri.indexOf("?"));
+
+  window.history.replaceState({}, document.title, cleanURL);
+}
