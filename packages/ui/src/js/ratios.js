@@ -233,7 +233,7 @@ function distributeLuminosity() {
     LumFields[i].dispatchEvent(new Event("input"));
   }
   
-  sortRatios();
+  // sortRatios();
 }
 
 document.getElementById('distribute').addEventListener('input', function(e) {

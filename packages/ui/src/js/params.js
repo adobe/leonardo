@@ -65,9 +65,8 @@ function paramSetup() {
         addColorScale(newColor);
       })
 
-
-      RATIOS = [...colorScales[0].ratios];
-      RATIOCOLORS = _theme.contrastColors[0].values.map((c) => {return c.value});
+      RATIOS = [...colorScales[1].ratios];
+      RATIOCOLORS = _theme.contrastColors[1].values.map((c) => {return c.value});
       // let sampleColors = _theme.contrastColors[2].values.map((c) => {return c.value});
       // addRatioInputs(colorScales[2].ratios, sampleColors)
     } else {
@@ -92,7 +91,7 @@ function paramSetup() {
     addRatioInputs(RATIOS, RATIOCOLORS)
   }
   else if(!params.has('config') || params.get('config') === undefined) {
-    addRatioInputs([3, 4.5], ['#878787', '#6a6a6a']);
+    addRatioInputs([3, 4.5], ['#959595', '#767676']);
     // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;
     for(let i=0; i<length; i++) {

@@ -28,7 +28,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
     chartWidth = adjustedWidth;
-    chartHeight = adjustedHeight - 90;
+    chartHeight = adjustedHeight - 100;
   }
   if(
     dest === '#paletteInterpolationChart' ||

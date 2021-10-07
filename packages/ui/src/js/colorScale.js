@@ -58,7 +58,8 @@ function addColorScale(newColor, addToTheme = true) {
       name: colorNameValue,
       colorKeys: ['#cacaca'],
       colorspace: 'RGB',
-      ratios: ratios
+      ratios: ratios,
+      output: 'RGB'
     })
   } else {
     colorNameValue = newColor.name;
