@@ -24,7 +24,8 @@ import {
 } from './createRatioChart';
 import {
   randomId,
-  round
+  round,
+  lerp
 } from './utils';
 
 function addRatio() {
@@ -105,15 +106,15 @@ function createRatioInput(v, c) {
   luminosityInput.oninput = syncRatioInputs;
 
   // Customize swatch names input
-  var swatchNameInput = document.createElement('input');
-  let swatchNameInputWrapper = document.createElement('div');
-  swatchNameInputWrapper.className = 'spectrum-Textfield spectrum-Textfield--quiet ratioGrid--swatchName is-readonly';
+  // var swatchNameInput = document.createElement('input');
+  // let swatchNameInputWrapper = document.createElement('div');
+  // swatchNameInputWrapper.className = 'spectrum-Textfield spectrum-Textfield--quiet ratioGrid--swatchName is-readonly';
 
-  swatchNameInput.className = 'spectrum-Textfield-input swatchName-Field is-readonly';
-  swatchNameInput.type = "text";
-  swatchNameInput.id = randId + "_swatchName";
-  swatchNameInput.readOnly = true;
-  swatchNameInput.value = 'color-100'
+  // swatchNameInput.className = 'spectrum-Textfield-input swatchName-Field is-readonly';
+  // swatchNameInput.type = "text";
+  // swatchNameInput.id = randId + "_swatchName";
+  // swatchNameInput.readOnly = true;
+  // swatchNameInput.value = '-100'
   // swatchNameInput.oninput = syncRatioInputs;
 
   var button = document.createElement('button');
@@ -132,10 +133,10 @@ function createRatioInput(v, c) {
   inputWrapper.appendChild(ratioInputWrapper);
 
   luminosityInputWrapper.appendChild(luminosityInput);
-  swatchNameInputWrapper.appendChild(swatchNameInput);
+  // swatchNameInputWrapper.appendChild(swatchNameInput);
   div.appendChild(inputWrapper)
   div.appendChild(luminosityInputWrapper);
-  div.appendChild(swatchNameInputWrapper);
+  // div.appendChild(swatchNameInputWrapper);
   div.appendChild(button);
   ratios.appendChild(div);
 
@@ -177,6 +178,70 @@ function addRatioInputs(ratios, colors) {
   })
 }
 
+function distributeRatios() {
+  let ratioFields = document.getElementsByClassName('ratio-Field');
+  let ratioInputs = [];
+  for(let i=0; i < ratioFields.length; i++) {
+    ratioInputs.push(Number(ratioFields[i].value));
+  }
+
+  let minVal = Math.min(...ratioInputs);
+  let maxVal = Math.max(...ratioInputs);
+  let length = ratioInputs.length - 1;
+  let newRatios = [];
+
+  for(let i=0; i < length + 1; i++) {
+    let perc = i/length;
+    if(i === 0) perc = 0;
+    let newVal = lerp(minVal, maxVal, perc);
+    newRatios.push(round(newVal, 2))
+  }  
+
+  // Update ratio inputs with new values
+  for (let i=0; i<newRatios.length; i++) {
+    ratioFields[i].value = newRatios[i];
+    ratioFields[i].dispatchEvent(new Event("input"));
+  }
+
+  ratioUpdate();
+}
+
+function distributeLuminosity() {
+  console.log('Distributing luminosities')
+  let LumFields = document.getElementsByClassName('luminosity-Field');
+  let LumInputs = [];
+  for(let i=0; i < LumFields.length; i++) {
+    LumInputs.push(Number(LumFields[i].value));
+  }
+
+  let minVal = Math.min(...LumInputs);
+  let maxVal = Math.max(...LumInputs);
+  let length = LumInputs.length - 1;
+  let newLums = [];
+
+  for(let i=0; i < length + 1; i++) {
+    let perc = i/length;
+    if(i === 0) perc = 0;
+    let newVal = lerp(minVal, maxVal, perc);
+    newLums.push(round(newVal, 2))
+  }  
+
+  // newLums.sort(function(a, b){return a-b});
+  // Update ratio inputs with new values
+  for (let i=0; i<newLums.length; i++) {
+    LumFields[i].value = newLums[i];
+    LumFields[i].dispatchEvent(new Event("input"));
+  }
+  
+  sortRatios();
+}
+
+document.getElementById('distribute').addEventListener('input', function(e) {
+  let value = e.target.value;
+  if(value === 'ratios') distributeRatios();
+  if(value === 'luminosity') distributeLuminosity();
+})
+
 // Sort swatches in UI
 function sort() {
   let ratioFields = document.getElementsByClassName('ratio-Field');
@@ -190,6 +255,7 @@ function sort() {
   // Update ratio inputs with new values
   for (let i=0; i<ratioInputs.length; i++) {
     ratioFields[i].value = ratioInputs[i];
+    ratioFields[i].dispatchEvent(new Event("input"));
   }
 }
 
@@ -259,14 +325,6 @@ function syncRatioInputs(e) {
   lDot.style.top = dotPosition;
 }
 
-/**
- *  TODO: Need to create a function for
- *  UPDATING the swatch color and dot position
- *  when theme background color lightness is updated.
- */
-function updateRatioDotSwatches() {
-
-}
 
 function checkRatioStepModifiers(e) {
   if (!e.shiftKey) return;
@@ -328,6 +386,7 @@ function ratioUpdateValues(themeRatios = getContrastRatios()) {
 
 window.addRatio = addRatio;
 window.sortRatios = sortRatios;
+window.distributeRatios = distributeRatios;
 
 module.exports = {
   addRatio,
@@ -336,6 +395,7 @@ module.exports = {
   sort,
   sortRatios,
   syncRatioInputs,
+  distributeRatios,
   checkRatioStepModifiers,
   deleteRatio
 }

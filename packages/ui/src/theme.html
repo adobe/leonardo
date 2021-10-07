@@ -410,7 +410,7 @@
               <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Brightness</label>
               <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">97</div>
             </div>
-            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="97" id="themeBrightnessSlider" name="themeBrightnessSlider" disabled></input>
+            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" id="themeBrightnessSlider" name="themeBrightnessSlider" disabled></input>
           </div>
           <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
             <div class="spectrum-Slider-labelContainer">
@@ -656,23 +656,25 @@
   <div class="spectrum-Panel">
     <div id="contrastSwatches">
       <div class="spectrum-Panel-Item ">
-        <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
-          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-            <use xlink:href="#spectrum-icon-18-Add" />
-          </svg>
-          <span class="spectrum-ActionButton-label">Add swatch</span>
-        </button>
-        <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
-          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true" aria-label="Sort">
-            <use xlink:href="#spectrum-css-icon-Arrow100" />
-          </svg>
-          <span class="spectrum-ActionButton-label">Sort</span>
-        </button>
-        <select class="spectrum-Picker spectrum-Picker--sizeM" name="distribute" id="distribute">
-          <option value="">Distribute by...</option>
-          <option value="ratios">Contrast ratios</option>
-          <option value="luminosity">Luminosity</option>
-        </select>
+        <div class="spectrum-ActionGroup">
+          <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-icon-18-Add" />
+            </svg>
+            <span class="spectrum-ActionButton-label">Add swatch</span>
+          </button>
+          <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true" aria-label="Sort">
+              <use xlink:href="#spectrum-css-icon-Arrow100" />
+            </svg>
+            <span class="spectrum-ActionButton-label">Sort</span>
+          </button>
+          <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item" name="distribute" id="distribute">
+            <option value="">Distribute by...</option>
+            <option value="ratios">Contrast ratios</option>
+            <option value="luminosity">Luminosity</option>
+          </select>  
+        </div>
       </div>
 
 
@@ -682,7 +684,7 @@
           <div class="ratioGrid">
             <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Contrast ratio</label>  
             <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Luminosity</label>  
-            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Naming</label>  
+            <!-- <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Naming</label>   -->
           </div>
         </div>
         <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">

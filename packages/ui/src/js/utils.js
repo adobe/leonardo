@@ -77,6 +77,8 @@ function round(x, n = 0) {
   return Math.round(x * ten) / ten;
 }
 
+const lerp = (x, y, a) => x * (1 - a) + y * a;
+
 module.exports = {
   randomId,
   throttle,
@@ -84,5 +86,6 @@ module.exports = {
   filterNaN,
   camelCase,
   round,
+  lerp,
   removeElementsByClass
 }

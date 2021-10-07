@@ -1512,10 +1512,10 @@ a:focus {
 
 .ratioGrid {
   display: grid;
-  grid-template-columns: 84px 70px 64px 32px;
+  grid-template-columns: 84px 70px 32px;
   column-gap: 8px;
   grid-template-areas: 
-  'ratio luminosity swatchName actions';
+  'ratio luminosity actions';
 
   .spectrum-Textfield {
     width: 100%;
