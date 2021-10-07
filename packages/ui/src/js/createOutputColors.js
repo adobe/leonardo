@@ -137,7 +137,7 @@ function createOutputColors() {
     let p = document.createElement('p');
     p.className = 'spectrum-Heading spectrum-Heading--sizeXXS themeOutputItem--Heading';
     p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-    p.innerHTML = `Typography ${fontWeight}`;
+    p.innerHTML = `Typography`;
 
     typeWrapper.appendChild(p);
     // For each weight (future feature), loop each size
