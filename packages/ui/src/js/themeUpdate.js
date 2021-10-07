@@ -14,7 +14,6 @@ import hljs from 'highlight.js/lib/core';
 import * as d3 from './d3';
 import {_theme} from './initialTheme';
 import {createPaletteCharts} from './createPaletteCharts';
-import {updateParams} from './params';
 import {
   getThemeName,
   getColorClassById,
@@ -56,16 +55,43 @@ function themeUpdate() {
   create3dChart(null, colorWheelMode);
 
   let chartLuminosities = getLuminosities();
-  createLuminosityChart(chartLuminosities)
+  createLuminosityChart(chartLuminosities);
+
+  createOutputParameters();
 }
 
 function themeUpdateParams() {
-  let themeNameInput = document.getElementById('themeNameInput');
-  let themeName = themeNameInput.value;
+  // let themeNameInput = document.getElementById('themeNameInput');
+  // let themeName = themeNameInput.value;
   themeUpdate();
-
   // updateParams();
-  createOutputParameters();
+}
+
+function updateParams() {
+  console.log(_theme.backgroundColor.name)
+  let name = document.getElementById('themeNameInput').value;
+  let theme = {
+    baseScale: _theme.backgroundColor.name,
+    colorScales: _theme.colors.map((c) => {
+      return {
+        name: c.name,
+        colorKeys: c.colorKeys,
+        colorspace: c.colorspace,
+        ratios: c.ratios
+      }
+    }),
+    lightness: _theme.lightness,
+    contrast: _theme.contrast,
+    saturation: _theme.saturation
+  };
+  let url = new URL(window.location);
+  let params = new URLSearchParams(url.search.slice(1));
+
+  console.log(theme)
+  params.set('name', name);         // Theme name
+  params.set('config', JSON.stringify(theme));       // Configurations
+
+  window.history.replaceState({}, '', '?' + params); // update the page's URL.
 }
 
 // Toggle disabled state of adaptive theme controls

@@ -378,6 +378,7 @@ function showColorDetails(e) {
   smoothInput.type = 'checkbox';
   smoothInput.className = 'spectrum-Switch-input';
   smoothInput.id = thisId.concat('_smooth');
+  smoothInput.checked = colorData.smooth;
   smoothInput.oninput = throttle(themeUpdateParams, 20);
   smoothInput.addEventListener('input', (e) => {
     const checked = e.target.checked;

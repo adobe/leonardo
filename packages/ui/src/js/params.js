@@ -9,20 +9,26 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import * as Leo from '@adobe/leonardo-contrast-colors';
 import {addColorScale} from './colorScale';
 import {addRatioInputs} from './ratios';
 import {sliderInput} from './sliderInput';
 import {baseScaleOptions} from './createBaseScaleOptions';
-import {_theme} from './initialTheme';
+import {
+  _theme,
+  tempGray
+} from './initialTheme';
 
 function paramSetup() {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   let pathName = url.pathname;
   let themeBase = document.getElementById('themeBase');
+  let RATIOS;
+  let RATIOCOLORS;
 
   if(params.has('name')) {
-    let themeNameInput = document.getElementById('themeName');
+    let themeNameInput = document.getElementById('themeNameInput');
     themeNameInput.value = params.get('name').toString();
   }
   if(params.has('config') && params.get('config') !== undefined) {
@@ -30,7 +36,7 @@ function paramSetup() {
     let config = JSON.parse(configParam);
     let colorScales = config.colorScales;
     let baseScale = config.baseScale;
-    let brightness = config.brightness;
+    let lightness = (config.lightness) ? config.lightness : config.brightness;
     let contrast;
     if(!config.contrast) {
       contrast = 1;
@@ -39,29 +45,39 @@ function paramSetup() {
     }
 
     if(colorScales.length > 0) {
+      _theme.removeColor = tempGray;
+
       colorScales.map(color => {
         let colorName = color.name;
         let keyColors = color.colorKeys;
         let colorSpace = color.colorspace;
         let ratios = color.ratios;
+        let smooth = color.smooth;
         // Create color scale item
-        let newColor = new Leo.Color({
+        let newColor = new Leo.BackgroundColor({
           name: colorName,
           colorKeys: keyColors,
           colorspace: colorSpace,
-          ratios: ratios
+          ratios: ratios,
+          smooth: smooth
         })
 
         addColorScale(newColor);
       })
+
+
+      RATIOS = [...colorScales[2].ratios];
+      RATIOCOLORS = _theme.contrastColors[2].values.map((c) => {return c.value});
+      // let sampleColors = _theme.contrastColors[2].values.map((c) => {return c.value});
+      // addRatioInputs(colorScales[2].ratios, sampleColors)
     } else {
       // addColorScale('Gray', ['#000000'], 'CIECAM02', [3, 4.5]);
     }
 
     let slider = document.getElementById('themeBrightnessSlider');
     let sliderVal = document.getElementById('themeBrightnessValue');
-    slider.value = brightness;
-    sliderVal.innerHTML = brightness;
+    slider.value = lightness;
+    sliderVal.innerHTML = lightness;
 
     let contrastSlider = document.getElementById('themeContrastSlider');
     let contrastSliderVal = document.getElementById('themeContrastValue');
@@ -72,6 +88,8 @@ function paramSetup() {
     // then select the option defined in parameters
     baseScaleOptions();
     themeBase.value = baseScale;
+
+    addRatioInputs(RATIOS, RATIOCOLORS)
   }
   else if(!params.has('config') || params.get('config') === undefined) {
     addRatioInputs([3, 4.5], ['#878787', '#6a6a6a']);
@@ -90,36 +108,26 @@ function paramSetup() {
     themeBase.value = _theme.backgroundColor.name;
   }
 
-  // sliderInput();
-  // createOutputParameters();
 
   themeUpdate();
 }
 
 // Passing variable parameters to URL
-window.updateParams = updateParams;
-function updateParams() {
-  console.log('WTF');
-}
+// window.updateParams = updateParams;
 
-// function updateParams(name, theme) {
-//   let url = new URL(window.location);
-//   let params = new URLSearchParams(url.search.slice(1));
-//   let appTabs = document.getElementsByClassName('app-Tabs-item')
-//   let appTabId;
-//   appTabs.forEach((tab) => {
-//     if(tab.classList.contains('is-selected')) {
-//       appTabId = tab.id
-//     }
-//   })
+// function updateParams() {
+//   let name = document.getElementById('themeNameInput').value;
+//   let theme = _theme;
+//   // let url = new URL(window.location);
+//   // let params = new URLSearchParams(url.search.slice(1));
 
-//   console.log(appTabId);
+//   console.log(name)
+//   // params.set('name', name);         // Theme name
+//   // params.set('config', theme);       // Configurations
 
-//   params.set('name', name);         // Theme name
-//   params.set('config', theme);       // Configurations
-
-//   window.history.replaceState({}, '', '?' + params); // update the page's URL.
+//   // window.history.replaceState({}, '', '?' + params); // update the page's URL.
 // }
+
 
 function clearParams() {
   let uri = window.location.toString();
@@ -130,6 +138,6 @@ function clearParams() {
 
 module.exports = { 
   paramSetup,
-  updateParams,
+  // updateParams,
   clearParams
 };
