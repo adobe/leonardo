@@ -44,7 +44,8 @@ governing permissions and limitations under the License.
     --headerBackground: var(--spectrum-global-color-gray-50, #ffffff);
     --panelBackground: var(--spectrum-global-color-gray-100, #f5f5f5);
     --panelBorder: var(--spectrum-global-color-gray-300);
-    --translucentBorder: rgba(0, 0, 0, 0.4)
+    --translucentBorder: rgba(0, 0, 0, 0.4);
+    --sliderThumbColor: rgba(0, 0, 0, 0.3);
   }
 }
 @media(prefers-color-scheme: dark) {
@@ -53,7 +54,8 @@ governing permissions and limitations under the License.
     --headerBackground: var(--spectrum-global-color-gray-100);
     --panelBackground: var(--spectrum-global-color-gray-100);
     --panelBorder: var(--spectrum-global-color-gray-50);
-    --translucentBorder: rgba(255, 255, 255, 0.4)
+    --translucentBorder: rgba(255, 255, 255, 0.4);
+    --sliderThumbColor: rgba(255, 255, 255, 0.3);
   }
 }
 
@@ -400,7 +402,7 @@ body {
   height: var(--slider-thumb-size);
   background: #ffffff;
   border-radius: 32px;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px 1px var(--sliderThumbColor);
   -webkit-appearance: none;
   appearance: none;
 }
@@ -409,7 +411,7 @@ body {
   height: var(--slider-thumb-size);
   background: #ffffff;
   border-radius: 32px;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px 1px var(--sliderThumbColor);
 }
 
 .spectrum-Slider {
@@ -445,6 +447,7 @@ body {
     margin: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2) 0 0 calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2);
     border-width: var(--spectrum-slider-handle-border-size, var(--spectrum-alias-border-size-thick));
     border-style: solid;
+    border-color: var(--spectrum-slider-m-handle-border-color, var(--spectrum-global-color-gray-700));
     border-radius: var(--spectrum-slider-handle-border-radius, var(--spectrum-alias-border-radius-medium));
     transition: border-width var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
     outline: none;
@@ -452,8 +455,8 @@ body {
   }
 
   @mixin thumbFocus {
-    background-color: var(--spectrum-alias-border-color-focus);
-    border-color: var(--spectrum-alias-border-color-focus);
+    background-color:  var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-color));
+    border-color: var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-color));
     transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
   }
 
@@ -503,7 +506,7 @@ body {
   }
 
   input[type=range]:focus::-webkit-slider-runnable-track {
-    background: var(--spectrum-alias-border-color-focus);
+    background: var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-color));
   }
 
   input[type=range]::-moz-range-track {
