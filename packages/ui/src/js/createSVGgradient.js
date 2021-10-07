@@ -73,12 +73,13 @@ function createSVGgradient(colors) {
 
 function downloadSVGgradient(colorData) {
   const colors = colorData.backgroundColorScale;
+  const mode = colorData.colorspace;
 
   createSVGgradient(colors);
   let gradientName = colorData.name;
   let svg = document.getElementById('_SVGgradient').innerHTML;
 
-  let filename = `${gradientName}-gradient.svg`;
+  let filename = `${gradientName}-${mode}-gradient.svg`;
   var blob = new Blob([`${svg}`], {type: "image/svg+xml;charset=utf-8"});
 
   saveAs(blob, filename);
