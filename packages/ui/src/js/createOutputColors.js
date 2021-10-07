@@ -24,107 +24,137 @@ function createOutputColors() {
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
     for (let i=0; i<theme.length; i++) {
-    let wrapper = document.createElement('div');
-    wrapper.className = 'themeOutputItem';
+      let wrapper = document.createElement('div');
+      wrapper.className = 'themeOutputItem';
 
-    let swatchWrapper = document.createElement('div');
-    swatchWrapper.className = 'themeOutputColor';
-    let colorName = theme[i].name;
+      let swatchWrapper = document.createElement('div');
+      swatchWrapper.className = 'themeOutputColor';
+      let colorName = theme[i].name;
 
-    // Iterate each color value
-    if (theme[i].values) {
-      let p = document.createElement('p');
-      p.className = 'spectrum-Heading spectrum-Heading--sizeXXS themeOutputItem--Heading';
-      p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-      p.innerHTML = theme[i].name;
+      // Iterate each color value
+      if (theme[i].values) {
+        let p = document.createElement('p');
+        p.className = 'spectrum-Heading spectrum-Heading--sizeXXS themeOutputItem--Heading';
+        p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
+        p.innerHTML = theme[i].name;
 
-      if(dest === themeOutputs) {
-        wrapper.appendChild(p);
+        if(dest === themeOutputs) {
+          wrapper.appendChild(p);
+        }
+
+        for(let j=0; j<theme[i].values.length; j++) { // for each value object
+          let originalValue = theme[i].values[j].value; // output value of color
+          let swatchName = theme[i].values[j].name.replace(colorName, '');
+          
+          // transform original color based on preview mode
+          let value = cvdColors(originalValue);
+
+          // get the ratio to print inside the swatch
+          let contrast = theme[i].values[j].contrast;
+          let colorArray = [d3.rgb(originalValue).r, d3.rgb(originalValue).g, d3.rgb(originalValue).b]
+          let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
+
+          let innerTextColor =  (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
+          let contrastRounded = (Math.round(actualContrast * 100))/100;
+          let contrastText = document.createTextNode(contrastRounded + ' :1');
+          let contrastTextSpan = document.createElement('span');
+          contrastTextSpan.className = 'themeOutputSwatch_contrast';
+          contrastTextSpan.appendChild(contrastText);
+          contrastTextSpan.style.color = innerTextColor;
+
+          let luminosityValue = round(d3.hsluv(originalValue).v, 2);
+          let luminosityText = document.createTextNode(luminosityValue + '%');
+          let luminosityTextSpan = document.createElement('span');
+          luminosityTextSpan.className = 'themeOutputSwatch_luminosity';
+          luminosityTextSpan.appendChild(luminosityText);
+          luminosityTextSpan.style.color = innerTextColor;
+
+          let swatchIndexText = document.createTextNode(swatchName);
+          let swatchIndexTextSpan = document.createElement('span');
+          swatchIndexTextSpan.className = 'themeOutputSwatch_index';
+          swatchIndexTextSpan.appendChild(swatchIndexText);
+          swatchIndexTextSpan.style.color = innerTextColor;
+
+          let div = document.createElement('div');
+          div.className = 'themeOutputSwatch';
+          // copy text should be for value of original color, not of preview color.
+          div.setAttribute('data-clipboard-text', originalValue);
+          div.setAttribute('tabindex', '0');
+          div.style.backgroundColor = value;
+          div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
+          
+          if(dest === themeOutputs) {
+            div.appendChild(swatchIndexTextSpan);
+          } else {
+            div.appendChild(luminosityTextSpan);
+          }
+
+          div.appendChild(contrastTextSpan);  
+
+          swatchWrapper.appendChild(div);
+          themeColorArray.push(originalValue);
+        }
+        wrapper.appendChild(swatchWrapper);
       }
+      else if (theme[i].background && dest === themeOutputs) {
+        let p = document.createElement('p');
+        p.className = 'spectrum-Heading spectrum-Heading--sizeXXS  themeOutputItem--Heading';
+        p.innerHTML = 'Background color';
+        p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
 
-      for(let j=0; j<theme[i].values.length; j++) { // for each value object
-        let originalValue = theme[i].values[j].value; // output value of color
-        let swatchName = theme[i].values[j].name.replace(colorName, '');
-        
-        // transform original color based on preview mode
+        wrapper.appendChild(p);
+
+        let originalValue = theme[i].background; // output value of color
+        // set global variable value. Probably shouldn't do it this way.
+        let currentBackgroundColor = originalValue;
         let value = cvdColors(originalValue);
-
-        // get the ratio to print inside the swatch
-        let contrast = theme[i].values[j].contrast;
-        let colorArray = [d3.rgb(originalValue).r, d3.rgb(originalValue).g, d3.rgb(originalValue).b]
-        let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
-
-        let innerTextColor =  (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
-        let contrastRounded = (Math.round(actualContrast * 100))/100;
-        let contrastText = document.createTextNode(contrastRounded + ' :1');
-        let contrastTextSpan = document.createElement('span');
-        contrastTextSpan.className = 'themeOutputSwatch_contrast';
-        contrastTextSpan.appendChild(contrastText);
-        contrastTextSpan.style.color = innerTextColor;
-
-        let luminosityValue = round(d3.hsluv(originalValue).v, 2);
-        let luminosityText = document.createTextNode(luminosityValue + '%');
-        let luminosityTextSpan = document.createElement('span');
-        luminosityTextSpan.className = 'themeOutputSwatch_luminosity';
-        luminosityTextSpan.appendChild(luminosityText);
-        luminosityTextSpan.style.color = innerTextColor;
-
-        let swatchIndexText = document.createTextNode(swatchName);
-        let swatchIndexTextSpan = document.createElement('span');
-        swatchIndexTextSpan.className = 'themeOutputSwatch_index';
-        swatchIndexTextSpan.appendChild(swatchIndexText);
-        swatchIndexTextSpan.style.color = innerTextColor;
 
         let div = document.createElement('div');
         div.className = 'themeOutputSwatch';
-        // copy text should be for value of original color, not of preview color.
-        div.setAttribute('data-clipboard-text', originalValue);
         div.setAttribute('tabindex', '0');
+        div.setAttribute('data-clipboard-text', originalValue);
         div.style.backgroundColor = value;
-        div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
-        
-        if(dest === themeOutputs) {
-          div.appendChild(swatchIndexTextSpan);
-        } else {
-          div.appendChild(luminosityTextSpan);
-        }
-
-        div.appendChild(contrastTextSpan);  
+        div.style.borderColor = (backgroundLum > 50) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
 
         swatchWrapper.appendChild(div);
+        wrapper.appendChild(swatchWrapper);
+
         themeColorArray.push(originalValue);
       }
-      wrapper.appendChild(swatchWrapper);
+
+      dest.appendChild(wrapper);
     }
-    else if (theme[i].background && dest === themeOutputs) {
-      let p = document.createElement('p');
-      p.className = 'spectrum-Heading spectrum-Heading--sizeXXS  themeOutputItem--Heading';
-      p.innerHTML = 'Background color';
-      p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
+  })
 
-      wrapper.appendChild(p);
+  let typeWrapper = document.createElement('div');
+  typeWrapper.className = 'typeSample';
+  // Iterate over type styles
+  for(let i = 0; i < _themeTypography.weights.length; i++){
+    let fontWeight = _themeTypography.weights[i];
+    let typeRow = document.createElement('div');
+    typeRow.className = 'typeSample-Row';
 
-      let originalValue = theme[i].background; // output value of color
-      // set global variable value. Probably shouldn't do it this way.
-      let currentBackgroundColor = originalValue;
-      let value = cvdColors(originalValue);
+    let p = document.createElement('p');
+    p.className = 'spectrum-Heading spectrum-Heading--sizeXXS themeOutputItem--Heading';
+    p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
+    p.innerHTML = `Typography ${fontWeight}`;
 
-      let div = document.createElement('div');
-      div.className = 'themeOutputSwatch';
-      div.setAttribute('tabindex', '0');
-      div.setAttribute('data-clipboard-text', originalValue);
-      div.style.backgroundColor = value;
-      div.style.borderColor = (backgroundLum > 50) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
+    typeWrapper.appendChild(p);
+    // For each weight (future feature), loop each size
+    for(let j = 0; j < _themeTypography.sizes.length; j ++) {
+      let fontSize = _themeTypography.sizes[j];
 
-      swatchWrapper.appendChild(div);
-      wrapper.appendChild(swatchWrapper);
-
-      themeColorArray.push(originalValue);
+      let sample = document.createElement('div');
+      sample.className = 'typeSample-Swatch'
+      sample.innerHTML = 'Ag';
+      sample.style.fontSize = fontSize;
+      sample.style.fontWeight = fontWeight;
+      sample.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
+      typeRow.appendChild(sample);
     }
-
-    dest.appendChild(wrapper);
+    typeWrapper.appendChild(typeRow);
   }
-})
+  themeOutputs.appendChild(typeWrapper)
 
   let copyThemeColors = document.getElementById('copyThemeColors');
   copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);

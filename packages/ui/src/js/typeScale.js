@@ -9,6 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import {_themeTypography} from './initialTheme';
 import {round} from './utils';
 
 // Type scale 
@@ -21,12 +22,12 @@ let typeScaleSampleText = document.getElementById('sampleText');
 let fontWeightInput = document.getElementById('fontWeight');
 
 function createTypeScale() {
-  console.log('Creating typescale')
   typeScaleSampleWrapper.innerHTML = ' ';
   let base = Number(typeScaleBaseInput.value);
   let ratio = Number(typeScaleRatioInput.value);
   let decrement = Number(typeScaleDecrementInput.value);
   let increment = Number(typeScaleIncrementInput.value);
+  let weight = fontWeightInput.value;
 
   let sizes = [];
 
@@ -67,6 +68,9 @@ function createTypeScale() {
     div.appendChild(span);
     typeScaleSampleWrapper.appendChild(div);
   }
+
+  _themeTypography.sizes = sizes;
+  _themeTypography.weights = [Number(weight)];
 }
 createTypeScale();
 

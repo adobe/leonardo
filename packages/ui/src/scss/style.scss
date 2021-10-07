@@ -1878,3 +1878,20 @@ a:focus {
   align-self: center;
   margin-right: var(--spectrum-global-dimension-size-100);
 }
+
+.typeSample {
+  display: table-row;
+
+  .themeOutputItem--Heading {
+    vertical-align: middle;
+  }
+}
+.typeSample-Row {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
+  .typeSample-Swatch + .typeSample-Swatch {
+    margin-left: 16px;
+  }
+}
