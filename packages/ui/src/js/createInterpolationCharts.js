@@ -13,12 +13,23 @@ import * as d3 from './d3';
 import {createColorChart, createChart} from './createChart';
 import {filterNaN} from './utils';
 
-function createInterpolationCharts(colors, mode) {
-  let dest = document.getElementById('interpolationChart');
+function createInterpolationCharts(colors, mode, scaleType = 'theme') {
+  let d1id, d2id, d3id;
+  if(scaleType === 'theme') {
+    d1id = 'interpolationChart'
+    d2id = 'interpolationChart2'
+    d3id = 'interpolationChart3'
+  } else {
+    d1id = `${scaleType}InterpolationChart`
+    d2id = `${scaleType}InterpolationChart2`
+    d3id = `${scaleType}InterpolationChart3`
+  }
+  console.log(d1id, d2id, d3id)
+  let dest = document.getElementById(d1id);
   dest.innerHTML = ' ';
-  let dest2 = document.getElementById('interpolationChart2');
+  let dest2 = document.getElementById(d2id);
   dest2.innerHTML = ' ';
-  let dest3 = document.getElementById('interpolationChart3');
+  let dest3 = document.getElementById(d3id);
   dest3.innerHTML = ' ';
 
   // Identify mode channels

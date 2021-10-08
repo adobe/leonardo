@@ -26,11 +26,17 @@ function themeRamp(colors, dest, angle) {
   container.appendChild(gradient)
 }
 
-function themeRampKeyColors(colorKeys, dest) {
+function themeRampKeyColors(colorKeys, dest, min, max) {
   let container = document.getElementById(dest);
 
   colorKeys.map(key => {
     let lightness = d3.hsluv(key).v;
+    // If a min and max lightness are defined, offset the percentage
+    // by available lightness range. Otherwise, percentage is from 0-100
+    // for positioning dots by actual lightness vs relative lightness.
+    if(min && max) {
+      // TODO: gotta figure this one out again...
+    }
     let lightnessPerc = 100/lightness;
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot
@@ -45,25 +51,42 @@ function themeRampKeyColors(colorKeys, dest) {
   })
 }
 
-function updateRamps(color, id) {
-  let colors = color.backgroundColorScale;
+function updateRamps(color, id, scaleType = 'theme') {
+  let colors, angle;
+  if(scaleType === 'theme') {
+    colors = color.backgroundColorScale; 
+    angle = '90';
+  }
+  else {
+    colors = color.colors;
+    angle = '-90';
+  }
+
   let gradientId = id.concat('_gradient');
   document.getElementById(gradientId).innerHTML = ' ';
-  themeRamp(colors, gradientId);
+  themeRamp(colors, gradientId, angle);
   
   // Create key color dots
   themeRampKeyColors(color.colorKeys, gradientId);
 
-  // Update gradient swatch from panel view
-  let gradientSwatchId = id.concat('_gradientSwatch');
-  document.getElementById(gradientSwatchId).innerHTML = ' ';
-  themeRamp(colors, gradientSwatchId, '45');
+  if(scaleType === 'theme') {
+    // Update gradient swatch from panel view
+    let gradientSwatchId = id.concat('_gradientSwatch');
+    document.getElementById(gradientSwatchId).innerHTML = ' ';
+    themeRamp(colors, gradientSwatchId, '45');
 
-  createRGBchannelChart(colors);
+    createRGBchannelChart(colors);
+  } else {
+    createRGBchannelChart(colors, `${id}_RGBchart`);
+  }
 
-  let chartsModeSelect = document.getElementById('chartsMode');
+
+  let chartsModeSelect;
+  if(scaleType === 'theme') chartsModeSelect = document.getElementById('chartsMode');
+  else chartsModeSelect = document.getElementById(`${id}_chartsMode`);
+
   let chartsMode = chartsModeSelect.value;
-  createInterpolationCharts(colors, chartsMode);
+  createInterpolationCharts(colors, chartsMode, scaleType);
 
   let panelOutputContent = document.getElementById('panelColorScaleOutput');
   panelOutputContent.innerHTML = ' ';

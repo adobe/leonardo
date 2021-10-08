@@ -92,6 +92,3 @@ if (mq.matches) {
   //light mode
   document.querySelector('body').classList.add('spectrum--light');
 }
-
-document.getElementById("tabHome").click();
-document.getElementById("welcome").click();

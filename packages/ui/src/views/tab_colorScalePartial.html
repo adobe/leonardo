@@ -75,8 +75,10 @@
    </div>
   </div>
 
-  <main id="colorMainContent-Wrapper">
-    
+  <main class="scaleMainContent-Wrapper">
+    <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Color scale</h2>
+    <div class="themeColor_gradient" id="{{scaleType}}_gradient">
+   </div>
     Display {{ scaleType }} scale here 
 
     <div id="" class="spectrum-Content-Tabs">
@@ -86,6 +88,9 @@
         </div> -->
         <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
           <label class="spectrum-Tabs-itemLabel">Charts</label>
+        </div>
+        <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}RGBChartsWrapper', `{{ scaleType }}`)">
+          <label class="spectrum-Tabs-itemLabel">RGB channels</label>
         </div>
         <div id="tab{{scaleType}}Model" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ModelWrapper', `{{ scaleType }}`)">
           <label class="spectrum-Tabs-itemLabel">Model</label>
@@ -157,6 +162,13 @@
         Colors in context
       </h3>
       Datavis charts
+    </div>
+
+    <div id="{{scaleType}}RGBChartsWrapper" class="{{scaleType}}TabsWrapper">
+      Model will go here
+      <div class="chart--labelless" id="{{scaleType}}_RGBchart">
+        RGB chart
+      </div>
     </div>
 
     <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">

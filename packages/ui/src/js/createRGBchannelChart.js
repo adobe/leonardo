@@ -13,8 +13,8 @@ import * as d3 from './d3';
 import {filterNaN} from './utils';
 import {createChart} from './createChart';
 
-function createRGBchannelChart(colors) {
-  let dest = document.getElementById('RGBchart');
+function createRGBchannelChart(colors, id = 'RGBchart') {
+  let dest = document.getElementById(id);
   dest.innerHTML = ' ';
   colors = [...colors];
   colors.push('#000000');

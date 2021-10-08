@@ -63,9 +63,9 @@ import {
   openScaleTab,
   openSideNavItem
 } from './js/tabs';
-import {sequentialScale} from './js/sequentialScale';
-import {divergingScale} from './js/divergingScale';
-import {qualitativeScale} from './js/qualitativeScale';
+import {_sequentialScale} from './js/initialColorScales';
+import {dataVisColorScale} from './js/dataVisColorScale';
+
 import toggleTooltip from './js/tooltip';
 
 const { readFileSync } = require('fs')
@@ -106,3 +106,5 @@ document.getElementById("tabdivergingCharts").click();
 document.getElementById("tabqualitativeCharts").click();
 
 document.getElementById("welcome").click();
+
+dataVisColorScale('sequential')
