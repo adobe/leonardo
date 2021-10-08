@@ -296,35 +296,39 @@ const colorWheelMode = document.getElementById('chartsMode');
 const colorDotsMode = document.getElementById('colorDotsMode');
 const colorWheelLightness = document.getElementById('colorWheelLightness');
 
-updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true);
+// Wrapping in condition to ensure these only fire for html files that
+// have the necessary elements.
+if(colorWheelMode) {
+  updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true);
 
-window.onresize = () => {
-  updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true)
-};
+  colorWheelMode.addEventListener('input', function(e) { 
+    let mode = e.target.value;
+    let colorDotsModeDropdown = document.getElementById('colorDotsMode');
+    let dotsMode = colorDotsModeDropdown.value;
+  
+    updateColorWheel(mode, colorWheelLightness.value, true);
+    create3dChart(null, mode)
+  });
 
-colorWheelMode.addEventListener('input', function(e) { 
-  let mode = e.target.value;
-  let colorDotsModeDropdown = document.getElementById('colorDotsMode');
-  let dotsMode = colorDotsModeDropdown.value;
-
-  updateColorWheel(mode, colorWheelLightness.value, true);
-  create3dChart(null, mode)
-});
-
-colorWheelLightness.addEventListener('input', function(e) { 
-  let lightness = e.target.value;
-  let colorDotsModeDropdown = document.getElementById('colorDotsMode');
-  let dotsMode = colorDotsModeDropdown.value;
-  let showDots = (dotsMode === 'colorScale') ? true : false;
-
-  updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode);
-});
-
-colorDotsMode.addEventListener('input', function(e) {
-  let mode = e.target.value;
-
-  updateColorDots(mode);
-});
+  window.onresize = () => {
+    updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true)
+  };
+  
+  colorWheelLightness.addEventListener('input', function(e) { 
+    let lightness = e.target.value;
+    let colorDotsModeDropdown = document.getElementById('colorDotsMode');
+    let dotsMode = colorDotsModeDropdown.value;
+    let showDots = (dotsMode === 'colorScale') ? true : false;
+  
+    updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode);
+  });
+  
+  colorDotsMode.addEventListener('input', function(e) {
+    let mode = e.target.value;
+  
+    updateColorDots(mode);
+  });
+}
 
 module.exports = {
   updateColorDots,

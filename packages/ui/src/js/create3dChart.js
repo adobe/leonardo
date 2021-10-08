@@ -84,8 +84,10 @@ modelScale = 40;
 yOrigin = chartHeight/1.5;
 
 let origin = [chartWidth/2, yOrigin], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
-dest.style.width = chartWidth;
-dest.style.height = chartHeight;
+if(dest) {
+  dest.style.width = chartWidth;
+  dest.style.height = chartHeight;  
+}
 
 let svg = d3.select(dest)
   .call(

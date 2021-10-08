@@ -187,10 +187,12 @@ function createPaletteCharts(mode) {
   createPaletteInterpolationCharts(colorsCorrected, mode)
 }
 
-window.onresize = () => {
-  createPaletteCharts(modePicker.value)
-};
-
-modePicker.addEventListener('change', (e) => { createPaletteCharts(e.target.value) });
+if(modePicker) {
+  window.onresize = () => {
+    createPaletteCharts(modePicker.value)
+  };
+  
+  modePicker.addEventListener('change', (e) => { createPaletteCharts(e.target.value) });
+}
 
 module.exports = {createPaletteCharts}
