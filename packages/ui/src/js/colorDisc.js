@@ -13,7 +13,7 @@ import d3 from './d3';
 import {filterNaN} from './utils';
 import {getAllColorKeys} from './getThemeData';
 import {_theme} from './initialTheme';
-import {createSvgElement} from './createHtmlElement';
+import {createHtmlElement, createSvgElement} from './createHtmlElement';
 import {create3dChart} from './create3dChart';
 import {
   convertToCartesian,
@@ -121,12 +121,16 @@ function createColorWheelDots(arr) {
   })
 
   arr.map(obj => {
-    let dot = document.createElement('div');
-    dot.className = 'colorDot';
-    dot.style.backgroundColor = obj.color;
-    dot.style.top = obj.y;
-    dot.style.left = obj.x;
-    container.appendChild(dot);
+    createHtmlElement({
+      element: 'div',
+      className: 'colorDot',
+      styles: {
+        backgroundColor: obj.color,
+        top: obj.y + 'px',
+        left: obj.x + 'px'
+      },
+      appendTo: 'colorWheel'
+    })
 
     // Create harmony lines
     createSvgElement({

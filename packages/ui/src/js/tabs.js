@@ -171,12 +171,6 @@ window.openSideNavItem = openSideNavItem;
 window.openColorTab = openColorTab;
 window.openSwatchTab = openSwatchTab;
 
-// document.getElementById("tabPanelColorScales").click();
-document.getElementById("tabOutput").click();
-document.getElementById("tabHome").click();
-document.getElementById("welcome").click();
-document.getElementById("tabColorWheel").click();
-document.getElementById("tabSubPanelContrastChart").click();
 
 module.exports = {
   openPanelTab,

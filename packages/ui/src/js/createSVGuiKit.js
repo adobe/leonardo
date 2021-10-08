@@ -21,13 +21,9 @@ function createSVGuiKit() {
   const swatchesPerColor = colors[1].values.length;
   const numberOfColors = colors.length - 1;
   const maxColorWidth = (marginX * swatchesPerColor) + offsetX;
-  const maxTypeWidth = (marginX * _themeTypography.sizes.length) + offsetX;
-  const maxSvgWidth = (maxColorWidth > maxTypeWidth) ? maxColorWidth: maxTypeWidth;
+  const maxSvgWidth = maxColorWidth;
   const maxColorsHeight = marginY * numberOfColors;
-  const numberOfTypes = _themeTypography.weights.length;
-  const maxTypeSize = Math.max(..._themeTypography.sizes);
-  const maxTypographyHeight = maxTypeSize * numberOfTypes;
-  const maxSvgHeight = maxColorsHeight + maxTypographyHeight;
+  const maxSvgHeight = maxColorsHeight;
   let textColorPositive = (isDark) ? '#fff' : '#000';
   let textColorInverse = (isDark) ? '#000' : '#fff';
   

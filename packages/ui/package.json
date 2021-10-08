@@ -40,6 +40,10 @@
     "ghpages": "^0.0.10",
     "highlight.js": "^11.2.0",
     "parcel-bundler": "^1.12.4",
+    "posthtml": "^0.16.5",
+    "posthtml-doctype": "^1.1.1",
+    "posthtml-include": "^1.7.2",
+    "posthtml-modules": "^0.7.4",
     "sass": "^1.23.6"
   },
   "dependencies": {
@@ -87,9 +91,11 @@
     "d3-hsluv": "^0.1.2",
     "d3-hsv": "^0.1.0",
     "file-saver": "^2.0.5",
+    "fs": "0.0.1-security",
     "highlight.js": "^11.2.0",
     "js": "^0.1.0",
     "loadicons": "^1.0.0",
+    "posthtml-parser": "^0.10.1",
     "tinyurl": "^1.1.7"
   }
 }

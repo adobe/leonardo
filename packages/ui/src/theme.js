@@ -119,6 +119,25 @@ import {
 } from './js/createSVGuiKit'
 import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
 
+// const { readFileSync } = require('fs')
+
+// const posthtml = require('posthtml')
+// const include = require('posthtml-include')
+// const html = readFileSync('src/theme.html')
+
+// posthtml([ include({ encoding: 'utf8' }) ])
+//     .process(html)
+//     .then((result) => console.log(result.html))
+const { readFileSync } = require('fs')
+const posthtml = require('posthtml')
+const options = { /* see available options below */ }
+
+posthtml()
+  .use(require('posthtml-modules')(options))
+  .process(readFileSync('src/theme.html', 'utf8'))
+  .then((result) => result);
+
+
 
 function updateParams() {
   let name = document.getElementById('themeNameInput').value;
@@ -185,6 +204,13 @@ if (mq.matches) {
 
 // Build the site based on URL parameters
 paramSetup();
+
+// document.getElementById("tabPanelColorScales").click();
+document.getElementById("tabOutput").click();
+document.getElementById("tabHome").click();
+document.getElementById("welcome").click();
+document.getElementById("tabColorWheel").click();
+document.getElementById("tabSubPanelContrastChart").click();
 
 // Add event listener so that homepage CTA button initaites themes tab
 document.getElementById('homeCTA').addEventListener('click', function() {
