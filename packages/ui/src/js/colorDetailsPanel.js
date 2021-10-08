@@ -606,7 +606,7 @@ function showColorDetails(e) {
   chartsModeSelect.addEventListener('change', (e) => {
     const thisColorId = id;
     console.log(thisColorId)
-    let colorData = getColorClassById(thisColorId, prevScaleTypeValue);
+    let colorData = getColorClassById(thisColorId);
 
     let colors = colorData.backgroundColorScale;
     createInterpolationCharts(colors, e.target.value)
