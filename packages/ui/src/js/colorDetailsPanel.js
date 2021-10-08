@@ -262,7 +262,7 @@ function showColorDetails(e) {
   let keyColors = document.createElement('div');
   keyColors.className = 'themeColor_subheading';
   let keyColorsLabel = document.createElement('h4');
-  keyColorsLabel.className = 'spectrum-Heading6';
+  keyColorsLabel.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
   keyColorsLabel.for = thisId.concat('_keyColors');
 
   let keyColorsInput = document.createElement('div');

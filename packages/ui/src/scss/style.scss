@@ -244,8 +244,14 @@ body,
   padding: 0;
 }
 
+// .spectrum-Panel-ContentWrapper {
+//   height: 100%;
+// }
 .spectrum-Panel-ContentWrapper {
   height: 100%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
 }
 
 .spectrum-Panel-Title {
@@ -752,6 +758,10 @@ p {
   }
 }
 
+.spectrum-Fieldlabel--sizeM {
+  font-size: 12px;
+}
+
 #variableColorField {
   margin-left: 24px;
 }
@@ -1211,22 +1221,11 @@ a:focus {
 .themeColor_configs {
   display: flex;
   height: auto;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
-  flex-wrap: wrap;
-  // padding: 8px 16px 16px;
-  opacity: 1;
   -webkit-transition: height 100ms, padding 100ms;
   transition: height 100ms, padding 100ms;
-  margin-top: calc(var(--spectrum-global-dimension-size-200) * -1);
-  
-  &.is-hidden {
-    padding: 0;
-    height: 0;
-    opacity: 0;
-    -webkit-transition: height 200ms, padding 200ms;
-    transition: height 200ms, padding 200ms;
-  }
+
   .spectrum-Form-item {
     opacity: 1;
     -webkit-transition: opacity 200ms;
@@ -1828,7 +1827,8 @@ a:focus {
   padding: 8px 0 16px;
 }
 
-#chartsMode {
+#chartsMode,
+.chartsMode {
   width: 12ch;
 }
 

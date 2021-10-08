@@ -119,3 +119,16 @@ governing permissions and limitations under the License.
 ._3d.yText {
   color: #6e6e6e;
 }
+
+.sequentialTabsWrapper,
+.divergingTabsWrapper,
+.qualitativeTabsWrapper {
+  display: none;
+  padding: var(--spectrum-global-dimension-size-200);
+  flex-direction: column;
+}
+
+.chartsWrapper {
+  display: flex;
+  flex-direction: row;
+}

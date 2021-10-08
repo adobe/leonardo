@@ -42,6 +42,8 @@ import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
 
 import './scss/style.scss';
+import './scss/charts.scss';
+import './scss/colorinputs.scss';
 import './views/*.scss';
 
 import '@adobe/focus-ring-polyfill';
@@ -58,8 +60,12 @@ import {
   openPanelTab,
   openTab,
   openAppTab,
+  openScaleTab,
   openSideNavItem
 } from './js/tabs';
+import {sequentialScale} from './js/sequentialScale';
+import {divergingScale} from './js/divergingScale';
+import {qualitativeScale} from './js/qualitativeScale';
 import toggleTooltip from './js/tooltip';
 
 const { readFileSync } = require('fs')
@@ -93,5 +99,10 @@ if (mq.matches) {
   document.querySelector('body').classList.add('spectrum--light');
 }
 
-document.getElementById("tabHome").click();
+document.getElementById("tabSequential").click();
+// Open default tab of "charts" for each color scale tab
+document.getElementById("tabsequentialCharts").click();
+document.getElementById("tabdivergingCharts").click();
+document.getElementById("tabqualitativeCharts").click();
+
 document.getElementById("welcome").click();

@@ -163,6 +163,27 @@ function openColorTab(evt, tabName) {
   evt.currentTarget.className += " is-selected";
 }
 
+function openScaleTab(evt, tabName, scaleType) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName(`${scaleType}TabsWrapper`);
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+  tablinks = document.getElementsByClassName(`${scaleType}-Tabs-item`);
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "flex";
+  evt.currentTarget.className += " is-selected";
+}
+
 window.openPanelTab = openPanelTab;
 window.openTab = openTab;
 window.openDetailTab = openDetailTab;
@@ -170,6 +191,7 @@ window.openAppTab = openAppTab;
 window.openSideNavItem = openSideNavItem;
 window.openColorTab = openColorTab;
 window.openSwatchTab = openSwatchTab;
+window.openScaleTab = openScaleTab;
 
 
 module.exports = {
@@ -178,5 +200,6 @@ module.exports = {
   openDetailTab,
   openAppTab,
   openSideNavItem,
+  openScaleTab,
   openColorTab
 }

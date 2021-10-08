@@ -1,13 +1,19 @@
-<html>
+<html dir="ltr">
 <head>
   <include src="src/htmlHead.html"></include>
 </head>
 
 <body class="spectrum spectrum--medium appFrame">
 
-  <include src="src/views/header.html"></include>
+  <include src="src/views/header_scales.html"></include>
 
   <include src="src/views/tab_home.html"></include>
+  <!-- <include src="src/views/tab_sequential.html"></include>
+  <include src="src/views/tab_diverging.html"></include>
+  <include src="src/views/tab_qualitative.html"></include> -->
+  <include src="src/views/tab_colorScalePartial.html" locals='{ "scaleType": "sequential" }'></include>
+  <include src="src/views/tab_colorScalePartial.html" locals='{ "scaleType": "diverging" }'></include>
+  <include src="src/views/tab_colorScalePartial.html" locals='{ "scaleType": "qualitative" }'></include>
 
 <script src="scales.js"></script>
 
