@@ -118,8 +118,6 @@ import {
   createSVGuiKit
 } from './js/createSVGuiKit'
 import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
-import {createTypeScale} from './js/typeScale';
-
 
 
 function updateParams() {
@@ -153,12 +151,6 @@ new ClipboardJS('.copyThemeURL', {
   text: function() {
     updateParams();
     const params = window.location.href;
-    // const params = TinyURL.shorten(`${window.location.href}`, function(res, err) {
-    //   if (err)
-    //     console.log(err)
-    //     console.log(res);
-    //   return res
-    // });
 
     let uri = window.location.toString();
     let cleanURL = uri.substring(0, uri.indexOf("?"));

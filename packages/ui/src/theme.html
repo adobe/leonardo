@@ -70,9 +70,6 @@
       <div id="tabSwatches" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'swatches')">
         <label class="spectrum-Tabs-itemLabel">Swatches</label>
       </div>
-      <div id="tabTypography" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'typography')">
-        <label class="spectrum-Tabs-itemLabel">Typography</label>
-      </div>
       <div id="tabTheme" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'theme')">
         <label class="spectrum-Tabs-itemLabel">Theme</label>
       </div>
@@ -136,6 +133,7 @@
         </div>
 
         <img src="/images/HomepageImage.png" style="width: 100%; max-width: 756px"/>
+
 
         <!-- <section class="spectrum-Body spectrum-Body--sizeL">
           <p>Leonardo generates colors based on desired contrast ratios. It allows you to create parameters for each color so that you can control the hue and saturation changes for color as it gets lighter or darker. </p>
@@ -739,69 +737,6 @@
     <div id="swatchesOutputs" class="hideSwatchAttributes">
       <!-- Generated colors will appear here -->
     </div>
-  </div>
-</div>
-
-<!-- Typography Tab -->
-<div id="typography" class="AppTab appFramePanelLeft">
-  <div class="spectrum-Panel">
-    <div class="spectrum-Panel-Item spectrum-Panel-Item--bottomPadding">
-      <div class="spectrum-Form-item">
-        <label for="sampleText" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel">Preview text</label>
-        <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
-          <input type='text' class="spectrum-Textfield-input" id="sampleText" value="The quick brown fox jumps over the lazy dog"/>
-        </div>
-      </div>
-    </div>
-
-    <div class="spectrum-Panel-Item spectrum-Panel-Item--bottomPadding">
-      <div class="spectrum-Panel-Title">
-        <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
-          Type scale
-        </h3>
-      </div>
-
-      <div class="spectrum-Form spectrum-Form--row">
-        <div class="spectrum-Form-item">
-          <label for="typeScaleBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel">Base font size</label>
-          <div class="spectrum-Textfield typographyField">
-            <input type='number' class="spectrum-Textfield-input" id="typeScaleBase" value="16"/>
-          </div>
-        </div>
-        <div class="spectrum-Form-item">
-          <label for="typeScaleRatio" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel">Type scale</label>
-          <div class="spectrum-Textfield typographyField">
-            <input type='number' class="spectrum-Textfield-input" id="typeScaleRatio" value="1.25" step="0.0125"/>
-          </div>
-        </div>
-        <div class="spectrum-Form-item">
-          <label for="typeScaleDecrement" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel">Smaller sizes</label>
-          <div class="spectrum-Textfield typographyField">
-            <input type='number' class="spectrum-Textfield-input" id="typeScaleDecrement" min="0" value="2"/>
-          </div>
-        </div>
-        <div class="spectrum-Form-item">
-          <label for="typeScaleIncrement" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel">Larger sizes</label>
-          <div class="spectrum-Textfield typographyField">
-            <input type='number' class="spectrum-Textfield-input" id="typeScaleIncrement" min="0" value="8"/>
-          </div>
-        </div>
-      </div>
-
-      <div class="spectrum-Form--row">
-        <div class="spectrum-Form-item">
-          <label for="fontWeight" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel">Font weight</label>
-          <div class="spectrum-Textfield">
-            <input type='number' class="spectrum-Textfield-input" id="fontWeight" value="400" min="100" max="900" step="100"/>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </div>
-  
-  <div id="typeScaleSampleWrapper">
-    Generated typography content
   </div>
 </div>
 

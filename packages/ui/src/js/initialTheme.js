@@ -118,31 +118,6 @@ import * as Leo from '@adobe/leonardo-contrast-colors';
 //   categorical: []
 // })
 
-class Typography {
-  constructor({ sizes, weights}) {
-    this._sizes = sizes,
-    this._weights = weights
-  }
-  set sizes(sizes) {
-    this._sizes = sizes;
-  }
-  get sizes() {
-    return this._sizes;
-  }
-
-  set weights(weights) {
-    this._weights = weights;
-  }
-  get weights() {
-    return this._weights;
-  }
-}
-
-const _themeTypography = new Typography({
-  sizes: [14, 16],
-  weights: [400]
-});
-
 const tempGray = new Leo.BackgroundColor({
   name: 'Gray',
   colorKeys: ['#cacaca'],
@@ -159,12 +134,10 @@ let _theme = new Leo.Theme({
 });
 
 window._theme = _theme;
-window._themeTypography = _themeTypography;
 // window._colorScales = _colorScales;
 
 module.exports = {
   tempGray,
   _theme,
-  _themeTypography
   // _colorScales
 }

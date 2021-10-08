@@ -17,7 +17,6 @@ function createSVGuiKit() {
   const marginX = rectSize + 16 ;
   const offsetX = 166;
   const marginY = rectSize + 57;
-  let typographyYstart;
 
   const swatchesPerColor = colors[1].values.length;
   const numberOfColors = colors.length - 1;
@@ -64,7 +63,6 @@ function createSVGuiKit() {
       let values = colors[i].values;
       let increment = i - 0.75;
       let y = marginY * increment;
-      typographyYstart = y + rectSize;
 
       var title = document.createElementNS( svgns,'text' );
       var descriptor = document.createElementNS( svgns,'text' );
@@ -138,54 +136,6 @@ function createSVGuiKit() {
     }
   }
 
-  /**
-   * Create typography elements
-   */
-
-  for(let i=0; i < _themeTypography.weights.length; i++) {
-    let name = 'Typography';  
-    // let increment = i - 0.75 + typographyYstart;
-    // let y = marginY * increment;
-    let typeYoffset = 0;
-    let y = typographyYstart * (i + 1) + maxTypeSize + typeYoffset;
-
-    var title = document.createElementNS( svgns,'text' );
-
-    title.setAttribute('x', 16);
-    title.setAttribute('y', y - 8);
-    title.setAttribute('fill', textColorPositive);
-    title.setAttribute('font-size', 18);
-    title.setAttribute('font-weight', 700);
-    title.setAttribute('font-family', "Adobe Clean, AdobeClean-Regular, Adobe Clean");
-    title.textContent = capitalizeFirstLetter(name);
-    
-    svgWrapper.appendChild( title );
-    console.log(_themeTypography.sizes)
-    // loop each value to create a swatch
-    let typeSizeOffset = 0;
-    for(let j=0; j < _themeTypography.sizes.length; j++) {
-      var text = document.createElementNS( svgns,'text' );
-      if(j > 0) typeSizeOffset = typeSizeOffset + (_themeTypography.sizes[j] * 1.65);
-      let x = typeSizeOffset + (offsetX - 8);
-      let textX = x + 8;
-      let textY = y;
-      let textColor = textColorPositive;
-      
-      text.setAttribute('x', textX);
-      text.setAttribute('y', textY);
-      text.setAttribute('fill', textColor);
-      text.setAttribute('font-size', `${_themeTypography.sizes[j]}`);
-      text.setAttribute('font-weight', `${_themeTypography.weights[i]}`)
-      text.setAttribute('font-family', "Adobe Clean, AdobeClean-Regular, Adobe Clean");
-      text.textContent = `Ag`;
-
-      svgWrapper.appendChild( text );
-    }
-  }
-
-  /** 
-  * End of typography
-  */
   outerElement.appendChild(svgWrapper);
   document.body.appendChild(outerElement);
 }

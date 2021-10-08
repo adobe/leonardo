@@ -126,36 +126,6 @@ function createOutputColors() {
     }
   })
 
-  let typeWrapper = document.createElement('div');
-  typeWrapper.className = 'typeSample';
-  // Iterate over type styles
-  for(let i = 0; i < _themeTypography.weights.length; i++){
-    let fontWeight = _themeTypography.weights[i];
-    let typeRow = document.createElement('div');
-    typeRow.className = 'typeSample-Row';
-
-    let p = document.createElement('p');
-    p.className = 'spectrum-Heading spectrum-Heading--sizeXXS themeOutputItem--Heading';
-    p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-    p.innerHTML = `Typography`;
-
-    typeWrapper.appendChild(p);
-    // For each weight (future feature), loop each size
-    for(let j = 0; j < _themeTypography.sizes.length; j ++) {
-      let fontSize = _themeTypography.sizes[j];
-
-      let sample = document.createElement('div');
-      sample.className = 'typeSample-Swatch'
-      sample.innerHTML = 'Ag';
-      sample.style.fontSize = fontSize;
-      sample.style.fontWeight = fontWeight;
-      sample.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-      typeRow.appendChild(sample);
-    }
-    typeWrapper.appendChild(typeRow);
-  }
-  themeOutputs.appendChild(typeWrapper)
-
   let copyThemeColors = document.getElementById('copyThemeColors');
   copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
 }
