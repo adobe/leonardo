@@ -32,6 +32,21 @@ governing permissions and limitations under the License.
   --spectrum-ease-in-out: cubic-bezier(0.45, 0, 0.40, 1);
   --spectrum-ease-in: cubic-bezier(0.50, 0, 1, 1);
 
+  --spectrum-fieldlabel-text-size: var(--spectrum-global-dimension-font-size-75, 12px);
+  --spectrum-fieldlabel-text-font-weight: 400;
+  --spectrum-fieldlabel-text-line-height: 1.3;
+
+  --spectrum-global-font-weight-bold: 600; 
+  --spectrum-alias-heading-text-font-weight-regular: var(--spectrum-global-font-weight-bold);
+  --spectrum-heading-m-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
+  --spectrum-heading-l-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
+  --spectrum-heading-xl-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
+  --spectrum-heading-xxl-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
+  --spectrum-body-s-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-body-m-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-body-l-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-body-xl-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-button-primary-texticon-text-font-weight: var(--spectrum-global-font-weight-bold);
   // defaults
   --headerBackground: var(--spectrum-global-color-gray-50);
   --panelBackground: var(--spectrum-global-color-gray-100);
@@ -62,7 +77,18 @@ governing permissions and limitations under the License.
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Adobe Clean'; // local update since no typekit support currently.
+  // font-family: 'Adobe Clean'; // local update since no typekit support currently.
+}
+
+body, 
+.spectrum,
+.spectrum-ActionButton,
+.spectrum-Textfield-input,
+.spectrum-LogicButton, .spectrum-ClearButton, .spectrum-Button,
+.spectrum-Picker,
+.spectrum-Heading,
+.spectrum-Body {
+  font-family: source-sans-pro, source-sans, sans-serif;
 }
 
 .appFrame {
