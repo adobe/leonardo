@@ -10,18 +10,27 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
+import { convertColorValue } from './utils';
+const chroma = require('chroma-js');
+const { extendChroma } = require('./chroma-plus');
+
+extendChroma(chroma);
 
 class SequentialScale {
   constructor({ 
     swatches,
     colorKeys,
     colorspace,
-    smooth
+    smooth,
+    shift,
+    output
    }) {
     this._swatches = swatches,
     this._colorKeys = colorKeys;
     this._colorspace = colorspace;
+    this._shift = shift;
     this._smooth = smooth;
+    this._output = output;
     this._colors = this._createColorScale();
   }
 
@@ -55,6 +64,16 @@ class SequentialScale {
     return this._smooth;
   }
 
+  set output(output) {
+    this._output = output;
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get output() {
+    return this._output;
+  }
+
   set shift(shift) {
     this._shift = shift;
     this._colors = null;
@@ -70,7 +89,7 @@ class SequentialScale {
   }
 
   _createColorScale() {
-    return Leo.createScale({
+    let colorScale = Leo.createScale({
       swatches: this._swatches,
       colorKeys: this._colorKeys,
       colorspace: this._colorspace,
@@ -79,6 +98,9 @@ class SequentialScale {
       fullScale: false,
       asFun: false
     });
+    let formattedColors = colorScale.map((c) => {return convertColorValue(c, this._output)});
+
+    return formattedColors;
   }
 }
 
@@ -87,6 +109,8 @@ let _sequentialScale = new SequentialScale({
   colorKeys: ['#cacaca'],
   colorspace: 'CAM02',
   smooth: false,
+  shift: 1,
+  output: 'RGB'
 })
 
 window._sequentialScale = _sequentialScale;

@@ -57,6 +57,15 @@
                      <option value="HSLuv">HSLuv</option>
                      <option value="HSV">HSV</option>
                      <option value="RGB">RGB</option>
+
+                     <!-- <option value="jab">Jab</option>
+                     <option value="jch">JCh</option>
+                     <option value="lab">Lab</option>
+                     <option value="lch">LCh</option>
+                     <option value="hsl">HSL</option>
+                     <option value="hsv">HSV</option>
+                     <option value="hsluv">HSLuv</option>
+                     <option value="rgb">RGB</option> -->
                   </select>
                </div>
                <div class="spectrum-Form-item">
@@ -66,7 +75,7 @@
          </div>
          <div class="spectrum-Panel-Item">
             <span class="spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel">Color scale values</span>
-            <div class="themeOutputParams" id="panelColorScaleOutput">
+            <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
               <!-- generated values here -->
             </div>
          </div>
@@ -79,13 +88,15 @@
     <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Color scale</h2>
     <div class="themeColor_gradient" id="{{scaleType}}_gradient">
    </div>
-    Display {{ scaleType }} scale here 
 
-    <div id="" class="spectrum-Content-Tabs">
+    <div id="" class="spectrum-Content-Tabs spectrum-Content-Tabs--noPadding">
       <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
         <!-- <div id="tabColorWheel" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorWheelWrapper')">
           <label class="spectrum-Tabs-itemLabel">Color wheel</label>
         </div> -->
+        <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}DemoWrapper', `{{ scaleType }}`)">
+          <label class="spectrum-Tabs-itemLabel">Demo</label>
+        </div>
         <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
           <label class="spectrum-Tabs-itemLabel">Charts</label>
         </div>
@@ -143,6 +154,10 @@
         </div>
     </div> -->
 
+    <div id="{{scaleType}}DemoWrapper" class="{{scaleType}}TabsWrapper">
+        Demo visualizations
+    </div>
+
     <div id="{{scaleType}}ChartsWrapper" class="{{scaleType}}TabsWrapper">
       <div class="chartsWrapper">
         <div class="chart--labelless" id="{{scaleType}}InterpolationChart">
@@ -155,18 +170,10 @@
           chart 3
         </div>   
       </div>
-
-      <hr class="spectrum-Divider spectrum-Divider--sizeS" />
-
-      <h3 class="spectrum-Heading spectrum-Heading--sizeS spectrum-Heading--heavy">
-        Colors in context
-      </h3>
-      Datavis charts
     </div>
 
     <div id="{{scaleType}}RGBChartsWrapper" class="{{scaleType}}TabsWrapper">
-      Model will go here
-      <div class="chart--labelless" id="{{scaleType}}_RGBchart">
+      <div class="chart--labelless" id="{{scaleType}}RGBchart">
         RGB chart
       </div>
     </div>

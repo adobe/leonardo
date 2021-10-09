@@ -11,9 +11,8 @@ governing permissions and limitations under the License.
 import * as d3 from 'd3';
 import {getSmallestWindowDimension} from './colorDisc';
 
-function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors) {
+function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors, scaleType) {
   let chartWidth, chartHeight;
-
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   let adjustedHeight = (windowHeight - 300) / 2;// subtract heading, tabs height and padding from measurement
@@ -22,7 +21,10 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
   if(
       dest === '#interpolationChart' || 
       dest === '#interpolationChart2' || 
-      dest === '#interpolationChart3'
+      dest === '#interpolationChart3' ||
+      dest === `#${scaleType}InterpolationChart` ||
+      dest === `#${scaleType}InterpolationChart2` ||
+      dest === `#${scaleType}InterpolationChart3`
     ) {
     let adjustedWidth = windowWidth - (388 + 34);// subtract panel width and padding from measurement
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
@@ -41,7 +43,11 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     chartWidth = adjustedWidth;
     chartHeight = (windowHeight - 150) / 2;
   }
-  if(dest === '#RGBchart') {
+  if(
+    dest === '#RGBchart' || 
+    dest === `#sequentialRGBchart` ||
+    dest === '#divergingRGBchart'
+  ) {
     let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
@@ -52,6 +58,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     chartWidth = 356;
     chartHeight = 264;
   }
+
 
   let xy_chart = d3_xy_chart()
     .width(chartWidth)
@@ -130,7 +137,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")") ;
 
           // If dest is RGB chart, don't show ticks
-          if(dest !== '#RGBchart') {
+          if(dest !== '#RGBchart' || dest !== `#${scaleType}RGBchart`) {
             svg.append("g")
               .attr("class", "x grid")
               .attr("transform", "translate(0," + innerheight + ")")

@@ -16,8 +16,11 @@ import {createChart} from './createChart';
 function createRGBchannelChart(colors, id = 'RGBchart') {
   let dest = document.getElementById(id);
   dest.innerHTML = ' ';
-  colors = [...colors];
-  colors.push('#000000');
+  
+  if(id === 'RGBchart') {
+    colors = [...colors];
+    colors.push('#000000');
+  }
 
   // Create chart headers
   let RGBheader = document.createElement('h5');
@@ -46,7 +49,7 @@ function createRGBchannelChart(colors, id = 'RGBchart') {
     }
   ];
 
-  createChart(data, ' ', ' ', "#RGBchart", 0, 255);
+  createChart(data, ' ', ' ', `#${id}`, 0, 255);
 }
 
 module.exports = {createRGBchannelChart}

@@ -77,7 +77,7 @@ function updateRamps(color, id, scaleType = 'theme') {
 
     createRGBchannelChart(colors);
   } else {
-    createRGBchannelChart(colors, `${id}_RGBchart`);
+    createRGBchannelChart(colors, `${id}RGBchart`);
   }
 
 
@@ -88,13 +88,10 @@ function updateRamps(color, id, scaleType = 'theme') {
   let chartsMode = chartsModeSelect.value;
   createInterpolationCharts(colors, chartsMode, scaleType);
 
-  let panelOutputContent = document.getElementById('panelColorScaleOutput');
+  let panelOutputId = (scaleType === 'theme') ? 'panelColorScaleOutput' : `${scaleType}ColorScaleOutput` ;
+  let panelOutputContent = document.getElementById(panelOutputId);
   panelOutputContent.innerHTML = ' ';
-  let abbreviatedColors = [];
-  colors.map((c, i) => {
-    if(Number.isInteger(i/10)) abbreviatedColors.push(c)
-  })
-  panelOutputContent.innerHTML = abbreviatedColors;
+  panelOutputContent.innerHTML = colors;
 }
 
 function createAllColorRamps() {

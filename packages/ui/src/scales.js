@@ -48,6 +48,7 @@ import './views/*.scss';
 
 import '@adobe/focus-ring-polyfill';
 
+import * as Leo from '@adobe/leonardo-contrast-colors';
 import loadIcons from 'loadicons';
 loadIcons('./spectrum-css-icons.svg');
 loadIcons('./spectrum-icons.svg');
@@ -68,15 +69,10 @@ import {dataVisColorScale} from './js/dataVisColorScale';
 
 import toggleTooltip from './js/tooltip';
 
-const { readFileSync } = require('fs')
-const posthtml = require('posthtml')
-const options = { /* see available options below */ }
+const chroma = require('chroma-js');
+const { extendChroma } = require('./js/chroma-plus');
 
-posthtml()
-  .use(require('posthtml-modules')(options))
-  .process(readFileSync('src/index.html', 'utf8'))
-  .then((result) => result);
-
+extendChroma(chroma);
 
 window.matchMedia('(prefers-color-scheme: dark)')
   .addEventListener('change', event => {
@@ -107,4 +103,4 @@ document.getElementById("tabqualitativeCharts").click();
 
 document.getElementById("welcome").click();
 
-dataVisColorScale('sequential')
+dataVisColorScale('sequential');

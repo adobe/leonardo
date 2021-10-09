@@ -24,7 +24,7 @@ function createInterpolationCharts(colors, mode, scaleType = 'theme') {
     d2id = `${scaleType}InterpolationChart2`
     d3id = `${scaleType}InterpolationChart3`
   }
-  console.log(d1id, d2id, d3id)
+
   let dest = document.getElementById(d1id);
   dest.innerHTML = ' ';
   let dest2 = document.getElementById(d2id);
@@ -136,32 +136,45 @@ function createInterpolationCharts(colors, mode, scaleType = 'theme') {
     return Array(end - start).fill().map((item, index) => start + index);
   };
   let dataX = fillRange(1, colors.length);
+  // Reorder data for color scales
+
+  let dataYa = colors.map(function(d) {return filterNaN(d3[func](d)[c1]);});
+  let dataYb = colors.map(function(d) {return filterNaN(d3[func](d)[c2]);});
+  let dataYc = colors.map(function(d) {return filterNaN(d3[func](d)[c3]);});
+
+  if(scaleType !== 'theme') {
+    dataX = dataX.sort((a, b) => {return a - b;});
+    dataYa = dataYa.sort((a, b) => {return a - b;});
+    dataYb = dataYb.sort((a, b) => {return a - b;});
+    dataYc = dataYc.sort((a, b) => {return a - b;});
+  }
+
   let visColors = colors[50];
 
   let dataA = [
     {
       x: dataX,
-      y: colors.map(function(d) {return filterNaN(d3[func](d)[c1]);}) 
+      y: dataYa
     }
   ];
   let dataB = [
     {
       x: dataX,
-      y: colors.map(function(d) {return filterNaN(d3[func](d)[c2]);}) 
+      y: dataYb 
     }
   ];
   let dataC = [
     {
       x: dataX,
-      y: colors.map(function(d) {return filterNaN(d3[func](d)[c3]);}) 
+      y: dataYc 
     }
   ];
 
   let lightnessMax = (mode === 'HSL' || mode === 'HSV') ? 1 : 100;
 
-  createChart(dataA, ' ', ' ', "#interpolationChart", yMin, yMax, false, visColors);
-  createChart(dataB, ' ', ' ', "#interpolationChart2", yMin2, yMax2, false, visColors);
-  createChart(dataC, ' ', ' ', "#interpolationChart3", 0, lightnessMax, false, visColors);
+  createChart(dataA, ' ', ' ', `#${d1id}`, yMin, yMax, false, visColors, scaleType);
+  createChart(dataB, ' ', ' ', `#${d2id}`, yMin2, yMax2, false, visColors, scaleType);
+  createChart(dataC, ' ', ' ', `#${d3id}`, 0, lightnessMax, false, visColors, scaleType);
 }
 
 module.exports = {createInterpolationCharts}

@@ -9,6 +9,10 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const chroma = require('chroma-js');
+const { extendChroma } = require('./chroma-plus');
+
+extendChroma(chroma);
 
 function randomId() {
   return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
@@ -79,6 +83,86 @@ function round(x, n = 0) {
 
 const lerp = (x, y, a) => x * (1 - a) + y * a;
 
+// Helper function for rounding color values to whole numbers
+// Copied directly from contrast-colors. For some reason it would
+// not import properly.
+const colorSpaces = {
+  CAM02: 'jab',
+  CAM02p: 'jch',
+  HEX: 'hex',
+  HSL: 'hsl',
+  HSLuv: 'hsluv',
+  HSV: 'hsv',
+  LAB: 'lab',
+  LCH: 'lch', // named per correct color definition order
+  RGB: 'rgb',
+};
+function convertColorValue(color, format, object = false) {
+  if (!color) {
+    throw new Error(`Cannot convert color value of “${color}”`);
+  }
+  if (!colorSpaces[format]) {
+    throw new Error(`Cannot convert to colorspace “${format}”`);
+  }
+  const space = colorSpaces[format];
+  const colorObj = chroma(String(color))[space]();
+  if (format === 'HSL') {
+    colorObj.pop();
+  }
+  if (format === 'HEX') {
+    if (object) {
+      const rgb = chroma(String(color)).rgb();
+      return { r: rgb[0], g: rgb[1], b: rgb[2] };
+    }
+    return colorObj;
+  }
+
+  const colorObject = {};
+  let newColorObj = colorObj.map(filterNaN);
+
+  newColorObj = newColorObj.map((ch, i) => {
+    let rnd = round(ch);
+    let j = i;
+    if (space === 'hsluv') {
+      j += 2;
+    }
+    let letter = space.charAt(j);
+    if (space === 'jch' && letter === 'c') {
+      letter = 'C';
+    }
+    colorObject[letter === 'j' ? 'J' : letter] = rnd;
+    if (space in { lab: 1, lch: 1, jab: 1, jch: 1 }) {
+      if (!object) {
+        if (letter === 'l' || letter === 'j') {
+          rnd += '%';
+        }
+        if (letter === 'h') {
+          rnd += 'deg';
+        }
+      }
+    } else if (space !== 'hsluv') {
+      if (letter === 's' || letter === 'l' || letter === 'v') {
+        colorObject[letter] = round(ch, 2);
+        if (!object) {
+          rnd = round(ch * 100);
+          rnd += '%';
+        }
+      } else if (letter === 'h' && !object) {
+        rnd += 'deg';
+      }
+    }
+    return rnd;
+  });
+
+  const stringName = space;
+  const stringValue = `${stringName}(${newColorObj.join(', ')})`;
+
+  if (object) {
+    return colorObject;
+  }
+  return stringValue;
+}
+
 module.exports = {
   randomId,
   throttle,
@@ -86,6 +170,7 @@ module.exports = {
   filterNaN,
   camelCase,
   round,
+  convertColorValue,
   lerp,
   removeElementsByClass
 }

@@ -80,7 +80,9 @@ governing permissions and limitations under the License.
 }
 
 // Hack specific overrides for RGB chart only
-#RGBchart {
+#RGBchart,
+#sequentialRGBchart,
+#divergingRGBchart {
   g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
     stroke: var(--spectrum-global-color-blue-400);
   }
@@ -124,11 +126,76 @@ governing permissions and limitations under the License.
 .divergingTabsWrapper,
 .qualitativeTabsWrapper {
   display: none;
-  padding: var(--spectrum-global-dimension-size-200);
+  // padding: var(--spectrum-global-dimension-size-200);
   flex-direction: column;
 }
 
-.chartsWrapper {
+#chartsWrapper,
+#modelWrapper {
+  background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  min-width: fit-content;
+  height: 100%;
+  padding: 16px;
+  overflow: auto;
+}
+
+.chartsWrapper {
+  flex-direction: column;
+  padding-top: var(--spectrum-global-dimension-size-200);
+}
+
+.charts {
+  display: flex;
+  min-height: fit-content;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  max-width: fit-content;
+  // margin-bottom: 24px;
+  padding: 0;
+}
+.charts ~ .charts {
+  margin-left: 16px;
+}
+
+#chart1,
+#chart2,
+#chart3,
+#chart4,
+#contrastChart {
+  border-radius: 4px;
+
+  svg {
+    color: var(--spectrum-global-color-gray-500);
+  }
+}
+
+#paletteChartsWrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+// #contrastChart {
+//   width: 350px;
+//   height: 300px;
+// }
+
+.chartGroup {
+  .spectrum-Heading6 {
+    height: 32px;
+    display: flex;
+    align-items: flex-end;
+  }
+}
+
+#chart3dWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  align-self: center;
+  height: 100%;
+  cursor: move;
 }
