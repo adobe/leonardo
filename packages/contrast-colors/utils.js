@@ -159,12 +159,32 @@ function createScale({
     throw new Error(`Colorkeys missing: returned “${colorKeys}”`);
   }
 
-  let domains = colorKeys
-    .map((key) => swatches - swatches * (chroma(key).hsluv()[2] / 100))
-    .sort((a, b) => a - b)
-    .concat(swatches);
-
-  domains.unshift(0);
+  let domains;
+  
+  if(fullScale) {
+    // Set domain of each color key based on percentage (as HSLuv lightness)
+    // against the full scale of black to white
+    domains = colorKeys
+      .map((key) => swatches - swatches * (chroma(key).hsluv()[2] / 100))
+      .sort((a, b) => a - b)
+      .concat(swatches);
+      
+    domains.unshift(0);
+  } else {
+    // Domains need to be a percentage of the available luminosity range
+    let lums = colorKeys.map((c) => chroma(c).hsluv()[2] / 100)
+    let min = Math.min(...lums);
+    let max = Math.max(...lums);
+    console.log(`Lums: ${lums}`)
+    domains = lums
+      .map((lum) => { 
+        if(lum === 0 || isNaN((lum - min) / (max - min))) return 0;
+        else return swatches - (lum - min) / (max - min) * swatches;
+      })
+      .sort((a, b) => a - b)
+      
+    console.log(domains)
+  }
 
   // Test logarithmic domain (for non-contrast-based scales)
   let sqrtDomains = makePowScale(shift, [1, swatches], [1, swatches]);
@@ -226,9 +246,10 @@ function createScale({
   }
   if (asFun) {
     return scale;
-  }
+  } 
 
-  const Colors = new Array(swatches).fill().map((_, d) => chroma(scale(d)).hex());
+  // const Colors = new Array(swatches).fill().map((_, d) => chroma(scale(d)).hex());
+  const Colors = scale.colors(swatches);
 
   const colors = Colors.filter((el) => el != null);
 
