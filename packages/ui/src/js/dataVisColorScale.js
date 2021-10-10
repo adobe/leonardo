@@ -9,6 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import * as Leo from '@adobe/leonardo-contrast-colors';
+import * as d3 from './d3';
 import {addScaleKeyColorInput} from './scaleKeyColors';
 import {
   themeRamp,
@@ -19,6 +20,10 @@ import {_sequentialScale} from './initialColorScales';
 import {createInterpolationCharts} from './createInterpolationCharts';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {downloadSVGgradient} from './createSVGgradient';
+import {
+  createColorWheel,
+  createColorWheelDots
+} from './colorDisc';
 const chroma = require('chroma-js');
 
 function dataVisColorScale(scaleType) {
@@ -62,15 +67,27 @@ function dataVisColorScale(scaleType) {
   }
 
   let colors = _sequentialScale.colors;
+  let lums = _sequentialScale.colorKeys.map(c => d3.hsluv(c).v );
+  let min = Math.min(...lums);
+  let max = Math.max(...lums);
 
+  // TEMPORARY
+  let mode = 'CAM02'
+  let lightness = 50;
+  
   themeRamp(colors, gradientId, '-90');
-  themeRampKeyColors(colorKeys, gradientId);
+  themeRampKeyColors(colorKeys, gradientId, min, max);
+
   createRGBchannelChart(colors, `${scaleType}RGBchart`);
   createInterpolationCharts(colors, 'CAM02', scaleType);
 
   let panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
   panelOutputContent.innerHTML = colors.toString().replaceAll(',', ', ');
 
+  setTimeout(() => {
+    createColorWheel(mode, lightness, scaleType);
+    createColorWheelDots();
+  }, 1000); 
 }
 
 module.exports = {

@@ -49,7 +49,7 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     updateRamps(currentColor, parent)
 
     setTimeout(function() {
-      updateColorDots();
+      updateColorDots(null, 'theme');
     }, 100);
     // throttle(themeUpdateParams, 50)
   };
@@ -117,7 +117,7 @@ function addKeyColor(e) {
 
   // Update gradient
   updateRamps(currentColor, parentId);
-  updateColorDots();
+  updateColorDots(null, 'theme');
 }
 
 function deleteColor(e) {

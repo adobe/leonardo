@@ -35,13 +35,16 @@ function themeRampKeyColors(colorKeys, dest, min, max) {
     // by available lightness range. Otherwise, percentage is from 0-100
     // for positioning dots by actual lightness vs relative lightness.
     if(min && max) {
-      // TODO: gotta figure this one out again...
-    }
+      if(lightness === 0 || isNaN((lightness - min) / (max - min))) lightness = 0;
+      // else lightnessPerc = 100 - (lightness - min) / (max - min) * 100;
+      else lightness = (lightness - min) / (max - min) * 100;
+    } 
+    
     let lightnessPerc = 100/lightness;
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot
     // min/max positions within the ramp itself
-    let dotOffset = 32 / lightnessPerc;
+    let dotOffset = 36 / lightnessPerc;
     let leftPosition = `calc(${Math.round(lightness)}% - ${Math.round(dotOffset)}px)`;
     let dot = document.createElement('div');
     dot.className = 'themeRampDot';
@@ -52,7 +55,7 @@ function themeRampKeyColors(colorKeys, dest, min, max) {
 }
 
 function updateRamps(color, id, scaleType = 'theme') {
-  let colors, angle;
+  let colors, angle, min, max;
   if(scaleType === 'theme') {
     colors = color.backgroundColorScale; 
     angle = '90';
@@ -60,16 +63,18 @@ function updateRamps(color, id, scaleType = 'theme') {
   else {
     colors = color.colors;
     angle = '-90';
+    let lums = color.colorKeys.map(c => d3.hsluv(c).v );
+    min = Math.min(...lums);
+    max = Math.max(...lums);
   }
 
   let gradientId = id.concat('_gradient');
   document.getElementById(gradientId).innerHTML = ' ';
   themeRamp(colors, gradientId, angle);
-  
-  // Create key color dots
-  themeRampKeyColors(color.colorKeys, gradientId);
 
   if(scaleType === 'theme') {
+    // Create key color dots
+    themeRampKeyColors(color.colorKeys, gradientId);
     // Update gradient swatch from panel view
     let gradientSwatchId = id.concat('_gradientSwatch');
     document.getElementById(gradientSwatchId).innerHTML = ' ';
@@ -77,6 +82,9 @@ function updateRamps(color, id, scaleType = 'theme') {
 
     createRGBchannelChart(colors);
   } else {
+    // Create key color dots with specific min/max value
+    themeRampKeyColors(color.colorKeys, gradientId, min, max);
+
     createRGBchannelChart(colors, `${id}RGBchart`);
   }
 

@@ -51,7 +51,7 @@ function themeUpdate() {
   let colorWheelMode = colorWheelModeDropdown.value
 
   createPaletteCharts(colorWheelMode);
-  updateColorDots();
+  updateColorDots(null, 'theme');
   create3dChart(null, colorWheelMode);
 
   let chartLuminosities = getLuminosities();

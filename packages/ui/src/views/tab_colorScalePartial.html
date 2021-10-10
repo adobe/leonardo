@@ -3,13 +3,13 @@
   <div class="spectrum-Panel">
     <div class="spectrum-Panel-ContentWrapper">
       <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
-         <div class="spectrum-Panel-Item spectrum-Form--row">
+         <!-- <div class="spectrum-Panel-Item spectrum-Form--row">
             <div class="spectrum-Form-item">
                <label class="spectrum-Fieldlabel spectrum-Fieldlabel--sizeM">Color scale name (optional)</label>
                <div class="spectrum-Textfield spectrum-Textfield--sizeM"><input type="text" class="spectrum-Textfield-input colorNameInput" id="{{ scaleType }}_colorName" name="{{ scaleType }}_colorName"></div>
                <div class="spectrum-ButtonGroup"></div>
             </div>
-         </div>
+         </div> -->
          <div class="spectrum-Panel-Item">
             <div class="spectrum-Form spectrum-Form--row themeColor_configs" id="{{ scaleType }}-themeColor_configs">
                <div class="themeColor_subheading">
@@ -73,14 +73,14 @@
                </div>
             </div>
          </div>
-         <div class="spectrum-Panel-Item">
+         <!-- <div class="spectrum-Panel-Item">
             <span class="spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel">Color scale values</span>
             <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
-              <!-- generated values here -->
             </div>
-         </div>
+         </div> -->
       </div>
-      <div class="spectrum-Panel-Item spectrum-ButtonGroup"><button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG</button><button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--warning" title="Delete color scale" id="{{ scaleType }}_delete">Delete color scale</button></div>
+      <div class="spectrum-Panel-Item spectrum-ButtonGroup"><button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG</button>
+      </div>
    </div>
   </div>
 
@@ -91,11 +91,8 @@
 
     <div id="" class="spectrum-Content-Tabs spectrum-Content-Tabs--noPadding">
       <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
-        <!-- <div id="tabColorWheel" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorWheelWrapper')">
+        <div id="tab{{scaleType}}ColorWheel" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ColorWheelWrapper', `{{ scaleType }}`)">
           <label class="spectrum-Tabs-itemLabel">Color wheel</label>
-        </div> -->
-        <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}DemoWrapper', `{{ scaleType }}`)">
-          <label class="spectrum-Tabs-itemLabel">Demo</label>
         </div>
         <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
           <label class="spectrum-Tabs-itemLabel">Charts</label>
@@ -105,6 +102,12 @@
         </div>
         <div id="tab{{scaleType}}Model" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ModelWrapper', `{{ scaleType }}`)">
           <label class="spectrum-Tabs-itemLabel">Model</label>
+        </div>
+        <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}DemoWrapper', `{{ scaleType }}`)">
+          <label class="spectrum-Tabs-itemLabel">Demo</label>
+        </div>
+        <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}OutputWrapper', `{{ scaleType }}`)">
+          <label class="spectrum-Tabs-itemLabel">Output</label>
         </div>
       </div>
 
@@ -125,23 +128,23 @@
       </div>
     </div>
 
-    <!-- <div id="colorWheelWrapper" class="colorTabsWrapper">
+    <div id="{{ scaleType }}ColorWheelWrapper" class="{{scaleType}}TabsWrapper">
         <div id="colorWheel--controlsWrapper">
-          <div id="colorWheel"></div>
+          <div id="{{ scaleType }}ColorWheel"></div>
 
           <div class="spectrum-Form" id="chartsControls">
             <div class="spectrum-Form-item">
-              <div id="colorWheelLightnessWrapper" class="spectrum-Slider">
+              <div id="{{ scaleType }}ColorWheelLightnessWrapper" class="spectrum-Slider">
                 <div class="spectrum-Slider-labelContainer">
-                  <label class="spectrum-Slider-label" id="colorWheelLightnessLabel" for="colorWheelLightness">Color wheel lightness</label>
+                  <label class="spectrum-Slider-label" id="{{ scaleType }}ColorWheelLightnessLabel" for="{{ scaleType }}ColorWheelLightness">Color wheel lightness</label>
                 </div>
-                <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="colorWheelLightness" name="colorWheelLightness"></input>
+                <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="{{ scaleType }}ColorWheelLightness" name="{{ scaleType }}ColorWheelLightness"></input>
               </div>
             </div>
 
             <div class="spectrum-Form-item">
-              <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>
-                <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorDotsMode" id="colorDotsMode">
+              <label for="{{ scaleType }}ColorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>
+                <select class="spectrum-Picker spectrum-Picker--sizeM" name="{{ scaleType }}ColorDotsMode" id="{{ scaleType }}ColorDotsMode">
                   <option value="colorScale">Color scales</option>
                   <option value="colorKeys">All key colors</option>
                   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
@@ -152,7 +155,7 @@
 
           </div>
         </div>
-    </div> -->
+    </div>
 
     <div id="{{scaleType}}DemoWrapper" class="{{scaleType}}TabsWrapper">
         Demo visualizations
@@ -181,6 +184,12 @@
     <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">
       Model will go here
       <svg class="chart3D"></svg>
+    </div>
+
+    <div id="{{ scaleType }}OutputWrapper" class="{{ scaleType }}TabsWrapper">
+      <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
+        <!-- generated values here -->
+      </div>
     </div>
 
     </main>

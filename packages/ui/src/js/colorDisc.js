@@ -20,23 +20,26 @@ import {
   removeElementsByClass
 } from './utils';
 
-function updateColorDots(mode) {
+function updateColorDots(mode, scaleType) {
   // Create dots for color wheel
   if(!mode) {
-    let colorDotsModeDropdown = document.getElementById('colorDotsMode');
+    let colorDotsModeDropdown = (scaleType === 'theme') ? document.getElementById('colorDotsMode') : document.getElementById(`${scaleType}ColorDotsMode`);
     let colorDotsMode = colorDotsModeDropdown.value;
     mode = colorDotsMode;
   }
-  let colorWheelLightnessDropdown = document.getElementById('colorWheelLightness');
+  let colorWheelLightnessDropdown = (scaleType === 'theme') ? document.getElementById('colorWheelLightness') : document.getElementById(`${scaleType}ColorWheelLightness`);
   let colorWheelLightness = colorWheelLightnessDropdown.value;
-  let colorWheelModeDropdown = document.getElementById('chartsMode');
+  let colorWheelModeDropdown = (scaleType === 'theme') ? document.getElementById('chartsMode') : document.getElementById(`${scaleType}ChartsMode`);
   let colorWheelMode = colorWheelModeDropdown.value
 
   let allColors;
-  if(mode === 'colorKeys') allColors = getAllColorKeys();
-  if(mode === 'colorScale') {
+  if(mode === 'colorKeys' && scaleType === 'theme') allColors = getAllColorKeys();
+  if(mode === 'colorScale' && scaleType === 'theme') {
     allColors = [];
     _theme.colors.forEach((color) => { allColors.push(color.backgroundColorScale[colorWheelLightness])});
+  } else {
+    // just show all key colors.
+    // would the curve drawing happen here?
   }
   
   let arr = getConvertedColorCoodrindates(allColors, colorWheelMode);
@@ -101,7 +104,6 @@ function getConvertedColorCoodrindates(colorValues, mode) {
 
 
 function createColorWheelDots(arr) {
-  let container = document.getElementById('colorWheel');
   removeElementsByClass('colorDot');
   const c = document.getElementById("colorWheelCanvas");
   const existingLines = document.getElementById('colorWheelLines');
@@ -155,16 +157,20 @@ function createColorWheelDots(arr) {
   })
 }
 
-function createColorWheel(mode, lightness) {    
+function createColorWheel(mode, lightness, scaleType) {   
+  console.log(scaleType) 
   const size = getColorWheelSize();
+  const wheelId = (scaleType === 'theme') ? '#colorWheel' : `${scaleType}ColorWheel`;
+  const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
 
-  let container = d3.select('#colorWheel');
+  console.log(document.getElementById(wheelId.replace('#', '')))
+  let container = d3.select(wheelId);
   let canvas = container.append("canvas")
     .attr("height", size)
     .attr("width", size)
-    .attr("id", 'colorWheelCanvas');
+    .attr("id", canvasId);
   const context = canvas.node().getContext('2d');
-  canvas.id = 'colorWheelCanvas';
+  canvas.id = canvasId;
 
   var x = size / 2;
   var y = size / 2;
@@ -282,13 +288,14 @@ function shiftValue(v, colorWheelSize, dotSize) {
   return centeredVal;
 }
 
-function updateColorWheel(mode, lightness, dots, dotsMode) {
-  let canvas = document.getElementById('colorWheelCanvas');
+function updateColorWheel(mode, lightness, dots, dotsMode, scaleType) {
+  const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
+  let canvas = document.getElementById(canvasId);
   if(canvas) {
     canvas.parentNode.removeChild(canvas);
   }
-  createColorWheel(mode, lightness);
-  updateColorDots(dotsMode)
+  createColorWheel(mode, lightness, scaleType);
+  updateColorDots(dotsMode, scaleType)
 }
 
 
@@ -296,22 +303,26 @@ const colorWheelMode = document.getElementById('chartsMode');
 const colorDotsMode = document.getElementById('colorDotsMode');
 const colorWheelLightness = document.getElementById('colorWheelLightness');
 
-// Wrapping in condition to ensure these only fire for html files that
-// have the necessary elements.
+// Not the best way to do this. Basically relying on the id's defined globally above
+// as elements present only in the Theme html file. So all these event listeners
+// are only applied to the theme... eventually I need these on every page with 
+// a color wheel, but the functions are dependant upon a scaleType parameter,
+// which until now I was able to easily, manually pass. Not sure how to 
+// define this aside from manually declaring each specific ID.
 if(colorWheelMode) {
-  updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true);
+  updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true, null, 'theme');
 
   colorWheelMode.addEventListener('input', function(e) { 
     let mode = e.target.value;
     let colorDotsModeDropdown = document.getElementById('colorDotsMode');
     let dotsMode = colorDotsModeDropdown.value;
   
-    updateColorWheel(mode, colorWheelLightness.value, true);
+    updateColorWheel(mode, colorWheelLightness.value, true, 'theme');
     create3dChart(null, mode)
   });
 
   window.onresize = () => {
-    updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true)
+    updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true, 'theme')
   };
   
   colorWheelLightness.addEventListener('input', function(e) { 
@@ -320,13 +331,13 @@ if(colorWheelMode) {
     let dotsMode = colorDotsModeDropdown.value;
     let showDots = (dotsMode === 'colorScale') ? true : false;
   
-    updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode);
+    updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode, 'theme');
   });
   
   colorDotsMode.addEventListener('input', function(e) {
     let mode = e.target.value;
   
-    updateColorDots(mode);
+    updateColorDots(mode, 'theme');
   });
 }
 
