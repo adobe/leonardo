@@ -175,15 +175,13 @@ function createScale({
     let lums = colorKeys.map((c) => chroma(c).hsluv()[2] / 100)
     let min = Math.min(...lums);
     let max = Math.max(...lums);
-    console.log(`Lums: ${lums}`)
+
     domains = lums
       .map((lum) => { 
         if(lum === 0 || isNaN((lum - min) / (max - min))) return 0;
         else return swatches - (lum - min) / (max - min) * swatches;
       })
       .sort((a, b) => a - b)
-      
-    console.log(domains)
   }
 
   // Test logarithmic domain (for non-contrast-based scales)
