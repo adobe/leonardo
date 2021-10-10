@@ -36,38 +36,18 @@ function dataVisColorScale(scaleType) {
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
   let interpolationMode = document.getElementById(`${scaleType}_mode`);
+  let smooth = document.getElementById(`${scaleType}_smooth`);
+  const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
 
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
-
-  interpolationMode.addEventListener('change', (e) => {
-    let colors;
-    let colorspace = e.target.value;
-    if(scaleType === 'sequential') {
-      _sequentialScale.colorspace = colorspace;
-      colors = _sequentialScale;
-    }
-
-    updateRamps(colors, scaleType, scaleType);
-  })
-
-  downloadGradient.addEventListener('click', (e) => {
-    downloadSVGgradient(colorData);
-  })
-
-  chartsModeSelect.addEventListener('change', (e) => {
-    let colorData = (scaleType === 'sequential') ? _sequentialScale : _sequentialScale;
-
-    let colors = colorData.colors;
-    createInterpolationCharts(colors, e.target.value, scaleType)
-  })
 
   for (let i = 0; i < colorKeys.length; i++) {
     addScaleKeyColorInput(colorKeys[i], buttonId, scaleType, i);
   }
 
-  let colors = _sequentialScale.colors;
-  let lums = _sequentialScale.colorKeys.map(c => d3.hsluv(c).v );
+  let colors = colorClass.colors;
+  let lums = colorClass.colorKeys.map(c => d3.hsluv(c).v );
   let min = Math.min(...lums);
   let max = Math.max(...lums);
 
@@ -84,10 +64,35 @@ function dataVisColorScale(scaleType) {
   let panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
   panelOutputContent.innerHTML = colors.toString().replaceAll(',', ', ');
 
-  setTimeout(() => {
-    createColorWheel(mode, lightness, scaleType);
-    createColorWheelDots();
-  }, 1000); 
+  // TODO: not working -- setContext is failing for some unknown reason.
+  // setTimeout(() => {
+  //   createColorWheel(mode, lightness, scaleType);
+  //   createColorWheelDots();
+  // }, 1000); 
+
+  interpolationMode.addEventListener('change', (e) => {
+    let colorspace = e.target.value;
+    colorClass.colorspace = colorspace;
+    // colors = colorClass.colors;
+
+    updateRamps(colorClass, scaleType, scaleType);
+  })
+
+  smooth.addEventListener('change', (e) => {
+    colorClass.smooth = e.target.checked;
+    colors = colorClass.colors;
+
+    updateRamps(colorClass, scaleType, scaleType);
+    createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
+  })
+
+  downloadGradient.addEventListener('click', (e) => {
+    downloadSVGgradient(colorData);
+  })
+
+  chartsModeSelect.addEventListener('change', (e) => {
+    createInterpolationCharts(colors, e.target.value, scaleType)
+  })
 }
 
 module.exports = {
