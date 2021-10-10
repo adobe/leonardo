@@ -214,6 +214,7 @@ function createScale({
     ColorsArray = sortedColor;
   }
 
+  let smoothScaleArray;
   if (smooth) {
     const stringColors = ColorsArray;
     ColorsArray = ColorsArray.map((d) => chroma(String(d))[space]());
@@ -233,7 +234,7 @@ function createScale({
     }
     scale = smoothScale(ColorsArray, domains, space);
 
-    const temp = new Array(swatches).fill().map((_, d) => scale(d));
+    smoothScaleArray = new Array(swatches).fill().map((_, d) => scale(d));
   } else {
     scale = chroma.scale(ColorsArray.map((color) => {
       if (typeof color === 'object' && color.constructor === chroma.Color) {
@@ -247,7 +248,10 @@ function createScale({
   } 
 
   // const Colors = new Array(swatches).fill().map((_, d) => chroma(scale(d)).hex());
-  const Colors = scale.colors(swatches);
+  const Colors = 
+    (!smooth || smooth === false) ? 
+    scale.colors(swatches) : 
+    smoothScaleArray;
 
   const colors = Colors.filter((el) => el != null);
 
