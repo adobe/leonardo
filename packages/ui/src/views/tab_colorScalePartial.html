@@ -28,19 +28,12 @@
                   </div>
                </div>
                <div class="keyColorsWrapper" id="{{ scaleType }}_keyColors">
-                  <div class="keyColor" id="{{ scaleType }}-item">
-                     <input type="color" class="keyColor-Item" id="{{ scaleType }}-sw" style="background-color: rgb(202, 202, 202);">
-                     <button class="spectrum-ActionButton spectrum-ActionButton--sizeM">
-                        <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
-                           <use xlink:href="#spectrum-icon-18-Delete"></use>
-                        </svg>
-                     </button>
-                  </div>
                </div>
             </div>
          </div>
          <div class="spectrum-Panel-Item">
-            <div class="spectrum-Form spectrum-Form--row" id="{{ scaleType }}-themeColor_keyColors">
+          <span class="spectrum-Heading spectrum-Heading--sizeXXS">Interpolation</span>
+          <div class="spectrum-Form spectrum-Form--row" id="{{ scaleType }}-themeColor_keyColors">
                <div class="spectrum-Form-item spectrum-Form-item--row">
                   <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color space</label>
                   <select class="spectrum-Picker spectrum-Picker--sizeM pickerMode" id="{{ scaleType }}_mode" name="{{ scaleType }}_mode">
@@ -73,11 +66,51 @@
                </div>
             </div>
          </div>
-         <!-- <div class="spectrum-Panel-Item">
-            <span class="spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel">Color scale values</span>
-            <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
+         <div class="spectrum-Panel-Item">
+            <span class="spectrum-Heading spectrum-Heading--sizeXXS">Lightness</span>
+            <div class="spectrum-Form">
+              <div class="spectrum-Form-item">
+                <div id="" class="spectrum-Slider">
+                  <div class="spectrum-Slider-labelContainer">
+                    <label class="spectrum-Slider-label" id="{{ scaleType }}ShiftLabel" for="{{ scaleType }}Shift">Curvature (shift)</label>
+                  </div>
+                  <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="{{ scaleType }}Shift" name="{{ scaleType }}Shift"></input>
+                </div>
+              </div>
+              <div class="spectrum-Form-item">
+                <div class="spectrum-Switch">
+                  <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_correctLightness" checked>
+                  <span class="spectrum-Switch-switch"></span>
+                  <label class="spectrum-Switch-label" for="{{ scaleType }}_correctLightness">
+                    Correct lightness
+                  </label>
+                </div>
+              </div>
             </div>
-         </div> -->
+         </div>
+         <div class="spectrum-Panel-Item">
+          <span class="spectrum-Heading spectrum-Heading--sizeXXS">Accessibility</span>
+          <div class="spectrum-Form">
+            <div class="spectrum-Form-item spectrum-Form-item--row">
+              <label for="cvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
+              <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode" oninput="themeUpdate()">
+                <option value="None">None</option>
+                <option value="Deuteranomaly">Deuteranomaly (common)</option>
+                <option value="Deuteranopia">Deuteranopia (common)</option>
+                <option value="Protanomaly">Protanomaly (rare)</option>
+                <option value="Protanopia">Protanopia (rare)</option>
+                <option value="Tritanomaly">Tritanomaly (very rare)</option>
+                <option value="Tritanopia">Tritanopia (very rare)</option>
+                <option value="Achromatomaly">Achromatomaly (very rare)</option>
+                <option value="Achromatopsia">Achromatopsia (very rare)</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
+          </div>
+  
+          </div>
+         </div>
       </div>
       <div class="spectrum-Panel-Item spectrum-ButtonGroup"><button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG</button>
       </div>
@@ -112,7 +145,7 @@
       </div>
 
       <div class="spectrum-Form-item spectrum-Form-item--row" style="display: inline-flex">
-        <label for="{{ scaleType }}_chartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Preview color space</label>
+        <label for="{{ scaleType }}_chartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Charts</label>
           <select class="spectrum-Picker spectrum-Picker--sizeM chartsMode" name="{{ scaleType }}_chartsMode" id="{{ scaleType }}_chartsMode">
             <option value="CAM02">Jab</option>
             <option value="CAM02p">JCh</option>
