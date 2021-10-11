@@ -14,6 +14,9 @@ import * as d3 from './d3';
 import {
    convertColorValue,
    makePowScale,
+   removeDuplicates,
+   round,
+   findMatchingLuminosity
  } from './utils';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
@@ -27,7 +30,8 @@ class SequentialScale {
     colorspace,
     smooth,
     shift,
-    output
+    output,
+    correctLightness
    }) {
     this._swatches = swatches,
     this._colorKeys = this._sortColorKeys(colorKeys);
@@ -35,6 +39,7 @@ class SequentialScale {
     this._shift = shift;
     this._smooth = smooth;
     this._output = output;
+    this._correctLightness = correctLightness;
     this._colors = this._createColorScale();
     // this._luminosities = this._getColorLuminosities();
     this._domains = this._getDomains();
@@ -115,6 +120,12 @@ class SequentialScale {
     return this._domains;
   }
 
+  set correctLightness(boolean) {
+    this._correctLightness = boolean;
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
   _sortColorKeys(colors) {
     let lumsObj = colors.map((c) => {
       return {
@@ -131,17 +142,74 @@ class SequentialScale {
   }
 
   _createColorScale() {
-    let colorScale = Leo.createScale({
-      swatches: this._swatches,
-      colorKeys: this._colorKeys,
-      colorspace: this._colorspace,
-      shift: this._shift,
-      smooth: this._smooth,
-      fullScale: false,
-      asFun: false
-    });
-    let formattedColors = colorScale.map((c) => {return convertColorValue(c, this._output)});
+    let colorScale;
+    if(this._correctLightness) {
+      let initialColorScale = Leo.createScale({
+        swatches: 300,
+        colorKeys: this._colorKeys,
+        colorspace: this._colorspace,
+        shift: this._shift,
+        smooth: this._smooth,
+        fullScale: false,
+        asFun: true
+      });
 
+      const minLum = Math.min(...this._luminosities);
+      const maxLum = Math.max(...this._luminosities);
+      const percMax = maxLum - minLum;
+
+      const fillRange = (start, end) => {
+        return Array(end - start).fill().map((item, index) => start + index);
+      };
+      let dataX = fillRange(0, 100);
+      dataX = dataX.map((x) => (x === 0) ? 0 : x/100)
+      dataX.push(1)
+      let newLums = dataX.map((i) => round((percMax * i) + minLum, 2));
+
+      const newColors = findMatchingLuminosity(initialColorScale, 300, newLums, this._smooth);
+      let filteredColors = newColors.filter(function(x) {
+        return x !== undefined;
+      });
+
+      const lastColorIndex = filteredColors.length-1;
+
+      // Manually ensure first and last user-input key colors
+      // are part of new key colors array being passed to the
+      // new color scale.
+      const first = (this._smooth) ? chroma(initialColorScale(300)): initialColorScale(300);
+      const last = (this._smooth) ? chroma(initialColorScale(0)): initialColorScale(0);
+      filteredColors
+        .splice(0, 1, first.hex());
+      filteredColors
+        .splice(lastColorIndex, 1)
+      filteredColors
+        .splice((lastColorIndex), 1, last.hex())
+
+      console.log(filteredColors)
+
+      colorScale = Leo.createScale({
+        swatches: this._swatches,
+        colorKeys: filteredColors,
+        colorspace: this._colorspace,
+        shift: this._shift,
+        smooth: false,
+        fullScale: false,
+        asFun: false
+      });
+    } else {
+      colorScale = Leo.createScale({
+        swatches: this._swatches,
+        colorKeys: this._colorKeys,
+        colorspace: this._colorspace,
+        shift: this._shift,
+        smooth: this._smooth,
+        fullScale: false,
+        asFun: false
+      });
+    }
+
+    let formattedColors = colorScale.map((c) => {return convertColorValue(c, this._output)});
+    console.log(chroma(formattedColors[0]).hex(), chroma(formattedColors[this._swatches-1]).hex())
     return formattedColors;
   }
 
@@ -167,10 +235,11 @@ class SequentialScale {
 
 let _sequentialScale = new SequentialScale({
   swatches: 100,
-  colorKeys: ['#cacaca'],
+  colorKeys: ['#000000', '#cacaca'],
   colorspace: 'CAM02',
   smooth: false,
   shift: 1,
+  correctLightness: false,
   output: 'RGB'
 })
 

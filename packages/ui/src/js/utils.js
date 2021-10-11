@@ -8,7 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-
+import * as d3 from './d3';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 
@@ -169,6 +169,54 @@ function makePowScale(exp = 1, domains = [0, 1], range = [0, 1]) {
   return (x) => m * x ** exp + c;
 }
 
+function removeDuplicates(originalArray, prop) {
+  const newArray = [];
+  const lookupObject = {};
+  const keys1 = Object.keys(originalArray);
+
+  keys1.forEach((i) => { lookupObject[originalArray[i][prop]] = originalArray[i]; });
+
+  const keys2 = Object.keys(lookupObject);
+  keys2.forEach((i) => newArray.push(lookupObject[i]));
+  return newArray;
+}
+
+function findMatchingLuminosity(colorScale, colorLen, luminosities, smooth) {
+  const colorSearch = (x) => {
+    const first = (smooth) ?  chroma(colorScale(0)).hsluv()[2] : colorScale(0).hsluv()[2];
+    const last = (smooth) ?  chroma(colorScale(colorLen)).hsluv()[2] : colorScale(colorLen).hsluv()[2];
+
+    const dir = first < last ? 1 : -1;
+    const ε = 0.01;
+    x += 0.005 * Math.sign(x);
+    let step = colorLen / 2;
+    let dot = step;
+    let val = (smooth) ?  chroma(colorScale(dot)).hsluv()[2] : colorScale(dot).hsluv()[2];
+    let counter = 100;
+    while (Math.abs(val - x) > ε && counter) {
+      counter--;
+      step /= 2;
+      if (val < x) {
+        dot += step * dir;
+      } else {
+        dot -= step * dir;
+      }
+      val = (smooth) ?  chroma(colorScale(dot)).hsluv()[2] : colorScale(dot).hsluv()[2];
+    }
+    return round(dot, 3);
+  };
+  const outputColors = [];
+  luminosities.forEach((lum) => {
+    if(smooth) {
+      let findColor = colorScale(colorSearch(+lum))
+      outputColors.push(chroma(findColor).hex())
+    } else {
+      outputColors.push(colorScale(colorSearch(+lum)).hex())
+    }
+  });
+  return outputColors;
+};
+
 
 module.exports = {
   randomId,
@@ -177,8 +225,10 @@ module.exports = {
   filterNaN,
   camelCase,
   makePowScale,
+  removeDuplicates,
   round,
   convertColorValue,
+  findMatchingLuminosity,
   lerp,
   removeElementsByClass
 }

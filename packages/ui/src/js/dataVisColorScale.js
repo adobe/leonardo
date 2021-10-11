@@ -44,10 +44,11 @@ function dataVisColorScale(scaleType) {
   let interpolationMode = document.getElementById(`${scaleType}_mode`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
   let shift = document.getElementById(`${scaleType}Shift`);
+  let correctLightness = document.getElementById(`${scaleType}_correctLightness`);
 
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   const colorKeys = colorClass.colorKeys;
-  
+
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
 
@@ -57,7 +58,7 @@ function dataVisColorScale(scaleType) {
 
   let colors = colorClass.colors;
 
-  // TEMPORARY
+  // TEMPORARY for color wheel
   let mode = 'CAM02'
   let lightness = 50;
   
@@ -104,6 +105,14 @@ function dataVisColorScale(scaleType) {
 
   shift.addEventListener('input', (e) => {
     colorClass.shift = e.target.value;
+    colors = colorClass.colors;
+
+    updateRamps(colorClass, scaleType, scaleType);
+    createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
+  })
+
+  correctLightness.addEventListener('input', (e) => {
+    colorClass.correctLightness = e.target.checked;
     colors = colorClass.colors;
 
     updateRamps(colorClass, scaleType, scaleType);

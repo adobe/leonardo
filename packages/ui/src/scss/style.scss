@@ -1841,4 +1841,8 @@ section {
   .themeColor_gradient {
     width: 100%;
   }
+  /* Temporarily hide these. Might add them back, might just remove */
+  .themeRampDot {
+    display: none;
+  }
 }
