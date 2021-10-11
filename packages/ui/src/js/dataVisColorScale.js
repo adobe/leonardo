@@ -30,6 +30,7 @@ import {
 import {
   makePowScale
 } from './utils';
+import { createHtmlElement } from './createHtmlElement';
 
 const chroma = require('chroma-js');
 
@@ -49,6 +50,10 @@ function dataVisColorScale(scaleType) {
   let smooth = document.getElementById(`${scaleType}_smooth`);
   let shift = document.getElementById(`${scaleType}Shift`);
   let correctLightness = document.getElementById(`${scaleType}_correctLightness`);
+  let sampleNumber = document.getElementById(`${scaleType}Samples`);
+  let samplesWrapper = document.getElementById(`${scaleType}SampleSwatches`);
+
+  let samples = sampleNumber.value;
 
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   const colorKeys = colorClass.colorKeys;
@@ -84,8 +89,21 @@ function dataVisColorScale(scaleType) {
   createInterpolationCharts(colors, 'CAM02', scaleType);
 
   let panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
-  panelOutputContent.innerHTML = colors.toString().replaceAll(',', ', ');
+  colorClass.swatches = samples;
+  let sampleColors = colorClass.colors;
+  for(let i=2; i < samples; i++) {
+    createHtmlElement({
+      element: 'div',
+      className: 'sampleSwatch',
+      styles: {
+        backgroundColor: sampleColors[i]
+      },
+      appendTo: `${scaleType}SampleSwatches`
+    })
+  }
 
+  panelOutputContent.innerHTML = ' ';
+  panelOutputContent.innerHTML = sampleColors.toString().replaceAll(',', ', ');
   // TODO: not working -- setContext is failing for some unknown reason.
   // setTimeout(() => {
   //   createColorWheel(mode, lightness, scaleType);
@@ -138,6 +156,28 @@ function dataVisColorScale(scaleType) {
   document.getElementById(buttonId).addEventListener('click', (e) => {
     addScaleKeyColor(scaleType, e);
   });
+
+  sampleNumber.addEventListener('input', (e) => {
+    samplesWrapper.innerHTML = ' ';
+
+    for(let i=2; i < e.target.value; i++) {
+      colorClass.swatches = e.target.value;
+
+      createHtmlElement({
+        element: 'div',
+        className: 'sampleSwatch',
+        styles: {
+          backgroundColor: colorClass.colors[i]
+        },
+        appendTo: `${scaleType}SampleSwatches`
+      })
+    }
+    let panelOutputId = `${scaleType}ColorScaleOutput` ;
+    let panelOutputContent = document.getElementById(panelOutputId);
+    panelOutputContent.innerHTML = ' ';
+    panelOutputContent.innerHTML = colorClass.colors.toString().replaceAll(',', ', ');
+    
+  })
 }
 
 module.exports = {

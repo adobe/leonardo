@@ -1856,3 +1856,14 @@ section {
   //   display: none;
   // }
 }
+
+.sampleSwatches {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.sampleSwatch {
+  height: 80px;
+  display: inline-flex;
+  flex-grow: 1;
+}

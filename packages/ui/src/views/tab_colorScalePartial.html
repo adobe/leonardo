@@ -225,6 +225,22 @@
     </div>
 
     <div id="{{ scaleType }}OutputWrapper" class="{{ scaleType }}TabsWrapper">
+      <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Sample colors</h2>
+
+      <div class="spectrum-Form">
+        <div class="spectrum-Form-item">
+          <div id="" class="spectrum-Slider">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="{{ scaleType }}SamplesLabel" for="{{ scaleType }}Samples">Number of sample colors</label>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="3" max="100" step="1" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
+          </div>
+        </div>
+      </div>
+
+      <div class="sampleSwatches" id="{{scaleType}}SampleSwatches">
+        <!-- generated samples here -->
+      </div>
       <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
         <!-- generated values here -->
       </div>

@@ -120,6 +120,10 @@ class SequentialScale {
     return this._domains;
   }
 
+  get colorFunction() {
+    return this._colorFunction;
+  }
+
   set correctLightness(boolean) {
     this._correctLightness = boolean;
     this._colors = null;
@@ -184,6 +188,16 @@ class SequentialScale {
       filteredColors
         .splice((lastColorIndex), 1, last.hex())
 
+      this._colorFunction = Leo.createScale({
+        swatches: this._swatches,
+        colorKeys: filteredColors,
+        colorspace: this._colorspace,
+        shift: this._shift,
+        smooth: false,
+        fullScale: false,
+        asFun: true
+      });
+
       colorScale = Leo.createScale({
         swatches: this._swatches,
         colorKeys: filteredColors,
@@ -194,6 +208,16 @@ class SequentialScale {
         asFun: false
       });
     } else {
+      this._colorFunction = Leo.createScale({
+        swatches: this._swatches,
+        colorKeys: this._colorKeys,
+        colorspace: this._colorspace,
+        shift: this._shift,
+        smooth: false,
+        fullScale: false,
+        asFun: true
+      });
+
       colorScale = Leo.createScale({
         swatches: this._swatches,
         colorKeys: this._colorKeys,
