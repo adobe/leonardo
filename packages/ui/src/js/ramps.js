@@ -42,7 +42,7 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
   colorKeys.map((key, index) => {
     let lightness = d3.hsluv(key).v;
     
-    let lightnessPerc = 100/(100 - lightness);
+    let lightnessPerc = 100/lightness;
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot
     // min/max positions within the ramp itself
@@ -66,7 +66,7 @@ function updateRamps(color, id, scaleType = 'theme') {
   }
   else {
     colors = color.colors;
-    angle = '90';
+    angle = '-90';
     let lums = color.colorKeys.map(c => d3.hsluv(c).v );
     min = Math.min(...lums);
     max = Math.max(...lums);

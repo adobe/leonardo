@@ -34,7 +34,8 @@ function dataVisColorScale(scaleType) {
   let colorKeys;
   // Set up some sensible defaults
   if(scaleType === 'sequential') {
-    colorKeys = ['#FFDD00', '#7AcA02', '#005285', '#2E005C']
+    // colorKeys = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
+    colorKeys = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
     _sequentialScale.colorKeys = colorKeys;
   }
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);

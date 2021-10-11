@@ -131,7 +131,8 @@ class SequentialScale {
   }
 
   _getColorLuminosities() {
-    return this._colorKeys.map((c) => {return d3.hsluv(c).v})
+    let lums = this._colorKeys.map((c) => {return d3.hsluv(c).v});
+    return lums.sort((a,b) => b - a);
   }
 
   _getDomains() {
@@ -145,10 +146,10 @@ class SequentialScale {
       if(l === 0 || isNaN(perc)) return 0;
       else return perc;
     })
-    let sqrtDomains = makePowScale(Number(Number(this._shift)));
+    let sqrtDomains = makePowScale(Number(inverseShift));
 
     let domains = percLums.map((d) => {return sqrtDomains(d)})
-    domains.sort((a, b) => a - b)
+    domains.sort((a, b) => b - a)
 
     return domains;
   }
