@@ -77,7 +77,7 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     // console.log(id)
     var self = document.getElementById(id);
     updateRamps(currentColor, parent)
-    updateColorDots();
+    updateColorDots(null, 'theme');
 
     self.remove();
     // throttle(themeUpdateParams, 50)

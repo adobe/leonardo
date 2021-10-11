@@ -9,21 +9,25 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import d3 from './d3';
-import {randomId } from './utils';
+import {
+  randomId,
+  removeElementsByClass
+} from './utils';
 import {updateRamps} from './ramps';
+const chroma = require('chroma-js');
+const { extendChroma } = require('./chroma-plus');
+
 
 function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
   let currentColor;
   if(scaleType === 'sequential') currentColor = _sequentialScale;
   let parent = thisId.replace('_addKeyColor', '');
-  // console.log(parent)
   let destId = parent.concat('_keyColors');
   let dest = document.getElementById(destId);
   let div = document.createElement('div');
 
   let randId = randomId();
-  div.className = 'keyColor';
+  div.className = `keyColor keyColor-${scaleType}`;
   div.id = randId + '-item';
   let sw = document.createElement('input');
   sw.type = "color";
@@ -32,8 +36,8 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
   sw.oninput = (e) => {
     // Replace current indexed value from color keys with new value from color input field
     let currentKeys = currentColor.colorKeys;
-    currentKeys.splice(index, 1, e.target.value)
-
+    c = e.target.value;
+    currentKeys.splice(index, 1, c)
     if(scaleType === 'sequential') _sequentialScale.colorKeys = currentKeys
 
     updateRamps(currentColor, parent, scaleType)
@@ -50,21 +54,9 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  // button.addEventListener('click', deleteColor);
   button.addEventListener('click',  function(e) {
-    // Remove current indexed value from color keys
-    let currentKeys = currentColor.colorKeys;
-    currentKeys.splice(index, 1)
-    if(scaleType === 'sequential') _sequentialScale.colorKeys = currentKeys
-
-    var id = e.target.parentNode.id;
-    // console.log(id)
-    var self = document.getElementById(id);
-    updateRamps(currentColor, parent, scaleType)
-    // updateColorDots();
-
-    self.remove();
-    // throttle(themeUpdateParams, 50)
+    // Trying something new...
+    replaceScaleKeyInputsFromClass(thisId, scaleType, index);
   });
 
   div.appendChild(sw);
@@ -72,36 +64,57 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
   dest.appendChild(div);
 }
 
+function replaceScaleKeyInputsFromClass(id, scaleType, index) {
+  let parentId = id.replace('_addKeyColor', '');
+  // let inputs = document.getElementsByClassName(`keyColor-${scaleType}`);
+  removeElementsByClass(`keyColor-${scaleType}`)
 
-function addScaleKeyColor(e) {
+  let currentColor;
+  if(scaleType === 'sequential') currentColor = _sequentialScale;
+
+  let colorKeys = currentColor.colorKeys;
+  colorKeys.splice(index, 1);
+  // reassign new array to color class
+  currentColor.colorKeys = colorKeys;
+
+  colorKeys.forEach((key, i) => {
+    addScaleKeyColorInput(key, id, scaleType, i)
+  })
+  // Update gradient
+  updateRamps(currentColor, parentId, scaleType);
+  // updateColorDots();
+}
+
+function addScaleKeyColor(scaleType, e) {
   let thisId = e.target.id;
   let parentId = thisId.replace('_addKeyColor', '');
 
-  let currentColorNameInput = parentId.concat('_colorName2');
-  let currentColorName = document.getElementById(currentColorNameInput).value;
+  let currentColor = (scaleType === 'sequential') ? _sequentialScale : null ; // TODO: replace with _diverging when available
+  let currentKeys = currentColor.colorKeys;
 
-  // let currentColor = _theme.colors.filter(entry => {return entry.name === currentColorName});
-  currentColor = currentColor[0];
-  let currentKeys = [...currentColor.colorKeys];
-
-  let lastIndex = currentColor.colorKeys.length;
+  let lastIndex = currentKeys.length;
   if(!lastIndex) lastIndex = 0;
-  let lastColor = (lastIndex > 0) ? d3.hsluv(currentColor.colorKeys[lastIndex - 1]) : d3.hsluv(currentColor.colorKeys[0]);
-  let lastColorLightness = lastColor.v;
+  let lastColor = (lastIndex > 0) ? chroma(currentKeys[lastIndex - 1]).hsluv() : chroma(currentKeys[0]).hsluv();
+  let lastColorLightness = lastColor[2];
   let fCtintHalf = (100 - lastColorLightness) / 2;
   let fCshadeHalf = lastColorLightness / 2;
-  let c = ( lastColorLightness >= 50) ? d3.hsluv(lastColor.l, lastColor.u, fCshadeHalf) :  d3.hsluv(lastColor.l, lastColor.u, fCtintHalf);
-  c = d3.rgb(c).formatHex();
+
+  let c = ( lastColorLightness >= 50) ? chroma.hsluv(lastColor[0], lastColor[1], fCshadeHalf) : chroma.hsluv(lastColor[0], lastColor[1], fCtintHalf);
+  c = c.hex();
   // console.log(d3.rgb(lastColor).formatHex())
   currentKeys.push(c)
 
   // Update color class arguments via the theme class
-  // _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
-  addKeyColorInput(c, thisId, currentColorName, lastIndex);
+  currentColor.colorKeys = currentKeys;
+  removeElementsByClass(`keyColor-${scaleType}`)
+
+  currentColor.colorKeys.forEach((key, i) => {
+    addScaleKeyColorInput(key, thisId, scaleType, i)
+  })
 
   // Update gradient
-  updateRamps(currentColor, parentId);
-  updateColorDots();
+  updateRamps(currentColor, parentId, scaleType);
+  // updateColorDots();
 }
 
 // function clearAllColors(e) {

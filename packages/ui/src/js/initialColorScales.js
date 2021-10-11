@@ -136,7 +136,6 @@ class SequentialScale {
     lumsObj.sort((a, b) => (a.lum < b.lum) ? 1 : -1)
     // keep the sorted luminosities
     this._luminosities = lumsObj.map((c) => c.lum);
-    this._colorKeys = null;
 
     return lumsObj.map((c) => c.color);
   }
@@ -209,7 +208,6 @@ class SequentialScale {
     }
 
     let formattedColors = colorScale.map((c) => {return convertColorValue(c, this._output)});
-    console.log(chroma(formattedColors[0]).hex(), chroma(formattedColors[this._swatches-1]).hex())
     return formattedColors;
   }
 

@@ -42,7 +42,6 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
     let domainPowScale = makePowScale( inverseShift );
     // let domainPowScale = (x) => {return Math.pow(x, inverseShift)}
     sqrtDomains = domains.map((d) => {return domainPowScale(d)})
-    // console.log(shift, domains, sqrtDomains)
   }
   else {
     domains = colorKeys.map(key => { return d3.hsluv(key).v})
@@ -51,7 +50,6 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
 
   colorKeys.map((key, index) => {
     let lightness = (scaleType === 'sequential')  ? _sequentialScale.luminosities[index] : d3.hsluv(key).v;
-    
     let lightnessPerc = lightness/100;
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot

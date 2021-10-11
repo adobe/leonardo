@@ -10,7 +10,10 @@ governing permissions and limitations under the License.
 */
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import * as d3 from './d3';
-import {addScaleKeyColorInput} from './scaleKeyColors';
+import {
+  addScaleKeyColor,
+  addScaleKeyColorInput
+} from './scaleKeyColors';
 import {
   themeRamp,
   themeRampKeyColors,
@@ -34,9 +37,9 @@ function dataVisColorScale(scaleType) {
   // let colorKeys;
   // Set up some sensible defaults
   if(scaleType === 'sequential') {
-    let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
+    // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
     // let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
-    // let defaultColors = ['#2E005C', '#7AcA02', '#FFDD00']
+    let defaultColors = ['#2E005C', '#7AcA02', '#FFDD00']
     _sequentialScale.colorKeys = defaultColors;
   }
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
@@ -121,6 +124,8 @@ function dataVisColorScale(scaleType) {
     updateRamps(colorClass, scaleType, scaleType);
     createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
   })
+
+  document.getElementById(buttonId).addEventListener('click', (e) => addScaleKeyColor(scaleType, e));
 }
 
 module.exports = {
