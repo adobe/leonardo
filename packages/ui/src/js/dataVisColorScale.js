@@ -34,8 +34,8 @@ function dataVisColorScale(scaleType) {
   // let colorKeys;
   // Set up some sensible defaults
   if(scaleType === 'sequential') {
-    // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
-    let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
+    let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
+    // let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
     // let defaultColors = ['#2E005C', '#7AcA02', '#FFDD00']
     _sequentialScale.colorKeys = defaultColors;
   }
@@ -96,7 +96,10 @@ function dataVisColorScale(scaleType) {
   })
 
   downloadGradient.addEventListener('click', (e) => {
-    downloadSVGgradient(colorData);
+    // TODO: Need to reverse the order of the colors array
+    // so that the SVG gradient is generated in the same direction
+    // as the UI gradient.
+    downloadSVGgradient(colors, colorClass.colorspace, scaleType);
   })
 
   chartsModeSelect.addEventListener('change', (e) => {

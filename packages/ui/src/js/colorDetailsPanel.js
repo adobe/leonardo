@@ -340,7 +340,7 @@ function showColorDetails(e) {
   downloadGradient.id = thisId.concat('_downloadGradient');
   downloadGradient.innerHTML = 'Download SVG'
   downloadGradient.addEventListener('click', (e) => {
-    downloadSVGgradient(colorData);
+    downloadSVGgradient(colorData.backgroundColorScale, colorData.mode, colorData.name);
   })
 
   let deletePanel = document.createElement('div');
