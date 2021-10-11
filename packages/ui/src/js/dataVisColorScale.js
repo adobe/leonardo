@@ -39,18 +39,28 @@ function dataVisColorScale(scaleType) {
   if(scaleType === 'sequential') {
     // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
     // let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
-    let defaultColors = ['#2E005C', '#7AcA02', '#FFDD00']
+    let defaultColors = ['#2E005C', '#FFDD00']
     _sequentialScale.colorKeys = defaultColors;
   }
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
   let interpolationMode = document.getElementById(`${scaleType}_mode`);
+  let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
   let shift = document.getElementById(`${scaleType}Shift`);
   let correctLightness = document.getElementById(`${scaleType}_correctLightness`);
 
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   const colorKeys = colorClass.colorKeys;
+
+  if(colorKeys.length >= 3) {
+    smooth.disabled = false;
+    smoothWrapper.classList.remove('is-disabled')
+  } else {
+    smooth.disabled = true;
+    smoothWrapper.classList.add('is-disabled')
+  }
+  interpolationMode.value = colorClass.colorspace;
 
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
@@ -125,7 +135,9 @@ function dataVisColorScale(scaleType) {
     createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
   })
 
-  document.getElementById(buttonId).addEventListener('click', (e) => addScaleKeyColor(scaleType, e));
+  document.getElementById(buttonId).addEventListener('click', (e) => {
+    addScaleKeyColor(scaleType, e);
+  });
 }
 
 module.exports = {

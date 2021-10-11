@@ -62,8 +62,8 @@
                   </select>
                </div>
                <div class="spectrum-Form-item">
-                  <div class="spectrum-Switch">
-                    <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_smooth">
+                  <div class="spectrum-Switch is-disabled" id="{{ scaleType }}_smoothWrapper">
+                    <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_smooth" disabled>
                     <span class="spectrum-Switch-switch"></span>
                     <label class="spectrum-Switch-label" for="{{ scaleType }}_smooth">Smooth</label>
                   </div>
@@ -83,7 +83,7 @@
               </div>
               <div class="spectrum-Form-item">
                 <div class="spectrum-Switch">
-                  <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_correctLightness">
+                  <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_correctLightness" checked>
                   <span class="spectrum-Switch-switch"></span>
                   <label class="spectrum-Switch-label" for="{{ scaleType }}_correctLightness">
                     Correct lightness

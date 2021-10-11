@@ -184,8 +184,6 @@ class SequentialScale {
       filteredColors
         .splice((lastColorIndex), 1, last.hex())
 
-      console.log(filteredColors)
-
       colorScale = Leo.createScale({
         swatches: this._swatches,
         colorKeys: filteredColors,
@@ -234,10 +232,10 @@ class SequentialScale {
 let _sequentialScale = new SequentialScale({
   swatches: 100,
   colorKeys: ['#000000', '#cacaca'],
-  colorspace: 'CAM02',
+  colorspace: 'CAM02p',
   smooth: false,
   shift: 1,
-  correctLightness: false,
+  correctLightness: true,
   output: 'RGB'
 })
 

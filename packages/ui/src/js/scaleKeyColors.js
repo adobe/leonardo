@@ -65,6 +65,9 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
 }
 
 function replaceScaleKeyInputsFromClass(id, scaleType, index) {
+  let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
+  let smooth = document.getElementById(`${scaleType}_smooth`);
+
   let parentId = id.replace('_addKeyColor', '');
   // let inputs = document.getElementsByClassName(`keyColor-${scaleType}`);
   removeElementsByClass(`keyColor-${scaleType}`)
@@ -77,15 +80,33 @@ function replaceScaleKeyInputsFromClass(id, scaleType, index) {
   // reassign new array to color class
   currentColor.colorKeys = colorKeys;
 
+  // If new color keys length is less than three, force
+  // smoothing to false, and update UI toggle, as smooth
+  // option should be removed when only two key colors are
+  // present... colorscale becomes all black.
+  if(colorKeys.length < 3) {
+    smooth.checked = false;
+    currentColor.smooth = false;
+  }
+
   colorKeys.forEach((key, i) => {
     addScaleKeyColorInput(key, id, scaleType, i)
   })
   // Update gradient
   updateRamps(currentColor, parentId, scaleType);
   // updateColorDots();
+  if(colorKeys.length >= 3) {
+    smooth.disabled = false;
+    smoothWrapper.classList.remove('is-disabled')
+  } else {
+    smooth.disabled = true;
+    smoothWrapper.classList.add('is-disabled')
+  }
 }
 
 function addScaleKeyColor(scaleType, e) {
+  let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
+  let smooth = document.getElementById(`${scaleType}_smooth`);
   let thisId = e.target.id;
   let parentId = thisId.replace('_addKeyColor', '');
 
@@ -115,6 +136,14 @@ function addScaleKeyColor(scaleType, e) {
   // Update gradient
   updateRamps(currentColor, parentId, scaleType);
   // updateColorDots();
+
+  if(currentKeys.length >= 3) {
+    smooth.disabled = false;
+    smoothWrapper.classList.remove('is-disabled')
+  } else {
+    smooth.disabled = true;
+    smoothWrapper.classList.add('is-disabled')
+  }
 }
 
 // function clearAllColors(e) {
