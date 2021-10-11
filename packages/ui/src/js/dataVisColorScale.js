@@ -31,12 +31,13 @@ import {
 const chroma = require('chroma-js');
 
 function dataVisColorScale(scaleType) {
-  let colorKeys;
+  // let colorKeys;
   // Set up some sensible defaults
   if(scaleType === 'sequential') {
-    // colorKeys = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
-    colorKeys = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
-    _sequentialScale.colorKeys = colorKeys;
+    // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
+    let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
+    // let defaultColors = ['#2E005C', '#7AcA02', '#FFDD00']
+    _sequentialScale.colorKeys = defaultColors;
   }
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
@@ -45,7 +46,8 @@ function dataVisColorScale(scaleType) {
   let shift = document.getElementById(`${scaleType}Shift`);
 
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
-
+  const colorKeys = colorClass.colorKeys;
+  
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
 

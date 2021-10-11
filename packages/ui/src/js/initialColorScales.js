@@ -30,21 +30,21 @@ class SequentialScale {
     output
    }) {
     this._swatches = swatches,
-    this._colorKeys = colorKeys;
+    this._colorKeys = this._sortColorKeys(colorKeys);
     this._colorspace = colorspace;
     this._shift = shift;
     this._smooth = smooth;
     this._output = output;
     this._colors = this._createColorScale();
-    this._luminosities = this._getColorLuminosities();
+    // this._luminosities = this._getColorLuminosities();
     this._domains = this._getDomains();
   }
 
   set colorKeys(colors) {
-    this._colorKeys = colors;
+    this._colorKeys = this._sortColorKeys(colors);
     this._colors = null;
     this._colors = this._createColorScale();
-    this._luminosities = this._getColorLuminosities();
+    // this._luminosities = this._getColorLuminosities();
     this._domains = this._getDomains()
   }
 
@@ -83,7 +83,7 @@ class SequentialScale {
   }
 
   set shift(shift) {
-    this._shift = shift;
+    this._shift = Number(shift);
     this._colors = null;
     this._colors = this._createColorScale();
     this._domains = this._getDomains();
@@ -115,6 +115,21 @@ class SequentialScale {
     return this._domains;
   }
 
+  _sortColorKeys(colors) {
+    let lumsObj = colors.map((c) => {
+      return {
+        color: c,
+        lum: d3.hsluv(c).v
+      }
+    });
+    lumsObj.sort((a, b) => (a.lum < b.lum) ? 1 : -1)
+    // keep the sorted luminosities
+    this._luminosities = lumsObj.map((c) => c.lum);
+    this._colorKeys = null;
+
+    return lumsObj.map((c) => c.color);
+  }
+
   _createColorScale() {
     let colorScale = Leo.createScale({
       swatches: this._swatches,
@@ -130,13 +145,8 @@ class SequentialScale {
     return formattedColors;
   }
 
-  _getColorLuminosities() {
-    let lums = this._colorKeys.map((c) => {return d3.hsluv(c).v});
-    return lums.sort((a,b) => b - a);
-  }
-
   _getDomains() {
-    const lums = this._colorKeys.map((c) => {return d3.hsluv(c).v});
+    const lums = this._luminosities;
 
     const min = Math.min(...lums);
     const max = Math.max(...lums);  
@@ -150,7 +160,6 @@ class SequentialScale {
 
     let domains = percLums.map((d) => {return sqrtDomains(d)})
     domains.sort((a, b) => b - a)
-
     return domains;
   }
 

@@ -33,21 +33,35 @@ function themeRamp(colors, dest, angle) {
 function themeRampKeyColors(colorKeys, dest, scaleType) {
   let container = document.getElementById(dest);
 
-  let domains;
+  let domains, sqrtDomains;
   if(scaleType === 'sequential') {
     domains = _sequentialScale.domains;  
+    let shift = Number(_sequentialScale.shift);
+    let inverseShift = 1 / shift;
+    let shiftShift = Math.pow(inverseShift, inverseShift)
+    let domainPowScale = makePowScale( inverseShift );
+    // let domainPowScale = (x) => {return Math.pow(x, inverseShift)}
+    sqrtDomains = domains.map((d) => {return domainPowScale(d)})
+    // console.log(shift, domains, sqrtDomains)
   }
-  else domains = colorKeys.map(key => { return d3.hsluv(key).v})
+  else {
+    domains = colorKeys.map(key => { return d3.hsluv(key).v})
+    sqrtDomains = domains;
+  }
 
   colorKeys.map((key, index) => {
-    let lightness = d3.hsluv(key).v;
+    let lightness = (scaleType === 'sequential')  ? _sequentialScale.luminosities[index] : d3.hsluv(key).v;
     
-    let lightnessPerc = 100/lightness;
+    let lightnessPerc = lightness/100;
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot
-    // min/max positions within the ramp itself
-    let dotOffset = 36 / lightnessPerc;
-    let left = (scaleType === 'sequential' || scaleType === 'diverging') ? domains[index] * 100 : lightness;
+    let dotOffset = (scaleType !== 'sequential') 
+      ? 36 * lightnessPerc 
+      : 36 * domains[index];
+
+    let left = (scaleType === 'sequential' || scaleType === 'diverging') 
+      ? domains[index] * 100
+      : lightness;
 
     let leftPosition = `calc(${Math.round(left)}% - ${Math.round(dotOffset)}px)`;
     let dot = document.createElement('div');
@@ -75,10 +89,9 @@ function updateRamps(color, id, scaleType = 'theme') {
   let gradientId = id.concat('_gradient');
   document.getElementById(gradientId).innerHTML = ' ';
   themeRamp(colors, gradientId, angle);
+  themeRampKeyColors(color.colorKeys, gradientId, scaleType);
 
   if(scaleType === 'theme') {
-    // Create key color dots
-    themeRampKeyColors(color.colorKeys, gradientId, scaleType);
     // Update gradient swatch from panel view
     let gradientSwatchId = id.concat('_gradientSwatch');
     document.getElementById(gradientSwatchId).innerHTML = ' ';
@@ -86,8 +99,6 @@ function updateRamps(color, id, scaleType = 'theme') {
 
     createRGBchannelChart(colors);
   } else {
-    themeRampKeyColors(color.colorKeys, gradientId, scaleType);
-
     createRGBchannelChart(colors, `${id}RGBchart`);
   }
 
