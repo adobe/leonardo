@@ -32,8 +32,9 @@ function createRGBchannelChart(colors, id = 'RGBchart') {
     return Array((end + 2) - (start + 2)).fill().map((item, index) => start + index);
   };
   let dataX = fillRange(1, colors.length);
-  let sortedDataX = dataX.sort((a, b) => a-b);
+  let sortedDataX = (id==='RGBchart') ? dataX.sort((a, b) => a-b) : dataX.sort((a, b) => b - a);
 
+  console.log(dataX, sortedDataX)
   let data = [
     {
       x: sortedDataX,
