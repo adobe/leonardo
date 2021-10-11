@@ -17,7 +17,7 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
   let currentColor;
   if(scaleType === 'sequential') currentColor = _sequentialScale;
   let parent = thisId.replace('_addKeyColor', '');
-  console.log(parent)
+  // console.log(parent)
   let destId = parent.concat('_keyColors');
   let dest = document.getElementById(destId);
   let div = document.createElement('div');

@@ -12,8 +12,12 @@ governing permissions and limitations under the License.
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import * as d3 from './d3';
 import {_theme} from './initialTheme';
+import {_sequentialScale} from './initialColorScales';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {createInterpolationCharts} from './createInterpolationCharts';
+import {
+  makePowScale
+} from './utils'
 
 function themeRamp(colors, dest, angle) {
   if(!angle) angle = '90';
@@ -26,26 +30,26 @@ function themeRamp(colors, dest, angle) {
   container.appendChild(gradient)
 }
 
-function themeRampKeyColors(colorKeys, dest, min, max) {
+function themeRampKeyColors(colorKeys, dest, scaleType) {
   let container = document.getElementById(dest);
 
-  colorKeys.map(key => {
+  let domains;
+  if(scaleType === 'sequential') {
+    domains = _sequentialScale.domains;  
+  }
+  else domains = colorKeys.map(key => { return d3.hsluv(key).v})
+
+  colorKeys.map((key, index) => {
     let lightness = d3.hsluv(key).v;
-    // If a min and max lightness are defined, offset the percentage
-    // by available lightness range. Otherwise, percentage is from 0-100
-    // for positioning dots by actual lightness vs relative lightness.
-    if(min && max) {
-      if(lightness === 0 || isNaN((lightness - min) / (max - min))) lightness = 0;
-      // else lightnessPerc = 100 - (lightness - min) / (max - min) * 100;
-      else lightness = (lightness - min) / (max - min) * 100;
-    } 
     
-    let lightnessPerc = 100/lightness;
+    let lightnessPerc = 100/(100 - lightness);
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot
     // min/max positions within the ramp itself
     let dotOffset = 36 / lightnessPerc;
-    let leftPosition = `calc(${Math.round(lightness)}% - ${Math.round(dotOffset)}px)`;
+    let left = (scaleType === 'sequential' || scaleType === 'diverging') ? domains[index] * 100 : lightness;
+
+    let leftPosition = `calc(${Math.round(left)}% - ${Math.round(dotOffset)}px)`;
     let dot = document.createElement('div');
     dot.className = 'themeRampDot';
     dot.style.backgroundColor = key;
@@ -62,7 +66,7 @@ function updateRamps(color, id, scaleType = 'theme') {
   }
   else {
     colors = color.colors;
-    angle = '-90';
+    angle = '90';
     let lums = color.colorKeys.map(c => d3.hsluv(c).v );
     min = Math.min(...lums);
     max = Math.max(...lums);
@@ -74,7 +78,7 @@ function updateRamps(color, id, scaleType = 'theme') {
 
   if(scaleType === 'theme') {
     // Create key color dots
-    themeRampKeyColors(color.colorKeys, gradientId);
+    themeRampKeyColors(color.colorKeys, gradientId, scaleType);
     // Update gradient swatch from panel view
     let gradientSwatchId = id.concat('_gradientSwatch');
     document.getElementById(gradientSwatchId).innerHTML = ' ';
@@ -82,8 +86,7 @@ function updateRamps(color, id, scaleType = 'theme') {
 
     createRGBchannelChart(colors);
   } else {
-    // Create key color dots with specific min/max value
-    themeRampKeyColors(color.colorKeys, gradientId, min, max);
+    themeRampKeyColors(color.colorKeys, gradientId, scaleType);
 
     createRGBchannelChart(colors, `${id}RGBchart`);
   }

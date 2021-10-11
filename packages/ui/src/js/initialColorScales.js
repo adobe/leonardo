@@ -10,7 +10,11 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
-import { convertColorValue } from './utils';
+import * as d3 from './d3';
+import {
+   convertColorValue,
+   makePowScale,
+ } from './utils';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 
@@ -32,12 +36,16 @@ class SequentialScale {
     this._smooth = smooth;
     this._output = output;
     this._colors = this._createColorScale();
+    this._luminosities = this._getColorLuminosities();
+    this._domains = this._getDomains();
   }
 
   set colorKeys(colors) {
     this._colorKeys = colors;
     this._colors = null;
     this._colors = this._createColorScale();
+    this._luminosities = this._getColorLuminosities();
+    this._domains = this._getDomains()
   }
 
   get colorKeys() {
@@ -78,14 +86,33 @@ class SequentialScale {
     this._shift = shift;
     this._colors = null;
     this._colors = this._createColorScale();
+    this._domains = this._getDomains();
   }
 
   get shift() {
-    return this._shift;
+    return Number(this._shift);
+  }
+
+  set swatches(swatches) {
+    this._swatches = swatches;
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get swatches() {
+    return this._swatches;
   }
 
   get colors() {
     return this._colors;
+  }
+
+  get luminosities() {
+    return this._luminosities;
+  }
+
+  get domains() {
+    return this._domains;
   }
 
   _createColorScale() {
@@ -102,6 +129,30 @@ class SequentialScale {
 
     return formattedColors;
   }
+
+  _getColorLuminosities() {
+    return this._colorKeys.map((c) => {return d3.hsluv(c).v})
+  }
+
+  _getDomains() {
+    const lums = this._colorKeys.map((c) => {return d3.hsluv(c).v});
+
+    const min = Math.min(...lums);
+    const max = Math.max(...lums);  
+    const inverseShift = 1 / Number(this._shift);
+    const percLums = lums.map((l) => {
+      let perc = (l - min) / (max - min);
+      if(l === 0 || isNaN(perc)) return 0;
+      else return perc;
+    })
+    let sqrtDomains = makePowScale(Number(Number(this._shift)));
+
+    let domains = percLums.map((d) => {return sqrtDomains(d)})
+    domains.sort((a, b) => a - b)
+
+    return domains;
+  }
+
 }
 
 let _sequentialScale = new SequentialScale({

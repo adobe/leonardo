@@ -163,12 +163,20 @@ function convertColorValue(color, format, object = false) {
   return stringValue;
 }
 
+function makePowScale(exp = 1, domains = [0, 1], range = [0, 1]) {
+  const m = (range[1] - range[0]) / (domains[1] ** exp - domains[0] ** exp);
+  const c = range[0] - m * domains[0] ** exp;
+  return (x) => m * x ** exp + c;
+}
+
+
 module.exports = {
   randomId,
   throttle,
   convertToCartesian,
   filterNaN,
   camelCase,
+  makePowScale,
   round,
   convertColorValue,
   lerp,

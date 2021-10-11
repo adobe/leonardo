@@ -24,19 +24,25 @@ import {
   createColorWheel,
   createColorWheelDots
 } from './colorDisc';
+import {
+  makePowScale
+} from './utils';
+
 const chroma = require('chroma-js');
 
 function dataVisColorScale(scaleType) {
   let colorKeys;
   // Set up some sensible defaults
   if(scaleType === 'sequential') {
-    colorKeys = ['#FFDD00', '#2E005C', '#009e5a']
+    colorKeys = ['#FFDD00', '#7AcA02', '#005285', '#2E005C']
     _sequentialScale.colorKeys = colorKeys;
   }
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
   let interpolationMode = document.getElementById(`${scaleType}_mode`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
+  let shift = document.getElementById(`${scaleType}Shift`);
+
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
 
   let gradientId = `${scaleType}_gradient`;
@@ -47,16 +53,15 @@ function dataVisColorScale(scaleType) {
   }
 
   let colors = colorClass.colors;
-  let lums = colorClass.colorKeys.map(c => d3.hsluv(c).v );
-  let min = Math.min(...lums);
-  let max = Math.max(...lums);
 
   // TEMPORARY
   let mode = 'CAM02'
   let lightness = 50;
   
+  let min = Math.min(...colorClass.luminosities);
+  let max = Math.max(...colorClass.luminosities);
   themeRamp(colors, gradientId, '-90');
-  themeRampKeyColors(colorKeys, gradientId, min, max);
+  themeRampKeyColors(colorKeys, gradientId, scaleType);
 
   createRGBchannelChart(colors, `${scaleType}RGBchart`);
   createInterpolationCharts(colors, 'CAM02', scaleType);
@@ -92,6 +97,14 @@ function dataVisColorScale(scaleType) {
 
   chartsModeSelect.addEventListener('change', (e) => {
     createInterpolationCharts(colors, e.target.value, scaleType)
+  })
+
+  shift.addEventListener('input', (e) => {
+    colorClass.shift = e.target.value;
+    colors = colorClass.colors;
+
+    updateRamps(colorClass, scaleType, scaleType);
+    createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
   })
 }
 
