@@ -819,6 +819,10 @@ a:focus {
   justify-self: flex-start;
 }
 
+#panelColorScaleOutput {
+  max-height: calc(100vh - 568px);
+}
+
 #contrastConfigs, #ratioInput-wrapper {
   flex-direction: column;
   width: 100%;
@@ -1842,7 +1846,7 @@ section {
     width: 100%;
   }
   /* Temporarily hide these. Might add them back, might just remove */
-  .themeRampDot {
-    display: none;
-  }
+  // .themeRampDot {
+  //   display: none;
+  // }
 }
