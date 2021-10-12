@@ -68,6 +68,7 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
   button.addEventListener('click',  function(e) {
     // Trying something new...
     replaceScaleKeyInputsFromClass(thisId, scaleType, index);
+    updateColorDots(chartsModeSelect.value, scaleType);
   });
 
   div.appendChild(sw);

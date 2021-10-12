@@ -42,7 +42,8 @@ function dataVisColorScale(scaleType) {
   if(scaleType === 'sequential') {
     // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
     // let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
-    let defaultColors = ['#2E005C', '#FFDD00']
+    // let defaultColors = ['#2E005C', '#FFDD00']
+    let defaultColors = ['#5c3cec','#9eecff']
     _sequentialScale.colorKeys = defaultColors;
   }
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
