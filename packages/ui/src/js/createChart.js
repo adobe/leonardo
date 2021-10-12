@@ -126,7 +126,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
             .tickFormat("") ;
 
           let draw_line = d3.line()
-            .curve(d3.curveLinear)
+            .curve(d3.curveBasis)
             .x(function(d) { return x_scale(d[0]); })
             .y(function(d) { return y_scale(d[1]); }) ;
 
@@ -326,7 +326,7 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors) {
           .tickFormat("") ;
 
         let draw_line = d3.line()
-          .curve(d3.curveLinear)
+          .curve(d3.curveBasis)
           .x(function(d) { return x_scale(d[0]); })
           .y(function(d) { return y_scale(d[1]); }) ;
 
