@@ -25,7 +25,8 @@ import {createRGBchannelChart} from './createRGBchannelChart';
 import {downloadSVGgradient} from './createSVGgradient';
 import {
   createColorWheel,
-  createColorWheelDots
+  createColorWheelDots,
+  updateColorDots
 } from './colorDisc';
 import {
   makePowScale
@@ -92,8 +93,8 @@ function dataVisColorScale(scaleType) {
   createDemos(scaleType);
   // TODO: not working -- setContext is failing for some unknown reason.
   // setTimeout(() => {
-  //   createColorWheel(mode, lightness, scaleType);
-  //   createColorWheelDots();
+    createColorWheel(chartsModeSelect.value, 50, scaleType);
+    updateColorDots(chartsModeSelect.value, scaleType);
   // }, 1000); 
 
   interpolationMode.addEventListener('change', (e) => {

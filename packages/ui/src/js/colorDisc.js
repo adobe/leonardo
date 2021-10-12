@@ -13,6 +13,7 @@ import d3 from './d3';
 import {filterNaN} from './utils';
 import {getAllColorKeys} from './getThemeData';
 import {_theme} from './initialTheme';
+import {_sequentialScale} from './initialColorScales';
 import {createHtmlElement, createSvgElement} from './createHtmlElement';
 import {create3dChart} from './create3dChart';
 import {
@@ -20,17 +21,24 @@ import {
   removeElementsByClass
 } from './utils';
 
-function updateColorDots(mode, scaleType) {
+function updateColorDots(mode, scaleType = 'theme') {
+  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
   // Create dots for color wheel
   if(!mode) {
     let colorDotsModeDropdown = (scaleType === 'theme') ? document.getElementById('colorDotsMode') : document.getElementById(`${scaleType}ColorDotsMode`);
     let colorDotsMode = colorDotsModeDropdown.value;
     mode = colorDotsMode;
   }
-  let colorWheelLightnessDropdown = (scaleType === 'theme') ? document.getElementById('colorWheelLightness') : document.getElementById(`${scaleType}ColorWheelLightness`);
-  let colorWheelLightness = colorWheelLightnessDropdown.value;
+
   let colorWheelModeDropdown = (scaleType === 'theme') ? document.getElementById('chartsMode') : document.getElementById(`${scaleType}ChartsMode`);
-  let colorWheelMode = colorWheelModeDropdown.value
+  let colorWheelMode, colorWheelLightness;
+  if(scaleType === 'theme') {
+    let colorWheelLightnessDropdown = document.getElementById('colorWheelLightness');
+    colorWheelLightness = colorWheelLightnessDropdown.value;
+    colorWheelMode = colorWheelModeDropdown.value
+  } else {
+    colorWheelLightness = 50;
+  }
 
   let allColors;
   if(mode === 'colorKeys' && scaleType === 'theme') allColors = getAllColorKeys();
@@ -40,10 +48,12 @@ function updateColorDots(mode, scaleType) {
   } else {
     // just show all key colors.
     // would the curve drawing happen here?
+    allColors = colorClass.colorKeys;
   }
-  
-  let arr = getConvertedColorCoodrindates(allColors, colorWheelMode);
-  createColorWheelDots(arr);
+  if(!colorWheelMode) colorWheelMode = 'CAM02p'
+
+  let arr = getConvertedColorCoodrindates(allColors, colorWheelMode, scaleType);
+  createColorWheelDots(arr, scaleType);
 }
 
 function getColorWheelSize() {
@@ -56,12 +66,13 @@ function getColorWheelSize() {
   return colorWheelSize;
 }
 
-function getConvertedColorCoodrindates(colorValues, mode) {
+function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme') {
   // Cant seem to use the constant colorWheelSize or dotSize here, so we calculate it
-  let size = getColorWheelSize();
+  const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
   let dotSize = 16;
   let defaultAchromaticDotOffset = (size / 2) - (dotSize / 2);
 
+  console.log(mode)
   let arr = [];
   colorValues.map(color => {
     let c,h; 
@@ -87,6 +98,8 @@ function getConvertedColorCoodrindates(colorValues, mode) {
     }
     
     const conversion = convertToCartesian(c, h, 'clamp');
+
+    console.log(c, h)
     let newX = shiftValue(conversion.x, size, dotSize);
     let newY = shiftValue(conversion.y, size, dotSize);
 
@@ -99,39 +112,46 @@ function getConvertedColorCoodrindates(colorValues, mode) {
       color: color
     });
   })
+  console.log(arr)
   return arr;
 }
 
 
-function createColorWheelDots(arr) {
-  removeElementsByClass('colorDot');
-  const c = document.getElementById("colorWheelCanvas");
-  const existingLines = document.getElementById('colorWheelLines');
+function createColorWheelDots(arr, scaleType = 'theme') {
+  const dotsClass = (scaleType === 'theme') ? 'colorDot' : `${scaleType}ColorDot` ;
+  const colorWheelId = (scaleType === 'theme') ? 'colorWheel' : `${scaleType}ColorWheel` ;
+  const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas` ;
+  const linesId = (scaleType === 'theme') ? 'colorWheelLines' : `${scaleType}ColorWheelLines` ;
+  removeElementsByClass(dotsClass);
+  const c = document.getElementById(canvasId);
+  const existingLines = document.getElementById(linesId)
   if(existingLines) existingLines.parentNode.removeChild(existingLines);
 
-  let size = getColorWheelSize();
+  const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
   let center = (size / 2);
 
   const svg = createSvgElement({
     element: 'svg',
-    id: 'colorWheelLines',
+    id: linesId,
     attributes: {
       height: size,
       width: size
     },
-    appendTo: 'colorWheel'
+    appendTo: colorWheelId
   })
+
+  console.log(arr)
 
   arr.map(obj => {
     createHtmlElement({
       element: 'div',
-      className: 'colorDot',
+      className: dotsClass,
       styles: {
         backgroundColor: obj.color,
         top: obj.y + 'px',
         left: obj.x + 'px'
       },
-      appendTo: 'colorWheel'
+      appendTo: colorWheelId
     })
 
     // Create harmony lines
@@ -152,18 +172,16 @@ function createColorWheelDots(arr) {
         strokeLinecap: "round",
         filter: 'drop-shadow( 0 0 1px rgba(0, 0, 0, .5))'
       },
-      appendTo: 'colorWheelLines'
+      appendTo: linesId
     });
   })
 }
 
 function createColorWheel(mode, lightness, scaleType) {   
-  console.log(scaleType) 
-  const size = getColorWheelSize();
-  const wheelId = (scaleType === 'theme') ? '#colorWheel' : `${scaleType}ColorWheel`;
+  const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
+  const wheelId = (scaleType === 'theme') ? '#colorWheel' : `#${scaleType}ColorWheel`;
   const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
 
-  console.log(document.getElementById(wheelId.replace('#', '')))
   let container = d3.select(wheelId);
   let canvas = container.append("canvas")
     .attr("height", size)

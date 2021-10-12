@@ -1651,13 +1651,22 @@ a:focus {
   margin: 0 auto var(--spectrum-global-dimension-size-100);
   // width: 244px;
 }
+#sequentialColorWheel,
+#divergingColorWheel {
+  position: relative;
+}
 
-#colorWheelLines {
+#colorWheelLines,
+#sequentialColorWheelLines ,
+#divergingColorWheelLines {
   position: absolute;
   left: 0;
   top: 0;
 }
-.colorDot {
+
+.colorDot,
+.sequentialColorDot,
+.divergingColorDot {
   width: 16px;
   height: 16px;
   border-radius: 100%;
@@ -1899,5 +1908,14 @@ section {
 
   svg {
     position: absolute;
+  }
+}
+
+.panel-ColorWheel {
+  display: flex;
+  justify-content: center;
+
+  canvas {
+    margin: 0 auto;
   }
 }
