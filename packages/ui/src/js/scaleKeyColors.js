@@ -66,9 +66,11 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
   </svg>`;
 
   button.addEventListener('click',  function(e) {
-    // Trying something new...
+    let sampleNumber = document.getElementById(`${scaleType}Samples`);
+    let samples = sampleNumber.value;    
     replaceScaleKeyInputsFromClass(thisId, scaleType, index);
     updateColorDots(chartsModeSelect.value, scaleType);
+    createSamples(samples, scaleType)
   });
 
   div.appendChild(sw);
