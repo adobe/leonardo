@@ -386,6 +386,15 @@ if(colorWheelMode) {
     if(checked) colorPaths.style.display = 'block';
     else colorPaths.style.display = 'none';
   })
+
+  const colorHarmonyLinesSwitch = document.getElementById('colorHarmonyLinesSwitch');
+  const colorHarmonyLines = document.getElementById('colorWheelLines')
+  colorHarmonyLinesSwitch.addEventListener('change', (e) => {
+    let checked = e.target.checked;
+
+    if(checked) colorHarmonyLines.style.display = 'block';
+    else colorHarmonyLines.style.display = 'none';
+  })
 }
 
 module.exports = {
