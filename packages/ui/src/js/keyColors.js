@@ -104,7 +104,7 @@ function addKeyColor(e) {
   if(!lastIndex) lastIndex = 0;
   let lastColor = (lastIndex > 0) ? d3.hsluv(currentColor.colorKeys[lastIndex - 1]) : d3.hsluv(currentColor.colorKeys[0]);
   let lastColorLightness = lastColor.v;
-  let fCtintHalf = (100 - lastColorLightness) / 2;
+  let fCtintHalf = (100 - lastColorLightness) / 3 + lastColorLightness;
   let fCshadeHalf = lastColorLightness / 2;
   let c = ( lastColorLightness >= 50) ? d3.hsluv(lastColor.l, lastColor.u, fCshadeHalf) :  d3.hsluv(lastColor.l, lastColor.u, fCtintHalf);
   c = d3.rgb(c).formatHex();

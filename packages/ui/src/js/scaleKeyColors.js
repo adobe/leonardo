@@ -131,7 +131,7 @@ function addScaleKeyColor(scaleType, e) {
   if(!lastIndex) lastIndex = 0;
   let lastColor = (lastIndex > 0) ? chroma(currentKeys[lastIndex - 1]).hsluv() : chroma(currentKeys[0]).hsluv();
   let lastColorLightness = lastColor[2];
-  let fCtintHalf = (100 - lastColorLightness) / 2;
+  let fCtintHalf = (100 - lastColorLightness) / 3 + lastColorLightness;
   let fCshadeHalf = lastColorLightness / 2;
 
   let c = ( lastColorLightness >= 50) ? chroma.hsluv(lastColor[0], lastColor[1], fCshadeHalf) : chroma.hsluv(lastColor[0], lastColor[1], fCtintHalf);
