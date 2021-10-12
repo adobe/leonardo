@@ -16,13 +16,15 @@ import {_theme} from './initialTheme';
 import {_sequentialScale} from './initialColorScales';
 import {createHtmlElement, createSvgElement} from './createHtmlElement';
 import {create3dChart} from './create3dChart';
+import {polarColorPath} from './polarColorPath';
 import {
   convertToCartesian,
   removeElementsByClass
 } from './utils';
 
 function updateColorDots(mode, scaleType = 'theme') {
-  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
+  const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
+  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : null);
   // Create dots for color wheel
   if(!mode) {
     let colorDotsModeDropdown = (scaleType === 'theme') ? document.getElementById('colorDotsMode') : null;
@@ -40,25 +42,25 @@ function updateColorDots(mode, scaleType = 'theme') {
   }
   colorWheelMode = colorWheelModeDropdown.value
 
-  let allColors;
+  let allColors, dataColors;
   if(scaleType === 'theme') {
     if(mode === 'colorKeys') {
       allColors = getAllColorKeys();
     }
     if(mode === 'colorScale') {
       allColors = [];
-      _theme.colors.forEach((color) => { allColors.push(color.backgroundColorScale[colorWheelLightness])});
+      _theme.colors.forEach((color) => { 
+        allColors.push(color.backgroundColorScale[colorWheelLightness])
+      });
     }
   }
   else {
-    // just show all key colors.
-    // would the curve drawing happen here?
     allColors = colorClass.colorKeys;
   }
   if(!colorWheelMode) colorWheelMode = 'CAM02p'
 
   let arr = getConvertedColorCoodrindates(allColors, colorWheelMode, scaleType);
-  createColorWheelDots(arr, scaleType);
+  createColorWheelDots(arr, colorWheelMode, scaleType);
 }
 
 function getColorWheelSize() {
@@ -71,10 +73,10 @@ function getColorWheelSize() {
   return colorWheelSize;
 }
 
-function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme') {
+function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme', dots = true) {
   // Cant seem to use the constant colorWheelSize or dotSize here, so we calculate it
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
-  let dotSize = 16;
+  let dotSize = (dots) ? 16 : -2;
   let defaultAchromaticDotOffset = (size / 2) - (dotSize / 2);
 
   let arr = [];
@@ -102,9 +104,11 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme') {
     }
     
     const conversion = convertToCartesian(c, h, 'clamp');
+    let x = conversion.x;
+    let y = (!dots) ? conversion.y * -1 : conversion.y;
 
-    let newX = shiftValue(conversion.x, size, dotSize);
-    let newY = shiftValue(conversion.y, size, dotSize);
+    let newX = shiftValue(x, size, dotSize);
+    let newY = shiftValue(y, size, dotSize);
 
     if(isNaN(newX)) newX = defaultAchromaticDotOffset;
     if(isNaN(newY)) newY = defaultAchromaticDotOffset;
@@ -119,7 +123,11 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme') {
 }
 
 
-function createColorWheelDots(arr, scaleType = 'theme') {
+function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
+  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : null);
+  const polarPathDest = (scaleType === 'theme') ? 'colorWheelPaths' : `${scaleType}ColorWheelPaths`;
+  document.getElementById(polarPathDest).innerHTML = ' ';
+
   const dotsClass = (scaleType === 'theme') ? 'colorDot' : `${scaleType}ColorDot` ;
   const colorWheelId = (scaleType === 'theme') ? 'colorWheel' : `${scaleType}ColorWheel` ;
   const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas` ;
@@ -131,6 +139,18 @@ function createColorWheelDots(arr, scaleType = 'theme') {
 
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
   let center = (size / 2);
+
+  if(scaleType === 'theme') {
+    // Need to loop and create many paths
+    for(let i = 0; i < colorClass.colors.length; i++) {
+      let data = getConvertedColorCoodrindates(colorClass.colors[i].backgroundColorScale, colorWheelMode, scaleType, false)
+      
+      polarColorPath(data, size, scaleType);
+    }
+  } else {
+    let data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
+    polarColorPath(data, size, scaleType);
+  }
 
   const svg = createSvgElement({
     element: 'svg',
@@ -167,10 +187,11 @@ function createColorWheelDots(arr, scaleType = 'theme') {
         y2: obj.y + 10,
       },
       styles: {
-        stroke: 'rgb(255, 255, 255)',
+        stroke: 'rgba(255, 255, 255, 0.75)',
         strokeWidth: 2.5,
         strokeLinecap: "round",
-        filter: 'drop-shadow( 0 0 1px rgba(0, 0, 0, .5))'
+        filter: 'drop-shadow( 0 0 1px rgba(0, 0, 0, .5))',
+        strokeDasharray: '4 6'
       },
       appendTo: linesId
     });
@@ -313,7 +334,7 @@ function updateColorWheel(mode, lightness, dots, dotsMode, scaleType) {
     canvas.parentNode.removeChild(canvas);
   }
   createColorWheel(mode, lightness, scaleType);
-  updateColorDots(dotsMode, scaleType)
+  updateColorDots(dotsMode, scaleType);
 }
 
 
@@ -357,6 +378,14 @@ if(colorWheelMode) {
   
     updateColorDots(mode, 'theme');
   });
+
+  const colorPathsSwitch = document.getElementById('colorPathsSwitch');
+  const colorPaths = document.getElementById('colorWheelPaths')
+  colorPathsSwitch.addEventListener('change', (e) => {
+    let checked = e.target.checked;
+    if(checked) colorPaths.style.display = 'block';
+    else colorPaths.style.display = 'none';
+  })
 }
 
 module.exports = {

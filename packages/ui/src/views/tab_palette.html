@@ -80,9 +80,12 @@
     <div id="colorWheelWrapper" class="colorTabsWrapper">
 
         <div id="colorWheel--controlsWrapper">
-          <div id="colorWheel"></div>
+          <div id="colorWheel">
+            <div class="polarPathsWrapper" id="colorWheelPaths"></div>
+          </div>
 
           <div class="spectrum-Form" id="chartsControls">
+            <h3 class="spectrum-Heading spectrum-Heading--sizeXXS ">Color wheel settings</h3>
             <div class="spectrum-Form-item">
               <div id="colorWheelLightnessWrapper" class="spectrum-Slider">
                 <div class="spectrum-Slider-labelContainer">
@@ -91,6 +94,14 @@
                 <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="colorWheelLightness" name="colorWheelLightness"></input>
               </div>
             </div>
+
+            <div class="spectrum-Form-item">
+              <div class="spectrum-Switch">
+                <input type="checkbox" class="spectrum-Switch-input" id="colorPathsSwitch">
+                <span class="spectrum-Switch-switch"></span>
+                <label class="spectrum-Switch-label" for="colorPathsSwitch">Show interpolation paths</label>
+              </div>
+           </div>
 
             <div class="spectrum-Form-item">
               <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>

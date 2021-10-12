@@ -1644,6 +1644,30 @@ a:focus {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
 }
+#colorWheelWrapper,
+#sequentialColorWheelWrapper,
+#sequentialColorWheelWrapper {
+  position: relative;
+}
+
+.polarPathsWrapper {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  top: 0;
+  left: 0;
+  justify-content: center;
+
+  svg {
+    position: absolute;
+  }
+}
+
+/* Theme paths are hidden by default */
+#colorWheelPaths {
+  display: none;
+}
+
 #colorWheel--controlsWrapper{
   width: 100%;
   display: flex;

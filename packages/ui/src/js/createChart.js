@@ -78,6 +78,9 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
 
     function chart(selection) {
       selection.each(function(datasets) {
+          
+          console.log(datasets)
+
           // If no min/max defined, base on min/max from data
           if (yMin == undefined) { yMin = d3.min(datasets, function(d) { return d3.min(d.y); }) }
           if (yMax == undefined) { yMax = d3.max(datasets, function(d) { return d3.max(d.y); }) }
