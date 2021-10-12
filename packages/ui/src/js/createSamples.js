@@ -34,7 +34,8 @@ function createSamples(samples, scaleType) {
 
   const panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
   panelOutputContent.innerHTML = ' ';
-  panelOutputContent.innerHTML = sampleColors.reverse().toString().replaceAll(',', ', ');
+  const sampleColorsReversed = sampleColors.reverse();
+  panelOutputContent.innerHTML = sampleColorsReversed.toString().replaceAll(',', ', ');
 
   // Reset color class to original swatches
   colorClass.swatches = originalSwatches;
