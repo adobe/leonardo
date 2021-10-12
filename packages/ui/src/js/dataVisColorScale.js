@@ -30,9 +30,8 @@ import {
 import {
   makePowScale
 } from './utils';
-import {
-  createSamples
-} from './createSamples';
+import {createSamples} from './createSamples';
+import {createDemos} from './createDemos';
 
 const chroma = require('chroma-js');
 
@@ -90,7 +89,7 @@ function dataVisColorScale(scaleType) {
   createInterpolationCharts(colors, 'CAM02', scaleType);
 
   createSamples(samples, scaleType);
-
+  createDemos(scaleType);
   // TODO: not working -- setContext is failing for some unknown reason.
   // setTimeout(() => {
   //   createColorWheel(mode, lightness, scaleType);
@@ -104,6 +103,7 @@ function dataVisColorScale(scaleType) {
 
     updateRamps(colorClass, scaleType, scaleType);
     createSamples(sampleNumber.value, scaleType);
+    createDemos(scaleType);
   })
 
   smooth.addEventListener('change', (e) => {
@@ -113,6 +113,7 @@ function dataVisColorScale(scaleType) {
     updateRamps(colorClass, scaleType, scaleType);
     createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
     createSamples(sampleNumber.value, scaleType);
+    createDemos(scaleType);
   })
 
   downloadGradient.addEventListener('click', (e) => {
@@ -133,6 +134,7 @@ function dataVisColorScale(scaleType) {
     updateRamps(colorClass, scaleType, scaleType);
     createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
     createSamples(sampleNumber.value, scaleType);
+    createDemos(scaleType);
   })
 
   correctLightness.addEventListener('input', (e) => {
@@ -141,13 +143,15 @@ function dataVisColorScale(scaleType) {
 
     updateRamps(colorClass, scaleType, scaleType);
     createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
-    
+
     createSamples(sampleNumber.value, scaleType);
+    createDemos(scaleType);
   })
 
   document.getElementById(buttonId).addEventListener('click', (e) => {
     addScaleKeyColor(scaleType, e);
     createSamples(sampleNumber.value, scaleType);
+    createDemos(scaleType);
   });
 
   sampleNumber.addEventListener('input', (e) => {

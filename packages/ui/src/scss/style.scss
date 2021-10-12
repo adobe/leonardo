@@ -1872,3 +1872,11 @@ section {
   display: inline-flex;
   flex-grow: 1;
 }
+
+.demoVisualization {
+  position: relative;
+
+  svg {
+    position: absolute;
+  }
+}
