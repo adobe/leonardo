@@ -183,6 +183,10 @@ body,
 .sideNavContent {
   flex-direction: column;
   align-items: flex-start;
+  max-width: 758px;
+  width: 100%;
+  margin: 0 auto;
+  top: 0;
 }
 .sortIcon {
   transform: rotate(90deg);
