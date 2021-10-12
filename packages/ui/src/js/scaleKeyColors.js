@@ -17,6 +17,7 @@ import {updateRamps} from './ramps';
 import {
   createSamples
 } from './createSamples';
+import {createDemos} from './createDemos';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 
@@ -46,6 +47,7 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
 
     updateRamps(currentColor, parent, scaleType)
     createSamples(sampleNumber.value, scaleType);
+    createDemos(scaleType);
   };
 
   sw.className = 'keyColor-Item';

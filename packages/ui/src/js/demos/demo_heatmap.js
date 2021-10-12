@@ -5,8 +5,8 @@ function heatmap(scaleType) {
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   // set the dimensions and margins of the graph
   var margin = {top: 30, right: 30, bottom: 30, left: 30},
-    width = 300 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    width = 250 - margin.left - margin.right,
+    height = 250 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select(`#${scaleType}Heatmap`)
@@ -45,20 +45,6 @@ function heatmap(scaleType) {
 
   var myColor = colorClass.colorFunction;
 
-  //Read the data
-  // d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", 
-  //   function(data) {
-  //     svg.selectAll()
-  //       .data(data, function(d) {console.log(d); return d.group+':'+d.variable;})
-  //       .enter()
-  //       .append("rect")
-  //       .attr("x", function(d) { return x(d.group) })
-  //       .attr("y", function(d) { return y(d.variable) })
-  //       .attr("width", x.bandwidth() )
-  //       .attr("height", y.bandwidth() )
-  //       .style("fill", function(d) { return myColor(d.value)} )
-  //     }
-  //   )
   d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv").then( function(data) {
 
   svg.selectAll()

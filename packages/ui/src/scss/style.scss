@@ -1873,8 +1873,14 @@ section {
   flex-grow: 1;
 }
 
+.demoVisualizationWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .demoVisualization {
   position: relative;
+  height: 272px;
 
   svg {
     position: absolute;
