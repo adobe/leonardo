@@ -562,6 +562,11 @@ body,
     margin-top: 8px;
   }
 }
+
+.spectrum-Form--spacious {
+  margin: var(--spectrum-global-dimension-size-150) 0 var(--spectrum-global-dimension-size-200);
+}
+
 .spectrum-Form-item {
   display: flex;
   flex-direction: column;

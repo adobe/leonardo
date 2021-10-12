@@ -30,7 +30,9 @@ import {
 import {
   makePowScale
 } from './utils';
-import { createHtmlElement } from './createHtmlElement';
+import {
+  createSamples
+} from './createSamples';
 
 const chroma = require('chroma-js');
 
@@ -51,7 +53,6 @@ function dataVisColorScale(scaleType) {
   let shift = document.getElementById(`${scaleType}Shift`);
   let correctLightness = document.getElementById(`${scaleType}_correctLightness`);
   let sampleNumber = document.getElementById(`${scaleType}Samples`);
-  let samplesWrapper = document.getElementById(`${scaleType}SampleSwatches`);
 
   let samples = sampleNumber.value;
 
@@ -82,28 +83,14 @@ function dataVisColorScale(scaleType) {
   
   let min = Math.min(...colorClass.luminosities);
   let max = Math.max(...colorClass.luminosities);
-  themeRamp(colors, gradientId, '-90');
+  themeRamp(colors, gradientId, '90');
   themeRampKeyColors(colorKeys, gradientId, scaleType);
 
   createRGBchannelChart(colors, `${scaleType}RGBchart`);
   createInterpolationCharts(colors, 'CAM02', scaleType);
 
-  let panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
-  colorClass.swatches = samples;
-  let sampleColors = colorClass.colors;
-  for(let i=2; i < samples; i++) {
-    createHtmlElement({
-      element: 'div',
-      className: 'sampleSwatch',
-      styles: {
-        backgroundColor: sampleColors[i]
-      },
-      appendTo: `${scaleType}SampleSwatches`
-    })
-  }
+  createSamples(samples, scaleType);
 
-  panelOutputContent.innerHTML = ' ';
-  panelOutputContent.innerHTML = sampleColors.toString().replaceAll(',', ', ');
   // TODO: not working -- setContext is failing for some unknown reason.
   // setTimeout(() => {
   //   createColorWheel(mode, lightness, scaleType);
@@ -116,6 +103,7 @@ function dataVisColorScale(scaleType) {
     // colors = colorClass.colors;
 
     updateRamps(colorClass, scaleType, scaleType);
+    createSamples(sampleNumber.value, scaleType);
   })
 
   smooth.addEventListener('change', (e) => {
@@ -124,6 +112,7 @@ function dataVisColorScale(scaleType) {
 
     updateRamps(colorClass, scaleType, scaleType);
     createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
+    createSamples(sampleNumber.value, scaleType);
   })
 
   downloadGradient.addEventListener('click', (e) => {
@@ -143,6 +132,7 @@ function dataVisColorScale(scaleType) {
 
     updateRamps(colorClass, scaleType, scaleType);
     createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
+    createSamples(sampleNumber.value, scaleType);
   })
 
   correctLightness.addEventListener('input', (e) => {
@@ -151,32 +141,17 @@ function dataVisColorScale(scaleType) {
 
     updateRamps(colorClass, scaleType, scaleType);
     createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
+    
+    createSamples(sampleNumber.value, scaleType);
   })
 
   document.getElementById(buttonId).addEventListener('click', (e) => {
     addScaleKeyColor(scaleType, e);
+    createSamples(sampleNumber.value, scaleType);
   });
 
   sampleNumber.addEventListener('input', (e) => {
-    samplesWrapper.innerHTML = ' ';
-
-    for(let i=2; i < e.target.value; i++) {
-      colorClass.swatches = e.target.value;
-
-      createHtmlElement({
-        element: 'div',
-        className: 'sampleSwatch',
-        styles: {
-          backgroundColor: colorClass.colors[i]
-        },
-        appendTo: `${scaleType}SampleSwatches`
-      })
-    }
-    let panelOutputId = `${scaleType}ColorScaleOutput` ;
-    let panelOutputContent = document.getElementById(panelOutputId);
-    panelOutputContent.innerHTML = ' ';
-    panelOutputContent.innerHTML = colorClass.colors.toString().replaceAll(',', ', ');
-    
+    createSamples(e.target.value, scaleType);
   })
 }
 

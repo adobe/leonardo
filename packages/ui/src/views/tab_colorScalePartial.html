@@ -115,6 +115,14 @@
   
           </div>
          </div>
+         <div class="spectrum-Panel-Item">
+          <div id="{{ scaleType }}ColorWheelWrapper">
+            Color wheel to go here
+            <div id="colorWheel--controlsWrapper">
+              <div id="{{ scaleType }}ColorWheel"></div>
+            </div>
+        </div>
+         </div>
       </div>
       <div class="spectrum-Panel-Item spectrum-ButtonGroup">
         <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG</button>
@@ -129,9 +137,9 @@
 
     <div id="" class="spectrum-Content-Tabs spectrum-Content-Tabs--noPadding">
       <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
-        <div id="tab{{scaleType}}ColorWheel" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ColorWheelWrapper', `{{ scaleType }}`)">
+        <!-- <div id="tab{{scaleType}}ColorWheel" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ColorWheelWrapper', `{{ scaleType }}`)">
           <label class="spectrum-Tabs-itemLabel">Color wheel</label>
-        </div>
+        </div> -->
         <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
           <label class="spectrum-Tabs-itemLabel">Charts</label>
         </div>
@@ -166,7 +174,7 @@
       </div>
     </div>
 
-    <div id="{{ scaleType }}ColorWheelWrapper" class="{{scaleType}}TabsWrapper">
+    <!-- <div id="{{ scaleType }}ColorWheelWrapper" class="{{scaleType}}TabsWrapper">
         <div id="colorWheel--controlsWrapper">
           <div id="{{ scaleType }}ColorWheel"></div>
 
@@ -193,7 +201,7 @@
 
           </div>
         </div>
-    </div>
+    </div> -->
 
     <div id="{{scaleType}}DemoWrapper" class="{{scaleType}}TabsWrapper">
         Demo visualizations
@@ -227,13 +235,10 @@
     <div id="{{ scaleType }}OutputWrapper" class="{{ scaleType }}TabsWrapper">
       <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Sample colors</h2>
 
-      <div class="spectrum-Form">
+      <div class="spectrum-Form spectrum-Form--spacious">
         <div class="spectrum-Form-item">
-          <div id="" class="spectrum-Slider">
-            <div class="spectrum-Slider-labelContainer">
-              <label class="spectrum-Slider-label" id="{{ scaleType }}SamplesLabel" for="{{ scaleType }}Samples">Number of sample colors</label>
-            </div>
-            <input class="spectrum-Slider-controls" type="range" min="3" max="100" step="1" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
+          <div id="" class="spectrum-Textfield">
+            <input class="spectrum-Textfield-input" type="number" min="2" max="100" step="1" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
           </div>
         </div>
       </div>

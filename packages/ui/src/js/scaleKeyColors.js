@@ -14,11 +14,15 @@ import {
   removeElementsByClass
 } from './utils';
 import {updateRamps} from './ramps';
+import {
+  createSamples
+} from './createSamples';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 
 
 function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
+  let sampleNumber = document.getElementById(`${scaleType}Samples`);
   let currentColor;
   if(scaleType === 'sequential') currentColor = _sequentialScale;
   let parent = thisId.replace('_addKeyColor', '');
@@ -41,6 +45,7 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
     if(scaleType === 'sequential') _sequentialScale.colorKeys = currentKeys
 
     updateRamps(currentColor, parent, scaleType)
+    createSamples(sampleNumber.value, scaleType);
   };
 
   sw.className = 'keyColor-Item';

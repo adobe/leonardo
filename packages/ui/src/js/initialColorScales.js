@@ -230,6 +230,7 @@ class SequentialScale {
     }
 
     let formattedColors = colorScale.map((c) => {return convertColorValue(c, this._output)});
+    formattedColors.reverse();
     return formattedColors;
   }
 

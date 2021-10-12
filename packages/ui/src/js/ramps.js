@@ -71,14 +71,13 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
 }
 
 function updateRamps(color, id, scaleType = 'theme') {
-  let colors, angle, min, max;
+  let colors, min, max;
+  let angle = '90';
   if(scaleType === 'theme') {
     colors = color.backgroundColorScale; 
-    angle = '90';
   }
   else {
     colors = color.colors;
-    angle = '-90';
     let lums = color.colorKeys.map(c => d3.hsluv(c).v );
     min = Math.min(...lums);
     max = Math.max(...lums);

@@ -97,9 +97,9 @@ if (mq.matches) {
 
 document.getElementById("tabSequential").click();
 // Open default tab of "charts" for each color scale tab
-document.getElementById("tabsequentialColorWheel").click();
-document.getElementById("tabdivergingColorWheel").click();
-document.getElementById("tabqualitativeColorWheel").click();
+document.getElementById("tabsequentialCharts").click();
+document.getElementById("tabdivergingCharts").click();
+document.getElementById("tabqualitativeCharts").click();
 
 document.getElementById("welcome").click();
 
