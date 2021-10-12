@@ -1876,11 +1876,26 @@ section {
 .demoVisualizationWrapper {
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 260px);
+  overflow-y: auto;
+}
+
+.demoVisualization--row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+
+  .demoVisualization {
+    width: 260px;
+  }
 }
 
 .demoVisualization {
   position: relative;
   height: 272px;
+  flex-shrink: 0;
+  max-width: 800px;
 
   svg {
     position: absolute;

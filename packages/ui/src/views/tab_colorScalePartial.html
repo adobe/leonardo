@@ -204,11 +204,20 @@
     </div> -->
 
     <div id="{{scaleType}}DemoWrapper" class="{{scaleType}}TabsWrapper demoVisualizationWrapper">
-      <div id="{{scaleType}}Heatmap" class="demoVisualization"></div>
-      <div id="{{scaleType}}Choropleth" class="demoVisualization"></div>
-        <p class="spectrum-Body spectrum-Body--sizeS"> 
-          Visualizations from <a class="spectrum-Link" href="https://www.d3-graph-gallery.com/graph/" target="_blank">d3-graph-gallery</a>
-        </p>
+      <div class="demoVisualization--row">
+        <div id="{{scaleType}}Heatmap" class="demoVisualization"></div>
+        <div id="{{scaleType}}Scatter" class="demoVisualization"></div>  
+        <div id="{{scaleType}}Chord" class="demoVisualization"></div>  
+        <!-- <div id="{{scaleType}}ViolinJitter" class="demoVisualization"></div>   -->
+        <div id="{{scaleType}}Choropleth" class="demoVisualization"></div>
+        <!-- <div id="{{scaleType}}Hexbin" class="demoVisualization"></div>   -->
+      </div>
+
+      
+      <hr class="spectrum-Divider spectrum-Divider--sizeS"/>
+      <p class="spectrum-Body spectrum-Body--sizeS"> 
+        Visualizations from <a class="spectrum-Link" href="https://www.d3-graph-gallery.com/graph/" target="_blank">d3-graph-gallery</a>
+      </p>
     </div>
 
     <div id="{{scaleType}}ChartsWrapper" class="{{scaleType}}TabsWrapper">
