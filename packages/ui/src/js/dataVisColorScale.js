@@ -118,9 +118,8 @@ function dataVisColorScale(scaleType) {
   })
 
   downloadGradient.addEventListener('click', (e) => {
-    // TODO: Need to reverse the order of the colors array
-    // so that the SVG gradient is generated in the same direction
-    // as the UI gradient.
+    colors = colorClass.colors;
+
     downloadSVGgradient(colors, colorClass.colorspace, scaleType);
   })
 
