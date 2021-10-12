@@ -25,27 +25,32 @@ function updateColorDots(mode, scaleType = 'theme') {
   const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
   // Create dots for color wheel
   if(!mode) {
-    let colorDotsModeDropdown = (scaleType === 'theme') ? document.getElementById('colorDotsMode') : document.getElementById(`${scaleType}ColorDotsMode`);
-    let colorDotsMode = colorDotsModeDropdown.value;
+    let colorDotsModeDropdown = (scaleType === 'theme') ? document.getElementById('colorDotsMode') : null;
+    let colorDotsMode = (scaleType === 'theme') ? colorDotsModeDropdown.value : 'colorKeys';
     mode = colorDotsMode;
   }
 
-  let colorWheelModeDropdown = (scaleType === 'theme') ? document.getElementById('chartsMode') : document.getElementById(`${scaleType}ChartsMode`);
+  let colorWheelModeDropdown = (scaleType === 'theme') ? document.getElementById('chartsMode') : document.getElementById(`${scaleType}_chartsMode`);
   let colorWheelMode, colorWheelLightness;
   if(scaleType === 'theme') {
     let colorWheelLightnessDropdown = document.getElementById('colorWheelLightness');
     colorWheelLightness = colorWheelLightnessDropdown.value;
-    colorWheelMode = colorWheelModeDropdown.value
   } else {
     colorWheelLightness = 50;
   }
+  colorWheelMode = colorWheelModeDropdown.value
 
   let allColors;
-  if(mode === 'colorKeys' && scaleType === 'theme') allColors = getAllColorKeys();
-  if(mode === 'colorScale' && scaleType === 'theme') {
-    allColors = [];
-    _theme.colors.forEach((color) => { allColors.push(color.backgroundColorScale[colorWheelLightness])});
-  } else {
+  if(scaleType === 'theme') {
+    if(mode === 'colorKeys') {
+      allColors = getAllColorKeys();
+    }
+    if(mode === 'colorScale') {
+      allColors = [];
+      _theme.colors.forEach((color) => { allColors.push(color.backgroundColorScale[colorWheelLightness])});
+    }
+  }
+  else {
     // just show all key colors.
     // would the curve drawing happen here?
     allColors = colorClass.colorKeys;
@@ -72,7 +77,6 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme') {
   let dotSize = 16;
   let defaultAchromaticDotOffset = (size / 2) - (dotSize / 2);
 
-  console.log(mode)
   let arr = [];
   colorValues.map(color => {
     let c,h; 
@@ -99,7 +103,6 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme') {
     
     const conversion = convertToCartesian(c, h, 'clamp');
 
-    console.log(c, h)
     let newX = shiftValue(conversion.x, size, dotSize);
     let newY = shiftValue(conversion.y, size, dotSize);
 
@@ -112,7 +115,6 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme') {
       color: color
     });
   })
-  console.log(arr)
   return arr;
 }
 
@@ -139,8 +141,6 @@ function createColorWheelDots(arr, scaleType = 'theme') {
     },
     appendTo: colorWheelId
   })
-
-  console.log(arr)
 
   arr.map(obj => {
     createHtmlElement({

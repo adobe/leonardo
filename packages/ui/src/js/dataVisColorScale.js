@@ -25,11 +25,11 @@ import {createRGBchannelChart} from './createRGBchannelChart';
 import {downloadSVGgradient} from './createSVGgradient';
 import {
   createColorWheel,
-  createColorWheelDots,
+  updateColorWheel,
   updateColorDots
 } from './colorDisc';
 import {
-  makePowScale
+  throttle
 } from './utils';
 import {createSamples} from './createSamples';
 import {createDemos} from './createDemos';
@@ -91,11 +91,9 @@ function dataVisColorScale(scaleType) {
 
   createSamples(samples, scaleType);
   createDemos(scaleType);
-  // TODO: not working -- setContext is failing for some unknown reason.
-  // setTimeout(() => {
-    createColorWheel(chartsModeSelect.value, 50, scaleType);
-    updateColorDots(chartsModeSelect.value, scaleType);
-  // }, 1000); 
+
+  createColorWheel(chartsModeSelect.value, 50, scaleType);
+  updateColorDots(chartsModeSelect.value, scaleType);
 
   interpolationMode.addEventListener('change', (e) => {
     let colorspace = e.target.value;
@@ -104,6 +102,7 @@ function dataVisColorScale(scaleType) {
 
     updateRamps(colorClass, scaleType, scaleType);
     createSamples(sampleNumber.value, scaleType);
+    updateColorDots(chartsModeSelect.value, scaleType);
     createDemos(scaleType);
   })
 
@@ -112,7 +111,8 @@ function dataVisColorScale(scaleType) {
     colors = colorClass.colors;
 
     updateRamps(colorClass, scaleType, scaleType);
-    createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
+    createInterpolationCharts(colors, chartsModeSelect.value, scaleType);
+    updateColorDots(chartsModeSelect.value, scaleType);
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
   })
@@ -124,17 +124,21 @@ function dataVisColorScale(scaleType) {
   })
 
   chartsModeSelect.addEventListener('change', (e) => {
-    createInterpolationCharts(colors, e.target.value, scaleType)
+    createInterpolationCharts(colors, e.target.value, scaleType);
+    let lightness = (e.target.value === 'HSV') ? 100 : ((e.target.value === 'HSLuv') ? 60 : 50);
+
+    updateColorWheel(e.target.value, lightness, true, null, scaleType)
   })
 
   shift.addEventListener('input', (e) => {
     colorClass.shift = e.target.value;
     colors = colorClass.colors;
 
-    updateRamps(colorClass, scaleType, scaleType);
-    createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
-    createSamples(sampleNumber.value, scaleType);
-    createDemos(scaleType);
+    throttle(updateRamps(colorClass, scaleType, scaleType), 10);
+    throttle(createInterpolationCharts(colors, chartsModeSelect.value, scaleType), 10);
+    throttle(updateColorDots(chartsModeSelect.value, scaleType), 10);
+    throttle(createSamples(sampleNumber.value, scaleType), 10);
+    throttle(createDemos(scaleType), 10);
   })
 
   correctLightness.addEventListener('input', (e) => {
@@ -142,7 +146,8 @@ function dataVisColorScale(scaleType) {
     colors = colorClass.colors;
 
     updateRamps(colorClass, scaleType, scaleType);
-    createInterpolationCharts(colors, chartsModeSelect.value, scaleType)
+    createInterpolationCharts(colors, chartsModeSelect.value, scaleType);
+    updateColorDots(chartsModeSelect.value, scaleType);
 
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
@@ -150,6 +155,7 @@ function dataVisColorScale(scaleType) {
 
   document.getElementById(buttonId).addEventListener('click', (e) => {
     addScaleKeyColor(scaleType, e);
+    updateColorDots(chartsModeSelect.value, scaleType);
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
   });

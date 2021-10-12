@@ -11,9 +11,11 @@ governing permissions and limitations under the License.
 
 import {
   randomId,
-  removeElementsByClass
+  removeElementsByClass,
+  throttle
 } from './utils';
 import {updateRamps} from './ramps';
+import {updateColorDots} from './colorDisc';
 import {
   createSamples
 } from './createSamples';
@@ -24,6 +26,7 @@ const { extendChroma } = require('./chroma-plus');
 
 function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
   let sampleNumber = document.getElementById(`${scaleType}Samples`);
+  let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
   let currentColor;
   if(scaleType === 'sequential') currentColor = _sequentialScale;
   let parent = thisId.replace('_addKeyColor', '');
@@ -38,17 +41,18 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
   sw.type = "color";
   sw.value = c;
 
-  sw.oninput = (e) => {
+  sw.oninput = throttle((e) => {
     // Replace current indexed value from color keys with new value from color input field
     let currentKeys = currentColor.colorKeys;
     c = e.target.value;
     currentKeys.splice(index, 1, c)
     if(scaleType === 'sequential') _sequentialScale.colorKeys = currentKeys
 
-    updateRamps(currentColor, parent, scaleType)
+    updateRamps(currentColor, parent, scaleType);
+    updateColorDots(chartsModeSelect.value, scaleType);
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
-  };
+  }, 10);
 
   sw.className = 'keyColor-Item';
   sw.id = randId + '-sw';
