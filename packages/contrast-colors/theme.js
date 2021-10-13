@@ -119,17 +119,34 @@ class Theme {
   set updateColor(param) {
     // pass arguments in the format _updateColorParameter(color: 'ColorToChange', [propertyToChange]: 'newValue')
     // eg, changing the name of a color: _updateColorParameter(color: 'blue', name: 'cerulean')
-    let currentColor = this._colors.filter(entry => {return entry.name === param.color});
-    currentColor = currentColor[0];
-    const filteredColors = this._colors.filter(entry => {return entry.name !== param.color});
-    if(param.name) currentColor.name = param.name;
-    if(param.colorKeys) currentColor.colorKeys = param.colorKeys;
-    if(param.ratios) currentColor.ratios = param.ratios;
-    if(param.colorspace) currentColor.colorspace = param.colorspace;
-    if(param.smooth) currentColor.smooth = param.smooth;
-
-    filteredColors.push(currentColor);
-    this._colors = filteredColors;
+    // If param is an array, loop through each object, otherwise execute once
+    if(Array.isArray(param)) {
+      for(let i = 0; i < param.length; i ++) {
+        let currentColor = this._colors.filter(entry => {return entry.name === param[i].color});
+        currentColor = currentColor[0];
+        const filteredColors = this._colors.filter(entry => {return entry.name !== param[i].color});
+        if(param[i].name) currentColor.name = param[i].name;
+        if(param[i].colorKeys) currentColor.colorKeys = param[i].colorKeys;
+        if(param[i].ratios) currentColor.ratios = param[i].ratios;
+        if(param[i].colorspace) currentColor.colorspace = param[i].colorspace;
+        if(param[i].smooth) currentColor.smooth = param[i].smooth;
+    
+        filteredColors.push(currentColor);
+        this._colors = filteredColors;
+      }
+    } else {
+      let currentColor = this._colors.filter(entry => {return entry.name === param.color});
+      currentColor = currentColor[0];
+      const filteredColors = this._colors.filter(entry => {return entry.name !== param.color});
+      if(param.name) currentColor.name = param.name;
+      if(param.colorKeys) currentColor.colorKeys = param.colorKeys;
+      if(param.ratios) currentColor.ratios = param.ratios;
+      if(param.colorspace) currentColor.colorspace = param.colorspace;
+      if(param.smooth) currentColor.smooth = param.smooth;
+  
+      filteredColors.push(currentColor);
+      this._colors = filteredColors;
+    }
 
     this._findContrastColors();
   }
