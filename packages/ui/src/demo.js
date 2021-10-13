@@ -10,9 +10,60 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { generateContrastColors, generateBaseScale, generateAdaptiveTheme } from '@adobe/leonardo-contrast-colors';
+import * as Leo from '@adobe/leonardo-contrast-colors';
 import './demo.css';
 
+// Define colors and ratios
+let baseRatios = [-1.1,1,1.12,1.25,1.45,1.75,2.25,3.01,4.52,7,11,16];
+let uiRatios = [1,1.12,1.3,2,3.01,4.52,7,11,16];
+
+let purpleScale = new Leo.Color({
+  name: "purple",
+  colorKeys: ["#7a4beb","#ac80f4","#2f0071"],
+  colorspace: "LAB",
+  ratios: uiRatios
+})
+
+let blueScale = new Leo.Color({
+  name: "blue",
+  colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
+  colorspace: "CAM02",
+  ratios: uiRatios
+});
+
+let greenScale = new Leo.Color({
+  name: "green",
+  colorKeys: ["#4eb076","#2a5a45","#a7e3b4"],
+  colorspace: "HSL",
+  ratios: uiRatios
+})
+let redScale = new Leo.Color({
+  name: "red",
+  colorKeys: ["#ea2825","#ffc1ad","#fd937e"],
+  colorspace: "LAB",
+  ratios: uiRatios
+});
+
+let goldScale = new Leo.Color ({
+  name: "gold",
+  colorKeys: ["#e8b221","#a06a00","#ffdd7c"],
+  colorspace: "HSL",
+  ratios: uiRatios
+})
+
+let grayScale =  new Leo.BackgroundColor({
+  name: "gray",
+  colorKeys: ["#4a5b7b","#72829c","#a6b2c6"],
+  colorspace: 'HSL',
+  ratios: baseRatios
+});
+
+let myTheme = new Leo.Theme({
+  backgroundColor: grayScale,
+  colors: [grayScale, purpleScale, blueScale, greenScale, redScale, goldScale],
+  lightness: 100,
+  contrast: 1,
+});
 
 function setup() {
   let br = document.getElementById('sliderBrightness');
@@ -124,59 +175,13 @@ createEvent(col4, 'event30', 'Gym', '-', 'catPersonal', 1);
 createEvent(col4, 'event60', 'Workshop', 'UT-440', 'catBlue', 4);
 createEvent(col4, 'event120', 'Backlog grooming', 'UT-112', 'catPrimary', 8);
 
-
-// Define colors and ratios
-let baseRatios = [-1.1,1,1.12,1.25,1.45,1.75,2.25,3.01,4.52,7,11,16];
-let uiRatios = [1,1.12,1.3,2,3.01,4.52,7,11,16];
-
-let purpleScale = {
-  name: "purple",
-  colorKeys: ["#7a4beb","#ac80f4","#2f0071"],
-  colorspace: "LAB",
-  ratios: uiRatios
-}
-
-let blueScale = {
-  name: "blue",
-  colorKeys: ['#0272d4','#b2f0ff','#55cfff','#0037d7'],
-  colorspace: "CAM02",
-  ratios: uiRatios
-};
-
-let greenScale = {
-  name: "green",
-  colorKeys: ["#4eb076","#2a5a45","#a7e3b4"],
-  colorspace: "HSL",
-  ratios: uiRatios
-}
-let redScale = {
-  name: "red",
-  colorKeys: ["#ea2825","#ffc1ad","#fd937e"],
-  colorspace: "LAB",
-  ratios: uiRatios
-};
-
-let goldScale = {
-  name: "gold",
-  colorKeys: ["#e8b221","#a06a00","#ffdd7c"],
-  colorspace: "HSL",
-  ratios: uiRatios
-}
-
-let grayScale =  {
-  name: "gray",
-  colorKeys: ["#4a5b7b","#72829c","#a6b2c6"],
-  colorspace: 'HSL',
-  ratios: baseRatios
-};
-
 function createColors() {
   let br = document.getElementById('sliderBrightness');
   let con = document.getElementById('sliderContrast');
   let mode = document.getElementById('darkMode');
 
-  let brVal = br.value;
-  let conVal = con.value;
+  let brVal = Number(br.value);
+  let conVal = Number(con.value);
 
   if(mode.checked == true) {
     br.min= "0";
@@ -198,38 +203,15 @@ function createColors() {
     document.documentElement.style.setProperty('--shadow-color', 'rgba(0, 0, 0, 0.1)');
   }
 
-  let myTheme = generateAdaptiveTheme({
-    baseScale: "gray",
-    colorScales: [grayScale, purpleScale, blueScale, greenScale, redScale, goldScale],
-    brightness: brVal,
-    contrast: conVal});
+  myTheme.lightness = brVal;
+  myTheme.contrast = conVal;
 
-  console.log(myTheme);
+  let colorPairs = myTheme.contrastColorPairs;
 
-  let varPrefix = '--';
-
-  for (let i=0; i<myTheme.length; i++) { // for each color
-    let vals = myTheme[i].values;
-
-    if (vals !== undefined) { // only color objects with values (excludes background color)
-      for(let j=0; j< vals.length; j++) { // for each value object
-        let key = vals[j].name; // output "name" of color
-        let prop = varPrefix.concat(key);
-        let value = vals[j].value; // output value of color
-
-        document.documentElement.style
-          .setProperty(prop, value);
-      }
-    }
-    else if(myTheme[i].background) {
-      let prop = varPrefix.concat('background');
-      let value = myTheme[i].background;
-
-      document.documentElement.style
-        .setProperty(prop, value);
-    }
+  for (const [key, value] of Object.entries(colorPairs)) {
+    document.documentElement.style
+      .setProperty(`--${key}`, value);
   }
-
 }
 createColors();
 
