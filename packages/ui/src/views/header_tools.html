@@ -1,0 +1,33 @@
+<header class="spectrum-AppHeader">
+  <div class="spectrum-AppHeader_item">
+    <a href="/" id="logoTitle">
+      <img src="images/Leonardo_Logo_sm.svg" alt="Leonardo logo" id="headerLogo">
+      <h1 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS spectrum-AppHeader-Title">Leonardo</h1>
+    </a>
+
+    <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet spectrum-Tabs--fluid">
+      <div id="tabHome" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'home')">
+        <label class="spectrum-Tabs-itemLabel">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Home" />
+          </svg>
+        </label>
+      </div>
+
+      <div id="tabContrast" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'contrastChecker')">
+        <label class="spectrum-Tabs-itemLabel">Contrast checker</label>
+      </div>
+      <div id="tabCVD" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'cvdChecker')">
+        <label class="spectrum-Tabs-itemLabel">Colorblind checker</label>
+      </div>
+      <div id="tabConverter" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'colorConverter')">
+        <label class="spectrum-Tabs-itemLabel">Converter</label>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="spectrum-AppHeader_item">
+    <a href="https://www.github.com/adobe/leonardo" id="octo-link"> <img id="octocat" src="images/GitHub-Mark-120px-plus.png" alt="Github octocat"/> </a>
+  </div>
+</header>

@@ -59,7 +59,7 @@ import * as Leo from '../../contrast-colors/index.js';
 // expose functions so they can be ran in the console
 window.luminance = Leo.luminance;
 window.contrast = Leo.contrast;
-window.calculateContrast = Leo.calculateContrast;
+window.calculateContrast = Leo.getContrast;
 window.Leo = Leo;
 
 let inputForeground = document.getElementById('foregroundInput');
@@ -321,7 +321,7 @@ function returnContrast() {
   // blend alpha foreground over background in case color is transparent
   let fgBlend = alphaBlend(fg, bg);
 
-  let ratio = Leo.calculateContrast(method, fgBlend, bg, baseV);
+  let ratio = Leo.getContrast(method, fgBlend, bg, baseV);
 
   // get rid of that negative ratio for Relative lum formula...
   if (method === 'WCAG') {

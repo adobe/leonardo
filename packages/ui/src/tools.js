@@ -43,7 +43,12 @@ import '@spectrum-css/typography/dist/index-vars.css';
 import '@spectrum-css/progresscircle/dist/index-vars.css';
 
 import './scss/style.scss';
+import './scss/converter.scss';
+import './scss/colorinputs.scss';
 import './views/*.scss';
+
+// import './contrast-checker';
+// import './converter';
 
 import '@adobe/focus-ring-polyfill';
 import {pageLoader} from './js/pageLoader'
@@ -95,7 +100,7 @@ if (mq.matches) {
   document.querySelector('body').classList.add('spectrum--light');
 }
 
-document.getElementById("tabHome").click();
+document.getElementById("tabContrast").click();
 document.getElementById("welcome").click();
 
 window.onload = function() {
