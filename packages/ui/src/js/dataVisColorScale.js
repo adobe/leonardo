@@ -46,6 +46,14 @@ function dataVisColorScale(scaleType) {
     let defaultColors = ['#5c3cec','#9eecff']
     _sequentialScale.colorKeys = defaultColors;
   }
+  if(scaleType === 'diverging') {
+    let defaultStartColors = ['#5c3cec','#9eecff'];
+    let defaultEndColors = ['#5c3cec','#9eecff'];
+    let defaultMiddleColor = '#f3f3f3';
+    _divergingScale.startKeys = defaultStartColors;
+    _divergingScale.endKeys = defaultEndColors;
+    _divergingScale.middleKey = defaultMiddleColor;
+  }
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
   let interpolationMode = document.getElementById(`${scaleType}_mode`);

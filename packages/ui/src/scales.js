@@ -104,3 +104,4 @@ document.getElementById("tabqualitativeCharts").click();
 document.getElementById("welcome").click();
 
 dataVisColorScale('sequential');
+dataVisColorScale('diverging');

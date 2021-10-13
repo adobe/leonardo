@@ -251,7 +251,184 @@ class SequentialScale {
     domains.sort((a, b) => b - a)
     return domains;
   }
+}
 
+class DivergingScale {
+  constructor({ 
+    swatches,
+    startKeys,
+    endKeys,
+    middleKey,
+    colorspace,
+    smooth,
+    shift,
+    output,
+    correctLightness
+   }) {
+    this._swatches = swatches,
+    this._startKeys = startKeys;
+    this._endKeys = endKeys;
+    this._middleKey = middleKey;
+    this._colorspace = colorspace;
+    this._shift = shift;
+    this._smooth = smooth;
+    this._output = output;
+    this._correctLightness = correctLightness;
+    // this._luminosities = this._getColorLuminosities();
+    // this._domains = this._getDomains();
+
+    this._startScale = new SequentialScale({
+      swatches: this._swatches,
+      colorKeys: this._startKeys,
+      colorspace: this._colorspace,
+      smooth: this._smooth,
+      shift: this._shift,
+      correctLightness: this._correctLightness,
+      output: this._output
+    });
+    this._endScale = new SequentialScale({
+      swatches: this._swatches,
+      colorKeys: this._endKeys,
+      colorspace: this._colorspace,
+      smooth: this._smooth,
+      shift: this._shift,
+      correctLightness: this._correctLightness,
+      output: this._output
+    });
+    this._colors = this._createColorScale();
+  }
+
+  set startKeys(colors) {
+    this._startKeys = colors;
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get startKeys() {
+    return this._startKeys;
+  }
+
+  set endKeys(colors) {
+    this._endKeys = colors;
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get endKeys() {
+    return this._endKeys;
+  }
+
+  set middleKey(color) {
+    this._middleKey = color;
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get middleKey() {
+    return this._middleKey;
+  }
+  
+  set colorspace(colorspace) {
+    this._colorspace = colorspace;
+    this._startColor.colorspace = colorspace;
+    this._endColor.colorspace = colorspace;
+
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get colorspace() {
+    return this._colorspace;
+  }
+
+  set smooth(smooth) {
+    this._smooth = smooth;
+    this._startColor.smooth = smooth;
+    this._endColor.smooth = smooth;
+
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get smooth() {
+    return this._smooth;
+  }
+
+  set output(output) {
+    this._output = output;
+    this._startColor.output = output;
+    this._endColor.output = output;
+
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get output() {
+    return this._output;
+  }
+
+  set shift(shift) {
+    this._shift = Number(shift);
+    this._startColor.shift = shift;
+    this._endColor.shift = shift;
+
+    this._colors = null;
+    this._colors = this._createColorScale();
+    this._domains = this._getDomains();
+  }
+
+  get shift() {
+    return Number(this._shift);
+  }
+
+  set swatches(swatches) {
+    this._swatches = swatches;
+    this._startColor.swatches = swatches;
+    this._endColor.swatches = swatches;
+
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get swatches() {
+    return this._swatches;
+  }
+
+  get colors() {
+    return this._colors;
+  }
+
+  get luminosities() {
+    return this._luminosities;
+  }
+
+  get domains() {
+    return this._domains;
+  }
+
+  get colorFunction() {
+    return this._colorFunction;
+  }
+
+  set correctLightness(boolean) {
+    this._correctLightness = boolean;
+    this._startColor.correctLightness = boolean;
+    this._endColor.correctLightness = boolean;
+
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
+  get colors() {
+    return this._colors;
+  }
+
+  _createColorScale() {
+    const startColors = this._startScale.colors;
+    const endColors = this._endScale.colors.reverse();
+    let newColors = [...startColors, ...endColors]
+    return newColors
+  }
 }
 
 let _sequentialScale = new SequentialScale({
@@ -263,9 +440,22 @@ let _sequentialScale = new SequentialScale({
   correctLightness: true,
   output: 'RGB'
 })
+let _divergingScale = new DivergingScale({
+  swatches: 100,
+  startKeys: ['#5c3cec', '#9eecff'],
+  endKeys: ['ffca9e', '#700036'],
+  middleKey: '#e7f3f3',
+  colorspace: 'CAM02p',
+  smooth: false,
+  shift: 1,
+  correctLightness: true,
+  output: 'RGB'
+})
 
 window._sequentialScale = _sequentialScale;
+window._divergingScale = _divergingScale;
 
 module.exports = {
-  _sequentialScale
+  _sequentialScale,
+  _divergingScale
 }
