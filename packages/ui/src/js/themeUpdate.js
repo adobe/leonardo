@@ -41,23 +41,24 @@ hljs.registerLanguage('javascript', javascript);
 
 function themeUpdate() {
   createOutputColors();
-
-  let chartRatios = getContrastRatios();
-  createRatioChart(chartRatios);
-
-  // Create dots for color wheel
-  // let allKeyColorsMerged = [].concat.apply([], allKeyColors);
-  let colorWheelModeDropdown = document.getElementById('chartsMode');
-  let colorWheelMode = colorWheelModeDropdown.value
-
-  createPaletteCharts(colorWheelMode);
-  updateColorDots(null, 'theme');
-  create3dChart(null, colorWheelMode);
-
-  let chartLuminosities = getLuminosities();
-  createLuminosityChart(chartLuminosities);
-
   createOutputParameters();
+
+  throttle(() => {
+    let chartRatios = Promise.resolve(getContrastRatios());
+    chartRatios.then(function(resolve) {createRatioChart(resolve)});
+  
+    // Create dots for color wheel
+    // let allKeyColorsMerged = [].concat.apply([], allKeyColors);
+    let colorWheelModeDropdown = document.getElementById('chartsMode');
+    let colorWheelMode = colorWheelModeDropdown.value
+  
+    createPaletteCharts(colorWheelMode);
+    updateColorDots(null, 'theme');
+    create3dChart(null, colorWheelMode);
+  
+    let chartLuminosities = Promise.resolve(getLuminosities());
+    chartLuminosities.then(function(resolve) {createLuminosityChart(resolve)});
+  }, 100)
 }
 
 function themeUpdateParams() {

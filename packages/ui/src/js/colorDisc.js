@@ -19,7 +19,8 @@ import {create3dChart} from './create3dChart';
 import {polarColorPath} from './polarColorPath';
 import {
   convertToCartesian,
-  removeElementsByClass
+  removeElementsByClass,
+  throttle
 } from './utils';
 
 function updateColorDots(mode, scaleType = 'theme') {
@@ -369,8 +370,11 @@ if(colorWheelMode) {
     let colorDotsModeDropdown = document.getElementById('colorDotsMode');
     let dotsMode = colorDotsModeDropdown.value;
     let showDots = (dotsMode === 'colorScale') ? true : false;
-  
-    updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode, 'theme');
+    
+    throttle(
+      updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode, 'theme'),
+      10
+    )
   });
   
   colorDotsMode.addEventListener('input', function(e) {

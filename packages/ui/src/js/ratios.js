@@ -52,9 +52,16 @@ function addRatio() {
 
 function createRatioInput(v, c) {
   if(!c) {
-    const AllRatios = getContrastRatios();
-    let ratioIndex = AllRatios.length;
-    c =  _theme.contrastColors[1].values[ratioIndex].value;
+    const AllRatios = Promise.resolve(getContrastRatios());
+    AllRatios.then(function(resolve) {
+      let ratioIndex = resolve.length;
+      let indexedColor = _theme.contrastColors[1].values[ratioIndex];
+      if(!indexedColor) {
+        c = '#cacaca'
+      } else {
+        c =  indexedColor.value;  
+      }
+    })
   }
 
   const luminosityGradient = document.getElementById('luminosityGradient');
@@ -261,7 +268,7 @@ function sort() {
 
 function sortRatios() {
   sort();
-  ratioUpdate();
+  // ratioUpdate();
 }
 
 function syncRatioInputs(e) {
@@ -294,28 +301,32 @@ function syncRatioInputs(e) {
     baseId = thisId;
   }
 
-  let themeRatios = getContrastRatios();
-  const index = themeRatios.indexOf(targetContrast);
-  if (index > -1) {
-    themeRatios[index] = targetContrast;
-  }
+  let themeRatios = Promise.resolve(getContrastRatios());
+  themeRatios.then(function(resolve) {
+    const index = resolve.indexOf(targetContrast);
+    if (index > -1) {
+      resolve[index] = targetContrast;
+    }
+  
+    ratioUpdateValues(resolve);
 
-  ratioUpdateValues();
-  ratioUpdate();
+    if(!thisId.includes('_luminosity')) {
+      ratioUpdate();
+      let luminosityInputId = `${thisId}_luminosity`;
+      let luminosityInput = document.getElementById(luminosityInputId);
+      // Must calculate luminosity of respective contrast value 
+      let tempColor = _theme.contrastColors[1].values[index].value;
 
-  if(!thisId.includes('_luminosity')) {
-    let luminosityInputId = `${thisId}_luminosity`;
-    let luminosityInput = document.getElementById(luminosityInputId);
-    // Must calculate luminosity of respective contrast value 
-    let tempColor = _theme.contrastColors[1].values[index].value;
+      luminosity = d3.hsluv(tempColor).v;
+      luminosityInput.value = round(luminosity, 2);
 
-    luminosity = d3.hsluv(tempColor).v;
-    luminosityInput.value = round(luminosity, 2);
+      swatchColor = d3.hsluv(0, 0, luminosity).formatHex();
+    }
 
-    swatchColor = d3.hsluv(0, 0, luminosity).formatHex();
-  }
+    swatch.style.backgroundColor = swatchColor;
 
-  swatch.style.backgroundColor = swatchColor;
+  });
+
 
   let lDotId = baseId.concat('_dot')
   let lDot = document.getElementById(lDotId);
@@ -369,19 +380,23 @@ function deleteRatio(e) {
   ratioUpdate();
 }
 
-function ratioUpdate(chartRatios = getContrastRatios(), chartLuminosities = getLuminosities()) {
-  createOutputColors();
-  createRatioChart(chartRatios);
-  createLuminosityChart(chartLuminosities);
-  createOutputParameters();
+function ratioUpdate(chartRatios = Promise.resolve(getContrastRatios()), chartLuminosities = Promise.resolve(getLuminosities())) {
+  Promise.all([chartRatios, chartLuminosities]).then(function(values) {
+    createOutputColors();
+    createRatioChart(values[0]);
+    createLuminosityChart(values[1]);
+    createOutputParameters();
+  })
 }
 
 function ratioUpdateValues(themeRatios = getContrastRatios()) {
   themeRatios = themeRatios.map((r) => {return Number(r)});
-
+  let argArray = [];
   _theme.colors.forEach((c) => {
-    _theme.updateColor = {color: c.name, ratios: themeRatios}
+    argArray.push( {color: c.name, ratios: themeRatios} )
   })
+
+  _theme.updateColor = argArray;
 }
 
 window.addRatio = addRatio;

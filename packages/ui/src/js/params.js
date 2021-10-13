@@ -65,8 +65,8 @@ function paramSetup() {
         addColorScale(newColor);
       })
 
-      RATIOS = [...colorScales[1].ratios];
-      RATIOCOLORS = _theme.contrastColors[1].values.map((c) => {return c.value});
+      RATIOS = Promise.resolve([...colorScales[1].ratios]);
+      RATIOCOLORS = Promise.resolve(_theme.contrastColors[1].values.map((c) => {return c.value}));
       // let sampleColors = _theme.contrastColors[2].values.map((c) => {return c.value});
       // addRatioInputs(colorScales[2].ratios, sampleColors)
     } else {
@@ -77,18 +77,22 @@ function paramSetup() {
     let sliderVal = document.getElementById('themeBrightnessValue');
     slider.value = lightness;
     sliderVal.innerHTML = lightness;
+    _theme.lightness = lightness;
 
     let contrastSlider = document.getElementById('themeContrastSlider');
     let contrastSliderVal = document.getElementById('themeContrastValue');
     contrastSlider.value = contrast;
     contrastSliderVal.innerHTML = contrast;
+    _theme.contrast = contrast;
   
     // generate the options for the base scale,
     // then select the option defined in parameters
     baseScaleOptions();
     themeBase.value = baseScale;
 
-    addRatioInputs(RATIOS, RATIOCOLORS)
+    Promise.all([RATIOS, RATIOCOLORS]).then((values) => {
+      addRatioInputs(values[0], values[1])
+    });
   }
   else if(!params.has('config') || params.get('config') === undefined) {
     addRatioInputs([3, 4.5], ['#959595', '#767676']);
@@ -107,8 +111,10 @@ function paramSetup() {
     themeBase.value = _theme.backgroundColor.name;
   }
 
-
-  themeUpdate();
+  setTimeout(() => {
+    themeUpdate();
+  }, 200)
+  // themeUpdate();
 }
 
 // Passing variable parameters to URL
