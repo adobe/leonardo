@@ -40,6 +40,7 @@ import '@spectrum-css/tabs/dist/index-vars.css';
 import '@spectrum-css/toast/dist/index-vars.css';
 import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
+import '@spectrum-css/progresscircle/dist/index-vars.css';
 
 import './scss/style.scss';
 import './scss/charts.scss';
@@ -47,6 +48,7 @@ import './scss/colorinputs.scss';
 import './views/*.scss';
 
 import '@adobe/focus-ring-polyfill';
+import {pageLoader} from './js/pageLoader'
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import loadIcons from 'loadicons';
@@ -105,3 +107,13 @@ document.getElementById("welcome").click();
 
 dataVisColorScale('sequential');
 dataVisColorScale('diverging');
+
+window.onload = function() {
+  // let uri = window.location.toString();
+  // let cleanURL = uri.substring(0, uri.indexOf("?"));
+
+  // window.history.replaceState({}, document.title, cleanURL);
+
+  // On window load, transition to remove page loader
+  pageLoader();
+}

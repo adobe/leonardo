@@ -71,6 +71,7 @@
     "@spectrum-css/menu": "^2.1.1",
     "@spectrum-css/page": "^3.0.2",
     "@spectrum-css/picker": "^1.0.3",
+    "@spectrum-css/progresscircle": "^1.0.3",
     "@spectrum-css/radio": "^3.0.2",
     "@spectrum-css/sidenav": "^3.0.2",
     "@spectrum-css/slider": "^3.0.2",

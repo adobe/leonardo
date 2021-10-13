@@ -1963,3 +1963,18 @@ section {
     margin: 0 auto;
   }
 }
+
+#pageLoader {
+  height: 100vh;
+  width: 100vw;
+  position:absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--spectrum-global-color-gray-100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 1;
+  transition: opacity .125s ease-in;
+}

@@ -40,11 +40,13 @@ import '@spectrum-css/tabs/dist/index-vars.css';
 import '@spectrum-css/toast/dist/index-vars.css';
 import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
+import '@spectrum-css/progresscircle/dist/index-vars.css';
 
 import './scss/style.scss';
 import './views/*.scss';
 
 import '@adobe/focus-ring-polyfill';
+import {pageLoader} from './js/pageLoader'
 
 import loadIcons from 'loadicons';
 loadIcons('./spectrum-css-icons.svg');
@@ -95,3 +97,8 @@ if (mq.matches) {
 
 document.getElementById("tabHome").click();
 document.getElementById("welcome").click();
+
+window.onload = function() {
+  // On window load, transition to remove page loader
+  pageLoader();
+}

@@ -40,6 +40,7 @@ import '@spectrum-css/tabs/dist/index-vars.css';
 import '@spectrum-css/toast/dist/index-vars.css';
 import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
+import '@spectrum-css/progresscircle/dist/index-vars.css';
 
 import './scss/colorinputs.scss';
 import './scss/charts.scss';
@@ -120,6 +121,7 @@ import {
   createSVGuiKit
 } from './js/createSVGuiKit'
 import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
+import {pageLoader} from './js/pageLoader'
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')
@@ -216,4 +218,7 @@ window.onload = function() {
   let cleanURL = uri.substring(0, uri.indexOf("?"));
 
   window.history.replaceState({}, document.title, cleanURL);
+
+  // On window load, transition to remove page loader
+  pageLoader();
 }
