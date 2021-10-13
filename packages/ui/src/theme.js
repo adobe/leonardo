@@ -214,10 +214,10 @@ document.getElementById("tabSubPanelContrastChart").click();
 
 
 window.onload = function() {
-  let uri = window.location.toString();
-  let cleanURL = uri.substring(0, uri.indexOf("?"));
+  // let uri = window.location.toString();
+  // let cleanURL = uri.substring(0, uri.indexOf("?"));
 
-  window.history.replaceState({}, document.title, cleanURL);
+  // window.history.replaceState({}, document.title, cleanURL);
 
   // On window load, transition to remove page loader
   pageLoader();

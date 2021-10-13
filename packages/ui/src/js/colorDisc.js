@@ -131,6 +131,7 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
 
   const dotsClass = (scaleType === 'theme') ? 'colorDot' : `${scaleType}ColorDot` ;
   const colorWheelId = (scaleType === 'theme') ? 'colorWheel' : `${scaleType}ColorWheel` ;
+  const colorWheelLinesWrapper = (scaleType === 'theme') ? 'colorWheelLinesWrapper' : `${scaleType}ColorWheel`;
   const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas` ;
   const linesId = (scaleType === 'theme') ? 'colorWheelLines' : `${scaleType}ColorWheelLines` ;
   removeElementsByClass(dotsClass);
@@ -160,7 +161,7 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
       height: size,
       width: size
     },
-    appendTo: colorWheelId
+    appendTo: colorWheelLinesWrapper
   })
 
   arr.map(obj => {
@@ -387,17 +388,17 @@ if(colorWheelMode) {
   const colorPaths = document.getElementById('colorWheelPaths')
   colorPathsSwitch.addEventListener('change', (e) => {
     let checked = e.target.checked;
-    if(checked) colorPaths.style.display = 'block';
-    else colorPaths.style.display = 'none';
+    if(checked) colorPaths.style.opacity = 1;
+    else colorPaths.style.opacity = 0;
   })
 
   const colorHarmonyLinesSwitch = document.getElementById('colorHarmonyLinesSwitch');
-  const colorHarmonyLines = document.getElementById('colorWheelLines')
+  const colorHarmonyLines = document.getElementById('colorWheelLinesWrapper')
   colorHarmonyLinesSwitch.addEventListener('change', (e) => {
     let checked = e.target.checked;
 
-    if(checked) colorHarmonyLines.style.display = 'block';
-    else colorHarmonyLines.style.display = 'none';
+    if(checked) colorHarmonyLines.style.opacity = 1;
+    else colorHarmonyLines.style.opacity = 0;
   })
 }
 

@@ -1676,7 +1676,8 @@ a:focus {
 
 /* Theme paths are hidden by default */
 #colorWheelPaths {
-  display: none;
+  opacity: 0;
+  transition: opacity 0.125s ease-in-out;
 }
 
 #colorWheel--controlsWrapper{
@@ -1701,6 +1702,11 @@ a:focus {
   position: absolute;
   left: 0;
   top: 0;
+}
+
+#colorWheelLinesWrapper {
+  opacity: 1;
+  transition: opacity 0.125s ease-in-out;
 }
 
 .colorDot,
@@ -1856,10 +1862,17 @@ a:focus {
   margin-bottom: var(--spectrum-global-dimension-size-150)
 }
 
+.themeOutputSwatch_luminosity,
+.themeOutputSwatch_contrast {
+  opacity: 1;
+  transition: opacity 0.125s ease-in-out;
+}
+
 .hideSwatchAttributes {
   .themeOutputSwatch_luminosity,
   .themeOutputSwatch_contrast {
-    display: none;
+    opacity: 0;
+    transition: opacity 0.125s ease-in-out;
   }
 }
 
