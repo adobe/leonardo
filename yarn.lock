@@ -2105,6 +2105,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@spectrum-css/actionbutton@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/actionbutton/-/actionbutton-1.0.4.tgz#7140dcfc35365a9887ac3885e041f319fb780d8b"
+  integrity sha512-BRFd+99C2KKrRI8FOhzF4PZoiDaP2CXhsI+Ay/sk9OGubMqdTwkxyz6rSa9WI1bM1NcVEjB9b1V6MgN3L64KSg==
+
 "@spectrum-css/alert@^2.0.2":
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@spectrum-css/alert/-/alert-2.0.5.tgz#d98980b3b43437f6741523c1969818e8a76e73ef"
@@ -2160,10 +2165,10 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/fieldlabel/-/fieldlabel-2.0.6.tgz#37d193a4ef9773eff323063a9d24c608a7e53cb4"
   integrity sha512-ejfgMksfVWUlKWGHNUwlyYI/QEVWMKVZMgRIEYrWhPk1fPykEJPt3YMXprHFj3auzQPR+Y6thSsVlfxJ1kmUAg==
 
-"@spectrum-css/icon@^2.0.2":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@spectrum-css/icon/-/icon-2.1.1.tgz#53b371b293833e501898472dda8661a07db09fd8"
-  integrity sha512-Ddnjw3YTZiuJC8uVJ9x6i+ufQN+Vp4vibc+YxE7nXn8tWzT8zTRzwv6oHwSG9m+KzonTfnwqPuQx6ZA8vbK9xA==
+"@spectrum-css/icon@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/icon/-/icon-3.0.4.tgz#9837ebf3c7ed2dedbd48fe4d3e42e56eca1e346f"
+  integrity sha512-ZNxAwzY3uVEZ1/a+aTPuL7XxZ+/78rbzB56H4+loJFZdkRG3i72Yn/AQGtukCth7AvdXjEkzc/gvHLnMiIvaxA==
 
 "@spectrum-css/illustratedmessage@2.0.0":
   version "2.0.0"
@@ -2175,10 +2180,10 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/link/-/link-2.0.6.tgz#e7316580804d1b62fc3a7544bded07d8f499e309"
   integrity sha512-vXs5JyDTxc/zk+Kuj8UTIg2NqkSWkVwg71TbL3o5K90c5xvmDIX1B/j8eFj7WPJiwsYSDJJKiBvXlTvpWrTgqA==
 
-"@spectrum-css/menu@^2.1.1":
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/@spectrum-css/menu/-/menu-2.1.5.tgz#78c60689d1855a66eafe177321cb5589c7090ab0"
-  integrity sha512-NJjiYpCFrBDLs0bjBAZFZO3/4Nz9Z8X/FFebFkbKYbOnECS9ZUe2mXvDhNB1yDRQksBWwo3m76+/OU2VfBYDQg==
+"@spectrum-css/menu@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/menu/-/menu-3.0.4.tgz#daae70a3e8af08eba9afd72ae07c5b737e30fc3b"
+  integrity sha512-kKlNZ08GZv0/jQ/lh/JrIz0rYCO8GIPud/Iw/3+4ziKlA7LTa6lAQTWPghSWwBb3QGt1StOF12xM3RAAML3PUQ==
 
 "@spectrum-css/page@^2.0.2":
   version "2.0.7"
@@ -2186,6 +2191,16 @@
   integrity sha512-0e8gne8/3yuEjkbbT7F+K/E15Z2BbL/q/r+Z2KM9Kew6uLnTJawFzUPR67zcSVZw8LicWVMxVu9o5KbhEhXMcw==
   dependencies:
     "@spectrum-css/vars" "^2.3.0"
+
+"@spectrum-css/picker@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/picker/-/picker-1.0.4.tgz#bb3d537b757c8135db10ace1f822dc99d048c51d"
+  integrity sha512-iyaJcZLnU3J6kdmJOJMlgzaTO8ToyuiUPlEDwGS17a/4ZAW6LFw/RADcG2y3CFbAaRPhcoPuQMxKvL02HaDBOw==
+
+"@spectrum-css/popover@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/popover/-/popover-3.0.4.tgz#1b03c1b498393fa04263004cc2e8413dba725ada"
+  integrity sha512-tcOmhdTGUjG14oKxVpwHVFurvw3YbPhH0HhJOzK+4ffLa0rGcm28fvPLZu93cek2BKdoUd4m0tsJHQ6+zfENQQ==
 
 "@spectrum-css/radio@^2.0.2":
   version "2.1.0"
@@ -2227,10 +2242,15 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/underlay/-/underlay-2.0.10.tgz#8b75b646605a311850f6620caa18d4996cd64ed7"
   integrity sha512-PmsmkzeGD/rY4pp3ILXHt9w8BW7uaEqXe08hQRS7rGki7wqCpG4mE0/8N3yEcA3QxWQclmG9gdkg5uz6wMmYzA==
 
-"@spectrum-css/vars@^2.0.2", "@spectrum-css/vars@^2.3.0":
+"@spectrum-css/vars@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-2.3.0.tgz#0ce716fb5ee65f4af9e2d2a7aaae55e8ba4d4c8f"
   integrity sha512-k4YwFbv9+7QzBrc3ezvGuHxI3nDTG/6qJsAmhYS1vEyxpxjKmRfiz59P+fqT12PQNjxeNYHyVz1kRgaLA6gw2w==
+
+"@spectrum-css/vars@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-4.0.0.tgz#939c8883ca1524dd30669f09f7b29ccc609e0035"
+  integrity sha512-Bo1TflLD3kfuOVRySOEDR/ozEdKY+h5eFs+84UUIyb3Yz+MGVgLYuU0054gclcXldV31HvEK/RNVvGkIA2djOQ==
 
 "@tootallnate/once@1":
   version "1.1.2"

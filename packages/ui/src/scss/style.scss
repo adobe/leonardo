@@ -357,8 +357,8 @@ body {
   }
 
   @mixin thumbFocus {
-    background-color: var(--spectrum-alias-border-color-focus);
-    border-color: var(--spectrum-alias-border-color-focus);
+    background-color: var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-ring-color));
+    border-color: var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-ring-color));
     transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
   }
 
@@ -408,7 +408,7 @@ body {
   }
 
   input[type=range]:focus::-webkit-slider-runnable-track {
-    background: var(--spectrum-alias-border-color-focus);
+    background: var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-ring-color));
   }
 
   input[type=range]::-moz-range-track {
@@ -427,13 +427,13 @@ body {
     background-color: var(--spectrum-global-color-gray-300);
   }
   input[type=range]:focus::-ms-fill-lower {
-    background-color: var(--spectrum-global-color-blue-400);
+    background-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   }
   input[type=range]::-ms-fill-upper {
     background-color: var(--spectrum-global-color-gray-300);
   }
   input[type=range]:focus::-ms-fill-upper {
-    background-color: var(--spectrum-global-color-blue-400);
+    background-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   }
 }
 
@@ -900,6 +900,11 @@ a:focus {
     margin-top: calc(var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75)) / -2);
   }
 }
+.spectrum-UIIcon-ChevronDownMedium {
+  width: var(--spectrum-icon-chevron-down-medium-width, var(--spectrum-global-dimension-size-125));
+  height: var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75));
+}
+
 .themeColor_item ~ .themeColor_item {
   margin-top: 16px;
 }
@@ -1137,4 +1142,14 @@ a:focus {
 
 #addFromURLinput {
   width: 100%;
+}
+
+// Local overrides to support existing css
+.spectrum-Icon--sizeXS, .spectrum-Icon--sizeXS img, .spectrum-Icon--sizeXS svg {
+  height: calc(var(--spectrum-global-dimension-size-300) / 2);
+  width: calc(var(--spectrum-global-dimension-size-300) / 2);
+}
+.spectrum-UIIcon-CrossMedium {
+  width: var(--spectrum-icon-cross-medium-width, var(--spectrum-global-dimension-size-100));
+  height: var(--spectrum-icon-cross-medium-height, var(--spectrum-global-dimension-size-100));
 }
