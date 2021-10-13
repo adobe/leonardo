@@ -9,6 +9,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import {createOutputColors} from './createOutputColors';
+import {createOutputParameters} from './createOutputParameters';
+
 import {_theme} from './initialTheme';
 
 function sliderValue(e) {
@@ -29,7 +32,10 @@ function sliderInput(e) {
       );
   
   const updateThemeClass = Promise.resolve(_theme[property] = Number(value));
-  updateThemeClass.then(themeUpdate());
+  updateThemeClass.then(() => {
+    createOutputColors();
+    createOutputParameters();
+  });
 }
 
 const sliderB = document.getElementById('themeBrightnessSlider');

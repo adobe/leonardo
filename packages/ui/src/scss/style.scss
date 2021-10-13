@@ -823,7 +823,7 @@ a:focus {
 
 .themeOutputParams {
   // max-height: calc(100vh - 208px);
-  max-height: calc(100vh - 498px);
+  max-height: calc(100vh - 198px);
   overflow: auto;
   display: block;
   margin-top: var(--spectrum-global-dimension-size-100);
@@ -929,6 +929,14 @@ a:focus {
   display: none;
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200) 0;
+}
+
+.tabHeader {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 // Manually replacing this code
@@ -1578,6 +1586,9 @@ a:focus {
   text-overflow: ellipsis;
 }
 
+.spectrum-ActionButton {
+  flex-shrink: 0;
+}
 .spectrum-ActionButton > .spectrum-Icon {
   transition: transform, 150ms;
 }

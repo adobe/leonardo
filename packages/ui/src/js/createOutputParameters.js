@@ -32,7 +32,7 @@ function createJSOutput() {
   name: "${thisColor.name}",
   colorKeys: [${thisColor.colorKeys.map((c) => `'${c}'`)}],
   ratios: [${thisColor.ratios}],
-  colorspace: {${thisColor.colorspace}},
+  colorspace: "${thisColor.colorspace}",
   smooth: ${thisColor.smooth}
 });`;
     colorDeclarations.push(colorString);
@@ -77,8 +77,24 @@ ${joinedDeclarations}
 }
 
 function createTokensOutput() {
-  let paramsOutput = document.getElementById('themeJSParams');
+  let paramsOutput = document.getElementById('themeTokensParams');
+  let tokenObj = {};
 
+  let contrastColors = _theme.contrastColors;
+  for(let i=1; i < contrastColors.length; i++) {
+    let thisColor = contrastColors[i];
+    for(let j=0; j < thisColor.values.length; j++) {
+      let color = thisColor.values[j]
+      let colorObj = {
+        value: color.value,
+        type: 'color'
+      }
+      tokenObj[color.name] = colorObj
+    }
+  }
+
+  const highlightedCode = hljs.highlight(JSON.stringify(tokenObj, null, 2), {language: 'javascript'}).value
+  paramsOutput.innerHTML = highlightedCode;
 }
 
 createOutputParameters();

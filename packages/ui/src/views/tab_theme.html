@@ -73,7 +73,7 @@
         <div class="spectrum-Form spectrum-Form--spaced">
           <div class="spectrum-Form-item spectrum-Form-item--row">
             <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Contrast formula:</label>
-              <select class="spectrum-Picker" name="contrastMethod" onInput="colorInput()" id="contrastMethod">
+              <select class="spectrum-Picker" name="contrastMethod" id="contrastMethod">
                 <option value="WCAG">WCAG</option>
                 <option value="APCA">APCA (draft)</option>
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
@@ -83,7 +83,7 @@
           </div>
           <div class="spectrum-Form-item spectrum-Form-item--row">
             <label for="cvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
-            <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode" oninput="themeUpdate()">
+            <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode">
               <option value="None">None</option>
               <option value="Deuteranomaly">Deuteranomaly (common)</option>
               <option value="Deuteranopia">Deuteranopia (common)</option>
@@ -98,6 +98,32 @@
             </svg>
           </select>
         </div>
+        </div>
+      </div>
+
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+            Output
+          </h3>
+        </div>
+        <div class="spectrum-Form spectrum-Form--spaced" style="margin-top: var(--spectrum-global-dimension-size-100)">
+          <div class="spectrum-Form-item">
+            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM">Color format</label>
+              <select class="spectrum-Picker" name="contrastMethod" id="colorOutputFormat">
+                <option value="HEX">Hex</option>
+                <option value="RGB">RGB</option>
+                <option value="LAB">Lab</option>
+                <option value="LCH">LCh</option>
+                <option value="HSL">HSL</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
+            <p class="spectrum-Body spectrum-Body--sizeXS" style="margin-top: var(--spectrum-global-dimension-size-100)">Output formats compliant with 
+              <a class="spectrum-Link" href="https://www.w3.org/TR/css-color-4/" target="_blank">CSS Color Module Level 4</a>
+              . Not all formats supported.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -128,9 +154,9 @@
         <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'cssWrapper')">
           <label class="spectrum-Tabs-itemLabel">CSS</label>
         </div>
-        <!-- <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0"  onclick="openTab(event, 'tokensWrapper')">
+        <div id="tabParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0"  onclick="openTab(event, 'tokensWrapper')">
           <label class="spectrum-Tabs-itemLabel">Design tokens</label>
-        </div> -->
+        </div>
       </div>
     </div>
 
@@ -139,31 +165,55 @@
     </div>
     <!-- <div id="demoWrapper" class="tabcontent"></div> -->
     <div id="parameterWrapper" class="tabcontent">
-      <button id="copyThemeParams" data-clipboard-target="#themeJSParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
-        <span class="spectrum-ActionButton-label">Copy parameters</span>
-      </button>
+      <div class="tabHeader"> 
+        <div>
+          <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Parameters for @adobe/leonardo-contrast-colors</h2>
+          <p class="spectrum-Body spectrum-Body--sizeXS">See 
+            <a href="#" class="spectrum-Link" target="_blank">Getting started</a> 
+            for information on how to use these parameters.
+          </p>
+        </div>
+        <button id="copyThemeParams" data-clipboard-target="#themeJSParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+          <span class="spectrum-ActionButton-label">Copy parameters</span>
+        </button>
+      </div>
+
       <div class="themeOutputParams">
         <pre id="themeJSParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
       </div>
     </div>
 
     <div id="cssWrapper" class="tabcontent">
-      <button id="copyThemeCSS" data-clipboard-target="#themeCSSParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
-        <span class="spectrum-ActionButton-label">Copy CSS</span>
-      </button>
+      <div class="tabHeader">
+        <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">CSS properties</h2>
+        <button id="copyThemeCSS" data-clipboard-target="#themeCSSParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+          <span class="spectrum-ActionButton-label">Copy CSS</span>
+        </button>
+      </div>
+
       <div class="themeOutputParams">
         <pre id="themeCSSParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
       </div>
     </div>
 
-    <!-- <div id="tokensWrapper" class="tabcontent">
-      <button id="copyThemeTokens" data-clipboard-target="#themeTokensParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
-        <span class="spectrum-ActionButton-label">Copy Tokens</span>
-      </button>
+    <div id="tokensWrapper" class="tabcontent">
+      <div class="tabHeader">
+        <div>
+          <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Design tokens (flat structure)</h2>
+          <p class="spectrum-Body spectrum-Body--sizeXS">See 
+            <a href="https://www.w3.org/community/design-tokens/" class="spectrum-Link" target="_blank">w3c working group spec</a> 
+            for details.
+          </p>
+        </div>
+        <button id="copyThemeTokens" data-clipboard-target="#themeTokensParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+          <span class="spectrum-ActionButton-label">Copy Tokens</span>
+        </button>
+      </div>
+
       <div class="themeOutputParams">
         <pre id="themeTokensParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
       </div>
-    </div> -->
+    </div>
 
   </main>
 </div>
