@@ -10,11 +10,19 @@ import css from 'highlight.js/lib/languages/css';;
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('css', css);
 
+const outputFormatPicker = document.getElementById('colorOutputFormat');
+
 function createOutputParameters() {
-  createJSOutput();
-  createCSSOutput();
-  createTokensOutput();
+  const outputFormat = outputFormatPicker.value;
+  const update = Promise.resolve(_theme.output = outputFormat)
+
+  update.then(() => {
+    createJSOutput();
+    createCSSOutput();
+    createTokensOutput();
+  })
 }
+
 
 function createJSOutput() {
   let paramsOutput = document.getElementById('themeJSParams');
@@ -47,7 +55,8 @@ let ${themeName.replace(/\s/g, '')} = new Leo.Theme({
   backgroundColor: ${camelCase(_theme.backgroundColor.name)},
   lightness: ${_theme.lightness},
   contrast: ${_theme.contrast},
-  saturation: ${_theme.saturation}
+  saturation: ${_theme.saturation},
+  output: "${_theme.output}"
 });`;
 
   const highlightedCode = hljs.highlight(paramOutputString, {language: 'javascript'}).value
@@ -97,6 +106,7 @@ function createTokensOutput() {
   paramsOutput.innerHTML = highlightedCode;
 }
 
+outputFormatPicker.addEventListener('change', createOutputParameters);
 createOutputParameters();
 
 module.exports = {
