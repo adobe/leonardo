@@ -1061,11 +1061,12 @@ a:focus {
 #themeColorWrapper {
   padding: 0 16px 16px;
   // background-color: var(--theme-background);
-  // overflow: auto;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
+  max-height: calc(100vh - 154px);
   align-items: center;
   overflow-y: auto;
   overflow-x: hidden;
