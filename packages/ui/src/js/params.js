@@ -27,10 +27,12 @@ function paramSetup() {
   let RATIOS;
   let RATIOCOLORS;
 
+  let themeNameInput = document.getElementById('themeNameInput');
   if(params.has('name')) {
-    let themeNameInput = document.getElementById('themeNameInput');
     themeNameInput.value = params.get('name').toString();
   }
+  updateThemeTitle();
+
   if(params.has('config') && params.get('config') !== undefined) {
     let configParam = params.get('config');
     let config = JSON.parse(configParam);
