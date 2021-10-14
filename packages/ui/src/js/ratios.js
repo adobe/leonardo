@@ -180,6 +180,7 @@ function createRatioInput(v, c) {
 }
 
 function addRatioInputs(ratios, colors) {
+  console.log(ratios)
   ratios.forEach((ratio, index) => {
     return createRatioInput(ratio, colors[index])
   })

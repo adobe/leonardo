@@ -11,7 +11,10 @@ governing permissions and limitations under the License.
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import {addColorScale} from './colorScale';
-import {addRatioInputs} from './ratios';
+import {
+  addRatioInputs,
+  sortRatios
+} from './ratios';
 import {sliderInput} from './sliderInput';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {
@@ -94,9 +97,57 @@ function paramSetup() {
 
     Promise.all([RATIOS, RATIOCOLORS]).then((values) => {
       addRatioInputs(values[0], values[1])
+    }).then(() => {
+      setTimeout(() => {
+        sortRatios();
+      }, 500)
     });
   }
-  else if(!params.has('config') || params.get('config') === undefined) {
+  else if(params.has('colorKeys')) {
+    let colorKeys = Promise.resolve(params.get('colorKeys').split(','));
+    let colorspace = Promise.resolve(params.get('mode'));
+    let ratios = Promise.resolve(params.get('ratios').split(',').map((r) => {return Number(r)}));
+
+    Promise.all([colorKeys, colorspace, ratios]).then(
+      (values) => {
+        RATIOS = values[2]
+        let newColor = new Leo.BackgroundColor({
+          name: 'RANDOM NAME!',
+          colorKeys: values[0],
+          colorspace: values[1],
+          ratios: values[2],
+          smooth: false
+        })
+        let length = _theme.colors.length;
+        for(let i=0; i<length; i++) {
+          // Add default color
+          addColorScale(_theme.colors[i], false);
+        }
+        addColorScale(newColor);
+        baseScaleOptions();
+        themeBase.value = _theme.backgroundColor.name;
+      }
+    ).then(() => {
+      // Update default gray to input ratios
+      _theme.updateParams = {name: _theme.colors[0].name, ratios: RATIOS};
+    }).then(() => {
+      console.log('Adding all ratio inputs')
+      setTimeout(() => {
+        RATIOCOLORS = Promise.resolve(_theme.contrastColors[1].values.map((c) => {return c.value}));
+        RATIOCOLORS.then((resolve) => {
+          console.log(resolve)
+          addRatioInputs(RATIOS, resolve)
+        });
+      }, 100)
+    }).then(() => {
+      setTimeout(() => {
+        sortRatios();
+      }, 500)
+    })
+
+  }
+  else if(!params.has('config') || params.get('config') === undefined || !params.has('colorKeys')) {
+    console.log('No parameters? Sure why not.')
     addRatioInputs([3, 4.5], ['#959595', '#767676']);
     // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;
