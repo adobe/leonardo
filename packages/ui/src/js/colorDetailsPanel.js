@@ -329,7 +329,7 @@ function showColorDetails(e) {
   actions.className = 'spectrum-ButtonGroup';
 
   let deleteColor = document.createElement('button');
-  deleteColor.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--warning';
+  deleteColor.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--negative';
   deleteColor.title = 'Delete color scale'
   deleteColor.id = thisId.concat('_delete');
   deleteColor.innerHTML = 'Delete color scale'
@@ -338,7 +338,7 @@ function showColorDetails(e) {
   downloadGradient.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--cta';
   downloadGradient.title = 'Download SVG gradient'
   downloadGradient.id = thisId.concat('_downloadGradient');
-  downloadGradient.innerHTML = 'Download SVG'
+  downloadGradient.innerHTML = 'Download SVG gradient'
   downloadGradient.addEventListener('click', (e) => {
     downloadSVGgradient(colorData.backgroundColorScale, colorData.mode, colorData.name);
   })
