@@ -130,7 +130,9 @@ class Theme {
         if(param[i].ratios) currentColor.ratios = param[i].ratios;
         if(param[i].colorspace) currentColor.colorspace = param[i].colorspace;
         if(param[i].smooth) currentColor.smooth = param[i].smooth;
-    
+        // call _generateColorScale to ensure scale is updated with new params
+        currentColor._generateColorScale();
+
         filteredColors.push(currentColor);
         this._colors = filteredColors;
       }
@@ -143,6 +145,8 @@ class Theme {
       if(param.ratios) currentColor.ratios = param.ratios;
       if(param.colorspace) currentColor.colorspace = param.colorspace;
       if(param.smooth) currentColor.smooth = param.smooth;
+      // call _generateColorScale to ensure scale is updated with new params
+      currentColor._generateColorScale();
   
       filteredColors.push(currentColor);
       this._colors = filteredColors;
