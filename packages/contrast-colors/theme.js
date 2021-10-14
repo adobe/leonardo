@@ -190,13 +190,10 @@ class Theme {
       this._backgroundColor = newBackgroundColor;
       this._lightness = calcLightness;
       this._backgroundColorValue = newBackgroundColor[this._lightness];
-      // console.log(`String background color of ${backgroundColor} converted to ${newBackgroundColor}`)
     } else {
-      // console.log(`NOT a string for background, instead it is ${JSON.stringify(backgroundColor)}`)
       backgroundColor.output = 'RGB';
       const calcBackgroundColorValue = backgroundColor.backgroundColorScale[this._lightness];
 
-      // console.log(`Object background \nLightness: ${this._lightness} \nBackground scale: ${backgroundColor.backgroundColorScale}\nCalculated background value of ${calcBackgroundColorValue}`)
       this._backgroundColor = backgroundColor;
       this._backgroundColorValue = calcBackgroundColorValue;
     }

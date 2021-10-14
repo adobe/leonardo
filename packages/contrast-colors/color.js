@@ -50,7 +50,6 @@ class Color {
   // Setting and getting properties of the Color class
   set colorKeys(colorKeys) {
     this._colorKeys = colorKeys;
-    this._colorScale = null;
     this._generateColorScale();
   }
 
@@ -60,7 +59,6 @@ class Color {
 
   set colorspace(colorspace) {
     this._colorspace = colorspace;
-    this._colorScale = null;
     this._generateColorScale();
   }
 
@@ -86,7 +84,6 @@ class Color {
 
   set smooth(smooth) {
     this._smooth = smooth;
-    this._colorScale = null;
     this._generateColorScale();
   }
 
