@@ -116,24 +116,45 @@ function paramSetup() {
   setTimeout(() => {
     themeUpdate();
   }, 200)
-  // themeUpdate();
+  clearParams();
 }
 
 // Passing variable parameters to URL
-// window.updateParams = updateParams;
+window.updateParams = updateParams;
 
-// function updateParams() {
-//   let name = document.getElementById('themeNameInput').value;
-//   let theme = _theme;
-//   // let url = new URL(window.location);
-//   // let params = new URLSearchParams(url.search.slice(1));
+function updateParams() {
+  let name = document.getElementById('themeNameInput').value;
+  let theme = _theme;
+  let baseScale = theme.backgroundColor;
+  let lightness = theme.lightness;
+  let contrast = theme.contrast;
+  let saturation = theme.saturation;
+  let colorScales = theme.colors.map((color) => {
+    return {
+      name: color.name,
+      colorKeys: color.colorKeys,
+      colorspace: color.colorspace,
+      ratios: ratios,
+      smooth: smooth
+    }
+  })
 
-//   console.log(name)
-//   // params.set('name', name);         // Theme name
-//   // params.set('config', theme);       // Configurations
+  let config = {
+    baseScale: baseScale,
+    colorScales: colorScales,
+    lightness: lightness,
+    contrast: contrast,
+    saturation: saturation
+  }
+  
+  let url = new URL(window.location);
+  let params = new URLSearchParams(url.search.slice(1));
 
-//   // window.history.replaceState({}, '', '?' + params); // update the page's URL.
-// }
+  params.set('name', name);           // Theme name
+  params.set('config', config);       // Configurations
+
+  window.history.replaceState({}, '', '?' + params); // update the page's URL.
+}
 
 
 function clearParams() {
@@ -145,6 +166,6 @@ function clearParams() {
 
 module.exports = { 
   paramSetup,
-  // updateParams,
+  updateParams,
   clearParams
 };

@@ -17,6 +17,7 @@ import {
   themeUpdateParams,
   themeUpdate
 } from './themeUpdate';
+import {throttle} from './utils';
 import {getColorClassById} from './getThemeData';
 import {_theme} from './initialTheme';
 
@@ -46,12 +47,11 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
 
     _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
 
-    updateRamps(currentColor, parent)
+    throttle(updateRamps(currentColor, parent), 10)
 
     setTimeout(function() {
       updateColorDots(null, 'theme');
     }, 100);
-    // throttle(themeUpdateParams, 50)
   };
 
   sw.className = 'keyColor-Item';
