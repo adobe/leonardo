@@ -35,7 +35,7 @@ import {predefinedColorNames} from './predefinedColorNames';
 function addColorScaleUpdate(c, k, s, r) {
   // if (!c) c = 'nameIsMissingSomewhere';
   addColorScale(c, k, s, r);
-  themeUpdate();
+  themeUpdateParams();
 }
 
 function addColorScale(newColor, addToTheme = true) {
