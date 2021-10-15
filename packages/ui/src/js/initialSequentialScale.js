@@ -145,10 +145,12 @@ class SequentialScale {
   }
 
   _createColorScale() {
+    if(this._colors) this._colors = null;
     let colorScale;
     if(this._correctLightness) {
+      let generousColorLength = 20;
       let initialColorScale = Leo.createScale({
-        swatches: 300,
+        swatches: generousColorLength,
         colorKeys: this._colorKeys,
         colorspace: this._colorspace,
         shift: this._shift,
@@ -159,17 +161,18 @@ class SequentialScale {
 
       const minLum = Math.min(...this._luminosities);
       const maxLum = Math.max(...this._luminosities);
-      const percMax = maxLum - minLum;
+      const maxLumShifted = maxLum - minLum;
 
       const fillRange = (start, end) => {
         return Array(end - start).fill().map((item, index) => start + index);
       };
-      let dataX = fillRange(0, 100);
-      dataX = dataX.map((x) => (x === 0) ? 0 : x/100)
-      dataX.push(1)
-      let newLums = dataX.map((i) => round((percMax * i) + minLum, 2));
+      let dataX = fillRange(0, generousColorLength);
+      dataX = dataX.map((x) => (x === 0) ? 0 : x/(generousColorLength - 1))
 
-      const newColors = findMatchingLuminosity(initialColorScale, 300, newLums, this._smooth);
+      let newLums = dataX.map((i) => round((maxLumShifted * i) + minLum, 2));
+
+      const newColors = findMatchingLuminosity(initialColorScale, generousColorLength, newLums, this._smooth);
+
       let filteredColors = newColors.filter(function(x) {
         return x !== undefined;
       });
@@ -179,14 +182,15 @@ class SequentialScale {
       // Manually ensure first and last user-input key colors
       // are part of new key colors array being passed to the
       // new color scale.
-      const first = (this._smooth) ? chroma(initialColorScale(300)): initialColorScale(300);
-      const last = (this._smooth) ? chroma(initialColorScale(0)): initialColorScale(0);
-      filteredColors
-        .splice(0, 1, first.hex());
-      filteredColors
-        .splice(lastColorIndex, 1)
-      filteredColors
-        .splice((lastColorIndex), 1, last.hex())
+      // NOTE: Not sure this actually is needed...
+      // const first = (this._smooth) ? chroma(initialColorScale(300)): initialColorScale(300);
+      // const last = (this._smooth) ? chroma(initialColorScale(0)): initialColorScale(0);
+      // filteredColors
+      //   .splice(0, 1, first.hex());
+      // filteredColors
+      //   .splice(lastColorIndex, 1)
+      // filteredColors
+      //   .splice((lastColorIndex), 1, last.hex())
 
       this._colorFunction = Leo.createScale({
         swatches: this._swatches,

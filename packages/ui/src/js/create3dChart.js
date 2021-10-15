@@ -246,7 +246,7 @@ function init3dChart(colorData, colors) {
 }
 
 
-function create3dChart(color, mode = 'CAM02') {
+function create3dChart(color, mode = 'CAM02', scaleType = 'theme') {
   // Identify mode channels
   let data = [];
   let colors;
@@ -262,7 +262,7 @@ function create3dChart(color, mode = 'CAM02') {
       })
     })
   } else {
-    let dataColors = color.backgroundColorScale;
+    let dataColors = (!scaleType || scaleType === 'theme') ? color.backgroundColorScale : color.colors;
     data.push(createColorData(dataColors, mode));
     colors = [...dataColors];
   }

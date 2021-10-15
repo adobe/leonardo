@@ -214,6 +214,7 @@ function findMatchingLuminosity(colorScale, colorLen, luminosities, smooth) {
       outputColors.push(colorScale(colorSearch(+lum)).hex())
     }
   });
+
   return outputColors;
 };
 

@@ -30,7 +30,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
     chartWidth = adjustedWidth;
-    chartHeight = adjustedHeight - 100;
+    chartHeight = adjustedHeight - 102;
   }
   if(
     dest === '#paletteInterpolationChart' ||
@@ -41,7 +41,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
     chartWidth = adjustedWidth;
-    chartHeight = (windowHeight - 150) / 2;
+    chartHeight = (windowHeight - 148) / 2;
   }
   if(
     dest === '#RGBchart' || 
@@ -85,7 +85,21 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
           //
           // Create the plot.
           //
-          let margin = {top: 8, right: 8, bottom: 36, left: 36};
+          let marginBottom;
+          if(
+            dest === '#interpolationChart' || 
+            dest === '#interpolationChart2' || 
+            dest === '#interpolationChart3' ||
+            dest === `#${scaleType}InterpolationChart` ||
+            dest === `#${scaleType}InterpolationChart2` ||
+            dest === `#${scaleType}InterpolationChart3` ||
+            dest === '#paletteInterpolationChart' ||
+            dest === '#paletteInterpolationChart2' ||
+            dest === '#paletteInterpolationChart3'        
+          ) marginBottom = 16;
+          else marginBottom = 36;
+
+          let margin = {top: 8, right: 8, bottom: marginBottom, left: 36};
 
           let innerwidth = width - margin.left - margin.right;
           let innerheight = height - margin.top - margin.bottom;

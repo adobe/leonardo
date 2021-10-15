@@ -553,6 +553,8 @@ body,
 .spectrum-Form--row {
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
+  
   .spectrum-Form-item ~ .spectrum-Form-item {
     margin-left: 16px;
   }
@@ -568,7 +570,7 @@ body,
 }
 
 .spectrum-Form--spacious {
-  margin: var(--spectrum-global-dimension-size-150) 0 var(--spectrum-global-dimension-size-200);
+  margin-bottom: var(--spectrum-global-dimension-size-200);
 }
 
 .spectrum-Form-item {
@@ -1933,7 +1935,16 @@ section {
   height: 80px;
   display: inline-flex;
   flex-grow: 1;
+  &:first-of-type {
+    border-top-left-radius: var(--spectrum-alias-border-radius-regular);
+    border-bottom-left-radius: var(--spectrum-alias-border-radius-regular);
+  }
+  &:last-of-type {
+    border-top-right-radius: var(--spectrum-alias-border-radius-regular);
+    border-bottom-right-radius: var(--spectrum-alias-border-radius-regular);
+  }
 }
+
 
 .demoVisualizationWrapper {
   display: flex;

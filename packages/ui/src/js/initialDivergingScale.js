@@ -140,8 +140,8 @@ class DivergingScale {
 
   set output(output) {
     this._output = output;
-    this._startColor.output = output;
-    this._endColor.output = output;
+    if(this._startColor) this._startColor.output = output;
+    if(this._endColor) this._endColor.output = output;
 
     this._colors = null;
     this._colors = this._createColorScale();

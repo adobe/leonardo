@@ -518,7 +518,7 @@ function showColorDetails(e) {
 
   // TODO: 3D chart in this context needs to be
   // different -- just one color...
-  // create3dChart(colorData)
+  create3dChart(colorData)
   
   toggleControls();
 

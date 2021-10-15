@@ -50,15 +50,6 @@
                      <option value="HSLuv">HSLuv</option>
                      <option value="HSV">HSV</option>
                      <option value="RGB">RGB</option>
-
-                     <!-- <option value="jab">Jab</option>
-                     <option value="jch">JCh</option>
-                     <option value="lab">Lab</option>
-                     <option value="lch">LCh</option>
-                     <option value="hsl">HSL</option>
-                     <option value="hsv">HSV</option>
-                     <option value="hsluv">HSLuv</option>
-                     <option value="rgb">RGB</option> -->
                   </select>
                </div>
                <div class="spectrum-Form-item">
@@ -241,17 +232,39 @@
     </div>
 
     <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">
-      Model will go here
       <svg class="chart3D"></svg>
     </div>
 
     <div id="{{ scaleType }}OutputWrapper" class="{{ scaleType }}TabsWrapper">
       <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Sample colors</h2>
 
-      <div class="spectrum-Form spectrum-Form--spacious">
+      <div class="spectrum-Form spectrum-Form--spacious spectrum-Form--row">
         <div class="spectrum-Form-item">
-          <div id="" class="spectrum-Textfield">
-            <input class="spectrum-Textfield-input" type="number" min="2" max="100" step="1" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
+          <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}Samples">Quantity</label>
+          <div id="" class="spectrum-Textfield pickerMode">
+            <input class="spectrum-Textfield-input " type="number" min="2" max="100" step="1" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
+          </div>
+        </div>
+        <div class="spectrum-Form-item">
+          <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}_format">Format</label>
+          <select class="spectrum-Picker spectrum-Picker--sizeM pickerOutputFormat pickerMode" id="{{ scaleType }}_format" name="{{ scaleType }}_format">
+             <span class="spectrum-Picker-iconWrapper">
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                   <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                </svg>
+             </span>
+             <option value="HEX">Hex</option>
+             <option value="RGB">RGB</option>
+             <option value="LAB">Lab</option>
+             <option value="LCH">Lch</option>
+             <option value="HSL">HSL</option>
+          </select>
+        </div>
+        <div class="spectrum-Form-item">
+          <div class="spectrum-Switch" id="{{ scaleType }}paramStringQuotesWrapper">
+            <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}paramStringQuotes">
+            <span class="spectrum-Switch-switch"></span>
+            <label class="spectrum-Switch-label" for="{{ scaleType }}paramStringQuotes">String quotes</label>
           </div>
         </div>
       </div>
@@ -261,6 +274,11 @@
       </div>
       <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
         <!-- generated values here -->
+      </div>
+      <!-- <div class="themeOutputParams" id="{{scaleType}}ColorScaleFunctionOutput">
+      </div> -->
+      <div class="themeOutputParams" id="{{scaleType}}ColorScaleD3Output">
+        <!-- generated formula here -->
       </div>
     </div>
 
