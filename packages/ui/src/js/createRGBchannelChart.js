@@ -21,6 +21,9 @@ function createRGBchannelChart(colors, id = 'RGBchart') {
     colors = [...colors];
     colors.push('#000000');
   }
+  else if(id === 'sequentialRGBchart' || id === 'divergingRGBchart') {
+    colors = colors.reverse();
+  }
 
   // Create chart headers
   let RGBheader = document.createElement('h5');

@@ -554,7 +554,7 @@ body,
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  
+
   .spectrum-Form-item ~ .spectrum-Form-item {
     margin-left: 16px;
   }
@@ -812,6 +812,13 @@ a:focus {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
 }
+
+.sequentialTabsWrapper,
+.divergingTabsWrapper,
+.quantitativeTabsWrapper {
+  padding-top: var(--spectrum-global-dimension-size-200);
+}
+
 #functionParams,
 .themeOutputParams {
   background-color: var(--spectrum-global-color-gray-50);
@@ -832,6 +839,10 @@ a:focus {
   // Have to subtract double of the left/right padding value
   width: calc(100% - var(--spectrum-global-dimension-size-400));
   justify-self: flex-start;
+
+  + .themeOutputParams {
+    margin-top: var(--spectrum-global-dimension-size-200)
+  }
 }
 
 #panelColorScaleOutput {
@@ -1930,6 +1941,7 @@ section {
   display: flex;
   flex-direction: row;
   width: 100%;
+  margin-bottom: var(--spectrum-global-dimension-size-100);
 }
 .sampleSwatch {
   height: 80px;
