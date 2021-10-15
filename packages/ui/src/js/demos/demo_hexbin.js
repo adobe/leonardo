@@ -11,7 +11,8 @@ governing permissions and limitations under the License.
 
 import d3 from '../d3';
 import * as d3hexbin from 'd3-hexbin';
-import {_sequentialScale} from '../initialColorScales';
+import {_divergingScale} from '../initialDivergingScale';
+import {_sequentialScale} from '../initialSequentialScale';
 Object.assign(d3, d3hexbin);
 
 function hexbin(scaleType) {

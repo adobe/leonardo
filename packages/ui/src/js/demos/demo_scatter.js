@@ -10,7 +10,8 @@ governing permissions and limitations under the License.
 */
 
 import d3 from '../d3';
-import {_sequentialScale} from '../initialColorScales';
+import {_divergingScale} from '../initialDivergingScale';
+import {_sequentialScale} from '../initialSequentialScale';
 
 function scatter(scaleType) {
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;

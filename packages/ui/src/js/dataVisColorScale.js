@@ -19,7 +19,8 @@ import {
   themeRampKeyColors,
   updateRamps
 } from './ramps';
-import {_sequentialScale} from './initialColorScales';
+import {_sequentialScale} from './initialSequentialScale';
+import {_divergingScale} from './initialDivergingScale';
 import {createInterpolationCharts} from './createInterpolationCharts';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {downloadSVGgradient} from './createSVGgradient';

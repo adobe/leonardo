@@ -13,7 +13,8 @@ import d3 from './d3';
 import {filterNaN} from './utils';
 import {getAllColorKeys} from './getThemeData';
 import {_theme} from './initialTheme';
-import {_sequentialScale} from './initialColorScales';
+import {_sequentialScale} from './initialSequentialScale';
+import {_divergingScale} from './initialDivergingScale';
 import {createHtmlElement, createSvgElement} from './createHtmlElement';
 import {create3dChart} from './create3dChart';
 import {polarColorPath} from './polarColorPath';
@@ -25,7 +26,7 @@ import {
 
 function updateColorDots(mode, scaleType = 'theme') {
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
-  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : null);
+  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
   // Create dots for color wheel
   if(!mode) {
     let colorDotsModeDropdown = (scaleType === 'theme') ? document.getElementById('colorDotsMode') : null;
@@ -125,7 +126,7 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme', d
 
 
 function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
-  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : null);
+  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
   const polarPathDest = (scaleType === 'theme') ? 'colorWheelPaths' : `${scaleType}ColorWheelPaths`;
   document.getElementById(polarPathDest).innerHTML = ' ';
 

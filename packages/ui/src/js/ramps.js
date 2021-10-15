@@ -12,7 +12,8 @@ governing permissions and limitations under the License.
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import * as d3 from './d3';
 import {_theme} from './initialTheme';
-import {_sequentialScale} from './initialColorScales';
+import {_sequentialScale} from './initialSequentialScale';
+import {_divergingScale} from './initialDivergingScale';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {createInterpolationCharts} from './createInterpolationCharts';
 import {

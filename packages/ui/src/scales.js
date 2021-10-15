@@ -66,7 +66,9 @@ import {
   openScaleTab,
   openSideNavItem
 } from './js/tabs';
-import {_sequentialScale} from './js/initialColorScales';
+import {_sequentialScale} from './js/initialSequentialScale';
+import {_divergingScale} from './js/initialDivergingScale';
+
 import {dataVisColorScale} from './js/dataVisColorScale';
 
 import toggleTooltip from './js/tooltip';
