@@ -15,29 +15,33 @@ import {hexbin} from './demos/demo_hexbin';
 import {chord} from './demos/demo_chord';
 import {violinJitter} from './demos/demo_violinJitter';
 import {scatter} from './demos/demo_scatter';
+import {density} from './demos/demo_density';
 
 function createDemos(scaleType) {
   const destHeatmap = document.getElementById(`${scaleType}Heatmap`);
   const destChoropleth = document.getElementById(`${scaleType}Choropleth`);
-  const destHexbin = document.getElementById(`${scaleType}Hexbin`);
-  const destChord = document.getElementById(`${scaleType}Chord`);
-  const destViolinJitter = document.getElementById(`${scaleType}ViolinJitter`);
+  const destDensity = document.getElementById(`${scaleType}Density`);
+  // const destHexbin = document.getElementById(`${scaleType}Hexbin`);
+  // const destChord = document.getElementById(`${scaleType}Chord`);
+  // const destViolinJitter = document.getElementById(`${scaleType}ViolinJitter`);
   const destScatter = document.getElementById(`${scaleType}Scatter`);
 
   const dests = [
     destHeatmap,
     destChoropleth,
     // destHexbin,
-    destChord,
+    destDensity,
+    // destChord,
     // destViolinJitter,
     destScatter
   ]
 
   heatmap(scaleType);
-  chord(scaleType);
+  // chord(scaleType);
   scatter(scaleType);
   // violinJitter(scaleType);
   // hexbin(scaleType);
+  density(scaleType);
   choropleth(scaleType);
 
   setTimeout(() => {
