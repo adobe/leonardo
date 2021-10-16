@@ -83,7 +83,8 @@
               </div>
             </div>
          </div>
-         <div class="spectrum-Panel-Item">
+
+         <!-- <div class="spectrum-Panel-Item">
           <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Accessibility</span>
           <div class="spectrum-Form">
             <div class="spectrum-Form-item spectrum-Form-item--row">
@@ -105,18 +106,17 @@
           </div>
   
           </div>
-         </div>
-         <div class="spectrum-Panel-Item">
-          <div id="{{ scaleType }}ColorWheelWrapper" class="panel-ColorWheel">
-            
-            <div id="{{ scaleType }}ColorWheel">
-              <div id="{{scaleType}}ColorWheelPaths" class="polarPathsWrapper" ></div>
-            </div>
-        </div>
-         </div>
+         </div> -->
+
+
       </div>
-      <div class="spectrum-Panel-Item spectrum-ButtonGroup">
-        <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG gradient</button>
+      <div class="spectrum-Panel-Item">
+        <div id="{{ scaleType }}ColorWheelWrapper" class="panel-ColorWheel">
+          <div id="{{ scaleType }}ColorWheel">
+            <div id="{{scaleType}}ColorWheelPaths" class="polarPathsWrapper" ></div>
+          </div>
+        </div>
+
       </div>
    </div>
   </div>
@@ -277,9 +277,32 @@
       </div>
       <!-- <div class="themeOutputParams" id="{{scaleType}}ColorScaleFunctionOutput">
       </div> -->
-      <div class="themeOutputParams" id="{{scaleType}}ColorScaleD3Output">
-        <!-- generated formula here -->
-      </div>
+      <!-- <div class="themeOutputParams" id="{{scaleType}}ColorScaleD3Output">
+      </div> -->
+
+      <section>
+        <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Download gradient</h2>
+
+        <div class="spectrum-Form spectrum-Form--spacious spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG gradient</button>
+          </div>
+
+          <div class="spectrum-Form-item">
+            <div id="" class="spectrum-Slider">
+              <div class="spectrum-Slider-labelContainer">
+                <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}GradientStops">Gradient precision</label>
+              </div>
+              <input class="spectrum-Slider-controls" type="range" min="20" max="200" step="2" value="100" id="{{ scaleType }}GradientStops" name="{{ scaleType }}GradientStops"></input>
+            </div>
+          </div>
+
+        </div>
+        <p class="spectrum-Body spectrum-Body--sizeXS">
+          Higher precision gradients will be more accurate to what you see here.
+        </p>
+      </section>
+
     </div>
 
     </main>

@@ -31,8 +31,8 @@ function createSamples(samples, scaleType) {
   colorClass.swatches = samples;
   const panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
   panelOutputContent.innerHTML = ' ';
-  const sampleD3Wrapper = document.getElementById(`${scaleType}ColorScaleD3Output`);
-  sampleD3Wrapper.innerHTML = ' ';
+  // const sampleD3Wrapper = document.getElementById(`${scaleType}ColorScaleD3Output`);
+  // sampleD3Wrapper.innerHTML = ' ';
 
   let samplesWrapper = document.getElementById(`${scaleType}SampleSwatches`);
   samplesWrapper.innerHTML = ' ';
@@ -50,30 +50,30 @@ function createSamples(samples, scaleType) {
   }
 
 
-  const d3string = `import { scaleThreshold } from 'd3-scale';
+//   const d3string = `import { scaleThreshold } from 'd3-scale';
 
-function colors(min, max) {
-  const fillRange = (start, end) => {
-    return Array(end - start).fill().map((item, index) => start + index);
-  };
-  let domains = fillRange(0, length);
-  domains = domains.map((x) => (x === 0) ? 0 : x/(length - 1));
-  return scaleThreshold()
-    .range([${sampleColors.map((c)=> {return `'${c}'`})}])
-    .domain(domains)
-}`
+// function colors(min, max) {
+//   const fillRange = (start, end) => {
+//     return Array(end - start).fill().map((item, index) => start + index);
+//   };
+//   let domains = fillRange(0, length);
+//   domains = domains.map((x) => (x === 0) ? 0 : x/(length - 1));
+//   return scaleThreshold()
+//     .range([${sampleColors.map((c)=> {return `'${c}'`})}])
+//     .domain(domains)
+// }`
 
 //   const LeoString = `import * as Leo from '@adobe/leonardo-contrast-colors'
 
 // ${colorFunction.toString()}
 //   `;
 
-  const pre = Promise.resolve(createHtmlElement({
-    element: 'pre',
-    className: 'spectrum-Code spectrum-Code--sizeS',
-    id: `${scaleType}d3code`,
-    appendTo: `${scaleType}ColorScaleD3Output`
-  }))
+  // const pre = Promise.resolve(createHtmlElement({
+  //   element: 'pre',
+  //   className: 'spectrum-Code spectrum-Code--sizeS',
+  //   id: `${scaleType}d3code`,
+  //   appendTo: `${scaleType}ColorScaleD3Output`
+  // }))
   // const preLeo = Promise.resolve(createHtmlElement({
   //   element: 'pre',
   //   className: 'spectrum-Code spectrum-Code--sizeS',
@@ -81,10 +81,10 @@ function colors(min, max) {
   //   appendTo: `${scaleType}ColorScaleFunctionOutput`
   // }))
 
-  pre.then(() => {
-    let highlightedCode = hljs.highlight(d3string, {language: 'javascript'}).value
-    document.getElementById(`${scaleType}d3code`).innerHTML = highlightedCode;  
-  })
+  // pre.then(() => {
+  //   let highlightedCode = hljs.highlight(d3string, {language: 'javascript'}).value
+  //   document.getElementById(`${scaleType}d3code`).innerHTML = highlightedCode;  
+  // })
   // preLeo.then(() => {
   //   let highlightedCode = hljs.highlight(LeoString, {language: 'javascript'}).value
   //   document.getElementById(`${scaleType}LeoCode`).innerHTML = highlightedCode;  

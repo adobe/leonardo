@@ -72,15 +72,17 @@ function createSVGgradient(colors) {
 }
 
 function downloadSVGgradient(colors, mode, gradientName) {
-  createSVGgradient(colors);
-  let svg = document.getElementById('_SVGgradient').innerHTML;
+  const createGradient = Promise.resolve(createSVGgradient(colors));
 
-  let filename = `${gradientName}-${mode}-gradient.svg`;
-  var blob = new Blob([`${svg}`], {type: "image/svg+xml;charset=utf-8"});
-
-  saveAs(blob, filename);
-
-  document.getElementById('_SVGgradient').remove();
+  createGradient.then(() => {
+    let svg = document.getElementById('_SVGgradient').innerHTML;
+    let filename = `${gradientName}-${mode}-gradient.svg`;
+    var blob = new Blob([`${svg}`], {type: "image/svg+xml;charset=utf-8"});
+  
+    saveAs(blob, filename);
+  
+    document.getElementById('_SVGgradient').remove();  
+  })
 }
 
 window.downloadSVGgradient = downloadSVGgradient;

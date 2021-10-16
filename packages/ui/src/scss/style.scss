@@ -1994,7 +1994,7 @@ section {
 .panel-ColorWheel {
   display: flex;
   justify-content: center;
-  margin-top: var(--spectrum-global-dimension-size-200);
+  margin: var(--spectrum-global-dimension-size-200);
 
   canvas {
     margin: 0 auto;

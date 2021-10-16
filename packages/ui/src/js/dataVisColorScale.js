@@ -128,9 +128,15 @@ function dataVisColorScale(scaleType) {
   })
 
   downloadGradient.addEventListener('click', (e) => {
-    colors = colorClass.colors;
-
-    downloadSVGgradient(colors, colorClass.colorspace, scaleType);
+    const stopsInput = document.getElementById(`${scaleType}GradientStops`);
+    const originalSwatches = colorClass.swatches;
+    colorClass.swatches = Number(stopsInput.value);
+    
+    const gradientColors = colorClass.colors;
+    setTimeout(() => {
+      downloadSVGgradient(gradientColors, colorClass.colorspace, scaleType);
+      colorClass.swatches = originalSwatches;  
+    }, 500)
   })
 
   chartsModeSelect.addEventListener('change', (e) => {
