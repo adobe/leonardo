@@ -45,7 +45,7 @@ import '@spectrum-css/progresscircle/dist/index-vars.css';
 import './scss/colorinputs.scss';
 import './scss/charts.scss';
 import './scss/style.scss';
-import './views/*.scss';
+import './scss/components/*.scss';
 
 
 import '@adobe/focus-ring-polyfill';

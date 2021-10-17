@@ -43,7 +43,7 @@ import '@spectrum-css/typography/dist/index-vars.css';
 import '@spectrum-css/progresscircle/dist/index-vars.css';
 
 import './scss/style.scss';
-import './views/*.scss';
+import './scss/components/*.scss';
 
 import '@adobe/focus-ring-polyfill';
 import {pageLoader} from './js/pageLoader'

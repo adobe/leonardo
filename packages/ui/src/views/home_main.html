@@ -2,15 +2,10 @@
   <div style="display: flex;
   flex-direction: column;
   align-items: flex-start;">
-    <!-- <h1 class="spectrum-Heading spectrum-Heading--sizeXXL spectrum-Heading--heavy">
-      Create beautiful, accessible colors
-    </h1> -->
+
     <h1 class="spectrum-Heading spectrum-Heading--sizeXXL spectrum-Heading--heavy">
       Color tools for design systems
     </h1>
-    <!-- <p class="spectrum-Body spectrum-Body--sizeXXL">
-      First of its kind <strong>contrast-ratio based</strong>, adaptive color theme generator
-    </p> -->
 
     <div class="selectBox--row">
       <a href="theme.html" target="_blank" class="selectBox">
@@ -42,22 +37,6 @@
       </a>
     </div>
 
-    <!-- <div class="spectrum-ButtonGroup" id="homeButtonGroup">
-      <button class="spectrum-Button spectrum-Button--cta spectrum-Button--sizeL" id='homeCTA'>Create new theme</button>
-      <button class="spectrum-Button spectrum-Button--secondary spectrum-Button--sizeL" id='homeCTASecondary'>Start with existing theme</button>  
-    </div>
-
-    <img src="/images/HomepageImage.png" style="width: 100%; max-width: 756px"/> -->
-
-
-    <!-- <section class="spectrum-Body spectrum-Body--sizeL">
-      <p>Leonardo generates colors based on desired contrast ratios. It allows you to create parameters for each color so that you can control the hue and saturation changes for color as it gets lighter or darker. </p>
-
-      <p>Designers and engineers can both collaborate on this tool, as the parameters defined here can be passed into the leonardo npm module to generate colors during a build or dynamically in your product. </p>
-        
-      <p>The latter of those implementations enables innovative methods for your product to achieve dynamic accessibility, providing your customers with a wider array of color and contrast needs in their control.</p>
-  
-    </section> -->
 
     <hr class="spectrum-Divider spectrum-Divider--sizeM" style="max-width: 756px; margin-top: 76px;"/>
 
@@ -66,20 +45,19 @@
         Why use Leonardo?
       </h2>
       <h3 class="spectrum-Heading spectrum-Heading--sizeM">
-        Color science driven design
+        Science-driven design
       </h3>
       <p class="spectrum-Body spectrum-Body--sizeM">
-        Leonardo gives designers access to more color spaces than any other tool: <strong>RGB</strong>,
-        <strong>HSL</strong>, <strong>HSV</strong>, <strong>Lab</strong>, <strong>LCh</strong>,
-        <strong>HSLuv</strong>, <strong>CIECAM02 (Jab)</strong>, and <strong>CIECAM02 (JCh)</strong>. 
+        Leonardo gives designers access to <strong>more color spaces</strong> than any other tool: RGB,
+        HSL, HSV, Lab, LCh, HSLuv, CIECAM02 (Jab), and CIE-CAM02. 
       </p>
       <p class="spectrum-Body spectrum-Body--sizeM">
         Interpolating in different color spaces results in unique appearances to the scale (or gradient) that is generated.
       </p>
       <img src="/images/Interpolation@2x.png" style="width: 100%; max-width: 560px"/>
       <p class="spectrum-Body spectrum-Body--sizeM">
-        The CIECAM02 color space (Jab and JCh) is a more perceptually accurate model of how we see color. 
-        Leonardo gives you the ability to visualize and interpolate in this space to ensure your color 
+        The CIE-CAM02 is a more perceptually accurate model of how humans percieve color. 
+        Leonardo gives you the ability to <strong>visualize and interpolate </strong>in this space to ensure your color 
         scales are smooth and balanced.
       </p>
 
@@ -139,15 +117,31 @@
 
     <section>
       <h3 class="spectrum-Heading spectrum-Heading--sizeM">
+        Refined data visualization tooling
+      </h3>
+      <p class="spectrum-Body spectrum-Body--sizeM">
+        Unlike other tools, Leonardo creates <strong>uniform lightness scales by default</strong> for
+        sequential and diverging color scales. 
+      </p>
+      <p class="spectrum-Body spectrum-Body--sizeM">
+        In cases where you want to combat the effects of the Weber-fechner law, Leonardo offers a 
+        <strong>lightness curvature</strong> feature for you to refine your scale. This enables you
+        to ensure color differences between dark colors and light colors are perceptually linear.
+      </p>
+      IMAGE
+    </section>
+
+    <section>
+      <h3 class="spectrum-Heading spectrum-Heading--sizeM">
         Additional color tools in Leonardo
       </h3>
       <p class="spectrum-Body spectrum-Body--sizeM">
         Aside from creating themes, Leonardo has: 
       </p>
       <ul class="spectrum-Body spectrum-Body--sizeM">
-        <li>Contrast checker that can calculate colors with transparency</li>
-        <li>Color converter (with all supported colorspaces)</li>
-        <li>Colorblind palette generator</li>
+        <li>Contrast checker (WCAG & APCA)</li>
+        <li>Color converter</li>
+        <li>Colorblind-safe color checker</li>
       </ul>
     </section>
 
@@ -171,4 +165,6 @@
     </section>
 
   </div>
+
+  <include src="src/views/footer.html"></include>
 </div>

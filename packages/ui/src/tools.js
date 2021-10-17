@@ -45,7 +45,7 @@ import '@spectrum-css/progresscircle/dist/index-vars.css';
 import './scss/style.scss';
 import './scss/converter.scss';
 import './scss/colorinputs.scss';
-import './views/*.scss';
+import './scss/components/*.scss';
 
 // import './contrast-checker';
 // import './converter';
