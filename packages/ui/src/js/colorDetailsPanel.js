@@ -509,6 +509,7 @@ function showColorDetails(e) {
 
     let colors = colorData.backgroundColorScale;
     createInterpolationCharts(colors, e.target.value)
+    create3dChart(colorData, e.target.value)
   })
   
   themeRamp(colors, gradientId);
@@ -518,7 +519,7 @@ function showColorDetails(e) {
 
   // TODO: 3D chart in this context needs to be
   // different -- just one color...
-  create3dChart(colorData)
+  create3dChart(colorData, chartsModeSelect.value)
   
   toggleControls();
 
