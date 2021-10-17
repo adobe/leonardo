@@ -20,22 +20,33 @@ import {
   createSamples
 } from './createSamples';
 import {createDemos} from './createDemos';
+import {create3dChart} from './create3dChart';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 
 
-function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
+function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosition) {
   let sampleNumber = document.getElementById(`${scaleType}Samples`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
   let currentColor;
   if(scaleType === 'sequential') currentColor = _sequentialScale;
+  if(scaleType === 'diverging') currentColor = _divergingScale;
   let parent = thisId.replace('_addKeyColor', '');
-  let destId = parent.concat('_keyColors');
+  let concatString = 
+    (scaleType === 'theme' || scaleType === 'sequential') 
+    ? '_keyColors'
+    : `_${scalePosition}KeyColors`;
+
+  let destId = parent.concat(concatString);
   let dest = document.getElementById(destId);
   let div = document.createElement('div');
 
   let randId = randomId();
-  div.className = `keyColor keyColor-${scaleType}`;
+  if(scalePosition === 'middle') {
+    div.className = `keyColor keyColor-${scaleType} keyColor-${scaleType}-${scalePosition}`;
+  } else {
+    div.className = `keyColor keyColor-${scaleType}`;
+  }
   div.id = randId + '-item';
   let sw = document.createElement('input');
   sw.type = "color";
@@ -43,6 +54,7 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
 
   sw.oninput = throttle((e) => {
     // Replace current indexed value from color keys with new value from color input field
+    const colorClass = (scaleType==='sequential') ? _sequentialScale : _divergingScale;
     let currentKeys = currentColor.colorKeys;
     c = e.target.value;
     currentKeys.splice(index, 1, c)
@@ -52,29 +64,34 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index) {
     updateColorDots(chartsModeSelect.value, scaleType);
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
+
+    create3dChart(colorClass, chartsModeSelect.value, scaleType)
   }, 10);
 
   sw.className = 'keyColor-Item';
   sw.id = randId + '-sw';
   sw.style.backgroundColor = c;
-
-  let button = document.createElement('button');
-  button.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM';
-  button.innerHTML = `
-  <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
-    <use xlink:href="#spectrum-icon-18-Delete" />
-  </svg>`;
-
-  button.addEventListener('click',  function(e) {
-    let sampleNumber = document.getElementById(`${scaleType}Samples`);
-    let samples = sampleNumber.value;    
-    replaceScaleKeyInputsFromClass(thisId, scaleType, index);
-    updateColorDots(chartsModeSelect.value, scaleType);
-    createSamples(samples, scaleType)
-  });
-
   div.appendChild(sw);
-  div.appendChild(button);
+
+  if(scalePosition !== 'middle') {
+    let button = document.createElement('button');
+    button.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM';
+    button.innerHTML = `
+    <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
+      <use xlink:href="#spectrum-icon-18-Delete" />
+    </svg>`;
+  
+    button.addEventListener('click',  function(e) {
+      let sampleNumber = document.getElementById(`${scaleType}Samples`);
+      let samples = sampleNumber.value;    
+      replaceScaleKeyInputsFromClass(thisId, scaleType, index);
+      updateColorDots(chartsModeSelect.value, scaleType);
+      createSamples(samples, scaleType)
+    });  
+    div.appendChild(button);
+  }
+
+
   dest.appendChild(div);
 }
 

@@ -32,6 +32,7 @@ function createHtmlElement({
       el.addEventListener(event, func)
     }
   }
+  
   const dest = document.getElementById(appendTo);
   dest.appendChild(el);
 }

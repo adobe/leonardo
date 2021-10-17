@@ -50,11 +50,6 @@ function heatmap(scaleType) {
   svg.append("g")
     .call(d3.axisLeft(y));
 
-  // Build color scale
-  // var myColor = d3.scaleLinear()
-  //   .range(["white", "#69b3a2"])
-  //   .domain([1,100])
-
   var myColor = colorClass.colorFunction;
 
   d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv").then( function(data) {
@@ -66,7 +61,7 @@ function heatmap(scaleType) {
       .attr("y", function(d) { return y(d.variable) })
       .attr("width", x.bandwidth() )
       .attr("height", y.bandwidth() )
-      .style("fill", function(d) { return myColor(d.value)} )
+      .style("fill", function(d) { return myColor(d.value).hex()} )
 
 })
 }

@@ -142,7 +142,7 @@ function createInterpolationCharts(colors, mode, scaleType = 'theme') {
   let dataYb = colors.map(function(d) {return filterNaN(d3[func](d)[c2]);});
   let dataYc = colors.map(function(d) {return filterNaN(d3[func](d)[c3]);});
 
-  if(scaleType !== 'theme') {
+  if(scaleType === 'sequential') {
     dataX = dataX.sort((a, b) => {return a - b;});
     dataYa = dataYa.sort((a, b) => {return a - b;});
     dataYb = dataYb.sort((a, b) => {return a - b;});
@@ -169,6 +169,8 @@ function createInterpolationCharts(colors, mode, scaleType = 'theme') {
       y: dataYc 
     }
   ];
+
+  if(scaleType === 'diverging') console.log(dataA, dataB, dataC)
 
   let lightnessMax = (mode === 'HSL' || mode === 'HSV') ? 1 : 100;
 

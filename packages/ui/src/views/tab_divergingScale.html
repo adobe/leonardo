@@ -1,36 +1,62 @@
 <!-- Color Scales Tab (partial / dynamic) -->
-<div id="{{ scaleType }}" class="AppTab appFramePanelLeft">
+<div id="{{ scaleType }}" class="AppTab appFramePanelLeft appFramePanelLeft--large">
   <div class="spectrum-Panel">
     <div class="spectrum-Panel-ContentWrapper">
       <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
-         <!-- <div class="spectrum-Panel-Item spectrum-Form--row">
-            <div class="spectrum-Form-item">
-               <label class="spectrum-Fieldlabel spectrum-Fieldlabel--sizeM">Color scale name (optional)</label>
-               <div class="spectrum-Textfield spectrum-Textfield--sizeM"><input type="text" class="spectrum-Textfield-input colorNameInput" id="{{ scaleType }}_colorName" name="{{ scaleType }}_colorName"></div>
-               <div class="spectrum-ButtonGroup"></div>
-            </div>
-         </div> -->
+
          <div class="spectrum-Panel-Item">
-            <div class="spectrum-Form spectrum-Form--row themeColor_configs" id="{{ scaleType }}-themeColor_configs">
+            <div class="spectrum-Form spectrum-Form--row themeColor_configs themeColor_configs--row" id="{{ scaleType }}-themeColor_configs themeColor_configs--row">
                <div class="themeColor_subheading">
-                  <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">Key colors</h4>
-                  <div class="keyColorActions">
-                     <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" id="{{ scaleType }}_addKeyColor" title="Add key color">
-                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-                           <use xlink:href="#spectrum-icon-18-Add"></use>
-                        </svg>
-                     </button>
-                     <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" title="Add bulk key colors" id="{{ scaleType }}_addBulk">
-                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-                           <use xlink:href="#spectrum-icon-18-BoxAdd"></use>
-                        </svg>
-                     </button>
-                  </div>
+                  <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">Start</h4>
                </div>
-               <div class="keyColorsWrapper" id="{{ scaleType }}_keyColors">
-               </div>
+               <div class="keyColorsWrapper" id="{{ scaleType }}_startKeyColors"></div>
+               <div class="keyColorActions">
+                <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" id="{{ scaleType }}_addStartKeyColor" title="Add key color">
+                   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+                      <use xlink:href="#spectrum-icon-18-Add"></use>
+                   </svg>
+                </button>
+                <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" title="Add bulk key colors" id="{{ scaleType }}_addStartBulk">
+                   <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+                      <use xlink:href="#spectrum-icon-18-BoxAdd"></use>
+                   </svg>
+                </button>
+             </div>
             </div>
          </div>
+
+         <div class="spectrum-Panel-Item">
+            <div class="spectrum-Form spectrum-Form--row themeColor_configs themeColor_configs--row" id="{{ scaleType }}-themeColor_configs themeColor_configs--row">
+              <div class="themeColor_subheading">
+                  <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">Middle</h4>
+              </div>
+              <div class="keyColorsWrapper" id="{{ scaleType }}_middleKeyColors">
+              </div>
+            </div>
+        </div>
+
+        <div class="spectrum-Panel-Item">
+          <div class="spectrum-Form spectrum-Form--row themeColor_configs themeColor_configs--row" id="{{ scaleType }}-themeColor_configs themeColor_configs--row">
+             <div class="themeColor_subheading">
+                <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">End</h4>
+             </div>
+             <div class="keyColorsWrapper" id="{{ scaleType }}_endKeyColors"></div>
+             <div class="keyColorActions">
+              <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" id="{{ scaleType }}_addEndKeyColor" title="Add key color">
+                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+                    <use xlink:href="#spectrum-icon-18-Add"></use>
+                 </svg>
+              </button>
+              <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" title="Add bulk key colors" id="{{ scaleType }}_addEndBulk">
+                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+                    <use xlink:href="#spectrum-icon-18-BoxAdd"></use>
+                 </svg>
+              </button>
+           </div>
+          </div>
+       </div>
+
+
          <div class="spectrum-Panel-Item">
           <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Interpolation</span>
           <div class="spectrum-Form spectrum-Form--row" id="{{ scaleType }}-themeColor_keyColors">
@@ -233,7 +259,7 @@
     </div>
 
     <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">
-      <svg class="chart3D"></svg>
+      <svg class="chart3D" id="{{scaleType}}Model"></svg>
     </div>
 
     <div id="{{ scaleType }}OutputWrapper" class="{{ scaleType }}TabsWrapper">
@@ -243,7 +269,7 @@
         <div class="spectrum-Form-item">
           <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}Samples">Quantity</label>
           <div id="" class="spectrum-Textfield pickerMode">
-            <input class="spectrum-Textfield-input " type="number" min="2" max="100" step="1" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
+            <input class="spectrum-Textfield-input " type="number" min="3" max="101" step="2" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
           </div>
         </div>
         <div class="spectrum-Form-item">

@@ -133,6 +133,10 @@ body,
     "leftPanel main";
 }
 
+.appFramePanelLeft--large {
+  grid-template-columns: 420px auto;
+}
+
 .appFrameSideNav {
   margin: 0;
   padding: 0;
@@ -246,6 +250,7 @@ body,
 
 .spectrum-Panel-Item--noPadding {
   padding: 0;
+  overflow-y: auto;
 }
 
 .spectrum-Panel-Item .spectrum-Panel-Item-Title {
@@ -1218,6 +1223,25 @@ a:focus {
     margin-top: 8px;
   }
 }
+
+.themeColor_configs--row {
+  flex-direction: row;
+  padding-top: var(--spectrum-global-dimension-size-100);
+
+  .themeColor_subheading {
+    width: 76px;
+    flex-shrink: 0;
+  }
+  .keyColorsWrapper {
+    margin-bottom: -2px;
+    flex-grow: 1;
+  }
+  .keyColorActions {
+    width: 107px;
+    flex-grow: 0;
+  }
+}
+
 .keyColorsWrapper {
   position: relative;
   display: flex;

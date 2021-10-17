@@ -120,7 +120,17 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
           if(!visColors) { 
             color_scale = d3.scaleOrdinal(d3.schemeCategory10)
             .domain(d3.range(datasets.length)) ;
-          } else {
+          } 
+          // if(scaleType === 'diverging') {
+          //   const fillRange = (start, end) => {
+          //     return Array(end - start).fill().map((item, index) => start + index);
+          //   };
+          //   let domains = fillRange(1, colors.length);
+          //   color_scale = d3.scaleThreshold()
+          //     .range(visColors)
+          //     .domain(domains);
+          // }
+          else {
             color_scale = () => { return visColors };
           }
           let x_axis = d3.axisBottom(x_scale);

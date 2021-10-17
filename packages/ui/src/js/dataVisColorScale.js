@@ -83,10 +83,40 @@ function dataVisColorScale(scaleType) {
 
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
+  let buttonStartId = `${scaleType}_addStartKeyColor`;
+  let buttonEndId = `${scaleType}_addEndKeyColor`;
 
-  for (let i = 0; i < colorKeys.length; i++) {
-    addScaleKeyColorInput(colorKeys[i], buttonId, scaleType, i);
+  if(scaleType === 'sequential')  {
+    const hasColorKeys = Promise.resolve(colorKeys);
+    hasColorKeys.then((values) => {
+        for (let i = 0; i < values.length; i++) {
+          addScaleKeyColorInput(values[i], buttonId, scaleType, i);
+        }
+      }
+    )
   }
+  if(scaleType === 'diverging') {
+    console.log(colorClass)
+    const hasStartKeys = Promise.resolve(colorClass.startKeys);
+    const hasMiddleKey = Promise.resolve(colorClass.middleKey);
+    const hasEndKeys = Promise.resolve(colorClass.endKeys);
+    Promise.all([hasStartKeys, hasMiddleKey, hasEndKeys]).then((divergingKeys) => {
+      const starts = divergingKeys[0];
+      const middle = divergingKeys[1];
+      const ends = divergingKeys[2];
+
+      for (let i = 0; i < starts.length; i++) {
+        console.log(starts[i])
+        addScaleKeyColorInput(starts[i], buttonId, scaleType, i, 'start');
+      }
+      addScaleKeyColorInput(middle, buttonId, scaleType, 0, 'middle');
+      for (let i = 0; i < ends.length; i++) {
+        addScaleKeyColorInput(ends[i], buttonId, scaleType, i, 'end');
+      }
+    })
+  }
+
+
 
   let colors = colorClass.colors;
 
@@ -172,13 +202,39 @@ function dataVisColorScale(scaleType) {
     create3dChart(colorClass, chartsModeSelect.value, scaleType)
   })
 
-  document.getElementById(buttonId).addEventListener('click', (e) => {
-    addScaleKeyColor(scaleType, e);
-    updateColorDots(chartsModeSelect.value, scaleType);
-    createSamples(sampleNumber.value, scaleType);
-    createDemos(scaleType);
-    create3dChart(colorClass, chartsModeSelect.value, scaleType)
-  });
+  if(scaleType === 'sequential') {
+    const hasButton = Promise.resolve(document.getElementById(buttonId))
+    hasButton.then((value) => {
+      value.addEventListener('click', (e) => {
+        addScaleKeyColor(scaleType, e);
+        updateColorDots(chartsModeSelect.value, scaleType);
+        createSamples(sampleNumber.value, scaleType);
+        createDemos(scaleType);
+        create3dChart(colorClass, chartsModeSelect.value, scaleType)
+      });
+    })  
+  }
+  if(scaleType === 'diverging') {
+    console.log(buttonStartId)
+    const hasStartButton = Promise.resolve(document.getElementById(buttonStartId))
+    const hasEndButton = Promise.resolve(document.getElementById(buttonEndId))
+    Promise.all([hasStartButton, hasEndButton]).then(() => {
+      document.getElementById(buttonStartId).addEventListener('click', (e) => {
+        addScaleKeyColor(scaleType, e);
+        updateColorDots(chartsModeSelect.value, scaleType);
+        createSamples(sampleNumber.value, scaleType);
+        createDemos(scaleType);
+        create3dChart(colorClass, chartsModeSelect.value, scaleType)
+      })
+      document.getElementById(buttonEndId).addEventListener('click', (e) => {
+        addScaleKeyColor(scaleType, e);
+        updateColorDots(chartsModeSelect.value, scaleType);
+        createSamples(sampleNumber.value, scaleType);
+        createDemos(scaleType);
+        create3dChart(colorClass, chartsModeSelect.value, scaleType)
+      })
+    })
+  }
 
   sampleNumber.addEventListener('input', (e) => {
     createSamples(e.target.value, scaleType);

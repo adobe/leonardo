@@ -10,6 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+
+
 .charts > svg {
   color: var(--spectrum-global-color-gray-600);
 }
@@ -107,18 +109,26 @@ governing permissions and limitations under the License.
 }
 
 // Overrides for grid
-._3d.grid {
-  stroke: rgba(50, 50, 50, 0.1);
+._3d.grid,
+._3dtheme.grid,
+._3dsequential.grid,
+._3ddiverging.grid  {
+  stroke: var(--spectrum-global-color-gray-300);
   stroke-width: 0.3;
-  fill: #6e6e6e;
+  fill: var(--spectrum-global-color-gray-300);
   fill-opacity: 0.075;
 }
 
-.chart3D {
+.chart3D,
+.chart3Dsequential,
+.chart3Ddiverging {
   cursor: move;
 }
 
-._3d.yText {
+._3d.yText,
+._3dtheme.yText,
+._3dsequential.yTextsequential,
+._3ddiverging.yTextdiverging {
   color: #6e6e6e;
 }
 

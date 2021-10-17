@@ -27,7 +27,7 @@ class DivergingScale {
     swatches,
     startKeys,
     endKeys,
-    middleKey,
+    middleKey = "#f5f5f5",
     colorspace,
     smooth,
     shift,
@@ -71,6 +71,7 @@ class DivergingScale {
   }
 
   set startKeys(colors) {
+    console.log(`Start keys set from ${this._startKeys} to ${colors}`)
     this._startKeys = colors;
     this._colors = null;
     this._colors = this._createColorScale();
@@ -114,8 +115,8 @@ class DivergingScale {
   
   set colorspace(colorspace) {
     this._colorspace = colorspace;
-    this._startColor.colorspace = colorspace;
-    this._endColor.colorspace = colorspace;
+    this._startScale.colorspace = colorspace;
+    this._endScale.colorspace = colorspace;
 
     this._colors = null;
     this._colors = this._createColorScale();
@@ -127,8 +128,8 @@ class DivergingScale {
 
   set smooth(smooth) {
     this._smooth = smooth;
-    this._startColor.smooth = smooth;
-    this._endColor.smooth = smooth;
+    this._startScale.smooth = smooth;
+    this._endScale.smooth = smooth;
 
     this._colors = null;
     this._colors = this._createColorScale();
@@ -140,11 +141,12 @@ class DivergingScale {
 
   set output(output) {
     this._output = output;
-    if(this._startColor) this._startColor.output = output;
-    if(this._endColor) this._endColor.output = output;
+    if(this._startScale) this._startScale.output = output;
+    if(this._endScale) this._endScale.output = output;
 
-    this._colors = null;
-    this._colors = this._createColorScale();
+    this._colors = this._combineColors();
+    if(this._startScale) this._startScale.output = 'HEX';
+    if(this._endScale) this._endScale.output = 'HEX';
   }
 
   get output() {
@@ -153,8 +155,8 @@ class DivergingScale {
 
   set shift(shift) {
     this._shift = Number(shift);
-    this._startColor.shift = shift;
-    this._endColor.shift = shift;
+    this._startScale.shift = shift;
+    this._endScale.shift = shift;
 
     this._colors = null;
     this._colors = this._createColorScale();
@@ -167,9 +169,9 @@ class DivergingScale {
 
   set swatches(swatches) {
     this._swatches = swatches;
-    if(this._startColor) this._startColor.swatches = swatches;
-    if(this._endColor) this._endColor.swatches = swatches;
-    if(this._startColor && this._endColor) {
+    if(this._startScale) this._startScale.swatches = swatches/2;
+    if(this._endScale) this._endScale.swatches = swatches/2;
+    if(this._startScale && this._endScale) {
       this._colors = null;
       this._colors = this._createColorScale();  
     }
@@ -200,8 +202,8 @@ class DivergingScale {
 
   set correctLightness(boolean) {
     this._correctLightness = boolean;
-    this._startColor.correctLightness = boolean;
-    this._endColor.correctLightness = boolean;
+    this._startScale.correctLightness = boolean;
+    this._endScale.correctLightness = boolean;
 
     this._colors = null;
     this._colors = this._createColorScale();
@@ -212,13 +214,7 @@ class DivergingScale {
   }
 
   _createColorScale() {
-    const startColors = this._startScale.colors;
-    const endColors = this._endScale.colors;
-    let endColorsReversed = [];
-    for(let i = endColors.length - 1; i >= 0; i --) {
-      endColorsReversed.push(endColors[i]);
-    }
-    let newColors = [...startColors, ...endColorsReversed];
+    let newColors = this._combineColors();
 
     this.luminosities = this._getLuminosities();
 
@@ -231,6 +227,10 @@ class DivergingScale {
       fullScale: false,
       asFun: true
     });
+
+    newColors.map((c) => {
+      return convertColorValue(c, this._output)
+    })
 
     return newColors
   }
@@ -253,10 +253,23 @@ class DivergingScale {
 
     return [...filteredStart, this._middleKey, ...filteredEnd]
   }
+
+  _combineColors() {
+    const startColors = this._startScale.colors;
+    const endColors = this._endScale.colors;
+    let endColorsReversed = [];
+    for(let i = endColors.length - 1; i >= 0; i --) {
+      endColorsReversed.push(endColors[i]);
+    }
+    let newUnfilteredColors = [...startColors, ...endColorsReversed];
+    let newColors = [...new Set(newUnfilteredColors)];
+    return newColors;
+  }
+
 }
 let _divergingScale = new DivergingScale({
   swatches: 100,
-  startKeys: ['#5c3cec', '#9eecff'],
+  startKeys: ['#19beaa', '#004d4b'],
   endKeys: ['#d37222', '#700036'],
   middleKey: '#f3f3f3',
   colorspace: 'CAM02p',
@@ -264,7 +277,7 @@ let _divergingScale = new DivergingScale({
   shift: 1,
   correctLightness: true,
   output: 'RGB'
-})
+});
 
 window._divergingScale = _divergingScale;
 

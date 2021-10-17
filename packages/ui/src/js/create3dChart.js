@@ -23,226 +23,224 @@ import {
 } from './utils'
 
 
-function dragStart(){
-  var coordinates= d3.mouse(this);
-  var x = coordinates[0];
-  var y = coordinates[1];
-  mx = x;
-  my = y;
+function create3dChartMethod(colorData, colors, scaleType) {
+  const originalSwatches = colorData.swatches;
+  colorData.swatches = 5000;
 
-  // mx = d3.event.x;
-  // my = d3.event.y;
-}
+  let destId = (scaleType === 'theme') ? '#paletteModel' : `#${scaleType}Model`;
+  let dest = document.querySelector(destId);
+  // let dest = document.querySelector('.chart3D');
 
-function dragged(){
-  var coordinates= d3.mouse(this);
-  var x = coordinates[0];
-  var y = coordinates[1];
-
-  mouseX = mouseX || 0;
-  mouseY = mouseY || 0;
-  beta = (x - mx + mouseX) * Math.PI / 600 ;
-  alpha = (y - my + mouseY) * Math.PI / 600  * (-1);
-  let data = [
-    grid3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(xGrid),
-    point3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(colorPlot),
-    yScale3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)([yLine]),
-  ];
-  processData(data, 0, colors);
-}
-
-function dragEnd(){
-  var coordinates= d3.mouse(this);
-  var x = coordinates[0];
-  var y = coordinates[1];
-
-  mouseX = x - mx + mouseX;
-  mouseY = y - my + mouseY;
-}
-
-let dest = document.querySelector('.chart3D');
-
-function create3dChartWidth() {
-  let viewportWidth = window.innerWidth;
-  let availableSpace = viewportWidth - 390 - 32;
-  return availableSpace;
-}
-
-function create3dChartHeight() {
-  let viewportHeight = window.innerHeight;
-  let availableSpace =  viewportHeight - 58 - 44;
-  return availableSpace;
-}
-
-const chartWidth = create3dChartWidth();
-const chartHeight = create3dChartHeight();
-let modelScale;
-let yOrigin;
-const viewportHeight = window.innerHeight;
-
-modelScale = 40;
-yOrigin = chartHeight/1.5;
-
-let origin = [chartWidth/2, yOrigin], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
-if(dest) {
-  dest.style.width = chartWidth;
-  dest.style.height = chartHeight;  
-}
-
-let svg = d3.select(dest)
-  .call(
-    d3.drag()
-      .on('drag', dragged)
-      .on('start', dragStart)
-      .on('end', dragEnd)
-    )
-  .append('g');
-
-let mx, my, mouseX, mouseY;
-
-let grid3d = d3._3d()
-    .shape('GRID', 20)
-    .origin(origin)
-    .rotateY( startAngle)
-    .rotateX(-startAngle)
-    .scale(scale);
-
-let point3d = d3._3d()
-    .x(function(d){ return d.x; })
-    .y(function(d){ return d.y; })
-    .z(function(d){ return d.z; })
-    .origin(origin)
-    .rotateY( startAngle)
-    .rotateX(-startAngle)
-    .scale(scale);
-
-let yScale3d = d3._3d()
-    .shape('LINE_STRIP')
-    .origin(origin)
-    .rotateY( startAngle)
-    .rotateX(-startAngle)
-    .scale(scale);
-
-function processData(data, tt, colors){
-  /* ----------- GRID ----------- */
-
-  let xGrid = svg.selectAll('path.grid').data(data[0], key);
-
-  xGrid
-    .enter()
-    .append('path')
-    .attr('class', '_3d grid')
-    .merge(xGrid)
-    .attr('d', grid3d.draw);
-
-  xGrid.exit().remove();
-
-  /* ----------- POINTS ----------- */
-
-  let points = svg.selectAll('circle').data(data[1], key);
-
-  points
-    .enter()
-    .append('circle')
-    .attr('class', '_3d')
-    .attr('opacity', 0)
-    .attr('cx', posPointX)
-    .attr('cy', posPointY)
-    .merge(points)
-    .transition().duration(tt)
-    .attr('r', 5)
-    .attr('fill', function(d) {
-      let index = Number(d.id.replace('point_', '')) - 400;
-      return colors[index];
-    })
-    .attr('opacity', 1)
-    .attr('cx', posPointX)
-    .attr('cy', posPointY);
-
-  points.exit().remove();
-
-  /* ----------- y-Scale ----------- */
-
-  let yScale = svg.selectAll('path.yScale').data(data[2]);
-
-  yScale
-    .enter()
-    .append('path')
-    .attr('class', '_3d yScale')
-    .merge(yScale)
-    .attr('stroke', '#6e6e6e')
-    .attr('stroke-width', .5)
-    .attr('d', yScale3d.draw);
-
-  yScale.exit().remove();
-
-   /* ----------- y-Scale Text ----------- */
-
-  let yText = svg.selectAll('text.yText').data(data[2][0]);
-
-  yText
-    .enter()
-    .append('text')
-    .attr('class', '_3d yText')
-    .attr('dx', '.3em')
-    .merge(yText)
-    .each(function(d){
-        d.centroid = {x: d.rotated.x, y: d.rotated.y, z: d.rotated.z};
-    })
-    .attr('x', function(d){ return d.projected.x; })
-    .attr('y', function(d){ return d.projected.y; });
-    // .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; })
-    // .text(function(d) {return d;})
-    // .text('-');
-
-  yText.exit().remove();
-
-  d3.selectAll('._3d').sort(d3._3d().sort);
-}
-
-function posPointX(d){
-  return d.projected.x;
-}
-
-function posPointY(d){
-  return d.projected.y;
-}
-
-
-function init3dChart(colorData, colors) {
-  let cnt = 0;
-  let xGrid = [], scatter = [], yLine = [], colorPlot = [];
-  let j = 10;
-  // Taking J from origin argument...
-  // z = -10; z < 10; z++ is what it's saying.
-  for(let z = -j; z < j; z++){
-    for(let x = -j; x < j; x++){
-      xGrid.push([x, 1, z]);
-      scatter.push({x: x, y: d3.randomUniform(0, -10)(), z: z, id: 'point_' + cnt++});
+  function dragStart(){
+    var coordinates= d3.mouse(this);
+    var x = coordinates[0];
+    var y = coordinates[1];
+    // mx = x;
+    // my = y;
+  
+    mx = d3.event.x;
+    my = d3.event.y;
+  }
+  
+  function dragged(){
+    var coordinates= d3.mouse(this);
+    var x = coordinates[0];
+    var y = coordinates[1];
+  
+    mouseX = mouseX || 0;
+    mouseY = mouseY || 0;
+    beta = (x - mx + mouseX) * Math.PI / 600 ;
+    alpha = (y - my + mouseY) * Math.PI / 600  * (-1);
+    let data = [
+      grid3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(xGrid),
+      point3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)(colorPlot),
+      yScale3d.rotateY(beta + startAngle).rotateX(alpha - startAngle)([yLine]),
+    ];
+    processData(data, 0, colors);
+  }
+  
+  function dragEnd(){
+    var coordinates= d3.mouse(this);
+    var x = coordinates[0];
+    var y = coordinates[1];
+  
+    mouseX = x - mx + mouseX;
+    mouseY = y - my + mouseY;
+  }
+  
+  function create3dChartWidth() {
+    let viewportWidth = window.innerWidth;
+    let availableSpace = viewportWidth - 390 - 32;
+    return availableSpace;
+  }
+  
+  function create3dChartHeight() {
+    let viewportHeight = window.innerHeight;
+    let availableSpace =  viewportHeight - 58 - 44;
+    return availableSpace;
+  }
+  
+  const chartWidth = create3dChartWidth();
+  const chartHeight = create3dChartHeight();
+  let modelScale;
+  let yOrigin;
+  const viewportHeight = window.innerHeight;
+  
+  modelScale = 40;
+  yOrigin = chartHeight/1.5;
+  
+  let origin = [chartWidth/2, yOrigin], j = 10, scale = modelScale, scatter = [], yLine = [], xGrid = [], colorPlot = [], beta = 0, alpha = 0, key = function(d){ return d.id; }, startAngle = Math.PI/10;
+  if(dest) {
+    dest.style.width = chartWidth;
+    dest.style.height = chartHeight;  
+  }
+  
+  let svg = d3.select(dest)
+    .call(
+      d3.drag()
+        .on('drag', dragged)
+        .on('start', dragStart)
+        .on('end', dragEnd)
+      )
+    .append('g');
+  
+  let mx, my, mouseX, mouseY;
+  
+  let grid3d = d3._3d()
+      .shape('GRID', 20)
+      .origin(origin)
+      .rotateY( startAngle)
+      .rotateX(-startAngle)
+      .scale(scale);
+  
+  let point3d = d3._3d()
+      .x(function(d){ return d.x; })
+      .y(function(d){ return d.y; })
+      .z(function(d){ return d.z; })
+      .origin(origin)
+      .rotateY( startAngle)
+      .rotateX(-startAngle)
+      .scale(scale);
+  
+  let yScale3d = d3._3d()
+      .shape('LINE_STRIP')
+      .origin(origin)
+      .rotateY( startAngle)
+      .rotateX(-startAngle)
+      .scale(scale);
+  
+  function processData(data, tt, colors){
+    /* ----------- GRID ----------- */
+    let xGrid = svg.selectAll(`path.grid`).data(data[0], key);
+    xGrid
+      .enter()
+      .append('path')
+      .attr('class', `_3d${scaleType} grid`)
+      .merge(xGrid)
+      .attr('d', grid3d.draw);
+    xGrid.exit().remove();
+  
+    /* ----------- POINTS ----------- */
+    let points = svg.selectAll(`circle._3d${scaleType}`).data(data[1], key);
+    points
+      .enter()
+      .append('circle')
+      .attr('class', `_3d${scaleType}`)
+      .attr('opacity', 0)
+      .attr('cx', posPointX)
+      .attr('cy', posPointY)
+      .merge(points)
+      .transition().duration(tt)
+      .attr('r', 5)
+      .attr('fill', function(d) {
+        let index = Number(d.id.replace('point_', '')) - 400;
+        return colors[index];
+      })
+      .attr('opacity', 1)
+      .attr('cx', posPointX)
+      .attr('cy', posPointY);
+    points.exit().remove();
+  
+    /* ----------- y-Scale ----------- */
+    let yScale = svg.selectAll(`path.yScale${scaleType}`).data(data[2]);
+    yScale
+      .enter()
+      .append('path')
+      .attr('class', `_3d${scaleType} yScale${scaleType}`)
+      .merge(yScale)
+      .attr('stroke', '#6e6e6e')
+      .attr('stroke-width', .5)
+      .attr('d', yScale3d.draw);
+    yScale.exit().remove();
+  
+     /* ----------- y-Scale Text ----------- */
+    let yText = svg.selectAll(`text.yText${scaleType}`).data(data[2][0]);
+    yText
+      .enter()
+      .append('text')
+      .attr('class', `_3d${scaleType} yText${scaleType}`)
+      .attr('dx', '.3em')
+      .merge(yText)
+      .each(function(d){
+          d.centroid = {x: d.rotated.x, y: d.rotated.y, z: d.rotated.z};
+      })
+      .attr('x', function(d){ return d.projected.x; })
+      .attr('y', function(d){ return d.projected.y; });
+      // .text(function(d){ return d[1]*10 <= 0 ? d[1]*-10 : ''; })
+      // .text(function(d) {return d;})
+      // .text('-');
+  
+    yText.exit().remove();
+  
+    d3.selectAll(`._3d${scaleType}`).sort(d3._3d().sort);
+  }
+  
+  function posPointX(d){
+    return d.projected.x;
+  }
+  
+  function posPointY(d){
+    return d.projected.y;
+  }
+  
+  function init3dChart(colorData, colors) {
+    let cnt = 0;
+    let xGrid = [], scatter = [], yLine = [], colorPlot = [];
+    let j = 10;
+    // Taking J from origin argument...
+    // z = -10; z < 10; z++ is what it's saying.
+    for(let z = -j; z < j; z++){
+      for(let x = -j; x < j; x++){
+        xGrid.push([x, 1, z]);
+        scatter.push({x: x, y: d3.randomUniform(0, -10)(), z: z, id: 'point_' + cnt++});
+      }
     }
+  
+    // Reset count so that the indexes match
+    // with the colors being passed for the circles
+    // cnt = 0;
+  
+    for(let j=0; j< colorData.length; j++) {
+      let currentColor = colorData[j];
+      for(let i=0; i< 100 ; i++) {
+        colorPlot.push({x: currentColor.a[i]/10, y: currentColor.b[i]/10 * -1, z: currentColor.c[i]/10, id: 'point_' + cnt++});
+      }
+    }
+  
+    d3.range(-1, 11, 1).forEach(d => yLine.push([-j, -d, -j]));
+  
+    let data = [
+      grid3d(xGrid),
+      point3d(colorPlot),
+      yScale3d([yLine])
+    ];
+  
+    processData(data, 500, colors); // 500 is the duration
   }
 
-  // Reset count so that the indexes match
-  // with the colors being passed for the circles
-  // cnt = 0;
-
-  for(let j=0; j< colorData.length; j++) {
-    let currentColor = colorData[j];
-    for(let i=0; i< 100 ; i++) {
-      colorPlot.push({x: currentColor.a[i]/10, y: currentColor.b[i]/10 * -1, z: currentColor.c[i]/10, id: 'point_' + cnt++});
-    }
-  }
-
-
-  d3.range(-1, 11, 1).forEach(d => yLine.push([-j, -d, -j]));
-
-  let data = [
-    grid3d(xGrid),
-    point3d(colorPlot),
-    yScale3d([yLine])
-  ];
-
-  processData(data, 500, colors); // 500 is the duration
+  init3dChart(colorData, colors)
+  
+  colorData.swatches = originalSwatches
 }
 
 
@@ -267,7 +265,7 @@ function create3dChart(color, mode = 'CAM02', scaleType = 'theme') {
     colors = [...dataColors];
   }
 
-  init3dChart(data, colors);
+  create3dChartMethod(data, colors, scaleType);
 }
 
 function createColorData(color, mode) {
