@@ -1,0 +1,9 @@
+#image-preview {
+  display: flex;
+
+  img {
+    object-fit: scale-down;
+    height: 72px;
+    margin-bottom: var(--spectrum-global-dimension-size-200);
+  }
+}

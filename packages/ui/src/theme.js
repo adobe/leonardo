@@ -72,6 +72,7 @@ import {
   addColorScale,
   addColorScaleUpdate
 } from './js/colorScale';
+import {addColorsFromImage} from './js/addColorsFromImage';
 import {
   themeUpdate,
   themeUpdateParams
@@ -122,6 +123,7 @@ import {
 } from './js/createSVGuiKit'
 import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
 import {pageLoader} from './js/pageLoader'
+import { format } from 'path';
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')

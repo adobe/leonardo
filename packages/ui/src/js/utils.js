@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 import * as d3 from './d3';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
+const DeltaE = require('delta-e');
 
 extendChroma(chroma);
 
@@ -218,6 +219,98 @@ function findMatchingLuminosity(colorScale, colorLen, luminosities, smooth) {
   return outputColors;
 };
 
+function getColorDifference(color1, color2) {
+  // pre-formatting and running through specific deltaE formula
+  let c1 = chroma(color1).lab();
+  let c2 = chroma(color2).lab();
+  let c1Lab = { L: c1[0], A: c1[1] , B: c1[2] }
+  let c2Lab = { L: c2[0], A: c2[1] , B: c2[2] }
+  // Use DeltaE 2000 formula (latest)
+  return DeltaE.getDeltaE00(c1Lab, c2Lab);
+}
+
+function groupCommonHues(colors) {
+  // colors are in put as an array of Chroma.js colors.
+  // Then, find the colors that are similar, and place them
+  // into a sub-array.
+  // EXAMPLE: ['yellow', 'lightyellow', 'blue', 'green', 'lightgreen']
+  // should become: [ ['yellow', 'lightyellow'], ['blue'], ['green', 'lightgreen'] ]
+  
+  // First, resort colors by hue 
+  // let orderedColors = orderColors(colors, 'hue');
+  // let orderedColors = Promise.resolve(orderColors(colors, 'hue', 'saturation'));
+  // orderedColors.then((colors) => {
+  //   // Convert to JCH
+  //   colors = colors.map((c) => {return chroma(c).jch()})
+  //   console.log(colors);
+
+  //   let arr = [];
+  //   for(let i=0; i < colors.length; i++) {
+  //     let colorGroup = [];
+  //     let refHue = [i][2];
+  //     let refLightness = colors[i][0];
+
+  //     for(let j = 0; j < colors.length; j++) {
+  //       let compHue = colors[j][2];
+  //       let compLightness = colors[j][0];
+  //       if(refHue - compHue < 12 && refLightness - compLightness > 8) {
+  //         colorGroup.push(orderedColors[j])
+  //       }
+  //     }
+  //     arr.push(colorGroup)
+  //   }
+  //   console.log(arr)
+
+  //   // Grouping not working yet, so just return ordered
+  //   return orderedColors;
+  // })
+
+  // Not working yet, so just forget it for now
+  return orderColors(colors, 'hue', 'saturation')
+
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+/**
+ *  Helper function to order colors
+ *  by hue and lightness
+ */
+function orderColors(colors, priority1, priority2) {
+  let validOptions = ['hue', 'saturation', 'lightness'];
+  for(let i = 0; i < validOptions.length; i++) {
+    if(!validOptions.includes(priority1)) console.warn(`${priority1} is not a valid option of ${validOptions}`);
+    if(priority2) {
+      if(!validOptions.includes(priority2)) console.warn(`${priority1} is not a valid option of ${validOptions}`);
+    }
+  }
+  // for each color, convert to lch object
+  // TODO: Change from LCh to JCh!
+  let colorsLch = colors.map((color, i) => {
+    let lch = chroma(color).lch();
+    return {hue: lch[2], saturation: lch[1], lightness: lch[0], color, index: i}
+  })
+
+  let sorted;
+  if(priority2) {
+    // Sort by priority 1, then by priority 1
+    sorted = colorsLch.sort((a, b) => (a[priority1] > b[priority1]) ? 1 : (a[priority1] === b[priority1]) ? ((a[priority2] > b[priority2]) ? 1 : -1) : -1 )
+  } else {
+    sorted = colorsLch.sort((a, b) => (a[priority1] > b[priority1]) ? 1 : -1 )
+  }
+  
+  // Create random "starting point" for hues
+  // Only useful in CVD scenario
+  // if(priority1 === 'hue') {
+  //   let randomIndex = getRandomInt(sorted.length);
+  //   let firstHalf = sorted.splice(0, randomIndex);
+  //   let secondHalf = sorted.splice(randomIndex);
+  //   sorted = secondHalf.concat(firstHalf)
+  // }  
+  const orderedColors = sorted.map((object) => {return object.color});
+  return orderedColors;
+}
 
 module.exports = {
   randomId,
@@ -231,5 +324,7 @@ module.exports = {
   convertColorValue,
   findMatchingLuminosity,
   lerp,
-  removeElementsByClass
+  removeElementsByClass,
+  getColorDifference,
+  groupCommonHues
 }

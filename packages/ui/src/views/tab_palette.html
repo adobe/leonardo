@@ -17,12 +17,23 @@
           <!-- <div class="spectrum-Panel-Title">
             <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">UI color scales</h3>
           </div> -->
+          <div id="image-preview"></div>
+          <div>
             <button class="spectrum-ActionButton spectrum-ActionButton--sizeM " onClick="addColorScaleUpdate()">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
                 <use xlink:href="#spectrum-icon-18-Add" />
               </svg>
               <span class="spectrum-ActionButton-label">Add color</span>
             </button>
+            <label for="image-upload" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
+                <use xlink:href="#spectrum-icon-18-Image" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Extract from image</span>
+            </label>
+            <input id="image-upload" type="file" style="display:none;" onInput="addColorsFromImage()"/>
+          </div>
+
         </div>
 
         <div id="themeColorWrapper">
