@@ -51,7 +51,7 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
 
     setTimeout(function() {
       updateColorDots(null, 'theme');
-    }, 100);
+    }, 500);
   };
 
   sw.className = 'keyColor-Item';
