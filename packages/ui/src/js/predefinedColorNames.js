@@ -8,40 +8,65 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
+import {getAllColorNames} from './getThemeData'
+import {
+  getColorDifference
+} from './utils';
+const colorNames = require('color-names');
 
 const predefinedColorNames = [
-  'Azure',
-  'Forest',
-  'Cerulean',
-  'Blue',
-  'Pink',
-  'Red',
-  'Indigo',
-  'Purple',
-  'Blue',
-  'Green',
-  'Crimson',
-  'Salmon',
-  'Orange',
-  'Tangerine',
-  'Yellow',
-  'Brown',
-  'Umber',
-  'Ochre',
-  'Periwinkle',
-  'Sage',
-  'Rose',
-  'Lavender',
-  'Lilac',
-  'Mauve',
-  'Mustard',
-  'Seafoam',
-  'Celery',
-  'Teal',
-  'Turquise',
-  'Sky',
-  'Gray',
-  'Slate'
+    'Azure',
+    'Forest',
+    'Cerulean',
+    'Blue',
+    'Pink',
+    'Red',
+    'Indigo',
+    'Purple',
+    'Blue',
+    'Green',
+    'Crimson',
+    'Salmon',
+    'Orange',
+    'Tangerine',
+    'Yellow',
+    'Brown',
+    'Umber',
+    'Ochre',
+    'Periwinkle',
+    'Sage',
+    'Rose',
+    'Lavender',
+    'Lilac',
+    'Mauve',
+    'Mustard',
+    'Seafoam',
+    'Celery',
+    'Teal',
+    'Turquise',
+    'Sky',
+    'Gray',
+    'Slate'
 ];
 
-module.exports = {predefinedColorNames};
+function getClosestColorName(color) {
+  for (const [key, value] of Object.entries(colorNames)) {
+    let colorDifference = getColorDifference(color, key);
+    if(colorDifference < 20) {
+      return value;
+    }
+  }
+}
+
+function getRandomColorName() {
+  const existingColorNames = getAllColorNames();
+  const predefinedColorNames = Object.values(colorNames);
+  let colorNameOptions = predefinedColorNames.filter(item => !existingColorNames.includes(item));
+  return colorNameOptions[Math.floor(Math.random()*colorNameOptions.length)];
+}
+
+module.exports = {
+  predefinedColorNames,
+  getClosestColorName,
+  getRandomColorName
+};

@@ -4,6 +4,10 @@ import { themeUpdateParams } from './themeUpdate';
 import { addColorScale } from './colorScale';
 import {getContrastRatios} from './getThemeData';
 import {
+  getClosestColorName,
+  getRandomColorName
+} from './predefinedColorNames';
+import {
   getColorDifference,
   groupCommonHues
 } from './utils';
@@ -37,7 +41,7 @@ function addColorsFromImage() {
 
         preview.appendChild(image);
         // listItem.appendChild(para);
-        prominent(fileUrl, { amount: 20, format: 'hex', group: 100 }).then((colors) => {
+        prominent(fileUrl, { amount: 25, format: 'hex', group: 100 }).then((colors) => {
           console.log(colors)
           // First we grab a large group of colors from Prominant/color.js
           // then, we need to call our own utility function to group
@@ -46,9 +50,16 @@ function addColorsFromImage() {
           let grouped = groupCommonHues(colors);
 
           grouped.forEach((color) => {
-            console.log(color)
+            let colorName
+            for(let i = 0; i < color.length; i++) {
+              let closest = getClosestColorName(color[i]);
+              if(closest) colorName = closest;
+            }
+
+            if(colorName === undefined) colorName = 'Color';
+
             let newColor = new Leo.BackgroundColor({
-              name: 'FromImage',
+              name: colorName,
               colorKeys: color,
               colorspace: 'RGB',
               ratios: ratios,

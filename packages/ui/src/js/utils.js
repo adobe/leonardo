@@ -98,6 +98,7 @@ const colorSpaces = {
   LCH: 'lch', // named per correct color definition order
   RGB: 'rgb',
 };
+
 function convertColorValue(color, format, object = false) {
   if (!color) {
     throw new Error(`Cannot convert color value of “${color}”`);
@@ -239,12 +240,15 @@ function groupCommonHues(colors) {
   // First, resort colors by hue 
   let orderedColors = orderColors(colors, 'hue');
 
+  // Filter colors with lightness darker than 40,
+  // as darker colors are less clearly identifiable.
   let filteredColors = [];
   for(let i=0; i< colors.length; i++) {
     if(chroma(orderedColors[i]).jch()[1] > 40 && chroma(orderedColors[i]).jch()[0] > 8) filteredColors.push(orderedColors[i]);
     else continue;
   }
 
+  // Create new array, bucketing similar hues within sub-arrays
   let bucketedColors = [];
   for(let i = 0; i < filteredColors.length; i++) {
     const lastIndex = (i === 0) ? filteredColors.length - 1 : i -1;
@@ -255,33 +259,34 @@ function groupCommonHues(colors) {
     console.color(currentColor)
     if(hueDiff < 0) hueDiff = hueDiff * -1;
 
-    if(hueDiff > 20 || bucketedColors.length === 0) {
+    if(hueDiff > 15 || bucketedColors.length === 0) {
       const newArr = [];
       newArr.push(currentColor)
       bucketedColors.push(newArr)
-
-      console.log(`Adding new array with color ${currentColor}`)
+      // console.log(`Adding new array with color ${currentColor}`)
     } 
     if(hueDiff < 15 && bucketedColors.length > 0) {
       for(let z=0; z<bucketedColors.length; z++) {
-        const matchingArray = bucketedColors[z].indexOf(lastColor);
-        console.log(bucketedColors[z])
-        console.log(filteredColors[lastIndex])
-        console.log(`Mathching array index: ${matchingArray}`)
-        if (matchingArray >= 0 ) {
-          bucketedColors[z].push(currentColor)
-          console.log(`Adding color ${currentColor} to array ${bucketedColors[matchingArray]}`)
-          console.log(`Diff from previous: ${getColorDifference(currentColor, lastColor)}`)
-          console.log(`Hue difference: ${hueDiff}`)      
+        const currentBucket = bucketedColors[z];
+        const matchingArray = currentBucket.indexOf(lastColor);
+
+        let colorDiffs = currentBucket.map((color) => {
+          return getColorDifference(color, currentColor);
+        });
+        // let hueDiffs = currentBucket.map((color) => {
+        //   return chroma(currentColor).jch()[2] - chroma(color).jch()[2];
+        // });
+        let minDiff = Math.min(...colorDiffs);
+        if(minDiff > 15) {
+          if (matchingArray >= 0 ) {
+            currentBucket.push(currentColor)
+          }
         }
       } 
     }
   }
-  console.log(bucketedColors)
-
-  // Not working yet, so just forget it for now
+  console.log(orderedColors, bucketedColors)
   return bucketedColors;
-
 }
 
 function getRandomInt(max) {
@@ -291,7 +296,7 @@ function getRandomInt(max) {
  *  Helper function to order colors
  *  by hue and lightness
  */
-function orderColors(colors, priority1, priority2) {
+function orderColors(colors, priority1, priority2, random = false) {
   let validOptions = ['hue', 'saturation', 'lightness'];
   for(let i = 0; i < validOptions.length; i++) {
     if(!validOptions.includes(priority1)) console.warn(`${priority1} is not a valid option of ${validOptions}`);
@@ -300,28 +305,30 @@ function orderColors(colors, priority1, priority2) {
     }
   }
   // for each color, convert to lch object
-  // TODO: Change from LCh to JCh!
-  let colorsLch = colors.map((color, i) => {
-    let lch = chroma(color).lch();
-    return {hue: lch[2], saturation: lch[1], lightness: lch[0], color, index: i}
+  let colorsJch = colors.map((color, i) => {
+    let jch = chroma(color).jch();
+    return {hue: jch[2], saturation: jch[1], lightness: jch[0], color, index: i}
   })
 
   let sorted;
   if(priority2) {
     // Sort by priority 1, then by priority 1
-    sorted = colorsLch.sort((a, b) => (a[priority1] > b[priority1]) ? 1 : (a[priority1] === b[priority1]) ? ((a[priority2] > b[priority2]) ? 1 : -1) : -1 )
+    sorted = colorsJch.sort((a, b) => (a[priority1] > b[priority1]) ? 1 : (a[priority1] === b[priority1]) ? ((a[priority2] > b[priority2]) ? 1 : -1) : -1 )
   } else {
-    sorted = colorsLch.sort((a, b) => (a[priority1] > b[priority1]) ? 1 : -1 )
+    sorted = colorsJch.sort((a, b) => (a[priority1] > b[priority1]) ? 1 : -1 )
   }
   
   // Create random "starting point" for hues
   // Only useful in CVD scenario
-  // if(priority1 === 'hue') {
-  //   let randomIndex = getRandomInt(sorted.length);
-  //   let firstHalf = sorted.splice(0, randomIndex);
-  //   let secondHalf = sorted.splice(randomIndex);
-  //   sorted = secondHalf.concat(firstHalf)
-  // }  
+  if(random) {
+    if(priority1 === 'hue') {
+      let randomIndex = getRandomInt(sorted.length);
+      let firstHalf = sorted.splice(0, randomIndex);
+      let secondHalf = sorted.splice(randomIndex);
+      sorted = secondHalf.concat(firstHalf)
+    }  
+  }
+
   const orderedColors = sorted.map((object) => {return object.color});
   return orderedColors;
 }
