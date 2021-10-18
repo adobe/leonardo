@@ -6,7 +6,7 @@
   "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
-    "serve": "npx parcel src/index.html src/theme.html src/converter.html src/contrast-checker.html src/demo.html --no-hmr",
+    "serve": "npx parcel src/index.html src/theme.html src/scales.html src/converter.html src/contrast-checker.html src/demo.html src/colorPickerDemo.html  --no-hmr",
     "dev": "yarn copyIcons && yarn serve",
     "copyIcons": "mkdir -p dist && yarn copyWorkflowIcons && yarn copyUIIcons",
     "copyWorkflowIcons": "cp -r ../../node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg dist/",
@@ -71,6 +71,7 @@
     "@spectrum-css/menu": "^2.1.1",
     "@spectrum-css/page": "^3.0.2",
     "@spectrum-css/picker": "^1.0.3",
+    "@spectrum-css/popover": "^3.0.4",
     "@spectrum-css/progresscircle": "^1.0.3",
     "@spectrum-css/radio": "^3.0.2",
     "@spectrum-css/sidenav": "^3.0.2",
