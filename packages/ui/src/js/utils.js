@@ -237,36 +237,50 @@ function groupCommonHues(colors) {
   // should become: [ ['yellow', 'lightyellow'], ['blue'], ['green', 'lightgreen'] ]
   
   // First, resort colors by hue 
-  // let orderedColors = orderColors(colors, 'hue');
-  // let orderedColors = Promise.resolve(orderColors(colors, 'hue', 'saturation'));
-  // orderedColors.then((colors) => {
-  //   // Convert to JCH
-  //   colors = colors.map((c) => {return chroma(c).jch()})
-  //   console.log(colors);
+  let orderedColors = orderColors(colors, 'hue');
 
-  //   let arr = [];
-  //   for(let i=0; i < colors.length; i++) {
-  //     let colorGroup = [];
-  //     let refHue = [i][2];
-  //     let refLightness = colors[i][0];
+  let filteredColors = [];
+  for(let i=0; i< colors.length; i++) {
+    if(chroma(orderedColors[i]).jch()[1] > 40 && chroma(orderedColors[i]).jch()[0] > 8) filteredColors.push(orderedColors[i]);
+    else continue;
+  }
 
-  //     for(let j = 0; j < colors.length; j++) {
-  //       let compHue = colors[j][2];
-  //       let compLightness = colors[j][0];
-  //       if(refHue - compHue < 12 && refLightness - compLightness > 8) {
-  //         colorGroup.push(orderedColors[j])
-  //       }
-  //     }
-  //     arr.push(colorGroup)
-  //   }
-  //   console.log(arr)
+  let bucketedColors = [];
+  for(let i = 0; i < filteredColors.length; i++) {
+    const lastIndex = (i === 0) ? filteredColors.length - 1 : i -1;
+    const currentColor = filteredColors[i];
+    const lastColor = filteredColors[lastIndex];
+    const hueDiff = chroma(currentColor).jch()[2] - chroma(lastColor).jch()[2];
 
-  //   // Grouping not working yet, so just return ordered
-  //   return orderedColors;
-  // })
+    console.color(currentColor)
+    if(hueDiff < 0) hueDiff = hueDiff * -1;
+
+    if(hueDiff > 20 || bucketedColors.length === 0) {
+      const newArr = [];
+      newArr.push(currentColor)
+      bucketedColors.push(newArr)
+
+      console.log(`Adding new array with color ${currentColor}`)
+    } 
+    if(hueDiff < 15 && bucketedColors.length > 0) {
+      for(let z=0; z<bucketedColors.length; z++) {
+        const matchingArray = bucketedColors[z].indexOf(lastColor);
+        console.log(bucketedColors[z])
+        console.log(filteredColors[lastIndex])
+        console.log(`Mathching array index: ${matchingArray}`)
+        if (matchingArray >= 0 ) {
+          bucketedColors[z].push(currentColor)
+          console.log(`Adding color ${currentColor} to array ${bucketedColors[matchingArray]}`)
+          console.log(`Diff from previous: ${getColorDifference(currentColor, lastColor)}`)
+          console.log(`Hue difference: ${hueDiff}`)      
+        }
+      } 
+    }
+  }
+  console.log(bucketedColors)
 
   // Not working yet, so just forget it for now
-  return orderColors(colors, 'hue', 'saturation')
+  return bucketedColors;
 
 }
 

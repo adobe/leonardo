@@ -44,24 +44,21 @@ function addColorsFromImage() {
           // common hues to become key colors of the same color scale.
           // TODO...
           let grouped = groupCommonHues(colors);
-          for(let i = 0; i < grouped.length; i++) {
-            console.color(grouped[i])
-            let lastIndex = (i === 0) ? grouped.length - 1 : i -1;
-            console.log(`Diff from previous: ${getColorDifference(grouped[i], grouped[lastIndex])}`)
-          }
 
-          colors.forEach((color) => {
+          grouped.forEach((color) => {
+            console.log(color)
             let newColor = new Leo.BackgroundColor({
               name: 'FromImage',
-              colorKeys: [color],
+              colorKeys: color,
               colorspace: 'RGB',
               ratios: ratios,
               smooth: false
             })
             addColorScale(newColor, true);
           })
-        }).then(
-          themeUpdateParams()
+        }).then(() => {
+            themeUpdateParams();
+          }
         )
       } else {
         para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
