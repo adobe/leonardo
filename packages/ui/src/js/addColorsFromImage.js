@@ -45,7 +45,6 @@ function addColorsFromImage() {
 
         preview.appendChild(image);
         prominent(fileUrl, { amount: 25, format: 'hex', group: 100 }).then((colors) => {
-          console.log(colors)
           // First we grab a large group of colors from Prominant/color.js
           // then, we need to call our own utility function to group
           // common hues to become key colors of the same color scale.

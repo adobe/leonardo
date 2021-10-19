@@ -6,8 +6,6 @@ import {round} from './utils';
 
 function createOutputColors(dest) {
   let colorClasses = _theme.colors;
-
-  console.log(`Gonna change some colors at ${dest}`)
   if(dest) dest = document.getElementById(dest);
   
   let swatchesOutputs = document.getElementById('swatchesOutputs')
@@ -27,7 +25,7 @@ function createOutputColors(dest) {
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
     dest.innerHTML = ' ';
-    
+
     for (let i= (dest === swatchesOutputs) ? 1 : 0; i<theme.length; i++) {
       let wrapper = document.createElement('div');
       wrapper.className = 'themeOutputItem';
@@ -135,7 +133,6 @@ function createOutputColors(dest) {
 }
 
 document.getElementById('cvdMode').addEventListener('change', () => {
-  console.log('HELLO')
   createOutputColors('swatchesOutputs')
 })
 

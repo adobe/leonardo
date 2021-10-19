@@ -180,7 +180,6 @@ function createRatioInput(v, c) {
 }
 
 function addRatioInputs(ratios, colors) {
-  console.log(ratios)
   ratios.forEach((ratio, index) => {
     return createRatioInput(ratio, colors[index])
   })
@@ -215,7 +214,6 @@ function distributeRatios() {
 }
 
 function distributeLuminosity() {
-  console.log('Distributing luminosities')
   let LumFields = document.getElementsByClassName('luminosity-Field');
   let LumInputs = [];
   for(let i=0; i < LumFields.length; i++) {

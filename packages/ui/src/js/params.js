@@ -131,7 +131,6 @@ function paramSetup() {
       // Update default gray to input ratios
       _theme.updateParams = {name: _theme.colors[0].name, ratios: RATIOS};
     }).then(() => {
-      console.log('Adding all ratio inputs')
       setTimeout(() => {
         RATIOCOLORS = Promise.resolve(_theme.contrastColors[1].values.map((c) => {return c.value}));
         RATIOCOLORS.then((resolve) => {
@@ -147,7 +146,6 @@ function paramSetup() {
 
   }
   else if(!params.has('config') || params.get('config') === undefined || !params.has('colorKeys')) {
-    console.log('No parameters? Sure why not.')
     addRatioInputs([3, 4.5], ['#959595', '#767676']);
     // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;

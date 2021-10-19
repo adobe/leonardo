@@ -256,7 +256,7 @@ function groupCommonHues(colors) {
     const lastColor = filteredColors[lastIndex];
     const hueDiff = chroma(currentColor).jch()[2] - chroma(lastColor).jch()[2];
 
-    console.color(currentColor)
+    // console.color(currentColor)
     if(hueDiff < 0) hueDiff = hueDiff * -1;
 
     if(hueDiff > 15 || bucketedColors.length === 0) {
@@ -285,7 +285,6 @@ function groupCommonHues(colors) {
       } 
     }
   }
-  console.log(orderedColors, bucketedColors)
   return bucketedColors;
 }
 
