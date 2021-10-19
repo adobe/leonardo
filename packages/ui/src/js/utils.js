@@ -238,7 +238,7 @@ function groupCommonHues(colors) {
   // should become: [ ['yellow', 'lightyellow'], ['blue'], ['green', 'lightgreen'] ]
   
   // First, resort colors by hue 
-  let orderedColors = orderColors(colors, 'hue');
+  let orderedColors = orderColors(colors, 'hue', 'saturation');
 
   // Filter colors with lightness darker than 40,
   // as darker colors are less clearly identifiable.

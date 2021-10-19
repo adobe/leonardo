@@ -206,7 +206,7 @@ body,
   min-width: calc(var(--spectrum-global-dimension-size-3000) + 32px);
   border-right: 2px solid var(--panelBorder);
   padding: 0;
-  overflow: hidden;
+  overflow: auto;
 }
 .spectrum-Panel--small {
   width: var(--spectrum-global-dimension-size-3000);
@@ -876,7 +876,8 @@ a:focus {
   padding-left: var(--spectrum-global-dimension-size-50);
   display: flex;
   margin-bottom: var(--spectrum-global-dimension-size-100);
-  height: calc(100vh - 496px);
+  height: calc(100vh - 560px);
+  min-height: 280px;
 }
 
 .demoItem {
@@ -1306,55 +1307,6 @@ a:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.themeOutputItem {
-  display: table-row;
-}
-
-.themeOutputItem--Heading {
-  display: table-cell;
-  min-width: 120px;
-  vertical-align: top;
-  padding-right: var(--spectrum-global-dimension-size-200);
-}
-
-.themeOutputColor {
-  // display: flex;
-  display: table-cell;
-  flex-wrap: wrap;
-  flex-direction: row;
-  margin-bottom: 8px;
-}
-
-.themeOutputSwatch {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 66px;
-  height: 70px;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  margin: 0 16px 16px 0;
-  cursor: pointer;
-  transition: border .25s ease-out, box-shadow .25s ease-out;
-  padding: 4px 6px;
-
-  &:focus {
-    border-color: var(--spectrum-alias-background-color-default);
-    box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
-    outline: none;
-  }
-  &:active {
-    border-color: var(--spectrum-alias-background-color-default);
-    box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
-    transition: border .075s ease-out, box-shadow .075s ease-out;
-  }
-}
-
-.themeOutputSwatch_contrast {
-  // justify-self: flex-end;
-  font-size: 12px;
 }
 
 #cvdModeDropdown {
@@ -1878,7 +1830,8 @@ a:focus {
 #luminosityGradient {
   position: relative;
   width: 64px;
-  height: calc(100vh - 496px);
+  height: calc(100vh - 560px);
+  min-height: 280px;
   background-image: linear-gradient(0deg, black, white);
   margin-right: var(--spectrum-global-dimension-size-100);
   flex-shrink: 0;
@@ -1900,19 +1853,6 @@ a:focus {
   margin-bottom: var(--spectrum-global-dimension-size-150)
 }
 
-.themeOutputSwatch_luminosity,
-.themeOutputSwatch_contrast {
-  opacity: 1;
-  transition: opacity 0.125s ease-in-out;
-}
-
-.hideSwatchAttributes {
-  .themeOutputSwatch_luminosity,
-  .themeOutputSwatch_contrast {
-    opacity: 0;
-    transition: opacity 0.125s ease-in-out;
-  }
-}
 
 .colorScaleType-badge {
   height: var(--spectrum-global-dimension-size-175);

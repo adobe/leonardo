@@ -1,0 +1,116 @@
+#swatchesOutputs {
+  padding: 32px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
+}
+
+.themeOutputItem {
+  display: table-row;
+}
+
+.themeOutputItem--Heading {
+  display: table-cell;
+  min-width: 120px;
+  vertical-align: top;
+  padding-right: var(--spectrum-global-dimension-size-200);
+}
+
+.themeOutputColor {
+  // display: flex;
+  display: table-cell;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.themeOutputSwatch {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: flex-end;
+  width: 66px;
+  height: 70px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  margin: 0 16px 32px 0;
+  cursor: pointer;
+  transition: border .25s ease-out, box-shadow .25s ease-out;
+  padding: 4px 6px;
+
+  &:focus {
+    border-color: var(--spectrum-alias-background-color-default);
+    box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
+    outline: none;
+  }
+  &:active {
+    border-color: var(--spectrum-alias-background-color-default);
+    box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
+    transition: border .075s ease-out, box-shadow .075s ease-out;
+  }
+}
+
+// default font size to display in theme tab
+.themeOutputSwatch_contrast {
+  font-size: 12px;
+}
+
+#swatchMainContent-Wrapper .themeOutputSwatch {
+  justify-content: space-between;
+  border-radius: 0;
+  margin: 0;
+  border:none;
+}
+
+#swatchMainContent-Wrapper {
+  .themeOutputItem:first-of-type {
+    .themeOutputSwatch:first-of-type {
+      border-top-left-radius: 8px;
+    }
+    .themeOutputSwatch:last-of-type {
+      border-top-right-radius: 8px;
+    }
+  }
+  .themeOutputItem:last-of-type {
+    .themeOutputSwatch:first-of-type {
+      border-bottom-left-radius: 8px;
+    }
+    .themeOutputSwatch:last-of-type {
+      border-bottom-right-radius: 8px;
+    }
+  }
+
+
+  .themeOutputSwatch_luminosity,
+  .themeOutputSwatch_contrast {
+    font-size: 16px;
+  }
+}
+
+.themeOutputSwatch_index {
+  position: absolute;
+  top: -22px;
+  left: 0;
+}
+
+
+.themeOutputSwatch_luminosity,
+.themeOutputSwatch_contrast {
+  opacity: 1;
+  transition: opacity 0.125s ease-in-out;
+}
+
+.hideSwatchContrast {
+  .themeOutputSwatch_contrast {
+    opacity: 0;
+    transition: opacity 0.125s ease-in-out;
+  }
+}
+.hideSwatchLuminosity {
+  .themeOutputSwatch_luminosity {
+    opacity: 0;
+    transition: opacity 0.125s ease-in-out;
+  }
+}
+
+#swatchControls {
+  margin-bottom: var(--spectrum-global-dimension-size-200);
+}

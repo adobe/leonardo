@@ -31,16 +31,16 @@ function addColorsFromImage() {
 
     for(const file of curFiles) {
       // const listItem = document.createElement('li');
-      // const para = document.createElement('p');
+      const para = document.createElement('p');
+      para.className = 'spectrum-Body image-preview_text'
 
       if(validFileType(file)) {
-        // para.textContent = `File name ${file.name}, file size ${returnFileSize(file.size)}.`;
+        para.textContent = `Color scales extracted from ${file.name}.`;
         const image = document.createElement('img');
         const fileUrl = URL.createObjectURL(file)
         image.src = fileUrl;
 
         preview.appendChild(image);
-        // listItem.appendChild(para);
         prominent(fileUrl, { amount: 25, format: 'hex', group: 100 }).then((colors) => {
           console.log(colors)
           // First we grab a large group of colors from Prominant/color.js
@@ -68,6 +68,7 @@ function addColorsFromImage() {
             addColorScale(newColor, true);
           })
         }).then(() => {
+            preview.appendChild(para);
             themeUpdateParams();
           }
         )
@@ -75,8 +76,6 @@ function addColorsFromImage() {
         para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
         preview.appendChild(para);
       }
-
-      // list.appendChild(listItem);
     }
   }
 }

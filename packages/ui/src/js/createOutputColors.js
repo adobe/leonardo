@@ -10,6 +10,7 @@ function createOutputColors() {
   let swatchesOutputs = document.getElementById('swatchesOutputs')
   let themeOutputs = document.getElementById('themeOutputs');
   swatchesOutputs.innerHTML = ' ';
+  swatchesOutputs.classList = 'hideSwatchLuminosity hideSwatchContrast';
   themeOutputs.innerHTML = ' ';
 
   let theme = _theme.contrastColors;
@@ -20,22 +21,23 @@ function createOutputColors() {
   let themeColorArray = [];
 
   themeOutputs.style.backgroundColor = themeBackgroundColor;
+  swatchesOutputs.style.backgroundColor = themeBackgroundColor;
   let destinations = [ themeOutputs, swatchesOutputs ]
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
-    for (let i=0; i<theme.length; i++) {
+    for (let i= (dest === swatchesOutputs) ? 1 : 0; i<theme.length; i++) {
       let wrapper = document.createElement('div');
       wrapper.className = 'themeOutputItem';
 
       let swatchWrapper = document.createElement('div');
       swatchWrapper.className = 'themeOutputColor';
       let colorName = theme[i].name;
-
+      let outerTextColor = (backgroundLum > 50) ? '#000000' : '#ffffff';
       // Iterate each color value
       if (theme[i].values) {
         let p = document.createElement('p');
         p.className = 'spectrum-Heading spectrum-Heading--sizeXXS themeOutputItem--Heading';
-        p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
+        p.style.color = outerTextColor;
         p.innerHTML = theme[i].name;
 
         if(dest === themeOutputs) {
@@ -73,7 +75,7 @@ function createOutputColors() {
           let swatchIndexTextSpan = document.createElement('span');
           swatchIndexTextSpan.className = 'themeOutputSwatch_index';
           swatchIndexTextSpan.appendChild(swatchIndexText);
-          swatchIndexTextSpan.style.color = innerTextColor;
+          swatchIndexTextSpan.style.color = outerTextColor;
 
           let div = document.createElement('div');
           div.className = 'themeOutputSwatch';
@@ -88,7 +90,6 @@ function createOutputColors() {
           } else {
             div.appendChild(luminosityTextSpan);
           }
-
           div.appendChild(contrastTextSpan);  
 
           swatchWrapper.appendChild(div);
