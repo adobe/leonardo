@@ -1613,6 +1613,8 @@ a:focus {
   justify-content: center;
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
+  height: calc(100% - 160px);
+  min-height: 514px;
 }
 #colorWheelWrapper,
 #sequentialColorWheelWrapper,
@@ -1643,7 +1645,7 @@ a:focus {
   width: 100%;
   display: flex;
   flex-direction: row;
-  flex-grow: 2;
+  // flex-grow: 2;
 }
 #colorWheel {
   position: relative;
