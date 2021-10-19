@@ -282,7 +282,7 @@ function showColorDetails(e) {
   smoothInput.addEventListener('input', (e) => {
     const checked = e.target.checked;
     const boolean = checked.toString();
-    _theme.updateColor = {color: colorData.name, smooth: checked}
+    _theme.updateColor = {color: colorData.name, smooth: boolean}
 
     const colorData2 = getColorClassById(id);
 
