@@ -309,16 +309,17 @@ function showColorDetails(e) {
   let panelOutput = document.createElement('div');
   panelOutput.className = 'spectrum-Panel-Item';
   let panelOutputLabel = document.createElement('span')
-  panelOutputLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
+  panelOutputLabel.className = 'spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title';
   panelOutputLabel.innerHTML = 'Color scale values';
   let panelOutputContent = document.createElement('div');
   panelOutputContent.className = 'themeOutputParams';
   panelOutputContent.id = 'panelColorScaleOutput';
-  let abbreviatedColors = [];
-  colorData.backgroundColorScale.map((c, i) => {
-    if(Number.isInteger(i/10)) abbreviatedColors.push(c)
-  })
-  panelOutputContent.innerHTML = abbreviatedColors.toString().replaceAll(',', ', ');
+  // let abbreviatedColors = [];
+  // colorData.backgroundColorScale.map((c, i) => {
+  //   if(Number.isInteger(i/10)) abbreviatedColors.push(c)
+  // })
+  const abbreviatedColorsString = colorData.backgroundColorScale.toString().replaceAll(',', ', ');
+  panelOutputContent.innerHTML = abbreviatedColorsString;
 
   panelOutput.appendChild(panelOutputLabel);
   panelOutput.appendChild(panelOutputContent);

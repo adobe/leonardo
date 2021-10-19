@@ -61,6 +61,7 @@ governing permissions and limitations under the License.
     --panelBorder: var(--spectrum-global-color-gray-300);
     --translucentBorder: rgba(0, 0, 0, 0.4);
     --sliderThumbColor: rgba(0, 0, 0, 0.3);
+    --transparentGray900: rgba(0, 0, 0, 0.5);
   }
 }
 @media(prefers-color-scheme: dark) {
@@ -71,6 +72,7 @@ governing permissions and limitations under the License.
     --panelBorder: var(--spectrum-global-color-gray-50);
     --translucentBorder: rgba(255, 255, 255, 0.4);
     --sliderThumbColor: rgba(255, 255, 255, 0.3);
+    --transparentGray900: rgba(255, 255, 255, 0.5);
   }
 }
 

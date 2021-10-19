@@ -2,7 +2,10 @@ import * as Leo from '@adobe/leonardo-contrast-colors';
 import {_theme} from './initialTheme';
 import { themeUpdateParams } from './themeUpdate';
 import { addColorScale } from './colorScale';
-import {getContrastRatios} from './getThemeData';
+import {
+  getContrastRatios,
+  getAllColorNames
+} from './getThemeData';
 import {
   getClosestColorName,
   getRandomColorName
@@ -50,13 +53,16 @@ function addColorsFromImage() {
           let grouped = groupCommonHues(colors);
 
           grouped.forEach((color) => {
+            const existingColorNames = getAllColorNames();
+
             let colorName
             for(let i = 0; i < color.length; i++) {
               let closest = getClosestColorName(color[i]);
-              if(closest) colorName = closest;
+              let duplicateName = existingColorNames.includes(closest);
+              if(closest && !duplicateName) colorName = closest;
             }
 
-            if(colorName === undefined) colorName = 'Color';
+            if(!colorName) colorName = getRandomColorName();
 
             let newColor = new Leo.BackgroundColor({
               name: colorName,

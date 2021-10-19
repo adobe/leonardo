@@ -139,12 +139,14 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
 
           let x_grid = d3.axisBottom(x_scale)
             .tickSize(-innerheight)
+            .tickSizeOuter(0)
             .tickFormat("") ;
 
-          if(finiteScale) {
-            x_axis.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
-            x_grid.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
-          }
+            if(finiteScale) {
+              x_axis.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
+              x_grid.ticks(d3.max(datasets, function(d) { return d3.max(d.x); }) - 1);
+            }
+  
 
           let y_grid = d3.axisLeft(y_scale)
             .tickSize(-innerwidth)

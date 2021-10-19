@@ -111,7 +111,8 @@ function updateRamps(color, id, scaleType = 'theme') {
   let panelOutputId = (scaleType === 'theme') ? 'panelColorScaleOutput' : `${scaleType}ColorScaleOutput` ;
   let panelOutputContent = document.getElementById(panelOutputId);
   panelOutputContent.innerHTML = ' ';
-  panelOutputContent.innerHTML = colors;
+  const formattedColorsString = colors.toString().replaceAll(',', ', ');
+  panelOutputContent.innerHTML = formattedColorsString;
 }
 
 function createAllColorRamps() {

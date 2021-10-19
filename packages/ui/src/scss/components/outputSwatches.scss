@@ -1,6 +1,8 @@
 #swatchesOutputs {
   padding: 32px;
   border-radius: var(--spectrum-alias-border-radius-regular);
+  max-height: calc(100vh - 218px);
+  overflow: auto;
 }
 
 .themeOutputItem {

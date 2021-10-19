@@ -11,7 +11,6 @@ governing permissions and limitations under the License.
 */
 
 
-
 .charts > svg {
   color: var(--spectrum-global-color-gray-600);
 }
@@ -28,7 +27,17 @@ governing permissions and limitations under the License.
   stroke: var(--spectrum-global-color-gray-800);
 }
 .axis line {
-  stroke: var(--spectrum-global-color-gray-400);
+  // stroke: var(--spectrum-global-color-gray-400);
+  stroke: var(--transparentGray900);
+}
+
+.x.axis path {
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.y.axis path {
+  display: none;
 }
 
 .grid path,
@@ -174,7 +183,8 @@ governing permissions and limitations under the License.
 #chart2,
 #chart3,
 #chart4,
-#contrastChart {
+#contrastChart,
+#luminosityChart {
   border-radius: 4px;
 
   svg {
