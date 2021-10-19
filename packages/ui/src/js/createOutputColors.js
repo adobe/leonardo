@@ -12,9 +12,7 @@ function createOutputColors(dest) {
   
   let swatchesOutputs = document.getElementById('swatchesOutputs')
   let themeOutputs = document.getElementById('themeOutputs');
-  swatchesOutputs.innerHTML = ' ';
   swatchesOutputs.classList = 'hideSwatchLuminosity hideSwatchContrast';
-  themeOutputs.innerHTML = ' ';
 
   let theme = _theme.contrastColors;
   let themeBackgroundColor = theme[0].background;
@@ -28,6 +26,8 @@ function createOutputColors(dest) {
   let destinations = (dest) ? [ dest ] : [ themeOutputs, swatchesOutputs ];
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
+    dest.innerHTML = ' ';
+    
     for (let i= (dest === swatchesOutputs) ? 1 : 0; i<theme.length; i++) {
       let wrapper = document.createElement('div');
       wrapper.className = 'themeOutputItem';
