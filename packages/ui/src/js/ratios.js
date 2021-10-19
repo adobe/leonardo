@@ -240,10 +240,19 @@ function distributeLuminosity() {
   // Update ratio inputs with new values
   for (let i=0; i<newLums.length; i++) {
     LumFields[i].value = newLums[i];
-    LumFields[i].dispatchEvent(new Event("input"));
   }
-  
-  // sortRatios();
+
+  setTimeout(() => {
+    for (let i=0; i<LumFields.length; i++) {
+      LumFields[i].dispatchEvent(new Event("input"));
+    }
+  }, 200)
+  setTimeout(() => {
+    sortRatios();
+  }, 200);
+  setTimeout(() => {
+    ratioUpdate();
+  }, 500)
 }
 
 document.getElementById('distribute').addEventListener('input', function(e) {
@@ -265,8 +274,12 @@ function sort() {
   // Update ratio inputs with new values
   for (let i=0; i<ratioInputs.length; i++) {
     ratioFields[i].value = ratioInputs[i];
-    ratioFields[i].dispatchEvent(new Event("input"));
   }
+  setTimeout(() => {
+    for (let i=0; i<ratioInputs.length; i++) {
+      ratioFields[i].dispatchEvent(new Event("input"));
+    }
+  }, 200)
 }
 
 function sortRatios() {
