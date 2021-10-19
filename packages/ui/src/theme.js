@@ -83,7 +83,7 @@ import {
 } from './js/sliderInput';
 import {
   updateColorWheel
-} from './js/colorDisc';
+} from './js/colorWheel';
 import {
   addBulk,
   bulkItemColorInput,

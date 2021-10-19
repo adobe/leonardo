@@ -211,6 +211,7 @@ function createColorWheel(mode, lightness, scaleType) {
     .attr("height", size)
     .attr("width", size)
     .attr("id", canvasId);
+  
   const context = canvas.node().getContext('2d');
   canvas.id = canvasId;
 
@@ -332,12 +333,14 @@ function shiftValue(v, colorWheelSize, dotSize) {
 
 function updateColorWheel(mode, lightness, dots, dotsMode, scaleType) {
   const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
-  let canvas = document.getElementById(canvasId);
-  if(canvas) {
-    canvas.parentNode.removeChild(canvas);
-  }
-  createColorWheel(mode, lightness, scaleType);
-  updateColorDots(dotsMode, scaleType);
+  let canvasDom = Promise.resolve(document.getElementById(canvasId));
+  canvasDom.then((canvas) => {
+    if(canvas) {
+      canvas.parentNode.removeChild(canvas);
+    }
+    createColorWheel(mode, lightness, scaleType);
+    updateColorDots(dotsMode, scaleType);
+  })
 }
 
 
@@ -359,7 +362,8 @@ if(colorWheelMode) {
     let colorDotsModeDropdown = document.getElementById('colorDotsMode');
     let dotsMode = colorDotsModeDropdown.value;
   
-    updateColorWheel(mode, colorWheelLightness.value, true, 'theme');
+    updateColorWheel(mode, colorWheelLightness.value, true, dotsMode, 'theme');
+
     create3dChart(null, mode)
   });
 

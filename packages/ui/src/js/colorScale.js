@@ -26,7 +26,7 @@ import {
   themeUpdateParams,
   toggleControls
 } from './themeUpdate';
-import {updateColorDots} from './colorDisc';
+import {updateColorDots} from './colorWheel';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {showColorDetails} from './colorDetailsPanel';
 import {themeRamp} from './ramps';

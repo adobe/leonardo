@@ -32,7 +32,7 @@ import {
   getConvertedColorCoodrindates,
   createColorWheelDots,
   updateColorDots
-} from './colorDisc';
+} from './colorWheel';
 import {createOutputParameters} from './createOutputParameters';
 import {throttle} from './utils';
 

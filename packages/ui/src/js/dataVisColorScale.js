@@ -28,7 +28,7 @@ import {
   createColorWheel,
   updateColorWheel,
   updateColorDots
-} from './colorDisc';
+} from './colorWheel';
 import {create3dChart} from './create3dChart'
 import {
   throttle

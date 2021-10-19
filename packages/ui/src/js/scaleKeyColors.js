@@ -15,7 +15,7 @@ import {
   throttle
 } from './utils';
 import {updateRamps} from './ramps';
-import {updateColorDots} from './colorDisc';
+import {updateColorDots} from './colorWheel';
 import {
   createSamples
 } from './createSamples';

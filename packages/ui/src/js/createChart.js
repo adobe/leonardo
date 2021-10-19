@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import * as d3 from 'd3';
-import {getSmallestWindowDimension} from './colorDisc';
+import {getSmallestWindowDimension} from './colorWheel';
 
 function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors, scaleType) {
   let chartWidth, chartHeight;

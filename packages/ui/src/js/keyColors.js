@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 import d3 from './d3';
 import {randomId } from './utils';
 import {updateRamps} from './ramps';
-import {updateColorDots} from './colorDisc'
+import {updateColorDots} from './colorWheel'
 import {
   themeUpdateParams,
   themeUpdate
