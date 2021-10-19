@@ -213,8 +213,9 @@ function distributeRatios() {
     ratioFields[i].value = newRatios[i];
     ratioFields[i].dispatchEvent(new Event("input"));
   }
-
-  ratioUpdate();
+  setTimeout(() => {
+    ratioUpdate();
+  }, 500)
 }
 
 function distributeLuminosity() {
@@ -235,6 +236,7 @@ function distributeLuminosity() {
     let newVal = lerp(minVal, maxVal, perc);
     newLums.push(round(newVal, 2))
   }  
+  newLums.reverse();
 
   // newLums.sort(function(a, b){return a-b});
   // Update ratio inputs with new values
@@ -332,24 +334,24 @@ function syncRatioInputs(e) {
       let luminosityInput = document.getElementById(luminosityInputId);
       // Must calculate luminosity of respective contrast value 
       let tempColor = _theme.contrastColors[1].values[index].value;
-
       luminosity = d3.hsluv(tempColor).v;
+      console.log(luminosity)
       luminosityInput.value = round(luminosity, 2);
 
       swatchColor = d3.hsluv(0, 0, luminosity).formatHex();
     }
 
     swatch.style.backgroundColor = swatchColor;
-
   });
 
-
-  let lDotId = baseId.concat('_dot')
-  let lDot = document.getElementById(lDotId);
-  let lumReversed = 100 - luminosity;
-  let dotPercentOffset = (lumReversed/100) * 8;
-  let dotPosition = `calc(${Math.round(lumReversed)}% - ${Math.round(dotPercentOffset)}px)`;
-  lDot.style.top = dotPosition;
+  setTimeout(() => {
+    let lDotId = baseId.concat('_dot');
+    let lDot = document.getElementById(lDotId);
+    let lumReversed = 100 - luminosity;
+    let dotPercentOffset = (lumReversed/100) * 8;
+    let dotPosition = `calc(${Math.round(lumReversed)}% - ${Math.round(dotPercentOffset)}px)`;
+    lDot.style.top = dotPosition;
+  }, 250)
 }
 
 

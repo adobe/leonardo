@@ -1688,6 +1688,7 @@ a:focus {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 1);
   position: absolute;
   left: calc(50% - 6px);
+  transition: top .2s ease-in-out;
 }
 
 #paletteChartsWrapper {
