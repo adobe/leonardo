@@ -83,7 +83,9 @@ class Color {
   }
 
   set smooth(smooth) {
-    this._smooth = smooth;
+    if(smooth === true || smooth === 'true') this._smooth = smooth;
+    else this._smooth = false;
+    
     this._generateColorScale();
   }
 
