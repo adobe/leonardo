@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Color Dictionary</title>
+    <link rel="stylesheet" href="../lib/jquery/css/ui-lightness/jquery-ui-1.8.13.custom.css">
+    <script type="text/javascript" src="../lib/d3/d3.js"></script>
+    <script type="text/javascript" src="../lib/d3/d3.color.js"></script>
+    <script type="text/javascript" src="../lib/jquery/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="../lib/jquery/jquery-ui-1.8.13.custom.min.js"></script>
+    <script type="text/javascript" src="../c3.js"></script>
+    <script type="text/javascript" src="dictionary.js"></script>
+    <style type="text/css">
+      * { font-family: Helvetica Neue, Helvetica, Arial, sans-serif; 
+	      font-size: 18px; }
+      body { background: #fff; }
+      .label { width: 52px; display: inline-block;
+	           font-weight: bold; text-align: center;}
+      #input { width: 250px; padding: 2px;
+	           margin-bottom: 15px; margin-left: 5px;
+               border: 1px solid #ccc; }
+      #output, #output td { font-size: 18px; }
+      table.dict { border-collapse: separate; width: 310px; margin-top: -2px;}
+      td { padding: 0px; padding-left: 10px; }
+      td.miniswatch { padding-left: 0px; }
+      div.miniswatch { width: 2px; height: 100%;
+	    display: inline-block; }
+      div.swatch { width: 50px; height: 100%;
+        display: inline-block; }
+      div.dswatch { width: 75px; height: 100%; margin-right: 3px;
+        display: inline-block; }
+      table.thesaurus { width: 315px; }
+      td.name { font-style: bold; width: 155px; }
+      td.hex, div.hex { font-style: italic; color: #ccc; }
+      td.hex { padding-left: 29px; }
+      td.score { color: #ccc; padding-left: 10px; }
+      td.name a { color: black; text-decoration: none; }
+      td.name a:hover { color: red; }
+      h3 { padding: 0; margin: 4px 0px 4px 0px; font-size: 17px; }
+      .block { margin-right: 20px; display: inline-block; }
+      .ctrl { margin-top: 4px; display: none; }
+      .ctrl, .ctrl a { color: #bbb; font-size: 12px; text-decoration: none; }
+      .ctrl a:hover { color: #bbb; }
+    </style>
+    <script type="text/javascript">
+      function flip(link) {
+        var b = d3.select(".ctrl a").text() == "Vertical";
+        d3.selectAll('.container').classed('block', b);
+        d3.select(".ctrl a").text(b ? "Horizontal" : "Vertical");
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <div class="label">Color</div>
+	    <input id="input" type="text" />
+	  </div>
+      <div id="dict" class="output"></div>
+    </div>
+    <div id="sim" class="output container"></div>
+    <div id="dis" class="output container"></div>
+    <div class="ctrl">
+      Orientation: <a href="javascript:flip(this);">Vertical</a>
+    </div>
+  </body>
+</html>

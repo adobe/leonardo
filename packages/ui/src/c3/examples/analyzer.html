@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Color Palette Analyzer</title>
+    <script type="text/javascript" src="../lib/d3/d3.js"></script>
+    <script type="text/javascript" src="../lib/d3/d3.color.js"></script>
+    <script type="text/javascript" src="../c3.js"></script>
+    <script type="text/javascript" src="palettes.js"></script>
+    <script type="text/javascript" src="analyzer.js"></script>
+    <style type="text/css">
+      * { font-family: Helvetica Neue; font-size: 12px; }
+      .label { font-size: 18px; font-weight: bold; margin-bottom: 0.5em; }
+      #controls { margin-bottom: 0.5em; }
+      textarea { width: 500px; height: 46px; font-family: Courier New; }
+      select { font-size: 18px; vertical-align: top; }
+
+      .row div {
+        display: inline-block;
+        width: 31px;
+        text-align: right;
+      }
+      .row div.d { width: 30px; }
+      .row div.terms { width: 300px; text-align: left; padding-left: 10px; }
+      .term { color: #000; }
+      .perc { color: #888; }
+      span.term:first-child { font-weight: bold; }
+      .pname { font-size: 13px; font-weight: bold; margin-right: 4px; }
+      .title { margin-top: 4px; }
+    </style>
+    <script type="text/javascript">
+    var plist = [
+      "tableau10", "tableau20", "manyeyes", "apple_spectrum", "excel10",
+      "economist", "brewer_q09", "brewer_q10", "brewer_q12",
+      "brewer_da", "brewer_db", "brewer_dd", "brewer_dc",
+      "marketmap"
+    ];
+    var pname = {
+      "tableau10": "Tableau-10",
+      "tableau20": "Tableau-20",
+      "manyeyes":  "ManyEyes",
+      "apple_spectrum": "Numbers-6",
+      "excel10": "Excel-10",
+      "economist": "The Economist",
+      "brewer_q09": "ColorBrewer-Q9",
+      "brewer_q10": "ColorBrewer-Q10",
+      "brewer_q12": "ColorBrewer-Q12",
+      "brewer_da": "ColorBrewer-Div1",
+      "brewer_db": "ColorBrewer-Div2",
+      "brewer_dd": "ColorBrewer-Div3",
+      "brewer_dc": "ColorBrewer-Div4",
+      "marketmap": "Map of the Market"
+    }
+    </script>
+  </head>
+  <body>
+    <div class="label">Color Palette Analyzer</div>
+    <div id="controls">
+      <textarea id="palette"></textarea>
+      <select id="selector">
+        <option value="clear">Custom</option>
+      </select>
+    </div>
+    <script type="text/javascript">
+      c3.load("../data/xkcd/c3_data.json");
+      init();
+    </script>
+  </body>
+</html>

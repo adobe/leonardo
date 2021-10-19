@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Color Name Image Pixel Selector</title>
+    <link rel="stylesheet" href="../lib/jquery/css/ui-lightness/jquery-ui-1.8.13.custom.css">
+    <script type="text/javascript" src="../lib/d3/d3.js"></script>
+    <script type="text/javascript" src="../lib/d3/d3.color.js"></script>
+    <script type="text/javascript" src="../lib/jquery/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="../lib/jquery/jquery-ui-1.8.13.custom.min.js"></script>
+    <script type="text/javascript" src="../c3.js"></script>
+    <script type="text/javascript" src="select.js"></script>
+    <style type="text/css">
+      * { font-family: Helvetica Neue; font-size: 18px; }
+      #left { float: left; width: 802px; }
+      #right { margin-left: 820px; }
+      .ctrl { margin-bottom: 4px; }
+      #right .ctrl { margin-left: 1px; }
+      .label { display: inline-block; width: 52px; }
+      .text { width: 150px; padding: 4px; border: 1px solid #ccc; }
+      #right .label { padding-left: 3px; width: 49px; }
+
+      #terms { margin-top: 9px; }
+      .term { margin-bottom: 0px; }
+
+      #uri { width: 665px; }
+      .button { width: 50px; margin-left: 8px; }
+      #canvas { border: 1px solid #ccc; margin-top: 4px; cursor: crosshair; }
+      #select { position: absolute; display: none; border: 1px dotted #f00;
+                pointer-events: none; }
+
+      #swatch { display: inline-block; width: 50px; height: 30px;
+                border: 1px solid #ccc; background: #f0f0f0; }
+      div.miniswatch { width: 2px; height: 100%; display: inline-block; }
+      .slider { width: 182px; height: 8px; margin-left: 6px; }
+      label { font-size: 14px; }
+      #tool { margin-right: 8px; }
+      .clabel { display: inline-block; }
+      .rlabel { display: inline-block; text-align: right; width: 18px; }
+      #params { margin-top: 2px; }
+
+      table { border-collapse: separate; padding: 0px; }
+      td { padding: 0px; padding-left: 10px; }
+      td.swatch { padding-left: 0px; }
+      td.name a { color: black; text-decoration: none; }
+      td.name a:hover { color: red; }
+      .rel { padding-left: 5px; font-size: 12px; color: #ccc;
+	         visibility: hidden; }
+      .rel :hover { color: red; }
+      .selected .rel { visibility: visible; }
+
+      .hide { display: none; }
+    </style>
+  </head>
+  <body>
+    <div id="left">
+      <div class="ctrl">
+        <div class="label">Image</div>
+        <input class="text" id="uri" type="text" value="images/simpsons.jpg"/>
+        <input class="button" type="button" value="Load" onclick="load();"/>
+      </div>
+      <canvas id="canvas" width="800" height="600"></canvas>
+      <div id="select"></div>
+      <div id="params">
+        <select id="tool" onchange="settool();">
+          <option value="pick">Color Picker </option>
+          <option value="wand">Magic Wand </option>
+        </select>
+        <label class="clabel" for="check">Mask</label>
+        <input id="check" name="check" type="checkbox"
+          onchange="maskt();"/>
+
+        &nbsp; <label for="check">Invert</label>
+        <input id="subtract" name="subtract" type="checkbox"
+          onchange="subtract();"/>
+
+        &nbsp; <label class="pick">Tolerance</label>
+        <input id="range" class="slider pick" name="thresh" type="range"
+          value="66" min="1" max="100" onchange="slide();"/>
+        <label id="rlabel" class="rlabel pick" for="thresh">66</label>
+
+        <label class="wand hide">Color</label>
+        <input id="crange" class="slider wand hide" name="cthresh" type="range"
+          value="15" min="0" max="100" onchange="slide();"/>
+        <label id="crlabel" class="rlabel wand hide" for="cthresh">15</label>
+
+        &nbsp; <label class="wand hide">Name</label>
+        <input id="nrange" class="slider wand hide" name="nthresh" type="range"
+          value="50" min="0" max="100" onchange="slide();"/>
+        <label id="nrlabel" class="rlabel wand hide" for="nthresh">50</label>
+	  </div>
+    </div>
+    <div id="right">
+      <div class="ctrl">
+        <div class="label">Color</div>
+        <input class="text" id="colorname" type="text"/>
+      </div>
+      <div id="terms">
+      </div>
+    </div>
+    <script type="text/javascript">
+      c3.load("../data/xkcd/c3_data.json");
+      init();
+    </script>
+  </body>
+</html>
