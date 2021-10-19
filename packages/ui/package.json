@@ -79,7 +79,7 @@
     "@spectrum-css/switch": "^1.0.3",
     "@spectrum-css/tabs": "^2.1.1",
     "@spectrum-css/textfield": "^3.0.2",
-    "@spectrum-css/toast": "^2.0.4",
+    "@spectrum-css/toast": "^2.0.5",
     "@spectrum-css/tooltip": "^3.0.2",
     "@spectrum-css/typography": "^3.0.2",
     "@spectrum-css/underlay": "^2.0.10",

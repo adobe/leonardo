@@ -4,8 +4,11 @@ import {_theme} from './initialTheme';
 import {cvdColors} from './cvdColors';
 import {round} from './utils';
 
-function createOutputColors() {
+function createOutputColors(dest) {
   let colorClasses = _theme.colors;
+
+  console.log(`Gonna change some colors at ${dest}`)
+  if(dest) dest = document.getElementById(dest);
   
   let swatchesOutputs = document.getElementById('swatchesOutputs')
   let themeOutputs = document.getElementById('themeOutputs');
@@ -22,7 +25,7 @@ function createOutputColors() {
 
   themeOutputs.style.backgroundColor = themeBackgroundColor;
   swatchesOutputs.style.backgroundColor = themeBackgroundColor;
-  let destinations = [ themeOutputs, swatchesOutputs ]
+  let destinations = (dest) ? [ dest ] : [ themeOutputs, swatchesOutputs ];
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
     for (let i= (dest === swatchesOutputs) ? 1 : 0; i<theme.length; i++) {
@@ -130,6 +133,11 @@ function createOutputColors() {
   let copyThemeColors = document.getElementById('copyThemeColors');
   copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
 }
+
+document.getElementById('cvdMode').addEventListener('change', () => {
+  console.log('HELLO')
+  createOutputColors('swatchesOutputs')
+})
 
 module.exports = {
   createOutputColors
