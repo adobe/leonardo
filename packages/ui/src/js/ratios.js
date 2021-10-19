@@ -183,6 +183,10 @@ function addRatioInputs(ratios, colors) {
   ratios.forEach((ratio, index) => {
     return createRatioInput(ratio, colors[index])
   })
+  let ratioFields = document.getElementsByClassName('ratio-Field');
+  for(let i = 0; i < ratioFields.length; i++) {
+    ratioFields[i].dispatchEvent(new Event("input"));
+  }
 }
 
 function distributeRatios() {

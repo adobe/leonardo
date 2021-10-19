@@ -146,7 +146,23 @@ function paramSetup() {
 
   }
   else if(!params.has('config') || params.get('config') === undefined || !params.has('colorKeys')) {
-    addRatioInputs([3, 4.5], ['#959595', '#767676']);
+    addRatioInputs([
+      1.5,
+      1.94,
+      2.55,
+      3.45, 
+      4.67,
+      6.48,
+      9
+    ], [
+      '#d2d2d2',
+      '#bababa',
+      '#a2a2a2',
+      '#8a8a8a', 
+      '#747474',
+      '#5e5e5e',
+      '#494949'
+    ]);
     // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;
     for(let i=0; i<length; i++) {
