@@ -752,9 +752,12 @@ a:focus {
   border-radius: 4px;
 }
 
-#octocat {
-  height: 24px;
-  width: 24px;
+#octo-link {
+  display: flex;
+  svg {
+    height: 28px;
+    width: 28px;
+  }
 }
 .spectrum-Button.demoButton,
 .spectrum-Button.demoButtonInverted {
