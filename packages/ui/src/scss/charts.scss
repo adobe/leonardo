@@ -195,7 +195,7 @@ governing permissions and limitations under the License.
 #paletteChartsWrapper {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
 }
 
 // #contrastChart {

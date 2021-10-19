@@ -86,8 +86,8 @@ const colorPicker = (e) => {
   interpSelect.options.length = 0;
 
   let opts = {
-    'CAM02': 'Jab',
-    'CAM02p': 'JCh',
+    'CAM02': 'CAM02',
+    'CAM02p': 'CAM02 (Ch)',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',

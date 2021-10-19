@@ -75,9 +75,9 @@ function createInterpolationCharts(colors, mode, scaleType = 'theme') {
   if(mode === 'CAM02p') {
     func = 'jch';
     c1 = 'h';
-    c1Label = `Hue (${mode} - H)`;
+    c1Label = `Hue (CAM02 (Ch) - H)`;
     c2 = 'C';
-    c2Label = `Chroma (${mode} - C)`;
+    c2Label = `Chroma (CAM02 (Ch) - C)`;
     c3 = 'J';
     yMin = 0;
     yMax = 360;

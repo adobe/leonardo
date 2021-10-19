@@ -60,6 +60,7 @@ governing permissions and limitations under the License.
     --panelBackground: var(--spectrum-global-color-gray-100, #f5f5f5);
     --panelBorder: var(--spectrum-global-color-gray-300);
     --translucentBorder: rgba(0, 0, 0, 0.4);
+    --translucentLightBorder: rgba(0, 0, 0, 0.1);
     --sliderThumbColor: rgba(0, 0, 0, 0.3);
     --transparentGray900: rgba(0, 0, 0, 0.5);
   }
@@ -71,6 +72,7 @@ governing permissions and limitations under the License.
     --panelBackground: var(--spectrum-global-color-gray-100);
     --panelBorder: var(--spectrum-global-color-gray-50);
     --translucentBorder: rgba(255, 255, 255, 0.4);
+    --translucentLightBorder: rgba(255, 255, 255, 0.15);
     --sliderThumbColor: rgba(255, 255, 255, 0.3);
     --transparentGray900: rgba(255, 255, 255, 0.5);
   }
@@ -1270,11 +1272,13 @@ a:focus {
   // display:flex;
   flex-direction: column;
   background-color: var(--theme-background);
-  margin-left: -16px;
-  margin-right: -16px;
+  // margin-left: -16px;
+  // margin-right: -16px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
   padding: 16px;
   // max-height: calc(100vh - 136px);
   overflow: auto;
+  border: 1px solid var(--translucentLightBorder)
 }
 
 #themeParams {
@@ -1786,7 +1790,7 @@ a:focus {
 
 #chartsMode,
 .chartsMode {
-  width: 12ch;
+  width: 16ch;
 }
 
 #luminosityGradient {

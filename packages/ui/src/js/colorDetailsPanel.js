@@ -255,8 +255,8 @@ function showColorDetails(e) {
   interpSelect.options.length = 0;
 
   let opts = {
-    'CAM02': 'Jab',
-    'CAM02p': 'JCh',
+    'CAM02': 'CAM02',
+    'CAM02p': 'CAM02 (Ch)',
     'LCH': 'Lch',
     'LAB': 'Lab',
     'HSL': 'HSL',
@@ -437,7 +437,7 @@ function showColorDetails(e) {
   chartsModeSelect.options.length = 0;
 
   for(let index in opts) { chartsModeSelect.options[chartsModeSelect.options.length] = new Option(opts[index], index); }
-  chartsModeSelect.value = 'CAM02';
+  chartsModeSelect.value = 'CAM02p';
 
     
   // Put the tabs together
@@ -516,7 +516,7 @@ function showColorDetails(e) {
   themeRamp(colors, gradientId);
   themeRampKeyColors(colorKeys, gradientId);
   createRGBchannelChart(colors);
-  createInterpolationCharts(colors, 'CAM02');
+  createInterpolationCharts(colors, 'CAM02p');
 
   // TODO: 3D chart in this context needs to be
   // different -- just one color...

@@ -200,6 +200,8 @@ if (mq.matches) {
 
 // Build the site based on URL parameters
 paramSetup();
+// Default to CAM02ch for charts modes
+document.getElementById('chartsMode').value = 'CAM02p'
 
 // document.getElementById("tabPanelColorScales").click();
 document.getElementById("tabOutput").click();

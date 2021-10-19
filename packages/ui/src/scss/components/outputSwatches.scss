@@ -1,8 +1,11 @@
 #swatchesOutputs {
+  display: flex;
+  flex-direction: column;
   padding: 32px;
   border-radius: var(--spectrum-alias-border-radius-regular);
-  max-height: calc(100vh - 218px);
+  height: calc(100vh - 220px);
   overflow: auto;
+  border: 1px solid var(--translucentLightBorder);
 }
 
 .themeOutputItem {
@@ -65,25 +68,51 @@
 #swatchMainContent-Wrapper {
   .themeOutputItem:first-of-type {
     .themeOutputSwatch:first-of-type {
-      border-top-left-radius: 8px;
+      border-top-left-radius: var(--spectrum-alias-border-radius-regular);
     }
     .themeOutputSwatch:last-of-type {
-      border-top-right-radius: 8px;
+      border-top-right-radius: var(--spectrum-alias-border-radius-regular);
     }
   }
   .themeOutputItem:last-of-type {
     .themeOutputSwatch:first-of-type {
-      border-bottom-left-radius: 8px;
+      border-bottom-left-radius: var(--spectrum-alias-border-radius-regular);
     }
     .themeOutputSwatch:last-of-type {
-      border-bottom-right-radius: 8px;
+      border-bottom-right-radius: var(--spectrum-alias-border-radius-regular);
     }
   }
 
 
   .themeOutputSwatch_luminosity,
   .themeOutputSwatch_contrast {
-    font-size: 16px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  #swatchesOutputs .themeOutputItem {
+    display: flex;
+    flex-direction: row;
+    /* for fluid heights */
+    height: 100%;
+    max-height: 150px;
+  }
+
+  #swatchesOutputs .themeOutputColor {
+    display: inline-flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    min-width: 280px;
+    margin: 0;
+  }
+  
+  #swatchesOutputs .themeOutputSwatch {
+    width: 100%;
+    min-width: 36px;
+    height: 100%;
+    min-height: 72px;
   }
 }
 
