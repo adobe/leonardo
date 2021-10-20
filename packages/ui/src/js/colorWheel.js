@@ -23,6 +23,9 @@ import {
   removeElementsByClass,
   throttle
 } from './utils';
+const chroma = require('chroma-js');
+const { extendChroma } = require('./chroma-plus');
+extendChroma(chroma);
 
 function updateColorDots(mode, scaleType = 'theme') {
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
@@ -75,6 +78,7 @@ function getColorWheelSize() {
   return colorWheelSize;
 }
 
+
 function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme', dots = true) {
   // Cant seem to use the constant colorWheelSize or dotSize here, so we calculate it
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
@@ -85,24 +89,24 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme', d
   colorValues.map(color => {
     let c,h; 
     if(mode === 'HSL' || mode === 'RGB') {
-      c = d3.hsl(color).s * 100;
-      h = d3.hsl(color).h
+      c = chroma(color).hsl()[1] * 100;
+      h = chroma(color).hsl()[0]
     } 
     if(mode === 'HSLuv') {
-      c = d3.hsluv(color).u;
-      h = d3.hsluv(color).l
+      c = chroma(color).hsluv()[1];
+      h = chroma(color).hsluv()[0]
     }
     if(mode === 'HSV') {
-      c = d3.hsv(color).s * 100;
-      h = d3.hsv(color).h
+      c = chroma(color).hsv()[1] * 100;
+      h = chroma(color).hsv()[0]
     }
     if(mode === 'LCH' || mode === 'LAB') {
-      c = d3.hcl(color).c;
-      h = d3.hcl(color).h
+      c = chroma(color).hcl()[1];
+      h = chroma(color).hcl()[0]
     }
     if(mode === 'CAM02p' || mode === 'CAM02') {
-      c = d3.jch(color).C;
-      h = d3.jch(color).h
+      c = chroma(color).jch()[1];
+      h = chroma(color).jch()[2]
     }
     
     const conversion = convertToCartesian(c, h, 'clamp');
@@ -202,6 +206,7 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
 }
 
 function createColorWheel(mode, lightness, scaleType) {   
+  lightness = Number(lightness);
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
   const wheelId = (scaleType === 'theme') ? '#colorWheel' : `#${scaleType}ColorWheel`;
   const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
@@ -230,76 +235,49 @@ function createColorWheel(mode, lightness, scaleType) {
     context.closePath();
     var gradient = context.createRadialGradient(x, y, 0, x, y, radius);
 
-    let colorStartHsl, colorMid1Hsl, colorMid2Hsl, colorMid3Hsl, colorStopHsl;
+    let colorStart, colorMid1, colorMid2, colorMid3, colorStop;
 
     if(mode === 'HSL' || mode === 'RGB') {
-      let colorStart = d3.hsl(angle, 0, lightness/100);
-      let colorMid1 = d3.hsl(angle, 0.25, lightness/100);
-      let colorMid2 = d3.hsl(angle, 0.5, lightness/100);
-      let colorMid3 = d3.hsl(angle, 0.75, lightness/100);
-      let colorStop = d3.hsl(angle, 1, lightness/100);
-      colorStartHsl = d3.hsl(colorStart).toString();
-      colorMid1Hsl = d3.hsl(colorMid1).toString();
-      colorMid2Hsl = d3.hsl(colorMid2).toString();
-      colorMid3Hsl = d3.hsl(colorMid3).toString();
-      colorStopHsl = d3.hsl(colorStop).toString();
+      colorStart = chroma.hsl(angle, 0, lightness/100).hex();
+      colorMid1 = chroma.hsl(angle, 0.25, lightness/100).hex();
+      colorMid2 = chroma.hsl(angle, 0.5, lightness/100).hex();
+      colorMid3 = chroma.hsl(angle, 0.75, lightness/100).hex();
+      colorStop = chroma.hsl(angle, 1, lightness/100).hex();
     }
     else if(mode === 'HSV') {
-      let colorStart = d3.hsv(angle, 0, lightness/100);
-      let colorMid1 = d3.hsv(angle, 0.25, lightness/100);
-      let colorMid2 = d3.hsv(angle, 0.5, lightness/100);
-      let colorMid3 = d3.hsv(angle, 0.75, lightness/100);
-      let colorStop = d3.hsv(angle, 1, lightness/100);
-      colorStartHsl = d3.hsl(colorStart).toString();
-      colorMid1Hsl = d3.hsl(colorMid1).toString();
-      colorMid2Hsl = d3.hsl(colorMid2).toString();
-      colorMid3Hsl = d3.hsl(colorMid3).toString();
-      colorStopHsl = d3.hsl(colorStop).toString();
+      colorStart = chroma.hsv(angle, 0, lightness/100).hex();
+      colorMid1 = chroma.hsv(angle, 0.25, lightness/100).hex();
+      colorMid2 = chroma.hsv(angle, 0.5, lightness/100).hex();
+      colorMid3 = chroma.hsv(angle, 0.75, lightness/100).hex();
+      colorStop = chroma.hsv(angle, 1, lightness/100).hex();
     }
     else if(mode === 'LCH' || mode === 'LAB') {
-      let colorStart = d3.hcl(angle, 0, lightness);
-      let colorMid1 = d3.hcl(angle, 25, lightness);
-      let colorMid2 = d3.hcl(angle, 50, lightness);
-      let colorMid3 = d3.hcl(angle, 75, lightness);
-      let colorStop = d3.hcl(angle, 100, lightness);
-      colorStartHsl = d3.hsl(colorStart).toString();
-      colorMid1Hsl = d3.hsl(colorMid1).toString();
-      colorMid2Hsl = d3.hsl(colorMid2).toString();
-      colorMid3Hsl = d3.hsl(colorMid3).toString();
-      colorStopHsl = d3.hsl(colorStop).toString();
+      colorStart = chroma.lch(lightness, 0, angle).hex();
+      colorMid1 = chroma.lch(lightness, 25, angle).hex();
+      colorMid2 = chroma.lch(lightness, 50, angle).hex();
+      colorMid3 = chroma.lch(lightness, 75, angle).hex();
+      colorStop = chroma.lch(lightness, 100, angle).hex();
     }
     else if(mode === 'HSLuv') {
-      let colorStart = d3.hsluv(angle, 0, lightness);
-      let colorMid1 = d3.hsluv(angle, 25, lightness);
-      let colorMid2 = d3.hsluv(angle, 50, lightness);
-      let colorMid3 = d3.hsluv(angle, 75, lightness);
-      let colorStop = d3.hsluv(angle, 100, lightness);
-      
-      colorStartHsl = d3.hsl(colorStart).toString();
-      colorMid1Hsl = d3.hsl(colorMid1).toString();
-      colorMid2Hsl = d3.hsl(colorMid2).toString();
-      colorMid3Hsl = d3.hsl(colorMid3).toString();
-      colorStopHsl = d3.hsl(colorStop).toString();
+      colorStart = chroma.hsluv(angle, 0, lightness).hex();
+      colorMid1 = chroma.hsluv(angle, 25, lightness).hex();
+      colorMid2 = chroma.hsluv(angle, 50, lightness).hex();
+      colorMid3 = chroma.hsluv(angle, 75, lightness).hex();
+      colorStop = chroma.hsluv(angle, 100, lightness).hex();
     }
     else if(mode === 'CAM02' || mode === 'CAM02p') {
-      let colorStart = d3.jch(lightness, 0, angle); 
-      let colorMid1 = d3.jch(lightness, 25, angle);
-      let colorMid2 = d3.jch(lightness, 50, angle);
-      let colorMid3 = d3.jch(lightness, 75, angle);
-      let colorStop = d3.jch(lightness, 100, angle);
-
-      colorStartHsl = d3.hsl(colorStart).toString();
-      colorMid1Hsl = d3.hsl(colorMid1).toString();
-      colorMid2Hsl = d3.hsl(colorMid2).toString();
-      colorMid3Hsl = d3.hsl(colorMid3).toString(); 
-      colorStopHsl = d3.hsl(colorStop).toString();
+      colorStart = chroma.jch(lightness, 0, angle).hex();
+      colorMid1 = chroma.jch(lightness, 25, angle).hex();
+      colorMid2 = chroma.jch(lightness, 50, angle).hex();
+      colorMid3 = chroma.jch(lightness, 75, angle).hex();
+      colorStop = chroma.jch(lightness, 100, angle).hex();
     }
 
-    gradient.addColorStop(0, colorStartHsl);
-    gradient.addColorStop(0.25, colorMid1Hsl);
-    gradient.addColorStop(0.5, colorMid2Hsl);
-    gradient.addColorStop(0.75, colorMid3Hsl);
-    gradient.addColorStop(1, colorStopHsl);
+    gradient.addColorStop(0, colorStart);
+    gradient.addColorStop(0.25, colorMid1);
+    gradient.addColorStop(0.5, colorMid2);
+    gradient.addColorStop(0.75, colorMid3);
+    gradient.addColorStop(1, colorStop);
 
     context.fillStyle = gradient;
     context.fill();
