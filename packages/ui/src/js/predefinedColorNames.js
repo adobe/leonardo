@@ -12,7 +12,7 @@ import {getAllColorNames} from './getThemeData'
 import {
   getColorDifference
 } from './utils';
-const colorNames = require('color-names');
+const colorNames = require('./colornames');
 
 const predefinedColorNames = [
     'Azure',
@@ -50,11 +50,21 @@ const predefinedColorNames = [
 ];
 
 function getClosestColorName(color) {
+  let diffs = [];
+  let keys = [];
   for (const [key, value] of Object.entries(colorNames)) {
-    let colorDifference = getColorDifference(color, key);
-    if(colorDifference < 20) {
-      return value;
+    let colorDifference = getColorDifference(color, value);
+    if(colorDifference < 10) {
+      diffs.push(colorDifference);
+      keys.push(key);
     }
+  }
+  if(diffs.length > 0) {
+    const minDiff = Math.min(...diffs);
+    const index = diffs.indexOf(minDiff);
+    const closestMatchingKey = keys[index];
+    // console.log(diffs, keys, minDiff, index, closestMatchingKey)
+    return closestMatchingKey;
   }
 }
 

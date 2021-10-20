@@ -6,7 +6,6 @@
   "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
-    "preinstall": "submodules-install",
     "serve": "npx parcel src/index.html src/theme.html src/scales.html src/converter.html src/contrast-checker.html src/demo.html src/colorPickerDemo.html  --no-hmr",
     "dev": "yarn copyIcons && yarn serve",
     "copyIcons": "mkdir -p dist && yarn copyWorkflowIcons && yarn copyUIIcons",
@@ -17,9 +16,6 @@
     "buildSite": "npx parcel build --no-minify src/index.html src/scales.html src/tools.html src/theme.html src/converter.html src/contrast-checker.html src/demo.html --public-url ./ && yarn copyCNAME && yarn copyIcons",
     "deploySite": "yarn buildSite && npx ghpages -p dist"
   },
-  "submodules": [
-    "src/c3"
-  ],
   "keywords": [
     "accessibility",
     "inclusive",
@@ -48,8 +44,7 @@
     "posthtml-doctype": "^1.1.1",
     "posthtml-include": "^1.7.2",
     "posthtml-modules": "^0.7.4",
-    "sass": "^1.23.6",
-    "submodules-install": "^1.0.2"
+    "sass": "^1.23.6"
   },
   "dependencies": {
     "@adobe/focus-ring-polyfill": "^0.1.5",
@@ -89,7 +84,6 @@
     "@spectrum-css/typography": "^3.0.2",
     "@spectrum-css/underlay": "^2.0.10",
     "@spectrum-css/vars": "^4.0.0",
-    "c3": "^0.7.20",
     "clipboard": "^2.0.4",
     "color-blind": "^0.1.1",
     "color-names": "^2.0.0",

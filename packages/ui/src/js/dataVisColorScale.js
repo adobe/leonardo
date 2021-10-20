@@ -158,9 +158,10 @@ function dataVisColorScale(scaleType) {
   })
 
   downloadGradient.addEventListener('click', (e) => {
-    const stopsInput = document.getElementById(`${scaleType}GradientStops`);
-    const originalSwatches = colorClass.swatches;
-    colorClass.swatches = Number(stopsInput.value);
+    // const stopsInput = document.getElementById(`${scaleType}GradientStops`);
+    const stops = 100;
+    // const originalSwatches = colorClass.swatches;
+    colorClass.swatches = Number(stops);
     
     const gradientColors = colorClass.colors;
     setTimeout(() => {
