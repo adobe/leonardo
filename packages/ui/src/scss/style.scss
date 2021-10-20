@@ -342,7 +342,7 @@ body,
   flex-direction: column;
   height: 56px;
   width: 100%;
-  border-radius: 4px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.25);
   background-image: linear-gradient(0deg, black, white);
@@ -372,7 +372,7 @@ body,
 //   display: flex;
 //   position: absolute;
 //   left: 0;
-//   border-radius: 4px;
+//   border-radius: var(--spectrum-alias-border-radius-regular);
 //   border: 1px solid rgba(0, 0, 0, 0.25);
 //   justify-content: center;
 //   align-items: center;
@@ -749,7 +749,7 @@ p {
 a:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
-  border-radius: 4px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
 }
 
 #octo-link {
@@ -835,7 +835,7 @@ a:focus {
 .themeOutputParams {
   background-color: var(--spectrum-global-color-gray-50);
   border: 1px solid var(--spectrum-global-color-gray-200);
-  border-radius: 4px;
+  border-radius: var(--spectrum-alias-border-radius-medium);
   padding: var(--spectrum-global-dimension-size-200);
   margin: 0;
   // width: calc(100% - 4px);
@@ -854,6 +854,14 @@ a:focus {
 
   + .themeOutputParams {
     margin-top: var(--spectrum-global-dimension-size-200)
+  }
+}
+
+.spectrum-Panel-Item,
+#sequentialOutputWrapper,
+#divergingOutputWrapper {
+  .themeOutputParams {
+    border-radius: var(--spectrum-alias-border-radius-regular);
   }
 }
 
@@ -1101,7 +1109,7 @@ a:focus {
 .themeColor_item {
   display: inline-flex;
   align-items: center;
-  border-radius: 4px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
   width: 100%;
   background-color: var(--spectrum-global-color-gray-50);
   border: 1px solid var(--spectrum-global-color-gray-300);
@@ -1136,7 +1144,7 @@ a:focus {
   padding: 0 8px;
   height: 32px;
   border-width: 1px;
-  border-radius: 4px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
 }
 
 .spectrum-Picker + .spectrum-Picker-icon {
@@ -1180,7 +1188,7 @@ a:focus {
   align-items: center;
   flex-direction: row;
   flex-shrink: 0;
-  border-radius: 4px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
   height: 72px;
   margin: 8px 0;
   width: calc(100% - var(--spectrum-global-dimension-size-400));
@@ -1191,7 +1199,7 @@ a:focus {
   .gradient {
     height: 100%;
     width: 100%;
-    border-radius: 4px;
+    border-radius: var(--spectrum-alias-border-radius-medium);
   }
 
   &.is-large {
@@ -1277,7 +1285,7 @@ a:focus {
   background-color: var(--theme-background);
   // margin-left: -16px;
   // margin-right: -16px;
-  border-radius: var(--spectrum-alias-border-radius-regular);
+  border-radius: var(--spectrum-alias-border-radius-medium);
   padding: 16px;
   // max-height: calc(100vh - 136px);
   overflow: auto;
@@ -1384,7 +1392,7 @@ a:focus {
   width: 64px;
   margin-right: 8px;
   display: inline-flex;
-  border-radius: 4px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
 }
 
 
@@ -1452,7 +1460,7 @@ a:focus {
   border-bottom: 2px solid var(--panelBorder);
 }
 .spectrum-Content-Tabs {
-  padding: 0 16px;
+  padding: 8px 16px 8px;
   height: 44px;  
   display: flex;
   justify-content: space-between;
@@ -1524,7 +1532,7 @@ a:focus {
   margin: 16px;
   background-color: var(--spectrum-global-color-gray-50);
   border: 1px solid var(--spectrum-global-color-gray-300);
-  border-radius: 4px;
+  border-radius: var(--spectrum-alias-border-radius-regular);
   // box-shadow: 0 3px 6px rgb(0 0 0 / 5%);
 }
 .spectrum-ColorCard-content {
