@@ -27,7 +27,6 @@ import {
   createRatioChart,
   createLuminosityChart
 } from './createRatioChart';
-import {create3dChart} from './create3dChart';
 import {
   getConvertedColorCoodrindates,
   createColorWheelDots,
@@ -35,6 +34,7 @@ import {
 } from './colorWheel';
 import {createOutputParameters} from './createOutputParameters';
 import {throttle} from './utils';
+import {create3dModel} from './create3dModel';
 
 import javascript from 'highlight.js/lib/languages/javascript';
 hljs.registerLanguage('javascript', javascript);
@@ -53,7 +53,8 @@ function themeUpdate() {
 
   createPaletteCharts(colorWheelMode);
   updateColorDots(null, 'theme');
-  create3dChart(null, colorWheelMode);
+  create3dModel('paletteModelWrapper', _theme.colors, colorWheelMode);
+  
 
   let chartLuminosities = Promise.resolve(getLuminosities());
   chartLuminosities.then(function(resolve) {createLuminosityChart(resolve)});

@@ -40,8 +40,8 @@ import {
   _colorScales
 } from './initialTheme';
 import {updateParams} from './params';
-import {create3dChart} from './create3dChart';
 import {downloadSVGgradient} from './createSVGgradient';
+import {create3dModel} from './create3dModel';
 
 function showColorDetails(e) {
   let element = e.target.id;
@@ -505,12 +505,12 @@ function showColorDetails(e) {
 
   chartsModeSelect.addEventListener('change', (e) => {
     const thisColorId = id;
-    console.log(thisColorId)
     let colorData = getColorClassById(thisColorId);
 
     let colors = colorData.backgroundColorScale;
     createInterpolationCharts(colors, e.target.value)
-    create3dChart(colorData, e.target.value)
+
+    create3dModel('tabModelContent', colorData, e.target.value);
   })
   
   themeRamp(colors, gradientId);
@@ -520,8 +520,8 @@ function showColorDetails(e) {
 
   // TODO: 3D chart in this context needs to be
   // different -- just one color...
-  create3dChart(colorData, chartsModeSelect.value)
-  
+  create3dModel('tabModelContent', [colorData], chartsModeSelect.value);
+
   toggleControls();
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', function(e) {

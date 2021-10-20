@@ -20,7 +20,7 @@ import {
   createSamples
 } from './createSamples';
 import {createDemos} from './createDemos';
-import {create3dChart} from './create3dChart';
+import {create3dModel} from './create3dModel';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 
@@ -65,7 +65,8 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
 
-    create3dChart(colorClass, chartsModeSelect.value, scaleType)
+    create3dModel(`${scaleType}ModelWrapper`, [colorClass], chartsModeSelect.value, scaleType)
+
   }, 10);
 
   sw.className = 'keyColor-Item';

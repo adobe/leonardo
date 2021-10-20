@@ -72,6 +72,8 @@ import {_divergingScale} from './js/initialDivergingScale';
 import {dataVisColorScale} from './js/dataVisColorScale';
 
 import toggleTooltip from './js/tooltip';
+import { create3dModel } from './js/create3dModel';
+
 
 const chroma = require('chroma-js');
 const { extendChroma } = require('./js/chroma-plus');

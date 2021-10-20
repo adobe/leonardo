@@ -332,6 +332,103 @@ function orderColors(colors, priority1, priority2, random = false) {
   return orderedColors;
 }
 
+
+function createColorData(color, mode) {
+  const f = getChannelsAndFunction(mode);
+  const method = (d) => d3[f.func](d);
+
+  let dataA = color.map(function(d) {
+    let channelValue = method(d)[f.c1];
+    // Need to do some geometry for polar colorspaces
+    if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
+      let s = (mode === 'HSL' || mode === 'HSV') ? method(d)[f.c2] * 100 : method(d)[f.c2];
+      let h = channelValue;
+      return filterNaN(convertToCartesian(s, h).x);
+    }
+    else return filterNaN(channelValue);
+  });
+  let dataB = color.map(function(d) {
+    let channelValue = method(d)[f.c3];
+    if(mode === 'HSL' || mode === 'HSV') channelValue = channelValue * 100;
+    return filterNaN(channelValue);
+  });
+  let dataC = color.map(function(d) {
+    let channelValue = method(d)[f.c2];
+    // Need to do some geometry for polar colorspaces
+    if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
+      let s = (mode === 'HSL' || mode === 'HSV') ? channelValue * 100 : channelValue;
+      let h = method(d)[f.c1];
+      return filterNaN(convertToCartesian(s, h).y);
+    }
+    return filterNaN(channelValue);
+  });
+
+  return {
+    a: dataA,
+    b: dataB,
+    c: dataC
+  }
+}
+
+function getChannelsAndFunction(mode) {
+  let c1, c2, c3, func;
+  if(mode === 'RGB') {
+    func = 'rgb';
+    c1 = 'r';
+    c2 = 'g';
+    c3 = 'b';
+  }
+  else if(mode === 'LAB') {
+    func = 'lab';
+    c1 = 'a';
+    c2 = 'b';
+    c3 = 'l';
+  }
+  else if(mode === 'LCH') {
+    func = 'lch';
+    c1 = 'h';
+    c2 = 'c';
+    c3 = 'l';
+  }
+  else if(mode === 'CAM02') {
+    func = 'jab';
+    c1 = 'a';
+    c2 = 'b';
+    c3 = 'J';
+  }
+  else if(mode === 'CAM02p') {
+    func = 'jch';
+    c1 = 'h';
+    c2 = 'C';
+    c3 = 'J';
+  }
+  else if(mode === 'HSL') {
+    func = 'hsl';
+    c1 = 'h';
+    c2 = 's';
+    c3 = 'l';
+  }
+  else if(mode === 'HSLuv') {
+    func = 'hsluv';
+    c1 = 'l';
+    c2 = 'u';
+    c3 = 'v';
+  }
+  else if(mode === 'HSV') {
+    func = 'hsv';
+    c1 = 'h';
+    c2 = 's';
+    c3 = 'v';
+  }
+
+  return {
+    func: func,
+    c1: c1,
+    c2: c2,
+    c3: c3
+  }
+}
+
 module.exports = {
   randomId,
   throttle,
@@ -346,5 +443,7 @@ module.exports = {
   lerp,
   removeElementsByClass,
   getColorDifference,
-  groupCommonHues
+  groupCommonHues,
+  createColorData,
+  getChannelsAndFunction
 }

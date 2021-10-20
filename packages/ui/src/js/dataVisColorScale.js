@@ -29,7 +29,7 @@ import {
   updateColorWheel,
   updateColorDots
 } from './colorWheel';
-import {create3dChart} from './create3dChart'
+import {create3dModel} from './create3dModel';
 import {
   throttle
 } from './utils';
@@ -66,6 +66,7 @@ function dataVisColorScale(scaleType) {
   let sampleNumber = document.getElementById(`${scaleType}Samples`);
   let sampleOutput = document.getElementById(`${scaleType}_format`);
   let quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
+  let PlotDestId = `${scaleType}ModelWrapper`;
 
   let samples = sampleNumber.value;
 
@@ -125,7 +126,7 @@ function dataVisColorScale(scaleType) {
 
   createRGBchannelChart(colors, `${scaleType}RGBchart`);
   createInterpolationCharts(colors, 'CAM02', scaleType);
-  create3dChart(colorClass, chartsModeSelect.value, scaleType)
+  create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
 
   createSamples(samples, scaleType);
   createDemos(scaleType);
@@ -142,7 +143,7 @@ function dataVisColorScale(scaleType) {
     createSamples(sampleNumber.value, scaleType);
     updateColorDots(chartsModeSelect.value, scaleType);
     createDemos(scaleType);
-    create3dChart(colorClass, chartsModeSelect.value, scaleType)
+    create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
   })
 
   smooth.addEventListener('change', (e) => {
@@ -154,7 +155,7 @@ function dataVisColorScale(scaleType) {
     updateColorDots(chartsModeSelect.value, scaleType);
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
-    create3dChart(colorClass, chartsModeSelect.value, scaleType)
+    create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
   })
 
   downloadGradient.addEventListener('click', (e) => {
@@ -175,7 +176,7 @@ function dataVisColorScale(scaleType) {
     let lightness = (e.target.value === 'HSV') ? 100 : ((e.target.value === 'HSLuv') ? 60 : 50);
 
     updateColorWheel(e.target.value, lightness, true, null, scaleType)
-    create3dChart(colorClass, e.target.value, scaleType)
+    create3dModel(PlotDestId, [colorClass], e.target.value, scaleType)
   })
 
   shift.addEventListener('input', (e) => {
@@ -187,7 +188,7 @@ function dataVisColorScale(scaleType) {
     throttle(updateColorDots(chartsModeSelect.value, scaleType), 10);
     throttle(createSamples(sampleNumber.value, scaleType), 10);
     throttle(createDemos(scaleType), 10);
-    throttle(create3dChart(colorClass, chartsModeSelect.value, scaleType), 10)
+    throttle(create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType), 10)
   })
 
   correctLightness.addEventListener('input', (e) => {
@@ -200,7 +201,8 @@ function dataVisColorScale(scaleType) {
 
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
-    create3dChart(colorClass, chartsModeSelect.value, scaleType)
+    create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
+
   })
 
   if(scaleType === 'sequential') {
@@ -211,7 +213,8 @@ function dataVisColorScale(scaleType) {
         updateColorDots(chartsModeSelect.value, scaleType);
         createSamples(sampleNumber.value, scaleType);
         createDemos(scaleType);
-        create3dChart(colorClass, chartsModeSelect.value, scaleType)
+        create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
+
       });
     })  
   }
@@ -225,14 +228,14 @@ function dataVisColorScale(scaleType) {
         updateColorDots(chartsModeSelect.value, scaleType);
         createSamples(sampleNumber.value, scaleType);
         createDemos(scaleType);
-        create3dChart(colorClass, chartsModeSelect.value, scaleType)
+        create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
       })
       document.getElementById(buttonEndId).addEventListener('click', (e) => {
         addScaleKeyColor(scaleType, e);
         updateColorDots(chartsModeSelect.value, scaleType);
         createSamples(sampleNumber.value, scaleType);
         createDemos(scaleType);
-        create3dChart(colorClass, chartsModeSelect.value, scaleType)
+        create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
       })
     })
   }

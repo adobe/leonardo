@@ -124,6 +124,7 @@ import {
 import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
 import {pageLoader} from './js/pageLoader'
 import { format } from 'path';
+import { create3dModel } from './js/create3dModel';
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')
@@ -215,6 +216,7 @@ document.getElementById("tabSubPanelContrastChart").click();
 // document.getElementById('homeCTA').addEventListener('click', function() {
 //   document.getElementById('tabTheme').click();
 // })
+
 
 
 window.onload = function() {

@@ -16,13 +16,13 @@ import {_theme} from './initialTheme';
 import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
 import {createHtmlElement, createSvgElement} from './createHtmlElement';
-import {create3dChart} from './create3dChart';
 import {polarColorPath} from './polarColorPath';
 import {
   convertToCartesian,
   removeElementsByClass,
   throttle
 } from './utils';
+import {create3dModel} from './create3dModel';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 extendChroma(chroma);
@@ -342,7 +342,7 @@ if(colorWheelMode) {
   
     updateColorWheel(mode, colorWheelLightness.value, true, dotsMode, 'theme');
 
-    create3dChart(null, mode)
+    create3dModel('paletteModelWrapper', _theme.colors, mode);
   });
 
   window.onresize = () => {

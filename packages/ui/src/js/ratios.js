@@ -336,7 +336,6 @@ function syncRatioInputs(e) {
       // Must calculate luminosity of respective contrast value 
       let tempColor = _theme.contrastColors[1].values[index].value;
       luminosity = d3.hsluv(tempColor).v;
-      console.log(luminosity)
       luminosityInput.value = round(luminosity, 2);
 
       swatchColor = d3.hsluv(0, 0, luminosity).formatHex();
