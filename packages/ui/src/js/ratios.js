@@ -261,6 +261,7 @@ document.getElementById('distribute').addEventListener('input', function(e) {
   let value = e.target.value;
   if(value === 'ratios') distributeRatios();
   if(value === 'luminosity') distributeLuminosity();
+  e.target.value = 'none'
 })
 
 // Sort swatches in UI
