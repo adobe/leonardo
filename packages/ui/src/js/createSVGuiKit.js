@@ -6,6 +6,7 @@ import {
 } from './initialTheme';
 import {getThemeName} from './getThemeData';
 import { createSvgElement } from './createHtmlElement';
+import {capitalizeFirstLetter} from './utils';
 
 function createSVGuiKit() {
   let colors = _theme.contrastColors;
@@ -46,9 +47,6 @@ function createSVGuiKit() {
   let outerElement = document.createElement('div');
   outerElement.id = 'UIkit';
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
   
   for(let i=0; i < colors.length; i++) {
     if(!colors[i].name) {
@@ -67,7 +65,7 @@ function createSVGuiKit() {
       title.setAttribute('x', 16);
       title.setAttribute('y', y + 13);
       title.setAttribute('fill', textColorPositive);
-      title.setAttribute('font-size', 18);
+      title.setAttribute('font-size', 16);
       title.setAttribute('font-weight', 700);
       title.setAttribute('font-family', "Adobe Clean, AdobeClean-Regular, Adobe Clean");
       title.textContent = capitalizeFirstLetter(name);

@@ -10,7 +10,8 @@ governing permissions and limitations under the License.
 */
 import {getAllColorNames} from './getThemeData'
 import {
-  getColorDifference
+  getColorDifference,
+  capitalizeFirstLetter
 } from './utils';
 const colorNames = require('./colornames');
 
@@ -63,7 +64,7 @@ function getClosestColorName(color) {
     const minDiff = Math.min(...diffs);
     const index = diffs.indexOf(minDiff);
     const closestMatchingKey = keys[index];
-    return closestMatchingKey;
+    return capitalizeFirstLetter(closestMatchingKey);
   }
 }
 
@@ -71,7 +72,7 @@ function getRandomColorName() {
   const existingColorNames = getAllColorNames();
   const predefinedColorNames = Object.keys(colorNames);
   let colorNameOptions = predefinedColorNames.filter(item => !existingColorNames.includes(item));
-  return colorNameOptions[Math.floor(Math.random()*colorNameOptions.length)];
+  return capitalizeFirstLetter(colorNameOptions[Math.floor(Math.random()*colorNameOptions.length)]);
 }
 
 module.exports = {

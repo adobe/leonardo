@@ -480,6 +480,10 @@ function getChannelsAndFunction(mode) {
   }
 }
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 module.exports = {
   randomId,
   throttle,
@@ -496,6 +500,7 @@ module.exports = {
   removeElementsByClass,
   getColorDifference,
   groupCommonHues,
+  capitalizeFirstLetter,
   createColorData,
   getChannelsAndFunction
 }
