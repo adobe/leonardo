@@ -24,10 +24,14 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
   if(!Array.isArray(colorClasses)) colorClasses = [colorClasses];
 
   // Hide all example images
-  let images = document.getElementsByClassName('ModelImage');
-  for(let i=0; i<images.length; i++) {
-    if (!images[i].classList.contains('is-hidden')) images[i].classList.add('is-hidden')
+  if(scaleType === 'theme') {
+    let images = document.getElementsByClassName('ModelImage');
+    for(let i=0; i<images.length; i++) {
+      if (!images[i].classList.contains('is-hidden')) images[i].classList.add('is-hidden')
+    }
   }
+
+
 
   var pointCount = 3142;
   var i, r;
@@ -132,9 +136,11 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
     config);
 
   // Then, display example image based on the selected mode.
-  let modelMode = (mode === 'CAM02') ? 'LAB' : ((mode === 'CAM02p') ? 'LCH' : ((mode === 'HSLuv') ? 'LUV' : mode))
-  let image = document.getElementById(`ModelImage_${modelMode}`);
-  image.classList.remove('is-hidden');
+  if(scaleType === 'theme') {
+    let modelMode = (mode === 'CAM02') ? 'LAB' : ((mode === 'CAM02p') ? 'LCH' : ((mode === 'HSLuv') ? 'LUV' : mode))
+    let image = document.getElementById(`ModelImage_${modelMode}`);
+    image.classList.remove('is-hidden');
+  }
 }
 
 
