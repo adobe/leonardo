@@ -19,6 +19,7 @@ import {
 } from './themeUpdate';
 import {throttle} from './utils';
 import {getColorClassById} from './getThemeData';
+import {create3dModel} from './create3dModel';
 import {_theme} from './initialTheme';
 
 function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
@@ -35,13 +36,14 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
   sw.value = c;
 
   const currentColorIndex = _theme.colors.map(e => e.name).indexOf(currentColorName);
+  const chartsModeSelect = document.getElementById('chartsMode');
+  const currentColor = _theme.colors[currentColorIndex]
 
   // let currentColor = _theme.colors.filter(entry => {return entry.name === currentColorName});
   // currentColor = currentColor[0];
 
   sw.oninput = (e) => {
     // Replace current indexed value from color keys with new value from color input field
-    let currentColor = _theme.colors[currentColorIndex]
     let currentKeys = currentColor.colorKeys;
     currentKeys.splice(index, 1, e.target.value)
 
@@ -53,6 +55,12 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
       updateColorDots(null, 'theme');
     }, 500);
   };
+
+  const updateModel = () => {
+    create3dModel('tabModelContent', [currentColor], chartsModeSelect.value)
+  }
+
+  sw.addEventListener('input', throttle(updateModel, 50));
 
   sw.className = 'keyColor-Item';
   sw.id = randId + '-sw';

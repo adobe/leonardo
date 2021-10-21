@@ -97,9 +97,8 @@ function updateRamps(color, id, scaleType = 'theme') {
     themeRamp(colors, gradientSwatchId, '45');
 
     createRGBchannelChart(colors);
-    console.log('UPDATING RAMPS FOR THEME')
-    let chartsModeSelect = document.getElementById('chartsMode');
-    create3dModel('tabModelContent', [color], chartsModeSelect.value);
+    // let chartsModeSelect = document.getElementById('chartsMode');
+    // create3dModel('tabModelContent', [color], chartsModeSelect.value);
 
   } else {
     createRGBchannelChart(colors, `${id}RGBchart`);

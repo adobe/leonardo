@@ -187,8 +187,6 @@ function createColorData(colorClasses, mode, scaleType) {
       dataArray.push(dataObj)
   }
 
-  console.log(dataArray)
-
   return dataArray;
 }
 
