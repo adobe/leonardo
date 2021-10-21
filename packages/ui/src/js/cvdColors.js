@@ -17,6 +17,7 @@ import {
 } from './toast';
 
 function cvdColors(colors) {
+  const original = colors;
   let cvdModeDropdown = document.getElementById('cvdMode');
   let cvdMode = cvdModeDropdown.value;
 

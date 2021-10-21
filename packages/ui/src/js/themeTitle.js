@@ -15,7 +15,7 @@ let themeTitle = document.getElementById('themeTitle');
 function updateThemeTitle() {
   themeTitle.innerHTML = ' ';
   let title = themeTitleInput.value;
-  if(title) themeTitle.innerHTML = `${title} adaptive theme`;
+  if(title) themeTitle.innerHTML = `${title} theme`;
 }
 
 themeTitleInput.addEventListener('input', updateThemeTitle);

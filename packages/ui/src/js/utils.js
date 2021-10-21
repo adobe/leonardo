@@ -15,6 +15,8 @@ const DeltaE = require('delta-e');
 
 extendChroma(chroma);
 
+window.chroma = chroma;
+
 function randomId() {
   return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
@@ -99,6 +101,54 @@ const colorSpaces = {
   RGB: 'rgb',
 };
 
+function cssColorToRgb(colorString) {
+  let colorStringArr, newColor, inputFormat;
+  // const f = getChannelsAndFunction(mode);
+
+  if(colorString.match(/^hsl\(/)) {
+    inputFormat = 'hsl';
+  }
+  if(colorString.match(/^hsv\(/)) {
+    inputFormat = 'hsv';
+  }
+  if(colorString.match(/^lab\(/)) {
+    inputFormat = 'lab';
+  }
+  if(colorString.match(/^lch\(/)) {
+    inputFormat = 'lch';
+  }
+  if(colorString.match(/^jab\(/)) {
+    inputFormat = 'jab';
+  }
+  if(colorString.match(/^jch\(/)) {
+    inputFormat = 'jch';
+  }
+  if(colorString.match(/^hsluv\(/)) {
+    inputFormat = 'hsluv';
+  } 
+
+  if(!colorString) {
+    console.warn(`Cannot convert css color of ${colorString}`)
+  } else {
+    let colorStringNums = colorString
+      .match(/\(.*?\)/g)
+      .toString()
+      .replace("(", "")
+      .replace(")", "")
+      .replaceAll("%", "")
+      .replace("deg", "")
+      .trim(); // find numbers only
+    colorStringArr = colorStringNums.split(','); // split numbers into array
+    colorStringArr = colorStringArr.map((c) => {return filterNaN(Number(c))})
+    let c1 = colorStringArr[0];
+    let c2 = colorStringArr[1];
+    let c3 = (inputFormat === 'hsl') ? colorStringArr[2]/100: colorStringArr[2];
+    newColor = chroma(c1, c2, c3, inputFormat)
+
+    return newColor.hex();
+  }
+}
+
 function convertColorValue(color, format, object = false) {
   if (!color) {
     throw new Error(`Cannot convert color value of “${color}”`);
@@ -106,6 +156,7 @@ function convertColorValue(color, format, object = false) {
   if (!colorSpaces[format]) {
     throw new Error(`Cannot convert to colorspace “${format}”`);
   }
+  
   const space = colorSpaces[format];
   const colorObj = chroma(String(color))[space]();
   if (format === 'HSL') {
@@ -441,6 +492,7 @@ module.exports = {
   convertColorValue,
   findMatchingLuminosity,
   lerp,
+  cssColorToRgb,
   removeElementsByClass,
   getColorDifference,
   groupCommonHues,

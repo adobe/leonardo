@@ -2,7 +2,10 @@ import * as Leo from '@adobe/leonardo-contrast-colors';
 import d3 from './d3'
 import {_theme} from './initialTheme';
 import {cvdColors} from './cvdColors';
-import {round} from './utils';
+import {
+  round, 
+  cssColorToRgb
+} from './utils';
 
 function createOutputColors(dest) {
   let colorClasses = _theme.colors;
@@ -13,7 +16,14 @@ function createOutputColors(dest) {
   swatchesOutputs.classList = 'hideSwatchLuminosity hideSwatchContrast';
 
   let theme = _theme.contrastColors;
-  let themeBackgroundColor = theme[0].background;
+  let themeBackgroundColor;
+  if(_theme.output === 'RGB' || _theme.output === 'HEX') {
+    themeBackgroundColor = theme[0].background;
+  } else {
+    // First, make the color an RGB color
+    themeBackgroundColor = cssColorToRgb(theme[0].background);
+  }
+  
   let themeBackgroundColorArray = [d3.rgb(themeBackgroundColor).r, d3.rgb(themeBackgroundColor).g, d3.rgb(themeBackgroundColor).b]
   const backgroundLum = _theme.lightness;
 
@@ -48,16 +58,24 @@ function createOutputColors(dest) {
         for(let j=0; j<theme[i].values.length; j++) { // for each value object
           let originalValue = theme[i].values[j].value; // output value of color
           let swatchName = theme[i].values[j].name.replace(colorName, '');
-          
+
+          let colorForTransform;
+          if(_theme.output === 'RGB' || _theme.output === 'HEX') {
+            colorForTransform = originalValue;
+          } else {
+            // First, make the color an RGB color
+            colorForTransform = cssColorToRgb(originalValue);
+          }
+
           // transform original color based on preview mode
-          let value = cvdColors(originalValue);
+          let colorValue = cvdColors(colorForTransform);
 
           // get the ratio to print inside the swatch
           let contrast = theme[i].values[j].contrast;
-          let colorArray = [d3.rgb(originalValue).r, d3.rgb(originalValue).g, d3.rgb(originalValue).b]
+          let colorArray = [d3.rgb(colorForTransform).r, d3.rgb(colorForTransform).g, d3.rgb(colorForTransform).b]
           let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
 
-          let innerTextColor =  (d3.hsluv(originalValue).v > 50) ? '#000000' : '#ffffff';
+          let innerTextColor =  (d3.hsluv(colorForTransform).v > 50) ? '#000000' : '#ffffff';
           let contrastRounded = (Math.round(actualContrast * 100))/100;
           let contrastText = document.createTextNode(contrastRounded + ' :1');
           let contrastTextSpan = document.createElement('span');
@@ -65,7 +83,7 @@ function createOutputColors(dest) {
           contrastTextSpan.appendChild(contrastText);
           contrastTextSpan.style.color = innerTextColor;
 
-          let luminosityValue = round(d3.hsluv(originalValue).v, 2);
+          let luminosityValue = round(d3.hsluv(colorForTransform).v, 2);
           let luminosityText = document.createTextNode(luminosityValue + '%');
           let luminosityTextSpan = document.createElement('span');
           luminosityTextSpan.className = 'themeOutputSwatch_luminosity';
@@ -83,7 +101,7 @@ function createOutputColors(dest) {
           // copy text should be for value of original color, not of preview color.
           div.setAttribute('data-clipboard-text', originalValue);
           div.setAttribute('tabindex', '0');
-          div.style.backgroundColor = value;
+          div.style.backgroundColor = colorValue;
           div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
           
           if(dest === themeOutputs) {
@@ -108,14 +126,23 @@ function createOutputColors(dest) {
 
         let originalValue = theme[i].background; // output value of color
         // set global variable value. Probably shouldn't do it this way.
-        let currentBackgroundColor = originalValue;
-        let value = cvdColors(originalValue);
+        let colorForTransform;
+        if(_theme.output === 'RGB' || _theme.output === 'HEX') {
+          colorForTransform = originalValue;
+        } else {
+          // First, make the color an RGB color
+          colorForTransform = cssColorToRgb(originalValue);
+        }
+
+        // transform original color based on preview mode
+        let colorValue = cvdColors(colorForTransform);
+        // let currentBackgroundColor = originalValue;
 
         let div = document.createElement('div');
         div.className = 'themeOutputSwatch';
         div.setAttribute('tabindex', '0');
         div.setAttribute('data-clipboard-text', originalValue);
-        div.style.backgroundColor = value;
+        div.style.backgroundColor = colorValue;
         div.style.borderColor = (backgroundLum > 50) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
 
         swatchWrapper.appendChild(div);
