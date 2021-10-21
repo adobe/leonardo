@@ -63,14 +63,13 @@ function getClosestColorName(color) {
     const minDiff = Math.min(...diffs);
     const index = diffs.indexOf(minDiff);
     const closestMatchingKey = keys[index];
-    // console.log(diffs, keys, minDiff, index, closestMatchingKey)
     return closestMatchingKey;
   }
 }
 
 function getRandomColorName() {
   const existingColorNames = getAllColorNames();
-  const predefinedColorNames = Object.values(colorNames);
+  const predefinedColorNames = Object.keys(colorNames);
   let colorNameOptions = predefinedColorNames.filter(item => !existingColorNames.includes(item));
   return colorNameOptions[Math.floor(Math.random()*colorNameOptions.length)];
 }

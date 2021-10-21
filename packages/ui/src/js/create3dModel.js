@@ -79,6 +79,9 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
           x: 1,
           y: 1,
           z: 2 
+        },
+        projection: {
+          type: 'orthographic'
         }
       },
       aspectmode: 'data', // data matches the dataset, cube forces into a cube shape
