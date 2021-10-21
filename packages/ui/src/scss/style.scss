@@ -47,6 +47,8 @@ governing permissions and limitations under the License.
   --spectrum-body-l-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
   --spectrum-body-xl-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
   --spectrum-button-primary-texticon-text-font-weight: var(--spectrum-global-font-weight-bold);
+
+  --spectrum-alias-focus-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   // defaults
   --headerBackground: var(--spectrum-global-color-gray-50);
   --panelBackground: var(--spectrum-global-color-gray-100);
@@ -465,8 +467,8 @@ body,
   }
 
   @mixin thumbFocus {
-    background-color:  var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-color));
-    border-color: var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-color));
+    background-color:  var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
+    border-color: var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
     transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
   }
 
@@ -516,7 +518,7 @@ body,
   }
 
   input[type=range]:focus::-webkit-slider-runnable-track {
-    background: var(--spectrum-alias-border-color-focus, var(--spectrum-alias-focus-color));
+    background: var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
   }
 
   input[type=range]::-moz-range-track {
@@ -748,7 +750,7 @@ p {
 
 a:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
+  box-shadow: 0 0 0 2px var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
   border-radius: var(--spectrum-alias-border-radius-regular);
 }
 

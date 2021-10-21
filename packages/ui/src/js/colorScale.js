@@ -88,6 +88,7 @@ function addColorScale(newColor, addToTheme = true) {
   let item = document.createElement('button');
   item.className = 'themeColor_item';
   item.id = thisId;
+  item.tabIndex = -1;
 
   // Create color gradient swatch
   let gradientSwatch = document.createElement('div');

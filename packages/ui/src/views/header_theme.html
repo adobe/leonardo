@@ -1,12 +1,9 @@
 <header class="spectrum-AppHeader">
   <div class="spectrum-AppHeader_item">
-    <a href="/" id="logoTitle">
-      <img src="images/Leonardo_Logo_sm.svg" alt="Leonardo logo" id="headerLogo">
-      <h1 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS spectrum-AppHeader-Title">Leonardo</h1>
-    </a>
+    <include src="src/views/LogoLink.html"></include>
 
-    <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet spectrum-Tabs--fluid">
-      <div id="tabHome" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'home')">
+    <div role="tablist" class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet spectrum-Tabs--fluid">
+      <div role="tab" id="tabHome" aria-controls="home" tabindex="0" class="spectrum-Tabs-item app-Tabs-item" onclick="openAppTab(event, 'home')">
         <label class="spectrum-Tabs-itemLabel">
           <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
             <use xlink:href="#spectrum-icon-18-Home" />
@@ -14,13 +11,13 @@
         </label>
       </div>
 
-      <div id="tabPalette" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'palette')">
+      <div role="tab" aria-controls="palette" id="tabPalette" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'palette')">
         <label class="spectrum-Tabs-itemLabel">Palette</label>
       </div>
-      <div id="tabSwatches" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'swatches')">
+      <div role="tab" aria-controls="swatches" id="tabSwatches" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'swatches')">
         <label class="spectrum-Tabs-itemLabel">Swatches</label>
       </div>
-      <div id="tabTheme" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'theme')">
+      <div role="tab" aria-controls="theme" id="tabTheme" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'theme')">
         <label class="spectrum-Tabs-itemLabel">Theme</label>
       </div>
 
@@ -30,7 +27,7 @@
   <div class="spectrum-Heading spectrum-Heading--XXS" id="themeTitle"></div>
 
   <div class="spectrum-AppHeader_item">
-    <button class="spectrum-ActionButton spectrum-ActionButton--sizeM copyThemeURL">
+    <button tabindex="0" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyThemeURL">
       <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
         <use xlink:href="#spectrum-icon-18-Link" />
       </svg>
