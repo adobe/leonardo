@@ -294,6 +294,12 @@
             <label class="spectrum-Switch-label" for="{{ scaleType }}paramStringQuotes">String quotes</label>
           </div>
         </div>
+        <div class="spectrum-Form-item">
+          <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--secondary" title="Download sample colors" id="downloadDivergingSwatches">Download sample colors</button>
+        </div>
+        <div class="spectrum-Form-item">
+          <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG gradient</button>
+        </div>
       </div>
 
       <div class="sampleSwatches" id="{{scaleType}}SampleSwatches">
@@ -306,29 +312,6 @@
       </div> -->
       <!-- <div class="themeOutputParams" id="{{scaleType}}ColorScaleD3Output">
       </div> -->
-
-      <section>
-        <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Download gradient</h2>
-
-        <div class="spectrum-Form spectrum-Form--spacious spectrum-Form--row">
-          <div class="spectrum-Form-item">
-            <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG gradient</button>
-          </div>
-
-          <div class="spectrum-Form-item">
-            <div id="" class="spectrum-Slider">
-              <div class="spectrum-Slider-labelContainer">
-                <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}GradientStops">Gradient precision</label>
-              </div>
-              <input class="spectrum-Slider-controls" type="range" min="20" max="200" step="2" value="100" id="{{ scaleType }}GradientStops" name="{{ scaleType }}GradientStops"></input>
-            </div>
-          </div>
-
-        </div>
-        <p class="spectrum-Body spectrum-Body--sizeXS">
-          Higher precision gradients will be more accurate to what you see here.
-        </p>
-      </section>
 
     </div>
 

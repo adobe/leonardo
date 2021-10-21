@@ -112,6 +112,14 @@ class DivergingScale {
   get colorKeys() {
     return this._colorKeys;
   }
+
+  set samples(samples) {
+    this._samples = samples;
+  }
+
+  get samples() {
+    return this._samples;
+  }
   
   set colorspace(colorspace) {
     this._colorspace = colorspace;

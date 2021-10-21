@@ -57,7 +57,7 @@ function createSVGgradient(colors) {
     let length = colors.length - 1;
 
     // only take 10 values from scale
-    if(Number.isInteger(i/10)) {
+    if(Number.isInteger(i/4)) {
       createSvgElement({
         element: 'stop',
         attributes: {

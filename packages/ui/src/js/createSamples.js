@@ -14,7 +14,8 @@ import {_divergingScale} from './initialDivergingScale';
 import { createHtmlElement } from './createHtmlElement';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
-import css from 'highlight.js/lib/languages/css';;
+import css from 'highlight.js/lib/languages/css';
+import {downloadSwatches} from './createSVGswatches';
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('css', css);
 
@@ -53,6 +54,9 @@ function createSamples(samples, scaleType) {
   sampleColors = colorClass.colors;
 
   const sampleColorsReversed = sampleColors.reverse();
+
+  colorClass.samples = sampleColors;
+
   let colorvalueString = 
     (quotes) 
     ? sampleColorsReversed

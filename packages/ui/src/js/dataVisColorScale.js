@@ -35,6 +35,10 @@ import {
 } from './utils';
 import {createSamples} from './createSamples';
 import {createDemos} from './createDemos';
+import {
+  createSVGswatches,
+  downloadSwatches
+} from './createSVGswatches';
 
 const chroma = require('chroma-js');
 
