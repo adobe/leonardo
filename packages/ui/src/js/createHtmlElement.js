@@ -2,6 +2,7 @@
 function createHtmlElement({
   element,
   id,
+  src,
   className,
   title,
   styles,
@@ -14,6 +15,7 @@ function createHtmlElement({
   const el = document.createElement(element);
   if(id) el.id = id;
   if(className) el.className = className;
+  if(src) el.src = src;
   if(styles) {
     for (const [prop, value] of Object.entries(styles)) {
       el.style[prop] = value;

@@ -16,6 +16,7 @@ import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {createInterpolationCharts} from './createInterpolationCharts';
+import {create3dModel} from './create3dModel';
 import {
   makePowScale
 } from './utils'
@@ -96,6 +97,10 @@ function updateRamps(color, id, scaleType = 'theme') {
     themeRamp(colors, gradientSwatchId, '45');
 
     createRGBchannelChart(colors);
+    console.log('UPDATING RAMPS FOR THEME')
+    let chartsModeSelect = document.getElementById('chartsMode');
+    create3dModel('tabModelContent', [color], chartsModeSelect.value);
+
   } else {
     createRGBchannelChart(colors, `${id}RGBchart`);
   }

@@ -1960,3 +1960,19 @@ section {
   transition: opacity .125s ease-in;
 }
 
+#ModelExampleImage {
+  position: absolute;
+  bottom: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  right: 8px;
+  height: 200px;
+  width: 200px;
+
+  img.ModelImage {
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+  }
+}

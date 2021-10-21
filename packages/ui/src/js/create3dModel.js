@@ -16,8 +16,19 @@ import {
   filterNaN,
   convertToCartesian
 } from './utils'
+import { createHtmlElement } from './createHtmlElement';
 
 function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
+  // Force colorClasses to be an array if it was erroneously passed
+  // as a single color class.
+  if(!Array.isArray(colorClasses)) colorClasses = [colorClasses];
+
+  // Hide all example images
+  let images = document.getElementsByClassName('ModelImage');
+  for(let i=0; i<images.length; i++) {
+    if (!images[i].classList.contains('is-hidden')) images[i].classList.add('is-hidden')
+  }
+
   var pointCount = 3142;
   var i, r;
 
@@ -36,17 +47,22 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
   }
 
   const data = createColorData(colorClasses, mode, scaleType);
+
   const colorWay =  colorClasses.map((c) => {return c.colorKeys[0]});
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
   const downloadFileName = (scaleType === 'theme') ? `${getThemeName()}_3dModel` : `${scaleType}Scale_3dModel`;
-
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  const height = (dest === 'paletteModelWrapper') ?  windowHeight - 120 : windowHeight - 236;
+  const width = windowWidth - 424; // Fit to window, minus panel and padding
+  
   const canvasColor = (mq.matches) ? '#1d1d1d' : '#f5f5f5'
 
   const layout = {
     colorway: colorWay,
-    autosize: false,
-    height: 700,
-    width: 800,
+    autosize: true,
+    height: height,
+    width: width,
     showLegend: false,
     showscale: false,
     margin: {
@@ -54,29 +70,36 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
       r: 24,
       b: 24,
       t: 24,
-      pad: 4
+      pad: 0
     },
     paper_bgcolor: canvasColor,
-    grid: {
-
-    },
     scene: { 
-      aspectmode: 'cube', // Set this to force it all into a cube shape
+      camera: {
+        eye: {
+          x: 1,
+          y: 1,
+          z: 2 
+        }
+      },
+      aspectmode: 'data', // data matches the dataset, cube forces into a cube shape
       // aspectratio: {x: 1, y: 1, z: 1},
       xaxis: {
         nticks: 5,
         title: '',
-        showspikes: false
+        showspikes: false,
+        showgrid: false
       },
       yaxis: {
         nticks: 5,
         title: '',
-        showspikes: false
+        showspikes: false,
+        showgrid: false
       },
       zaxis: {
         nticks: 5,
         title: 'Luminosity',
-        showspikes: false
+        showspikes: false,
+        showgrid: false
       }
     }
   };
@@ -98,12 +121,17 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
     responsive: true
   };
 
-
+  // Create 3d plot
   Plotly.newPlot(
     dest, 
     data,
     layout,
     config);
+
+  // Then, display example image based on the selected mode.
+  let modelMode = (mode === 'CAM02') ? 'LAB' : ((mode === 'CAM02p') ? 'LCH' : ((mode === 'HSLuv') ? 'LUV' : mode))
+  let image = document.getElementById(`ModelImage_${modelMode}`);
+  image.classList.remove('is-hidden');
 }
 
 
@@ -150,6 +178,7 @@ function createColorData(colorClasses, mode, scaleType) {
         z: dataB,
         name: colorClasses[i].name,
         opacity: 1,
+        markercolor: 'red',
         line: {
           width: 16,
           color: currentColor
