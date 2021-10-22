@@ -141,7 +141,7 @@ function cssColorToRgb(colorString) {
     colorStringArr = colorStringNums.split(','); // split numbers into array
     colorStringArr = colorStringArr.map((c) => {return filterNaN(Number(c))})
     let c1 = colorStringArr[0];
-    let c2 = colorStringArr[1];
+    let c2 = (inputFormat === 'hsl') ? colorStringArr[1]/100: colorStringArr[1];
     let c3 = (inputFormat === 'hsl') ? colorStringArr[2]/100: colorStringArr[2];
     newColor = chroma(c1, c2, c3, inputFormat)
 
