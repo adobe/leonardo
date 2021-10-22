@@ -89,6 +89,9 @@
          </div>
          <div class="spectrum-Panel-Item">
             <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Lightness</span>
+            <p class="spectrum-Body spectrum-Body--size-XS">
+              Diverging color scales automatically correct for lightness.
+            </p>
             <div class="spectrum-Form">
               <div class="spectrum-Form-item">
                 <div id="" class="spectrum-Slider">
@@ -103,18 +106,10 @@
                   <div class="spectrum-Slider-labelContainer">
                     <label class="spectrum-Slider-label" id="{{ scaleType }}ShiftLabel" for="{{ scaleType }}Shift">Curvature (shift)</label>
                   </div>
-                  <input class="spectrum-Slider-controls" type="range" min="0.5" max="1" step="0.001" value="1" id="{{ scaleType }}Shift" name="{{ scaleType }}Shift"></input>
+                  <input class="spectrum-Slider-controls" type="range" min="0.125" max="1" step="0.001" value="1" id="{{ scaleType }}Shift" name="{{ scaleType }}Shift"></input>
                 </div>
               </div>
-              <div class="spectrum-Form-item">
-                <div class="spectrum-Switch">
-                  <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_correctLightness" checked>
-                  <span class="spectrum-Switch-switch"></span>
-                  <label class="spectrum-Switch-label" for="{{ scaleType }}_correctLightness">
-                    Correct lightness
-                  </label>
-                </div>
-              </div>
+              
             </div>
          </div>
 

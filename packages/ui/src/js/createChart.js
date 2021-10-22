@@ -281,22 +281,36 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
 }
 
 
-function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors) {
+function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleType) {
   let chartWidth, chartHeight;
+  const windowWidth = window.innerWidth;
 
   // let adjustedWidth = smallestWidth / 2 - 16;
-  let width = window.innerWidth - 386 - 34;
-  let adjustedWidth = width;
-
-  let adjustedHeight = (window.innerHeight / 3) - 60;// subtract heading, tabs height and padding from measurement
+  
+  let adjustedWidth, adjustedHeight;
   const maxWidth = 800;
 
-  // let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
-  // adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
-  adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+  if(      
+    dest === `#${scaleType}InterpolationChart` ||
+    dest === `#${scaleType}InterpolationChart2` ||
+    dest === `#${scaleType}InterpolationChart3`
+  ) {
+    adjustedWidth = windowWidth - (388 + 34);// subtract panel width and padding from measurement
+    adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+    adjustedHeight = (window.innerHeight - 300) / 2;// subtract heading, tabs height and padding from measurement
 
-  chartWidth = adjustedWidth;
-  chartHeight = adjustedHeight;
+    chartWidth = adjustedWidth;
+    chartHeight = adjustedHeight - 116;
+  } else {
+    // let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
+    // adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+    let width = window.innerWidth - 386 - 34;
+    adjustedWidth = (width < maxWidth) ? width : maxWidth;
+    adjustedHeight = (window.innerHeight / 3) - 80;// subtract heading, tabs height and padding from measurement
+    
+    chartWidth = adjustedWidth;
+    chartHeight = adjustedHeight;
+  }
 
   let xy_chart = d3_xy_chart()
     .width(chartWidth)
@@ -322,7 +336,21 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors) {
         //
         // Create the plot.
         //
-        let margin = {top: 8, right: 8, bottom: 36, left: 36};
+        let marginBottom;
+        if(
+          dest === '#interpolationChart' || 
+          dest === '#interpolationChart2' || 
+          dest === '#interpolationChart3' ||
+          dest === `#${scaleType}InterpolationChart` ||
+          dest === `#${scaleType}InterpolationChart2` ||
+          dest === `#${scaleType}InterpolationChart3` ||
+          dest === '#paletteInterpolationChart' ||
+          dest === '#paletteInterpolationChart2' ||
+          dest === '#paletteInterpolationChart3'        
+        ) marginBottom = 16;
+        else marginBottom = 36;
+
+        let margin = {top: 8, right: 8, bottom: marginBottom, left: 36};
 
         let innerwidth = width - margin.left - margin.right;
         let innerheight = height - margin.top - margin.bottom;

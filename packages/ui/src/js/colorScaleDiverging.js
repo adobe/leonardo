@@ -22,6 +22,7 @@ import {
 import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
 import {createInterpolationCharts} from './createInterpolationCharts';
+import {createPaletteInterpolationCharts} from './createPaletteCharts';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {downloadSVGgradient} from './createSVGgradient';
 import {
@@ -46,8 +47,8 @@ function colorScaleDiverging(scaleType = 'diverging') {
   // let colorKeys;
   // Set up some sensible defaults
   let defaultStartColors = ['#5c3cec','#9eecff'];
-  let defaultEndColors = ['#5c3cec','#9eecff'];
-  let defaultMiddleColor = '#f3f3f3';
+  let defaultEndColors = ['#9f0e04','#fbdf28'];
+  let defaultMiddleColor = '#ffffff';
   _divergingScale.startKeys = defaultStartColors;
   _divergingScale.endKeys = defaultEndColors;
   _divergingScale.middleKey = defaultMiddleColor;
@@ -58,7 +59,6 @@ function colorScaleDiverging(scaleType = 'diverging') {
   let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
   let shift = document.getElementById(`${scaleType}Shift`);
-  let correctLightness = document.getElementById(`${scaleType}_correctLightness`);
   let sampleNumber = document.getElementById(`${scaleType}Samples`);
   let sampleOutput = document.getElementById(`${scaleType}_format`);
   let quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
@@ -112,7 +112,8 @@ function colorScaleDiverging(scaleType = 'diverging') {
   themeRampKeyColors(colorKeys, gradientId, scaleType);
 
   createRGBchannelChart(colors, `${scaleType}RGBchart`);
-  createInterpolationCharts(colors, 'CAM02', scaleType);
+  createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType);
+  // createInterpolationCharts(colors, 'CAM02', scaleType);
   create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
 
   createSamples(samples, scaleType);
@@ -129,6 +130,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
     updateRamps(colorClass, scaleType, scaleType);
     createSamples(sampleNumber.value, scaleType);
     updateColorDots(chartsModeSelect.value, scaleType);
+    createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType);
     createDemos(scaleType);
     create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
   })
@@ -138,7 +140,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
     colors = colorClass.colors;
 
     updateRamps(colorClass, scaleType, scaleType);
-    createInterpolationCharts(colors, chartsModeSelect.value, scaleType);
+    createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType);
     updateColorDots(chartsModeSelect.value, scaleType);
     createSamples(sampleNumber.value, scaleType);
     createDemos(scaleType);
@@ -159,7 +161,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
   })
 
   chartsModeSelect.addEventListener('change', (e) => {
-    createInterpolationCharts(colors, e.target.value, scaleType);
+    createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType);
     let lightness = (e.target.value === 'HSV') ? 100 : ((e.target.value === 'HSLuv') ? 60 : 50);
 
     updateColorWheel(e.target.value, lightness, true, null, scaleType)
@@ -171,25 +173,11 @@ function colorScaleDiverging(scaleType = 'diverging') {
     colors = colorClass.colors;
 
     throttle(updateRamps(colorClass, scaleType, scaleType), 10);
-    throttle(createInterpolationCharts(colors, chartsModeSelect.value, scaleType), 10);
+    throttle(  createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType), 10);
     throttle(updateColorDots(chartsModeSelect.value, scaleType), 10);
     throttle(createSamples(sampleNumber.value, scaleType), 10);
     throttle(createDemos(scaleType), 10);
     throttle(create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType), 10)
-  })
-
-  correctLightness.addEventListener('input', (e) => {
-    colorClass.correctLightness = e.target.checked;
-    colors = colorClass.colors;
-
-    updateRamps(colorClass, scaleType, scaleType);
-    createInterpolationCharts(colors, chartsModeSelect.value, scaleType);
-    updateColorDots(chartsModeSelect.value, scaleType);
-
-    createSamples(sampleNumber.value, scaleType);
-    createDemos(scaleType);
-    create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
-
   })
 
   const hasStartButton = Promise.resolve(document.getElementById(buttonStartId))

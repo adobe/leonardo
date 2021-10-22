@@ -54,19 +54,19 @@ function createSamples(samples, scaleType) {
   colorClass.output = output;
   sampleColors = colorClass.colors;
 
-  const sampleColorsReversed = sampleColors.reverse();
+  // const sampleColorsReversed = sampleColors.reverse();
 
   colorClass.samples = (colorClass.output === 'HEX' || colorClass.output === 'RGB') ? sampleColors: sampleColors.map((c) => {return cssColorToRgb(c)});
 
   let colorvalueString = 
     (quotes) 
-    ? sampleColorsReversed
+    ? sampleColors
       .map((c) => {
         return `"${c}"`
       })
       .toString() 
       .replaceAll(',', ', ')
-    : sampleColorsReversed.toString().replaceAll(',', ', ');;
+    : sampleColors.toString().replaceAll(',', ', ');;
   panelOutputContent.innerHTML = colorvalueString;
 
   // Reset color class to original swatches

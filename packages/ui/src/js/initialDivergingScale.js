@@ -27,43 +27,40 @@ class DivergingScale {
     swatches,
     startKeys,
     endKeys,
-    middleKey = "#f5f5f5",
+    middleKey,
     colorspace,
     smooth,
     shift,
-    output,
-    correctLightness
+    output
    }) {
-    this._startKeys = [...startKeys, middleKey];
-    this._endKeys = [...endKeys, middleKey];
+    this._startKeys = startKeys;
+    this._endKeys = endKeys;
     this._middleKey = middleKey;
     this._colorKeys = this._combineColorKeys();
     this._colorspace = colorspace;
     this._shift = shift;
     this._smooth = smooth;
     this._output = output;
-    this._correctLightness = correctLightness;
     this._swatches = swatches,
+    this._scaleSwatches = (swatches)/2,
     // this._luminosities = this._getLuminosities();
     // this._domains = this._getDomains();
 
     this._startScale = new SequentialScale({
-      swatches: this._swatches,
+      swatches: this._scaleSwatches,
       colorKeys: this._startKeys,
       colorspace: this._colorspace,
       smooth: this._smooth,
       shift: this._shift,
-      correctLightness: this._correctLightness,
       output: this._output
     });
 
     this._endScale = new SequentialScale({
-      swatches: this._swatches,
+      swatches: this._scaleSwatches,
       colorKeys: this._endKeys,
       colorspace: this._colorspace,
       smooth: this._smooth,
       shift: this._shift,
-      correctLightness: this._correctLightness,
       output: this._output
     });
 
@@ -71,8 +68,12 @@ class DivergingScale {
   }
 
   set startKeys(colors) {
-    console.log(`Start keys set from ${this._startKeys} to ${colors}`)
     this._startKeys = colors;
+    this._startScale.colorKeys = [...this._startKeys, this._middleKey];
+
+    this._colorKeys = null;
+    this._colorKeys = this._combineColorKeys();
+
     this._colors = null;
     this._colors = this._createColorScale();
   }
@@ -86,7 +87,12 @@ class DivergingScale {
   }
 
   set endKeys(colors) {
+    // this._endKeys = colors;
     this._endKeys = colors;
+    this._endScale.colorKeys = [...this._endKeys, this._middleKey];
+    this._colorKeys = null;
+    this._colorKeys = this._combineColorKeys();
+
     this._colors = null;
     this._colors = this._createColorScale();
   }
@@ -101,6 +107,12 @@ class DivergingScale {
 
   set middleKey(color) {
     this._middleKey = color;
+    this._startScale.colorKeys = [...this._startKeys, this._middleKey];
+    this._endScale.colorKeys = [...this._endKeys, this._middleKey];
+
+    this._colorKeys = null;
+    this._colorKeys = this._combineColorKeys();
+
     this._colors = null;
     this._colors = this._createColorScale();
   }
@@ -152,7 +164,7 @@ class DivergingScale {
     if(this._startScale) this._startScale.output = output;
     if(this._endScale) this._endScale.output = output;
 
-    this._colors = this._combineColors();
+    this._colors = this._createColorScale();
     if(this._startScale) this._startScale.output = 'HEX';
     if(this._endScale) this._endScale.output = 'HEX';
   }
@@ -163,12 +175,12 @@ class DivergingScale {
 
   set shift(shift) {
     this._shift = Number(shift);
-    this._startScale.shift = shift;
-    this._endScale.shift = shift;
+    this._startScale.shift = Number(shift);
+    this._endScale.shift = Number(shift);
 
     this._colors = null;
     this._colors = this._createColorScale();
-    this._domains = this._getDomains();
+    // this._domains = this._getDomains();
   }
 
   get shift() {
@@ -177,12 +189,15 @@ class DivergingScale {
 
   set swatches(swatches) {
     this._swatches = swatches;
-    if(this._startScale) this._startScale.swatches = swatches/2;
-    if(this._endScale) this._endScale.swatches = swatches/2;
-    if(this._startScale && this._endScale) {
-      this._colors = null;
-      this._colors = this._createColorScale();  
-    }
+    this._scaleSwatches = swatches / 2;
+    if(this._startScale) this._startScale.swatches = this._scaleSwatches;
+    if(this._endScale) this._endScale.swatches = this._scaleSwatches;  
+    // if(this._startScale && this._endScale) {
+    //   this._colors = null;
+    //   this._colors = this._createColorScale();  
+    // }
+    this._colors = this._createColorScale();  
+
   }
 
   get swatches() {
@@ -208,22 +223,12 @@ class DivergingScale {
     return this._colorFunction;
   }
 
-  set correctLightness(boolean) {
-    this._correctLightness = boolean;
-    this._startScale.correctLightness = boolean;
-    this._endScale.correctLightness = boolean;
-
-    this._colors = null;
-    this._colors = this._createColorScale();
-  }
-
   get colors() {
     return this._colors;
   }
 
   _createColorScale() {
     let newColors = this._combineColors();
-
     this.luminosities = this._getLuminosities();
 
     this._colorFunction = Leo.createScale({
@@ -240,7 +245,7 @@ class DivergingScale {
       return convertColorValue(c, this._output)
     })
 
-    return newColors
+    return newColors;
   }
 
   _getLuminosities() {
@@ -263,27 +268,35 @@ class DivergingScale {
   }
 
   _combineColors() {
-    const startColors = this._startScale.colors;
-    const endColors = this._endScale.colors;
-    let endColorsReversed = [];
-    for(let i = endColors.length - 1; i >= 0; i --) {
-      endColorsReversed.push(endColors[i]);
+    const startColorScale = this._startScale.colors;
+    const startColors = [];
+    // For all but the last color
+    for(let i = 0; i < startColorScale.length - 1; i++) {
+      startColors.push(startColorScale[i]);
     }
-    let newUnfilteredColors = [...startColors, ...endColorsReversed];
+    // let endColorsReversed = [];
+    const endColorScaleReversed = this._endScale.colorsReversed;
+    const endColors = [];
+    // For all but the first color
+    for(let i = 1; i < startColorScale.length; i++) {
+      endColors.push(endColorScaleReversed[i]);
+    }
+
+    let newUnfilteredColors = [...startColors, this._middleKey, ...endColors];
     let newColors = [...new Set(newUnfilteredColors)];
+
     return newColors;
   }
 
 }
 let _divergingScale = new DivergingScale({
-  swatches: 100,
+  swatches: 50,
   startKeys: ['#19beaa', '#004d4b'],
   endKeys: ['#d37222', '#700036'],
-  middleKey: '#f3f3f3',
+  middleKey: '#ffffff',
   colorspace: 'CAM02p',
   smooth: false,
   shift: 1,
-  correctLightness: true,
   output: 'RGB'
 });
 

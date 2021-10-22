@@ -15,13 +15,25 @@ import {createScale} from '@adobe/leonardo-contrast-colors';
 import {createColorChart} from './createChart';
 import {filterNaN} from './utils';
 
-function createPaletteInterpolationCharts(colors, mode) {
-  let dest = document.getElementById('paletteInterpolationChart');
+function createPaletteInterpolationCharts(colors, mode, scaleType = 'theme') {
+  let d1id, d2id, d3id;
+  if(scaleType === 'theme') {
+    d1id = 'paletteInterpolationChart'
+    d2id = 'paletteInterpolationChart2'
+    d3id = 'paletteInterpolationChart3'
+  }
+  else {
+    d1id = `${scaleType}InterpolationChart`
+    d2id = `${scaleType}InterpolationChart2`
+    d3id = `${scaleType}InterpolationChart3`
+  }
+  let dest = document.getElementById(d1id);
   dest.innerHTML = ' ';
-  let dest2 = document.getElementById('paletteInterpolationChart2');
+  let dest2 = document.getElementById(d2id);
   dest2.innerHTML = ' ';
-  let dest3 = document.getElementById('paletteInterpolationChart3');
+  let dest3 = document.getElementById(d3id);
   dest3.innerHTML = ' ';
+
 
   // Identify mode channels
   let c1, c2, c3, func, yMin, yMax, yMin2, yMax2, c1Label, c2Label, yLabel;
@@ -130,8 +142,17 @@ function createPaletteInterpolationCharts(colors, mode) {
     return Array(end - start).fill().map((item, index) => start + index);
   };
 
-  let dataA = colors.map((color) => {
-    let dataX = fillRange(1, color.length + 1);
+  let fillRangeStart, fillRangeEnd;
+
+  let dataA = colors.map((color, index) => {
+    if(scaleType === 'diverging') {
+      fillRangeStart = (index < 1) ? (index * color.length) + 1 : (index * color.length);
+      fillRangeEnd = (index < 1) ? (index + 1) * color.length + 1 : (index + 1) * color.length;
+    } else {
+      fillRangeStart = 1;
+      fillRangeEnd = color.length + 1;
+    }
+    let dataX = fillRange(fillRangeStart, fillRangeEnd);
     let sortedDataX = dataX.sort((a, b) => b-a);
   
     return {
@@ -139,8 +160,15 @@ function createPaletteInterpolationCharts(colors, mode) {
       y: color.map(function(d) {return filterNaN(d3[func](d)[c1])})
     }
   })
-  let dataB = colors.map((color) => {
-    let dataX = fillRange(1, color.length + 1);
+  let dataB = colors.map((color, index) => {
+    if(scaleType === 'diverging') {
+      fillRangeStart = (index < 1) ? (index * color.length) + 1 : (index * color.length);
+      fillRangeEnd = (index < 1) ? (index + 1) * color.length + 1 : (index + 1) * color.length;
+    } else {
+      fillRangeStart = 1;
+      fillRangeEnd = color.length + 1;
+    }
+    let dataX = fillRange(fillRangeStart, fillRangeEnd);
     let sortedDataX = dataX.sort((a, b) => b-a);
   
     return {
@@ -148,8 +176,15 @@ function createPaletteInterpolationCharts(colors, mode) {
       y: color.map(function(d) {return filterNaN(d3[func](d)[c2])})
     }
   })
-  let dataC = colors.map((color) => {
-    let dataX = fillRange(1, color.length + 1);
+  let dataC = colors.map((color, index) => {
+    if(scaleType === 'diverging') {
+      fillRangeStart = (index < 1) ? (index * color.length) + 1 : (index * color.length);
+      fillRangeEnd = (index < 1) ? (index + 1) * color.length + 1 : (index + 1) * color.length;
+    } else {
+      fillRangeStart = 1;
+      fillRangeEnd = color.length + 1;
+    }
+    let dataX = fillRange(fillRangeStart, fillRangeEnd);
     let sortedDataX = dataX.sort((a, b) => b-a);
   
     return {
@@ -164,9 +199,9 @@ function createPaletteInterpolationCharts(colors, mode) {
 
   let lightnessMax = (mode === 'HSL' || mode === 'HSV') ? 1 : 100;
   
-  createColorChart(dataA, ' ', ' ', "#paletteInterpolationChart", yMin, yMax, visColors);
-  createColorChart(dataB, ' ', ' ', "#paletteInterpolationChart2", yMin2, yMax2, visColors);
-  createColorChart(dataC, ' ', ' ', "#paletteInterpolationChart3", 0, lightnessMax, visColors);
+  createColorChart(dataA, ' ', ' ', `#${d1id}`, yMin, yMax, visColors, scaleType);
+  createColorChart(dataB, ' ', ' ', `#${d2id}`, yMin2, yMax2, visColors, scaleType);
+  createColorChart(dataC, ' ', ' ', `#${d3id}`, 0, lightnessMax, visColors, scaleType);
 }
 
 const modePicker = document.getElementById('chartsMode');
@@ -195,4 +230,7 @@ if(modePicker) {
   modePicker.addEventListener('change', (e) => { createPaletteCharts(e.target.value) });
 }
 
-module.exports = {createPaletteCharts}
+module.exports = {
+  createPaletteCharts,
+  createPaletteInterpolationCharts
+}

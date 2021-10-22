@@ -58,7 +58,6 @@ function colorScaleSequential(scaleType = 'sequential') {
   let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
   let shift = document.getElementById(`${scaleType}Shift`);
-  let correctLightness = document.getElementById(`${scaleType}_correctLightness`);
   let sampleNumber = document.getElementById(`${scaleType}Samples`);
   let sampleOutput = document.getElementById(`${scaleType}_format`);
   let quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
@@ -165,20 +164,6 @@ function colorScaleSequential(scaleType = 'sequential') {
     throttle(createSamples(sampleNumber.value, scaleType), 10);
     throttle(createDemos(scaleType), 10);
     throttle(create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType), 10)
-  })
-
-  correctLightness.addEventListener('input', (e) => {
-    colorClass.correctLightness = e.target.checked;
-    colors = colorClass.colors;
-
-    updateRamps(colorClass, scaleType, scaleType);
-    createInterpolationCharts(colors, chartsModeSelect.value, scaleType);
-    updateColorDots(chartsModeSelect.value, scaleType);
-
-    createSamples(sampleNumber.value, scaleType);
-    createDemos(scaleType);
-    create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
-
   })
 
   const hasButton = Promise.resolve(document.getElementById(buttonId))

@@ -170,8 +170,6 @@ function createInterpolationCharts(colors, mode, scaleType = 'theme') {
     }
   ];
 
-  if(scaleType === 'diverging') console.log(dataA, dataB, dataC)
-
   let lightnessMax = (mode === 'HSL' || mode === 'HSV') ? 1 : 100;
 
   createChart(dataA, ' ', ' ', `#${d1id}`, yMin, yMax, false, visColors, scaleType);

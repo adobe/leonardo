@@ -483,6 +483,25 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function orderColorsByLuminosity(colors, direction = 'toLight') { // 'toLight' or 'toDark'
+  let luminosities = colors.map((color, index) => {
+    return {
+      color: color,
+      luminosity: d3.hsluv(color).v
+    }
+  });
+  if(direction === 'toLight') {
+    luminosities.sort((a, b) => (a.luminosity < b.luminosity) ? 1 : -1)
+    return luminosities.map((c) => c.color);
+  }
+  if(direction === 'toDark') {
+    luminosities.sort((a, b) => (a.luminosity < b.luminosity) ? -1 : 1)
+    return luminosities.map((c) => c.color);
+  } else {
+    console.warn(`Direction must be of value 'toLight' or 'toDark'`);
+  }
+}
+
 module.exports = {
   randomId,
   throttle,
@@ -501,5 +520,6 @@ module.exports = {
   groupCommonHues,
   capitalizeFirstLetter,
   createColorData,
-  getChannelsAndFunction
+  getChannelsAndFunction,
+  orderColorsByLuminosity
 }
