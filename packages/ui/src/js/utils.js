@@ -103,7 +103,6 @@ const colorSpaces = {
 
 function cssColorToRgb(colorString) {
   let colorStringArr, newColor, inputFormat;
-  // const f = getChannelsAndFunction(mode);
 
   if(colorString.match(/^hsl\(/)) {
     inputFormat = 'hsl';

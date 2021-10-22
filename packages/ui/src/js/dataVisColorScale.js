@@ -49,8 +49,9 @@ function dataVisColorScale(scaleType) {
     // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
     // let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
     // let defaultColors = ['#2E005C', '#FFDD00']
-    let defaultColors = ['#5c3cec','#9eecff']
+    let defaultColors = ['#5c3cec','#9eecff', '#46006B']
     _sequentialScale.colorKeys = defaultColors;
+    _sequentialScale.smooth = true;
   }
   if(scaleType === 'diverging') {
     let defaultStartColors = ['#5c3cec','#9eecff'];
@@ -72,10 +73,14 @@ function dataVisColorScale(scaleType) {
   let quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
   let PlotDestId = `${scaleType}ModelWrapper`;
 
+
   let samples = sampleNumber.value;
 
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   const colorKeys = colorClass.colorKeys;
+
+  // If class is preset to smooth, check the smooth switch in the UI
+  if(colorClass.smooth === true) smooth.checked = true;
 
   if(colorKeys.length >= 3) {
     smooth.disabled = false;

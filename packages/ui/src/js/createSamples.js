@@ -16,6 +16,7 @@ import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
 import {downloadSwatches} from './createSVGswatches';
+import {cssColorToRgb} from './utils';
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('css', css);
 
@@ -55,7 +56,7 @@ function createSamples(samples, scaleType) {
 
   const sampleColorsReversed = sampleColors.reverse();
 
-  colorClass.samples = sampleColors;
+  colorClass.samples = (colorClass.output === 'HEX' || colorClass.output === 'RGB') ? sampleColors: sampleColors.map((c) => {return cssColorToRgb(c)});
 
   let colorvalueString = 
     (quotes) 
