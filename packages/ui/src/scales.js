@@ -69,7 +69,8 @@ import {
 import {_sequentialScale} from './js/initialSequentialScale';
 import {_divergingScale} from './js/initialDivergingScale';
 
-import {dataVisColorScale} from './js/dataVisColorScale';
+import {colorScaleDiverging} from './js/colorScaleDiverging';
+import {colorScaleSequential} from './js/colorScaleSequential';
 
 import toggleTooltip from './js/tooltip';
 import { create3dModel } from './js/create3dModel';
@@ -112,8 +113,8 @@ document.getElementById("tabqualitativeCharts").click();
 
 document.getElementById("welcome").click();
 
-dataVisColorScale('sequential');
-dataVisColorScale('diverging');
+colorScaleSequential();
+colorScaleDiverging();
 
 window.onload = function() {
   // let uri = window.location.toString();

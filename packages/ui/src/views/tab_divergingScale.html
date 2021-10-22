@@ -79,8 +79,8 @@
                   </select>
                </div>
                <div class="spectrum-Form-item">
-                  <div class="spectrum-Switch is-disabled" id="{{ scaleType }}_smoothWrapper">
-                    <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_smooth" disabled>
+                  <div class="spectrum-Switch" id="{{ scaleType }}_smoothWrapper">
+                    <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_smooth">
                     <span class="spectrum-Switch-switch"></span>
                     <label class="spectrum-Switch-label" for="{{ scaleType }}_smooth">Smooth</label>
                   </div>
@@ -90,6 +90,14 @@
          <div class="spectrum-Panel-Item">
             <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Lightness</span>
             <div class="spectrum-Form">
+              <div class="spectrum-Form-item">
+                <div id="" class="spectrum-Slider">
+                  <div class="spectrum-Slider-labelContainer">
+                    <label class="spectrum-Slider-label" id="{{ scaleType }}ThresholdLabel" for="{{ scaleType }}Threshold">Darkness threshold</label>
+                  </div>
+                  <input class="spectrum-Slider-controls" type="range" min="0" max="50" step="0.01" value="0" id="{{ scaleType }}Threshold" name="{{ scaleType }}Threshold"></input>
+                </div>
+              </div>
               <div class="spectrum-Form-item">
                 <div id="" class="spectrum-Slider">
                   <div class="spectrum-Slider-labelContainer">

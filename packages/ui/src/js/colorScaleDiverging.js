@@ -42,25 +42,16 @@ import {
 
 const chroma = require('chroma-js');
 
-function dataVisColorScale(scaleType) {
+function colorScaleDiverging(scaleType = 'diverging') {
   // let colorKeys;
   // Set up some sensible defaults
-  if(scaleType === 'sequential') {
-    // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
-    // let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
-    // let defaultColors = ['#2E005C', '#FFDD00']
-    let defaultColors = ['#5c3cec','#9eecff', '#46006B']
-    _sequentialScale.colorKeys = defaultColors;
-    _sequentialScale.smooth = true;
-  }
-  if(scaleType === 'diverging') {
-    let defaultStartColors = ['#5c3cec','#9eecff'];
-    let defaultEndColors = ['#5c3cec','#9eecff'];
-    let defaultMiddleColor = '#f3f3f3';
-    _divergingScale.startKeys = defaultStartColors;
-    _divergingScale.endKeys = defaultEndColors;
-    _divergingScale.middleKey = defaultMiddleColor;
-  }
+  let defaultStartColors = ['#5c3cec','#9eecff'];
+  let defaultEndColors = ['#5c3cec','#9eecff'];
+  let defaultMiddleColor = '#f3f3f3';
+  _divergingScale.startKeys = defaultStartColors;
+  _divergingScale.endKeys = defaultEndColors;
+  _divergingScale.middleKey = defaultMiddleColor;
+  
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
   let interpolationMode = document.getElementById(`${scaleType}_mode`);
@@ -82,13 +73,13 @@ function dataVisColorScale(scaleType) {
   // If class is preset to smooth, check the smooth switch in the UI
   if(colorClass.smooth === true) smooth.checked = true;
 
-  if(colorKeys.length >= 3) {
-    smooth.disabled = false;
-    smoothWrapper.classList.remove('is-disabled')
-  } else {
-    smooth.disabled = true;
-    smoothWrapper.classList.add('is-disabled')
-  }
+  // if(colorKeys.length >= 3) {
+  //   smooth.disabled = false;
+  //   smoothWrapper.classList.remove('is-disabled')
+  // } else {
+  //   smooth.disabled = true;
+  //   smoothWrapper.classList.add('is-disabled')
+  // }
   interpolationMode.value = colorClass.colorspace;
 
   let gradientId = `${scaleType}_gradient`;
@@ -96,36 +87,23 @@ function dataVisColorScale(scaleType) {
   let buttonStartId = `${scaleType}_addStartKeyColor`;
   let buttonEndId = `${scaleType}_addEndKeyColor`;
 
-  if(scaleType === 'sequential')  {
-    const hasColorKeys = Promise.resolve(colorKeys);
-    hasColorKeys.then((values) => {
-        for (let i = 0; i < values.length; i++) {
-          addScaleKeyColorInput(values[i], buttonId, scaleType, i);
-        }
-      }
-    )
-  }
-  if(scaleType === 'diverging') {
-    console.log(colorClass)
-    const hasStartKeys = Promise.resolve(colorClass.startKeys);
-    const hasMiddleKey = Promise.resolve(colorClass.middleKey);
-    const hasEndKeys = Promise.resolve(colorClass.endKeys);
-    Promise.all([hasStartKeys, hasMiddleKey, hasEndKeys]).then((divergingKeys) => {
-      const starts = divergingKeys[0];
-      const middle = divergingKeys[1];
-      const ends = divergingKeys[2];
+  const hasStartKeys = Promise.resolve(colorClass.startKeys);
+  const hasMiddleKey = Promise.resolve(colorClass.middleKey);
+  const hasEndKeys = Promise.resolve(colorClass.endKeys);
+  Promise.all([hasStartKeys, hasMiddleKey, hasEndKeys]).then((divergingKeys) => {
+    const starts = divergingKeys[0];
+    const middle = divergingKeys[1];
+    const ends = divergingKeys[2];
 
-      for (let i = 0; i < starts.length; i++) {
-        console.log(starts[i])
-        addScaleKeyColorInput(starts[i], buttonId, scaleType, i, 'start');
-      }
-      addScaleKeyColorInput(middle, buttonId, scaleType, 0, 'middle');
-      for (let i = 0; i < ends.length; i++) {
-        addScaleKeyColorInput(ends[i], buttonId, scaleType, i, 'end');
-      }
-    })
-  }
-
+    for (let i = 0; i < starts.length; i++) {
+      console.log(starts[i])
+      addScaleKeyColorInput(starts[i], buttonId, scaleType, i, 'start');
+    }
+    addScaleKeyColorInput(middle, buttonId, scaleType, 0, 'middle');
+    for (let i = 0; i < ends.length; i++) {
+      addScaleKeyColorInput(ends[i], buttonId, scaleType, i, 'end');
+    }
+  })
 
 
   let colors = colorClass.colors;
@@ -214,40 +192,24 @@ function dataVisColorScale(scaleType) {
 
   })
 
-  if(scaleType === 'sequential') {
-    const hasButton = Promise.resolve(document.getElementById(buttonId))
-    hasButton.then((value) => {
-      value.addEventListener('click', (e) => {
-        addScaleKeyColor(scaleType, e);
-        updateColorDots(chartsModeSelect.value, scaleType);
-        createSamples(sampleNumber.value, scaleType);
-        createDemos(scaleType);
-        create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
-
-      });
-    })  
-  }
-  if(scaleType === 'diverging') {
-    console.log(buttonStartId)
-    const hasStartButton = Promise.resolve(document.getElementById(buttonStartId))
-    const hasEndButton = Promise.resolve(document.getElementById(buttonEndId))
-    Promise.all([hasStartButton, hasEndButton]).then(() => {
-      document.getElementById(buttonStartId).addEventListener('click', (e) => {
-        addScaleKeyColor(scaleType, e);
-        updateColorDots(chartsModeSelect.value, scaleType);
-        createSamples(sampleNumber.value, scaleType);
-        createDemos(scaleType);
-        create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
-      })
-      document.getElementById(buttonEndId).addEventListener('click', (e) => {
-        addScaleKeyColor(scaleType, e);
-        updateColorDots(chartsModeSelect.value, scaleType);
-        createSamples(sampleNumber.value, scaleType);
-        createDemos(scaleType);
-        create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
-      })
+  const hasStartButton = Promise.resolve(document.getElementById(buttonStartId))
+  const hasEndButton = Promise.resolve(document.getElementById(buttonEndId))
+  Promise.all([hasStartButton, hasEndButton]).then(() => {
+    document.getElementById(buttonStartId).addEventListener('click', (e) => {
+      addScaleKeyColor(scaleType, e);
+      updateColorDots(chartsModeSelect.value, scaleType);
+      createSamples(sampleNumber.value, scaleType);
+      createDemos(scaleType);
+      create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
     })
-  }
+    document.getElementById(buttonEndId).addEventListener('click', (e) => {
+      addScaleKeyColor(scaleType, e);
+      updateColorDots(chartsModeSelect.value, scaleType);
+      createSamples(sampleNumber.value, scaleType);
+      createDemos(scaleType);
+      create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
+    })
+  })
 
   sampleNumber.addEventListener('input', (e) => {
     createSamples(e.target.value, scaleType);
@@ -261,5 +223,5 @@ function dataVisColorScale(scaleType) {
 }
 
 module.exports = {
-  dataVisColorScale
+  colorScaleDiverging
 }
