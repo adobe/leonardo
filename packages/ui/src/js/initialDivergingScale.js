@@ -44,7 +44,6 @@ class DivergingScale {
     this._swatches = swatches,
     this._scaleSwatches = (swatches)/2,
     // this._luminosities = this._getLuminosities();
-    // this._domains = this._getDomains();
 
     this._startScale = new SequentialScale({
       swatches: this._scaleSwatches,
@@ -64,6 +63,7 @@ class DivergingScale {
       output: this._output
     });
 
+    this._domains = this._getDomains();
     this._colors = this._createColorScale();
   }
 
@@ -288,6 +288,38 @@ class DivergingScale {
     return newColors;
   }
 
+  _getDomains() {
+    // const lums = this._luminosities;
+
+    // const min = Math.min(...lums);
+    // const max = Math.max(...lums);  
+    // const inverseShift = 1 / Number(this._shift);
+    // const percLums = lums.map((l) => {
+    //   let perc = (l - min) / (max - min);
+    //   if(l === 0 || isNaN(perc)) return 0;
+    //   else return perc;
+    // })
+    // let sqrtDomains = makePowScale(Number(inverseShift));
+
+    // let domains = percLums.map((d) => {return sqrtDomains(d)})
+
+    // let shift = Number(_sequentialScale.shift);
+    // let inverseShift = 1 / shift;
+    // let shiftShift = Math.pow(inverseShift, inverseShift)
+    // let domainPowScale = makePowScale( inverseShift );
+    // // let domainPowScale = (x) => {return Math.pow(x, inverseShift)}
+    // sqrtDomains = domains.map((d) => {return domainPowScale(d)})
+    
+    // domains.sort((a, b) => b - a)
+    // return domains;
+
+    // We know the middle key must always be at the midpoint of the domains.
+    // Start key domains will be before, end key domains will be after.
+    let startDomains = this._startScale.domains.reverse();
+    startDomains = startDomains.map((d) => {return d/2})
+    let endDomains = this._endScale.domains;
+    return [...startDomains, ...endDomains];
+  }
 }
 let _divergingScale = new DivergingScale({
   swatches: 50,

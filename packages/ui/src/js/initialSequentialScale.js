@@ -34,7 +34,9 @@ class SequentialScale {
     output
    }) {
     this._swatches = swatches,
-    this._colorKeys = this._sortColorKeys(colorKeys);
+    // this._colorKeys = this._sortColorKeys(colorKeys);
+    this._colorKeys = colorKeys;
+    this._luminosities = this._getLuminosities();
     this._colorspace = colorspace;
     this._shift = shift;
     this._smooth = smooth;
@@ -45,12 +47,12 @@ class SequentialScale {
   }
 
   set colorKeys(colors) {
-    this._colorKeys = this._sortColorKeys(colors);
+    // this._colorKeys = this._sortColorKeys(colors);
     this._colorKeys = colors;
     this._colors = null;
     this._colorsReversed = null;
     this._colors = this._createColorScale();
-    // this._luminosities = this._getColorLuminosities();
+    this._luminosities = this._getLuminosities();
     this._domains = this._getDomains()
   }
 
@@ -142,20 +144,32 @@ class SequentialScale {
     return this._colorFunction;
   }
 
-  _sortColorKeys(colors) {
-    let lumsObj = colors.map((c) => {
+  _getLuminosities() {
+    let lumsObj = this._colorKeys.map((c) => {
       return {
         color: c,
         lum: chroma(c).hsluv()[2]
       }
     });
-    lumsObj.sort((a, b) => (a.lum < b.lum) ? 1 : -1)
-    // keep the sorted luminosities
-    this._luminosities = lumsObj.map((c) => c.lum);
+    lumsObj.sort((a, b) => (a.lum < b.lum) ? 1 : -1);
 
-    // return lumsObj.map((c) => c.color);
-    return orderColorsByLuminosity(colors, 'toLight')
+    return lumsObj.map((c) => c.lum);
   }
+
+  // _sortColorKeys(colors) {
+  //   let lumsObj = colors.map((c) => {
+  //     return {
+  //       color: c,
+  //       lum: chroma(c).hsluv()[2]
+  //     }
+  //   });
+  //   lumsObj.sort((a, b) => (a.lum < b.lum) ? 1 : -1)
+  //   // keep the sorted luminosities
+  //   this._luminosities = lumsObj.map((c) => c.lum);
+
+  //   // return lumsObj.map((c) => c.color);
+  //   return orderColorsByLuminosity(colors, 'toLight')
+  // }
 
   _createColorScale() {
     if(this._colors) this._colors = null;
@@ -246,6 +260,7 @@ class SequentialScale {
     let sqrtDomains = makePowScale(Number(inverseShift));
 
     let domains = percLums.map((d) => {return sqrtDomains(d)})
+    
     domains.sort((a, b) => b - a)
     return domains;
   }

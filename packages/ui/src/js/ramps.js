@@ -18,7 +18,8 @@ import {createRGBchannelChart} from './createRGBchannelChart';
 import {createInterpolationCharts} from './createInterpolationCharts';
 import {create3dModel} from './create3dModel';
 import {
-  makePowScale
+  makePowScale,
+  orderColorsByLuminosity
 } from './utils'
 
 function themeRamp(colors, dest, angle) {
@@ -33,12 +34,17 @@ function themeRamp(colors, dest, angle) {
 }
 
 function themeRampKeyColors(colorKeys, dest, scaleType) {
+  console.log(colorKeys)
+
   let container = document.getElementById(dest);
 
   let domains, sqrtDomains;
-  if(scaleType === 'sequential') {
-    domains = _sequentialScale.domains;  
-    let shift = Number(_sequentialScale.shift);
+  let colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
+  if(scaleType === 'sequential' || scaleType === 'diverging') {
+    domains = colorClass.domains;  
+    // domains = colorKeys.map(key => { return d3.hsluv(key).v})
+    if(scaleType === 'diverging') console.log(domains)
+    let shift = Number(colorClass.shift);
     let inverseShift = 1 / shift;
     let shiftShift = Math.pow(inverseShift, inverseShift)
     let domainPowScale = makePowScale( inverseShift );
@@ -50,12 +56,14 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
     sqrtDomains = domains;
   }
 
-  colorKeys.map((key, index) => {
-    let lightness = (scaleType === 'sequential')  ? _sequentialScale.luminosities[index] : d3.hsluv(key).v;
+  let sortedColorKeys = orderColorsByLuminosity(colorKeys, 'toLight');
+
+  sortedColorKeys.map((key, index) => {
+    let lightness = (scaleType === 'sequential' || scaleType==='diverging')  ? colorClass.luminosities[index] : d3.hsluv(key).v;
     let lightnessPerc = lightness/100;
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot
-    let dotOffset = (scaleType !== 'sequential') 
+    let dotOffset = (scaleType !== 'sequential' || scaleType === 'diverging') 
       ? 36 * lightnessPerc 
       : 36 * domains[index];
 
