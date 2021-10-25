@@ -60,7 +60,6 @@ import TinyURL from 'tinyurl';
 // Import local Javascript functions
 import {
   paramSetup,
-  // updateParams,
 } from './js/params';
 import { 
   throttle
@@ -68,6 +67,7 @@ import {
 import { 
   _theme 
 } from './js/initialTheme';
+import {getContrastRatios} from './js/getThemeData';
 import {
   addColorScale,
   addColorScaleUpdate
@@ -135,9 +135,10 @@ posthtml()
   .process(readFileSync('src/theme.html', 'utf8'))
   .then((result) => result);
 
-
+window.updateParams = updateParams;
 function updateParams() {
   let name = document.getElementById('themeNameInput').value;
+  let ratios = getContrastRatios();
   let theme = {
     baseScale: _theme.backgroundColor.name,
     colorScales: _theme.colors.map((c) => {
@@ -145,7 +146,8 @@ function updateParams() {
         name: c.name,
         colorKeys: c.colorKeys,
         colorspace: c.colorspace,
-        ratios: c.ratios
+        ratios: ratios,
+        smooth: c.smooth
       }
     }),
     lightness: _theme.lightness,

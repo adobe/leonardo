@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import {_theme} from './initialTheme';
-import {updateParams} from './params';
+// import {updateParams} from './params';
 import {
   getContrastRatios,
   getThemeData,

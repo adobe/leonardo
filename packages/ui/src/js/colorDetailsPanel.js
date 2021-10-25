@@ -39,7 +39,6 @@ import {
   _theme, 
   _colorScales
 } from './initialTheme';
-import {updateParams} from './params';
 import {downloadSVGgradient} from './createSVGgradient';
 import {create3dModel} from './create3dModel';
 
@@ -281,7 +280,8 @@ function showColorDetails(e) {
   smoothInput.oninput = throttle(themeUpdateParams, 20);
   smoothInput.addEventListener('input', (e) => {
     const checked = e.target.checked;
-    const boolean = checked.toString();
+    // const boolean = checked.toString();
+    const boolean = (checked) ? true : 'false';
     _theme.updateColor = {color: colorData.name, smooth: boolean}
 
     const colorData2 = getColorClassById(id);

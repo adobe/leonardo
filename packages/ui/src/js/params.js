@@ -70,7 +70,7 @@ function paramSetup() {
         addColorScale(newColor);
       })
 
-      RATIOS = Promise.resolve([...colorScales[1].ratios]);
+      RATIOS = Promise.resolve([...colorScales[0].ratios]);
       RATIOCOLORS = Promise.resolve(_theme.contrastColors[1].values.map((c) => {return c.value}));
       // let sampleColors = _theme.contrastColors[2].values.map((c) => {return c.value});
       // addRatioInputs(colorScales[2].ratios, sampleColors)
@@ -184,43 +184,6 @@ function paramSetup() {
   clearParams();
 }
 
-// Passing variable parameters to URL
-window.updateParams = updateParams;
-
-function updateParams() {
-  let name = document.getElementById('themeNameInput').value;
-  let theme = _theme;
-  let baseScale = theme.backgroundColor;
-  let lightness = theme.lightness;
-  let contrast = theme.contrast;
-  let saturation = theme.saturation;
-  let colorScales = theme.colors.map((color) => {
-    return {
-      name: color.name,
-      colorKeys: color.colorKeys,
-      colorspace: color.colorspace,
-      ratios: ratios,
-      smooth: smooth
-    }
-  })
-
-  let config = {
-    baseScale: baseScale,
-    colorScales: colorScales,
-    lightness: lightness,
-    contrast: contrast,
-    saturation: saturation
-  }
-  
-  let url = new URL(window.location);
-  let params = new URLSearchParams(url.search.slice(1));
-
-  params.set('name', name);           // Theme name
-  params.set('config', config);       // Configurations
-
-  window.history.replaceState({}, '', '?' + params); // update the page's URL.
-}
-
 
 function clearParams() {
   let uri = window.location.toString();
@@ -231,6 +194,5 @@ function clearParams() {
 
 module.exports = { 
   paramSetup,
-  updateParams,
   clearParams
 };

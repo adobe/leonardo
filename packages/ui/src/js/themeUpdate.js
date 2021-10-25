@@ -61,10 +61,7 @@ function themeUpdate() {
 }
 
 function themeUpdateParams() {
-  // let themeNameInput = document.getElementById('themeNameInput');
-  // let themeName = themeNameInput.value;
   themeUpdate();
-  // updateParams();
 }
 
 
