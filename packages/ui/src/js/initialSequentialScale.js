@@ -275,9 +275,12 @@ class SequentialScale {
     let domains;
 
     if(this._distributeLightness === 'parabolic') {
-      const parabola = (x) => {return (Math.sqrt(x, 2))} 
-      // let percDomains = sqrtDomains.map((d) => {return d/swatches})
-      let newDomains = percLums.map((d) => {return parabola(sqrtDomains(d))})
+      const parabola = (x) => {return (Math.pow(x, 2))} 
+      let percDomains = percLums.map((d) => {return sqrtDomains(d)})
+      let newDomains = percDomains.map((d) => {return parabola(d)})
+      console.log(percLums)
+      // console.log(percDomains)
+      console.log(newDomains)
       domains = newDomains;
     }
     if(this._distributeLightness === 'polynomial') {

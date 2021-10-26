@@ -171,7 +171,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
   distributeLightness.addEventListener('change', (e) => {
     colorClass.distributeLightness = e.target.value;
-
+    console.log(colorClass.distributeLightness)
     setTimeout(() => {
       colors = colorClass.colors;
       updateRamps(colorClass, scaleType, scaleType)

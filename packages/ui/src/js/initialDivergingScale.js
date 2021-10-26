@@ -181,6 +181,11 @@ class DivergingScale {
 
     this._colors = null;
     this._colors = this._createColorScale();
+    this._domains = this._getDomains();
+  }
+
+  get distributeLightness() {
+    return this._distributeLightness;
   }
 
   set output(output) {
