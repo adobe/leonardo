@@ -46,9 +46,11 @@ const chroma = require('chroma-js');
 function colorScaleDiverging(scaleType = 'diverging') {
   // let colorKeys;
   // Set up some sensible defaults
-  let defaultStartColors = ['#5c3cec','#9eecff'];
-  let defaultEndColors = ['#9f0e04','#fbdf28'];
-  let defaultMiddleColor = '#ffffff';
+  // let defaultStartColors = ['#5c3cec','#9eecff'];
+  // let defaultEndColors = ['#9f0e04','#fbdf28'];
+  let defaultStartColors = ['#2e07df', '#58a8fd'];
+  let defaultEndColors = ['#7a0800', '#ee9820'];
+  let defaultMiddleColor = '#f3f3f3';
   _divergingScale.startKeys = defaultStartColors;
   _divergingScale.endKeys = defaultEndColors;
   _divergingScale.middleKey = defaultMiddleColor;
@@ -59,6 +61,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
   let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
   let shift = document.getElementById(`${scaleType}Shift`);
+  let distributeLightness = document.getElementById('distributeLightness');
   let sampleNumber = document.getElementById(`${scaleType}Samples`);
   let sampleOutput = document.getElementById(`${scaleType}_format`);
   let quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
@@ -67,7 +70,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
   let samples = sampleNumber.value;
 
-  const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
+  const colorClass = _divergingScale;
   const colorKeys = colorClass.colorKeys;
 
   // If class is preset to smooth, check the smooth switch in the UI
@@ -96,7 +99,6 @@ function colorScaleDiverging(scaleType = 'diverging') {
     const ends = divergingKeys[2];
 
     for (let i = 0; i < starts.length; i++) {
-      console.log(starts[i])
       addScaleKeyColorInput(starts[i], buttonId, scaleType, i, 'start');
     }
     addScaleKeyColorInput(middle, buttonId, scaleType, 0, 'middle');
@@ -113,7 +115,6 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
   createRGBchannelChart(colors, `${scaleType}RGBchart`);
   createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType);
-  // createInterpolationCharts(colors, 'CAM02', scaleType);
   create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
 
   createSamples(samples, scaleType);
@@ -168,6 +169,18 @@ function colorScaleDiverging(scaleType = 'diverging') {
     create3dModel(PlotDestId, [colorClass], e.target.value, scaleType)
   })
 
+  distributeLightness.addEventListener('change', (e) => {
+    colorClass.distributeLightness = e.target.value;
+    colors = colorClass.colors;
+
+    throttle(updateRamps(colorClass, scaleType, scaleType), 10);
+    throttle( createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType), 10);
+    throttle(updateColorDots(chartsModeSelect.value, scaleType), 10);
+    throttle(createSamples(sampleNumber.value, scaleType), 10);
+    throttle(createDemos(scaleType), 10);
+    throttle(create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType), 10)
+
+  })
   shift.addEventListener('input', (e) => {
     colorClass.shift = e.target.value;
     colors = colorClass.colors;

@@ -17,10 +17,13 @@ import {
    makePowScale,
    removeDuplicates,
    round,
-   findMatchingLuminosity
+   findMatchingLuminosity,
+   orderColorsByLuminosity,
+   createEquiLuminantKey
  } from './utils';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
+extendChroma(chroma);
 
 class DivergingScale {
   constructor({ 
@@ -30,6 +33,7 @@ class DivergingScale {
     middleKey,
     colorspace,
     smooth,
+    distributeLightness,
     shift,
     output
    }) {
@@ -37,6 +41,7 @@ class DivergingScale {
     this._endKeys = endKeys;
     this._middleKey = middleKey;
     this._colorKeys = this._combineColorKeys();
+    this._distributeLightness = distributeLightness;
     this._colorspace = colorspace;
     this._shift = shift;
     this._smooth = smooth;
@@ -49,6 +54,7 @@ class DivergingScale {
       swatches: this._scaleSwatches,
       colorKeys: this._startKeys,
       colorspace: this._colorspace,
+      distributeLightness: this._distributeLightness,
       smooth: this._smooth,
       shift: this._shift,
       output: this._output
@@ -58,6 +64,7 @@ class DivergingScale {
       swatches: this._scaleSwatches,
       colorKeys: this._endKeys,
       colorspace: this._colorspace,
+      distributeLightness: this._distributeLightness,
       smooth: this._smooth,
       shift: this._shift,
       output: this._output
@@ -69,13 +76,15 @@ class DivergingScale {
 
   set startKeys(colors) {
     this._startKeys = colors;
-    this._startScale.colorKeys = [...this._startKeys, this._middleKey];
+    this._startScale.colorKeys = [...this._startKeys, createEquiLuminantKey(this._middleKey, this._startKeys), this._middleKey];
 
     this._colorKeys = null;
     this._colorKeys = this._combineColorKeys();
 
     this._colors = null;
     this._colors = this._createColorScale();
+
+    this._domains = this._getDomains();
   }
 
   get startKeys() {
@@ -89,12 +98,16 @@ class DivergingScale {
   set endKeys(colors) {
     // this._endKeys = colors;
     this._endKeys = colors;
-    this._endScale.colorKeys = [...this._endKeys, this._middleKey];
+
+    this._endScale.colorKeys = [...this._endKeys, createEquiLuminantKey(this._middleKey, this._endKeys), this._middleKey];
     this._colorKeys = null;
     this._colorKeys = this._combineColorKeys();
 
     this._colors = null;
     this._colors = this._createColorScale();
+
+    this._domains = this._getDomains();
+
   }
 
   get endKeys() {
@@ -107,14 +120,16 @@ class DivergingScale {
 
   set middleKey(color) {
     this._middleKey = color;
-    this._startScale.colorKeys = [...this._startKeys, this._middleKey];
-    this._endScale.colorKeys = [...this._endKeys, this._middleKey];
+    this._startScale.colorKeys = [...this._startKeys, createEquiLuminantKey(this._middleKey, this._startKeys), this._middleKey];
+    this._endScale.colorKeys = [...this._endKeys, createEquiLuminantKey(this._middleKey, this._endKeys), this._middleKey];
 
     this._colorKeys = null;
     this._colorKeys = this._combineColorKeys();
 
     this._colors = null;
     this._colors = this._createColorScale();
+
+    this._domains = this._getDomains();
   }
 
   get middleKey() {
@@ -159,6 +174,15 @@ class DivergingScale {
     return this._smooth;
   }
 
+  set distributeLightness(setting) {
+    this._distributeLightness = setting;
+    this._startScale.distributeLightness = setting;
+    this._endScale.distributeLightness = setting;
+
+    this._colors = null;
+    this._colors = this._createColorScale();
+  }
+
   set output(output) {
     this._output = output;
     if(this._startScale) this._startScale.output = output;
@@ -180,7 +204,7 @@ class DivergingScale {
 
     this._colors = null;
     this._colors = this._createColorScale();
-    // this._domains = this._getDomains();
+    this._domains = this._getDomains();
   }
 
   get shift() {
@@ -236,7 +260,8 @@ class DivergingScale {
       colorKeys: newColors,
       colorspace: this._colorspace,
       // shift: this._shift,
-      smooth: false,
+      // smooth: this._smooth,
+      distributeLightness: 'linear',
       fullScale: false,
       asFun: true
     });
@@ -253,18 +278,12 @@ class DivergingScale {
   }
 
   _combineColorKeys() {
-    let filteredStart = Array.from(this._startKeys);
-    const startIndex = filteredStart.indexOf(this._middleKey);
-    if (startIndex > -1) {
-      filteredStart.splice(startIndex, 1);
-    }
-    let filteredEnd = Array.from(this._endKeys);
-    const endIndex = filteredEnd.indexOf(this._middleKey);
-    if (endIndex > -1) {
-      filteredEnd.splice(startIndex, 1);
-    }
+    const startKeys = this._startKeys;
+    const endKeys = this._endKeys;
+    const sortedStartKeys = orderColorsByLuminosity(startKeys, 'toDark');
+    const sortedEndKeys = orderColorsByLuminosity(endKeys, 'toLight');
 
-    return [...filteredStart, this._middleKey, ...filteredEnd]
+    return [...sortedStartKeys, this._middleKey, ...sortedEndKeys]
   }
 
   _combineColors() {
@@ -274,7 +293,6 @@ class DivergingScale {
     for(let i = 0; i < startColorScale.length - 1; i++) {
       startColors.push(startColorScale[i]);
     }
-    // let endColorsReversed = [];
     const endColorScaleReversed = this._endScale.colorsReversed;
     const endColors = [];
     // For all but the first color
@@ -289,44 +307,28 @@ class DivergingScale {
   }
 
   _getDomains() {
-    // const lums = this._luminosities;
-
-    // const min = Math.min(...lums);
-    // const max = Math.max(...lums);  
-    // const inverseShift = 1 / Number(this._shift);
-    // const percLums = lums.map((l) => {
-    //   let perc = (l - min) / (max - min);
-    //   if(l === 0 || isNaN(perc)) return 0;
-    //   else return perc;
-    // })
-    // let sqrtDomains = makePowScale(Number(inverseShift));
-
-    // let domains = percLums.map((d) => {return sqrtDomains(d)})
-
-    // let shift = Number(_sequentialScale.shift);
-    // let inverseShift = 1 / shift;
-    // let shiftShift = Math.pow(inverseShift, inverseShift)
-    // let domainPowScale = makePowScale( inverseShift );
-    // // let domainPowScale = (x) => {return Math.pow(x, inverseShift)}
-    // sqrtDomains = domains.map((d) => {return domainPowScale(d)})
-    
-    // domains.sort((a, b) => b - a)
-    // return domains;
-
     // We know the middle key must always be at the midpoint of the domains.
     // Start key domains will be before, end key domains will be after.
     let startDomains = this._startScale.domains.reverse();
-    startDomains = startDomains.map((d) => {return d/2})
+    startDomains = startDomains.map((d) => {return round(d/2, 2)})
     let endDomains = this._endScale.domains;
-    return [...startDomains, ...endDomains];
+    endDomains = endDomains.map((d) => {return 1 - d}); // reverse domain
+    endDomains = endDomains.map((d) => {return round((d + 1) / 2, 2)})
+    let combined = [...startDomains, ...endDomains];
+    let domains = [...new Set(combined)];
+
+    let clampedDomains = domains.map((d) => {return round(d, 2)})
+    return domains;
   }
 }
+
 let _divergingScale = new DivergingScale({
   swatches: 50,
   startKeys: ['#19beaa', '#004d4b'],
   endKeys: ['#d37222', '#700036'],
   middleKey: '#ffffff',
   colorspace: 'CAM02p',
+  distributeLightness: 'linear', // 'linear' | 'parabolic' | 'polynomial'
   smooth: false,
   shift: 1,
   output: 'RGB'

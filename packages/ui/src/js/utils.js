@@ -502,6 +502,22 @@ function orderColorsByLuminosity(colors, direction = 'toLight') { // 'toLight' o
   }
 }
 
+// Artificially create a semi-chromatic tone based on the
+// hue of the lightest color key (each scale) and the 
+// luminosity of the midpoint. This helps to create
+// a transition between each scale at the midpoint, rather
+// than a sharp midpoint.
+function createEquiLuminantKey(middleKey, colorKeys) {
+  let luminance = d3.jch(middleKey).J;
+  let sorted = orderColorsByLuminosity(colorKeys, 'toLight');
+  let lightestColor = sorted[0];
+  let hue = d3.jch(lightestColor).h;
+  let chroma = 8;
+  let newColor = d3.jch(luminance, chroma, hue).formatHex();
+  
+  return newColor;
+}
+
 module.exports = {
   randomId,
   throttle,
@@ -510,6 +526,7 @@ module.exports = {
   camelCase,
   makePowScale,
   removeDuplicates,
+  createEquiLuminantKey,
   round,
   convertColorValue,
   findMatchingLuminosity,

@@ -30,6 +30,7 @@ class SequentialScale {
     colorKeys,
     colorspace,
     smooth,
+    distributeLightness = 'linear',
     shift,
     output
    }) {
@@ -40,6 +41,7 @@ class SequentialScale {
     this._colorspace = colorspace;
     this._shift = shift;
     this._smooth = smooth;
+    this._distributeLightness = distributeLightness;
     this._output = output;
     this._colors = this._createColorScale();
     // this._luminosities = this._getColorLuminosities();
@@ -88,6 +90,13 @@ class SequentialScale {
 
   get smooth() {
     return this._smooth;
+  }
+
+  set distributeLightness(setting) {
+    this._distributeLightness = setting;
+    this._colors = null;
+    this._colorsReversed = null;
+    this._colors = this._createColorScale();
   }
 
   set output(output) {
@@ -176,12 +185,13 @@ class SequentialScale {
     if(this._colorsReversed) this._colorsReversed = null;
 
     let colorScale;
-    let generousColorLength = 30;
+    let generousColorLength = 12;
     let initialColorScale = Leo.createScale({
       swatches: generousColorLength,
       colorKeys: this._colorKeys,
       colorspace: this._colorspace,
       shift: this._shift,
+      distributeLightness: this._distributeLightness,
       smooth: this._smooth,
       fullScale: false,
       asFun: true
@@ -199,24 +209,24 @@ class SequentialScale {
 
     let newLums = dataX.map((i) => round((maxLumShifted * i) + minLum, 2));
 
-    const newColors = findMatchingLuminosity(initialColorScale, generousColorLength, newLums, this._smooth);
+    let newColors = findMatchingLuminosity(initialColorScale, generousColorLength, newLums, this._smooth);
 
-    let filteredColors = newColors.filter(function(x) {
-      return x !== undefined;
-    });
-
-    // const lastColorIndex = filteredColors.length-1;
+    // let filteredColors = newColors.filter(function(x) {
+    //   return x !== undefined;
+    // });
+    newColors = [...new Set(newColors)]
+    // const lastColorIndex = newColors.length-1;
     // Manually ensure first and last user-input key colors
     // are part of new key colors array being passed to the
     // new color scale.
     // NOTE: Not sure this actually is needed...
     // const first = (this._smooth) ? chroma(initialColorScale(0)): initialColorScale(0);
     // const last = (this._smooth) ? chroma(initialColorScale(generousColorLength)): initialColorScale(generousColorLength);
-    // filteredColors
+    // newColors
     //   .splice(0, 1, first.hex());
-    // filteredColors
+    // newColors
     //   .splice(lastColorIndex, 1)
-    // filteredColors
+    // newColors
     //   .splice((lastColorIndex), 1, last.hex())
 
     this._colorFunction = Leo.createScale({
@@ -225,6 +235,7 @@ class SequentialScale {
       colorspace: this._colorspace,
       shift: this._shift,
       smooth: false,
+      distributeLightness: this._distributeLightness,
       fullScale: false,
       asFun: true
     });
@@ -235,6 +246,7 @@ class SequentialScale {
       colorspace: this._colorspace,
       shift: this._shift,
       smooth: false,
+      distributeLightness: this._distributeLightness,
       fullScale: false,
       asFun: false
     });
@@ -258,8 +270,30 @@ class SequentialScale {
       else return perc;
     })
     let sqrtDomains = makePowScale(Number(inverseShift));
+    let domains;
 
-    let domains = percLums.map((d) => {return sqrtDomains(d)})
+    if(this._distributeLightness === 'parabolic') {
+      const parabola = (x) => {return (Math.sqrt(x, 2))} 
+      // let percDomains = sqrtDomains.map((d) => {return d/swatches})
+      let newDomains = percLums.map((d) => {return parabola(sqrtDomains(d))})
+      domains = newDomains;
+    }
+    if(this._distributeLightness === 'polynomial') {
+      // Equation based on polynomial mapping of lightness values in CIECAM02 
+      // of the RgBu diverging color scale.
+      const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
+      // let percDomains = sqrtDomains.map((d) => {return d/swatches})
+      let newDomains = percLums.map((d) => {return polynomial(sqrtDomains(d))})
+      domains = newDomains;
+    }
+
+    // if(this._distributeLightness === 'parabolic') {
+    //   const parabola = (x) => {return (Math.sqrt(x, 2))} 
+    //   domains = percLums.map((d) => {return parabola(d)})
+    // } 
+    else {
+      domains = percLums.map((d) => {return sqrtDomains(d)})
+    }
     
     domains.sort((a, b) => b - a)
     return domains;
@@ -271,6 +305,7 @@ let _sequentialScale = new SequentialScale({
   colorKeys: ['#000000', '#cacaca'],
   colorspace: 'CAM02p',
   smooth: false,
+  distributeLightness: 'linear',
   shift: 1,
   output: 'RGB'
 })

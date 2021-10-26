@@ -122,7 +122,7 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
     displayModeBar: true,
     modeBarButtonsToRemove: [
       'orbitRotation',
-      'resetCameraLastSave3d'
+      // 'resetCameraLastSave3d'
     ],
     displaylogo: false,
     responsive: true

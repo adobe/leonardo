@@ -93,20 +93,31 @@
               Diverging color scales automatically correct for lightness.
             </p>
             <div class="spectrum-Form">
-              <div class="spectrum-Form-item">
+              <!-- <div class="spectrum-Form-item">
                 <div id="" class="spectrum-Slider">
                   <div class="spectrum-Slider-labelContainer">
                     <label class="spectrum-Slider-label" id="{{ scaleType }}ThresholdLabel" for="{{ scaleType }}Threshold">Darkness threshold</label>
                   </div>
                   <input class="spectrum-Slider-controls" type="range" min="0" max="50" step="0.01" value="0" id="{{ scaleType }}Threshold" name="{{ scaleType }}Threshold"></input>
                 </div>
+              </div> -->
+              <div class="spectrum-Form-item">
+                <label for="distributeLightness" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Lightness distribution</label>
+                <select class="spectrum-Picker spectrum-Picker--sizeM" name="distributeLightness" id="distributeLightness">
+                  <option value="linear">Linear</option>
+                  <option value="polynomial">Polynomial</option>
+                  <option value="parabolic">Parabolic</option>
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+                  <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                </svg>
+              </select>
               </div>
               <div class="spectrum-Form-item">
                 <div id="" class="spectrum-Slider">
                   <div class="spectrum-Slider-labelContainer">
                     <label class="spectrum-Slider-label" id="{{ scaleType }}ShiftLabel" for="{{ scaleType }}Shift">Curvature (shift)</label>
                   </div>
-                  <input class="spectrum-Slider-controls" type="range" min="0.125" max="1" step="0.001" value="1" id="{{ scaleType }}Shift" name="{{ scaleType }}Shift"></input>
+                  <input class="spectrum-Slider-controls" type="range" min="0.125" max="1.5" step="0.001" value="1" id="{{ scaleType }}Shift" name="{{ scaleType }}Shift"></input>
                 </div>
               </div>
               

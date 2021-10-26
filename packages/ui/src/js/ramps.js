@@ -34,8 +34,6 @@ function themeRamp(colors, dest, angle) {
 }
 
 function themeRampKeyColors(colorKeys, dest, scaleType) {
-  console.log(colorKeys)
-
   let container = document.getElementById(dest);
 
   let domains, sqrtDomains;
@@ -56,15 +54,17 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
     sqrtDomains = domains;
   }
 
-  let sortedColorKeys = orderColorsByLuminosity(colorKeys, 'toLight');
+  let sortedColorKeys = (scaleType==='diverging') ? colorKeys: orderColorsByLuminosity(colorKeys, 'toLight');
 
   sortedColorKeys.map((key, index) => {
-    let lightness = (scaleType === 'sequential' || scaleType==='diverging')  ? colorClass.luminosities[index] : d3.hsluv(key).v;
-    let lightnessPerc = lightness/100;
+    let lightness = (scaleType === 'sequential') 
+      ? colorClass.luminosities[index] / 100 
+      : d3.hsluv(key).v;
+
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot
-    let dotOffset = (scaleType !== 'sequential' || scaleType === 'diverging') 
-      ? 36 * lightnessPerc 
+    let dotOffset = (scaleType === 'theme' || !scaleType) 
+      ? 36 * lightness/100 
       : 36 * domains[index];
 
     let left = (scaleType === 'sequential' || scaleType === 'diverging') 
