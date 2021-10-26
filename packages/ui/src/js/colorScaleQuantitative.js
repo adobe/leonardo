@@ -432,7 +432,6 @@ function showColors(arr, dest, panel = false) {
   arr.map((color) => { 
     let swatch = document.createElement('div');
     const contrast = getContrast('#000000', color);
-    console.log(contrast)
     swatch.className = (!panel) ? 'simulationSwatch' : 'panelSwatch';
     swatch.style.backgroundColor = color;
     swatch.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
