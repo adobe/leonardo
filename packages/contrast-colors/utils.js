@@ -149,6 +149,7 @@ function createScale({
   shift = 1,
   fullScale = true,
   smooth = false,
+  distributeLightness = 'linear',
   asFun = false,
 } = {}) {
   const space = colorSpaces[colorspace];
@@ -190,6 +191,20 @@ function createScale({
 
   // Transform square root in order to smooth gradient
   domains = sqrtDomains;
+  if(distributeLightness === 'parabolic') {
+    const parabola = (x) => {return (Math.sqrt(x, 2))} 
+    let percDomains = sqrtDomains.map((d) => {return d/swatches})
+    let newDomains = percDomains.map((d) => {return parabola(d) * swatches})
+    domains = newDomains;
+  }
+  if(distributeLightness === 'polynomial') {
+    // Equation based on polynomial mapping of lightness values in CIECAM02 
+    // of the RgBu diverging color scale.
+    const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
+    let percDomains = sqrtDomains.map((d) => {return d/swatches})
+    let newDomains = percDomains.map((d) => {return polynomial(d) * swatches})
+    domains = newDomains;
+  }
 
   const sortedColor = colorKeys
     // Convert to HSLuv and keep track of original indices
