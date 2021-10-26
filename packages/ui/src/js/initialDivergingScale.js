@@ -307,9 +307,12 @@ class DivergingScale {
   }
 
   _getDomains() {
+    console.log('Getting diverging domains')
     // We know the middle key must always be at the midpoint of the domains.
     // Start key domains will be before, end key domains will be after.
-    let startDomains = this._startScale.domains.reverse();
+    let startDomains = this._startScale.domains.sort(function(a, b) {
+      return a - b;
+    });
     startDomains = startDomains.map((d) => {return round(d/2, 2)})
     let endDomains = this._endScale.domains;
     endDomains = endDomains.map((d) => {return 1 - d}); // reverse domain

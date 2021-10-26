@@ -97,6 +97,8 @@ class SequentialScale {
     this._colors = null;
     this._colorsReversed = null;
     this._colors = this._createColorScale();
+    this._domains = null;
+    this._domains = this._getDomains();
   }
 
   set output(output) {
@@ -291,7 +293,7 @@ class SequentialScale {
     //   const parabola = (x) => {return (Math.sqrt(x, 2))} 
     //   domains = percLums.map((d) => {return parabola(d)})
     // } 
-    else {
+    if(this._distributeLightness === 'linear') {
       domains = percLums.map((d) => {return sqrtDomains(d)})
     }
     

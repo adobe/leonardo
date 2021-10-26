@@ -171,15 +171,16 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
   distributeLightness.addEventListener('change', (e) => {
     colorClass.distributeLightness = e.target.value;
-    colors = colorClass.colors;
 
-    throttle(updateRamps(colorClass, scaleType, scaleType), 10);
-    throttle( createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType), 10);
-    throttle(updateColorDots(chartsModeSelect.value, scaleType), 10);
-    throttle(createSamples(sampleNumber.value, scaleType), 10);
-    throttle(createDemos(scaleType), 10);
-    throttle(create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType), 10)
-
+    setTimeout(() => {
+      colors = colorClass.colors;
+      updateRamps(colorClass, scaleType, scaleType)
+      createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType)
+      updateColorDots(chartsModeSelect.value, scaleType)
+      createSamples(sampleNumber.value, scaleType)
+      createDemos(scaleType)
+      create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
+    }, 100)
   })
   shift.addEventListener('input', (e) => {
     colorClass.shift = e.target.value;
