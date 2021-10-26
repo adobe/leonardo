@@ -1408,6 +1408,7 @@ a:focus {
   appearance: none;
   outline: none;
   box-shadow: none;
+  flex-shrink: 0;
   display: block;
   width: 100%;
   margin: 12px 0;
@@ -1919,7 +1920,7 @@ section {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  overflow-x: hidden;
+  // overflow-x: hidden;
 
   .demoVisualization {
     width: 260px;
@@ -1930,11 +1931,16 @@ section {
   position: relative;
   height: 272px;
   flex-shrink: 0;
-  max-width: 800px;
+  max-width: 600px;
 
   svg {
     position: absolute;
   }
+}
+
+.demoVisualization--large {
+  // height: 350px;
+  width: 600px;
 }
 
 #sequentialScatter {
@@ -2020,6 +2026,12 @@ section {
     fill: currentColor;
   }
 
+  &.showSvg {
+    svg {
+      opacity: 1;
+    }
+  }
+
   &:hover,
   &:focus,
   &:active {
@@ -2034,6 +2046,7 @@ section {
   display: flex;
   height: 88px;
   margin-bottom: 24px;
+  flex-shrink: 0;
   color: var(--spectrum-global-color-gray-700);
 
   &.isEmpty {
@@ -2047,5 +2060,12 @@ section {
 
 .qualitativeTabsWrapper {
   max-height: calc(100vh - 288px);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#simulatedColors .spectrum-Heading {
+  margin-top: 24px;
 }

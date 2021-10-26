@@ -19,7 +19,7 @@ function choropleth(scaleType) {
   colorClass.swatches = 7;
   // The svg
   var margin = {top: 30, right: 30, bottom: 30, left: 30},
-  width = 800 - margin.left - margin.right,
+  width = 700 - margin.left - margin.right,
   height = 250 - margin.top - margin.bottom;
 
   var svg = d3.select(`#${scaleType}Choropleth`)
@@ -36,7 +36,7 @@ function choropleth(scaleType) {
   const projection = d3.geoMercator()
   .scale(60)
   .center([0,30])
-  .translate([width / 3.5, height / 1.75]);
+  .translate([width / 2.5, height / 1.75]);
 
   // Data and color scale
   let data = new Map()

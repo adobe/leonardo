@@ -13,7 +13,7 @@ import d3 from '../d3';
 import {_divergingScale} from '../initialDivergingScale';
 import {_sequentialScale} from '../initialSequentialScale';
 
-function chord(scaleType) {
+function chord(scaleType, colors) {
   const colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   const originalSwatches = colorClass.swatches;
   colorClass.swatches = 4;
@@ -40,7 +40,7 @@ function chord(scaleType) {
   ];
 
   // 4 groups, so create a vector of 4 colors
-  var colors = colorClass.colors;
+  if(!colors) colors = colorClass.colors;
 
   // give this matrix to d3.chord(): it will calculates all the info we need to draw arc and ribbon
   var res = d3.chord()

@@ -19,7 +19,7 @@ import {
   updateColorWheel,
   updateColorDots
 } from './colorWheel';
-import { createHtmlElement } from './createHtmlElement';
+import {createDemos} from './createDemos';
 
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
@@ -49,16 +49,20 @@ function colorScaleQualitative(scaleType = 'qualitative') {
   showColors(testColors, 'originalColors', true)
   createColorWheel(chartsModeSelect.value, 50, scaleType);
   button.click();
+  createDemos(scaleType, keepers)
 }
 
 chartsModeSelect.addEventListener('change', () => {
   if(newSafeColors) {
-    updateColorWheel(chartsModeSelect.value, 50, null, chartsModeSelect.value, 'qualitative', newSafeColors)
+    updateColorWheel(chartsModeSelect.value, 50, null, chartsModeSelect.value, 'qualitative', keepers)
     // updateColorDots(chartsModeSelect.value, 'qualitative', newSafeColors);
   }
 })
 
-rangeInput.addEventListener('input', function() {
+function updateColors() {
+  const scaleType = 'qualitative';
+
+  clearKeepers();
   const testColors = testColorsInput.value
   .replaceAll(' ', '')
   .split(',');
@@ -67,58 +71,28 @@ rangeInput.addEventListener('input', function() {
   const newSafeColors = getLargestSetCvdColors(testColors);
   showColors(newSafeColors, 'cvdSafeColors');
   showSimulatedColors(newSafeColors, true);
+  createDemos(scaleType, keepers);
+}
+
+rangeInput.addEventListener('input', function() {
+  updateColors();
 });
 
 minContrast.addEventListener('input', function() {
-  const testColors = testColorsInput.value
-  .replaceAll(' ', '')
-  .split(',');
-
-  document.getElementById('cvdSafeColors').innerHTML = ' ';
-  const newSafeColors = getLargestSetCvdColors(testColors);
-  showColors(newSafeColors, 'cvdSafeColors');
-  showSimulatedColors(newSafeColors, true);
+  updateColors()
 });
 
 protan.addEventListener('input', function() {
-  const testColors = testColorsInput.value
-  .replaceAll(' ', '')
-  .split(',');
-
-  document.getElementById('cvdSafeColors').innerHTML = ' ';
-  const newSafeColors = getLargestSetCvdColors(testColors);
-  showColors(newSafeColors, 'cvdSafeColors');
-  showSimulatedColors(newSafeColors, true);
+  updateColors()
 })
 deutan.addEventListener('input', function() {
-  const testColors = testColorsInput.value
-  .replaceAll(' ', '')
-  .split(',');
-
-  document.getElementById('cvdSafeColors').innerHTML = ' ';
-  const newSafeColors = getLargestSetCvdColors(testColors);
-  showColors(newSafeColors, 'cvdSafeColors');
-  showSimulatedColors(newSafeColors, true);
+  updateColors()
 })
 tritan.addEventListener('input', function() {
-  const testColors = testColorsInput.value
-  .replaceAll(' ', '')
-  .split(',');
-
-  document.getElementById('cvdSafeColors').innerHTML = ' ';
-  const newSafeColors = getLargestSetCvdColors(testColors);
-  showColors(newSafeColors, 'cvdSafeColors');
-  showSimulatedColors(newSafeColors, true);
+  updateColors()
 })
 achroma.addEventListener('input', function() {
-  const testColors = testColorsInput.value
-  .replaceAll(' ', '')
-  .split(',');
-
-  document.getElementById('cvdSafeColors').innerHTML = ' ';
-  const newSafeColors = getLargestSetCvdColors(testColors);
-  showColors(newSafeColors, 'cvdSafeColors');
-  showSimulatedColors(newSafeColors, true);
+  updateColors()
 })
 
 button.addEventListener('click', function() {
@@ -153,8 +127,18 @@ button.addEventListener('click', function() {
     showColors(newSafeColors, 'cvdSafeColors');
     showSimulatedColors(newSafeColors, true);
   }
-  updateColorDots(chartsModeSelect.value, scaleType, newSafeColors);
+  updateColorDots(chartsModeSelect.value, scaleType, keepers);
+  createDemos(scaleType, keepers);
+
 })
+
+function clearKeepers() {
+  keepers = [];
+  let wrapper = document.getElementById('qualitative_selectedColors');
+  wrapper.classList.add('isEmpty');
+  wrapper.innerHTML = 'Select generated colors to begin building your scale';
+
+}
 
 testColorsInput.addEventListener('input', function(e) {
   const testColors = e.target.value
@@ -438,16 +422,22 @@ function showColors(arr, dest, panel = false) {
     swatch.innerHTML = (!panel) ? `${color}` : ' ';
 
     if(dest === 'cvdSafeColors') {
-      let button = document.createElement('button')
-      button.className = 'saveColorToKeepers',
+      let button = document.createElement('button');
+      button.className = (keepers.indexOf(color) >= 0) ?  'saveColorToKeepers showSvg' : 'saveColorToKeepers',
       button.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
-      button.innerHTML = `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-        <use xlink:href="#spectrum-icon-18-Add"></use>
-      </svg>`
-      button.addEventListener('click', () => {
+      button.innerHTML = (keepers.indexOf(color) >= 0) 
+      ? `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Locked">
+        <use xlink:href="#spectrum-icon-18-LockClosed"></use>
+      </svg>`  
+      : `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+          <use xlink:href="#spectrum-icon-18-Add"></use>
+        </svg>`
+      button.addEventListener('click', (e) => {
         if(keepers.indexOf(color) < 0) {
           keepers.push(color);
-          showColors(keepers, 'qualitative_selectedColors')
+          showColors(keepers, 'qualitative_selectedColors');
+          updateColorDots(chartsModeSelect.value, 'qualitative', keepers);
+          createDemos('qualitative', keepers);
           document.getElementById('qualitative_selectedColors').classList.remove('isEmpty');
         }
       })
@@ -457,7 +447,7 @@ function showColors(arr, dest, panel = false) {
       let button = document.createElement('button')
       button.className = 'saveColorToKeepers',
       button.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
-      button.innerHTML = `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+      button.innerHTML = `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
         <use xlink:href="#spectrum-icon-18-Delete"></use>
       </svg>`
       button.addEventListener('click', () => {
@@ -466,10 +456,12 @@ function showColors(arr, dest, panel = false) {
           keepers.splice(index, 1);
         }
         showColors(keepers, 'qualitative_selectedColors')
+        updateColorDots(chartsModeSelect.value, 'qualitative', keepers);
+        createDemos('qualitative', keepers);
         if(keepers.length < 1) {
-          document.getElementById('qualitative_selectedColors')
-            .classList.add('isEmpty')
-            .innerHTML = 'Select generated colors to begin building your scale';
+          const selectedColors = document.getElementById('qualitative_selectedColors');
+          selectedColors.classList.add('isEmpty');
+          selectedColors.innerHTML = 'Select generated colors to begin building your scale';
         }
       })
       swatch.appendChild(button)
@@ -640,5 +632,6 @@ function eliminateLowContrastFromSet(set, background, ratio) {
 }
 
 module.exports = {
-  colorScaleQualitative
+  colorScaleQualitative,
+  keepers
 }

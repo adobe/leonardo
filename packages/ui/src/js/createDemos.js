@@ -13,36 +13,51 @@ import {heatmap} from './demos/demo_heatmap';
 import {choropleth} from './demos/demo_choropleth';
 import {hexbin} from './demos/demo_hexbin';
 import {chord} from './demos/demo_chord';
+import {donut} from './demos/demo_donut';
 import {violinJitter} from './demos/demo_violinJitter';
+import {stackedArea} from './demos/demo_stackedArea';
 import {scatter} from './demos/demo_scatter';
 import {density} from './demos/demo_density';
 
-function createDemos(scaleType) {
+function createDemos(scaleType, colors) {
   const destHeatmap = document.getElementById(`${scaleType}Heatmap`);
   const destChoropleth = document.getElementById(`${scaleType}Choropleth`);
   const destDensity = document.getElementById(`${scaleType}Density`);
   // const destHexbin = document.getElementById(`${scaleType}Hexbin`);
-  // const destChord = document.getElementById(`${scaleType}Chord`);
+  const destChord = document.getElementById(`${scaleType}Chord`);
+  const destStackedArea = document.getElementById(`${scaleType}StackedArea`);
+  const destDonut = document.getElementById(`${scaleType}Donut`);
   // const destViolinJitter = document.getElementById(`${scaleType}ViolinJitter`);
   const destScatter = document.getElementById(`${scaleType}Scatter`);
 
-  const dests = [
-    destHeatmap,
-    destChoropleth,
-    // destHexbin,
-    destDensity,
-    // destChord,
-    // destViolinJitter,
-    destScatter
-  ]
+  let dests;
 
-  heatmap(scaleType);
-  // chord(scaleType);
-  scatter(scaleType);
-  // violinJitter(scaleType);
-  // hexbin(scaleType);
-  density(scaleType);
-  choropleth(scaleType);
+  if(scaleType === 'qualitative') {
+    dests = [
+      destChord,
+      destStackedArea,
+      destDonut
+    ];
+
+    chord(scaleType, colors);
+    stackedArea(scaleType, colors);
+    donut(scaleType, colors);
+  } else {
+    dests = [
+      destHeatmap,
+      destChoropleth,
+      // destHexbin,
+      // destDensity,
+      // destViolinJitter,
+      destScatter
+    ]
+    heatmap(scaleType);
+    scatter(scaleType);
+    // violinJitter(scaleType);
+    // hexbin(scaleType);
+    density(scaleType);
+    choropleth(scaleType);
+  }
 
   setTimeout(() => {
     for(let i = 0; i < dests.length; i++) {
