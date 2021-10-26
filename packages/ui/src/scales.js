@@ -71,6 +71,7 @@ import {_divergingScale} from './js/initialDivergingScale';
 
 import {colorScaleDiverging} from './js/colorScaleDiverging';
 import {colorScaleSequential} from './js/colorScaleSequential';
+import {colorScaleQualitative} from './js/colorScaleQuantitative';
 
 import toggleTooltip from './js/tooltip';
 import { create3dModel } from './js/create3dModel';
@@ -109,12 +110,13 @@ document.getElementById("tabSequential").click();
 // Open default tab of "charts" for each color scale tab
 document.getElementById("tabsequentialCharts").click();
 document.getElementById("tabdivergingCharts").click();
-document.getElementById("tabqualitativeCharts").click();
+document.getElementById("tabqualitativeSimulation").click();
 
 document.getElementById("welcome").click();
 
 colorScaleSequential();
 colorScaleDiverging();
+colorScaleQualitative();
 
 window.onload = function() {
   // let uri = window.location.toString();

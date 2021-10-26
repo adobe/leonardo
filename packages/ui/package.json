@@ -50,6 +50,7 @@
     "@adobe/focus-ring-polyfill": "^0.1.5",
     "@adobe/leonardo-contrast-colors": "^1.0.0-alpha.12",
     "@adobe/spectrum-css-workflow-icons": "^1.0.0",
+    "@bjornlu/colorblind": "^1.0.3",
     "@spectrum-css/actionbutton": "^1.0.3",
     "@spectrum-css/actiongroup": "^1.0.3",
     "@spectrum-css/alert": "^2.0.5",

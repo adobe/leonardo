@@ -27,7 +27,7 @@ const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 extendChroma(chroma);
 
-function updateColorDots(mode, scaleType = 'theme') {
+function updateColorDots(mode, scaleType = 'theme', colors) {
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
   const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
   // Create dots for color wheel
@@ -58,6 +58,9 @@ function updateColorDots(mode, scaleType = 'theme') {
         allColors.push(color.backgroundColorScale[colorWheelLightness])
       });
     }
+  }
+  if(scaleType === 'qualitative') {
+    allColors = colors;
   }
   else {
     allColors = colorClass.colorKeys;
@@ -154,6 +157,9 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
       
       polarColorPath(data, size, scaleType);
     }
+  } 
+  if(scaleType === 'qualitative') {
+    let data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
   } else {
     let data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
     polarColorPath(data, size, scaleType);
@@ -309,7 +315,7 @@ function shiftValue(v, colorWheelSize, dotSize) {
   return centeredVal;
 }
 
-function updateColorWheel(mode, lightness, dots, dotsMode, scaleType) {
+function updateColorWheel(mode, lightness, dots, dotsMode, scaleType, colors) {
   const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
   let canvasDom = Promise.resolve(document.getElementById(canvasId));
   canvasDom.then((canvas) => {
@@ -317,7 +323,7 @@ function updateColorWheel(mode, lightness, dots, dotsMode, scaleType) {
       canvas.parentNode.removeChild(canvas);
     }
     createColorWheel(mode, lightness, scaleType);
-    updateColorDots(dotsMode, scaleType);
+    updateColorDots(dotsMode, scaleType, colors);
   })
 }
 
