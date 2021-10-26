@@ -16,6 +16,7 @@ import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {createInterpolationCharts} from './createInterpolationCharts';
+import {createPaletteInterpolationCharts} from './createPaletteCharts';
 import {create3dModel} from './create3dModel';
 import {
   makePowScale,
@@ -140,7 +141,12 @@ function updateRamps(color, id, scaleType = 'theme') {
   else chartsModeSelect = document.getElementById(`${id}_chartsMode`);
 
   let chartsMode = chartsModeSelect.value;
-  createInterpolationCharts(colors, chartsMode, scaleType);
+  if(scaleType === 'diverging') {
+    createPaletteInterpolationCharts([color.startScale.colorsReversed, color.endScale.colors], chartsMode, scaleType);
+  }
+  else {
+    createInterpolationCharts(colors, chartsMode, scaleType);
+  }
 
   let panelOutputId = (scaleType === 'theme') ? 'panelColorScaleOutput' : `${scaleType}ColorScaleOutput` ;
   let panelOutputContent = document.getElementById(panelOutputId);

@@ -76,7 +76,7 @@ class DivergingScale {
 
   set startKeys(colors) {
     this._startKeys = colors;
-    this._startScale.colorKeys = [...this._startKeys, createEquiLuminantKey(this._middleKey, this._startKeys), this._middleKey];
+    this._startScale.colorKeys = [...colors, this._middleKey];
 
     this._colorKeys = null;
     this._colorKeys = this._combineColorKeys();
@@ -98,8 +98,7 @@ class DivergingScale {
   set endKeys(colors) {
     // this._endKeys = colors;
     this._endKeys = colors;
-
-    this._endScale.colorKeys = [...this._endKeys, createEquiLuminantKey(this._middleKey, this._endKeys), this._middleKey];
+    this._endScale.colorKeys = [...colors,  this._middleKey];
     this._colorKeys = null;
     this._colorKeys = this._combineColorKeys();
 
@@ -120,8 +119,8 @@ class DivergingScale {
 
   set middleKey(color) {
     this._middleKey = color;
-    this._startScale.colorKeys = [...this._startKeys, createEquiLuminantKey(this._middleKey, this._startKeys), this._middleKey];
-    this._endScale.colorKeys = [...this._endKeys, createEquiLuminantKey(this._middleKey, this._endKeys), this._middleKey];
+    this._startScale.colorKeys = [...this._startKeys, color];
+    this._endScale.colorKeys = [...this._endKeys, color];
 
     this._colorKeys = null;
     this._colorKeys = this._combineColorKeys();
@@ -271,17 +270,6 @@ class DivergingScale {
       fullScale: false,
       asFun: true
     });
-
-    // For testing purposes...
-    console.log(`Testing color function with ${this._swatches} swatches`)
-    console.color(this._colorFunction(10).hex())
-    console.color(this._colorFunction(20).hex())
-    console.color(this._colorFunction(30).hex())
-    console.color(this._colorFunction(40).hex())
-    console.color(this._colorFunction(50).hex())
-    console.color(this._colorFunction(100).hex())
-    console.color(this._colorFunction(200).hex())
-    console.color(this._colorFunction(300).hex())
 
     newColors.map((c) => {
       return convertColorValue(c, this._output)

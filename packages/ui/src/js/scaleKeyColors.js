@@ -55,11 +55,29 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
   sw.oninput = throttle((e) => {
     // Replace current indexed value from color keys with new value from color input field
     const colorClass = (scaleType==='sequential') ? _sequentialScale : _divergingScale;
-    let currentKeys = currentColor.colorKeys;
     c = e.target.value;
-    currentKeys.splice(index, 1, c)
-    if(scaleType === 'sequential') _sequentialScale.colorKeys = currentKeys
 
+    if(scaleType === 'sequential') {
+      let currentKeys = currentColor.colorKeys;
+      currentKeys.splice(index, 1, c)
+      colorClass.colorKeys = currentKeys;  
+    }
+    if(scaleType === 'diverging') {
+      if(scalePosition === 'start') {
+        let currentKeys = currentColor.startKeys;
+        currentKeys.splice(index, 1, c)
+        colorClass.startKeys = currentKeys;  
+      }
+      if(scalePosition === 'end') {
+        let currentKeys = currentColor.endKeys;
+        currentKeys.splice(index, 1, c)
+        colorClass.endKeys = currentKeys;  
+      } 
+      if(scalePosition === 'middle')  {
+        colorClass.middleKey = c;  
+      }
+    }
+    
     updateRamps(currentColor, parent, scaleType);
     updateColorDots(chartsModeSelect.value, scaleType);
     createSamples(sampleNumber.value, scaleType);

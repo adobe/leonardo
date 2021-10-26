@@ -242,16 +242,6 @@ class SequentialScale {
       asFun: true
     });
 
-    console.log(`Testing sequential color function with ${this._swatches} swatches`)
-    console.color(this._colorFunction(10).hex())
-    console.color(this._colorFunction(20).hex())
-    console.color(this._colorFunction(30).hex())
-    console.color(this._colorFunction(40).hex())
-    console.color(this._colorFunction(50).hex())
-    console.color(this._colorFunction(100).hex())
-    console.color(this._colorFunction(200).hex())
-    console.color(this._colorFunction(300).hex())
-
     colorScale = Leo.createScale({
       swatches: this._swatches,
       colorKeys: newColors,

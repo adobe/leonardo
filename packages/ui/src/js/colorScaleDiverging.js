@@ -44,15 +44,12 @@ import {
 const chroma = require('chroma-js');
 
 function colorScaleDiverging(scaleType = 'diverging') {
-  // let colorKeys;
   // Set up some sensible defaults
-  // let defaultStartColors = ['#5c3cec','#9eecff'];
-  // let defaultEndColors = ['#9f0e04','#fbdf28'];
   let defaultStartColors = ['#2e07df', '#58a8fd'];
   let defaultEndColors = ['#7a0800', '#ee9820'];
   let defaultMiddleColor = '#f3f3f3';
   _divergingScale.startKeys = defaultStartColors;
-  _divergingScale.endKeys = defaultEndColors;
+  _divergingScale.endKeys = defaultEndColors; 
   _divergingScale.middleKey = defaultMiddleColor;
   
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
