@@ -150,6 +150,7 @@ function createScale({
   fullScale = true,
   smooth = false,
   distributeLightness = 'linear',
+  sortColor = true,
   asFun = false,
 } = {}) {
   const space = colorSpaces[colorspace];
@@ -226,7 +227,8 @@ function createScale({
       black,
     ];
   } else {
-    ColorsArray = sortedColor;
+    if(sortColor) ColorsArray = sortedColor;
+    else ColorsArray = colorKeys;
   }
 
   let smoothScaleArray;

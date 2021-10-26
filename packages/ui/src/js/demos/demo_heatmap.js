@@ -50,6 +50,7 @@ function heatmap(scaleType) {
   svg.append("g")
     .call(d3.axisLeft(y));
 
+  colorClass.swatches = 100;
   var myColor = colorClass.colorFunction;
 
   d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv").then( function(data) {

@@ -264,12 +264,24 @@ class DivergingScale {
       swatches: this._swatches,
       colorKeys: newColors,
       colorspace: this._colorspace,
+      sortColor: false,
       // shift: this._shift,
       // smooth: this._smooth,
       distributeLightness: 'linear',
       fullScale: false,
       asFun: true
     });
+
+    // For testing purposes...
+    console.log(`Testing color function with ${this._swatches} swatches`)
+    console.color(this._colorFunction(10).hex())
+    console.color(this._colorFunction(20).hex())
+    console.color(this._colorFunction(30).hex())
+    console.color(this._colorFunction(40).hex())
+    console.color(this._colorFunction(50).hex())
+    console.color(this._colorFunction(100).hex())
+    console.color(this._colorFunction(200).hex())
+    console.color(this._colorFunction(300).hex())
 
     newColors.map((c) => {
       return convertColorValue(c, this._output)
