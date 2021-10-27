@@ -27,13 +27,19 @@
                 <input class="spectrum-Slider-controls" type="range" min="11" max="50" step="1" value="11" id="{{ scaleType }}_Threshold" name="{{ scaleType }}_Threshold"></input>
               </div>
             </div>
+          </div>
+          <div class="spectrum-Form spectrum-Form--row">
+            <div class="spectrum-Form-item">
+              <input type="color" id="qualitative_bgColor" class="keyColor-Item keyColor-Item--standalone"/>
+            </div>
             <div class="spectrum-Form-item">
               <div class="spectrum-Switch">
                 <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_minContrast" >
                 <span class="spectrum-Switch-switch"></span>
-                <label class="spectrum-Switch-label" for="{{ scaleType }}_minContrast">3:1 contrast with adjacent color</label>
+                <label class="spectrum-Switch-label" for="{{ scaleType }}_minContrast">3:1 contrast with background</label>
               </div>
             </div>
+
           </div>
          </div>
 

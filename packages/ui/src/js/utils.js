@@ -537,6 +537,7 @@ module.exports = {
   groupCommonHues,
   capitalizeFirstLetter,
   createColorData,
+  orderColors,
   getChannelsAndFunction,
   orderColorsByLuminosity
 }

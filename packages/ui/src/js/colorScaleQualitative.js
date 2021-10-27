@@ -10,6 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import {simulate} from '@bjornlu/colorblind';
+import * as Leo from '@adobe/leonardo-contrast-colors';
 import {_qualitativeScale} from './initialQualitativeScale';
 import {
   throttle,
@@ -35,6 +36,7 @@ const testColorsInput = document.getElementById('qualitative_sampleColors');
 const chartsModeSelect = document.getElementById('qualitative_chartsMode');
 const outputModeSelect = document.getElementById('qualitative_format');
 const quoteSwitch = document.getElementById(`qualitativeparamStringQuotes`);
+const backgroundInput = document.getElementById('qualitative_bgColor');
 
 const minContrast = document.getElementById('qualitative_minContrast');
 const protan = document.getElementById('check_Protanopia');
@@ -42,12 +44,13 @@ const deutan = document.getElementById('check_Deuteranopia');
 const tritan = document.getElementById('check_Tritanopia');
 const achroma = document.getElementById('check_Achromatopsia');
 
-let newSafeColors;
+let newSafeColors; // Equals the array of generated CVD colors (regardless of keepers)
 window._qualitativeScale = _qualitativeScale;
 
 function colorScaleQualitative(scaleType = 'qualitative') {
   const testColors = _qualitativeScale.sampleColors;
   testColorsInput.value = _qualitativeScale.sampleColors;
+  backgroundInput.value = '#ffffff';
   
   showColors(testColors, 'originalColors', true)
   createColorWheel(chartsModeSelect.value, 50, scaleType);
@@ -70,7 +73,11 @@ function updateColors() {
   const testColors = _qualitativeScale.sampleColors
 
   document.getElementById('cvdSafeColors').innerHTML = ' ';
-  const newSafeColors = getLargestSetCvdColors(testColors);
+  // newSafeColors = getLargestSetCvdColors(testColors);
+
+  // TEMPORARY
+  newSafeColors = getCvdSafeColors(testColors);
+
   showColors(newSafeColors, 'cvdSafeColors');
   showSimulatedColors(newSafeColors, true);
   createDemos(scaleType, _qualitativeScale.keeperColors);
@@ -109,6 +116,9 @@ tritan.addEventListener('input', function() {
   updateColors()
 })
 achroma.addEventListener('input', function() {
+  updateColors()
+})
+backgroundInput.addEventListener('input', function(e) {
   updateColors()
 })
 
@@ -156,7 +166,6 @@ function getModes() {
 }
 
 function createOutput() {
-  console.log('making output')
   const scaleType = 'qualitative';
   // const outputFormatPicker = document.getElementById(`${scaleType}_format`);
   // const output = outputFormatPicker.value;
@@ -317,7 +326,9 @@ function testCvd(color1, color2, log) {
 function getCvdSafeColors(colors, sample) {
   let set = orderColors(colors, 'hue', 'lightness');
   let ratios = minContrast.checked;
-  if(ratios) set = eliminateLowContrastFromSet(set, '#ffffff', 3)
+  let background = backgroundInput.value;
+
+  if(ratios) set = eliminateLowContrastFromSet(set, background, 3)
   
   let safeColors = [];
   if(sample) {
@@ -379,7 +390,6 @@ function getCvdSafeColors(colors, sample) {
 
 let cache;
 function getLargestSetCvdColors(set, sample) {
-
   let sets = [];
   for(let i = 0; i < 12; i++) {
     sets.push(getCvdSafeColors(set, sample)); 
@@ -440,7 +450,7 @@ function showColors(arr, dest, panel = false) {
 
   arr.map((color) => { 
     let swatch = document.createElement('div');
-    const contrast = getContrast('#000000', color);
+    const contrast = Leo.contrast('#000000', color);
     swatch.className = (!panel) ? 'simulationSwatch' : 'panelSwatch';
     swatch.style.backgroundColor = color;
     swatch.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
@@ -500,21 +510,6 @@ function showColors(arr, dest, panel = false) {
 
 
 
-/** Putting it all together in the UI as a test */
-
-// test ordering
-// const orderedColors = orderColors(testColors, 'hue', 'lightness');
-// showColors(orderedColors, 'orderedColors')
-
-// const safeColors = getCvdSafeColors(testColors);
-const sampleSet = [
-  '#0099ff',
-  '#dfb200'
-]
-// const safeColors = getCvdSafeColors(testColors);
-// showColors(safeColors, 'cvdSafeColors')
-
-
 function showSimulatedColors(arr, sortBySimmilarity) {
   let wrap = document.getElementById('simulatedColors');
   wrap.innerHTML = ' ';
@@ -567,23 +562,23 @@ function arrayRemove(arr, values) {
   });
 }
 
-function shuffle(array) {
-  let currentIndex = array.length,  randomIndex;
+// function shuffle(array) {
+//   let currentIndex = array.length,  randomIndex;
 
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
+//   // While there remain elements to shuffle...
+//   while (currentIndex != 0) {
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+//     // Pick a remaining element...
+//     randomIndex = Math.floor(Math.random() * currentIndex);
+//     currentIndex--;
 
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
+//     // And swap it with the current element.
+//     [array[currentIndex], array[randomIndex]] = [
+//       array[randomIndex], array[currentIndex]];
+//   }
 
-  return array;
-}
+//   return array;
+// }
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -605,53 +600,10 @@ function arraysEqual(a, b) {
   return true;
 }
 
-
-/** 
- *  DELETE LATER
- *  WCAG contrast crap
- */
-
-function luminance(r, g, b) {
-  const a = [r, g, b].map((v) => {
-    v /= 255;
-    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-  });
-  return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
-}
-
-function getContrast(color, base, baseV = 1) { // defalut baseV of 1 is white background
-  color = chroma(color).rgb();
-  base = chroma(base).rgb();
-  const colorLum = luminance(color[0], color[1], color[2]);
-  const baseLum = luminance(base[0], base[1], base[2]);
-
-  const cr1 = (colorLum + 0.05) / (baseLum + 0.05); // will return value >=1 if color is darker than background
-  const cr2 = (baseLum + 0.05) / (colorLum + 0.05); // will return value >=1 if color is lighter than background
-
-  if (baseV < 0.5) { // Dark themes
-    // If color is darker than background, return cr1 which will be whole number
-    if (cr1 >= 1) {
-      return cr1;
-    }
-    // If color is lighter than background, return cr2 as negative whole number
-    return -cr2;
-  }
-  // Light themes
-  // If color is lighter than background, return cr2 which will be whole number
-  if (cr1 < 1) {
-    return cr2;
-  }
-  // If color is darker than background, return cr1 as negative whole number
-  if (cr1 === 1) {
-    return cr1;
-  }
-  return -cr1;
-}
-
 function eliminateLowContrastFromSet(set, background, ratio) {
   let lowContrastColors = [];
   for(let i = 0; i < set.length; i++) {
-    let contrast = getContrast(set[i], background);
+    let contrast = Leo.contrast(set[i], background);
     if(contrast < ratio) lowContrastColors.push(set[i])
   }
   let newSet = arrayRemove(set, lowContrastColors);
