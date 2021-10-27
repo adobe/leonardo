@@ -2051,3 +2051,8 @@ section {
 #simulatedColors .spectrum-Heading {
   margin-top: 24px;
 }
+
+#qualitativeDemoWrapper svg path {
+  /* Default fill for when no CVD colors are selected */
+  fill: var(--spectrum-global-color-gray-100);
+}
