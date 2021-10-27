@@ -87,7 +87,7 @@ function paramSetup() {
     let contrastSlider = document.getElementById('themeContrastSlider');
     let contrastSliderVal = document.getElementById('themeContrastValue');
     contrastSlider.value = contrast;
-    contrastSliderVal.innerHTML = contrast;
+    contrastSliderVal.innerHTML = `${round(contrast * 100)}%`;
     _theme.contrast = contrast;
   
     // generate the options for the base scale,

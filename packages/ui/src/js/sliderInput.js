@@ -13,13 +13,15 @@ import {createOutputColors} from './createOutputColors';
 import {createOutputParameters} from './createOutputParameters';
 
 import {_theme} from './initialTheme';
+import {round} from './utils';
 
 function sliderValue(e) {
   let id = e.target.id;
   let slider = document.getElementById(id);
   let labelId = id.replace('Slider', 'Value');
   let label = document.getElementById(labelId);
-  label.innerHTML = slider.value;
+  let labelValue = (labelId.includes("Contrast")) ? `${round(slider.value * 100)}%`: `${slider.value}%`;
+  label.innerHTML = labelValue;
 }
 
 function sliderInput(e) {

@@ -391,7 +391,7 @@ function getCvdSafeColors(colors, sample) {
 let cache;
 function getLargestSetCvdColors(set, sample) {
   let sets = [];
-  for(let i = 0; i < 12; i++) {
+  for(let i = 0; i < 18; i++) {
     sets.push(getCvdSafeColors(set, sample)); 
   }
 
