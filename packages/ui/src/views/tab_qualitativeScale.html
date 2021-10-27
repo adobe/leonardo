@@ -11,7 +11,7 @@
                 name="qualitative_sampleColors" 
                 class="spectrum-Textfield-input" 
                 id="qualitative_sampleColors"
-              >#ffebe7, #ffddd6, #ffcdc3, #ffb7a9, #ff9b88, #ff7c65, #f75c46, #ea3829, #d31510, #b40000, #930000, #740000, #590000, #430000, #ffeccc, #ffdfad, #fdd291, #ffbb63, #ffa037, #f68511, #e46f00, #cb5d00, #b14c00, #953d00, #7a2f00, #612300, #491901, #351201, #fbf198, #f8e750, #f8d904, #e8c600, #d7b300, #c49f00, #b08c00, #9b7800, #856600, #705300, #5b4300, #483300, #362500, #281a00, #d8fba4, #c7f385, #b5e96d, #9cda4d, #84c833, #70b520, #5fa114, #508c0e, #437709, #376307, #2c4f05, #223d04, #192d03, #122002, #cdfcbf, #aef69d, #96ee85, #72e06a, #4ecf50, #27bb36, #07a721, #009112, #007c0f, #00670f, #00530d, #00400a, #003007, #002205, #dcf5e5, #c1efd4, #a5e7c4, #7cdbad, #55ca96, #35b881, #17a46f, #008f5d, #007a4d, #00653f, #005132, #093f27, #0d2e1d, #0b2015, #ccf7f6, #abf1f0, #8be8e7, #66d9d9, #43c8ca, #1cb4b9, #00a0a7, #008a94, #007680, #00616c, #044e58, #0d3c43, #0f2c31, #0d1f23, #caf6fe, #a4f0fe, #81e7fc, #53d8f8, #17c5f2, #05b0e0, #049cca, #0386b3, #02729d, #015e87, #004a73, #00395a, #002b42, #001f30, #e0f2ff, #cae8ff, #b5deff, #96cefd, #78bbfa, #59a7f6, #3892f3, #147af3, #0265dc, #0054b6, #004491, #003571, #002754, #001c3c, #edeeff, #e0e2ff, #d3d5ff, #c1c4ff, #acafff, #9599ff, #7e84fc, #686df4, #5258e4, #4046ca, #3236a8, #262986, #1b1e64, #141648, #f6ebff, #eeddff, #e6d0ff, #dbbbfe, #cca4fd, #bd8bfc, #ae72f9, #9d57f4, #893de7, #7326d3, #5d13b7, #470c94, #33106a, #230f49, #ffe9fc, #ffdafa, #fec7f8, #fbaef6, #f592f3, #ed74ed, #e055e2, #cd3ace, #b622b7, #9d039e, #800081, #640664, #470e46, #320d31, #ffeaf1, #ffdce8, #ffcadd, #ffb2ce, #ff95bd, #fa77aa, #ef5a98, #de3d82, #c82269, #ad0955, #8e0045, #700037, #54032a, #3c061d</textarea>
+              ></textarea>
             </div>
             <div id="originalColors"></div>
          </div>
@@ -218,12 +218,6 @@
 
       <div class="spectrum-Form spectrum-Form--spacious spectrum-Form--row">
         <div class="spectrum-Form-item">
-          <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}Samples">Quantity</label>
-          <div id="" class="spectrum-Textfield pickerMode">
-            <input class="spectrum-Textfield-input " type="number" min="2" max="100" step="1" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
-          </div>
-        </div>
-        <div class="spectrum-Form-item">
           <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}_format">Format</label>
           <select class="spectrum-Picker spectrum-Picker--sizeM pickerOutputFormat pickerMode" id="{{ scaleType }}_format" name="{{ scaleType }}_format">
              <span class="spectrum-Picker-iconWrapper">
@@ -245,42 +239,15 @@
             <label class="spectrum-Switch-label" for="{{ scaleType }}paramStringQuotes">String quotes</label>
           </div>
         </div>
+        <div class="spectrum-Form-item">
+          <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--secondary" title="Download sample colors" id="downloadQualitativeSwatches">Download colors</button>
+        </div>
+
       </div>
 
-      <div class="sampleSwatches" id="{{scaleType}}SampleSwatches">
-        <!-- generated samples here -->
-      </div>
       <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
         <!-- generated values here -->
       </div>
-      <!-- <div class="themeOutputParams" id="{{scaleType}}ColorScaleFunctionOutput">
-      </div> -->
-      <!-- <div class="themeOutputParams" id="{{scaleType}}ColorScaleD3Output">
-      </div> -->
-
-      <section>
-        <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Download gradient</h2>
-
-        <div class="spectrum-Form spectrum-Form--spacious spectrum-Form--row">
-          <div class="spectrum-Form-item">
-            <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta" title="Download SVG gradient" id="{{ scaleType }}_downloadGradient">Download SVG gradient</button>
-          </div>
-
-          <div class="spectrum-Form-item">
-            <div id="" class="spectrum-Slider">
-              <div class="spectrum-Slider-labelContainer">
-                <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}GradientStops">Gradient precision</label>
-              </div>
-              <input class="spectrum-Slider-controls" type="range" min="20" max="200" step="2" value="100" id="{{ scaleType }}GradientStops" name="{{ scaleType }}GradientStops"></input>
-            </div>
-          </div>
-
-        </div>
-        <p class="spectrum-Body spectrum-Body--sizeXS">
-          Higher precision gradients will be more accurate to what you see here.
-        </p>
-      </section>
-
     </div>
 
     </main>

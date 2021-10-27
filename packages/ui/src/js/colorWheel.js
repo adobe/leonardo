@@ -27,7 +27,7 @@ const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 extendChroma(chroma);
 
-function updateColorDots(mode, scaleType = 'theme', colors) {
+function updateColorDots(mode, scaleType = 'theme', customColors) {
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
   const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
   // Create dots for color wheel
@@ -60,9 +60,9 @@ function updateColorDots(mode, scaleType = 'theme', colors) {
     }
   }
   if(scaleType === 'qualitative') {
-    allColors = colors;
+    allColors = customColors;
   }
-  else {
+  if(scaleType === 'sequential' || scaleType === 'diverging') {
     allColors = colorClass.colorKeys;
   }
   if(!colorWheelMode) colorWheelMode = 'CAM02p'
@@ -150,18 +150,20 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
   let center = (size / 2);
 
+  let data;
   if(scaleType === 'theme') {
     // Need to loop and create many paths
     for(let i = 0; i < colorClass.colors.length; i++) {
-      let data = getConvertedColorCoodrindates(colorClass.colors[i].backgroundColorScale, colorWheelMode, scaleType, false)
+      data = getConvertedColorCoodrindates(colorClass.colors[i].backgroundColorScale, colorWheelMode, scaleType, false)
       
       polarColorPath(data, size, scaleType);
     }
   } 
   if(scaleType === 'qualitative') {
-    let data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
-  } else {
-    let data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
+    data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
+  }
+  if(scaleType === 'sequential' || scaleType === 'diverging') {
+    data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
     polarColorPath(data, size, scaleType);
   }
 

@@ -10,9 +10,11 @@ governing permissions and limitations under the License.
 */
 
 import {simulate} from '@bjornlu/colorblind';
+import {_qualitativeScale} from './initialQualitativeScale';
 import {
   throttle,
-  capitalizeFirstLetter
+  capitalizeFirstLetter,
+  cssColorToRgb
 } from './utils';
 import {
   createColorWheel,
@@ -31,6 +33,9 @@ const rangeInput = document.getElementById('qualitative_Threshold');
 const button = document.getElementById('qualitative_Generate');
 const testColorsInput = document.getElementById('qualitative_sampleColors');
 const chartsModeSelect = document.getElementById('qualitative_chartsMode');
+const outputModeSelect = document.getElementById('qualitative_format');
+const quoteSwitch = document.getElementById(`qualitativeparamStringQuotes`);
+
 const minContrast = document.getElementById('qualitative_minContrast');
 const protan = document.getElementById('check_Protanopia');
 const deutan = document.getElementById('check_Deuteranopia');
@@ -38,23 +43,22 @@ const tritan = document.getElementById('check_Tritanopia');
 const achroma = document.getElementById('check_Achromatopsia');
 
 let newSafeColors;
-let keepers = [];
-window.keepers = keepers;
+window._qualitativeScale = _qualitativeScale;
 
 function colorScaleQualitative(scaleType = 'qualitative') {
-  const testColors = testColorsInput.value
-    .replaceAll(' ', '')
-    .split(',');
+  const testColors = _qualitativeScale.sampleColors;
+  testColorsInput.value = _qualitativeScale.sampleColors;
   
   showColors(testColors, 'originalColors', true)
   createColorWheel(chartsModeSelect.value, 50, scaleType);
   button.click();
-  createDemos(scaleType, keepers)
+  createDemos(scaleType, _qualitativeScale.keeperColors);
+  createOutput();
 }
 
 chartsModeSelect.addEventListener('change', () => {
   if(newSafeColors) {
-    updateColorWheel(chartsModeSelect.value, 50, null, chartsModeSelect.value, 'qualitative', keepers)
+    updateColorWheel(chartsModeSelect.value, 50, null, chartsModeSelect.value, 'qualitative', _qualitativeScale.keeperColors)
     // updateColorDots(chartsModeSelect.value, 'qualitative', newSafeColors);
   }
 })
@@ -63,16 +67,29 @@ function updateColors() {
   const scaleType = 'qualitative';
 
   clearKeepers();
-  const testColors = testColorsInput.value
-  .replaceAll(' ', '')
-  .split(',');
+  const testColors = _qualitativeScale.sampleColors
 
   document.getElementById('cvdSafeColors').innerHTML = ' ';
   const newSafeColors = getLargestSetCvdColors(testColors);
   showColors(newSafeColors, 'cvdSafeColors');
   showSimulatedColors(newSafeColors, true);
-  createDemos(scaleType, keepers);
+  createDemos(scaleType, _qualitativeScale.keeperColors);
+
+  createOutput();
 }
+
+testColorsInput.addEventListener('input', (e) => {
+  throttle(() => {
+    const newTestColors = e.target.value.replaceAll(' ', '').split(',');
+    _qualitativeScale.sampleColors = newTestColors;
+
+    showColors(newTestColors, 'originalColors', true)
+
+    setTimeout(() => {
+      updateColors();
+    }, 100)
+  }, 10)
+})
 
 rangeInput.addEventListener('input', function() {
   updateColors();
@@ -98,28 +115,15 @@ achroma.addEventListener('input', function() {
 button.addEventListener('click', function() {
   const scaleType = 'qualitative';
   document.getElementById('cvdSafeColors').innerHTML = ' ';
-  const testColors = testColorsInput.value
-  .replaceAll(' ', '')
-  .split(',');
-
-  // const keeperColors = document.getElementById('keepers');
-  // const value = keeperColors.value;
-  const arr = keepers;
-  // let arr;
-  // if(value.length === 7) {
-  //   arr = new Array(value)
-  // }
-  // else { 
-  //   arr = value.split(',')
-  // }
+  const testColors = _qualitativeScale.sampleColors;
 
   let valid = true;
-  arr.map((item) => {
+  _qualitativeScale.keeperColors.map((item) => {
     if(item.length < 7) valid = false;
   })
 
   if(valid) {
-    newSafeColors = getLargestSetCvdColors(testColors, arr);
+    newSafeColors = getLargestSetCvdColors(testColors, _qualitativeScale.keeperColors);
     showColors(newSafeColors, 'cvdSafeColors');
     showSimulatedColors(newSafeColors, true);
   } else {
@@ -127,27 +131,17 @@ button.addEventListener('click', function() {
     showColors(newSafeColors, 'cvdSafeColors');
     showSimulatedColors(newSafeColors, true);
   }
-  updateColorDots(chartsModeSelect.value, scaleType, keepers);
-  createDemos(scaleType, keepers);
-
+  updateColorDots(chartsModeSelect.value, scaleType, _qualitativeScale.keeperColors);
+  createDemos(scaleType, _qualitativeScale.keeperColors);
+  createOutput();
 })
 
 function clearKeepers() {
-  keepers = [];
+  _qualitativeScale.keeperColors = [];
   let wrapper = document.getElementById('qualitative_selectedColors');
   wrapper.classList.add('isEmpty');
   wrapper.innerHTML = 'Select generated colors to begin building your scale';
-
 }
-
-testColorsInput.addEventListener('input', function(e) {
-  const testColors = e.target.value
-    .replaceAll(' ', '')
-    .split(',');
-
-  throttle(showColors(testColors, 'originalColors', true), 10);
-})
-
 
 function getModes() {
   let modes = [];
@@ -157,8 +151,46 @@ function getModes() {
   if(tritan.checked) modes.push('tritanopia');
   if(achroma.checked) modes.push('achromatopsia');
 
+  _qualitativeScale.cvdSupport = modes;
   return modes;
 }
+
+function createOutput() {
+  console.log('making output')
+  const scaleType = 'qualitative';
+  // const outputFormatPicker = document.getElementById(`${scaleType}_format`);
+  // const output = outputFormatPicker.value;
+  const output = _qualitativeScale.output;
+  const quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
+  const quotes = quoteSwitch.checked;
+  // const colorFunction = colorClass.colorFunction;
+  // reassign new swatch value
+  const panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
+  panelOutputContent.innerHTML = ' ';
+
+  const sampleColors = _qualitativeScale.keeperColors;
+
+  _qualitativeScale.keeperColors = (_qualitativeScale.output === 'HEX' || _qualitativeScale.output === 'RGB') ? sampleColors: sampleColors.map((c) => {return cssColorToRgb(c)});
+
+  let colorvalueString = 
+    (quotes) 
+    ? sampleColors
+      .map((c) => {
+        return `"${c}"`
+      })
+      .toString() 
+      .replaceAll(',', ', ')
+    : sampleColors.toString().replaceAll(',', ', ');;
+  panelOutputContent.innerHTML = colorvalueString;
+}
+
+outputModeSelect.addEventListener('change', (e) => {
+  let format = e.target.value;
+  _qualitativeScale.output = format;
+
+  createOutput();
+})
+quoteSwitch.addEventListener('change', createOutput)
 
 /** 
  *  Not confident in Chroma.js deltaE function.
@@ -226,7 +258,7 @@ function getDifference(color1, color2) {
  *  returns {r: 62, g: 62, b: 30}
  */
 function simulateCvd(color, deficiency) {
-  if (!color) console.log(`${color} is invalid`)
+  if (!color) console.warn(`${color} is invalid`)
   let cRgb = chroma(color).rgb();
   let c = { r: cRgb[0], g: cRgb[1], b: cRgb[2] }
   let sim = simulate(c, deficiency);
@@ -402,13 +434,6 @@ function orderColors(colors, priority1, priority2) {
 }
 
 
-// SPECTRUM COLORS
-
-// const testColors = ["#ffebe7","#ffddd6","#ffcdc3","#ffb7a9","#ff9b88","#ff7c65","#f75c46","#ea3829","#d31510","#b40000","#930000","#740000","#590000","#430000","#ffeccc","#ffdfad","#fdd291","#ffbb63","#ffa037","#f68511","#e46f00","#cb5d00","#b14c00","#953d00","#7a2f00","#612300","#491901","#351201","#fbf198","#f8e750","#f8d904","#e8c600","#d7b300","#c49f00","#b08c00","#9b7800","#856600","#705300","#5b4300","#483300","#362500","#281a00","#d8fba4","#c7f385","#b5e96d","#9cda4d","#84c833","#70b520","#5fa114","#508c0e","#437709","#376307","#2c4f05","#223d04","#192d03","#122002","#cdfcbf","#aef69d","#96ee85","#72e06a","#4ecf50","#27bb36","#07a721","#009112","#007c0f","#00670f","#00530d","#00400a","#003007","#002205","#dcf5e5","#c1efd4","#a5e7c4","#7cdbad","#55ca96","#35b881","#17a46f","#008f5d","#007a4d","#00653f","#005132","#093f27","#0d2e1d","#0b2015","#ccf7f6","#abf1f0","#8be8e7","#66d9d9","#43c8ca","#1cb4b9","#00a0a7","#008a94","#007680","#00616c","#044e58","#0d3c43","#0f2c31","#0d1f23","#caf6fe","#a4f0fe","#81e7fc","#53d8f8","#17c5f2","#05b0e0","#049cca","#0386b3","#02729d","#015e87","#004a73","#00395a","#002b42","#001f30","#e0f2ff","#cae8ff","#b5deff","#96cefd","#78bbfa","#59a7f6","#3892f3","#147af3","#0265dc","#0054b6","#004491","#003571","#002754","#001c3c","#edeeff","#e0e2ff","#d3d5ff","#c1c4ff","#acafff","#9599ff","#7e84fc","#686df4","#5258e4","#4046ca","#3236a8","#262986","#1b1e64","#141648","#f6ebff","#eeddff","#e6d0ff","#dbbbfe","#cca4fd","#bd8bfc","#ae72f9","#9d57f4","#893de7","#7326d3","#5d13b7","#470c94","#33106a","#230f49","#ffe9fc","#ffdafa","#fec7f8","#fbaef6","#f592f3","#ed74ed","#e055e2","#cd3ace","#b622b7","#9d039e","#800081","#640664","#470e46","#320d31","#ffeaf1","#ffdce8","#ffcadd","#ffb2ce","#ff95bd","#fa77aa","#ef5a98","#de3d82","#c82269","#ad0955","#8e0045","#700037","#54032a","#3c061d"]
-// const testKeepers = ['#8be8e7','#9d57f4','#f75c46']
-// #8be8e7,#27bb36,#c82269,#147af3,#33106a
-// #437709,#ae72f9,#470c94,#ffa037,#f8d904
-
 function showColors(arr, dest, panel = false) {
   let wrap = document.getElementById(dest);
   wrap.innerHTML = ' ';
@@ -423,9 +448,9 @@ function showColors(arr, dest, panel = false) {
 
     if(dest === 'cvdSafeColors') {
       let button = document.createElement('button');
-      button.className = (keepers.indexOf(color) >= 0) ?  'saveColorToKeepers showSvg' : 'saveColorToKeepers',
+      button.className = (_qualitativeScale.keeperColors.indexOf(color) >= 0) ?  'saveColorToKeepers showSvg' : 'saveColorToKeepers',
       button.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
-      button.innerHTML = (keepers.indexOf(color) >= 0) 
+      button.innerHTML = (_qualitativeScale.keeperColors.indexOf(color) >= 0) 
       ? `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Locked">
         <use xlink:href="#spectrum-icon-18-LockClosed"></use>
       </svg>`  
@@ -433,12 +458,13 @@ function showColors(arr, dest, panel = false) {
           <use xlink:href="#spectrum-icon-18-Add"></use>
         </svg>`
       button.addEventListener('click', (e) => {
-        if(keepers.indexOf(color) < 0) {
-          keepers.push(color);
-          showColors(keepers, 'qualitative_selectedColors');
-          updateColorDots(chartsModeSelect.value, 'qualitative', keepers);
-          createDemos('qualitative', keepers);
+        if(_qualitativeScale.keeperColors.indexOf(color) < 0) {
+          _qualitativeScale.keeperColors.push(color);
+          showColors(_qualitativeScale.keeperColors, 'qualitative_selectedColors');
+          updateColorDots(chartsModeSelect.value, 'qualitative', _qualitativeScale.keeperColors);
+          createDemos('qualitative', _qualitativeScale.keeperColors);
           document.getElementById('qualitative_selectedColors').classList.remove('isEmpty');
+          createOutput();
         }
       })
       swatch.appendChild(button)
@@ -451,14 +477,15 @@ function showColors(arr, dest, panel = false) {
         <use xlink:href="#spectrum-icon-18-Delete"></use>
       </svg>`
       button.addEventListener('click', () => {
-        const index = keepers.indexOf(color);
+        const index = _qualitativeScale.keeperColors.indexOf(color);
         if (index > -1) {
-          keepers.splice(index, 1);
+          _qualitativeScale.keeperColors.splice(index, 1);
         }
-        showColors(keepers, 'qualitative_selectedColors')
-        updateColorDots(chartsModeSelect.value, 'qualitative', keepers);
-        createDemos('qualitative', keepers);
-        if(keepers.length < 1) {
+        showColors(_qualitativeScale.keeperColors, 'qualitative_selectedColors')
+        updateColorDots(chartsModeSelect.value, 'qualitative', _qualitativeScale.keeperColors);
+        createDemos('qualitative', _qualitativeScale.keeperColors);
+        createOutput();
+        if(_qualitativeScale.keeperColors.length < 1) {
           const selectedColors = document.getElementById('qualitative_selectedColors');
           selectedColors.classList.add('isEmpty');
           selectedColors.innerHTML = 'Select generated colors to begin building your scale';
@@ -632,6 +659,5 @@ function eliminateLowContrastFromSet(set, background, ratio) {
 }
 
 module.exports = {
-  colorScaleQualitative,
-  keepers
+  colorScaleQualitative
 }

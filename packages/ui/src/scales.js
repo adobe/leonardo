@@ -68,10 +68,11 @@ import {
 } from './js/tabs';
 import {_sequentialScale} from './js/initialSequentialScale';
 import {_divergingScale} from './js/initialDivergingScale';
+import {_qualitativeScale} from './js/initialQualitativeScale';
 
 import {colorScaleDiverging} from './js/colorScaleDiverging';
 import {colorScaleSequential} from './js/colorScaleSequential';
-import {colorScaleQualitative} from './js/colorScaleQuantitative';
+import {colorScaleQualitative} from './js/colorScaleQualitative';
 
 import toggleTooltip from './js/tooltip';
 import { create3dModel } from './js/create3dModel';

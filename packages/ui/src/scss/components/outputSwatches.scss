@@ -185,3 +185,23 @@
   bottom: -4px;
   left: -4px;
 }
+
+.sampleSwatches {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: var(--spectrum-global-dimension-size-100);
+}
+.sampleSwatch {
+  height: 80px;
+  display: inline-flex;
+  flex-grow: 1;
+  &:first-of-type {
+    border-top-left-radius: var(--spectrum-alias-border-radius-medium);
+    border-bottom-left-radius: var(--spectrum-alias-border-radius-medium);
+  }
+  &:last-of-type {
+    border-top-right-radius: var(--spectrum-alias-border-radius-medium);
+    border-bottom-right-radius: var(--spectrum-alias-border-radius-medium);
+  }
+}

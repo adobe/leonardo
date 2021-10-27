@@ -1888,25 +1888,7 @@ section {
   // }
 }
 
-.sampleSwatches {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin-bottom: var(--spectrum-global-dimension-size-100);
-}
-.sampleSwatch {
-  height: 80px;
-  display: inline-flex;
-  flex-grow: 1;
-  &:first-of-type {
-    border-top-left-radius: var(--spectrum-alias-border-radius-regular);
-    border-bottom-left-radius: var(--spectrum-alias-border-radius-regular);
-  }
-  &:last-of-type {
-    border-top-right-radius: var(--spectrum-alias-border-radius-regular);
-    border-bottom-right-radius: var(--spectrum-alias-border-radius-regular);
-  }
-}
+
 
 
 .demoVisualizationWrapper {
