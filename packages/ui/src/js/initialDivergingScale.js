@@ -189,12 +189,11 @@ class DivergingScale {
 
   set output(output) {
     this._output = output;
-    if(this._startScale) this._startScale.output = output;
-    if(this._endScale) this._endScale.output = output;
 
-    this._colors = this._createColorScale();
-    if(this._startScale) this._startScale.output = 'HEX';
-    if(this._endScale) this._endScale.output = 'HEX';
+    let newColors = this._combineColors();
+    this._colors = newColors.map((c) => {
+          return convertColorValue(c, output)
+        })
   }
 
   get output() {
