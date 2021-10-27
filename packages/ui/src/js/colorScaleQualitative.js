@@ -78,18 +78,18 @@ function updateColors() {
   createOutput();
 }
 
-testColorsInput.addEventListener('input', (e) => {
-  throttle(() => {
-    const newTestColors = e.target.value.replaceAll(' ', '').split(',');
-    _qualitativeScale.sampleColors = newTestColors;
+testColorsInput.addEventListener('input', throttle(inputUpdate, 10))
 
-    showColors(newTestColors, 'originalColors', true)
+function inputUpdate(e) {
+  const newTestColors = e.target.value.replaceAll(' ', '').split(',');
+  _qualitativeScale.sampleColors = newTestColors;
 
-    setTimeout(() => {
-      updateColors();
-    }, 100)
-  }, 10)
-})
+  showColors(newTestColors, 'originalColors', true)
+
+  setTimeout(() => {
+    updateColors();
+  }, 100)
+}
 
 rangeInput.addEventListener('input', function() {
   updateColors();
