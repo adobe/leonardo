@@ -187,7 +187,7 @@ class SequentialScale {
     if(this._colorsReversed) this._colorsReversed = null;
 
     let colorScale;
-    let generousColorLength = 12;
+    let generousColorLength = (this._distributeLightness === 'parabolic' || this._distributeLightness === 'polynomial') ? 100 : 12;
     let initialColorScale = Leo.createScale({
       swatches: generousColorLength,
       colorKeys: this._colorKeys,
@@ -286,7 +286,11 @@ class SequentialScale {
     if(this._distributeLightness === 'polynomial') {
       // Equation based on polynomial mapping of lightness values in CIECAM02 
       // of the RgBu diverging color scale.
-      const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
+      // This was my original polynomial
+      // const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
+      // const polynomial = (x) => { return -14.1339869478252 * Math.pow(x, 6) + 48.3314480301924 * Math.pow(x,5) - 65.8883233554661 * Math.pow(x,4) + 45.4125103335828 * Math.pow(x,3) - 16.353051809012 * Math.pow(x,2) + 3.62815200965269 * x + 0.00193541374025585; }
+
+      const polynomial = (x) => { return Math.sqrt(Math.sqrt((x + Math.pow(x, 3))/2)) }
       // let percDomains = sqrtDomains.map((d) => {return d/swatches})
       let newDomains = percLums.map((d) => {return polynomial(sqrtDomains(d))})
       domains = newDomains;
