@@ -50,7 +50,7 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
     sqrtDomains = domains.map((d) => {return domainPowScale(d)})
     domains = sqrtDomains;
   }
-  if(scaleType === 'diverging') {
+  if(scaleType === 'diverging' || scaleType === 'sequential') {
     domains = colorClass.domains;  
     // const distributeLightness = colorClass.distributeLightness;
     // console.log(distributeLightness)
