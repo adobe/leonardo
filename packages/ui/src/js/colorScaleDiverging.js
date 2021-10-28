@@ -45,12 +45,18 @@ const chroma = require('chroma-js');
 
 function colorScaleDiverging(scaleType = 'diverging') {
   // Set up some sensible defaults
-  let defaultStartColors = ['#2e07df', '#58a8fd'];
-  let defaultEndColors = ['#7a0800', '#ee9820'];
-  let defaultMiddleColor = '#f3f3f3';
+  // let defaultStartColors = ['#2e07df', '#58a8fd'];
+  // let defaultEndColors = ['#7a0800', '#ee9820'];
+  // let defaultMiddleColor = '#f3f3f3';
+  // RgBu scale
+  let defaultStartColors = ["#67001f", "#b2182b","#d6604d"];
+  let defaultEndColors = ["#053061", "#92c5de","#4393c3"];
+  let defaultMiddleColor = '#f2f2f2';
+
   _divergingScale.startKeys = defaultStartColors;
   _divergingScale.endKeys = defaultEndColors; 
   _divergingScale.middleKey = defaultMiddleColor;
+  _divergingScale.distributeLightness = 'polynomial';
   
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
@@ -72,7 +78,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
   // If class is preset to smooth, check the smooth switch in the UI
   if(colorClass.smooth === true) smooth.checked = true;
-
+  distributeLightness.value = colorClass.distributeLightness;
   // if(colorKeys.length >= 3) {
   //   smooth.disabled = false;
   //   smoothWrapper.classList.remove('is-disabled')

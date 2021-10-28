@@ -148,6 +148,23 @@ function cssColorToRgb(colorString) {
   }
 }
 
+window.bulkConvertColorValue = bulkConvertColorValue;
+function bulkConvertColorValue(colors, format, object = false) {
+  let formatted = [];
+  for(let i = 0; i < colors.length; i ++) {
+    formatted.push(convertColorValue(colors[i], format, object))
+  }
+  return formatted;
+}
+
+window.getAllChannelValues = getAllChannelValues;
+function getAllChannelValues(colors, format, key) {
+  const array = bulkConvertColorValue(colors, format, true);
+  let permittedValues = array.map(value => value[key]);
+  return permittedValues;
+}
+
+window.convertColorValue=convertColorValue;
 function convertColorValue(color, format, object = false) {
   if (!color) {
     throw new Error(`Cannot convert color value of “${color}”`);
@@ -529,6 +546,8 @@ module.exports = {
   createEquiLuminantKey,
   round,
   convertColorValue,
+  bulkConvertColorValue,
+  getAllChannelValues,
   findMatchingLuminosity,
   lerp,
   cssColorToRgb,

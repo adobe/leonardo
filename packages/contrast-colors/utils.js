@@ -201,7 +201,10 @@ function createScale({
   if(distributeLightness === 'polynomial') {
     // Equation based on polynomial mapping of lightness values in CIECAM02 
     // of the RgBu diverging color scale.
-    const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
+    // const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
+    // const polynomial = (x) => { return Math.sqrt(Math.sqrt(x)) }
+    const polynomial = (x) => { return Math.sqrt(Math.sqrt((Math.pow(x, 2.25) + Math.pow(x, 4))/2)) }
+
     let percDomains = sqrtDomains.map((d) => {return d/swatches})
     let newDomains = percDomains.map((d) => {return polynomial(d) * swatches})
     domains = newDomains;
