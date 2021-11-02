@@ -103,7 +103,7 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
     button.addEventListener('click',  function(e) {
       let sampleNumber = document.getElementById(`${scaleType}Samples`);
       let samples = sampleNumber.value;    
-      replaceScaleKeyInputsFromClass(thisId, scaleType, index);
+      replaceScaleKeyInputsFromClass(thisId, scaleType, index, scalePosition);
       updateColorDots(chartsModeSelect.value, scaleType);
       createSamples(samples, scaleType)
     });  
@@ -114,7 +114,7 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
   dest.appendChild(div);
 }
 
-function replaceScaleKeyInputsFromClass(id, scaleType, index) {
+function replaceScaleKeyInputsFromClass(id, scaleType, index, scalePosition) {
   let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
 
@@ -122,13 +122,25 @@ function replaceScaleKeyInputsFromClass(id, scaleType, index) {
   // let inputs = document.getElementsByClassName(`keyColor-${scaleType}`);
   removeElementsByClass(`keyColor-${scaleType}`)
 
-  let currentColor;
-  if(scaleType === 'sequential') currentColor = _sequentialScale;
+  let currentColor, colorKeys;
+  if (scaleType === 'sequential') {
+    currentColor = _sequentialScale;
+    colorKeys = currentColor.colorKeys;
+  } 
+  if(scaleType === 'diverging') {
+    currentColor = _divergingScale;
+    colorKeys = (scalePosition === 'start') ? currentColor.startKeys : currentColor.endKeys;
+  }
 
-  let colorKeys = currentColor.colorKeys;
   colorKeys.splice(index, 1);
   // reassign new array to color class
-  currentColor.colorKeys = colorKeys;
+  if (scaleType === 'sequential') {
+    currentColor.colorKeys = colorKeys;
+  } 
+  if(scaleType === 'diverging') {
+    if(scalePosition === 'start') currentColor.startKeys = colorKeys;
+    if(scalePosition === 'end') currentColor.endKeys = colorKeys;
+  }
 
   // If new color keys length is less than three, force
   // smoothing to false, and update UI toggle, as smooth

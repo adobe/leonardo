@@ -282,29 +282,15 @@ class SequentialScale {
     }
     if(this._distributeLightness === 'polynomial') {
       // Equation based on polynomial mapping of lightness values in CIECAM02 
-      // of the RgBu diverging color scale.
-      // This was my original polynomial
-      // const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
-      // const polynomial = (x) => { return -14.1339869478252 * Math.pow(x, 6) + 48.3314480301924 * Math.pow(x,5) - 65.8883233554661 * Math.pow(x,4) + 45.4125103335828 * Math.pow(x,3) - 16.353051809012 * Math.pow(x,2) + 3.62815200965269 * x + 0.00193541374025585; }
-
-      // Custom formula based on swastik curve (desired for shape similarity to parabola that becomes linear)
-      // const polynomial = (x) => { return Math.sqrt(Math.sqrt((x + Math.pow(x, 3))/2)) }
-
-      // Second iteration of custom formula with steeper accelleration to curve
-      // const polynomial = (x) => { return Math.sqrt(Math.sqrt(x)) }
-
       // New polynomial from more expansive analysis of RgBu lightness
-      const polynomial = (x) => { return Math.sqrt(Math.sqrt((Math.pow(x, 2.25) + Math.pow(x, 4))/2)) }
+      // Inverse of actual function in order to present dots in proper location.
+      // See Leo.createScale for distribute lightness formula (square root of the one below)
+      const polynomial = (x) => { return Math.sqrt((Math.pow(x, 2.25) + Math.pow(x, 4))/2) }
 
       const percDomains = percLums.map((d) => {return sqrtDomains(d)})
       let newDomains = percDomains.map((d) => {return polynomial(sqrtDomains(d))})
       domains = newDomains;
     }
-
-    // if(this._distributeLightness === 'parabolic') {
-    //   const parabola = (x) => {return (Math.sqrt(x, 2))} 
-    //   domains = percLums.map((d) => {return parabola(d)})
-    // } 
     if(this._distributeLightness === 'linear') {
       domains = percLums.map((d) => {return sqrtDomains(d)})
     }

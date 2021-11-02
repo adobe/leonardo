@@ -49,13 +49,23 @@ function colorScaleDiverging(scaleType = 'diverging') {
   // let defaultEndColors = ['#7a0800', '#ee9820'];
   // let defaultMiddleColor = '#f3f3f3';
   // RgBu scale
-  let defaultStartColors = ["#67001f", "#b2182b","#d6604d"];
-  let defaultEndColors = ["#053061", "#92c5de","#4393c3"];
-  let defaultMiddleColor = '#f2f2f2';
+  // let defaultStartColors = ["#67001f", "#b2182b","#d6604d"];
+  // let defaultEndColors = ["#053061", "#92c5de","#4393c3"];
+  // Leonardo scale as default
+  // let defaultStartColors = ['#008fcc','#A0d9f3', '#00296b'];
+  // let defaultEndColors = ["#70002d", "#e3544f","#ffbfb8"];
+  // let defaultMiddleColor = '#f2f2f2';
+
+  // Spectrum Orange/Seafoam
+  let defaultStartColors = ['#580000', '#DD8629'];
+  let defaultEndColors = ['#3EA8A6', '#002C2D'];
+  let defaultMiddleColor = '#FFFFE0';
+  _divergingScale.colorspace = 'CAM02';
 
   _divergingScale.startKeys = defaultStartColors;
   _divergingScale.endKeys = defaultEndColors; 
   _divergingScale.middleKey = defaultMiddleColor;
+  _divergingScale.smooth = true;
   _divergingScale.distributeLightness = 'polynomial';
   
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);

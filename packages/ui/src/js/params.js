@@ -17,6 +17,7 @@ import {
 } from './ratios';
 import {sliderInput} from './sliderInput';
 import {baseScaleOptions} from './createBaseScaleOptions';
+import {round} from './utils';
 import {
   _theme,
   tempGray

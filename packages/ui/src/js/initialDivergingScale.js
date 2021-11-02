@@ -333,7 +333,7 @@ let _divergingScale = new DivergingScale({
   swatches: 50,
   startKeys: ['#19beaa', '#004d4b'],
   endKeys: ['#d37222', '#700036'],
-  middleKey: '#ffffff',
+  middleKey: '#f7f7f7',
   colorspace: 'CAM02p',
   distributeLightness: 'linear', // 'linear' | 'parabolic' | 'polynomial'
   smooth: false,
