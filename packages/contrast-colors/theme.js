@@ -124,6 +124,7 @@ class Theme {
       for(let i = 0; i < param.length; i ++) {
         let currentColor = this._colors.filter(entry => {return entry.name === param[i].color});
         currentColor = currentColor[0];
+        let index = this._colors.indexOf(currentColor);
         const filteredColors = this._colors.filter(entry => {return entry.name !== param[i].color});
         if(param[i].name) currentColor.name = param[i].name;
         if(param[i].colorKeys) currentColor.colorKeys = param[i].colorKeys;
@@ -133,12 +134,14 @@ class Theme {
         // call _generateColorScale to ensure scale is updated with new params
         currentColor._generateColorScale();
 
-        filteredColors.push(currentColor);
+        // Add the updated color into the filtered array at original index
+        filteredColors.splice(index, 0, currentColor);
         this._colors = filteredColors;
       }
     } else {
       let currentColor = this._colors.filter(entry => {return entry.name === param.color});
       currentColor = currentColor[0];
+      let index = this._colors.indexOf(currentColor);
       const filteredColors = this._colors.filter(entry => {return entry.name !== param.color});
       if(param.name) currentColor.name = param.name;
       if(param.colorKeys) currentColor.colorKeys = param.colorKeys;
@@ -148,7 +151,8 @@ class Theme {
       // call _generateColorScale to ensure scale is updated with new params
       currentColor._generateColorScale();
   
-      filteredColors.push(currentColor);
+      // Add the updated color into the filtered array at original index
+      filteredColors.splice(index, 0, currentColor);
       this._colors = filteredColors;
     }
 
