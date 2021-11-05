@@ -12,11 +12,18 @@ import {
 } from './predefinedColorNames';
 import {
   getColorDifference,
-  groupCommonHues
+  groupCommonHues,
+  removeElementsByClass
 } from './utils';
-import { prominent } from 'color.js'
+import { 
+  prominent,
+  average
+} from 'color.js'
 
 function addColorsFromImage() {
+  const imageColorAmmount = 18; // 25
+  const imageColorGrouping = 100; // 30
+
   const input = document.getElementById('image-upload');
   const ratios = getContrastRatios();
   const preview = document.getElementById('image-preview');
@@ -44,37 +51,66 @@ function addColorsFromImage() {
         image.src = fileUrl;
 
         preview.appendChild(image);
-        prominent(fileUrl, { amount: 25, format: 'hex', group: 100 }).then((colors) => {
-          // First we grab a large group of colors from Prominant/color.js
-          // then, we need to call our own utility function to group
-          // common hues to become key colors of the same color scale.
-          // TODO...
-          let grouped = groupCommonHues(colors);
+        average(fileUrl).then((color) => {
+          removeElementsByClass('themeColor_item');
 
-          grouped.forEach((color) => {
-            const existingColorNames = getAllColorNames();
+          const existingColorNames = getAllColorNames();
+          color = chroma(color[0], color[1], color[2], 'rgb');
+          console.color(color)
+          let colorName;
+          let closest = getClosestColorName(color);
+          let duplicateName = existingColorNames.includes(closest);
+          if(closest && !duplicateName) colorName = closest;
+          if(!colorName) colorName = 'Gray';
 
-            let colorName
-            for(let i = 0; i < color.length; i++) {
-              let closest = getClosestColorName(color[i]);
-              let duplicateName = existingColorNames.includes(closest);
-              if(closest && !duplicateName) colorName = closest;
-            }
+          // Remove gray and replace with new average color as the base
+          _theme.removeColor = {name: 'Gray'};
 
-            if(!colorName) colorName = getRandomColorName();
-
-            let newColor = new Leo.BackgroundColor({
-              name: colorName,
-              colorKeys: color,
-              colorspace: 'RGB',
-              ratios: ratios,
-              smooth: false
+          let newColor = new Leo.BackgroundColor({
+            name: colorName,
+            colorKeys: [color],
+            colorspace: 'CAM02p',
+            ratios: ratios,
+            smooth: true
+          })
+          addColorScale(newColor, true);
+        }).then(() => {
+          prominent(fileUrl, { amount: imageColorAmmount, format: 'hex', group: imageColorGrouping }).then((colors) => {
+            // First we grab a large group of colors from Prominant/color.js
+            // then, we need to call our own utility function to group
+            // common hues to become key colors of the same color scale.
+            let grouped = groupCommonHues(colors);
+  
+            // colors.forEach((color) => {console.color(color)})
+            // console.log(grouped)
+  
+            grouped.forEach((color) => {
+              const existingColorNames = getAllColorNames();
+  
+              let colorName
+              for(let i = 0; i < color.length; i++) {
+                let closest = getClosestColorName(color[i]);
+                let duplicateName = existingColorNames.includes(closest);
+                if(closest && !duplicateName) colorName = closest;
+              }
+  
+              if(!colorName) colorName = getRandomColorName();
+  
+              let newColor = new Leo.BackgroundColor({
+                name: colorName,
+                colorKeys: color,
+                colorspace: 'CAM02p',
+                ratios: ratios,
+                smooth: true
+              })
+              addColorScale(newColor, true);
             })
-            addColorScale(newColor, true);
           })
         }).then(() => {
             preview.appendChild(para);
-            themeUpdateParams();
+            setTimeout(() => {
+              themeUpdateParams();
+            }, 100)
           }
         )
       } else {

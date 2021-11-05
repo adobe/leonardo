@@ -306,12 +306,19 @@ function groupCommonHues(colors) {
   
   // First, resort colors by hue 
   let orderedColors = orderColors(colors, 'hue', 'saturation');
-
-  // Filter colors with lightness darker than 40,
+  // Acceptable difference in hues
+  const hueGroupThreshold = 22; // 10
+  const hueThreshold = 22; // 10
+  const colorDifferenceMin = 16;
+  const colorDifferenceMax = 100;
+  // Filter colors with lightness darker than 8,
+  // and chroma greater than 40
   // as darker colors are less clearly identifiable.
+  const minChroma = 30;
+  const minLuma = 8;
   let filteredColors = [];
   for(let i=0; i< colors.length; i++) {
-    if(chroma(orderedColors[i]).jch()[1] > 40 && chroma(orderedColors[i]).jch()[0] > 8) filteredColors.push(orderedColors[i]);
+    if(chroma(orderedColors[i]).lch()[1] > minChroma && chroma(orderedColors[i]).lch()[0] > minLuma) filteredColors.push(orderedColors[i]);
     else continue;
   }
 
@@ -323,35 +330,45 @@ function groupCommonHues(colors) {
     const lastColor = filteredColors[lastIndex];
     const hueDiff = chroma(currentColor).jch()[2] - chroma(lastColor).jch()[2];
 
-    // console.color(currentColor)
     if(hueDiff < 0) hueDiff = hueDiff * -1;
 
-    if(hueDiff > 15 || bucketedColors.length === 0) {
+    if(hueDiff >= hueGroupThreshold || bucketedColors.length === 0) {
       const newArr = [];
       newArr.push(currentColor)
       bucketedColors.push(newArr)
       // console.log(`Adding new array with color ${currentColor}`)
     } 
-    if(hueDiff < 15 && bucketedColors.length > 0) {
+    // Find the right bucket to place the color if it's within the hue threshold
+    if(hueDiff < hueGroupThreshold && bucketedColors.length > 0) {
+      // Loop the bucketed colors
       for(let z=0; z<bucketedColors.length; z++) {
         const currentBucket = bucketedColors[z];
-        const matchingArray = currentBucket.indexOf(lastColor);
 
         let colorDiffs = currentBucket.map((color) => {
           return getColorDifference(color, currentColor);
         });
-        // let hueDiffs = currentBucket.map((color) => {
-        //   return chroma(currentColor).jch()[2] - chroma(color).jch()[2];
-        // });
+        let hueDiffs = currentBucket.map((color) => {
+          return chroma(currentColor).jch()[2] - chroma(color).jch()[2];
+        });
+
+        let minHueDiff = Math.min(...hueDiffs);
         let minDiff = Math.min(...colorDiffs);
-        if(minDiff > 15) {
-          if (matchingArray >= 0 ) {
-            currentBucket.push(currentColor)
-          }
-        }
+        let maxDiff = Math.max(...colorDiffs);
+
+        // if minimum color difference of currentColor, when compared to all colors of
+        // the current bucket..
+        if(minDiff > colorDifferenceMin && maxDiff < colorDifferenceMax && minHueDiff <= hueThreshold) {
+          currentBucket.push(currentColor)
+        } 
       } 
     }
   }
+  // // FOR DEBUGGING ONLY
+  // for(let i = 0; i < bucketedColors.length; i++) {
+  //   let bucket = bucketedColors[i];
+  //   console.log('BUCKETED COLORS:')
+  //   bucket.forEach((color) => {console.color(color)})
+  // }
   return bucketedColors;
 }
 
@@ -373,7 +390,7 @@ function orderColors(colors, priority1, priority2, random = false) {
   // for each color, convert to lch object
   let colorsJch = colors.map((color, i) => {
     let jch = chroma(color).jch();
-    return {hue: jch[2], saturation: jch[1], lightness: jch[0], color, index: i}
+    return {hue: Math.floor(jch[2]), saturation: Math.floor(jch[1]), lightness: Math.floor(jch[0]), color, index: i}
   })
 
   let sorted;
@@ -398,7 +415,6 @@ function orderColors(colors, priority1, priority2, random = false) {
   const orderedColors = sorted.map((object) => {return object.color});
   return orderedColors;
 }
-
 
 function createColorData(color, mode) {
   const f = getChannelsAndFunction(mode);

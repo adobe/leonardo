@@ -57,7 +57,8 @@ function createOutputColors(dest) {
 
         for(let j=0; j<theme[i].values.length; j++) { // for each value object
           let originalValue = theme[i].values[j].value; // output value of color
-          let swatchName = theme[i].values[j].name.replace(colorName, '');
+          let formattedName = colorName.replace(/\s+/g, ''); // these names will have had spaces removed already
+          let swatchName = theme[i].values[j].name.replace(formattedName, '');
 
           let colorForTransform;
           if(_theme.output === 'RGB' || _theme.output === 'HEX') {
