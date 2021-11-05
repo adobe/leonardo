@@ -10,6 +10,7 @@ import {
   getClosestColorName,
   getRandomColorName
 } from './predefinedColorNames';
+import {baseScaleOptions} from './createBaseScaleOptions';
 import {
   getColorDifference,
   groupCommonHues,
@@ -74,6 +75,8 @@ function addColorsFromImage() {
             smooth: true
           })
           addColorScale(newColor, true);
+
+          _theme.backgroundColor = newColor;          
         }).then(() => {
           prominent(fileUrl, { amount: imageColorAmmount, format: 'hex', group: imageColorGrouping }).then((colors) => {
             // First we grab a large group of colors from Prominant/color.js
