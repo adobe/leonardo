@@ -125,6 +125,7 @@ import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
 import {pageLoader} from './js/pageLoader'
 import { format } from 'path';
 import { create3dModel } from './js/create3dModel';
+import {sortColorScales} from './js/sortColorScales';
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')

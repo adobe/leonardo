@@ -1106,6 +1106,7 @@ a:focus {
   align-items: center;
   overflow-y: auto;
   overflow-x: hidden;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .themeColor_item {
