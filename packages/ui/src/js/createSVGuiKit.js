@@ -53,7 +53,7 @@ function createSVGuiKit() {
       // skip it, it's the background
     } else {
       let name = colors[i].name;  
-      let tokenColorName = `${name}`;
+      let tokenColorName = `${name.replace(/\s+/g, '')}`; // these names will have had spaces removed already
       let values = colors[i].values;
       let increment = i - 0.75;
       let y = marginY * increment;
