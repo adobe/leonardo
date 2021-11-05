@@ -177,6 +177,8 @@ function createRatioInput(v, c) {
 
   let lumInput = document.getElementById(randId + "_luminosity");
   lumInput.value = luminosityValue.toFixed(2);
+
+  document.getElementById(randId).dispatchEvent(new Event("input"));
 }
 
 function addRatioInputs(ratios, colors) {

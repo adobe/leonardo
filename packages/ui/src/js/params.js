@@ -148,21 +148,21 @@ function paramSetup() {
   }
   else if(!params.has('config') || params.get('config') === undefined || !params.has('colorKeys')) {
     addRatioInputs([
-      1.5,
-      1.94,
-      2.55,
+      // 1.5,
+      // 1.94,
+      // 2.55,
       3.45, 
       4.67,
-      6.48,
-      9
+      // 6.48,
+      // 9
     ], [
-      '#d2d2d2',
-      '#bababa',
-      '#a2a2a2',
+      // '#d2d2d2',
+      // '#bababa',
+      // '#a2a2a2',
       '#8a8a8a', 
       '#747474',
-      '#5e5e5e',
-      '#494949'
+      // '#5e5e5e',
+      // '#494949'
     ]);
     // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;
