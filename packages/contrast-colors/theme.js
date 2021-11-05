@@ -273,7 +273,7 @@ class Theme {
           let n;
           if (!swatchNames) {
             const rVal = ratioName(color.ratios)[i];
-            n = color.name.concat(rVal);
+            n = color.name.concat(rVal).replace(/\s+/g, ''); // concat with ratio name and remove any spaces from original name
           } else {
             n = swatchNames[i];
           }
