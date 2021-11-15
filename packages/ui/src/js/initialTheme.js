@@ -14,7 +14,7 @@ import * as Leo from '@adobe/leonardo-contrast-colors';
 
 const tempGray = new Leo.BackgroundColor({
   name: 'Gray',
-  colorKeys: ['#cacaca'],
+  colorKeys: ['#000000'],
   colorspace: 'RGB',
   ratios: [3, 4.5],
   output: 'HEX'

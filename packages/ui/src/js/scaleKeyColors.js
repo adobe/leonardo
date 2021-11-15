@@ -215,7 +215,7 @@ function clearAllColors(e) {
   document.getElementById(keyColorsId).innerHTML = ' ';
   
   let color = getColorClassById(parentId);
-  _theme.updateColor = {color: color.name, colorKeys: ['#cacaca']}
+  _theme.updateColor = {color: color.name, colorKeys: ['#000000']}
 
   updateRamps();
   // themeUpdate();
