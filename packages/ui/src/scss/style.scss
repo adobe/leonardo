@@ -1623,6 +1623,12 @@ a:focus {
   top: 0;
 }
 
+/* Hide the harmony lines in color detail panels
+   because it adds more noise than value */
+#colorScaleColorWheelLines {
+  opacity: 0;
+}
+
 #colorWheelLinesWrapper {
   opacity: 1;
   transition: opacity 0.125s ease-in-out;
