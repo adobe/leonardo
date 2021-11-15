@@ -52,7 +52,8 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     throttle(updateRamps(currentColor, parent), 10)
 
     setTimeout(function() {
-      updateColorDots(null, 'theme');
+      updateColorDots(chartsModeSelect.value, 'colorScale', currentKeys, parent);
+      // updateColorDots(null, 'theme');
     }, 500);
   };
 
@@ -86,6 +87,7 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     var self = document.getElementById(id);
     updateRamps(currentColor, parent)
     updateColorDots(null, 'theme');
+    updateColorDots(chartsModeSelect.value, 'colorScale', currentKeys, parent);
 
     self.remove();
     // throttle(themeUpdateParams, 50)

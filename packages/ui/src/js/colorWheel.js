@@ -11,7 +11,10 @@ governing permissions and limitations under the License.
 
 import d3 from './d3';
 import {filterNaN} from './utils';
-import {getAllColorKeys} from './getThemeData';
+import {
+  getAllColorKeys,
+  getColorClassById
+} from './getThemeData';
 import {_theme} from './initialTheme';
 import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
@@ -27,9 +30,10 @@ const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 extendChroma(chroma);
 
-function updateColorDots(mode, scaleType = 'theme', customColors) {
+function updateColorDots(mode, scaleType = 'theme', customColors, id) {
   const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
-  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
+  const colorClass = (scaleType === 'theme' || scaleType === 'colorScale') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
+
   // Create dots for color wheel
   if(!mode) {
     let colorDotsModeDropdown = (scaleType === 'theme') ? document.getElementById('colorDotsMode') : null;
@@ -37,7 +41,7 @@ function updateColorDots(mode, scaleType = 'theme', customColors) {
     mode = colorDotsMode;
   }
 
-  let colorWheelModeDropdown = (scaleType === 'theme') ? document.getElementById('chartsMode') : document.getElementById(`${scaleType}_chartsMode`);
+  let colorWheelModeDropdown = (scaleType === 'theme' || scaleType === 'colorScale') ? document.getElementById('chartsMode') : document.getElementById(`${scaleType}_chartsMode`);
   let colorWheelMode, colorWheelLightness;
   if(scaleType === 'theme') {
     let colorWheelLightnessDropdown = document.getElementById('colorWheelLightness');
@@ -65,10 +69,13 @@ function updateColorDots(mode, scaleType = 'theme', customColors) {
   if(scaleType === 'sequential' || scaleType === 'diverging') {
     allColors = colorClass.colorKeys;
   }
+  if(scaleType === 'colorScale') {
+    allColors = customColors;
+  }
   if(!colorWheelMode) colorWheelMode = 'CAM02p'
 
   let arr = getConvertedColorCoodrindates(allColors, colorWheelMode, scaleType);
-  createColorWheelDots(arr, colorWheelMode, scaleType);
+  createColorWheelDots(arr, colorWheelMode, scaleType, id);
 }
 
 function getColorWheelSize() {
@@ -132,8 +139,8 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme', d
 }
 
 
-function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
-  const colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
+function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme', id) {
+  let colorClass = (scaleType === 'theme') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
   const polarPathDest = (scaleType === 'theme') ? 'colorWheelPaths' : `${scaleType}ColorWheelPaths`;
   document.getElementById(polarPathDest).innerHTML = ' ';
 
@@ -164,6 +171,12 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme') {
   }
   if(scaleType === 'sequential' || scaleType === 'diverging') {
     data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
+    polarColorPath(data, size, scaleType);
+  }
+  if(scaleType === 'colorScale') {
+    console.log(id)
+    colorClass = getColorClassById(id);
+    data = getConvertedColorCoodrindates(colorClass.backgroundColorScale, colorWheelMode, scaleType, false);
     polarColorPath(data, size, scaleType);
   }
 
@@ -317,7 +330,7 @@ function shiftValue(v, colorWheelSize, dotSize) {
   return centeredVal;
 }
 
-function updateColorWheel(mode, lightness, dots, dotsMode, scaleType, colors) {
+function updateColorWheel(mode, lightness, dots, dotsMode, scaleType, colors, id) {
   const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
   let canvasDom = Promise.resolve(document.getElementById(canvasId));
   canvasDom.then((canvas) => {
@@ -325,7 +338,7 @@ function updateColorWheel(mode, lightness, dots, dotsMode, scaleType, colors) {
       canvas.parentNode.removeChild(canvas);
     }
     createColorWheel(mode, lightness, scaleType);
-    updateColorDots(dotsMode, scaleType, colors);
+    updateColorDots(dotsMode, scaleType, colors, id);
   })
 }
 

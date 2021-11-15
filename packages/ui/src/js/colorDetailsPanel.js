@@ -41,6 +41,11 @@ import {
 } from './initialTheme';
 import {downloadSVGgradient} from './createSVGgradient';
 import {create3dModel} from './create3dModel';
+import {
+  createColorWheel,
+  updateColorDots,
+  updateColorWheel
+} from './colorWheel';
 
 function showColorDetails(e) {
   let element = e.target.id;
@@ -235,6 +240,7 @@ function showColorDetails(e) {
   interpSelect.addEventListener('change', (e) => {
     _theme.updateColor = {color: colorData.name, colorspace: e.target.value}
     updateRamps(colorData, thisId)
+    updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
   })
 
   let interpDropdownIcon = document.createElement('span');
@@ -291,6 +297,8 @@ function showColorDetails(e) {
     const colors = colorData2.backgroundColorScale;
     
     updateRamps(colorData2, thisId);
+    updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
+
     // createRGBchannelChart(colors);
     // createInterpolationCharts(colors, chartsMode)  
   })
@@ -305,24 +313,24 @@ function showColorDetails(e) {
   smoothWrapper.appendChild(smoothLabel);
   smoothFormItem.appendChild(smoothWrapper);
 
-  // Create output panel item
-  let panelOutput = document.createElement('div');
-  panelOutput.className = 'spectrum-Panel-Item';
-  let panelOutputLabel = document.createElement('span')
-  panelOutputLabel.className = 'spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title';
-  panelOutputLabel.innerHTML = 'Color scale values';
-  let panelOutputContent = document.createElement('div');
-  panelOutputContent.className = 'themeOutputParams';
-  panelOutputContent.id = 'panelColorScaleOutput';
-  // let abbreviatedColors = [];
-  // colorData.backgroundColorScale.map((c, i) => {
-  //   if(Number.isInteger(i/10)) abbreviatedColors.push(c)
-  // })
-  const abbreviatedColorsString = colorData.backgroundColorScale.toString().replaceAll(',', ', ');
-  panelOutputContent.innerHTML = abbreviatedColorsString;
+  // // Create output panel item
+  // let panelOutput = document.createElement('div');
+  // panelOutput.className = 'spectrum-Panel-Item';
+  // let panelOutputLabel = document.createElement('span')
+  // panelOutputLabel.className = 'spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title';
+  // panelOutputLabel.innerHTML = 'Color scale values';
+  // let panelOutputContent = document.createElement('div');
+  // panelOutputContent.className = 'themeOutputParams';
+  // panelOutputContent.id = 'panelColorScaleOutput';
+  // // let abbreviatedColors = [];
+  // // colorData.backgroundColorScale.map((c, i) => {
+  // //   if(Number.isInteger(i/10)) abbreviatedColors.push(c)
+  // // })
+  // const abbreviatedColorsString = colorData.backgroundColorScale.toString().replaceAll(',', ', ');
+  // panelOutputContent.innerHTML = abbreviatedColorsString;
 
-  panelOutput.appendChild(panelOutputLabel);
-  panelOutput.appendChild(panelOutputContent);
+  // panelOutput.appendChild(panelOutputLabel);
+  // panelOutput.appendChild(panelOutputContent);
 
 
   // Actions
@@ -344,6 +352,27 @@ function showColorDetails(e) {
     downloadSVGgradient(colorData.backgroundColorScale, colorData.mode, colorData.name);
   })
 
+  let bottomPanel = document.createElement('div');
+  bottomPanel.className = 'spectrum-Panel-Item spectrum-Panel-Item--noPadding';
+
+  // Create color wheel for the scale
+  const scaleType = 'colorScale'
+  let colorWheelPanel = document.createElement('div')
+  colorWheelPanel.className = 'spectrum-Panel-Item';
+  let colorWheelWrapper = document.createElement('div');
+  colorWheelWrapper.id = scaleType.concat('ColorWheelWrapper');
+  colorWheelWrapper.className = 'panel-ColorWheel';
+
+  let colorWheel = document.createElement('div');
+  colorWheel.id = scaleType.concat('ColorWheel');
+  let colorWheelPaths = document.createElement('div');
+  colorWheelPaths.id = scaleType.concat('ColorWheelPaths');
+  colorWheelPaths.className = 'polarPathsWrapper';
+
+  colorWheel.appendChild(colorWheelPaths);
+  colorWheelWrapper.appendChild(colorWheel);
+  colorWheelPanel.appendChild(colorWheelWrapper);
+
   let deletePanel = document.createElement('div');
   deletePanel.className = 'spectrum-Panel-Item spectrum-ButtonGroup';
   // deleteColor.innerHTML = `
@@ -351,6 +380,7 @@ function showColorDetails(e) {
   // <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
   //   <use xlink:href="#spectrum-icon-18-Delete" />
   // </svg>`;
+
   deletePanel.appendChild(downloadGradient)
   deletePanel.appendChild(deleteColor);
 
@@ -419,7 +449,6 @@ function showColorDetails(e) {
   chartsModeSelect.name = 'chartsMode';
   // chartsModeSelect.oninput = throttle(themeUpdateParams, 20);
 
-
   let chartsModeDropdownIcon = document.createElement('span');
   chartsModeDropdownIcon.className = 'spectrum-Picker-iconWrapper';
   chartsModeDropdownIcon.innerHTML = `
@@ -466,9 +495,14 @@ function showColorDetails(e) {
   configPanelTopWrapper.appendChild(configPanelItem);
   configPanelTopWrapper.appendChild(panelKeyColors);
   configPanelTopWrapper.appendChild(panelInterpolationMode);
-  configPanelTopWrapper.appendChild(panelOutput);
+  // configPanelTopWrapper.appendChild(panelOutput);
   configPanel.appendChild(configPanelTopWrapper);
-  configPanel.appendChild(deletePanel);
+
+
+  bottomPanel.appendChild(colorWheelPanel);
+  bottomPanel.appendChild(deletePanel);
+  configPanel.appendChild(bottomPanel);
+  // configPanel.appendChild(deletePanel);
 
   // Content area needs to be appended with items
   wrapper.appendChild(title);
@@ -506,11 +540,13 @@ function showColorDetails(e) {
   chartsModeSelect.addEventListener('change', (e) => {
     const thisColorId = id;
     let colorData = getColorClassById(thisColorId);
+    let lightness = (e.target.value === 'HSV') ? 100 : ((e.target.value === 'HSLuv') ? 60 : 50);
 
     let colors = colorData.backgroundColorScale;
     createInterpolationCharts(colors, e.target.value)
 
     create3dModel('tabModelContent', colorData, e.target.value);
+    updateColorWheel(e.target.value, lightness, true, null, scaleType, colorData.colorKeys, thisColorId)
   })
   
   themeRamp(colors, gradientId);
@@ -521,6 +557,10 @@ function showColorDetails(e) {
   // TODO: 3D chart in this context needs to be
   // different -- just one color...
   create3dModel('tabModelContent', [colorData], chartsModeSelect.value);
+
+  // Make the color wheel
+  createColorWheel(chartsModeSelect.value, 50, scaleType);
+  updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
 
   toggleControls();
 

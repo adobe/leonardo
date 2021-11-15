@@ -1569,6 +1569,7 @@ a:focus {
   min-height: 514px;
 }
 #colorWheelWrapper,
+#colorScaleColorWheelWrapper,
 #sequentialColorWheelWrapper,
 #divergingColorWheelWrapper,
 #qualitativeColorWheelWrapper {
@@ -1606,13 +1607,15 @@ a:focus {
   // width: 244px;
 }
 #sequentialColorWheel,
+#colorScaleColorWheel,
 #divergingColorWheel,
 #qualitativeColorWheel {
   position: relative;
 }
 
 #colorWheelLines,
-#sequentialColorWheelLines ,
+#colorScaleColorWheelLines,
+#sequentialColorWheelLines,
 #divergingColorWheelLines,
 #qualitativeColorWheelLines {
   position: absolute;
@@ -1626,6 +1629,7 @@ a:focus {
 }
 
 .colorDot,
+.colorScaleColorDot,
 .sequentialColorDot,
 .divergingColorDot,
 .qualitativeColorDot {

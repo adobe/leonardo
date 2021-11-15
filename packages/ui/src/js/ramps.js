@@ -36,7 +36,6 @@ function themeRamp(colors, dest, angle) {
 
 function themeRampKeyColors(colorKeys, dest, scaleType) {
   let container = document.getElementById(dest);
-  console.log('updating theme ramp key colors')
   let domains, sqrtDomains;
   let colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   if(scaleType === 'sequential') {
@@ -52,25 +51,6 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
   }
   if(scaleType === 'diverging' || scaleType === 'sequential') {
     domains = colorClass.domains;  
-    // const distributeLightness = colorClass.distributeLightness;
-    // console.log(distributeLightness)
-    // if(distributeLightness === 'parabolic') {
-    //   const parabola = (x) => {return (Math.sqrt(x, 2))} 
-    //   // let percDomains = sqrtDomains.map((d) => {return d})
-    //   let newDomains = sqrtDomains.map((d) => {return parabola(d)})
-    //   domains = newDomains;
-    //   console.log(newDomains)
-    // }
-    // if(distributeLightness === 'polynomial') {
-    //   // Equation based on polynomial mapping of lightness values in CIECAM02 
-    //   // of the RgBu diverging color scale.
-    //   const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
-    //   // let percDomains = sqrtDomains.map((d) => {return d})
-    //   let newDomains = sqrtDomains.map((d) => {return polynomial(d)})
-    //   domains = newDomains;
-    // } else {
-      // domains = sqrtDomains;
-    // }
   }
   else {
     domains = colorKeys.map(key => { return d3.hsluv(key).v})
@@ -149,10 +129,12 @@ function updateRamps(color, id, scaleType = 'theme') {
   }
 
   let panelOutputId = (scaleType === 'theme') ? 'panelColorScaleOutput' : `${scaleType}ColorScaleOutput` ;
-  let panelOutputContent = document.getElementById(panelOutputId);
-  panelOutputContent.innerHTML = ' ';
-  const formattedColorsString = colors.toString().replaceAll(',', ', ');
-  panelOutputContent.innerHTML = formattedColorsString;
+  if(scaleType !== 'theme') {
+    let panelOutputContent = document.getElementById(panelOutputId);
+    panelOutputContent.innerHTML = ' ';
+    const formattedColorsString = colors.toString().replaceAll(',', ', ');
+    panelOutputContent.innerHTML = formattedColorsString;
+  }
 }
 
 function createAllColorRamps() {
