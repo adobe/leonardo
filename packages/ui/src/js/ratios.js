@@ -387,7 +387,9 @@ function deleteRatio(e) {
   let self = document.getElementById(id);
   // var sliderid = id.replace('-item', '') + '-sl';
   // var slider = document.getElementById(sliderid);
-
+  let dotId = inputId.concat('_dot');
+  let dot = document.getElementById(dotId);
+  dot.remove();
   self.remove();
   // slider.remove();
   let themeRatios = getContrastRatios();

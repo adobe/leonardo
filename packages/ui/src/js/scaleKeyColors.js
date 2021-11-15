@@ -208,23 +208,23 @@ function addScaleKeyColor(scaleType, e) {
   }
 }
 
-// function clearAllColors(e) {
-//   let targetId = e.target.id;
-//   let parentId = targetId.replace('_clearAllColors', '');
-//   let keyColorsId = targetId.replace('_clearAllColors', '_keyColors');
-//   document.getElementById(keyColorsId).innerHTML = ' ';
+function clearAllColors(e) {
+  let targetId = e.target.id;
+  let parentId = targetId.replace('_clearAllColors', '');
+  let keyColorsId = targetId.replace('_clearAllColors', '_keyColors');
+  document.getElementById(keyColorsId).innerHTML = ' ';
   
-//   let color = getColorClassById(parentId);
-//   _theme.updateColor = {color: color.name, colorKeys: ['#cacaca']}
+  let color = getColorClassById(parentId);
+  _theme.updateColor = {color: color.name, colorKeys: ['#cacaca']}
 
-//   updateRamps();
-//   // themeUpdate();
-// }
+  updateRamps();
+  // themeUpdate();
+}
 
-// window.clearAllColors = clearAllColors;
+window.clearAllColors = clearAllColors;
 
 module.exports = {
   addScaleKeyColor,
   addScaleKeyColorInput,
-  // clearAllColors
+  clearAllColors
 }

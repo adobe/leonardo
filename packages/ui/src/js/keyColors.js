@@ -138,24 +138,26 @@ function deleteColor(e) {
   themeUpdateParams();
 }
 
-// function clearAllColors(e) {
-//   let targetId = e.target.id;
-//   let parentId = targetId.replace('_clearAllColors', '');
-//   let keyColorsId = targetId.replace('_clearAllColors', '_keyColors');
-//   document.getElementById(keyColorsId).innerHTML = ' ';
+function clearAllColors(e) {
+  let targetId = e.target.id;
+  let parentId = targetId.replace('_clearAllColors', '');
+  let keyColorsId = targetId.replace('_clearAllColors', '_keyColors');
+  document.getElementById(keyColorsId).innerHTML = ' ';
   
-//   let color = getColorClassById(parentId);
-//   _theme.updateColor = {color: color.name, colorKeys: ['#cacaca']}
+  const currentColor = getColorClassById(parentId);
+  addKeyColorInput('#000000', parentId, currentColor.name, 0)
+  _theme.updateColor = {color: currentColor.name, colorKeys: ['#000000']}
 
-//   updateRamps();
-//   // themeUpdate();
-// }
+  updateRamps(currentColor, parentId);
+  updateColorDots(null, 'theme');
+  themeUpdateParams();
+}
 
-// window.clearAllColors = clearAllColors;
+window.clearAllColors = clearAllColors;
 
 module.exports = {
   addKeyColor,
   deleteColor,
   addKeyColorInput,
-  // clearAllColors
+  clearAllColors
 }
