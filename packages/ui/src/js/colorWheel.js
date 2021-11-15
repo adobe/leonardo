@@ -174,7 +174,6 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme', id) {
     polarColorPath(data, size, scaleType);
   }
   if(scaleType === 'colorScale') {
-    console.log(id)
     colorClass = getColorClassById(id);
     data = getConvertedColorCoodrindates(colorClass.backgroundColorScale, colorWheelMode, scaleType, false);
     polarColorPath(data, size, scaleType);
