@@ -9,6 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import * as d3 from './d3';
+
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 const DeltaE = require('delta-e');
@@ -550,6 +551,42 @@ function createEquiLuminantKey(middleKey, colorKeys) {
   
   return newColor;
 }
+
+// function relativeLuminance(color) {
+//   const rgb = chroma(color).rgb();
+//   const r = rgb[0];
+//   const g = rgb[1];
+//   const b = rgb[2];
+
+//   const a = [r, g, b].map((v) => {
+//     v /= 255;
+//     return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+//   });
+//   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
+// }
+
+// function APCALuminance(color) {
+//   const rgb = chroma(color).rgb();
+//   const r = rgb[0];
+//   const g = rgb[1];
+//   const b = rgb[2];
+
+//   const a = [r, g, b].map((v) => {
+//     return Math.pow(v/255, 2.4);
+//   });
+//   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
+// }
+
+// function simulateRelativeLuminance(color) {
+
+// }
+// function simulateAPCALuminance(color) {
+
+// }
+// function simulateLstar(color) {
+
+// }
+
 
 module.exports = {
   randomId,

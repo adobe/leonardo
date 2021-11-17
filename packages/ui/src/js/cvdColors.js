@@ -10,6 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import * as blinder from 'color-blind';
+
 import d3 from './d3';
 import {
   showToast,
@@ -55,6 +56,20 @@ function cvdColors(colors) {
       colors = blinder.achromatopsia(colors);
       showToast();
     }
+    // TODO: Have simulations of various luminosity formulas
+    // to help illustrate the differences between them & achromatopsia
+    // else if (cvdMode == 'RelativeLuminance') {
+    //   colors = ;
+    //   showToast();
+    // }
+    // else if (cvdMode == 'APCALuminance') {
+    //   colors = ;
+    //   showToast();
+    // }
+    // else if (cvdMode == 'Lstar') {
+    //   colors = ;
+    //   showToast();
+    // }
     else {
       hideToast();
     }
