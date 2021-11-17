@@ -20,6 +20,10 @@ function createOutputParameters() {
     createJSOutput();
     createCSSOutput();
     createTokensOutput();
+
+    // Reset to hex so all other functions of the UI continue to work.
+    // Otherwise CSS Module 4 formatted colors won't be parsed by Chroma.js
+    _theme.output = 'HEX'
   })
 }
 
