@@ -45,6 +45,7 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
   sw.oninput = (e) => {
     // Replace current indexed value from color keys with new value from color input field
     let currentKeys = currentColor.colorKeys;
+    let currentColorName = _theme.colors[currentColorIndex].name;
     currentKeys.splice(index, 1, e.target.value)
 
     _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
