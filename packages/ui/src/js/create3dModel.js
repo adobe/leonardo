@@ -58,7 +58,10 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   const height = (dest === 'paletteModelWrapper') ?  windowHeight - 120 : windowHeight - 236;
-  const width = windowWidth - 424; // Fit to window, minus panel and padding
+  let width = windowWidth - (424 + 16); // Fit to window, minus panel and padding
+  if(dest === 'sequentialModelWrapper' || dest === 'tabModelContent' || dest === 'divergingModelWrapper') {
+    if(width > 796) width = 796; // Max width for scale views of 3d model
+  }
   
   const canvasColor = (mq.matches) ? '#1d1d1d' : '#f5f5f5'
 
