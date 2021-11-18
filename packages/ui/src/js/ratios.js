@@ -330,9 +330,9 @@ function syncRatioInputs(e) {
     }
   
     ratioUpdateValues(resolve);
+    ratioUpdate();
 
     if(!thisId.includes('_luminosity')) {
-      ratioUpdate();
       let luminosityInputId = `${thisId}_luminosity`;
       let luminosityInput = document.getElementById(luminosityInputId);
       // Must calculate luminosity of respective contrast value 
