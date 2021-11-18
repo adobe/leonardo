@@ -241,6 +241,7 @@ function showColorDetails(e) {
     _theme.updateColor = {color: colorData.name, colorspace: e.target.value}
     updateRamps(colorData, thisId)
     updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
+    create3dModel('tabModelContent', colorData, chartsModeSelect.value);
   })
 
   let interpDropdownIcon = document.createElement('span');
@@ -298,7 +299,7 @@ function showColorDetails(e) {
     
     updateRamps(colorData2, thisId);
     updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
-
+    create3dModel('tabModelContent', colorData2, chartsModeSelect.value);
     // createRGBchannelChart(colors);
     // createInterpolationCharts(colors, chartsMode)  
   })
@@ -545,7 +546,7 @@ function showColorDetails(e) {
     let colors = colorData.backgroundColorScale;
     createInterpolationCharts(colors, e.target.value)
 
-    create3dModel('tabModelContent', colorData, e.target.value);
+    create3dModel('tabModelContent', [colorData], e.target.value);
     updateColorWheel(e.target.value, lightness, true, null, scaleType, colorData.colorKeys, thisColorId)
   })
   
