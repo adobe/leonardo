@@ -36,6 +36,8 @@ function createOutputColors(dest) {
   destinations.map((dest) => {
     dest.innerHTML = ' ';
 
+    // Ignore first theme item (background color) when making swatches for
+    // the Swatch tab. Only create the background color in the Theme preview
     for (let i= (dest === swatchesOutputs) ? 1 : 0; i<theme.length; i++) {
       let wrapper = document.createElement('div');
       wrapper.className = 'themeOutputItem';
@@ -156,8 +158,11 @@ function createOutputColors(dest) {
     }
   })
 
+  // Unique values only
+  const colorsForCopy = [...new Set(themeColorArray)];
+
   let copyThemeColors = document.getElementById('copyThemeColors');
-  copyThemeColors.setAttribute('data-clipboard-text', themeColorArray);
+  copyThemeColors.setAttribute('data-clipboard-text', colorsForCopy);
 }
 
 document.getElementById('cvdMode').addEventListener('change', () => {
