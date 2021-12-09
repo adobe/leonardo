@@ -222,6 +222,9 @@ function showColorDetails(e) {
   let panelInterpolationMode = document.createElement('div');
   panelInterpolationMode.className = 'spectrum-Panel-Item';
   
+  let panelInterpTitle = document.createElement('span');
+  panelInterpTitle.className = 'spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title';
+  panelInterpTitle.innerHTML = 'Color scale interpolation';
   // Interpolation mode
   let interp = document.createElement('div');
   interp.className = 'spectrum-Form-item spectrum-Form-item--row';
@@ -313,6 +316,12 @@ function showColorDetails(e) {
   smoothWrapper.appendChild(smoothSwitch);
   smoothWrapper.appendChild(smoothLabel);
   smoothFormItem.appendChild(smoothWrapper);
+
+  // Add detail description of interpolation
+  let interpDetails = document.createElement('p');
+  interpDetails.className = 'spectrum-Body spectrum-Body--sizeXS';
+  interpDetails.style.marginBottom = '12px';
+  interpDetails.innerHTML = 'Color scales intersect each of your key colors by a straight line in color space. Different color spaces will change the appearance of your scale.'
 
   // // Create output panel item
   // let panelOutput = document.createElement('div');
@@ -490,6 +499,8 @@ function showColorDetails(e) {
   configPanelItem.appendChild(colorName);
   // configPanelItem.appendChild(scaleType);
   panelKeyColors.appendChild(inputs);
+  panelInterpolationMode.appendChild(panelInterpTitle);
+  panelInterpolationMode.appendChild(interpDetails);
   panelInterpolationMode.appendChild(interpInputs);
 
   configPanelTopWrapper.appendChild(panelHeader);
