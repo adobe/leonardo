@@ -31,6 +31,7 @@ const DeltaE = require('delta-e');
 extendChroma(chroma);
 
 const rangeInput = document.getElementById('qualitative_Threshold');
+const rangeLabel = document.getElementById('qualitative_ThresholdValue');
 const button = document.getElementById('qualitative_Generate');
 const testColorsInput = document.getElementById('qualitative_sampleColors');
 const chartsModeSelect = document.getElementById('qualitative_chartsMode');
@@ -98,8 +99,11 @@ function inputUpdate(e) {
   }, 100)
 }
 
-rangeInput.addEventListener('input', function() {
+rangeInput.addEventListener('input', function(e) {
   updateColors();
+  const val = e.target.value;
+
+  rangeLabel.innerHTML = val;
 });
 
 minContrast.addEventListener('input', function() {
@@ -408,6 +412,8 @@ function getLargestSetCvdColors(set, sample) {
     let currentIndex = matchingIndicies[i];
     if(arraysEqual(sets[currentIndex], cache)) {
       continue;
+    } if(!sets[currentIndex]) {
+      continue;
     } else {
       cache = sets[currentIndex];
       return sets[currentIndex];
@@ -508,8 +514,6 @@ function showColors(arr, dest, panel = false) {
   });
 }
 
-
-
 function showSimulatedColors(arr, sortBySimmilarity) {
   let wrap = document.getElementById('simulatedColors');
   wrap.innerHTML = ' ';
@@ -602,8 +606,10 @@ function arraysEqual(a, b) {
 
 function eliminateLowContrastFromSet(set, background, ratio) {
   let lowContrastColors = [];
+  const backgroundArray = chroma(background).rgb();
   for(let i = 0; i < set.length; i++) {
-    let contrast = Leo.contrast(set[i], background);
+    let colorArray = chroma(set[i]).rgb();
+    let contrast = Leo.contrast(colorArray, backgroundArray);
     if(contrast < ratio) lowContrastColors.push(set[i])
   }
   let newSet = arrayRemove(set, lowContrastColors);
