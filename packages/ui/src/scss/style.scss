@@ -1991,6 +1991,20 @@ section {
   }
 }
 
+.emptyColorsGroup {
+  display: flex;
+  height: 64px;
+  margin: 4px 12px 8px 0;
+  flex-shrink: 0;
+  color: var(--spectrum-global-color-gray-700);
+
+  background-color: var(--spectrum-global-color-gray-200);
+  border: 1px solid var(--spectrum-global-color-gray-300);
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
 .qualitativeTabsWrapper {
   max-height: calc(100vh - 288px);
   overflow-y: auto;

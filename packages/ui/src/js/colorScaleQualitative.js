@@ -454,64 +454,72 @@ function showColors(arr, dest, panel = false) {
   let wrap = document.getElementById(dest);
   wrap.innerHTML = ' ';
 
-  arr.map((color) => { 
+  if(!arr) {
     let swatch = document.createElement('div');
-    const contrast = Leo.contrast('#000000', color);
-    swatch.className = (!panel) ? 'simulationSwatch' : 'panelSwatch';
-    swatch.style.backgroundColor = color;
-    swatch.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
-    swatch.innerHTML = (!panel) ? `${color}` : ' ';
-
-    if(dest === 'cvdSafeColors') {
-      let button = document.createElement('button');
-      button.className = (_qualitativeScale.keeperColors.indexOf(color) >= 0) ?  'saveColorToKeepers showSvg' : 'saveColorToKeepers',
-      button.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
-      button.innerHTML = (_qualitativeScale.keeperColors.indexOf(color) >= 0) 
-      ? `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Locked">
-        <use xlink:href="#spectrum-icon-18-LockClosed"></use>
-      </svg>`  
-      : `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-          <use xlink:href="#spectrum-icon-18-Add"></use>
+    swatch.className = 'emptyColorsGroup';
+    swatch.innerHTML = 'No colors available.';
+    wrap.appendChild(swatch)
+  }
+  else {
+    arr.map((color) => { 
+      let swatch = document.createElement('div');
+      const contrast = Leo.contrast('#000000', color);
+      swatch.className = (!panel) ? 'simulationSwatch' : 'panelSwatch';
+      swatch.style.backgroundColor = color;
+      swatch.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
+      swatch.innerHTML = (!panel) ? `${color}` : ' ';
+  
+      if(dest === 'cvdSafeColors') {
+        let button = document.createElement('button');
+        button.className = (_qualitativeScale.keeperColors.indexOf(color) >= 0) ?  'saveColorToKeepers showSvg' : 'saveColorToKeepers',
+        button.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
+        button.innerHTML = (_qualitativeScale.keeperColors.indexOf(color) >= 0) 
+        ? `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Locked">
+          <use xlink:href="#spectrum-icon-18-LockClosed"></use>
+        </svg>`  
+        : `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+            <use xlink:href="#spectrum-icon-18-Add"></use>
+          </svg>`
+        button.addEventListener('click', (e) => {
+          if(_qualitativeScale.keeperColors.indexOf(color) < 0) {
+            _qualitativeScale.keeperColors.push(color);
+            showColors(_qualitativeScale.keeperColors, 'qualitative_selectedColors');
+            updateColorDots(chartsModeSelect.value, 'qualitative', _qualitativeScale.keeperColors);
+            createDemos('qualitative', _qualitativeScale.keeperColors);
+            document.getElementById('qualitative_selectedColors').classList.remove('isEmpty');
+            createOutput();
+          }
+        })
+        swatch.appendChild(button)
+      }
+      if(dest === 'qualitative_selectedColors') {
+        let button = document.createElement('button')
+        button.className = 'saveColorToKeepers',
+        button.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
+        button.innerHTML = `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
+          <use xlink:href="#spectrum-icon-18-Delete"></use>
         </svg>`
-      button.addEventListener('click', (e) => {
-        if(_qualitativeScale.keeperColors.indexOf(color) < 0) {
-          _qualitativeScale.keeperColors.push(color);
-          showColors(_qualitativeScale.keeperColors, 'qualitative_selectedColors');
+        button.addEventListener('click', () => {
+          const index = _qualitativeScale.keeperColors.indexOf(color);
+          if (index > -1) {
+            _qualitativeScale.keeperColors.splice(index, 1);
+          }
+          showColors(_qualitativeScale.keeperColors, 'qualitative_selectedColors')
           updateColorDots(chartsModeSelect.value, 'qualitative', _qualitativeScale.keeperColors);
           createDemos('qualitative', _qualitativeScale.keeperColors);
-          document.getElementById('qualitative_selectedColors').classList.remove('isEmpty');
           createOutput();
-        }
-      })
-      swatch.appendChild(button)
-    }
-    if(dest === 'qualitative_selectedColors') {
-      let button = document.createElement('button')
-      button.className = 'saveColorToKeepers',
-      button.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
-      button.innerHTML = `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
-        <use xlink:href="#spectrum-icon-18-Delete"></use>
-      </svg>`
-      button.addEventListener('click', () => {
-        const index = _qualitativeScale.keeperColors.indexOf(color);
-        if (index > -1) {
-          _qualitativeScale.keeperColors.splice(index, 1);
-        }
-        showColors(_qualitativeScale.keeperColors, 'qualitative_selectedColors')
-        updateColorDots(chartsModeSelect.value, 'qualitative', _qualitativeScale.keeperColors);
-        createDemos('qualitative', _qualitativeScale.keeperColors);
-        createOutput();
-        if(_qualitativeScale.keeperColors.length < 1) {
-          const selectedColors = document.getElementById('qualitative_selectedColors');
-          selectedColors.classList.add('isEmpty');
-          selectedColors.innerHTML = 'Select generated colors to begin building your scale';
-        }
-      })
-      swatch.appendChild(button)
-    }
-
-    wrap.appendChild(swatch);
-  });
+          if(_qualitativeScale.keeperColors.length < 1) {
+            const selectedColors = document.getElementById('qualitative_selectedColors');
+            selectedColors.classList.add('isEmpty');
+            selectedColors.innerHTML = 'Select generated colors to begin building your scale';
+          }
+        })
+        swatch.appendChild(button)
+      }
+  
+      wrap.appendChild(swatch);
+    });
+  }
 }
 
 function showSimulatedColors(arr, sortBySimmilarity) {
