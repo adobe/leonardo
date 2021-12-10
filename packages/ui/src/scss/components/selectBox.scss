@@ -3,19 +3,22 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--spectrum-global-dimension-size-200);
+  width: 100%;
 }
 
 .selectBox {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   padding: var(--spectrum-global-dimension-size-400) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
   border-radius: var(--spectrum-alias-border-radius-medium);
   border-width: 1px;
   border-style: solid;
   border-color: var(--spectrum-global-color-gray-300);
-  background-color: var(--spectrum-global-color-gray-75);
-  width: 180px;
+  background-color: var(--spectrum-global-color-gray-50);
+  min-width: 180px;
+  width: calc(33% - 58px);
   text-decoration: none;
   transition: border-color var(--spectrum-global-animation-duration-100, 130ms) ease-out, background-color var(--spectrum-global-animation-duration-100, 130ms) ease-out;
 
@@ -27,6 +30,16 @@
     border-color: var(--spectrum-global-color-gray-500);
     background-color: var(--spectrum-global-color-gray-50);
   }
+}
+
+.selectBox_Content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selectBox_Button {
+  margin-top: var(--spectrum-global-dimension-size-150);
 }
 
 .selectBox_image {

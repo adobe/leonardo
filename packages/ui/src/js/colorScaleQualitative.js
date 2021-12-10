@@ -138,8 +138,18 @@ button.addEventListener('click', function() {
 
   if(valid) {
     newSafeColors = getLargestSetCvdColors(testColors, _qualitativeScale.keeperColors);
-    showColors(newSafeColors, 'cvdSafeColors');
-    showSimulatedColors(newSafeColors, true);
+    if(!newSafeColors && _qualitativeScale.keeperColors.length > 0) {
+      // If newSafeColors is undefined, and keeperColors are larger than one,
+      // this means we've found the only available combination of CVD safe colors.
+      // In this case, we want to show the keeper colors in the simulations. 
+      showColors(_qualitativeScale.keeperColors, 'cvdSafeColors');
+      showSimulatedColors(_qualitativeScale.keeperColors, true);  
+    } else {
+      // Otherwise, show the newSafeColors set, because it includes additional
+      // color options that can be added to the keeperColors set.
+      showColors(newSafeColors, 'cvdSafeColors');
+      showSimulatedColors(newSafeColors, true);  
+    }
   } else {
     newSafeColors = getLargestSetCvdColors(testColors);
     showColors(newSafeColors, 'cvdSafeColors');

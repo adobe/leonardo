@@ -193,7 +193,7 @@ body,
 .sideNavContent {
   flex-direction: column;
   align-items: flex-start;
-  max-width: 758px;
+  max-width: 1000px;
   width: 100%;
   margin: 0 auto;
   top: 0;
@@ -1662,6 +1662,10 @@ a:focus {
   padding-bottom: 0;
 }
 
+#home {
+  background-color: var(--spectrum-global-color-gray-75);
+}
+
 .sideNav-Wrapper,
 .home-Wrapper {
   padding: var(--spectrum-global-dimension-size-600);
@@ -1815,14 +1819,7 @@ a:focus {
   }
 }
 
-section {
-  margin-top: 32px;
 
-  img {
-    margin-top: 16px;
-    margin-bottom: 24px;
-  }
-}
 
 .scaleMainContent-Wrapper {
   padding: var(--spectrum-global-dimension-size-200);
@@ -1978,7 +1975,7 @@ section {
 #qualitative_selectedColors {
   display: flex;
   height: 88px;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
   flex-shrink: 0;
   color: var(--spectrum-global-color-gray-700);
 
@@ -2005,6 +2002,10 @@ section {
   border-radius: 8px;
 }
 
+#qualitative_generatedColors {
+  margin-bottom: 24px;
+}
+
 .qualitativeTabsWrapper {
   max-height: calc(100vh - 288px);
   overflow-y: auto;
@@ -2013,8 +2014,13 @@ section {
   padding-right: 4px;
 }
 
-#simulatedColors .spectrum-Heading {
-  margin-top: 24px;
+#simulatedColors {
+  .spectrum-Heading {
+    margin-top: 8px;
+  }
+  .spectrum-Heading:first-of-type {
+    margin-top: 0;
+  }
 }
 
 #qualitativeDemoWrapper {
