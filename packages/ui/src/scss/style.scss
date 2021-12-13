@@ -51,7 +51,7 @@ governing permissions and limitations under the License.
   --spectrum-alias-focus-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   // defaults
   --headerBackground: var(--spectrum-global-color-gray-50);
-  --panelBackground: var(--spectrum-global-color-gray-100);
+  --panelBackground: var(--spectrum-global-color-gray-75);
   --panelBorder: var(--spectrum-global-color-gray-300);
 }
 
@@ -59,7 +59,7 @@ governing permissions and limitations under the License.
   .spectrum {
     --theme-background: var(--spectrum-global-color-gray-100, #f5f5f5);
     --headerBackground: var(--spectrum-global-color-gray-50, #ffffff);
-    --panelBackground: var(--spectrum-global-color-gray-100, #f5f5f5);
+    --panelBackground: var(--spectrum-global-color-gray-75, #f5f5f5);
     --panelBorder: var(--spectrum-global-color-gray-300);
     --translucentBorder: rgba(0, 0, 0, 0.4);
     --translucentLightBorder: rgba(0, 0, 0, 0.1);
@@ -69,7 +69,7 @@ governing permissions and limitations under the License.
 }
 @media(prefers-color-scheme: dark) {
   .spectrum {
-    --theme-background: var(--spectrum-global-color-gray-100, #1d1d1d);
+    --theme-background: var(--spectrum-global-color-gray-50, #1d1d1d);
     --headerBackground: var(--spectrum-global-color-gray-100);
     --panelBackground: var(--spectrum-global-color-gray-100);
     --panelBorder: var(--spectrum-global-color-gray-50);
@@ -125,13 +125,26 @@ body,
     "leftPanel main rightPanel";
 }
 
+.appFramePanel {
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas: "main";
+}
+
 .appFramePanelLeft {
   margin: 0;
   padding: 0;
   height: calc(100vh - var(--header-height));
   overflow: hidden;
   display: grid;
-  grid-template-columns: 388px auto;
+  grid-template-columns: 304px auto;
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -141,6 +154,20 @@ body,
 
 .appFramePanelLeft--large {
   grid-template-columns: 420px auto;
+}
+
+.appFramePanelRight {
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 388px;
+  grid-template-rows: auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    "main rightPanel";
 }
 
 .appFrameSideNav {
@@ -236,6 +263,7 @@ body,
 
 .spectrum-Panel-Item {
   padding: var(--spectrum-global-dimension-size-200);
+  overflow-y: hidden;
 }
 .spectrum-Panel-Item--overflow {
   overflow: auto;
@@ -283,6 +311,11 @@ body,
   //   margin-top: -7px;
   //   margin-bottom: 4px;
   // }
+}
+
+.spectrum-Panel-Title + .spectrum-Form-item,
+.spectrum-Panel-Title + .spectrum-Form {
+  margin-top: 8px;
 }
 
 .spectrum-Panel-Title + .spectrum-Panel-Item {
@@ -893,7 +926,7 @@ a:focus {
   padding-left: var(--spectrum-global-dimension-size-50);
   display: flex;
   margin-bottom: var(--spectrum-global-dimension-size-100);
-  height: calc(100vh - 560px);
+  height: calc(100vh - 544px);
   min-height: 280px;
 }
 
@@ -1019,9 +1052,7 @@ a:focus {
     margin-left: 8px;
   }
 }
-#themeNameInput {
-  width: 360px;
-}
+
 .themeConfig {
   display: flex;
   flex-direction: row;
@@ -1083,6 +1114,10 @@ a:focus {
   width: 100%;
 }
 
+.spectrum-Picker#themeBase {
+  width: 126px;
+}
+
 [dir="ltr"] .spectrum-Picker {
   padding: 0 8px;
   height: 32px;
@@ -1090,9 +1125,9 @@ a:focus {
   border-radius: var(--spectrum-alias-border-radius-regular);
 }
 
-.spectrum-Picker + .spectrum-Picker-icon {
+.spectrum-Picker-icon {
   position: absolute;
-  right: var(--spectrum-dropdown-padding-x, var(--spectrum-global-dimension-size-150));
+  right: var(--spectrum-global-dimension-size-150);
   top: 4px;
   margin-top: calc(var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75)) / -2);
 }
@@ -1221,6 +1256,10 @@ a:focus {
   }
 }
 
+#swatchesOutputs,
+#themeOutputs {
+  width: 100%;
+}
 
 #themeOutputs {
   // display:flex;
@@ -1250,7 +1289,7 @@ a:focus {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
   position: absolute;
-  width: calc(100vw - 420px);
+  width: calc(100vw - 420px - 304px);
   align-items: center;
   height: 100%;
   background-color: var(--theme-background);
@@ -1260,6 +1299,10 @@ a:focus {
     width: 100%;
     max-width: 796px;
   }
+}
+
+#colorMainContent-Wrapper {
+  background-color: var(--theme-background);
 }
 
 .outputHeader {
@@ -1504,28 +1547,23 @@ a:focus {
   transition: transform, 150ms;
 }
 
+.spectrum-ActionGroup--LeftAligned {
+  align-items: flex-start;
+}
+
+.spectrum-ActionGroup--spaced {
+  margin-bottom: var(--spectrum-global-dimension-size-200);
+}
+
 .themeSettingsSlider {
-  width: 300px;
-  margin-left: 8px;
+  width: 258px;
+  // margin-left: 8px;
 }
 
 .is-hidden {
   display: none;
 }
 
-#BackgroundScaleTooltip{ 
-  &.spectrum-Tooltip--top .spectrum-Tooltip-tip {
-    right: 24px;
-    left: auto;
-  }
-  &.spectrum-Tooltip--top {
-    position: absolute;
-    max-width: 30ch;
-  }
-  &.spectrum-Tooltip--top {
-    transform: translate(190px, -48px);
-  }
-}
 
     /* Code syntax highlighting aliases */
 .hljs-keyword {
@@ -1598,7 +1636,7 @@ a:focus {
 #colorWheel--controlsWrapper{
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   // flex-grow: 2;
 }
 #colorWheel {
@@ -1761,10 +1799,11 @@ a:focus {
 }
 
 #chartsControls {
+  margin: 0 auto;
   padding: 8px 0 16px;
+  width: 500px;
 }
 
-#chartsMode,
 .chartsMode {
   width: 16ch;
 }
@@ -1772,7 +1811,7 @@ a:focus {
 #luminosityGradient {
   position: relative;
   width: 64px;
-  height: calc(100vh - 560px);
+  height: calc(100vh - 536px);
   min-height: 280px;
   background-image: linear-gradient(0deg, black, white);
   margin-right: var(--spectrum-global-dimension-size-100);
@@ -1788,7 +1827,13 @@ a:focus {
 
 #swatchMainContent-Wrapper {
   overflow: auto;
-  padding: var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
+  padding: 0;
+}
+
+.swatch-Tabs-content {
+  width: calc(100% - 32px);
+  flex-grow: 1;
+  margin: 0 16px;
 }
 
 #swatchAttributeSwitch-Wrapper {

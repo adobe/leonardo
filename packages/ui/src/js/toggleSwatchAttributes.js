@@ -32,9 +32,9 @@ function toggleSwatchLuminosity(e) {
 }
 
 const toggleContrastSwitch = document.getElementById('swatchContrastSwitch');
-toggleContrastSwitch.addEventListener('change', toggleSwatchContrast);
+// toggleContrastSwitch.addEventListener('change', toggleSwatchContrast);
 const toggleLuminositySwitch = document.getElementById('swatchLuminositySwitch');
-toggleLuminositySwitch.addEventListener('change', toggleSwatchLuminosity);
+// toggleLuminositySwitch.addEventListener('change', toggleSwatchLuminosity);
 
 window.toggleSwatchContrast = toggleSwatchContrast;
 window.toggleSwatchLuminosity = toggleSwatchLuminosity;

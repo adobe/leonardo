@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .spectrum-AppHeader_item {
   display: flex;
   flex-direction: row;
@@ -20,10 +21,21 @@
     margin-left: 48px;
   }
 }
+
+.spectrum-AppHeader_item--last {
+  width: auto;
+  justify-content: flex-end;
+
+  @media screen and (min-width: 1160px) {
+    width: 350px;
+  }
+}
+
 .spectrum-AppHeader-Title {
   margin: 0;
   font-weight: 400;
 }
+
 #headerLogo {
   height: 24px;
   width: 24px;

@@ -13,7 +13,10 @@ import {createOutputColors} from './createOutputColors';
 import {createOutputParameters} from './createOutputParameters';
 
 import {_theme} from './initialTheme';
-import {round} from './utils';
+import {
+  round, 
+  throttle
+} from './utils';
 
 function sliderValue(e) {
   let id = e.target.id;
@@ -44,13 +47,13 @@ const sliderB = document.getElementById('themeBrightnessSlider');
 const sliderC = document.getElementById('themeContrastSlider');
 const sliderD = document.getElementById('themeSaturationSlider');
 sliderB.addEventListener('input', sliderValue);
-sliderB.addEventListener('input', sliderInput);
+sliderB.addEventListener('input', throttle(sliderInput, 10));
 
 sliderC.addEventListener('input', sliderValue);
-sliderC.addEventListener('input', sliderInput);
+sliderC.addEventListener('input', throttle(sliderInput, 10));
 
 sliderD.addEventListener('input', sliderValue);
-sliderD.addEventListener('input', sliderInput);
+sliderD.addEventListener('input', throttle(sliderInput, 10));
 
 
 window.sliderValue = sliderValue;

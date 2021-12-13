@@ -1,9 +1,65 @@
 <!-- Swatches Tab -->
-<div id="swatches" class="AppTab appFramePanelLeft">
-  <div class="spectrum-Panel">
+<div id="swatches" class="AppTab appFramePanelRight">
+
+  <div id="swatchMainContent-Wrapper">
+    <!-- <div id="swatchControls" class="spectrum-Form spectrum-Form--row">
+      <div class="spectrum-Switch" id="swatchContrastSwitch-Wrapper">
+        <input type="checkbox" class="spectrum-Switch-input" id="swatchContrastSwitch">
+        <span class="spectrum-Switch-switch"></span>
+        <label class="spectrum-Switch-label" for="swatchContrastSwitch">Show contrast</label>
+      </div>
+      <div class="spectrum-Switch" id="swatchLuminositySwitch-Wrapper">
+        <input type="checkbox" class="spectrum-Switch-input" id="swatchLuminositySwitch">
+        <span class="spectrum-Switch-switch"></span>
+        <label class="spectrum-Switch-label" for="swatchLuminositySwitch">Show luminosity</label>
+      </div>
+    </div> -->
+    <div class="spectrum-Content-Tabs">
+      <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+        <div id="tabJustifiedSwatches" class="spectrum-Tabs-item swatch-Tabs-item" tabindex="0" onclick="openSwatchTab(event, 'justifiedWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Justified</label>
+        </div>
+        <div id="tabFormattedSwatches" class="spectrum-Tabs-item swatch-Tabs-item" tabindex="0" onclick="openSwatchTab(event, 'formattedWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Formatted</label>
+        </div>
+      </div>
+    </div>
+
+    <div id="justifiedWrapper" class="swatch-Tabs-content">
+      <div id="swatchesOutputs">
+        <!-- Generated colors will appear here -->
+      </div>
+    </div>
+    <div id="formattedWrapper" class="swatch-Tabs-content">
+      <div id="themeOutputs">
+        <!-- Generated colors will appear here -->
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="spectrum-Panel spectrum-Panel--right">
     <div id="contrastSwatches">
       <div class="spectrum-Panel-Item">
         <div class="spectrum-Form-item spectrum-Form-item--row">
+          <label for="cvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
+          <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode">
+            <option value="None">None</option>
+            <option value="Deuteranomaly">Deuteranomaly (common)</option>
+            <option value="Deuteranopia">Deuteranopia (common)</option>
+            <option value="Protanomaly">Protanomaly (rare)</option>
+            <option value="Protanopia">Protanopia (rare)</option>
+            <option value="Tritanomaly">Tritanomaly (very rare)</option>
+            <option value="Tritanopia">Tritanopia (very rare)</option>
+            <option value="Achromatomaly">Achromatomaly (very rare)</option>
+            <option value="Achromatopsia">Achromatopsia (very rare)</option>
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </select>
+        </div>
+        <!-- <div class="spectrum-Form-item spectrum-Form-item--row">
           <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Contrast formula:</label>
             <select class="spectrum-Picker" name="contrastMethod" id="contrastMethod">
               <option value="WCAG">WCAG</option>
@@ -12,10 +68,10 @@
               <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
             </svg>
           </select>
-        </div>
+        </div> -->
       </div>
       <div class="spectrum-Panel-Item ">
-        <div class="spectrum-ActionGroup">
+        <div class="spectrum-ActionGroup spectrum-ActionGroup--spaced">
           <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
             <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
               <use xlink:href="#spectrum-icon-18-Add" />
@@ -34,24 +90,24 @@
             <option value="luminosity">Luminosity</option>
           </select>  
         </div>
-      </div>
 
 
-      <div class="spectrum-Panel-Item spectrum-Panel-Item--row">
-        <div id="luminosityGradient"></div>
-        <div id="ratioInput-wrapper">
-          <div class="ratioGrid">
-            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Contrast ratio</label>  
-            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Luminosity</label>  
-            <!-- <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Naming</label>   -->
+        <div class="spectrum-Panel-Item--row">
+          <div id="luminosityGradient"></div>
+          <div id="ratioInput-wrapper">
+            <div class="ratioGrid">
+              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Contrast ratio</label>  
+              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Luminosity</label>  
+              <!-- <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Naming</label>   -->
+            </div>
           </div>
+          <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-icon-18-Add" />
+            </svg>
+            <span class="spectrum-ActionButton-label">Add contrast ratio</span>
+          </button> -->
         </div>
-        <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
-          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-            <use xlink:href="#spectrum-icon-18-Add" />
-          </svg>
-          <span class="spectrum-ActionButton-label">Add contrast ratio</span>
-        </button> -->
       </div>
 
 
@@ -59,10 +115,10 @@
         <div class="spectrum-Panel-SubTabs">
           <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Swatch Distribution</h3>
           <div class="spectrum-Tabs spectrum-Tabs--compact spectrum-Tabs--horizontal">
-            <div id="tabSubPanelContrastChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openSwatchTab(event, 'contrastChart')">
+            <div id="tabSubPanelContrastChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openPanelSubTab(event, 'contrastChart')">
               <label class="spectrum-Tabs-itemLabel">Contrast ratio</label>
             </div>
-            <div id="tabSubPanelLuminosityChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openSwatchTab(event, 'luminosityChart')">
+            <div id="tabSubPanelLuminosityChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openPanelSubTab(event, 'luminosityChart')">
               <label class="spectrum-Tabs-itemLabel">Luminosity</label>
             </div>
           </div>
@@ -72,49 +128,6 @@
         <div class="panel-SubTab-Content" id="luminosityChart"></div>
         
       </div>
-    </div>
-  </div>
-
-  <div id="swatchMainContent-Wrapper">
-    <div id="swatchControls" class="spectrum-Form spectrum-Form--row">
-      <!-- Switch to toggle visibility of swatch attributes -->
-      <div class="spectrum-Switch" id="swatchContrastSwitch-Wrapper">
-        <input type="checkbox" class="spectrum-Switch-input" id="swatchContrastSwitch">
-        <span class="spectrum-Switch-switch"></span>
-        <label class="spectrum-Switch-label" for="swatchContrastSwitch">Show contrast</label>
-      </div>
-      <div class="spectrum-Switch" id="swatchLuminositySwitch-Wrapper">
-        <input type="checkbox" class="spectrum-Switch-input" id="swatchLuminositySwitch">
-        <span class="spectrum-Switch-switch"></span>
-        <label class="spectrum-Switch-label" for="swatchLuminositySwitch">Show luminosity</label>
-      </div>
-
-      <div class="spectrum-Form-item spectrum-Form-item--row">
-        <label for="cvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
-        <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode">
-          <option value="None">None</option>
-          <option value="Deuteranomaly">Deuteranomaly (common)</option>
-          <option value="Deuteranopia">Deuteranopia (common)</option>
-          <option value="Protanomaly">Protanomaly (rare)</option>
-          <option value="Protanopia">Protanopia (rare)</option>
-          <option value="Tritanomaly">Tritanomaly (very rare)</option>
-          <option value="Tritanopia">Tritanopia (very rare)</option>
-          <option value="Achromatomaly">Achromatomaly (very rare)</option>
-          <option value="Achromatopsia">Achromatopsia (very rare)</option>
-          <!-- <option value="RelativeLuminance">Relative luminance</option>
-          <option value="APCALuminance">APCA luminance</option>
-          <option value="Lstar">CIELAB L* (lightness)</option> -->
-        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
-          <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-        </svg>
-      </select>
-    </div>
-
-
-    </div>
-
-    <div id="swatchesOutputs">
-      <!-- Generated colors will appear here -->
     </div>
   </div>
 </div>

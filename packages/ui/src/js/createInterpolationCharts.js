@@ -25,156 +25,164 @@ function createInterpolationCharts(colors, mode, scaleType = 'theme') {
     d3id = `${scaleType}InterpolationChart3`
   }
 
-  let dest = document.getElementById(d1id);
-  dest.innerHTML = ' ';
-  let dest2 = document.getElementById(d2id);
-  dest2.innerHTML = ' ';
-  let dest3 = document.getElementById(d3id);
-  dest3.innerHTML = ' ';
+  let dest = Promise.resolve(document.getElementById(d1id));
+  let dest2 = Promise.resolve(document.getElementById(d2id));
+  let dest3 = Promise.resolve(document.getElementById(d3id));
 
-  // Identify mode channels
-  let c1, c2, c3, func, yMin, yMax, yMin2, yMax2, c1Label, c2Label, yLabel;
-  if(mode === 'RGB') {
-    func = 'hsl';
-    c1 = 'h';
-    c1Label = `Hue (HSL - H)`;
-    c2 = 's';
-    c2Label = `Saturation (HSL - S)`;
-    c3 = 'l';
-    yMin = 0;
-    yMax = 360;
-    yMin2 = 0;
-    yMax2 = 1;
-  }
-  if(mode === 'LAB') {
-    func = 'lab';
-    c1 = 'a';
-    c1Label = `Redness / Greenness (${mode} - A)`;
-    c2 = 'b';
-    c2Label = `Blueness / Yellowness (${mode} - B)`;
-    c3 = 'l';
-  }
-  if(mode === 'LCH') {
-    func = 'lch';
-    c1 = 'h';
-    c1Label = `Hue (${mode} - H)`;
-    c2 = 'c';
-    c2Label = `Chroma (${mode} - C)`;
-    c3 = 'l';
-    yMin = 0;
-    yMax = 360;
-  }
-  if(mode === 'CAM02') {
-    func = 'jab';
-    c1 = 'a';
-    c1Label = `Redness / Greenness (${mode} - A)`;
-    c2 = 'b';
-    c2Label = `Blueness / Yellowness (${mode} - B)`;
-    c3 = 'J';
-  }
-  if(mode === 'CAM02p') {
-    func = 'jch';
-    c1 = 'h';
-    c1Label = `Hue (CAM02 (Ch) - H)`;
-    c2 = 'C';
-    c2Label = `Chroma (CAM02 (Ch) - C)`;
-    c3 = 'J';
-    yMin = 0;
-    yMax = 360;
-  }
-  if(mode === 'HSL') {
-    func = 'hsl';
-    c1 = 'h';
-    c1Label = `Hue (${mode} - H)`;
-    c2 = 's';
-    c2Label = `Saturation (${mode} - S)`;
-    c3 = 'l';
-    yMin = 0;
-    yMax = 360;
-    yMin2 = 0;
-    yMax2 = 1;
-  }
-  if(mode === 'HSLuv') {
-    func = 'hsluv';
-    c1 = 'l';
-    c1Label = `Hue (${mode} - H)`;
-    c2 = 'u';
-    c2Label = `Saturation (${mode} - S)`;
-    c3 = 'v';
-    yMin = 0;
-    yMax = 360;
-    yMin2 = 0;
-    yMax2 = 100;
-  }
-  if(mode === 'HSV') {
-    func = 'hsv';
-    c1 = 'h';
-    c1Label = `Hue (${mode} - H)`;
-    c2 = 's';
-    c2Label = `Saturation (${mode} - S)`;
-    c3 = 'v';
-    yMin = 0;
-    yMax = 360;
-    yMin2 = 0;
-    yMax2 = 1;
-  }
-  // Create chart header
-  let InterpolationHeader = document.createElement('h5');
-  InterpolationHeader.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
-  InterpolationHeader.innerHTML = `${c1Label}`;
-  dest.appendChild(InterpolationHeader);
-  let InterpolationHeader2 = document.createElement('h5');
-  InterpolationHeader2.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
-  InterpolationHeader2.innerHTML = `${c2Label}`;
-  dest2.appendChild(InterpolationHeader2);
-  let InterpolationHeader3 = document.createElement('h5');
-  InterpolationHeader3.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
-  InterpolationHeader3.innerHTML =  'Lightness';// `${c3Label}`;
-  dest3.appendChild(InterpolationHeader3);
+  Promise.all([dest, dest2, dest3]).then((values) => {
+    let dest = values[0];
+    let dest2 = values[1];
+    let dest3 = values[2];
 
-  const fillRange = (start, end) => {
-    return Array(end - start).fill().map((item, index) => start + index);
-  };
-  let dataX = fillRange(1, colors.length);
-  // Reorder data for color scales
+    dest.innerHTML = ' ';
+    dest2.innerHTML = ' ';
+    dest3.innerHTML = ' ';  
 
-  let dataYa = colors.map(function(d) {return filterNaN(d3[func](d)[c1]);});
-  let dataYb = colors.map(function(d) {return filterNaN(d3[func](d)[c2]);});
-  let dataYc = colors.map(function(d) {return filterNaN(d3[func](d)[c3]);});
-
-  if(scaleType === 'sequential') {
-    dataX = dataX.sort((a, b) => {return a - b;});
-    dataYa = dataYa.sort((a, b) => {return a - b;});
-    dataYb = dataYb.sort((a, b) => {return a - b;});
-    dataYc = dataYc.sort((a, b) => {return a - b;});
-  }
-
-  let visColors = colors[50];
-
-  let dataA = [
-    {
-      x: dataX,
-      y: dataYa
+    // Identify mode channels
+    let c1, c2, c3, func, yMin, yMax, yMin2, yMax2, c1Label, c2Label, yLabel;
+    if(mode === 'RGB') {
+      func = 'hsl';
+      c1 = 'h';
+      c1Label = `Hue (HSL - H)`;
+      c2 = 's';
+      c2Label = `Saturation (HSL - S)`;
+      c3 = 'l';
+      yMin = 0;
+      yMax = 360;
+      yMin2 = 0;
+      yMax2 = 1;
     }
-  ];
-  let dataB = [
-    {
-      x: dataX,
-      y: dataYb 
+    if(mode === 'LAB') {
+      func = 'lab';
+      c1 = 'a';
+      c1Label = `Redness / Greenness (${mode} - A)`;
+      c2 = 'b';
+      c2Label = `Blueness / Yellowness (${mode} - B)`;
+      c3 = 'l';
     }
-  ];
-  let dataC = [
-    {
-      x: dataX,
-      y: dataYc 
+    if(mode === 'LCH') {
+      func = 'lch';
+      c1 = 'h';
+      c1Label = `Hue (${mode} - H)`;
+      c2 = 'c';
+      c2Label = `Chroma (${mode} - C)`;
+      c3 = 'l';
+      yMin = 0;
+      yMax = 360;
     }
-  ];
+    if(mode === 'CAM02') {
+      func = 'jab';
+      c1 = 'a';
+      c1Label = `Redness / Greenness (${mode} - A)`;
+      c2 = 'b';
+      c2Label = `Blueness / Yellowness (${mode} - B)`;
+      c3 = 'J';
+    }
+    if(mode === 'CAM02p') {
+      func = 'jch';
+      c1 = 'h';
+      c1Label = `Hue (CAM02 (Ch) - H)`;
+      c2 = 'C';
+      c2Label = `Chroma (CAM02 (Ch) - C)`;
+      c3 = 'J';
+      yMin = 0;
+      yMax = 360;
+    }
+    if(mode === 'HSL') {
+      func = 'hsl';
+      c1 = 'h';
+      c1Label = `Hue (${mode} - H)`;
+      c2 = 's';
+      c2Label = `Saturation (${mode} - S)`;
+      c3 = 'l';
+      yMin = 0;
+      yMax = 360;
+      yMin2 = 0;
+      yMax2 = 1;
+    }
+    if(mode === 'HSLuv') {
+      func = 'hsluv';
+      c1 = 'l';
+      c1Label = `Hue (${mode} - H)`;
+      c2 = 'u';
+      c2Label = `Saturation (${mode} - S)`;
+      c3 = 'v';
+      yMin = 0;
+      yMax = 360;
+      yMin2 = 0;
+      yMax2 = 100;
+    }
+    if(mode === 'HSV') {
+      func = 'hsv';
+      c1 = 'h';
+      c1Label = `Hue (${mode} - H)`;
+      c2 = 's';
+      c2Label = `Saturation (${mode} - S)`;
+      c3 = 'v';
+      yMin = 0;
+      yMax = 360;
+      yMin2 = 0;
+      yMax2 = 1;
+    }
+    // Create chart header
+    let InterpolationHeader = document.createElement('h5');
+    InterpolationHeader.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+    InterpolationHeader.innerHTML = `${c1Label}`;
+    dest.appendChild(InterpolationHeader);
+    let InterpolationHeader2 = document.createElement('h5');
+    InterpolationHeader2.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+    InterpolationHeader2.innerHTML = `${c2Label}`;
+    dest2.appendChild(InterpolationHeader2);
+    let InterpolationHeader3 = document.createElement('h5');
+    InterpolationHeader3.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+    InterpolationHeader3.innerHTML =  'Lightness';// `${c3Label}`;
+    dest3.appendChild(InterpolationHeader3);
 
-  let lightnessMax = (mode === 'HSL' || mode === 'HSV') ? 1 : 100;
+    const fillRange = (start, end) => {
+      return Array(end - start).fill().map((item, index) => start + index);
+    };
+    let dataX = fillRange(1, colors.length);
+    // Reorder data for color scales
 
-  createChart(dataA, ' ', ' ', `#${d1id}`, yMin, yMax, false, visColors, scaleType);
-  createChart(dataB, ' ', ' ', `#${d2id}`, yMin2, yMax2, false, visColors, scaleType);
-  createChart(dataC, ' ', ' ', `#${d3id}`, 0, lightnessMax, false, visColors, scaleType);
+    let dataYa = colors.map(function(d) {return filterNaN(d3[func](d)[c1]);});
+    let dataYb = colors.map(function(d) {return filterNaN(d3[func](d)[c2]);});
+    let dataYc = colors.map(function(d) {return filterNaN(d3[func](d)[c3]);});
+
+    if(scaleType === 'sequential') {
+      dataX = dataX.sort((a, b) => {return a - b;});
+      dataYa = dataYa.sort((a, b) => {return a - b;});
+      dataYb = dataYb.sort((a, b) => {return a - b;});
+      dataYc = dataYc.sort((a, b) => {return a - b;});
+    }
+
+    let visColors = colors[50];
+
+    let dataA = [
+      {
+        x: dataX,
+        y: dataYa
+      }
+    ];
+    let dataB = [
+      {
+        x: dataX,
+        y: dataYb 
+      }
+    ];
+    let dataC = [
+      {
+        x: dataX,
+        y: dataYc 
+      }
+    ];
+
+    let lightnessMax = (mode === 'HSL' || mode === 'HSV') ? 1 : 100;
+
+    createChart(dataA, ' ', ' ', `#${d1id}`, yMin, yMax, false, visColors, scaleType);
+    createChart(dataB, ' ', ' ', `#${d2id}`, yMin2, yMax2, false, visColors, scaleType);
+    createChart(dataC, ' ', ' ', `#${d3id}`, 0, lightnessMax, false, visColors, scaleType);
+
+  })
 }
 
 module.exports = {createInterpolationCharts}

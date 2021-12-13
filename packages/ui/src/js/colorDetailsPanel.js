@@ -48,7 +48,9 @@ import {
 } from './colorWheel';
 
 function showColorDetails(e) {
+  let panelOpen = true;
   let element = e.target.id;
+  const chartsModeSelect = document.getElementById('chartsMode');
 
   let button = document.getElementById(element);
   const id = element.replace('-toggleConfig', '');
@@ -96,6 +98,7 @@ function showColorDetails(e) {
     contentArea.style.display = 'none';
     configPanel.innerHTML = ' ';
     configPanel.style.display = 'none';
+    panelOpen = false;
 
     themeUpdateParams()
   }
@@ -447,36 +450,36 @@ function showColorDetails(e) {
   tabContent3.className = 'tabDetailContent';
 
   // Chart colorspace preview picker
-  let chartsMode = document.createElement('div');
-  chartsMode.className = 'spectrum-Form-item spectrum-Form-item--row';
-  let chartsModeLabel = document.createElement('label');
-  chartsModeLabel.className = 'spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left';
-  chartsModeLabel.for = 'chartsMode';
-  let chartsModeLabelText = 'Charts mode';
-  let chartsModeSelect = document.createElement('select');
-  chartsModeSelect.className = 'spectrum-Picker spectrum-Picker--sizeM pickerMode';
-  chartsModeSelect.id = 'chartsMode';
-  chartsModeSelect.name = 'chartsMode';
-  // chartsModeSelect.oninput = throttle(themeUpdateParams, 20);
+  // let chartsMode = document.createElement('div');
+  // chartsMode.className = 'spectrum-Form-item spectrum-Form-item--row';
+  // let chartsModeLabel = document.createElement('label');
+  // chartsModeLabel.className = 'spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left';
+  // chartsModeLabel.for = 'chartsMode';
+  // let chartsModeLabelText = 'Charts mode';
+  // let chartsModeSelect = document.createElement('select');
+  // chartsModeSelect.className = 'spectrum-Picker spectrum-Picker--sizeM pickerMode';
+  // chartsModeSelect.id = 'chartsMode';
+  // chartsModeSelect.name = 'chartsMode';
+  // // chartsModeSelect.oninput = throttle(themeUpdateParams, 20);
 
-  let chartsModeDropdownIcon = document.createElement('span');
-  chartsModeDropdownIcon.className = 'spectrum-Picker-iconWrapper';
-  chartsModeDropdownIcon.innerHTML = `
-  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-  </svg>`;
+  // let chartsModeDropdownIcon = document.createElement('span');
+  // chartsModeDropdownIcon.className = 'spectrum-Picker-iconWrapper';
+  // chartsModeDropdownIcon.innerHTML = `
+  // <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+  //   <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+  // </svg>`;
 
-  chartsModeLabel.innerHTML = chartsModeLabelText;
-  // chartsModeDropdown.appendChild(chartsModeSelect);
-  chartsModeSelect.appendChild(chartsModeDropdownIcon);
-  chartsMode.appendChild(chartsModeLabel);
-  chartsMode.appendChild(chartsModeSelect);
+  // chartsModeLabel.innerHTML = chartsModeLabelText;
+  // // chartsModeDropdown.appendChild(chartsModeSelect);
+  // chartsModeSelect.appendChild(chartsModeDropdownIcon);
+  // chartsMode.appendChild(chartsModeLabel);
+  // chartsMode.appendChild(chartsModeSelect);
 
-  // Interpolation options
-  chartsModeSelect.options.length = 0;
+  // // Interpolation options
+  // chartsModeSelect.options.length = 0;
 
-  for(let index in opts) { chartsModeSelect.options[chartsModeSelect.options.length] = new Option(opts[index], index); }
-  chartsModeSelect.value = 'CAM02p';
+  // for(let index in opts) { chartsModeSelect.options[chartsModeSelect.options.length] = new Option(opts[index], index); }
+  // chartsModeSelect.value = 'CAM02p';
 
     
   // Put the tabs together
@@ -487,7 +490,7 @@ function showColorDetails(e) {
   tabs.appendChild(tabItem2);
   tabs.appendChild(tabItem3);
   tabsWrapper.appendChild(tabs);
-  tabsWrapper.appendChild(chartsMode);
+  // tabsWrapper.appendChild(chartsMode);
 
   // Put it all together
   inputs.appendChild(keyColors);
@@ -550,21 +553,23 @@ function showColorDetails(e) {
   let colors = rampData;
 
   chartsModeSelect.addEventListener('change', (e) => {
-    const thisColorId = id;
-    let colorData = getColorClassById(thisColorId);
-    let lightness = (e.target.value === 'HSV') ? 100 : ((e.target.value === 'HSLuv') ? 60 : 50);
-
-    let colors = colorData.backgroundColorScale;
-    createInterpolationCharts(colors, e.target.value)
-
-    create3dModel('tabModelContent', [colorData], e.target.value);
-    updateColorWheel(e.target.value, lightness, true, null, scaleType, colorData.colorKeys, thisColorId)
+    if(panelOpen) {
+      const thisColorId = id;
+      let colorData = getColorClassById(thisColorId);
+      let lightness = (e.target.value === 'HSV') ? 100 : ((e.target.value === 'HSLuv') ? 60 : 50);
+  
+      let colors = colorData.backgroundColorScale;
+      createInterpolationCharts(colors, e.target.value)
+  
+      create3dModel('tabModelContent', [colorData], e.target.value);
+      updateColorWheel(e.target.value, lightness, true, null, scaleType, colorData.colorKeys, thisColorId)  
+    }
   })
   
   themeRamp(colors, gradientId);
   themeRampKeyColors(colorKeys, gradientId);
   createRGBchannelChart(colors);
-  createInterpolationCharts(colors, 'CAM02p');
+  createInterpolationCharts(colors, chartsModeSelect.value);
 
   // TODO: 3D chart in this context needs to be
   // different -- just one color...
@@ -606,7 +611,7 @@ function showColorDetails(e) {
     contentArea.style.display = 'none';
     configPanel.innerHTML = ' ';
     configPanel.style.display = 'none';
-
+    panelOpen = false;
     // themeUpdateParams()
 
   });

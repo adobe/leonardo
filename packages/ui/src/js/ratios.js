@@ -68,8 +68,9 @@ function createRatioInput(v, c) {
   let luminosityValue = d3.hsluv(c).v;
   let swatchColor = d3.hsluv(0, 0, luminosityValue).formatHex();
 
-  let methodPicker = document.getElementById('contrastMethod');
-  let method = methodPicker.value;
+  // let methodPicker = document.getElementById('contrastMethod');
+  // let method = methodPicker.value;
+  let method = "WCAG";
 
   var ratios = document.getElementById('ratioInput-wrapper');
   var div = document.createElement('div');

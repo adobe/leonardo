@@ -30,7 +30,7 @@ function openPanelTab(evt, tabName) {
   evt.currentTarget.className += " is-selected";
 }
 
-function openSwatchTab(evt, tabName) {
+function openPanelSubTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -42,6 +42,27 @@ function openSwatchTab(evt, tabName) {
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
   tablinks = document.getElementsByClassName("panel-SubTabs-item");
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "flex";
+  evt.currentTarget.className += " is-selected";
+} 
+
+function openSwatchTab(evt, tabName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+  
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("swatch-Tabs-content");
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
+  tablinks = document.getElementsByClassName("swatch-Tabs-item");
   for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
   }
@@ -192,12 +213,14 @@ window.openSideNavItem = openSideNavItem;
 window.openColorTab = openColorTab;
 window.openSwatchTab = openSwatchTab;
 window.openScaleTab = openScaleTab;
+window.openPanelSubTab = openPanelSubTab;
 
 
 module.exports = {
   openPanelTab,
   openTab,
   openDetailTab,
+  openPanelSubTab,
   openAppTab,
   openSideNavItem,
   openScaleTab,

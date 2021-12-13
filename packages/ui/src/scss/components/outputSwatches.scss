@@ -72,14 +72,14 @@
   font-size: 12px;
 }
 
-#swatchMainContent-Wrapper .themeOutputSwatch {
+#justifiedWrapper .themeOutputSwatch {
   justify-content: space-between;
   border-radius: 0;
   margin: 0;
   border:none;
 }
 
-#swatchMainContent-Wrapper {
+#justifiedWrapper {
   .themeOutputItem:first-of-type {
     .themeOutputSwatch:first-of-type {
       border-top-left-radius: var(--spectrum-alias-border-radius-regular);

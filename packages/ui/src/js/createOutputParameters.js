@@ -93,14 +93,30 @@ function createTokensOutput() {
   let paramsOutput = document.getElementById('themeTokensParams');
   let tokenObj = {};
 
+  const textLowContrast = 'Do not use for UI elements or text.'
+  const textLarge = 'Color can be used for UI elements or large text.'
+  const textSmall = 'Color can be used for small text.'
+
   let contrastColors = _theme.contrastColors;
+  let backgroundColor = _theme.contrastColors[0].background;
+
+  let backgroundColorObj = {
+    value: backgroundColor,
+    type: "color",
+    description: `UI background color. All color contrasts evaluated and generated against this color.`
+  }
+  tokenObj['Background'] = backgroundColorObj
+
   for(let i=1; i < contrastColors.length; i++) {
     let thisColor = contrastColors[i];
     for(let j=0; j < thisColor.values.length; j++) {
       let color = thisColor.values[j]
+      let descriptionText = (color.contrast < 3) ? textLowContrast : ((color.contrast >= 3 && color.contrast < 4.5) ? textLarge : textSmall);
+      
       let colorObj = {
         value: color.value,
-        type: 'color'
+        type: "color",
+        description: `${descriptionText} Contrast is ${color.contrast}:1 against background ${backgroundColor}`
       }
       tokenObj[color.name] = colorObj
     }
