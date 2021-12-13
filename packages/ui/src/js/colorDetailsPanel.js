@@ -224,7 +224,7 @@ function showColorDetails(e) {
   
   let panelInterpTitle = document.createElement('span');
   panelInterpTitle.className = 'spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title';
-  panelInterpTitle.innerHTML = 'Color scale interpolation';
+  panelInterpTitle.innerHTML = 'Interpolation';
   // Interpolation mode
   let interp = document.createElement('div');
   interp.className = 'spectrum-Form-item spectrum-Form-item--row';
