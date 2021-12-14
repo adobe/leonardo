@@ -97,6 +97,12 @@ body,
   font-family: source-sans-pro, source-sans, sans-serif;
 }
 
+.spectrum-Body--detail {
+  color: var(--spectrum-global-color-gray-700);
+}
+
+
+
 .appFrame {
   margin: 0;
   padding: 0;
@@ -170,6 +176,20 @@ body,
     "main rightPanel";
 }
 
+.appFramePanelRight--large {
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 500px;
+  grid-template-rows: auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    "main rightPanel";
+}
+
 .appFrameSideNav {
   margin: 0;
   padding: 0;
@@ -187,7 +207,7 @@ body,
 
 /* Tabs aren't inheriting all styles properly. Remapping here */
 .spectrum-Tabs {
-  border-color: transparent;
+  // border-color: transparent;
   padding: 0;
 }
 .spectrum-Tabs-item {
@@ -615,6 +635,10 @@ body,
 
 .spectrum-Form--spacious {
   margin-bottom: var(--spectrum-global-dimension-size-200);
+}
+
+.spectrum-Form--topAlign {
+  align-items: flex-start;
 }
 
 .spectrum-Form-item {
@@ -1720,6 +1744,17 @@ a:focus {
   overflow: auto;
 }
 
+.home-Wrapper--float {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.floating-wrapper {
+  width: fit-content;
+  margin: 0 auto 12vh;
+}
+
 .sideNavContent {
   display: none;
 }
@@ -2071,4 +2106,36 @@ a:focus {
 #qualitativeDemoWrapper {
   /* Default fill for when no CVD colors are selected */
   fill: var(--spectrum-global-color-gray-100);
+}
+
+#colorCompareForm {
+  margin-top: var(--spectrum-global-dimension-size-500);
+
+  .spectrum-Form-item ~ .spectrum-Form-item {
+    margin-left: var(--spectrum-global-dimension-size-400);
+  }
+}
+
+.compare-Tabs-content {
+  flex-direction: column;
+}
+
+#contrastContentRow {
+  display: flex;
+  width: calc(100% - 16px);
+  flex-direction: row;
+  margin-top: 32px;
+  margin-bottom: 24px;
+  justify-content: space-between;
+}
+#contrastOutput {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spectrum-global-dimension-size-300);
+}
+#complianceLevel {
+  width: 16ch;
+}
+#contrastReport .spectrum-Table {
+  width: 100%;
 }

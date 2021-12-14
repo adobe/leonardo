@@ -41,6 +41,7 @@ import '@spectrum-css/toast/dist/index-vars.css';
 import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
 import '@spectrum-css/progresscircle/dist/index-vars.css';
+import '@spectrum-css/table/dist/index-vars.css';
 
 import './scss/style.scss';
 import './scss/converter.scss';
@@ -68,6 +69,7 @@ import {
   openSideNavItem
 } from './js/tabs';
 import toggleTooltip from './js/tooltip';
+import { compareColors } from './js/compareColors';
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')
@@ -101,7 +103,11 @@ if (mq.matches) {
 }
 
 document.getElementById("tabContrast").click();
+document.getElementById('tabSubPanelContrastChart').click();
 document.getElementById("welcome").click();
+
+document.getElementById('compareColorOneInput').dispatchEvent(new Event("input"));
+document.getElementById('compareColorTwoInput').dispatchEvent(new Event("input"));
 
 window.onload = function() {
   // On window load, transition to remove page loader

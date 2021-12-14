@@ -205,3 +205,26 @@
     border-bottom-right-radius: var(--spectrum-alias-border-radius-medium);
   }
 }
+
+.swatch--large {
+  margin-top: var(--spectrum-global-dimension-size-100);
+  height: 164px;
+  width: 164px;
+  border-radius: var(--spectrum-alias-border-radius-medium);
+  border: 1px solid var(--translucentLightBorder);
+}
+
+.contrastSwatch--outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--spectrum-alias-border-radius-medium);
+  border: 1px solid var(--translucentLightBorder);
+}
+.contrastSwatch--inner {
+  border-radius: 3px;
+  width: 38px;
+  height: 38px;
+}

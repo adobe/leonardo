@@ -78,6 +78,7 @@
     "@spectrum-css/sidenav": "^3.0.2",
     "@spectrum-css/slider": "^3.0.2",
     "@spectrum-css/switch": "^1.0.3",
+    "@spectrum-css/table": "^4.0.6",
     "@spectrum-css/tabs": "^2.1.1",
     "@spectrum-css/textfield": "^3.0.2",
     "@spectrum-css/toast": "^2.0.5",
