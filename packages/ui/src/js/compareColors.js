@@ -29,16 +29,20 @@ function toObject(color) {
   }
 }
 
-function testCvd(color1, color2, mode) {
-  let minimumThreshold = 11;
-  let secondaryThreshold = 49;
+const minimumThreshold = 11;
+const secondaryThreshold = 20;
 
+function testCvd(color1, color2, mode) {
   let sim1 = (mode === 'normal vision') ? color1 : simulateCvd(color1, mode);
   let sim2 = (mode === 'normal vision') ? color2 : simulateCvd(color2, mode);
 
   let deltaE = getDifference(sim1, sim2);
 
-  let result = (deltaE < minimumThreshold) ? 'Fail' : ((deltaE < secondaryThreshold) ? 'Safe' : 'Very safe'); 
+  // If allowing a secondary threshold
+  // let result = (deltaE < minimumThreshold) ? 'Fail' : ((deltaE < secondaryThreshold) ? 'Safe' : 'Very safe'); 
+
+  // For only one threshold
+  let result = (deltaE < minimumThreshold) ? 'Fail' : 'Pass'; 
 
   return {
     cvd: mode,
@@ -62,8 +66,14 @@ function colorDifferenceReport(fg, bg) {
     let colorData = testCvd(fg, bg, modes[i]);
     console.log(colorData)
 
-    let badgeClass = (colorData.deltaE < 11) ? 'negative' : ((colorData.deltaE < 49) ? 'neutral' : 'positive');
-    let meterClass = (colorData.deltaE < 11) ? 'is-negative' : ((colorData.deltaE < 49) ? 'is-notice' : 'is-positive');
+    // If allowing a secondary threshold
+    // let badgeClass = (colorData.deltaE < minimumThreshold) ? 'negative' : ((colorData.deltaE < secondaryThreshold) ? 'neutral' : 'positive');
+    // let meterClass = (colorData.deltaE < minimumThreshold) ? 'is-negative' : ((colorData.deltaE < secondaryThreshold) ? 'is-notice' : 'is-positive');
+
+    // For only one threshold
+    let badgeClass = (colorData.deltaE < minimumThreshold) ? 'negative' : 'positive';
+    let meterClass = (colorData.deltaE < minimumThreshold) ? 'is-negative' : 'is-positive';
+
     let modeName = capitalizeFirstLetter(modes[i]);
 
     let meterPercent = round(colorData.deltaE, 2);
