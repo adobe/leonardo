@@ -108,8 +108,29 @@ const colorPicker = (e) => {
     const channelItem = document.createElement('div')
     channelItem.className = 'spectrum-Form-item';
     const channel = document.createElement('div');
-    channel.className = 'spectrum-Slider'
+    channel.className = 'spectrum-ColorSlider'
     channel.id = `${id}_ch${i}`;
+
+    const channelCheckerboard = document.createElement('div');
+    channelCheckerboard.className = 'spectrum-ColorSlider-checkerboard';
+    channelCheckerboard.role='presentation';
+
+    const channelGradient = document.createElement('div');
+    channelGradient.className = 'spectrum-ColorSlider-gradient';
+    channelGradient.role = 'presentation';
+    // TODO:
+    channelGradient.style = `linear-gradient(to right, )`;
+
+    const channelHandle = document.createElement('div');
+    channelHandle.className = 'spectrum-ColorHandle spectrum-ColorSlider-handle';
+
+    const channelHandleColor = document.createElement('div');
+    channelHandleColor.className = 'spectrum-ColorHandle-color';
+    channelHandleColor.style.backgroundColor = '#ff00ff' //TODO;
+
+    const channelColorLoupe = document.createElement('div');
+    channelColorLoupe.className = ''
+
     const channelLabelWrapper = document.createElement('div')
     channelLabelWrapper.className = 'spectrum-Slider-labelContainer';
     const channelLabel = document.createElement('label');
