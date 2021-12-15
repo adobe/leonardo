@@ -42,7 +42,7 @@ function testCvd(color1, color2, mode) {
   // let result = (deltaE < minimumThreshold) ? 'Fail' : ((deltaE < secondaryThreshold) ? 'Safe' : 'Very safe'); 
 
   // For only one threshold
-  let result = (deltaE < minimumThreshold) ? 'Fail' : 'Pass'; 
+  let result = (deltaE < minimumThreshold) ? 'Unsafe' : 'Safe'; 
 
   return {
     cvd: mode,
