@@ -228,3 +228,24 @@
   width: 38px;
   height: 38px;
 }
+
+.dualSwatch {
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+
+  .swatch {
+    border: 1px solid var(--translucentLightBorder);
+    width: 32px;
+    height: 32px;
+  }
+
+  .swatch:first-of-type {
+    border-top-left-radius: var(--spectrum-alias-border-radius-medium);
+    border-bottom-left-radius: var(--spectrum-alias-border-radius-medium);
+  }
+  .swatch:last-of-type {
+    border-top-right-radius: var(--spectrum-alias-border-radius-medium);
+    border-bottom-right-radius: var(--spectrum-alias-border-radius-medium);
+  }
+}

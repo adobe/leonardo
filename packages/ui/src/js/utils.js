@@ -9,6 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import * as d3 from './d3';
+import {simulate} from '@bjornlu/colorblind';
 
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
@@ -552,6 +553,48 @@ function createEquiLuminantKey(middleKey, colorKeys) {
   return newColor;
 }
 
+/**
+ *  Helper function to reformat colors as an object
+ *  to pass through the simulator. Returns colors in RGB
+ * 
+ *  works as expected:
+ *  console.log(simulateCvd('rgb(120, 50, 30)', 'protanopia'))
+ *  returns {r: 62, g: 62, b: 30}
+ */
+ function simulateCvd(color, deficiency) {
+  if (!color) console.warn(`${color} is invalid`)
+  let cRgb = chroma(color).rgb();
+  let c = { r: cRgb[0], g: cRgb[1], b: cRgb[2] }
+  let sim = simulate(c, deficiency);
+  let simRgb = chroma.rgb(sim.r, sim.g, sim.b).hex();
+  return simRgb
+}
+
+
+/**
+ *  Note: returns unexpected result.
+ *  Should be 61.16740074680422
+ *  when passing:
+ *  let colorRgb1 = 'rgb(173, 2, 22)';
+ *  let colorRgb2 = 'rgb(255, 222, 65)';
+ *  console.log(getDifference(colorRgb1, colorRgb2));
+ *  Returns 62.725336807388025
+ * 
+ *  May be chroma.js Lab conversion rounding
+ *  as those RGB values do not come to whole numbers
+ *  in Lab color space.
+ */ 
+ function getDifference(color1, color2) {
+  // pre-formatting and running through specific deltaE formula
+  let c1 = chroma(color1).lab();
+  let c2 = chroma(color2).lab();
+  let c1Lab = { L: c1[0], A: c1[1] , B: c1[2] }
+  let c2Lab = { L: c2[0], A: c2[1] , B: c2[2] }
+  // Use DeltaE 2000 formula (latest)
+  return DeltaE.getDeltaE00(c1Lab, c2Lab);
+}
+
+
 // function relativeLuminance(color) {
 //   const rgb = chroma(color).rgb();
 //   const r = rgb[0];
@@ -610,6 +653,8 @@ module.exports = {
   capitalizeFirstLetter,
   createColorData,
   orderColors,
+  simulateCvd,
+  getDifference,
   getChannelsAndFunction,
   orderColorsByLuminosity
 }

@@ -10,8 +10,87 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
-import {round} from './utils';
+import {
+  round,
+  simulateCvd,
+  getDifference,
+  capitalizeFirstLetter
+} from './utils';
 import {createTable} from './createTable';
+
+const DeltaE = require('delta-e');
+
+function toObject(color) {
+  let arr = chroma(color).rgb();
+  return {
+    r: arr[0],
+    g: arr[1],
+    b: arr[2]
+  }
+}
+
+function testCvd(color1, color2, mode) {
+  let minimumThreshold = 11;
+  let secondaryThreshold = 49;
+
+  let sim1 = (mode === 'normal vision') ? color1 : simulateCvd(color1, mode);
+  let sim2 = (mode === 'normal vision') ? color2 : simulateCvd(color2, mode);
+
+  let deltaE = getDifference(sim1, sim2);
+
+  let result = (deltaE < minimumThreshold) ? 'Fail' : ((deltaE < secondaryThreshold) ? 'Safe' : 'Very safe'); 
+
+  return {
+    cvd: mode,
+    status: result,
+    deltaE: deltaE,
+    colors: [
+      sim1, sim2
+    ]
+  };
+}
+
+function colorDifferenceReport(fg, bg) {
+  let colorDifferenceReportWrapper = document.getElementById('colorDifferenceReport');
+  colorDifferenceReportWrapper.innerHTML = ' ';
+
+  let headers = ['Preview', 'Vision type', 'Status', 'Difference'];
+  let rows = []
+
+  const modes = ['normal vision', 'deuteranopia', 'protanopia', 'tritanopia', 'achromatopsia'];
+  for(let i=0; i<modes.length; i++) {
+    let colorData = testCvd(fg, bg, modes[i]);
+    console.log(colorData)
+
+    let badgeClass = (colorData.deltaE < 11) ? 'negative' : ((colorData.deltaE < 49) ? 'neutral' : 'positive');
+    let meterClass = (colorData.deltaE < 11) ? 'is-negative' : ((colorData.deltaE < 49) ? 'is-notice' : 'is-positive');
+    let modeName = capitalizeFirstLetter(modes[i]);
+
+    let meterPercent = round(colorData.deltaE, 2);
+
+    let rowItem = [
+      `<div class="dualSwatch">
+        <div class="swatch" style="background-color: ${colorData.colors[0]}"></div>
+        <div class="swatch" style="background-color: ${colorData.colors[1]}"></div>
+      </div>`,
+      `<span class="spectrum-Heading spectrum-Heading--sizeXXS">${modeName}</span>`,
+      `<span class="spectrum-Badge spectrum-Badge--sizeS spectrum-Badge--${badgeClass}">${colorData.status}</span>`,
+      `<div">
+        <div class="spectrum-ProgressBar spectrum-ProgressBar--sizeM deltaE-meter ${meterClass}" value="${meterPercent}" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+          <div class="spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-ProgressBar-label">Delta E</div>
+          <div class="spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-ProgressBar-percentage">${meterPercent}</div>
+          <div class="spectrum-ProgressBar-track">
+            <div class="spectrum-ProgressBar-fill" style="width: ${meterPercent}%;"></div>
+          </div>
+        </div>
+      </div>`
+    ];
+    rows.push(rowItem)
+  }
+
+  // Create report table per specified level
+  createTable(headers, rows, 'colorDifferenceReport', true)
+}
 
 function swapColors() {
   // Swap input values
@@ -80,10 +159,6 @@ function levelSelect(e) {
   contrastReport(fg, bg, value);
 }
 
-function colorDifferenceReport() {
-  // Calculate Delta-E and CVD simulated deltas and update UI with results
-}
-
 function compareColors(e) {
   if(e !== undefined) {
     // Identify which input is triggered
@@ -108,7 +183,7 @@ function compareColors(e) {
       let level = ratingSelect.value;
       
       contrastReport(fg, bg, level);
-      colorDifferenceReport();
+      colorDifferenceReport(fg, bg);
     }
   }
   

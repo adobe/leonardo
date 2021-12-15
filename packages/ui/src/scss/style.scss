@@ -182,12 +182,20 @@ body,
   height: calc(100vh - var(--header-height));
   overflow: hidden;
   display: grid;
-  grid-template-columns: auto 500px;
-  grid-template-rows: auto;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas:
-    "main rightPanel";
+    "main"
+    "rightPanel";
+
+  @media screen and (min-width: 1065px) {
+    grid-template-columns: auto 560px;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "main rightPanel";
+  } 
 }
 
 .appFrameSideNav {
@@ -2138,4 +2146,16 @@ a:focus {
 }
 #contrastReport .spectrum-Table {
   width: 100%;
+}
+
+#colorDifferenceReport {
+  padding-top: 24px;
+
+  .spectrum-Table-body {
+    vertical-align: middle;
+  }
+}
+
+.deltaE-meter {
+  width: 150px;
 }

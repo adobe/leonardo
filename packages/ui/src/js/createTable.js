@@ -1,4 +1,4 @@
-function createTable(headers, rows, destId) {
+function createTable(headers, rows, destId, quiet = false) {
   let dest = document.getElementById(destId);
   // headers will be array
   // ['title', 'title', 'title']
@@ -10,7 +10,7 @@ function createTable(headers, rows, destId) {
   // ]
 
   let table = document.createElement('table');
-  table.className = "spectrum-Table spectrum-Table--sizeM";
+  table.className = (quiet) ? "spectrum-Table spectrum-Table--sizeM spectrum-Table--quiet" : "spectrum-Table spectrum-Table--sizeM";
   let tHead = document.createElement('thead')
   tHead.className = 'spectrum-Table-head';
   let hTr = document.createElement('tr');

@@ -41,6 +41,7 @@ import '@spectrum-css/toast/dist/index-vars.css';
 import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
 import '@spectrum-css/progresscircle/dist/index-vars.css';
+import '@spectrum-css/progressbar/dist/index-vars.css';
 import '@spectrum-css/table/dist/index-vars.css';
 
 import './scss/style.scss';
