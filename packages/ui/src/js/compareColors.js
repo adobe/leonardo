@@ -14,7 +14,8 @@ import {
   round,
   simulateCvd,
   getDifference,
-  capitalizeFirstLetter
+  capitalizeFirstLetter,
+  alphaBlend
 } from './utils';
 import {createTable} from './createTable';
 
@@ -64,7 +65,6 @@ function colorDifferenceReport(fg, bg) {
   const modes = ['normal vision', 'deuteranopia', 'protanopia', 'tritanopia', 'achromatopsia'];
   for(let i=0; i<modes.length; i++) {
     let colorData = testCvd(fg, bg, modes[i]);
-    console.log(colorData)
 
     // If allowing a secondary threshold
     // let badgeClass = (colorData.deltaE < minimumThreshold) ? 'negative' : ((colorData.deltaE < secondaryThreshold) ? 'neutral' : 'positive');
@@ -116,6 +116,7 @@ function contrastReport(fg, bg, level) {
 
   // Calculate contrast and update UI with results
   let fgArray = fg.rgb();
+  if(chroma(fg).alpha() < 1) fgArray = alphaBlend(fg, bg);
   let bgArray = bg.rgb();
   let contrast = Leo.contrast(fgArray, bgArray);
 
@@ -192,12 +193,74 @@ function compareColors(e) {
       let ratingSelect = document.getElementById('complianceLevel');
       let level = ratingSelect.value;
       
+      alphaGradient(fg);
       contrastReport(fg, bg, level);
       colorDifferenceReport(fg, bg);
     }
-  }
-  
+  } 
 }
+
+function sliderRangeInteraction(value) {
+  let handleWrap = document.getElementById('alphaSliderHandleWrap');
+  let handle = document.getElementById('alphaSliderHandle');
+  let backgroundColor = document.getElementById('compareColorTwoInput').value;
+  let pos = value / 100;
+
+  const colorInput = document.getElementById('compareColorOneInput');
+  let inputVal = colorInput.value;
+  let newVal = chroma(`${inputVal}`).alpha(pos);
+
+  if(inputVal.match(/^rgb/)) {
+    newVal = newVal.css('rgb')
+  }
+
+  colorInput.value = newVal;
+  handleWrap.style.left = `${pos * 100}%`;
+  handle.style.backgroundColor = newVal;
+
+  let swatch = document.getElementById('compareColorOne_swatch');
+  let blendedValue = alphaBlend(newVal.hex(), backgroundColor);
+  
+  let comparisonValue = (pos < 1) ? blendedValue : newVal;
+  console.log(blendedValue)
+
+  swatch.style.backgroundColor = comparisonValue.hex();
+
+  // Maybe do some stuffs... then,
+  let fg = newVal;
+  let bg = chroma(backgroundColor);
+
+  // Get value for the rating level for the report.
+  let ratingSelect = document.getElementById('complianceLevel');
+  let level = ratingSelect.value;
+  
+  alphaGradient(fg);
+  contrastReport(comparisonValue, bg, level);
+  colorDifferenceReport(comparisonValue, bg);
+}
+
+function alphaGradient(color) {
+  let grad = document.getElementById('alphaSliderGradient');
+  let range = document.getElementById('alphaSliderRange');
+  let handle = document.getElementById('alphaSliderHandle');
+  let handleWrap = document.getElementById('alphaSliderHandleWrap');
+
+  let c = chroma(color).rgb();
+  let cAlpha = chroma(color).alpha() * 100;
+
+  let start = `rgba(${c[0]}, ${c[1]}, ${c[2]}, 0)`
+  let end = `rgba(${c[0]}, ${c[1]}, ${c[2]}, 1)`
+
+  let linearGrad = 'linear-gradient(to right, ' + start + ' 0%, ' + end + ' 100%)';
+
+  handle.style.backgroundColor = chroma(color).css('rgb');
+
+  grad.style.backgroundImage = linearGrad;
+  range.value = cAlpha;
+  handleWrap.style.left = `${cAlpha}%`;
+}
+
+window.sliderRangeInteraction = sliderRangeInteraction;
 
 window.compareColors = compareColors;
 window.levelSelect = levelSelect;

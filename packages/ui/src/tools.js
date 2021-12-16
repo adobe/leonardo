@@ -45,12 +45,8 @@ import '@spectrum-css/progressbar/dist/index-vars.css';
 import '@spectrum-css/table/dist/index-vars.css';
 
 import './scss/style.scss';
-import './scss/converter.scss';
 import './scss/colorinputs.scss';
 import './scss/components/*.scss';
-
-// import './contrast-checker';
-// import './converter';
 
 import '@adobe/focus-ring-polyfill';
 import {pageLoader} from './js/pageLoader'
