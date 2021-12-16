@@ -222,7 +222,6 @@ function sliderRangeInteraction(value) {
   let blendedValue = alphaBlend(newVal.hex(), backgroundColor);
   
   let comparisonValue = (pos < 1) ? blendedValue : newVal;
-  console.log(blendedValue)
 
   swatch.style.backgroundColor = comparisonValue.hex();
 
