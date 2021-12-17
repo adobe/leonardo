@@ -80,6 +80,10 @@ import {
   createSVGswatches,
   downloadSwatches
 } from './js/createSVGswatches';
+import {
+  createXML,
+  downloadXML
+} from './js/createXML';
 
 const chroma = require('chroma-js');
 const { extendChroma } = require('./js/chroma-plus');

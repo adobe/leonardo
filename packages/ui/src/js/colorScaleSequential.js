@@ -48,9 +48,11 @@ function colorScaleSequential(scaleType = 'sequential') {
   // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
   // let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
   // let defaultColors = ['#2E005C', '#FFDD00']
-  let defaultColors = ['#5c3cec','#9eecff', '#46006B']
-  _sequentialScale.colorKeys = defaultColors;
-  _sequentialScale.smooth = true;
+  // let defaultColors = ['#5c3cec','#9eecff', '#46006B']
+  // let defaultColors = ['#002f61', '#ffff00'];
+  // let defaultColors = ['#e3e3e3', '#333333']
+  // _sequentialScale.colorKeys = defaultColors;
+  // _sequentialScale.smooth = false;
 
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
@@ -139,8 +141,11 @@ function colorScaleSequential(scaleType = 'sequential') {
     colorClass.swatches = Number(stops);
     
     const gradientColors = colorClass.colors;
+    let scaleName = document.getElementById(`${scaleType}_name`).value;
+    let filename = `${scaleName}_${scaleType}`;
+
     setTimeout(() => {
-      downloadSVGgradient(gradientColors, colorClass.colorspace, scaleType);
+      downloadSVGgradient(gradientColors, colorClass.colorspace, filename);
       colorClass.swatches = originalSwatches;  
     }, 500)
   })

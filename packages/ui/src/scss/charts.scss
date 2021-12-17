@@ -230,3 +230,22 @@ governing permissions and limitations under the License.
 svg.main-svg {
   background: transparent !important;
 }
+
+.chartsRow {
+  height: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+}
+
+.chartsColumn--left,
+.chartsColumn--right {
+  display: flex;
+  flex-direction: column;
+}
+.chartsColumn--left {
+  width: 40%;
+}
+.chartsColumn--right {
+  width: 60%;
+}

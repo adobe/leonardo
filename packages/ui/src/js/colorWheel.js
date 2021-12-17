@@ -30,8 +30,11 @@ const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 extendChroma(chroma);
 
+
+const scaleWheelSize = 280;
+
 function updateColorDots(mode, scaleType = 'theme', customColors, id) {
-  const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
+  const size = (scaleType === 'theme') ? getColorWheelSize() : scaleWheelSize;
   const colorClass = (scaleType === 'theme' || scaleType === 'colorScale') ? _theme : ((scaleType === 'sequential') ? _sequentialScale : _divergingScale);
 
   // Create dots for color wheel
@@ -91,7 +94,7 @@ function getColorWheelSize() {
 
 function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme', dots = true) {
   // Cant seem to use the constant colorWheelSize or dotSize here, so we calculate it
-  const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
+  const size = (scaleType === 'theme') ? getColorWheelSize() : scaleWheelSize;
   let dotSize = (dots) ? 16 : -2;
   let defaultAchromaticDotOffset = (size / 2) - (dotSize / 2);
 
@@ -154,7 +157,7 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme', id) {
   const existingLines = document.getElementById(linesId)
   if(existingLines) existingLines.parentNode.removeChild(existingLines);
 
-  const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
+  const size = (scaleType === 'theme') ? getColorWheelSize() : scaleWheelSize; // 220
   let center = (size / 2);
 
   let data;
@@ -227,7 +230,7 @@ function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme', id) {
 
 function createColorWheel(mode, lightness, scaleType) {   
   lightness = Number(lightness);
-  const size = (scaleType === 'theme') ? getColorWheelSize() : 220;
+  const size = (scaleType === 'theme') ? getColorWheelSize() : scaleWheelSize;
   const wheelId = (scaleType === 'theme') ? '#colorWheel' : `#${scaleType}ColorWheel`;
   const canvasId = (scaleType === 'theme') ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
 

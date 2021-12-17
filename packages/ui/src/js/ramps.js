@@ -37,6 +37,8 @@ function themeRamp(colors, dest, angle) {
 function themeRampKeyColors(colorKeys, dest, scaleType) {
   let container = document.getElementById(dest);
   let domains, sqrtDomains;
+  let dotSize = 12;
+
   let colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   if(scaleType === 'sequential') {
     domains = colorClass.domains;  
@@ -67,8 +69,8 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
     // Adjust offset based on same percentage of the 
     // width of the dot, essentially framing the dot
     let dotOffset = (scaleType === 'theme' || !scaleType) 
-      ? 36 * lightness/100 
-      : 36 * domains[index];
+      ? dotSize * lightness/100 
+      : dotSize * domains[index];
 
     let left = (scaleType === 'sequential' || scaleType === 'diverging') 
       ? domains[index] * 100

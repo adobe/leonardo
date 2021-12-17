@@ -55,8 +55,9 @@ function downloadSwatches(scaleType) {
 
   createSvg.then(() => {
     let svg = document.getElementById(`${scaleType}SVGcolorSamples`).innerHTML;
+    let scaleName = document.getElementById(`${scaleType}_name`).value;
 
-    let filename = `${scaleType}_colors.svg`;
+    let filename = `${scaleName}_${scaleType}_colors.svg`;
     var blob = new Blob([`${svg}`], {type: "image/svg+xml;charset=utf-8"});
   
     saveAs(blob, filename);

@@ -76,7 +76,7 @@ function downloadSVGgradient(colors, mode, gradientName) {
 
   createGradient.then(() => {
     let svg = document.getElementById('_SVGgradient').innerHTML;
-    let filename = `${gradientName}-${mode}-gradient.svg`;
+    let filename = `${gradientName}_${mode}_gradient.svg`;
     var blob = new Blob([`${svg}`], {type: "image/svg+xml;charset=utf-8"});
   
     saveAs(blob, filename);

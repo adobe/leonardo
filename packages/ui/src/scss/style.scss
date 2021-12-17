@@ -1849,7 +1849,7 @@ a:focus {
 }
 
 .chartsMode {
-  width: 16ch;
+  width: 32ch;
 }
 
 #luminosityGradient {
@@ -1970,6 +1970,17 @@ a:focus {
   display: flex;
   justify-content: center;
   margin: var(--spectrum-global-dimension-size-200);
+
+  canvas {
+    margin: 0 auto;
+  }
+}
+
+.tab-ColorWheel {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  margin-bottom: 48px;
 
   canvas {
     margin: 0 auto;

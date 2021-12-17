@@ -301,7 +301,7 @@ class SequentialScale {
 
 let _sequentialScale = new SequentialScale({
   swatches: 100,
-  colorKeys: ['#000000', '#cacaca'],
+  colorKeys: ['#002f61', '#ffff00'],
   colorspace: 'CAM02p',
   smooth: false,
   distributeLightness: 'linear',
