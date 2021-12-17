@@ -159,7 +159,7 @@ class SequentialScale {
     let lumsObj = this._colorKeys.map((c) => {
       return {
         color: c,
-        lum: chroma(c).hsluv()[2]
+        lum: chroma(c).jch()[0]
       }
     });
     lumsObj.sort((a, b) => (a.lum < b.lum) ? 1 : -1);
@@ -217,19 +217,18 @@ class SequentialScale {
     //   return x !== undefined;
     // });
     newColors = [...new Set(newColors)]
-    // const lastColorIndex = newColors.length-1;
+    const lastColorIndex = newColors.length-1;
     // Manually ensure first and last user-input key colors
     // are part of new key colors array being passed to the
     // new color scale.
-    // NOTE: Not sure this actually is needed...
-    // const first = (this._smooth) ? chroma(initialColorScale(0)): initialColorScale(0);
-    // const last = (this._smooth) ? chroma(initialColorScale(generousColorLength)): initialColorScale(generousColorLength);
-    // newColors
-    //   .splice(0, 1, first.hex());
-    // newColors
-    //   .splice(lastColorIndex, 1)
-    // newColors
-    //   .splice((lastColorIndex), 1, last.hex())
+    const first = (this._smooth) ? chroma(initialColorScale(0)): initialColorScale(0);
+    const last = (this._smooth) ? chroma(initialColorScale(generousColorLength)): initialColorScale(generousColorLength);
+    newColors
+      .splice(0, 1, first.hex());
+    newColors
+      .splice(lastColorIndex, 1)
+    newColors
+      .splice((lastColorIndex), 1, last.hex())
 
     this._colorFunction = Leo.createScale({
       swatches: this._swatches,
