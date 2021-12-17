@@ -73,8 +73,6 @@ function colorScaleDiverging(scaleType = 'diverging') {
   let interpolationMode = document.getElementById(`${scaleType}_mode`);
   let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
-  let shift = document.getElementById(`${scaleType}Shift`);
-  let distributeLightness = document.getElementById('distributeLightness');
   let sampleNumber = document.getElementById(`${scaleType}Samples`);
   let sampleOutput = document.getElementById(`${scaleType}_format`);
   let quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
@@ -88,7 +86,6 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
   // If class is preset to smooth, check the smooth switch in the UI
   if(colorClass.smooth === true) smooth.checked = true;
-  distributeLightness.value = colorClass.distributeLightness;
   // if(colorKeys.length >= 3) {
   //   smooth.disabled = false;
   //   smoothWrapper.classList.remove('is-disabled')
@@ -180,31 +177,6 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
     updateColorWheel(e.target.value, lightness, true, null, scaleType)
     create3dModel(PlotDestId, [colorClass], e.target.value, scaleType)
-  })
-
-  distributeLightness.addEventListener('change', (e) => {
-    colorClass.distributeLightness = e.target.value;
-    console.log(colorClass.distributeLightness)
-    setTimeout(() => {
-      colors = colorClass.colors;
-      updateRamps(colorClass, scaleType, scaleType)
-      createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType)
-      updateColorDots(chartsModeSelect.value, scaleType)
-      createSamples(sampleNumber.value, scaleType)
-      createDemos(scaleType)
-      create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
-    }, 100)
-  })
-  shift.addEventListener('input', (e) => {
-    colorClass.shift = e.target.value;
-    colors = colorClass.colors;
-
-    throttle(updateRamps(colorClass, scaleType, scaleType), 10);
-    throttle(  createPaletteInterpolationCharts([colorClass.startScale.colorsReversed, colorClass.endScale.colors], chartsModeSelect.value, scaleType), 10);
-    throttle(updateColorDots(chartsModeSelect.value, scaleType), 10);
-    throttle(createSamples(sampleNumber.value, scaleType), 10);
-    throttle(createDemos(scaleType), 10);
-    throttle(create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType), 10)
   })
 
   const hasStartButton = Promise.resolve(document.getElementById(buttonStartId))

@@ -1777,13 +1777,14 @@ a:focus {
 }
 
 .themeRampDot {
-  width: 32px;
-  height: 32px;
-  border: 2px solid #ffffff;
+  width: 12px;
+  height: 12px;
+  // border: 2px solid #ffffff;
+  background-color: #ffffff;
   position: absolute;
   z-index: 10;
   border-radius: 100%;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.3);
 }
 
 .sideNavContent--splitView {

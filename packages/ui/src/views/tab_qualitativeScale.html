@@ -125,137 +125,138 @@
    </div>
   </div>
 
-  <main class="scaleMainContent-Wrapper">
-    <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Color scale</h2>
-    <div id="{{scaleType}}_selectedColors" class="isEmpty">
-      Select generated colors to begin building your scale
-    </div>
-    <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Generated color samples</h3>
-    <div class="" id="{{scaleType}}_generatedColors">
-      <div id="cvdSafeColors"></div>
-    </div>
-      <!-- <div class="themeColor_gradient" id="{{scaleType}}_gradient"> Selected colors here </div> -->
-
-    <div id="" class="spectrum-Content-Tabs spectrum-Content-Tabs--noPadding">
-      <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
-        <div id="tab{{scaleType}}Simulation" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}SimulationWrapper', `{{ scaleType }}`)">
-          <label class="spectrum-Tabs-itemLabel">Simulations</label>
-        </div>
-        <!-- <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
-          <label class="spectrum-Tabs-itemLabel">Charts</label>
-        </div> -->
-        <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}DemoWrapper', `{{ scaleType }}`)">
-          <label class="spectrum-Tabs-itemLabel">Demo</label>
-        </div>
-        <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}OutputWrapper', `{{ scaleType }}`)">
-          <label class="spectrum-Tabs-itemLabel">Output</label>
-        </div>
+  <main>
+    <div class="scaleMainContent-Wrapper">
+      <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Color scale</h2>
+      <div id="{{scaleType}}_selectedColors" class="isEmpty">
+        Select generated colors to begin building your scale
       </div>
-
-      <div class="spectrum-Form-item spectrum-Form-item--row" style="display: inline-flex">
-        <label for="{{ scaleType }}_chartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Charts</label>
-          <select class="spectrum-Picker spectrum-Picker--sizeM chartsMode" name="{{ scaleType }}_chartsMode" id="{{ scaleType }}_chartsMode">
-            <option value="CAM02">CAM02</option>
-            <option value="CAM02p">CAM02 (Ch)</option>
-            <option value="LAB">Lab</option>
-            <option value="LCH">LCh</option>
-            <option value="HSL">HSL</option>
-            <option value="HSV">HSV</option>
-            <option value="HSLuv">HSLuv</option>
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-            </svg>
-          </select>
+      <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Generated color samples</h3>
+      <div class="" id="{{scaleType}}_generatedColors">
+        <div id="cvdSafeColors"></div>
       </div>
-    </div>
+        <!-- <div class="themeColor_gradient" id="{{scaleType}}_gradient"> Selected colors here </div> -->
 
-    <div id="{{ scaleType }}SimulationWrapper" class="{{scaleType}}TabsWrapper">
-      <!-- <hr class="spectrum-Divider spectrum-Divider--sizeM"/> -->
-
-      <div id="simulatedColors"></div>
-      <p class="spectrum-Body spectrum-Body--sizeXXS">Simulated colors are ordered by hue and saturation for best comparison of similar colors.</p>
-    </div>
-
-    <div id="{{scaleType}}DemoWrapper" class="{{scaleType}}TabsWrapper demoVisualizationWrapper">
-      <div class="demoVisualization--row">
-        <!-- <div id="{{scaleType}}Heatmap" class="demoVisualization"></div> -->
-        <!-- <div id="{{scaleType}}Scatter" class="demoVisualization"></div>   -->
-        <div id="{{scaleType}}Chord" class="demoVisualization"></div>  
-        <div id="{{scaleType}}Donut" class="demoVisualization"></div>  
-      </div>
-      <div class="demoVisualization--row">
-        <div id="{{scaleType}}StackedArea" class="demoVisualization demoVisualization--large"></div>  
-        <!-- <div id="{{scaleType}}ViolinJitter" class="demoVisualization"></div>   -->
-        <!-- <div id="{{scaleType}}Choropleth" class="demoVisualization"></div> -->
-      </div>
-
-      
-      <hr class="spectrum-Divider spectrum-Divider--sizeS"/>
-      <p class="spectrum-Body spectrum-Body--sizeS"> 
-        Visualizations from <a class="spectrum-Link" href="https://www.d3-graph-gallery.com/" target="_blank">d3-graph-gallery</a>
-      </p>
-    </div>
-
-    <!-- <div id="{{scaleType}}ChartsWrapper" class="{{scaleType}}TabsWrapper">
-      <div class="">
-        <div class="chart--labelless" id="{{scaleType}}InterpolationChart">
-          chart 1
-        </div>
-        <div class="chart--labelless" id="{{scaleType}}InterpolationChart2">
-          chart 2
-        </div>  
-        <div class="chart--labelless" id="{{scaleType}}InterpolationChart3">
-          chart 3
-        </div>   
-      </div>
-    </div> -->
-
-    <!-- <div id="{{scaleType}}RGBChartsWrapper" class="{{scaleType}}TabsWrapper">
-      <div class="chart--labelless" id="{{scaleType}}RGBchart">
-        RGB chart
-      </div>
-    </div> -->
-
-    <!-- <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">
-      <svg class="chart3D" id="{{scaleType}}Model"></svg>
-    </div> -->
-
-    <div id="{{ scaleType }}OutputWrapper" class="{{ scaleType }}TabsWrapper">
-      <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Sample colors</h2>
-
-      <div class="spectrum-Form spectrum-Form--spacious spectrum-Form--row">
-        <div class="spectrum-Form-item">
-          <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}_format">Format</label>
-          <select class="spectrum-Picker spectrum-Picker--sizeM pickerOutputFormat pickerMode" id="{{ scaleType }}_format" name="{{ scaleType }}_format">
-             <span class="spectrum-Picker-iconWrapper">
-                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-                   <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-                </svg>
-             </span>
-             <option value="HEX">Hex</option>
-             <option value="RGB">RGB</option>
-             <option value="LAB">Lab</option>
-             <option value="LCH">Lch</option>
-             <option value="HSL">HSL</option>
-          </select>
-        </div>
-        <div class="spectrum-Form-item">
-          <div class="spectrum-Switch" id="{{ scaleType }}paramStringQuotesWrapper">
-            <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}paramStringQuotes">
-            <span class="spectrum-Switch-switch"></span>
-            <label class="spectrum-Switch-label" for="{{ scaleType }}paramStringQuotes">String quotes</label>
+      <div id="" class="spectrum-Content-Tabs spectrum-Content-Tabs--noPadding">
+        <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+          <div id="tab{{scaleType}}Simulation" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}SimulationWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Simulations</label>
+          </div>
+          <!-- <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Charts</label>
+          </div> -->
+          <div id="tab{{scaleType}}Demo" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}DemoWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Demo</label>
+          </div>
+          <div id="tab{{scaleType}}Output" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}OutputWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Output</label>
           </div>
         </div>
-        <div class="spectrum-Form-item">
-          <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--secondary" title="Download sample colors" id="downloadQualitativeSwatches">Download colors</button>
+
+        <div class="spectrum-Form-item spectrum-Form-item--row" style="display: inline-flex">
+          <label for="{{ scaleType }}_chartsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Charts</label>
+            <select class="spectrum-Picker spectrum-Picker--sizeM chartsMode" name="{{ scaleType }}_chartsMode" id="{{ scaleType }}_chartsMode">
+              <option value="CAM02">CAM02</option>
+              <option value="CAM02p">CAM02 (Ch)</option>
+              <option value="LAB">Lab</option>
+              <option value="LCH">LCh</option>
+              <option value="HSL">HSL</option>
+              <option value="HSV">HSV</option>
+              <option value="HSLuv">HSLuv</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
+        </div>
+      </div>
+
+      <div id="{{ scaleType }}SimulationWrapper" class="{{scaleType}}TabsWrapper">
+        <!-- <hr class="spectrum-Divider spectrum-Divider--sizeM"/> -->
+
+        <div id="simulatedColors"></div>
+        <p class="spectrum-Body spectrum-Body--sizeXXS">Simulated colors are ordered by hue and saturation for best comparison of similar colors.</p>
+      </div>
+
+      <div id="{{scaleType}}DemoWrapper" class="{{scaleType}}TabsWrapper demoVisualizationWrapper">
+        <div class="demoVisualization--row">
+          <!-- <div id="{{scaleType}}Heatmap" class="demoVisualization"></div> -->
+          <!-- <div id="{{scaleType}}Scatter" class="demoVisualization"></div>   -->
+          <div id="{{scaleType}}Chord" class="demoVisualization"></div>  
+          <div id="{{scaleType}}Donut" class="demoVisualization"></div>  
+        </div>
+        <div class="demoVisualization--row">
+          <div id="{{scaleType}}StackedArea" class="demoVisualization demoVisualization--large"></div>  
+          <!-- <div id="{{scaleType}}ViolinJitter" class="demoVisualization"></div>   -->
+          <!-- <div id="{{scaleType}}Choropleth" class="demoVisualization"></div> -->
         </div>
 
+        
+        <hr class="spectrum-Divider spectrum-Divider--sizeS"/>
+        <p class="spectrum-Body spectrum-Body--sizeS"> 
+          Visualizations from <a class="spectrum-Link" href="https://www.d3-graph-gallery.com/" target="_blank">d3-graph-gallery</a>
+        </p>
       </div>
 
-      <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
-        <!-- generated values here -->
-      </div>
-    </div>
+      <!-- <div id="{{scaleType}}ChartsWrapper" class="{{scaleType}}TabsWrapper">
+        <div class="">
+          <div class="chart--labelless" id="{{scaleType}}InterpolationChart">
+            chart 1
+          </div>
+          <div class="chart--labelless" id="{{scaleType}}InterpolationChart2">
+            chart 2
+          </div>  
+          <div class="chart--labelless" id="{{scaleType}}InterpolationChart3">
+            chart 3
+          </div>   
+        </div>
+      </div> -->
 
+      <!-- <div id="{{scaleType}}RGBChartsWrapper" class="{{scaleType}}TabsWrapper">
+        <div class="chart--labelless" id="{{scaleType}}RGBchart">
+          RGB chart
+        </div>
+      </div> -->
+
+      <!-- <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">
+        <svg class="chart3D" id="{{scaleType}}Model"></svg>
+      </div> -->
+
+      <div id="{{ scaleType }}OutputWrapper" class="{{ scaleType }}TabsWrapper">
+        <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Sample colors</h2>
+
+        <div class="spectrum-Form spectrum-Form--spacious spectrum-Form--row">
+          <div class="spectrum-Form-item">
+            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}_format">Format</label>
+            <select class="spectrum-Picker spectrum-Picker--sizeM pickerOutputFormat pickerMode" id="{{ scaleType }}_format" name="{{ scaleType }}_format">
+              <span class="spectrum-Picker-iconWrapper">
+                  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                  </svg>
+              </span>
+              <option value="HEX">Hex</option>
+              <option value="RGB">RGB</option>
+              <option value="LAB">Lab</option>
+              <option value="LCH">Lch</option>
+              <option value="HSL">HSL</option>
+            </select>
+          </div>
+          <div class="spectrum-Form-item">
+            <div class="spectrum-Switch" id="{{ scaleType }}paramStringQuotesWrapper">
+              <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}paramStringQuotes">
+              <span class="spectrum-Switch-switch"></span>
+              <label class="spectrum-Switch-label" for="{{ scaleType }}paramStringQuotes">String quotes</label>
+            </div>
+          </div>
+          <div class="spectrum-Form-item">
+            <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--secondary" title="Download sample colors" id="downloadQualitativeSwatches">Download colors</button>
+          </div>
+
+        </div>
+
+        <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
+          <!-- generated values here -->
+        </div>
+      </div>
+      </div>
     </main>
 </div>

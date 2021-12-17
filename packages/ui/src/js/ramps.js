@@ -77,7 +77,8 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
     let leftPosition = `calc(${Math.round(left)}% - ${Math.round(dotOffset)}px)`;
     let dot = document.createElement('div');
     dot.className = 'themeRampDot';
-    dot.style.backgroundColor = key;
+    // dot.style.backgroundColor = key;
+    dot.title = `Key color: ${key}`;
     dot.style.left = leftPosition;
     container.appendChild(dot);
   })

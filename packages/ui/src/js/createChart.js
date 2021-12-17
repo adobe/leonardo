@@ -16,7 +16,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   let adjustedHeight = (windowHeight - 300) / 2;// subtract heading, tabs height and padding from measurement
-  const maxWidth = 800;
+  const maxWidth = 792;
 
   if(
       dest === '#interpolationChart' || 
@@ -26,18 +26,19 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
       dest === `#${scaleType}InterpolationChart2` ||
       dest === `#${scaleType}InterpolationChart3`
     ) {
-    let adjustedWidth = windowWidth - (388 + 34);// subtract panel width and padding from measurement
+    let adjustedWidth = windowWidth - (388 + 34) - 8;// subtract panel width and padding from measurement
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
     chartWidth = adjustedWidth;
-    chartHeight = adjustedHeight - 116;
+    adjustedHeight = (windowHeight - 332) / 3;
+    chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
   }
   if(
     dest === '#paletteInterpolationChart' ||
     dest === '#paletteInterpolationChart2' ||
     dest === '#paletteInterpolationChart3'
   ) {
-    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
+    let adjustedWidth = windowWidth - (388 + 32) - 8;// subtract panel width and padding from measurement
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
     chartWidth = adjustedWidth;
@@ -48,11 +49,12 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     dest === `#sequentialRGBchart` ||
     dest === '#divergingRGBchart'
   ) {
-    let adjustedWidth = windowWidth - (388 + 32);// subtract panel width and padding from measurement
+    let adjustedWidth = windowWidth - (388 + 32) - 8;// subtract panel width and padding from measurement
     adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
     chartWidth = adjustedWidth;
-    chartHeight = adjustedHeight * 1.5;
+    adjustedHeight = adjustedHeight * 1.5;
+    chartHeight = (adjustedHeight < 340) ? 340 : adjustedHeight;
   } 
   if(dest === '#contrastChart' || dest === '#luminosityChart') {
     chartWidth = 356;
