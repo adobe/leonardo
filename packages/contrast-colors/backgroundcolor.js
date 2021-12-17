@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const {
-  cArray,
+  hsluvArray,
   convertColorValue,
   createScale,
   removeDuplicates,
@@ -40,13 +40,14 @@ class BackgroundColor extends Color {
 
     // Inject original keycolors to ensure they are present in the background options
     backgroundColorScale.push(...this.colorKeys);
-
+    
     const colorObj = backgroundColorScale
       // Convert to HSLuv and keep track of original indices
-      .map((c, i) => ({ value: Math.round(cArray(c)[2]), index: i }));
+      .map((c, i) => ({ value: Math.round(hsluvArray(c)[2]), index: i }));
 
-    const bgColorArrayFiltered = removeDuplicates(colorObj, 'value')
-      .map((data) => backgroundColorScale[data.index]);
+    const colorObjFiltered = removeDuplicates(colorObj, 'value')
+
+    const bgColorArrayFiltered = colorObjFiltered.map((data) => backgroundColorScale[data.index]);
 
     // Manually cap the background array at 100 colors, then add white back to the end
     // since it sometimes gets removed.

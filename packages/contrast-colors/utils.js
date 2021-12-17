@@ -47,6 +47,10 @@ function multiplyRatios(ratio, multiplier) {
 }
 
 function cArray(c) {
+  return chroma(String(c)).jch();
+}
+
+function hsluvArray(c) {
   return chroma(String(c)).hsluv();
 }
 
@@ -167,14 +171,14 @@ function createScale({
     // Set domain of each color key based on percentage (as HSLuv lightness)
     // against the full scale of black to white
     domains = colorKeys
-      .map((key) => swatches - swatches * (chroma(key).hsluv()[2] / 100))
+      .map((key) => swatches - swatches * (chroma(key).jch()[0] / 100))
       .sort((a, b) => a - b)
       .concat(swatches);
       
     domains.unshift(0);
   } else {
     // Domains need to be a percentage of the available luminosity range
-    let lums = colorKeys.map((c) => chroma(c).hsluv()[2] / 100)
+    let lums = colorKeys.map((c) => chroma(c).jch()[0] / 100)
     let min = Math.min(...lums);
     let max = Math.max(...lums);
 
@@ -192,12 +196,12 @@ function createScale({
 
   // Transform square root in order to smooth gradient
   domains = sqrtDomains;
-  if(distributeLightness === 'parabolic') {
-    const parabola = (x) => {return (Math.sqrt(x, 2))} 
-    let percDomains = sqrtDomains.map((d) => {return d/swatches})
-    let newDomains = percDomains.map((d) => {return parabola(d) * swatches})
-    domains = newDomains;
-  }
+  // if(distributeLightness === 'parabolic') {
+  //   const parabola = (x) => {return (Math.sqrt(x, 2))} 
+  //   let percDomains = sqrtDomains.map((d) => {return d/swatches})
+  //   let newDomains = percDomains.map((d) => {return parabola(d) * swatches})
+  //   domains = newDomains;
+  // }
   if(distributeLightness === 'polynomial') {
     // Equation based on polynomial mapping of lightness values in CIECAM02 
     // of the RgBu diverging color scale.
@@ -214,7 +218,7 @@ function createScale({
     // Convert to HSLuv and keep track of original indices
     .map((c, i) => ({ colorKeys: cArray(c), index: i }))
     // Sort by lightness
-    .sort((c1, c2) => c2.colorKeys[2] - c1.colorKeys[2])
+    .sort((c1, c2) => c2.colorKeys[0] - c1.colorKeys[0])
     // Retrieve original RGB color
     .map((data) => colorKeys[data.index]);
 
@@ -222,8 +226,8 @@ function createScale({
 
   let scale;
   if (fullScale) {
-    const white = space === 'lch' ? chroma.lch(...chroma('#fff').lch()) : '#fff';
-    const black = space === 'lch' ? chroma.lch(...chroma('#000').lch()) : '#000';
+    const white = space === 'lch' ? chroma.lch(...chroma('#fff').lch()) : '#ffffff';
+    const black = space === 'lch' ? chroma.lch(...chroma('#000').lch()) : '#000000';
     ColorsArray = [
       white,
       ...sortedColor,
@@ -493,6 +497,7 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
 
 module.exports = {
   cArray,
+  hsluvArray,
   colorSpaces,
   convertColorValue,
   createScale,
