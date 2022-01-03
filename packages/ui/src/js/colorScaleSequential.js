@@ -19,6 +19,7 @@ import {
   themeRampKeyColors,
   updateRamps
 } from './ramps';
+import { createTable } from './createTable';
 import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
 import {createInterpolationCharts} from './createInterpolationCharts';
@@ -31,7 +32,9 @@ import {
 } from './colorWheel';
 import {create3dModel} from './create3dModel';
 import {
-  throttle
+  throttle,
+  round,
+  getDifference
 } from './utils';
 import {createSamples} from './createSamples';
 import {createDemos} from './createDemos';
@@ -39,6 +42,7 @@ import {
   createSVGswatches,
   downloadSwatches
 } from './createSVGswatches';
+import {createPanelReportTable} from './createPanelReportTable'
 
 const chroma = require('chroma-js');
 
@@ -53,6 +57,18 @@ function colorScaleSequential(scaleType = 'sequential') {
   // let defaultColors = ['#e3e3e3', '#333333']
   // _sequentialScale.colorKeys = defaultColors;
   // _sequentialScale.smooth = false;
+
+  let defaultBackgroundColor;
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  if (mq.matches) {
+    //dark mode
+    defaultBackgroundColor = '#1d1d1d';
+    document.getElementById('main_sequential').classList.add('spectrum--darkest');
+  } else {
+    //light mode
+    defaultBackgroundColor = '#f8f8f8';
+    document.getElementById('main_sequential').classList.add('spectrum--light');
+  }
 
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
@@ -84,8 +100,8 @@ function colorScaleSequential(scaleType = 'sequential') {
 
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
-  let buttonStartId = `${scaleType}_addStartKeyColor`;
-  let buttonEndId = `${scaleType}_addEndKeyColor`;
+  // let buttonStartId = `${scaleType}_addStartKeyColor`;
+  // let buttonEndId = `${scaleType}_addEndKeyColor`;
 
   const hasColorKeys = Promise.resolve(colorKeys);
   hasColorKeys.then((values) => {
@@ -109,6 +125,37 @@ function colorScaleSequential(scaleType = 'sequential') {
 
   createColorWheel(chartsModeSelect.value, 50, scaleType);
   updateColorDots(chartsModeSelect.value, scaleType);
+
+  let bgInput = document.getElementById('sequential_bgColor');
+  bgInput.value = defaultBackgroundColor;
+
+  const color2 = colors[0];
+  const color1 = colors[colors.length - 1];
+  createPanelReportTable([color1, color2], defaultBackgroundColor, scaleType, 'AA')
+
+  bgInput.addEventListener('input', (e) => {
+    // change <main> background
+    let value = e.target.value;
+    let wrapper = document.getElementById('main_sequential');
+    wrapper.style.backgroundColor = value;
+    // toggle class based on lightness
+    let lightness = chroma(value).jch()[0];
+    if(lightness < 50) {
+      wrapper.classList.remove('spectrum--light');
+      wrapper.classList.add('spectrum--darkest')
+    } else {
+      wrapper.classList.remove('spectrum--darkest');
+      wrapper.classList.add('spectrum--light')
+    }
+
+    createPanelReportTable([color1, color2], value)
+  });
+
+  const compliancePicker = document.getElementById(`${scaleType}_complianceLevel`);
+  compliancePicker.addEventListener('change', (e) => {
+    let level = e.target.value;
+    createPanelReportTable(null, null, scaleType, level)
+  })
 
   interpolationMode.addEventListener('change', (e) => {
     let colorspace = e.target.value;
@@ -179,6 +226,12 @@ function colorScaleSequential(scaleType = 'sequential') {
   quoteSwitch.addEventListener('change', () => {
     createSamples(sampleNumber.value, scaleType);
   })
+
+  // const accordionTrigger = document.getElementById('sequential_advancedAccordion-Trigger');
+  // const accordion = document.getElementById('sequential_advancedAccordion');
+  // accordionTrigger.addEventListener('click', (e) => {
+  //   accordion.classList.toggle('is-open')
+  // })
 }
 
 module.exports = {

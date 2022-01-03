@@ -40,7 +40,9 @@
          </div>
 
          <div class="spectrum-Panel-Item">
-          <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Interpolation</span>
+          <div class="spectrum-Panel-Title">
+            <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">Interpolation options</h4>
+          </div>
           <!-- <p class="spectrum-Body spectrum-Body--sizeXS" style="margin-bottom: 12px;">
             Color scales intersect each of your key colors by a straight line in color space. Different color spaces will change the appearance of your scale.
           </p> -->
@@ -72,6 +74,40 @@
                </div>
             </div>
          </div>
+         <div class="spectrum-Panel-Item">
+          <div class="spectrum-Panel-Title">
+            <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">Accessibility settings</h4>
+          </div>
+          <div class="spectrum-Form spectrum-Form--row">
+            <div class="spectrum-Form-item">
+              <label for="{{ scaleType }}_complianceLevel" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM">Compliance level</label>
+              <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item pickerCompliance" name="{{ scaleType }}_complianceLevel" id="{{ scaleType }}_complianceLevel">
+                <option value="AA">AA</option>
+                <option value="AAA">AAA</option>
+              </select>  
+            </div>
+            
+            <div class="spectrum-Form-item">
+              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ">Background color</label>
+              <input type="color" id="sequential_bgColor" class="keyColor-Item keyColor-Item--standalone"/>
+            </div>
+            
+          </div>
+         </div>
+
+         <!-- <div id="sequential_advancedAccordion" class="spectrum-Panel-Item spectrum-Panel-Item--accordion">
+           <div class='spectrum-Accordion-Header' id="sequential_advancedAccordion-Trigger">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+                <use xlink:href="#spectrum-icon-18-ChevronDown"></use>
+            </svg>
+            <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Advanced options</span>
+           </div>
+           <div class="spectrum-Accordion-Body">
+
+          </div>
+         </div> -->
+
+         
 
          <!-- <div class="spectrum-Panel-Item">
           <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Accessibility</span>
@@ -127,6 +163,12 @@
           </p>
         </div> -->
     
+
+    
+    
+      </div>
+    
+      <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
         <div class="spectrum-Panel-Item">
           <div class="spectrum-Panel-Title">
             <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS" id="outputFormatHeading">
@@ -174,49 +216,47 @@
             <!-- generated values here -->
           </div>
         </div>
-    
-    
-      </div>
-    
-      <div class="spectrum-Panel-Item">
-        <div class="spectrum-Panel-Title">
-          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
-            Export 
-          </h3>
-        </div>
-        <div class="spectrum-ActionGroup spectrum-ActionGroup--vertical spectrum-ActionGroup--LeftAligned">
-          <!-- <button tabindex="0" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet copyThemeURL">
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-              <use xlink:href="#spectrum-icon-18-Link" />
-            </svg>
-            <span class="spectrum-ActionButton-label">Copy colors</span>
-          </button>  -->
-          <button title="Download Tableau xml file" id="{{ scaleType }}_downloadXml" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet copyButton">
-            <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
-              <use xlink:href="#spectrum-icon-18-Download" />
-            </svg>
-            <span class="spectrum-ActionButton-label">Tableau (XML)</span>
-          </button>
-          <button title="Download SVG colors" id="downloadSequentialSwatches" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet">
-            <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
-              <use xlink:href="#spectrum-icon-18-Download" />
-            </svg>
-            <span class="spectrum-ActionButton-label">SVG colors</span>
-          </button>  
-          <button title="Download SVG gradient" id="{{ scaleType }}_downloadGradient" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet">
-            <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
-              <use xlink:href="#spectrum-icon-18-Download" />
-            </svg>
-            <span class="spectrum-ActionButton-label">SVG gradient</span>
-          </button>
+        <div class="spectrum-Panel-Item">
+          <div class="spectrum-Panel-Title">
+            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+              Export 
+            </h3>
+          </div>
+          <div class="spectrum-ActionGroup spectrum-ActionGroup--vertical spectrum-ActionGroup--LeftAligned">
+            <!-- <button tabindex="0" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet copyThemeURL">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                <use xlink:href="#spectrum-icon-18-Link" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Copy colors</span>
+            </button>  -->
+            <button title="Download Tableau xml file" id="{{ scaleType }}_downloadXml" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet copyButton">
+              <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
+                <use xlink:href="#spectrum-icon-18-Download" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Tableau (XML)</span>
+            </button>
+            <button title="Download SVG colors" id="downloadSequentialSwatches" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet">
+              <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
+                <use xlink:href="#spectrum-icon-18-Download" />
+              </svg>
+              <span class="spectrum-ActionButton-label">SVG colors</span>
+            </button>  
+            <button title="Download SVG gradient" id="{{ scaleType }}_downloadGradient" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet">
+              <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
+                <use xlink:href="#spectrum-icon-18-Download" />
+              </svg>
+              <span class="spectrum-ActionButton-label">SVG gradient</span>
+            </button>
+          </div>
         </div>
       </div>
+
         <!-- END NEW PANEL ITEMS -->
         <!-- </div> -->
    </div>
   </div>
 
-  <main>
+  <main id="main_sequential">
     <div class="scaleMainContent-Wrapper">
       <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Color scale</h2>
       <div class="themeColor_gradient" id="{{scaleType}}_gradient">
@@ -230,12 +270,12 @@
           <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
             <label class="spectrum-Tabs-itemLabel">Analyze</label>
           </div>
-          <!--
-          <div id="tab{{scaleType}}RGB" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}RGBChartsWrapper', `{{ scaleType }}`)">
-            <label class="spectrum-Tabs-itemLabel">RGB channels</label>
-          </div> -->
+        
           <div id="tab{{scaleType}}Model" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ModelWrapper', `{{ scaleType }}`)">
             <label class="spectrum-Tabs-itemLabel">Model</label>
+          </div>
+          <div id="tab{{scaleType}}Accessibility" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}AccessibilityWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Accessibility</label>
           </div>
           <!-- <div id="tab{{scaleType}}Output" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}OutputWrapper', `{{ scaleType }}`)">
             <label class="spectrum-Tabs-itemLabel">Output</label>
@@ -273,7 +313,7 @@
           </div> 
       </div> -->
 
-      <div id="{{scaleType}}DemoWrapper" class="{{scaleType}}TabsWrapper demoVisualizationWrapper">
+      <div id="{{scaleType}}DemoWrapper" class="spectrum-Body {{scaleType}}TabsWrapper demoVisualizationWrapper">
         <div class="demoVisualization--row">
           <div id="{{scaleType}}Heatmap" class="demoVisualization"></div>
           <div id="{{scaleType}}Scatter" class="demoVisualization"></div>  
@@ -347,8 +387,8 @@
         </div>
       </div>
 
-      <div id="{{scaleType}}RGBChartsWrapper" class="{{scaleType}}TabsWrapper">
-
+      <div id="{{scaleType}}AccessibilityWrapper" class="{{scaleType}}TabsWrapper">
+        <div id="sequential_a11yTable"></div>
       </div>
 
       <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">
@@ -357,8 +397,6 @@
 
       <div id="{{ scaleType }}OutputWrapper" class="{{ scaleType }}TabsWrapper">
         <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Sample colors</h2>
-
-
 
         <!-- <div class="themeOutputParams" id="{{scaleType}}ColorScaleFunctionOutput">
         </div> -->

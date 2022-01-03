@@ -21,6 +21,7 @@ import {
 } from './createSamples';
 import {createDemos} from './createDemos';
 import {create3dModel} from './create3dModel';
+import {createPanelReportTable} from './createPanelReportTable';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
 
@@ -81,11 +82,17 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
     updateRamps(currentColor, parent, scaleType);
     updateColorDots(chartsModeSelect.value, scaleType);
     createSamples(sampleNumber.value, scaleType);
-    createDemos(scaleType);
+    if( scaleType === 'sequential' || scaleType === 'diverging') {
+      createPanelReportTable(null, null, scaleType);
+    }
 
-    create3dModel(`${scaleType}ModelWrapper`, [colorClass], chartsModeSelect.value, scaleType)
+    setTimeout(() => {
+      createDemos(scaleType);
+      create3dModel(`${scaleType}ModelWrapper`, [colorClass], chartsModeSelect.value, scaleType)
+    }, 100)
 
   }, 10);
+
 
   sw.className = 'keyColor-Item';
   sw.id = randId + '-sw';

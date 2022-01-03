@@ -99,7 +99,7 @@ function colorDifferenceReport(fg, bg) {
   }
 
   // Create report table per specified level
-  createTable(headers, rows, 'colorDifferenceReport', true)
+  createTable(headers, rows, 'colorDifferenceReport')
 }
 
 function swapColors() {

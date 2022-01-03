@@ -20,7 +20,7 @@ function choropleth(scaleType) {
   // The svg
   var margin = {top: 30, right: 30, bottom: 30, left: 30},
   width = 700 - margin.left - margin.right,
-  height = 250 - margin.top - margin.bottom;
+  height = 350 - margin.top - margin.bottom;
 
   var svg = d3.select(`#${scaleType}Choropleth`)
   .append("svg")
@@ -33,9 +33,9 @@ function choropleth(scaleType) {
 
   // Map and projection
   const path = d3.geoPath();
-  const projection = d3.geoMercator()
-  .scale(60)
-  .center([0,30])
+  const projection = d3.geoNaturalEarth1()
+  .scale(100)
+  .center([0,-10])
   .translate([width / 2.5, height / 1.75]);
 
   // Data and color scale
