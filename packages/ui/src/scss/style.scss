@@ -316,6 +316,19 @@ body,
   overflow-y: auto;
 }
 
+.spectrum-Panel-Item--noPadding ~ .spectrum-Panel-Item--noPadding {
+  flex-shrink: 0;
+}
+
+.spectrum-Panel-Item--subItem {
+  padding: 0 2px;
+  width: 100%;
+  
+  ~ .spectrum-Panel-Item.spectrum-Panel-Item--subItem {
+    border-top: 1px solid var(--panelBorder);
+  }
+}
+
 .spectrum-Panel-Item .spectrum-Panel-Item-Title {
   display: flex;
   padding-bottom: var(--spectrum-global-dimension-size-150);
@@ -1144,6 +1157,10 @@ a:focus {
   width: 16ch;
 }
 
+.pickerCvdSim {
+  width: 20ch;
+}
+
 
 .spectrum-Textfield--fullwidth {
   width: 100%;
@@ -1588,6 +1605,11 @@ a:focus {
 
 .spectrum-ActionGroup--spaced {
   margin-bottom: var(--spectrum-global-dimension-size-200);
+}
+
+.spectrum-Panel-ActionGroup {
+  margin-top: var(--spectrum-global-dimension-size-100);
+  margin-bottom: var(--spectrum-global-dimension-size-100);
 }
 
 .themeSettingsSlider {

@@ -40,33 +40,32 @@ import {
   createSVGswatches,
   downloadSwatches
 } from './createSVGswatches';
+import {createPanelReportTable} from './createPanelReportTable'
+
 
 const chroma = require('chroma-js');
 
 function colorScaleDiverging(scaleType = 'diverging') {
-  // Set up some sensible defaults
-  // let defaultStartColors = ['#2e07df', '#58a8fd'];
-  // let defaultEndColors = ['#7a0800', '#ee9820'];
-  // let defaultMiddleColor = '#f3f3f3';
-  // RgBu scale
-  // let defaultStartColors = ["#67001f", "#b2182b","#d6604d"];
-  // let defaultEndColors = ["#053061", "#92c5de","#4393c3"];
-  // Leonardo scale as default
-  // let defaultStartColors = ['#008fcc','#A0d9f3', '#00296b'];
-  // let defaultEndColors = ["#70002d", "#e3544f","#ffbfb8"];
-  // let defaultMiddleColor = '#f2f2f2';
-
-  // Spectrum Orange/Seafoam
-  let defaultStartColors = ['#580000', '#DD8629'];
-  let defaultEndColors = ['#3EA8A6', '#002C2D'];
+  /** 
+   * Have to keep this manual changing of the diverging scale because the initial scale
+   *  does not output the colors properly. Unclear why, but for now this will work.
+   */
   let defaultMiddleColor = '#FFFFE0';
-  _divergingScale.colorspace = 'CAM02';
-
-  _divergingScale.startKeys = defaultStartColors;
-  _divergingScale.endKeys = defaultEndColors; 
+  // _divergingScale.colorspace = 'CAM02';
   _divergingScale.middleKey = defaultMiddleColor;
-  _divergingScale.smooth = true;
   _divergingScale.distributeLightness = 'polynomial';
+
+  let defaultBackgroundColor;
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  if (mq.matches) {
+    //dark mode
+    defaultBackgroundColor = '#1d1d1d';
+    document.getElementById('main_sequential').classList.add('spectrum--darkest');
+  } else {
+    //light mode
+    defaultBackgroundColor = '#f8f8f8';
+    document.getElementById('main_sequential').classList.add('spectrum--light');
+  }
   
   let downloadGradient = document.getElementById(`${scaleType}_downloadGradient`);
   let chartsModeSelect = document.getElementById(`${scaleType}_chartsMode`);
@@ -132,6 +131,39 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
   createColorWheel(chartsModeSelect.value, 50, scaleType);
   updateColorDots(chartsModeSelect.value, scaleType);
+
+  let bgInput = document.getElementById(`${scaleType}_bgColor`);
+  bgInput.value = defaultBackgroundColor;
+
+  const color2 = colors[0];
+  const color1 = colors[colors.length - 1];
+  const color3 = colorClass.middleKey;
+  createPanelReportTable([color1, color3, color2], defaultBackgroundColor, scaleType, 'AA')
+
+  bgInput.addEventListener('input', (e) => {
+    // change <main> background
+    let value = e.target.value;
+    let wrapper = document.getElementById(`main_${scaleType}`);
+    wrapper.style.backgroundColor = value;
+    // toggle class based on lightness
+    let lightness = chroma(value).jch()[0];
+    if(lightness < 50) {
+      wrapper.classList.remove('spectrum--light');
+      wrapper.classList.add('spectrum--darkest')
+    } else {
+      wrapper.classList.remove('spectrum--darkest');
+      wrapper.classList.add('spectrum--light')
+    }
+    let level = document.getElementById(`${scaleType}_complianceLevel`).value;
+
+    createPanelReportTable([color1, color3, color2], value, scaleType, level)
+  });
+
+  const compliancePicker = document.getElementById(`${scaleType}_complianceLevel`);
+  compliancePicker.addEventListener('change', (e) => {
+    let level = e.target.value;
+    createPanelReportTable(null, null, scaleType, level)
+  })
 
   interpolationMode.addEventListener('change', (e) => {
     let colorspace = e.target.value;

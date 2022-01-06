@@ -59,7 +59,7 @@ function colorDifferenceReport(fg, bg) {
   let colorDifferenceReportWrapper = document.getElementById('colorDifferenceReport');
   colorDifferenceReportWrapper.innerHTML = ' ';
 
-  let headers = ['Preview', 'Vision type', 'Status', 'Difference'];
+  let headers = ['Preview', 'Vision type', 'Status', 'Color difference'];
   let rows = []
 
   const modes = ['normal vision', 'deuteranopia', 'protanopia', 'tritanopia', 'achromatopsia'];

@@ -33,8 +33,8 @@ class DivergingScale {
     middleKey,
     colorspace,
     smooth,
-    distributeLightness,
-    shift,
+    distributeLightness = 'polynomial',
+    shift = 1,
     output
    }) {
     this._startKeys = startKeys;
@@ -331,18 +331,25 @@ class DivergingScale {
 
 let _divergingScale = new DivergingScale({
   swatches: 50,
-  startKeys: ['#19beaa', '#004d4b'],
-  endKeys: ['#d37222', '#700036'],
-  middleKey: '#f7f7f7',
-  colorspace: 'CAM02p',
-  distributeLightness: 'linear', // 'linear' | 'parabolic' | 'polynomial'
+  startKeys: ['#580000', '#DD8629'], // ['#19beaa', '#004d4b']
+  endKeys: ['#3EA8A6', '#003233'], // ['#d37222', '#700036']
+  middleKey: '#FFFFE0', // '#f7f7f7'
+  colorspace: 'CAM02',
+  distributeLightness: 'polynomial', // 'linear' | 'parabolic' | 'polynomial'
   smooth: false,
-  shift: 1,
   output: 'RGB'
 });
+
 
 window._divergingScale = _divergingScale;
 
 module.exports = {
   _divergingScale
 }
+
+
+// let defaultStartColors = ['#580000', '#DD8629'];
+// let defaultEndColors = ['#3EA8A6', '#003233'];
+// let defaultMiddleColor = '#FFFFE0';
+// _divergingScale.colorspace = 'CAM02';
+// _divergingScale.distributeLightness = 'polynomial';

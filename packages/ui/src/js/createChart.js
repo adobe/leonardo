@@ -313,18 +313,21 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
   
   let adjustedWidth, adjustedHeight;
   const maxWidth = 800;
+  const windowHeight = window.innerHeight;
 
   if(      
     dest === `#${scaleType}InterpolationChart` ||
     dest === `#${scaleType}InterpolationChart2` ||
     dest === `#${scaleType}InterpolationChart3`
   ) {
-    adjustedWidth = windowWidth - (388 + 34);// subtract panel width and padding from measurement
-    adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
-    adjustedHeight = (window.innerHeight - 300) / 2;// subtract heading, tabs height and padding from measurement
+    let adjustedWidth = windowWidth - (388 + 34) - 8;// subtract panel width and padding from measurement
+    let newMaxWidth = 476;
+    adjustedWidth = (adjustedWidth < newMaxWidth) ? adjustedWidth : newMaxWidth;
 
     chartWidth = adjustedWidth;
-    chartHeight = adjustedHeight - 116;
+    adjustedHeight = (windowHeight - 332) / 3;
+    // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
+    chartHeight = 196;
   } else {
     // let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
     // adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;

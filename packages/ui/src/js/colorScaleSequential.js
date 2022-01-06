@@ -126,7 +126,7 @@ function colorScaleSequential(scaleType = 'sequential') {
   createColorWheel(chartsModeSelect.value, 50, scaleType);
   updateColorDots(chartsModeSelect.value, scaleType);
 
-  let bgInput = document.getElementById('sequential_bgColor');
+  let bgInput = document.getElementById(`${scaleType}_bgColor`);
   bgInput.value = defaultBackgroundColor;
 
   const color2 = colors[0];
@@ -136,7 +136,7 @@ function colorScaleSequential(scaleType = 'sequential') {
   bgInput.addEventListener('input', (e) => {
     // change <main> background
     let value = e.target.value;
-    let wrapper = document.getElementById('main_sequential');
+    let wrapper = document.getElementById(`main_${scaleType}`);
     wrapper.style.backgroundColor = value;
     // toggle class based on lightness
     let lightness = chroma(value).jch()[0];
@@ -147,8 +147,9 @@ function colorScaleSequential(scaleType = 'sequential') {
       wrapper.classList.remove('spectrum--darkest');
       wrapper.classList.add('spectrum--light')
     }
+    let level = document.getElementById(`${scaleType}_complianceLevel`).value;
 
-    createPanelReportTable([color1, color2], value)
+    createPanelReportTable([color1, color2], value, scaleType, level)
   });
 
   const compliancePicker = document.getElementById(`${scaleType}_complianceLevel`);
