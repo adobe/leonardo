@@ -355,6 +355,10 @@ body,
   // }
 }
 
+.spectrum-Panel-Title--spaced {
+  margin-bottom: var(--spectrum-global-dimension-size-100);
+}
+
 .spectrum-Panel-Title + .spectrum-Form-item,
 .spectrum-Panel-Title + .spectrum-Form {
   margin-top: 8px;
