@@ -117,7 +117,7 @@ document.getElementById("tabSequential").click();
 // Open default tab of "charts" for each color scale tab
 document.getElementById("tabsequentialDemo").click();
 document.getElementById("tabdivergingDemo").click();
-document.getElementById("tabqualitativeSimulation").click();
+document.getElementById("tabqualitativeDemo").click();
 
 document.getElementById("welcome").click();
 

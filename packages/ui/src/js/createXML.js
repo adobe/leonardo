@@ -53,19 +53,19 @@ document.getElementById('sequential_downloadXml').addEventListener('click', () =
   1000
 })
 
-// document.getElementById('diverging_downloadXml').addEventListener('click', () => {
-//   setTimeout(function() {
-//     downloadXML('diverging')
-//   }),
-//   1000
-// })
+document.getElementById('diverging_downloadXml').addEventListener('click', () => {
+  setTimeout(function() {
+    downloadXML('diverging')
+  }),
+  1000
+})
 
-// document.getElementById('downloadQualitativeSwatches').addEventListener('click', () => {
-//   setTimeout(function() {
-//     downloadXML('qualitative')
-//   }),
-//   1000
-// })
+document.getElementById('qualitative_downloadXml').addEventListener('click', () => {
+  setTimeout(function() {
+    downloadXML('qualitative')
+  }),
+  1000
+})
 
 module.exports = {
   createXML,

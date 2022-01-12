@@ -1156,9 +1156,11 @@ a:focus {
   margin-left: var(--spectrum-global-dimension-size-100);
 }
 
-.pickerMode,
-.pickerCompliance {
+.pickerMode {
   width: 16ch;
+}
+.pickerCompliance {
+  width: 10ch;
 }
 
 .pickerCvdSim {
@@ -2104,8 +2106,8 @@ a:focus {
 
 #qualitative_selectedColors {
   display: flex;
-  height: 88px;
-  margin-bottom: 36px;
+  height: 64px;
+  // margin-bottom: 36px;
   flex-shrink: 0;
   color: var(--spectrum-global-color-gray-700);
 
@@ -2133,7 +2135,15 @@ a:focus {
 }
 
 #qualitative_generatedColors {
-  margin-bottom: 24px;
+  margin-bottom: 6px;
+  margin-top: 4px;
+}
+
+.colorScaleHeaderWrapper {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .qualitativeTabsWrapper {

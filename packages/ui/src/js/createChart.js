@@ -11,11 +11,14 @@ governing permissions and limitations under the License.
 import * as d3 from 'd3';
 import {getSmallestWindowDimension} from './colorWheel';
 
+const panelsOffset = 752;
+
 function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors, scaleType) {
   let chartWidth, chartHeight;
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   let adjustedHeight = (windowHeight - 300) / 2;// subtract heading, tabs height and padding from measurement
+  let adjustedWidth;
   const maxWidth = 792;
 
   if(
@@ -23,8 +26,8 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
       dest === '#interpolationChart2' || 
       dest === '#interpolationChart3' 
     ) {
-    let adjustedWidth = windowWidth - (388 + 34) - 8;// subtract panel width and padding from measurement
-    adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+    let availableWidth = windowWidth - panelsOffset;// subtract panel width and padding from measurement
+    adjustedWidth = (availableWidth < maxWidth) ? availableWidth : maxWidth;
 
     chartWidth = adjustedWidth;
     adjustedHeight = (windowHeight - 332) / 3;
@@ -35,9 +38,9 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     dest === `#${scaleType}InterpolationChart2` ||
     dest === `#${scaleType}InterpolationChart3`
   ) {
-    let adjustedWidth = windowWidth - (388 + 34) - 8;// subtract panel width and padding from measurement
+    let availableWidth = windowWidth - (388 + 34) - 8;// subtract panel width and padding from measurement
     let newMaxWidth = 476;
-    adjustedWidth = (adjustedWidth < newMaxWidth) ? adjustedWidth : newMaxWidth;
+    adjustedWidth = (availableWidth < newMaxWidth) ? availableWidth : newMaxWidth;
 
     chartWidth = adjustedWidth;
     adjustedHeight = (windowHeight - 332) / 3;
@@ -331,7 +334,8 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
   } else {
     // let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
     // adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
-    let width = window.innerWidth - 386 - 34;
+    let width = window.innerWidth - panelsOffset;// subtract panel width and padding from measurement
+
     adjustedWidth = (width < maxWidth) ? width : maxWidth;
     adjustedHeight = (window.innerHeight / 3) - 80;// subtract heading, tabs height and padding from measurement
     

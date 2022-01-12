@@ -38,7 +38,7 @@ const testColorsInput = document.getElementById('qualitative_sampleColors');
 const chartsModeSelect = document.getElementById('qualitative_chartsMode');
 const outputModeSelect = document.getElementById('qualitative_format');
 const quoteSwitch = document.getElementById(`qualitativeparamStringQuotes`);
-const backgroundInput = document.getElementById('qualitative_bgColor');
+const backgroundInput = document.getElementById('scales_bgColor');
 
 const minContrast = document.getElementById('qualitative_minContrast');
 const protan = document.getElementById('check_Protanopia');
@@ -52,7 +52,7 @@ window._qualitativeScale = _qualitativeScale;
 function colorScaleQualitative(scaleType = 'qualitative') {
   const testColors = _qualitativeScale.sampleColors;
   testColorsInput.value = _qualitativeScale.sampleColors;
-  backgroundInput.value = '#ffffff';
+  // backgroundInput.value = '#ffffff';
   
   showColors(testColors, 'originalColors', true)
   createColorWheel(chartsModeSelect.value, 50, scaleType);
@@ -124,8 +124,32 @@ achroma.addEventListener('input', function() {
   updateColors()
 })
 backgroundInput.addEventListener('input', function(e) {
-  updateColors()
+  // change <main> background
+  const scaleType = 'qualitative';
+  let value = e.target.value;
+  let wrapper = document.getElementById(`main_${scaleType}`);
+  wrapper.style.backgroundColor = value;
+  // toggle class based on lightness
+  let lightness = chroma(value).jch()[0];
+  if(lightness < 50) {
+    wrapper.classList.remove('spectrum--light');
+    wrapper.classList.add('spectrum--darkest')
+  } else {
+    wrapper.classList.remove('spectrum--darkest');
+    wrapper.classList.add('spectrum--light')
+  }
+
+  // TODO
+  // let level = document.getElementById(`scales_complianceLevel`).value;
+  // createPanelReportTable([color1, color2], value, scaleType, level)
 })
+
+function updateColorsIfContrast() {
+  if(minContrast.checked) {
+    updateColors();
+  }
+}
+backgroundInput.addEventListener('input', throttle(updateColorsIfContrast, 100));
 
 button.addEventListener('click', function() {
   const scaleType = 'qualitative';
@@ -434,13 +458,17 @@ function showColors(arr, dest, panel = false) {
   else {
     arr.map((color) => { 
       let swatch = document.createElement('div');
-      const contrast = Leo.contrast('#000000', color);
+      let colorArr = chroma(color).rgb();
+      let contrast = Leo.contrast([0, 0, 0], colorArr);
+      if (contrast < 0) contrast = contrast * -1;
+
       swatch.className = (!panel) ? 'simulationSwatch' : 'panelSwatch';
       swatch.style.backgroundColor = color;
       swatch.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
-      swatch.innerHTML = (!panel) ? `${color}` : ' ';
+      // swatch.innerHTML = (!panel) ? `${color}` : ' ';
   
       if(dest === 'cvdSafeColors') {
+        swatch.innerHTML = `${color}`;
         let button = document.createElement('button');
         button.className = (_qualitativeScale.keeperColors.indexOf(color) >= 0) ?  'saveColorToKeepers showSvg' : 'saveColorToKeepers',
         button.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';

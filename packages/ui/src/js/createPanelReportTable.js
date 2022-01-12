@@ -26,10 +26,10 @@ function createPanelReportTable(colors, background, scaleType, level) {
     
   }
   if(!background) { 
-    background = document.getElementById(`${scaleType}_bgColor`).value
+    background = document.getElementById(`scales_bgColor`).value
   }
   if(scaleType && !level) {
-    let compliancePicker = document.getElementById(`${scaleType}_complianceLevel`);
+    let compliancePicker = document.getElementById(`scales_complianceLevel`);
     level = compliancePicker.value;
   }
 
@@ -46,6 +46,7 @@ function createPanelReportTable(colors, background, scaleType, level) {
   for(let i=0; i < colors.length; i++) {
     let fgArray = chroma(colors[i]).rgb();
     let contrast = Leo.contrast(fgArray, bgArray);
+    if(contrast < 0) contrast = contrast * -1;
 
     let deltaE = getDifference(colors[i], background);
     let meterPercent = round(deltaE, 2);
@@ -88,6 +89,7 @@ function createPanelReportTable(colors, background, scaleType, level) {
     let fgArray = chroma(colors[0]).rgb();
     let altArray = chroma(colors[1]).rgb();
     let contrast = Leo.contrast(fgArray, altArray);
+    if(contrast < 0) contrast = contrast * -1;
   
     let deltaE = getDifference(colors[0], colors[1]);
     let meterPercent = round(deltaE, 2);
@@ -124,7 +126,9 @@ function createPanelReportTable(colors, background, scaleType, level) {
     let color3Array = chroma(colors[2]).rgb();
     let contrast1 = Leo.contrast(color1Array, color2Array);
     let contrast2 = Leo.contrast(color2Array, color3Array);
-  
+    if(contrast1 < 0) contrast1 = contrast1 * -1;
+    if(contrast2 < 0) contrast2 = contrast2 * -1;
+
     let deltaE1 = getDifference(colors[0], colors[1]);
     let deltaE2 = getDifference(colors[1], colors[2]);
     let meterPercent1 = round(deltaE1, 2);

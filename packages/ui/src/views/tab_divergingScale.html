@@ -111,45 +111,6 @@
             </div>
          </div>
 
-         <div class="spectrum-Panel-Item">
-          <div class="spectrum-Panel-Title">
-            <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">Accessibility settings</h4>
-          </div>
-          <div class="spectrum-Form spectrum-Form--row">
-            <div class="spectrum-Form-item">
-              <label for="{{ scaleType }}_complianceLevel" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM">Compliance level</label>
-              <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item pickerCompliance" name="{{ scaleType }}_complianceLevel" id="{{ scaleType }}_complianceLevel">
-                <option value="AA">AA</option>
-                <option value="AAA">AAA</option>
-              </select>  
-            </div>
-
-            <!-- <div class="spectrum-Form-item">
-              <label for="{{ scaleType }}_cvdModecvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
-              <select class="spectrum-Picker spectrum-Picker--sizeM pickerCvdSim" name="{{ scaleType }}_cvdModecvdMode" id="{{ scaleType }}_cvdMode">
-                <option value="None">None</option>
-                <option value="Deuteranomaly">Deuteranomaly</option>
-                <option value="Deuteranopia">Deuteranopia</option>
-                <option value="Protanomaly">Protanomaly</option>
-                <option value="Protanopia">Protanopia</option>
-                <option value="Tritanomaly">Tritanomaly</option>
-                <option value="Tritanopia">Tritanopia</option>
-                <option value="Achromatomaly">Achromatomaly</option>
-                <option value="Achromatopsia">Achromatopsia</option>
-                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
-                  <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-                </svg>
-              </select>
-            </div> -->
-            
-            <div class="spectrum-Form-item">
-              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ">Background color</label>
-              <input type="color" id="{{ scaleType }}_bgColor" class="keyColor-Item keyColor-Item--standalone"/>
-            </div>
-            
-          </div>
-         </div>
-
       </div>
       <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
         <div class="spectrum-Panel-Item">
@@ -229,7 +190,7 @@
 
   <main id="main_diverging">
     <div class="scaleMainContent-Wrapper">
-      <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Color scale</h2>
+      <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS colorScaleHeaderWrapper">Color scale</h2>
       <div class="themeColor_gradient" id="{{scaleType}}_gradient">
       </div>
 

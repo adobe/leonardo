@@ -27,6 +27,39 @@
   <div class="spectrum-Heading spectrum-Heading--XXS" id="themeTitle"></div>
 
   <div class="spectrum-AppHeader_item">
+    <div class="spectrum-Form spectrum-Form--row">
+      <div class="spectrum-Form-item spectrum-Form-item--row">
+        <label for="scales_complianceLevel" class="spectrum-FieldLabel spectrum-FieldLabel--left spectrum-Fieldlabel--sizeM">WCAG level</label>
+        <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item pickerCompliance" name="scales_complianceLevel" id="scales_complianceLevel">
+          <option value="AA">AA</option>
+          <option value="AAA">AAA</option>
+        </select>  
+      </div>
+
+      <!-- <div class="spectrum-Form-item spectrum-Form-item--row">
+        <label for="scales_cvdModecvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
+        <select class="spectrum-Picker spectrum-Picker--sizeM pickerCvdSim" name="scales_cvdModecvdMode" id="scales_cvdMode">
+          <option value="None">None</option>
+          <option value="Deuteranomaly">Deuteranomaly</option>
+          <option value="Deuteranopia">Deuteranopia</option>
+          <option value="Protanomaly">Protanomaly</option>
+          <option value="Protanopia">Protanopia</option>
+          <option value="Tritanomaly">Tritanomaly</option>
+          <option value="Tritanopia">Tritanopia</option>
+          <option value="Achromatomaly">Achromatomaly</option>
+          <option value="Achromatopsia">Achromatopsia</option>
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+            <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+          </svg>
+        </select>
+      </div> -->
+      
+      <div class="spectrum-Form-item spectrum-Form-item--row">
+        <label class="spectrum-FieldLabel spectrum-FieldLabel--left spectrum-Fieldlabel--sizeM ">Background color</label>
+        <input type="color" id="scales_bgColor" class="keyColor-Item keyColor-Item--standalone"/>
+      </div>
+      
+    </div>
     <!-- <button class="spectrum-ActionButton spectrum-ActionButton--sizeM copyThemeURL">
       <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
         <use xlink:href="#spectrum-icon-18-Link" />
