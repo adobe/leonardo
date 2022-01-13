@@ -26,12 +26,14 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
       dest === '#interpolationChart2' || 
       dest === '#interpolationChart3' 
     ) {
-    let availableWidth = windowWidth - panelsOffset;// subtract panel width and padding from measurement
-    adjustedWidth = (availableWidth < maxWidth) ? availableWidth : maxWidth;
-
-    chartWidth = adjustedWidth;
-    adjustedHeight = (windowHeight - 332) / 3;
-    chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
+      let availableWidth = windowWidth - panelsOffset;// subtract panel width and padding from measurement
+      let newMaxWidth = 476;
+      adjustedWidth = (availableWidth < newMaxWidth) ? availableWidth : newMaxWidth;
+  
+      chartWidth = adjustedWidth;
+      adjustedHeight = (windowHeight - 332) / 3;
+      // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
+      chartHeight = 196;
   }
   if(
     dest === `#${scaleType}InterpolationChart` ||
@@ -58,25 +60,32 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     chartWidth = adjustedWidth;
     chartHeight = (windowHeight - 148) / 2;
   }
-  if(
-    dest === '#RGBchart'
-  ) {
-    let adjustedWidth = windowWidth - (388 + 32) - 8;// subtract panel width and padding from measurement
-    adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+  // if(
+  //   dest === '#RGBchart'
+  // ) {
+  //   let adjustedWidth = windowWidth - (388 + 32) - 8;// subtract panel width and padding from measurement
+  //   adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
 
-    chartWidth = adjustedWidth;
-    adjustedHeight = adjustedHeight * 1.5;
-    chartHeight = (adjustedHeight < 340) ? 340 : adjustedHeight;
-  } 
+  //   chartWidth = adjustedWidth;
+  //   adjustedHeight = adjustedHeight * 1.5;
+  //   chartHeight = (adjustedHeight < 340) ? 340 : adjustedHeight;
+  // } 
   if(
+    // dest === '#RGBchart'||
     dest === `#sequentialRGBchart` ||
     dest === '#divergingRGBchart'
   ) {
     chartWidth = 308;
     adjustedHeight = (windowHeight - 332) / 3;
     // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
-    chartHeight = 196;
+    chartHeight = 176; // 196
 
+  }
+  if(dest === '#RGBchart') {
+    chartWidth = 308;
+    adjustedHeight = (windowHeight - 332) / 3;
+    // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
+    chartHeight = 250;
   }
   if(dest === '#contrastChart' || dest === '#luminosityChart') {
     chartWidth = 356;
@@ -119,12 +128,14 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
             dest === `#${scaleType}InterpolationChart3` ||
             dest === '#paletteInterpolationChart' ||
             dest === '#paletteInterpolationChart2' ||
-            dest === '#paletteInterpolationChart3' ||
-            dest === `#sequentialRGBchart` || dest === '#divergingRGBchart'
+            dest === '#paletteInterpolationChart3'
+          ) marginBottom = 16;
+          if(
+            dest === `#sequentialRGBchart` || dest === '#divergingRGBchart' || dest === '#RGBchart'
           ) marginBottom = 16;
           else marginBottom = 36;
 
-          let marginLeft = (dest === `#sequentialRGBchart` || dest === '#divergingRGBchart') ? 0 : 36;
+          let marginLeft = (dest === `#sequentialRGBchart` || dest === '#divergingRGBchart' || dest === '#RGBchart') ? 0 : 36;
 
           let margin = {top: 8, right: 8, bottom: marginBottom, left: marginLeft};
 

@@ -84,15 +84,15 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
       camera: {
         eye: {
           x: 1,
-          y: 1,
-          z: 2 
+          y: -1,
+          z: 0.5 // 0.25
         },
         projection: {
-          type: 'orthographic'
+          type: 'orthographic' // 'perspective' or 'orthographic'
         }
       },
-      aspectmode: 'data', // data matches the dataset, cube forces into a cube shape
-      // aspectratio: {x: 1, y: 1, z: 1},
+      // aspectmode: 'data', // data matches the dataset, cube forces into a cube shape
+      aspectratio: {x: 1, y: 1, z: 1},
       xaxis: {
         nticks: 5,
         title: '',
@@ -183,23 +183,36 @@ function createColorData(colorClasses, mode, scaleType) {
     });
 
     let dataObj = {
-        type: 'scatter3d',
-        mode: 'lines',
-        x: dataA,
-        y: dataC,
-        z: dataB,
-        name: colorClasses[i].name,
-        opacity: 1,
-        markercolor: 'red',
-        line: {
-          width: 16,
-          color: currentColor
-        }
+      type: 'scatter3d',
+      mode: 'lines',
+      x: dataA,
+      y: dataC,
+      z: dataB,
+      name: colorClasses[i].name,
+      opacity: 1,
+      markercolor: 'red',
+      line: {
+        width: 16,
+        color: currentColor
       }
-      dataArray.push(dataObj)
+    }
+
+    dataArray.push(dataObj)
   }
 
-  return dataArray;
+  /** 
+   * Generate hidden scatterplot points at the min/max
+   * positions of the color space's gamut. Then merge that
+   * data with the color data. This ensures the 3d models
+   * are proportional and do not change scale based on the
+   * color scale data alone. This makes it much easier to 
+   * evaluate shape and identify changes or irregularities
+   * to the interpolations in 3d space.
+   */
+  let minMaxPoints = createMinMaxDataForPlot(mode);
+  let mergedData = [...dataArray, ...minMaxPoints];
+
+  return mergedData;
 }
 
 function getChannelsAndFunction(mode) {
@@ -259,6 +272,99 @@ function getChannelsAndFunction(mode) {
     c2: c2,
     c3: c3
   }
+}
+
+function createMinMaxDataForPlot(mode) {
+  let dataArray = [];
+  const markerSize = 1;
+  const markerColor = 'rgba(0, 0, 0, 0)';
+  let dataA, dataB, dataC;
+
+  if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
+    dataA = [0, 100];
+    dataB = [0, 100];
+    dataC = [0, -100];
+  }
+  if (mode === 'LAB') {
+    dataA = [0, 100];
+    dataB = [-128, 128];
+    dataC = [-128, 128];
+  }
+  if (mode === 'CAM02') {
+    dataA = [0, 100];
+    dataB = [-50, 50];
+    dataC = [-50, 50];
+  }
+  if (mode === 'RGB') {
+    dataA = [0, 255];
+    dataB = [0, 255];
+    dataC = [0, 255];
+  }
+
+
+  let dataObj1 = {
+    type: 'scatter3d',
+    mode: 'markers',
+    x: [0, 0],
+    y: [0, 0],
+    z: dataA,
+    name: ' ',
+    opacity: 1,
+    markercolor: markerColor,
+    marker: { 
+      size: markerSize,
+      color: markerColor
+    }
+  }
+
+  let dataObj2 = {
+    type: 'scatter3d',
+    mode: 'markers',
+    x: [0, 0],
+    y: dataB,
+    z: [0, 0],
+    name: ' ',
+    opacity: 1,
+    markercolor: markerColor,
+    marker: { size: markerSize,
+      color: markerColor
+     }
+  }
+
+  let dataObj3 = {
+    type: 'scatter3d',
+    mode: 'markers',
+    x: dataB,
+    y: dataC,
+    z: [0, 0],
+    name: ' ',
+    opacity: 1,
+    markercolor: markerColor,
+    marker: { size: markerSize,
+      color: markerColor
+    }
+  }
+
+  let dataObj4 = {
+    type: 'scatter3d',
+    mode: 'markers',
+    x: dataC,
+    y: [0, 0],
+    z: [0, 0],
+    name: ' ',
+    opacity: 1,
+    markercolor: markerColor,
+    marker: { size: markerSize,
+      color: markerColor
+    }
+  }
+
+  dataArray.push(dataObj1)
+  dataArray.push(dataObj2)
+  dataArray.push(dataObj3)
+  dataArray.push(dataObj4)
+
+  return dataArray;
 }
 
 module.exports = {

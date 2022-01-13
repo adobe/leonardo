@@ -374,7 +374,7 @@ function showColorDetails(e) {
   colorWheelPanel.className = 'spectrum-Panel-Item';
   let colorWheelWrapper = document.createElement('div');
   colorWheelWrapper.id = scaleType.concat('ColorWheelWrapper');
-  colorWheelWrapper.className = 'panel-ColorWheel';
+  colorWheelWrapper.className = 'tab-ColorWheel';
 
   let colorWheel = document.createElement('div');
   colorWheel.id = scaleType.concat('ColorWheel');
@@ -384,7 +384,7 @@ function showColorDetails(e) {
 
   colorWheel.appendChild(colorWheelPaths);
   colorWheelWrapper.appendChild(colorWheel);
-  colorWheelPanel.appendChild(colorWheelWrapper);
+  // colorWheelPanel.appendChild(colorWheelWrapper);
 
   let deletePanel = document.createElement('div');
   deletePanel.className = 'spectrum-Panel-Item spectrum-ButtonGroup';
@@ -421,14 +421,14 @@ function showColorDetails(e) {
   tabItem1.id = 'tabInterpCharts';
   let tabItem1Label = document.createElement('label');
   tabItem1Label.className = 'spectrum-Tabs-itemLabel';
-  tabItem1Label.innerHTML = 'Charts';
+  tabItem1Label.innerHTML = 'Analyze';
 
-  let tabItem2 = document.createElement('div');
-  tabItem2.className = 'spectrum-Tabs-item detail-Tabs-item';
-  tabItem2.id = 'tabRGBChannels';
-  let tabItem2Label = document.createElement('label');
-  tabItem2Label.className = 'spectrum-Tabs-itemLabel';
-  tabItem2Label.innerHTML = 'RGB Channels';
+  // let tabItem2 = document.createElement('div');
+  // tabItem2.className = 'spectrum-Tabs-item detail-Tabs-item';
+  // tabItem2.id = 'tabRGBChannels';
+  // let tabItem2Label = document.createElement('label');
+  // tabItem2Label.className = 'spectrum-Tabs-itemLabel';
+  // tabItem2Label.innerHTML = 'RGB Channels';
 
   let tabItem3 = document.createElement('div');
   tabItem3.className = 'spectrum-Tabs-item detail-Tabs-item';
@@ -484,10 +484,10 @@ function showColorDetails(e) {
     
   // Put the tabs together
   tabItem1.appendChild(tabItem1Label);
-  tabItem2.appendChild(tabItem2Label);
+  // tabItem2.appendChild(tabItem2Label);
   tabItem3.appendChild(tabItem3Label);
   tabs.appendChild(tabItem1);
-  tabs.appendChild(tabItem2);
+  // tabs.appendChild(tabItem2);
   tabs.appendChild(tabItem3);
   tabsWrapper.appendChild(tabs);
   // tabsWrapper.appendChild(chartsMode);
@@ -514,7 +514,7 @@ function showColorDetails(e) {
   configPanel.appendChild(configPanelTopWrapper);
 
 
-  bottomPanel.appendChild(colorWheelPanel);
+  // bottomPanel.appendChild(colorWheelPanel);
   bottomPanel.appendChild(deletePanel);
   configPanel.appendChild(bottomPanel);
   // configPanel.appendChild(deletePanel);
@@ -522,7 +522,17 @@ function showColorDetails(e) {
   // Content area needs to be appended with items
   wrapper.appendChild(title);
   wrapper.appendChild(gradient);
+
   // Create divs for charts
+  let chartsRow = document.createElement('div');
+  chartsRow.className = 'chartsRow';
+
+  let chartsColLeft = document.createElement('div');
+  chartsColLeft.className = 'chartsColumn--left';
+
+  let chartsColRight = document.createElement('div');
+  chartsColRight.className = 'chartsColumn--right';
+
   let chart1 = document.createElement('div');
   chart1.id = 'interpolationChart';
   let chart2 = document.createElement('div');
@@ -532,14 +542,22 @@ function showColorDetails(e) {
   let chartRgb = document.createElement('div');
   chartRgb.id = 'RGBchart';
 
-  tabContent1.appendChild(chart1);
-  tabContent1.appendChild(chart2);
-  tabContent1.appendChild(chart3);
-  tabContent2.appendChild(chartRgb);
+  chartsColLeft.appendChild(colorWheelWrapper); // wheel
+  chartsColLeft.appendChild(chartRgb);
+
+  chartsColRight.appendChild(chart1);
+  chartsColRight.appendChild(chart2);
+  chartsColRight.appendChild(chart3);
+  // tabContent2.appendChild(chartRgb);
+
+  chartsRow.appendChild(chartsColLeft);
+  chartsRow.appendChild(chartsColRight);
+
+  tabContent1.appendChild(chartsRow);
 
   wrapper.appendChild(tabsWrapper)
   wrapper.appendChild(tabContent1);
-  wrapper.appendChild(tabContent2);
+  // wrapper.appendChild(tabContent2);
   wrapper.appendChild(tabContent3);
 
   // Then run functions on the basic placeholder inputs
@@ -587,7 +605,7 @@ function showColorDetails(e) {
   // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
   // document.getElementById('tabChartContent').click();
   document.getElementById('tabInterpCharts').addEventListener('click', (e) => {openDetailTab(e, 'tabInterpChartsContent')});
-  document.getElementById('tabRGBChannels').addEventListener('click', (e) => {openDetailTab(e, 'tabRGBChannelsContent')});
+  // document.getElementById('tabRGBChannels').addEventListener('click', (e) => {openDetailTab(e, 'tabRGBChannelsContent')});
   document.getElementById('tabModel').addEventListener('click', (e) => {openDetailTab(e, 'tabModelContent', colors)});
   document.getElementById('tabInterpCharts').click();
 
