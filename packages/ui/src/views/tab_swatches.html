@@ -17,10 +17,10 @@
     <div class="spectrum-Content-Tabs">
       <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
         <div id="tabJustifiedSwatches" class="spectrum-Tabs-item swatch-Tabs-item" tabindex="0" onclick="openSwatchTab(event, 'justifiedWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Justified</label>
+          <label class="spectrum-Tabs-itemLabel">Contrast</label>
         </div>
         <div id="tabFormattedSwatches" class="spectrum-Tabs-item swatch-Tabs-item" tabindex="0" onclick="openSwatchTab(event, 'formattedWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Formatted</label>
+          <label class="spectrum-Tabs-itemLabel">Color difference (CVD)</label>
         </div>
       </div>
     </div>
@@ -37,37 +37,51 @@
 
 
   <div class="spectrum-Panel spectrum-Panel--right">
-    <div id="contrastSwatches">
       <div class="spectrum-Panel-Item">
-        <div class="spectrum-Form-item spectrum-Form-item--row">
-          <label for="cvdMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left"><abbr title="color vision deficiency">CVD</abbr> simulation</label>
-          <select class="spectrum-Picker spectrum-Picker--sizeM" name="cvdMode" id="cvdMode">
-            <option value="None">None</option>
-            <option value="Deuteranomaly">Deuteranomaly (common)</option>
-            <option value="Deuteranopia">Deuteranopia (common)</option>
-            <option value="Protanomaly">Protanomaly (rare)</option>
-            <option value="Protanopia">Protanopia (rare)</option>
-            <option value="Tritanomaly">Tritanomaly (very rare)</option>
-            <option value="Tritanopia">Tritanopia (very rare)</option>
-            <option value="Achromatomaly">Achromatomaly (very rare)</option>
-            <option value="Achromatopsia">Achromatopsia (very rare)</option>
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
-              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-            </svg>
-          </select>
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+            WCAG compliance settings 
+          </h3>
         </div>
-        <!-- <div class="spectrum-Form-item spectrum-Form-item--row">
-          <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Contrast formula:</label>
-            <select class="spectrum-Picker" name="contrastMethod" id="contrastMethod">
-              <option value="WCAG">WCAG</option>
-              <option value="APCA">APCA</option>
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
-              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-            </svg>
-          </select>
-        </div> -->
+        <div class="spectrum-Form spectrum-Form--row">
+          <div class="spectrum-Form-item spectrum-Form-item">
+            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel" for="contrastMethod">Contrast formula</label>
+              <select class="spectrum-Picker" name="contrastMethod" id="contrastMethod">
+                <option value="WCAG">Relative Luminance</option>
+                <option value="APCA">APCA (Coming soon)</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
+          </div>
+          <div class="spectrum-Form-item spectrum-Form-item">
+            <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel" for="complianceLevel">WCAG level</label>
+              <select class="spectrum-Picker pickerCompliance" name="complianceLevel" id="complianceLevel">
+                <option value="AA">AA</option>
+                <option value="AAA">AAA</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
+          </div>
+        </div>
+        
       </div>
       
-    </div>
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+            Color vision deficiencies to support
+          </h3>
+        </div>
+      </div>
+
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+            Color difference
+          </h3>
+        </div>
+      </div>
   </div>
 </div>

@@ -9,7 +9,7 @@
             <label class="spectrum-Tabs-itemLabel">Color scales</label>
           </div>
           <div id="tabPanelContrastSwatches" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'contrastSwatches')">
-            <label class="spectrum-Tabs-itemLabel">Value stops</label>
+            <label class="spectrum-Tabs-itemLabel">Lightness stops</label>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
             <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item" name="distribute" id="distribute">
               <option value="none">Distribute by...</option>
               <option value="ratios">Contrast ratios</option>
-              <option value="luminosity">Luminosity</option>
+              <option value="luminosity">Lightness</option>
             </select>  
           </div>
   
@@ -85,7 +85,7 @@
             <div id="ratioInput-wrapper">
               <div class="ratioGrid">
                 <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Contrast ratio</label>  
-                <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Luminosity</label>  
+                <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Lightness</label>  
                 <!-- <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Naming</label>   -->
               </div>
             </div>
@@ -219,7 +219,7 @@
       <div class="paletteContrastChartsGrid">
 
         <div class="spectrum-Form spectrum-Form--row" style="justify-content: space-between;">
-          <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Value stops preview (grayscale)</h5>
+          <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Lightness stops preview (grayscale)</h5>
 
           <div class="spectrum-Form-item spectrum-Form-item--row">
             <label for="chartLineType" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Chart line type</label>
@@ -244,7 +244,7 @@
             <div class="panel-SubTab-Content" id="contrastChart"></div>
           </div>
           <div>
-            <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Luminosity</h5>
+            <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Lightness</h5>
             <div class="panel-SubTab-Content" id="luminosityChart"></div>
           </div>
         </div>

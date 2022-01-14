@@ -278,7 +278,7 @@ body,
   grid-area: rightPanel;
   border-right: 0;
   border-left: 2px solid var(--panelBorder);
-  justify-content: space-between;
+  // justify-content: space-between;
 }
 .spectrum-Panel--custom {
   flex-direction: row;

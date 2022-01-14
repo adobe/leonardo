@@ -73,7 +73,8 @@ function createOutputColors(dest) {
           }
 
           // transform original color based on preview mode
-          let colorValue = cvdColors(colorForTransform);
+          // let colorValue = cvdColors(colorForTransform);
+          let colorValue = colorForTransform;
 
           if(dest === swatchesOutputs) colorValue = colorToGrayScale(colorForTransform);
 
@@ -142,7 +143,8 @@ function createOutputColors(dest) {
         }
 
         // transform original color based on preview mode
-        let colorValue = cvdColors(colorForTransform);
+        // let colorValue = cvdColors(colorForTransform);
+        let colorValue = colorForTransform;
         // let currentBackgroundColor = originalValue;
 
         let div = document.createElement('div');
@@ -169,9 +171,9 @@ function createOutputColors(dest) {
   copyThemeColors.setAttribute('data-clipboard-text', colorsForCopy);
 }
 
-document.getElementById('cvdMode').addEventListener('change', () => {
-  createOutputColors('swatchesOutputs')
-})
+// document.getElementById('cvdMode').addEventListener('change', () => {
+//   createOutputColors('swatchesOutputs')
+// })
 
 module.exports = {
   createOutputColors
