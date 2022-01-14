@@ -1,30 +1,656 @@
 <div class="sideNavContent sideNavContent--splitView" id="getstartedContent">
   <div class="sideNavContent_main">
-    <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">Getting started</h1>
+    <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">Leonardo API</h1>
     <hr class="spectrum-Divider spectrum-Divider--sizeM">
-    <p class="spectrum-Body spectrum-Body--sizeM">
-      Leonardo is a tool for both <strong>designers</strong> and <strong>developers</strong>. 
+    <p class="spectrum-Body spectrum-Body--sizeL">
+      The API docs will help you to use @adobe/leonardo-contrast-colors in your development environment.
     </p>
-    <h2 class="spectrum-Heading spectrum-Heading--sizeL spectrum-Heading--heavy" id="colorSystem">
-      Quickstart
-    </h2>
-    <p class="spectrum-Body spectrum-Body--sizeM">
-      Install Leonardo
+    <h2 id="quick-start">Quick start</h2>
+    <h3 id="install-the-package">Install the package:</h3>
+    <pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">i</span> @<span class="hljs-keyword">adobe</span>/<span class="hljs-keyword">leonardo</span>-<span class="hljs-keyword">contrast</span>-<span class="hljs-keyword">colors</span>
+    </code></pre>
+    <h3 id="import-the-package">Import the package:</h3>
+    <h4 id="cjs-node-12-x">CJS (Node 12.x)</h4>
+    <pre><code class="lang-js"><span class="hljs-keyword">const</span> { Theme, Color, BackgroundColor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@adobe/leonardo-contrast-colors'</span>);
+    </code></pre>
+    <h4 id="esm-node-13-x">ESM (Node 13.x)</h4>
+    <pre><code class="lang-js"><span class="hljs-keyword">import</span> { Theme, Color, BackgroundColor } <span class="hljs-keyword">from</span> <span class="hljs-string">'@adobe/leonardo-contrast-colors'</span>;
+    </code></pre>
+    <h3 id="create-and-pass-colors-and-a-background-color-to-a-new-theme-see-additional-options-below">Create and pass colors and a background color to a new Theme (see additional options below):</h3>
+    <pre><code class="lang-js"><span class="hljs-keyword">let</span> gray = <span class="hljs-keyword">new</span> BackgroundColor({
+          name: <span class="hljs-string">'gray'</span>,
+          colorKeys: [<span class="hljs-string">'#cacaca'</span>],
+          ratios: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>, <span class="hljs-number">8</span>]
+        });
+    
+    <span class="hljs-keyword">let</span> blue = <span class="hljs-keyword">new</span> Color({
+          name: <span class="hljs-string">'blue'</span>,
+          colorKeys: [<span class="hljs-string">'#5CDBFF'</span>, <span class="hljs-string">'#0000FF'</span>],
+          ratios: [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
+        });
+    
+    <span class="hljs-keyword">let</span> red = <span class="hljs-keyword">new</span> Color({
+          name: <span class="hljs-string">'red'</span>,
+          colorKeys: [<span class="hljs-string">'#FF9A81'</span>, <span class="hljs-string">'#FF0000'</span>],
+          ratios: [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
+        });
+    
+    <span class="hljs-keyword">let</span> theme = <span class="hljs-keyword">new</span> Theme({colors: [gray, blue, red], backgroundColor: gray, lightness: <span class="hljs-number">97</span>});
+    
+    <span class="hljs-comment">// returns theme colors as JSON</span>
+    <span class="hljs-keyword">let</span> colors = theme.contrastColors;
+    </code></pre>
+    <h2 id="api-reference">API Reference</h2>
+    <h3 id="theme"><code>Theme</code></h3>
+    <p>Class function used to generate adaptive contrast-based colors. Parameters are destructured and need to be explicitly called.</p>
+    <table class="spectrum-Table spectrum-Table--sizeM">
+       <thead class="spectrum-Table-head">
+          <tr class="spectrum-Table-row">
+             <th  class="spectrum-Table-headCell">Parameter</th>
+             <th  class="spectrum-Table-headCell">Type</th>
+             <th  class="spectrum-Table-headCell">Description</th>
+          </tr>
+       </thead class="spectrum-Table-head">
+       <tbody class="spectrum-Table-body">>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>colors</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Array</td>
+             <td class="spectrum-Table-cell" tabindex="0">List of <code>Color</code> classes to generate theme colors for. A single <code>BackgroundColor</code> class is required.</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>lightness</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Number</td>
+             <td class="spectrum-Table-cell" tabindex="0">Value from 0-100 for desired lightness of generated theme background color (whole number)</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>contrast</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Number</td>
+             <td class="spectrum-Table-cell" tabindex="0">Multiplier to increase or decrease contrast for all theme colors (default is <code>1</code>)</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>saturation</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Number</td>
+             <td class="spectrum-Table-cell" tabindex="0">Value from 0-100 for decreasing saturation of all theme colors (default is <code>100</code>)</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>output</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Enum</td>
+             <td class="spectrum-Table-cell" tabindex="0">Desired color output format</td>
+          </tr>
+       </tbody>
+    </table class="spectrum-Table spectrum-Table--sizeM">
+    <h4 id="setters">Setters</h4>
+    <table class="spectrum-Table spectrum-Table--sizeM">
+       <thead class="spectrum-Table-head">
+          <tr class="spectrum-Table-row">
+             <th  class="spectrum-Table-headCell">Setter</th>
+             <th  class="spectrum-Table-headCell">Description of output</th>
+          </tr>
+       </thead class="spectrum-Table-head">
+       <tbody class="spectrum-Table-body">>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Theme.lightness</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the theme&#39;s lightness value</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Theme.contrast</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the theme&#39;s contrast value</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Theme.saturation</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the theme&#39;s saturation value</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Theme.backgroundColor</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the theme&#39;s background color (creates a new <code>BackgroundColor</code> if passing a string)</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Theme.colors</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets colors for theme (must pass <code>Color</code>)</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Theme.output</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets output format for theme</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><a href="#themeaddcolor--color"><code>Theme.addColor</code></a></td>
+             <td class="spectrum-Table-cell" tabindex="0">Add a <code>Color</code> to the theme</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><a href="#themeremovecolor--color"><code>Theme.removeColor</code></a></td>
+             <td class="spectrum-Table-cell" tabindex="0">Remove a <code>Color</code> from the theme</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><a href="#themeupdatecolor--name-property"><code>Theme.updateColor</code></a></td>
+             <td class="spectrum-Table-cell" tabindex="0">Update a <code>Color</code> via its setters from the theme</td>
+          </tr>
+       </tbody>
+    </table class="spectrum-Table spectrum-Table--sizeM">
+    <h4 id="theme-addcolor-color"><code>Theme.addColor = color</code></h4>
+    <p>Add a <code>Color</code> to an existing theme</p>
+    <pre><code class="lang-js"><span class="hljs-keyword">const</span> red = new <span class="hljs-type">Color</span>(<span class="hljs-meta">{...}</span>)
+    
+    theme.addColor = red;
+    </code></pre>
+    <h4 id="theme-removecolor-color"><code>Theme.removeColor = color</code></h4>
+    <p>Remove a <code>Color</code> from an existing theme. Accepts an object with the <code>Color</code>&#39;s name and value, or by passing the <code>Color</code> class itself.</p>
+    <pre><code class="lang-js">// <span class="hljs-type">Remove</span> via color name
+    theme.removeColor = {name: '<span class="hljs-type">Red</span>'};
+    
+    // <span class="hljs-type">Remove</span> via <span class="hljs-type">Color</span> class
+    <span class="hljs-keyword">const</span> red = new <span class="hljs-type">Color</span>(<span class="hljs-meta">{...}</span>)
+    theme.removeColor = red;
+    </code></pre>
+    <h4 id="theme-updatecolor-name-property"><code>Theme.updateColor = {name, property}</code></h4>
+    <p>Update a <code>Color</code> via its setters from the theme. Accepts an object with the name of the color you wish to modify, followed by the property and the new value you wish to modify.</p>
+    <pre><code class="lang-js">const red = <span class="hljs-keyword">new</span> Color({...})
+    <span class="hljs-comment">// Change the colors ratios</span>
+    theme.updateColor = {<span class="hljs-string">name:</span> <span class="hljs-string">'red'</span>, <span class="hljs-string">ratios:</span> [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>, <span class="hljs-number">7</span>]};
+    
+    <span class="hljs-comment">// Change the colors colorKeys</span>
+    theme.updateColor = {<span class="hljs-string">name:</span> <span class="hljs-string">'red'</span>, <span class="hljs-string">colorKeys:</span> [<span class="hljs-string">'#ff0000'</span>]};
+    
+    <span class="hljs-comment">// Change the color's name</span>
+    theme.updateColor = {<span class="hljs-string">name:</span> <span class="hljs-string">'red'</span>, <span class="hljs-string">name:</span> <span class="hljs-string">'Crimson'</span>};
+    </code></pre>
+    <h4 id="supported-output-formats">Supported output formats:</h4>
+    <p>Available output formats conform to the <a href="https://www.w3.org/TR/css-color-4/">W3C CSS Color Module Level 4</a> spec for the supported options, as listed below:</p>
+    <table class="spectrum-Table spectrum-Table--sizeM">
+       <thead class="spectrum-Table-head">
+          <tr class="spectrum-Table-row">
+             <th  class="spectrum-Table-headCell">Output option</th>
+             <th  class="spectrum-Table-headCell">Sample value</th>
+          </tr>
+       </thead class="spectrum-Table-head">
+       <tbody class="spectrum-Table-body">>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;HEX&#39;</code>  <em>(default)</em></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>#RRGGBB</code></td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;RGB&#39;</code></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>rgb(255, 255, 255)</code></td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;HSL&#39;</code></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>hsl(360deg, 0%, 100%)</code></td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;HSV&#39;</code></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>hsv(360deg, 0%, 100%)</code></td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;HSLuv&#39;</code></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>hsluv(360, 0, 100)</code></td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;LAB&#39;</code></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>lab(100%, 0, 0)</code></td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;LCH&#39;</code></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>lch(100%, 0, 360deg)</code></td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;CAM02&#39;</code></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>jab(100%, 0, 0)</code></td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>&#39;CAM02p&#39;</code></td>
+             <td class="spectrum-Table-cell" tabindex="0"><code>jch(100%, 0, 360deg)</code></td>
+          </tr>
+       </tbody>
+    </table class="spectrum-Table spectrum-Table--sizeM">
+    <hr>
+    <h3 id="color"><code>Color</code></h3>
+    <p>Class function used to define colors for a theme. Parameters are destructured and need to be explicitly called.</p>
+    <table class="spectrum-Table spectrum-Table--sizeM">
+       <thead class="spectrum-Table-head">
+          <tr class="spectrum-Table-row">
+             <th  class="spectrum-Table-headCell">Parameter</th>
+             <th  class="spectrum-Table-headCell">Type</th>
+             <th  class="spectrum-Table-headCell">Description</th>
+          </tr>
+       </thead class="spectrum-Table-head">
+       <tbody class="spectrum-Table-body">>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>name</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">String</td>
+             <td class="spectrum-Table-cell" tabindex="0">User-defined name for a color, (eg &quot;Blue&quot;). Used to name output color values</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>colorKeys</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Array of strings</td>
+             <td class="spectrum-Table-cell" tabindex="0">List of specific colors to interpolate between in order to generate a full lightness scale of the color.</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>colorspace</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Enum</td>
+             <td class="spectrum-Table-cell" tabindex="0">The <a href="#Supported-interpolation-colorspaces">colorspace</a> in which the key colors will be interpolated within.</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>ratios</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Array or Object</td>
+             <td class="spectrum-Table-cell" tabindex="0">List of target contrast ratios, or object with named keys for each value.</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>smooth</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Boolean</td>
+             <td class="spectrum-Table-cell" tabindex="0">Applies bezier smoothing to interpolation (false by default)</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>output</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Enum</td>
+             <td class="spectrum-Table-cell" tabindex="0">Desired color output format</td>
+          </tr>
+       </tbody>
+    </table class="spectrum-Table spectrum-Table--sizeM">
+    <h4 id="setters">Setters</h4>
+    <table class="spectrum-Table spectrum-Table--sizeM">
+       <thead class="spectrum-Table-head">
+          <tr class="spectrum-Table-row">
+             <th  class="spectrum-Table-headCell">Setter</th>
+             <th  class="spectrum-Table-headCell">Description of output</th>
+          </tr>
+       </thead class="spectrum-Table-head">
+       <tbody class="spectrum-Table-body">>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Color.colorKeys</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the color keys</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Color.colorspace</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the interpolation colorspace</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Color.ratios</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the ratios</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Color.name</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the name</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Color.smooth</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the smoothing option</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+             <td class="spectrum-Table-cell" tabindex="0"><code>Color.output</code></td>
+             <td class="spectrum-Table-cell" tabindex="0">Sets the output format</td>
+          </tr>
+       </tbody>
+    </table class="spectrum-Table spectrum-Table--sizeM">
+    <h4 id="supported-interpolation-colorspaces">Supported interpolation colorspaces:</h4>
+    <p>Below are the available options for interpolation in Leonardo:</p>
+    <ul>
+       <li><a href="https://en.wikipedia.org/wiki/HCL_color_space">LCH</a></li>
+       <li><a href="https://en.wikipedia.org/wiki/CIELAB_color_space">LAB</a></li>
+       <li><a href="https://en.wikipedia.org/wiki/CIECAM02">CAM02</a></li>
+       <li><a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSL</a></li>
+       <li><a href="https://en.wikipedia.org/wiki/HSLuv">HSLuv</a></li>
+       <li><a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV</a></li>
+       <li><a href="https://en.wikipedia.org/wiki/RGB_color_space">RGB</a></li>
+    </ul>
+    <h4 id="ratios-as-an-array">Ratios as an array</h4>
+    <p>When passing a flat array of target ratios, the output colors in your Theme will be generated by concatenating the color name (eg &quot;Blue&quot;) with numeric increments. Colors with a <strong>positive contrast ratio</strong> with the base (ie, 2:1) will be named in increments of 100. For example, <code>gray100</code>, <code>gray200</code>.</p>
+    <p>Colors with a <strong>negative contrast ratio</strong> with the base (ie -2:1) will be named in increments less than 100 and <em>based on the number of negative values declared</em>. For example, if there are 3 negative values <code>[-1.4, -1.3, -1.2, 1, 2, 3]</code>, the name for those values will be incremented by 100/4 (length plus one to avoid a <code>0</code> value), such as <code>gray25</code>, <code>gray50</code>, and <code>gray75</code>.</p>
+    <p>For example:</p>
+    <pre><code class="lang-js"><span class="hljs-keyword">new</span> Color({
+    <span class="hljs-symbol">  name:</span> <span class="hljs-string">'blue'</span>,
+    <span class="hljs-symbol">  colorKeys:</span> [<span class="hljs-string">'#5CDBFF'</span>, <span class="hljs-string">'#0000FF'</span>],
+    <span class="hljs-symbol">  colorSpace:</span> <span class="hljs-string">'LCH'</span>,
+    <span class="hljs-symbol">  ratios:</span> [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
+    });
+    
+    <span class="hljs-comment">// Returns:</span>
+    [
+      {
+    <span class="hljs-symbol">    name:</span> <span class="hljs-string">'blue'</span>,
+    <span class="hljs-symbol">    values:</span> [
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"blue100"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">3</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#8d63ff"</span>},
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"blue200"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">4.5</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#623aff"</span>}
+        ]
+      }
+    ]
+    </code></pre>
+    <h4 id="ratios-as-an-object">Ratios as an object</h4>
+    <p>When defining ratios as an object with key-value pairs, you define what name will be output in your Leonardo theme.</p>
+    <pre><code class="lang-js"><span class="hljs-keyword">new</span> Color({
+    <span class="hljs-symbol">  name:</span> <span class="hljs-string">'blue'</span>,
+    <span class="hljs-symbol">  colorKeys:</span> [<span class="hljs-string">'#5CDBFF'</span>, <span class="hljs-string">'#0000FF'</span>],
+    <span class="hljs-symbol">  colorSpace:</span> <span class="hljs-string">'LCH'</span>,
+    <span class="hljs-symbol">  ratios:</span> {
+        <span class="hljs-string">'blue--largeText'</span>: <span class="hljs-number">3</span>,
+        <span class="hljs-string">'blue--normalText'</span>: <span class="hljs-number">4.5</span>
+      }
+    });
+    
+    <span class="hljs-comment">// Returns:</span>
+    [
+      {
+    <span class="hljs-symbol">    name:</span> <span class="hljs-string">'blue'</span>,
+    <span class="hljs-symbol">    values:</span> [
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"blue--largeText"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">3</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#8d63ff"</span>},
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"blue--normalText"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">4.5</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#623aff"</span>}
+        ]
+      }
+    ]
+    </code></pre>
+    <hr>
+    <h2 id="output-examples">Output examples</h2>
+    <p>There are two types of output you can get from the <code>Theme</code> class:
+       | Getter | Description of output |
+       |--------|-----------------------|
+       | <code>Theme.contrastColors</code> | Returns array of color objects with key-value pairs |
+       | <code>Theme.contrastColorPairs</code> | Returns object with key-value pairs |
+       | <code>Theme.contrastColorValues</code> | Returns flat array of color values |
     </p>
-    <p class="spectrum-Code spectrum-Code--sizeS">
-      npm i @adobe/leonardo-conrast-colors
+    <h3 id="theme-contrastcolors"><code>Theme.contrastColors</code></h3>
+    <p>Each color is an object named by user-defined value (eg <code>name: &#39;gray&#39;</code>). &quot;Values&quot; array consists of all generated color values for the color, with properties <code>name</code>, <code>contrast</code>, and <code>value</code>:</p>
+    <pre><code class="lang-js">[
+      { <span class="hljs-string">background:</span> <span class="hljs-string">"#e0e0e0"</span> },
+      {
+    <span class="hljs-symbol">    name:</span> <span class="hljs-string">'gray'</span>,
+    <span class="hljs-symbol">    values:</span> [
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"gray100"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">1</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#e0e0e0"</span>},
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"gray200"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">2</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#a0a0a0"</span>},
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"gray300"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">3</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#808080"</span>},
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"gray400"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">4.5</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#646464"</span>}
+        ]
+      },
+      {
+    <span class="hljs-symbol">    name:</span> <span class="hljs-string">'blue'</span>,
+    <span class="hljs-symbol">    values:</span> [
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"blue100"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">2</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#b18cff"</span>},
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"blue200"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">3</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#8d63ff"</span>},
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"blue300"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">4.5</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#623aff"</span>},
+          {<span class="hljs-string">name:</span> <span class="hljs-string">"blue400"</span>, <span class="hljs-string">contrast:</span> <span class="hljs-number">8</span>, <span class="hljs-string">value:</span> <span class="hljs-string">"#1c0ad1"</span>}
+        ]
+      }
+    ]
+    </code></pre>
+    <h3 id="theme-contrastcolorpairs"><code>Theme.contrastColorPairs</code></h3>
+    <p>Simplified format as an object of key-value pairs. Property is equal to the <a href="#Ratios-as-an-array">generated</a> or <a href="#Ratios-as-an-object">user-defined name</a> for each generated value.</p>
+    <pre><code class="lang-js">{
+      <span class="hljs-string">"gray100"</span>: <span class="hljs-string">"#e0e0e0"</span><span class="hljs-comment">;</span>
+      <span class="hljs-string">"gray200"</span>: <span class="hljs-string">"#a0a0a0"</span><span class="hljs-comment">;</span>
+      <span class="hljs-string">"gray300"</span>: <span class="hljs-string">"#808080"</span><span class="hljs-comment">;</span>
+      <span class="hljs-string">"gray400"</span>: <span class="hljs-string">"#646464"</span><span class="hljs-comment">;</span>
+      <span class="hljs-string">"blue100"</span>: <span class="hljs-string">"#b18cff"</span><span class="hljs-comment">;</span>
+      <span class="hljs-string">"blue200"</span>: <span class="hljs-string">"#8d63ff"</span><span class="hljs-comment">;</span>
+      <span class="hljs-string">"blue300"</span>: <span class="hljs-string">"#623aff"</span><span class="hljs-comment">;</span>
+      <span class="hljs-string">"blue400"</span>: <span class="hljs-string">"#1c0ad1"</span><span class="hljs-comment">;</span>
+    }
+    </code></pre>
+    <h3 id="theme-contrastcolorvalues"><code>Theme.contrastColorValues</code></h3>
+    <p>Returns all color values in a flat array.</p>
+    <pre><code class="lang-js">[
+      <span class="hljs-string">"#e0e0e0"</span>,
+      <span class="hljs-string">"#a0a0a0"</span>,
+      <span class="hljs-string">"#808080"</span>,
+      <span class="hljs-string">"#646464"</span>,
+      <span class="hljs-string">"#b18cff"</span>,
+      <span class="hljs-string">"#8d63ff"</span>,
+      <span class="hljs-string">"#623aff"</span>,
+      <span class="hljs-string">"#1c0ad1"</span>
+    ]
+    </code></pre>
+    <hr>
+    <h2 id="leonardo-with-css-variables">Leonardo with CSS variables</h2>
+    <p>Here are a few examples of how you can utilize Leonardo to dynamically create or modify CSS variables for your application.</p>
+    <h3 id="vanilla-js">Vanilla JS</h3>
+    <pre><code class="lang-js"><span class="hljs-built_in">let</span> varPrefix = '--';
+    
+    // Iterate each <span class="hljs-built_in">color</span> object
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = <span class="hljs-number">0</span>; i &lt; myTheme.<span class="hljs-built_in">length</span>; i++) {
+      // Iterate each value object within each <span class="hljs-built_in">color</span> object
+      <span class="hljs-keyword">for</span>(<span class="hljs-built_in">let</span> j = <span class="hljs-number">0</span>; j &lt; myTheme[i].<span class="hljs-built_in">values</span>.<span class="hljs-built_in">length</span>; j++) {
+        // output <span class="hljs-string">"name"</span> of <span class="hljs-built_in">color</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">prefix</span>
+        <span class="hljs-built_in">let</span> <span class="hljs-built_in">key</span> = myTheme[i].<span class="hljs-built_in">values</span>[j].name;
+        <span class="hljs-built_in">let</span> prop = varPrefix.<span class="hljs-built_in">concat</span>(<span class="hljs-built_in">key</span>);
+        // output value of <span class="hljs-built_in">color</span>
+        <span class="hljs-built_in">let</span> value = myTheme[i].<span class="hljs-built_in">values</span>[j].value;
+        // create CSS property with name <span class="hljs-keyword">and</span> value
+        document.documentElement.<span class="hljs-built_in">style</span>
+          .setProperty(prop, value);
+      }
+    }
+    </code></pre>
+    <h3 id="react">React</h3>
+    <p>Create a new Theme component <code>Theme.js</code> with your parameters:</p>
+    <pre><code class="lang-js"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Leo <span class="hljs-keyword">from</span> <span class="hljs-string">'@adobe/leonardo-contrast-colors'</span>;
+    
+    <span class="hljs-keyword">const</span> Theme = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {  
+      <span class="hljs-keyword">let</span> gray = <span class="hljs-keyword">new</span> Leo.BackgroundColor({
+        <span class="hljs-attr">name</span>: <span class="hljs-string">'gray'</span>,
+        <span class="hljs-attr">colorKeys</span>: [<span class="hljs-string">'#cacaca'</span>],
+        <span class="hljs-attr">ratios</span>: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>, <span class="hljs-number">8</span>]
+      });
+    
+      <span class="hljs-keyword">let</span> blue = <span class="hljs-keyword">new</span> Leo.Color({
+        <span class="hljs-attr">name</span>: <span class="hljs-string">'blue'</span>,
+        <span class="hljs-attr">colorKeys</span>: [<span class="hljs-string">'#5CDBFF'</span>, <span class="hljs-string">'#0000FF'</span>],
+        <span class="hljs-attr">ratios</span>: [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
+      });
+    
+      <span class="hljs-keyword">let</span> red = <span class="hljs-keyword">new</span> Leo.Color({
+        <span class="hljs-attr">name</span>: <span class="hljs-string">'red'</span>,
+        <span class="hljs-attr">colorKeys</span>: [<span class="hljs-string">'#FF9A81'</span>, <span class="hljs-string">'#FF0000'</span>],
+        <span class="hljs-attr">ratios</span>: [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
+      });
+    
+      <span class="hljs-keyword">const</span> adaptiveTheme = <span class="hljs-keyword">new</span> Leo.Theme({
+        <span class="hljs-attr">colors</span>: [
+          gray, 
+          blue,
+          red
+        ], 
+        <span class="hljs-attr">backgroundColor</span>: gray, 
+        <span class="hljs-attr">lightness</span>: <span class="hljs-number">97</span>,
+        <span class="hljs-attr">contrast</span>: <span class="hljs-number">1</span>,
+      });
+    
+      <span class="hljs-keyword">return</span> adaptiveTheme;
+    }
+    
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Theme;
+    </code></pre>
+    <p>Then import your Theme component at the top level of your application, and pass the Theme as a property of your app:</p>
+    <pre><code class="lang-js"><span class="hljs-comment">// index.js</span>
+    <span class="hljs-keyword">import</span> Theme <span class="hljs-keyword">from</span> <span class="hljs-string">'./components/Theme'</span>;
+    
+    ReactDOM.render(
+      &lt;React.StrictMode&gt;
+        &lt;App adaptiveTheme={Theme()}/&gt;
+      &lt;/React.StrictMode&gt;,
+      document.getElementById(<span class="hljs-string">'root'</span>)
+    );
+    </code></pre>
+    <p>In your App.js file, import <code>useTheme</code> from <code>css-vars-hook</code> and provide the following within your App function in order to format Leonardo&#39;s output in the structure required for <code>css-vars-hook</code>. </p>
+    <pre><code class="lang-js"><span class="hljs-comment">// App.js</span>
+    <span class="hljs-keyword">import</span> {useTheme} <span class="hljs-keyword">from</span> <span class="hljs-string">'css-vars-hook'</span>;
+    
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params">props</span>) </span>{
+      <span class="hljs-keyword">const</span> [lightness, setLightness] = useState(<span class="hljs-number">100</span>);
+      <span class="hljs-keyword">const</span> [contrast, setContrast] = useState(<span class="hljs-number">1</span>);
+    
+      <span class="hljs-keyword">const</span> _createThemeObject = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> themeObj = {}
+        props.adaptiveTheme.contrastColors.forEach(<span class="hljs-function"><span class="hljs-params">color</span> =&gt;</span> {      
+          <span class="hljs-keyword">if</span>(color.name) {
+            <span class="hljs-keyword">let</span> values = color.values;
+            values.forEach(<span class="hljs-function"><span class="hljs-params">instance</span> =&gt;</span> {
+              <span class="hljs-keyword">let</span> name = instance.name;
+              <span class="hljs-keyword">let</span> val = instance.value;
+              themeObj[name] = val;
+            });
+          } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// must be the background</span>
+            <span class="hljs-keyword">let</span> name = <span class="hljs-string">'background'</span>
+            <span class="hljs-keyword">let</span> val = color.background;
+            themeObj[name] = val;
+          }
+        })
+        <span class="hljs-keyword">return</span> themeObj;
+      };
+    
+      <span class="hljs-keyword">const</span> theme = useState( _createThemeObject() );
+    
+      <span class="hljs-keyword">const</span> {setRef, setVariable} = useTheme(theme);
+    
+      <span class="hljs-keyword">return</span> (
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> 
+          <span class="hljs-attr">className</span>=<span class="hljs-string">"App"</span> 
+          <span class="hljs-attr">ref</span>=<span class="hljs-string">{setRef}</span>
+          &gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+      )
+    }
+    </code></pre>
+    <p>To make your application adaptive, include a function for updating your theme before your return function:</p>
+    <pre><code class="lang-js">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_updateColorVariables</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">let</span> themeInstance = _createThemeObject();    
+    
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [key, value] <span class="hljs-keyword">of</span> <span class="hljs-built_in">Object</span>.entries( themeInstance )) {
+          setVariable(key, value);
+        }
+      };
+      <span class="hljs-comment">// call function to set initial values</span>
+      _updateColorVariables();
+    </code></pre>
+    <p>Finally, reference this function and set the theme parameters when your users interact with slider components (do the same for Contrast):</p>
+    <pre><code class="lang-js">&lt;<span class="hljs-selector-tag">label</span> htmlFor=<span class="hljs-string">"lightness"</span>&gt;
+      Lightness
+    &lt;/label&gt;
+    &lt;<span class="hljs-selector-tag">input</span>
+      value={lightness}
+      id=<span class="hljs-string">"lightness"</span>
+      type=<span class="hljs-string">"range"</span>
+      min={ sliderMin }
+      max={ sliderMax }
+      step=<span class="hljs-string">"1"</span>
+      onChange={e =&gt; {
+        setLightness(e<span class="hljs-selector-class">.target</span><span class="hljs-selector-class">.value</span>)
+        props<span class="hljs-selector-class">.adaptiveTheme</span><span class="hljs-selector-class">.lightness</span> = e<span class="hljs-selector-class">.target</span><span class="hljs-selector-class">.value</span>
+        _updateColorVariables()
+      }}
+    /&gt;
+    &lt;<span class="hljs-selector-tag">label</span> htmlFor=<span class="hljs-string">"contrast"</span>&gt;
+      Contrast
+    &lt;/label&gt;
+    &lt;<span class="hljs-selector-tag">input</span>
+      value={contrast}
+      id=<span class="hljs-string">"contrast"</span>
+      type=<span class="hljs-string">"range"</span>
+      min=<span class="hljs-string">"0.25"</span>
+      max=<span class="hljs-string">"3"</span>
+      step=<span class="hljs-string">"0.025"</span>
+      onChange={e =&gt; {
+        setContrast(e<span class="hljs-selector-class">.target</span><span class="hljs-selector-class">.value</span>)
+        props<span class="hljs-selector-class">.adaptiveTheme</span><span class="hljs-selector-class">.contrast</span> = e<span class="hljs-selector-class">.target</span><span class="hljs-selector-class">.value</span>
+        _updateColorVariables()
+      }}
+    /&gt;
+    </code></pre>
+    <h3 id="dark-mode-support-in-react">Dark mode support in React</h3>
+    <p>Include the following in your App.js file to listen for dark mode. This will pass a different lightness value (of your choice) to Leonardo. It&#39;s recommended to restrict the lightness range based on mode in order to avoid inaccessible ranges and to provide a better overall experience</p>
+    <pre><code class="lang-js">const mq = window.<span class="hljs-built_in">match</span>Media('(prefers-color-scheme: dark)');
+    // Update lightness and slider <span class="hljs-keyword">min</span>/<span class="hljs-keyword">max</span> <span class="hljs-keyword">to</span> be conditional:
+    const [lightness, <span class="hljs-built_in">set</span>Lightness] = useState((mq.matches) ? <span class="hljs-number">8</span> : <span class="hljs-number">100</span>);
+    const [sliderM<span class="hljs-keyword">in</span>, <span class="hljs-built_in">set</span>SliderM<span class="hljs-keyword">in</span>] = useState((mq.matches) ? <span class="hljs-number">0</span> : <span class="hljs-number">80</span>);
+    const [sliderMax, <span class="hljs-built_in">set</span>SliderMax] = useState((mq.matches) ? <span class="hljs-number">30</span> : <span class="hljs-number">100</span>);
+    
+    // Listener <span class="hljs-keyword">to</span> update when <span class="hljs-keyword">user</span> device mode changes:
+    mq.addEventListener('change', function (evt) {
+      props.adaptiveTheme.lightness = ((mq.matches) ? <span class="hljs-number">11</span> : <span class="hljs-number">100</span>)
+      <span class="hljs-built_in">set</span>Lightness((mq.matches) ? <span class="hljs-number">11</span> : <span class="hljs-number">100</span>)
+      <span class="hljs-built_in">set</span>SliderM<span class="hljs-keyword">in</span>((mq.matches) ? <span class="hljs-number">0</span> : <span class="hljs-number">80</span>);
+      <span class="hljs-built_in">set</span>SliderMax((mq.matches) ? <span class="hljs-number">30</span> : <span class="hljs-number">100</span>);
+    });
+    </code></pre>
+    <hr>
+    <h2 id="why-are-not-all-contrast-ratios-available">Why are not all contrast ratios available?</h2>
+    <p>You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.</p>
+    <p>For example let&#39;s look at blue and white.
+       Blue: rgb(0, 0, 255)
+       White: rgb(255, 255, 255)
+       Contrast ratio: <strong>8.59</strong>:1
     </p>
+    <p>If we change any one value in the RGB channel for either color, the ratio changes:
+       Blue: rgb(0, <strong>1</strong>, 255)
+       White: rgb(255, 255, 255)
+       Contrast ratio: <strong>8.57</strong>:1
+    </p>
+    <p>If 8.58 is input as the target ratio with the starting color of blue, the output will not be exact. This is exaggerated by the various colorspace interpolations.</p>
+    <p>Since the WCAG requirement is defined as a <em>minimum contrast requirement</em>, it should be fine to generate colors that are a little <em>more</em> accessible than the minimum.</p>
+    <hr>
+    <h2 id="chroma-js">Chroma.js</h2>
+    <p>This project is currently built using <a href="https://gka.github.io/chroma.js/">Chroma.js</a> with custom extensions to support<a href="https://gramaz.io/d3-cam02/">CIE CAM02</a>. Additional functionality is added in Leonardo to enhance chroma scales so that they properly order colors by lightness and correct the lightness of the scale based on HSLuv.</p>
+    <h2 id="contributing">Contributing</h2>
+    <p>Contributions are welcomed! Read the <a href="">Contributing Guide</a> for more information.</p>
+    <h2 id="development">Development</h2>
+    <p>You can run tests and watch for changes with:</p>
+    <pre><code class="lang-sh"><span class="hljs-attribute">yarn dev</span>
+    </code></pre>
+    <h2 id="licensing">Licensing</h2>
+    <p>This project is licensed under the Apache V2 License. See <a href="LICENSE">LICENSE</a> for more information.</p>
   </div>
 
   <div class="sideNavContent_aside">
     <ul class="aside_links">
       <li> 
-        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#"> Parent </a> 
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#quick-start"> Quick start </a> 
+      </li>
+      <li> 
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#api-reference"> API reference </a> 
         <ul class="aside_links--sublist">
           <li> 
-            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#"> Child </a> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#theme"> Theme </a> 
+          </li>
+          <li> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#color"> Color </a> 
           </li>
         </ul>
+      </li>
+      <li> 
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#output-examples"> Output examples </a> 
+        <ul class="aside_links--sublist">
+          <li> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#theme-contrastcolors"> contrastColors </a> 
+          </li>
+          <li> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#theme-contrastcolorpairs"> contrastColorPairs </a> 
+          </li>
+          <li> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#theme-contrastcolorvalues"> contrastColorValues </a> 
+          </li>
+        </ul>
+      </li>
+      <li> 
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#leonardo-with-css-variables"> CSS variables </a> 
+        <ul class="aside_links--sublist">
+          <li> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#vanilla-js"> Javascript </a> 
+          </li>
+          <li> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#react"> React </a> 
+          </li>
+          <li> 
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#dark-mode-support-in-react"> Dark mode in React </a> 
+          </li>
+        </ul>
+      </li>
+      <li> 
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#why-are-not-all-contrast-ratios-available"> Available ratios </a> 
+      </li>
+      <li> 
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#contributing"> Contributing </a> 
+      </li>
+      <li> 
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#development"> Development </a> 
+      </li>
+      <li> 
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#licensing"> Licensing </a> 
       </li>
     </ul>
   </div>

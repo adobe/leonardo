@@ -37,6 +37,7 @@ import '@spectrum-css/buttongroup/dist/index-vars.css';
 import '@spectrum-css/tooltip/dist/index-vars.css';
 import '@spectrum-css/slider/dist/index-vars.css';
 import '@spectrum-css/tabs/dist/index-vars.css';
+import '@spectrum-css/table/dist/index-vars.css';
 import '@spectrum-css/toast/dist/index-vars.css';
 import '@spectrum-css/illustratedmessage/dist/index-vars.css';
 import '@spectrum-css/typography/dist/index-vars.css';
