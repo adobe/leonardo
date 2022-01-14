@@ -83,16 +83,12 @@ function showColorDetails(e) {
   let wrapper = contentArea;
 
   // Create back button
-  let panelHeader = document.createElement('div');
-  panelHeader.className = 'spectrum-Panel-Item';
+  // let panelHeader = document.createElement('div');
+  // panelHeader.className = 'spectrum-Panel-Item';
   let backButton = document.createElement('button');
-  backButton.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
-  backButton.title = 'Back to all colors'
-  backButton.innerHTML = `
-  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-    <use xlink:href="#spectrum-icon-18-ChevronLeft" />
-  </svg>
-  `;
+  backButton.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--cta';
+  backButton.title = 'Save color'
+  backButton.innerHTML = `Save color`;
   backButton.onclick = () => {
     contentArea.innerHTML = ' ';
     contentArea.style.display = 'none';
@@ -102,12 +98,12 @@ function showColorDetails(e) {
 
     themeUpdateParams()
   }
-  let backLabel = document.createElement('span')
-  backLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
-  backLabel.innerHTML = 'Back to all colors';
+  // let backLabel = document.createElement('span')
+  // backLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
+  // backLabel.innerHTML = 'Back to all colors';
 
-  panelHeader.appendChild(backButton);
-  panelHeader.appendChild(backLabel);
+  // panelHeader.appendChild(backButton);
+  // panelHeader.appendChild(backLabel);
 
   // Create gradient
   let gradient = document.createElement('div');
@@ -346,24 +342,36 @@ function showColorDetails(e) {
   // panelOutput.appendChild(panelOutputContent);
 
 
+  let downloadGradient = document.createElement('button');
+  downloadGradient.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
+  downloadGradient.title = 'Download SVG gradient'
+  downloadGradient.id = thisId.concat('_downloadGradient');
+  downloadGradient.innerHTML = `<svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
+  <use xlink:href="#spectrum-icon-18-Download"></use>
+</svg>
+<span class="spectrum-ActionButton-label">Download SVG gradient</span>`
+  downloadGradient.addEventListener('click', (e) => {
+    downloadSVGgradient(colorData.backgroundColorScale, colorData.mode, colorData.name);
+  })
+
+  let panelExport = document.createElement('div');
+  panelExport.className = 'spectrum-Panel-Item'
+  let panelExportTitle = document.createElement('span');
+  panelExportTitle.className = 'spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title';
+  panelExportTitle.innerHTML = 'Export color scale';
+
+  panelExport.appendChild(panelExportTitle);
+  panelExport.appendChild(downloadGradient);
+
   // Actions
   let actions = document.createElement('div');
   actions.className = 'spectrum-ButtonGroup';
 
   let deleteColor = document.createElement('button');
   deleteColor.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--negative';
-  deleteColor.title = 'Delete color scale'
+  deleteColor.title = 'Delete color'
   deleteColor.id = thisId.concat('_delete');
-  deleteColor.innerHTML = 'Delete color scale'
-
-  let downloadGradient = document.createElement('button');
-  downloadGradient.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--cta';
-  downloadGradient.title = 'Download SVG gradient'
-  downloadGradient.id = thisId.concat('_downloadGradient');
-  downloadGradient.innerHTML = 'Download SVG gradient'
-  downloadGradient.addEventListener('click', (e) => {
-    downloadSVGgradient(colorData.backgroundColorScale, colorData.mode, colorData.name);
-  })
+  deleteColor.innerHTML = 'Delete color'
 
   let bottomPanel = document.createElement('div');
   bottomPanel.className = 'spectrum-Panel-Item spectrum-Panel-Item--noPadding';
@@ -394,7 +402,8 @@ function showColorDetails(e) {
   //   <use xlink:href="#spectrum-icon-18-Delete" />
   // </svg>`;
 
-  deletePanel.appendChild(downloadGradient)
+  deletePanel.appendChild(backButton);
+  // deletePanel.appendChild(downloadGradient)
   deletePanel.appendChild(deleteColor);
 
   colorName.appendChild(actions);
@@ -506,10 +515,11 @@ function showColorDetails(e) {
   panelInterpolationMode.appendChild(interpDetails);
   panelInterpolationMode.appendChild(interpInputs);
 
-  configPanelTopWrapper.appendChild(panelHeader);
+  // configPanelTopWrapper.appendChild(panelHeader);
   configPanelTopWrapper.appendChild(configPanelItem);
   configPanelTopWrapper.appendChild(panelKeyColors);
   configPanelTopWrapper.appendChild(panelInterpolationMode);
+  configPanelTopWrapper.appendChild(panelExport);
   // configPanelTopWrapper.appendChild(panelOutput);
   configPanel.appendChild(configPanelTopWrapper);
 
