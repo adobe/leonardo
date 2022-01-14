@@ -83,12 +83,13 @@ function showColorDetails(e) {
   let wrapper = contentArea;
 
   // Create back button
-  // let panelHeader = document.createElement('div');
-  // panelHeader.className = 'spectrum-Panel-Item';
+  let panelHeader = document.createElement('div');
+  panelHeader.className = 'spectrum-Panel-Item';
+
   let backButton = document.createElement('button');
-  backButton.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--cta';
-  backButton.title = 'Save color'
-  backButton.innerHTML = `Save color`;
+  backButton.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--cta spectrum-ButtonGroup-item';
+  backButton.title = 'Save and go back'
+  backButton.innerHTML = `Save and go back`;
   backButton.onclick = () => {
     contentArea.innerHTML = ' ';
     contentArea.style.display = 'none';
@@ -98,11 +99,29 @@ function showColorDetails(e) {
 
     themeUpdateParams()
   }
+
+  // let cancelButton = document.createElement('button');
+  // cancelButton.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--primary spectrum-Button--quiet spectrum-ButtonGroup-item';
+  // cancelButton.title = 'Cancel'
+  // cancelButton.innerHTML = `Cancel`;
+  // cancelButton.onclick = () => {
+  //   contentArea.innerHTML = ' ';
+  //   contentArea.style.display = 'none';
+  //   configPanel.innerHTML = ' ';
+  //   configPanel.style.display = 'none';
+  //   panelOpen = false;
+  // }
   // let backLabel = document.createElement('span')
   // backLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
   // backLabel.innerHTML = 'Back to all colors';
 
-  // panelHeader.appendChild(backButton);
+  let headerButtonGroup = document.createElement('div');
+  headerButtonGroup.className = 'spectrum-ButtonGroup';
+
+  headerButtonGroup.appendChild(backButton);
+  // headerButtonGroup.appendChild(cancelButton);
+
+  panelHeader.appendChild(headerButtonGroup);
   // panelHeader.appendChild(backLabel);
 
   // Create gradient
@@ -402,7 +421,7 @@ function showColorDetails(e) {
   //   <use xlink:href="#spectrum-icon-18-Delete" />
   // </svg>`;
 
-  deletePanel.appendChild(backButton);
+  // deletePanel.appendChild(backButton);
   // deletePanel.appendChild(downloadGradient)
   deletePanel.appendChild(deleteColor);
 
@@ -515,7 +534,7 @@ function showColorDetails(e) {
   panelInterpolationMode.appendChild(interpDetails);
   panelInterpolationMode.appendChild(interpInputs);
 
-  // configPanelTopWrapper.appendChild(panelHeader);
+  configPanelTopWrapper.appendChild(panelHeader);
   configPanelTopWrapper.appendChild(configPanelItem);
   configPanelTopWrapper.appendChild(panelKeyColors);
   configPanelTopWrapper.appendChild(panelInterpolationMode);
