@@ -10,6 +10,25 @@ governing permissions and limitations under the License.
 */
 
 import {createChart} from './createChart';
+import {
+  getContrastRatios, 
+  getLuminosities
+} from './getThemeData';
+
+const lineTypeSelect = document.getElementById('chartLineType');
+const lineType = lineTypeSelect.value;
+let isStep = (lineType === 'step') ? true : false;
+
+lineTypeSelect.addEventListener('change', (e) => {
+  let val = e.target.value;
+  isStep = (val === 'step') ? true : false;
+
+  let chartRatios = Promise.resolve(getContrastRatios());
+  chartRatios.then(function(resolve) {createRatioChart(resolve)});
+
+  let chartLuminosities = Promise.resolve(getLuminosities());
+  chartLuminosities.then(function(resolve) {createLuminosityChart(resolve)});
+});
 
 function createRatioChart(chartRatios) {
   let dest = document.getElementById('contrastChart');
@@ -30,7 +49,7 @@ function createRatioChart(chartRatios) {
   let yMin = (minRatio < 1) ? minRatio: 1;
   let yMax = (maxRatio < 7) ? 7 : ((maxRatio < 12) ? 12 : 21);
   
-  createChart(dataContrast, 'Contrast ratio', 'Swatches', "#contrastChart", yMin, yMax, true);
+  createChart(dataContrast, 'Contrast ratio', 'Swatches', "#contrastChart", yMin, yMax, true, undefined, undefined, isStep);
 }
 
 function createLuminosityChart(chartLuminosities) {
@@ -52,7 +71,7 @@ function createLuminosityChart(chartLuminosities) {
   let yMin = 0;
   let yMax = 100;
   
-  createChart(dataLuminosity, 'Luminosity', 'Swatches', "#luminosityChart", yMin, yMax, true);
+  createChart(dataLuminosity, 'Luminosity', 'Swatches', "#luminosityChart", yMin, yMax, true, undefined, undefined, isStep);
 }
 
 module.exports = {

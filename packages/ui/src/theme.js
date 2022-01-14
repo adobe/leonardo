@@ -207,14 +207,14 @@ paramSetup();
 // Default to CAM02ch for charts modes
 document.getElementById('chartsMode').value = 'CAM02p'
 
-// document.getElementById("tabPanelColorScales").click();
+document.getElementById("tabPanelColorScales").click();
 document.getElementById("tabJSParameters").click();
 // document.getElementById("tabHome").click();
 document.getElementById('tabJustifiedSwatches').click();
 document.getElementById("tabPalette").click();
 document.getElementById("welcome").click();
 document.getElementById("tabColorWheel").click();
-document.getElementById("tabSubPanelContrastChart").click();
+// document.getElementById("tabSubPanelContrastChart").click();
 
 // // Add event listener so that homepage CTA button initaites themes tab
 // document.getElementById('homeCTA').addEventListener('click', function() {

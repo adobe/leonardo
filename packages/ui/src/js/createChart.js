@@ -11,9 +11,9 @@ governing permissions and limitations under the License.
 import * as d3 from 'd3';
 import {getSmallestWindowDimension} from './colorWheel';
 
-const panelsOffset = 752;
+const panelsOffset = 722; // should be 722 ...not 752
 
-function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors, scaleType) {
+function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors, scaleType, stepped = false) {
   let chartWidth, chartHeight;
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
@@ -33,7 +33,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
       chartWidth = adjustedWidth;
       adjustedHeight = (windowHeight - 332) / 3;
       // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
-      chartHeight = 196;
+      chartHeight = 178;
   }
   if(
     dest === `#${scaleType}InterpolationChart` ||
@@ -50,27 +50,6 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     chartHeight = 196;
   }
   if(
-    dest === '#paletteInterpolationChart' ||
-    dest === '#paletteInterpolationChart2' ||
-    dest === '#paletteInterpolationChart3'
-  ) {
-    let adjustedWidth = windowWidth - (388 + 32) - 8;// subtract panel width and padding from measurement
-    adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
-
-    chartWidth = adjustedWidth;
-    chartHeight = (windowHeight - 148) / 2;
-  }
-  // if(
-  //   dest === '#RGBchart'
-  // ) {
-  //   let adjustedWidth = windowWidth - (388 + 32) - 8;// subtract panel width and padding from measurement
-  //   adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
-
-  //   chartWidth = adjustedWidth;
-  //   adjustedHeight = adjustedHeight * 1.5;
-  //   chartHeight = (adjustedHeight < 340) ? 340 : adjustedHeight;
-  // } 
-  if(
     // dest === '#RGBchart'||
     dest === `#sequentialRGBchart` ||
     dest === '#divergingRGBchart'
@@ -78,18 +57,19 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     chartWidth = 308;
     adjustedHeight = (windowHeight - 332) / 3;
     // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
-    chartHeight = 176; // 196
+    chartHeight = 175; // 196
 
   }
   if(dest === '#RGBchart') {
     chartWidth = 308;
     adjustedHeight = (windowHeight - 332) / 3;
     // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
-    chartHeight = 250;
+    chartHeight = 216;
   }
   if(dest === '#contrastChart' || dest === '#luminosityChart') {
-    chartWidth = 356;
-    chartHeight = 264;
+    adjustedWidth = windowWidth - panelsOffset;
+    chartWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+    chartHeight = 300;
   }
 
 
@@ -118,23 +98,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
           //
           // Create the plot.
           //
-          let marginBottom;
-          if(
-            dest === '#interpolationChart' || 
-            dest === '#interpolationChart2' || 
-            dest === '#interpolationChart3' ||
-            dest === `#${scaleType}InterpolationChart` ||
-            dest === `#${scaleType}InterpolationChart2` ||
-            dest === `#${scaleType}InterpolationChart3` ||
-            dest === '#paletteInterpolationChart' ||
-            dest === '#paletteInterpolationChart2' ||
-            dest === '#paletteInterpolationChart3'
-          ) marginBottom = 16;
-          if(
-            dest === `#sequentialRGBchart` || dest === '#divergingRGBchart' || dest === '#RGBchart'
-          ) marginBottom = 16;
-          else marginBottom = 36;
-
+          let marginBottom = 16;
           let marginLeft = (dest === `#sequentialRGBchart` || dest === '#divergingRGBchart' || dest === '#RGBchart') ? 0 : 36;
 
           let margin = {top: 8, right: 8, bottom: marginBottom, left: marginLeft};
@@ -190,10 +154,16 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
             .tickSize(-innerwidth)
             .tickFormat("") ;
 
-          let draw_line = d3.line()
-            .curve(d3.curveBasis)
+          let draw_line;
+          if(stepped) draw_line = d3.line()
+            .curve(d3.curveStep)
             .x(function(d) { return x_scale(d[0]); })
             .y(function(d) { return y_scale(d[1]); }) ;
+          
+          else draw_line = d3.line()
+          .curve(d3.curveBasis)
+          .x(function(d) { return x_scale(d[0]); })
+          .y(function(d) { return y_scale(d[1]); }) ;
 
           let svg = d3.select(this)
             .attr("width", width)
@@ -345,12 +315,15 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
   } else {
     // let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
     // adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
-    let width = window.innerWidth - panelsOffset;// subtract panel width and padding from measurement
+    // let width = window.innerWidth - panelsOffset - 332;// subtract panel width and padding from measurement
+    let newMaxWidth = 600;
+    let adjustedWidth = windowWidth - 320 - panelsOffset - 48;// subtract panel width and padding from measurement
+    let newAdjustedWidth = (adjustedWidth < newMaxWidth) ? adjustedWidth : newMaxWidth;
 
-    adjustedWidth = (width < maxWidth) ? width : maxWidth;
+    // adjustedWidth = (width < maxWidth) ? width : maxWidth;
     adjustedHeight = (window.innerHeight / 3) - 80;// subtract heading, tabs height and padding from measurement
     
-    chartWidth = adjustedWidth;
+    chartWidth = newAdjustedWidth;
     chartHeight = adjustedHeight;
   }
 

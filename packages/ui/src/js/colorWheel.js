@@ -84,10 +84,12 @@ function updateColorDots(mode, scaleType = 'theme', customColors, id) {
 function getColorWheelSize() {
   // let dynamicSize = getSmallestWindowDimension() - 200;
   let minSize = 200;
-  let maxSize = 500;
+  let maxSize = 400;
   // let colorWheelSize = (dynamicSize > maxSize) ? maxSize : ((dynamicSize < minSize) ? minSize : dynamicSize);
-  let windowDimensions = getSmallestWindowDimension();
-  let colorWheelSize = (windowDimensions > maxSize) ? maxSize : ((windowDimensions < minSize) ? minSize : windowDimensions);
+  // let windowDimensions = getSmallestWindowDimension();
+  // let colorWheelSize = (windowDimensions > maxSize) ? maxSize : ((windowDimensions < minSize) ? minSize : windowDimensions);
+  let colorWheelSize = (window.innerWidth < 1200) ? 320 : 320;
+
   return colorWheelSize;
 }
 
@@ -311,9 +313,10 @@ function createColorWheel(mode, lightness, scaleType) {
 function getSmallestWindowDimension() {
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
-  let adjustedWidth = windowWidth - 386;// subtract panel width and padding from measurement
+  let adjustedWidth = (windowWidth / 2) - 386;// subtract panel width and padding from measurement
   // let adjustedHeight = ((window.innerHeight - 232) / 2) - 64;// subtract heading, tabs height and padding from measurement
-  let adjustedHeight = window.innerHeight - 234;// subtract heading, tabs height and padding from measurement
+  if(windowWidth > 800) adjustedWidth = windowWidth * .2176;
+  let adjustedHeight = windowHeight - 234;// subtract heading, tabs height and padding from measurement
   let smallestDimension = (adjustedWidth < adjustedHeight) ? adjustedWidth : adjustedHeight;
   return smallestDimension;
 }

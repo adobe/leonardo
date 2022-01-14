@@ -1,11 +1,12 @@
 #swatchesOutputs {
   display: flex;
   flex-direction: column;
-  padding: 32px;
-  border-radius: var(--spectrum-alias-border-radius-medium);
-  height: calc(100vh - 220px);
-  overflow: auto;
-  border: 1px solid var(--translucentLightBorder);
+  padding: 0;
+  margin: 8px 14px 16px 32px;
+  // border-radius: var(--spectrum-alias-border-radius-medium);
+  // height: calc(100vh - 220px);
+  // overflow: auto;
+  // border: 1px solid var(--translucentLightBorder);
 }
 
 .themeOutputItem {

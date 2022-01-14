@@ -908,6 +908,7 @@ a:focus {
 .colorTabsWrapper {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
+  overflow: auto;
 }
 
 .sequentialTabsWrapper,
@@ -976,8 +977,9 @@ a:focus {
   padding-left: var(--spectrum-global-dimension-size-50);
   display: flex;
   margin-bottom: var(--spectrum-global-dimension-size-100);
-  height: calc(100vh - 544px);
+  height: calc(100vh - 200px);
   min-height: 280px;
+  transition: 0.1s ease-out opacity;
 }
 
 .demoItem {
@@ -1314,8 +1316,7 @@ a:focus {
   }
 }
 
-#swatchesOutputs,
-#themeOutputs {
+#swatchesOutputs {
   width: 100%;
 }
 
@@ -1329,7 +1330,8 @@ a:focus {
   padding: 16px;
   // max-height: calc(100vh - 136px);
   overflow: auto;
-  border: 1px solid var(--translucentLightBorder)
+  border: 1px solid var(--translucentLightBorder);
+  width: auto;
 }
 
 #themeParams {
@@ -1704,7 +1706,7 @@ a:focus {
 }
 #colorWheel {
   position: relative;
-  margin: 0 auto var(--spectrum-global-dimension-size-100);
+  margin: 0 auto var(--spectrum-global-dimension-size-200);
   // width: 244px;
 }
 #sequentialColorWheel,
@@ -1759,8 +1761,43 @@ a:focus {
 }
 
 #paletteChartsWrapper {
+  // display: flex;
+  flex-direction: row;
   align-items: center;
   padding-bottom: 0;
+}
+
+.paletteChartsGrid {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 auto;
+
+  .chartsColumn--left {
+    width: 320px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    justify-content: center;
+  }
+  .chartsColumn--right {
+    margin-left: 32px;
+  }
+}
+
+#contrastChartsWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.paletteContrastChartsGrid {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 #home {
@@ -1876,7 +1913,8 @@ a:focus {
 #chartsControls {
   margin: 0 auto;
   padding: 8px 0 16px;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
 }
 
 .chartsMode {
@@ -1886,7 +1924,7 @@ a:focus {
 #luminosityGradient {
   position: relative;
   width: 64px;
-  height: calc(100vh - 536px);
+  height: calc(100vh - 200px);
   min-height: 280px;
   background-image: linear-gradient(0deg, black, white);
   margin-right: var(--spectrum-global-dimension-size-100);
@@ -2228,4 +2266,11 @@ a:focus {
 .spectrum-Detail.spectrum-Panel-Item-Title {
   color: var(--spectrum-global-color-gray-700);
   padding-bottom: var(--spectrum-global-dimension-size-50);
+}
+
+// Utility class for appearance of disabled while loading UI elements
+.is-disabled {
+  transition: 0.1s ease-out opacity;
+  opacity: 0.4;
+  cursor: none;
 }

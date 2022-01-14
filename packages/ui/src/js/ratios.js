@@ -193,6 +193,12 @@ function addRatioInputs(ratios, colors) {
 }
 
 function distributeRatios() {
+  // Temporarily "disable" wrapper
+  let inputWrapper = document.getElementById('ratioInput-wrapper');
+  setTimeout(() => {
+    inputWrapper.classList.add('is-disabled');
+  }, 100)
+
   let ratioFields = document.getElementsByClassName('ratio-Field');
   let ratioInputs = [];
   for(let i=0; i < ratioFields.length; i++) {
@@ -218,6 +224,7 @@ function distributeRatios() {
   }
   setTimeout(() => {
     ratioUpdate();
+    inputWrapper.classList.remove('is-disabled');
   }, 500)
 }
 
@@ -227,6 +234,10 @@ function distributeLuminosity() {
   for(let i=0; i < LumFields.length; i++) {
     LumInputs.push(Number(LumFields[i].value));
   }
+
+  let inputWrapper = document.getElementById('ratioInput-wrapper');
+  inputWrapper.classList.add('is-disabled');
+
 
   let minVal = Math.min(...LumInputs);
   let maxVal = Math.max(...LumInputs);
@@ -258,6 +269,10 @@ function distributeLuminosity() {
   setTimeout(() => {
     ratioUpdate();
   }, 500)
+
+  setTimeout(() => {
+    inputWrapper.classList.remove('is-disabled');
+  }, 900)
 }
 
 document.getElementById('distribute').addEventListener('input', function(e) {

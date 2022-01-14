@@ -4,7 +4,8 @@ import {_theme} from './initialTheme';
 import {cvdColors} from './cvdColors';
 import {
   round, 
-  cssColorToRgb
+  cssColorToRgb,
+  colorToGrayScale
 } from './utils';
 
 function createOutputColors(dest) {
@@ -30,7 +31,7 @@ function createOutputColors(dest) {
   let themeColorArray = [];
 
   themeOutputs.style.backgroundColor = themeBackgroundColor;
-  swatchesOutputs.style.backgroundColor = themeBackgroundColor;
+  // swatchesOutputs.style.backgroundColor = themeBackgroundColor;
   let destinations = (dest) ? [ dest ] : [ themeOutputs, swatchesOutputs ];
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
@@ -38,7 +39,8 @@ function createOutputColors(dest) {
 
     // Ignore first theme item (background color) when making swatches for
     // the Swatch tab. Only create the background color in the Theme preview
-    for (let i= (dest === swatchesOutputs) ? 1 : 0; i<theme.length; i++) {
+    let length = (dest === swatchesOutputs) ? 2 : theme.length
+    for (let i= (dest === swatchesOutputs) ? 1 : 0; i < length; i++) {
       let wrapper = document.createElement('div');
       wrapper.className = 'themeOutputItem';
 
@@ -72,6 +74,8 @@ function createOutputColors(dest) {
 
           // transform original color based on preview mode
           let colorValue = cvdColors(colorForTransform);
+
+          if(dest === swatchesOutputs) colorValue = colorToGrayScale(colorForTransform);
 
           // get the ratio to print inside the swatch
           let contrast = theme[i].values[j].contrast;

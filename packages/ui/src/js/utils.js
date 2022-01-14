@@ -662,6 +662,13 @@ function alphaBlend(color1, color2) {
 
 // }
 
+function colorToGrayScale(color) {
+  let c = chroma(color).lch()
+  let newC = chroma.lch(c[0], 0, c[2])
+
+  return newC.hex();
+}
+
 
 module.exports = {
   randomId,
@@ -678,6 +685,7 @@ module.exports = {
   getAllChannelValues,
   findMatchingLuminosity,
   lerp,
+  colorToGrayScale,
   cssColorToRgb,
   removeElementsByClass,
   getColorDifference,

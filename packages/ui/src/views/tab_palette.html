@@ -3,27 +3,26 @@
 
   <div class="spectrum-Panel spectrum-Panel--right">
     <div class="spectrum-Panel-ContentWrapper">
-      <!-- <div class="spectrum-Panel-Tabs">
-        <div class="spectrum-Tabs spectrum-Tabs--horizontal">
+      <div class="spectrum-Panel-Tabs">
+        <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
           <div id="tabPanelColorScales" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'colorScales')">
-            <label class="spectrum-Tabs-itemLabel">Palette</label>
+            <label class="spectrum-Tabs-itemLabel">Color scales</label>
           </div>
           <div id="tabPanelContrastSwatches" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0" onclick="openPanelTab(event, 'contrastSwatches')">
-            <label class="spectrum-Tabs-itemLabel">Swatches</label>
+            <label class="spectrum-Tabs-itemLabel">Value stops</label>
           </div>
         </div>
-      </div> -->
-      <div id="colorScales">
-        <div class="spectrum-Panel-Item">
-          <div class="spectrum-Panel-Title spectrum-Panel-Title--spaced">
+      </div>
+      <div id="colorScales" class="paneltabcontent">
+        <div class="spectrum-Panel-Item" style="flex-shrink: 0;">
+          <!-- <div class="spectrum-Panel-Title spectrum-Panel-Title--spaced">
             <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
               Color scales
             </h3>
-          </div>
+          </div> -->
           <!-- <div class="spectrum-Panel-Title">
             <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">UI color scales</h3>
           </div> -->
-          <div id="image-preview"></div>
           <div>
             <button class="spectrum-ActionButton spectrum-ActionButton--sizeM " onClick="addColorScaleUpdate()">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
@@ -45,6 +44,7 @@
               <span class="spectrum-ActionButton-label">Sort</span>
             </button>
           </div>
+          <div id="image-preview"></div>
 
         </div>
 
@@ -55,6 +55,67 @@
           </div>
         </div>
 
+      </div>
+
+      <div id="contrastSwatches" class="paneltabcontent">
+        <div class="spectrum-Panel-Item ">
+          <div class="spectrum-ActionGroup spectrum-ActionGroup--spaced">
+            <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                <use xlink:href="#spectrum-icon-18-Add" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Add swatch</span>
+            </button>
+            <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true" aria-label="Sort">
+                <use xlink:href="#spectrum-css-icon-Arrow100" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Sort</span>
+            </button>
+            <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item" name="distribute" id="distribute">
+              <option value="none">Distribute by...</option>
+              <option value="ratios">Contrast ratios</option>
+              <option value="luminosity">Luminosity</option>
+            </select>  
+          </div>
+  
+  
+          <div class="spectrum-Panel-Item--row">
+            <div id="luminosityGradient"></div>
+            <div id="ratioInput-wrapper">
+              <div class="ratioGrid">
+                <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio">Contrast ratio</label>  
+                <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Luminosity</label>  
+                <!-- <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--swatchName">Naming</label>   -->
+              </div>
+            </div>
+            <!-- <button id="addRatio" onclick="addNewRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                <use xlink:href="#spectrum-icon-18-Add" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Add contrast ratio</span>
+            </button> -->
+          </div>
+        </div>
+  
+  
+        <!-- <div class="spectrum-Panel-Item">
+          <div class="spectrum-Panel-SubTabs">
+            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Swatch Distribution</h3>
+            <div class="spectrum-Tabs spectrum-Tabs--compact spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+              <div id="tabSubPanelContrastChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openPanelSubTab(event, 'contrastChart')">
+                <label class="spectrum-Tabs-itemLabel">Contrast ratio</label>
+              </div>
+              <div id="tabSubPanelLuminosityChart" class="spectrum-Tabs-item panel-SubTabs-item" tabindex="0" onclick="openPanelSubTab(event, 'luminosityChart')">
+                <label class="spectrum-Tabs-itemLabel">Luminosity</label>
+              </div>
+            </div>
+          </div>
+  
+          <div class="panel-SubTab-Content" id="contrastChart"></div>
+          <div class="panel-SubTab-Content" id="luminosityChart"></div>
+          
+        </div> -->
       </div>
     </div>
 
@@ -72,14 +133,17 @@
 
     <div id="" class="spectrum-Content-Tabs">
       <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
-        <div id="tabColorWheel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'colorWheelWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Color wheel</label>
+        <div id="tabColorWheel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'previewWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Preview</label>
         </div>
         <div id="tabPaletteCharts" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteChartsWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Charts</label>
+          <label class="spectrum-Tabs-itemLabel">Analyze color</label>
+        </div>
+        <div id="tabPaletteContrastCharts" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteContrastChartsWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Analyze stops</label>
         </div>
         <div id="tabPaletteModel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0" onclick="openColorTab(event, 'paletteModelWrapper')">
-          <label class="spectrum-Tabs-itemLabel">Model</label>
+          <label class="spectrum-Tabs-itemLabel">3d model</label>
         </div>
       </div>
 <!-- 
@@ -100,9 +164,11 @@
       </div> -->
     </div>
 
-    <div id="colorWheelWrapper" class="colorTabsWrapper">
-
-        <div id="colorWheel--controlsWrapper">
+    <div id="previewWrapper" class="colorTabsWrapper">
+      <div id="themeOutputs">
+        <!-- Generated colors will appear here -->
+      </div>
+        <!-- <div id="colorWheel--controlsWrapper">
           <div id="colorWheel">
             <div class="polarPathsWrapper" id="colorWheelPaths"></div>
             <div class="polarPathsWrapper" id="colorWheelLinesWrapper"></div>
@@ -146,13 +212,102 @@
             </div>
 
           </div>
+        </div> -->
+    </div>
+
+    <div id="paletteContrastChartsWrapper" class="colorTabsWrapper">
+      <div class="paletteContrastChartsGrid">
+
+        <div class="spectrum-Form spectrum-Form--row" style="justify-content: space-between;">
+          <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Value stops preview (grayscale)</h5>
+
+          <div class="spectrum-Form-item spectrum-Form-item--row">
+            <label for="chartLineType" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Chart line type</label>
+              <select class="spectrum-Picker spectrum-Picker--sizeM" name="chartLineType" id="chartLineType">
+                <option value="step">Steps</option>
+                <option value="curve">Curve</option>
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                  <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                </svg>
+            </select>
+          </div>
         </div>
+
+        <div id="justifiedWrapper">
+          <div id="swatchesOutputs"></div>
+        </div>
+
+        
+        <div id="contrastChartsWrapper">
+          <div>
+            <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Contrast</h5>
+            <div class="panel-SubTab-Content" id="contrastChart"></div>
+          </div>
+          <div>
+            <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Luminosity</h5>
+            <div class="panel-SubTab-Content" id="luminosityChart"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div id="paletteChartsWrapper" class="colorTabsWrapper">
-      <div class="chart--labelless" id="paletteInterpolationChart"></div>
-      <div class="chart--labelless" id="paletteInterpolationChart2"></div>  
-      <div class="chart--labelless" id="paletteInterpolationChart3"></div> 
+      <div class="paletteChartsGrid">
+        <div class="chartsColumn--left">
+          <div id="colorWheel--controlsWrapper">
+            <div id="colorWheel">
+              <div class="polarPathsWrapper" id="colorWheelPaths"></div>
+              <div class="polarPathsWrapper" id="colorWheelLinesWrapper"></div>
+            </div>
+  
+            <div class="spectrum-Form" id="chartsControls">
+              <h3 class="spectrum-Heading spectrum-Heading--sizeXXS ">Color wheel settings</h3>
+              <div class="spectrum-Form-item">
+                <div id="colorWheelLightnessWrapper" class="spectrum-Slider">
+                  <div class="spectrum-Slider-labelContainer">
+                    <label class="spectrum-Slider-label" id="colorWheelLightnessLabel" for="colorWheelLightness">Color wheel lightness</label>
+                  </div>
+                  <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="colorWheelLightness" name="colorWheelLightness"></input>
+                </div>
+              </div>
+  
+              <div class="spectrum-Form-item">
+                <div class="spectrum-Switch">
+                  <input type="checkbox" class="spectrum-Switch-input" id="colorPathsSwitch">
+                  <span class="spectrum-Switch-switch"></span>
+                  <label class="spectrum-Switch-label" for="colorPathsSwitch">Show interpolation paths</label>
+                </div>
+             </div>
+             <div class="spectrum-Form-item">
+              <div class="spectrum-Switch">
+                <input type="checkbox" class="spectrum-Switch-input" id="colorHarmonyLinesSwitch" checked>
+                <span class="spectrum-Switch-switch"></span>
+                <label class="spectrum-Switch-label" for="colorHarmonyLinesSwitch">Show color harmony lines</label>
+              </div>
+            </div>
+  
+              <div class="spectrum-Form-item">
+                <label for="colorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color dots display</label>
+                  <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorDotsMode" id="colorDotsMode">
+                    <option value="colorScale">Scale cross-sections</option>
+                    <option value="colorKeys">All key colors</option>
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                      <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                    </svg>
+                  </select>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+        <div class="chartsColumn--right">
+          <div class="chart--labelless" id="paletteInterpolationChart"></div>
+          <div class="chart--labelless" id="paletteInterpolationChart2"></div>  
+          <div class="chart--labelless" id="paletteInterpolationChart3"></div> 
+        </div>
+      </div>
+
     </div>
 
     <div id="paletteModelWrapper" class="colorTabsWrapper">

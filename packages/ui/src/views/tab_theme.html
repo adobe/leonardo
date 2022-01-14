@@ -1,5 +1,5 @@
 <!-- Theme Tab -->
-<div id="theme" class="AppTab appFramePanel">
+<div id="theme" class="AppTab appFramePanelRight">
 
   <main>
     <div class="spectrum-Content-Tabs">
@@ -78,4 +78,36 @@
     </div>
 
   </main>
+
+  <div class="spectrum-Panel spectrum-Panel--right">
+    <div class="spectrum-Panel-ContentWrapper">
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS" id="outputFormatHeading">
+            Output color format
+          </h3>
+        </div>
+        <div class="spectrum-Form spectrum-Form--spaced" style="margin-top: var(--spectrum-global-dimension-size-100)">
+          <div class="spectrum-Form-item">
+            <!-- <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM">Color format</label> -->
+              <select class="spectrum-Picker" name="contrastMethod" id="colorOutputFormat" aria-labelledby="outputFormatHeading">
+                <option value="HEX">Hex</option>
+                <option value="RGB">RGB</option>
+                <option value="LAB">Lab</option>
+                <option value="LCH">LCh</option>
+                <option value="HSL">HSL</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
+            <p class="spectrum-Body spectrum-Body--sizeXS" style="margin-top: var(--spectrum-global-dimension-size-100)">Output formats compliant with 
+              <a class="spectrum-Link" href="https://www.w3.org/TR/css-color-4/" target="_blank">CSS Color Module Level 4</a>
+              . Not all formats supported.</p>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
 </div>
