@@ -57,7 +57,7 @@ function addColorsFromImage() {
 
           const existingColorNames = getAllColorNames();
           color = chroma(color[0], color[1], color[2], 'rgb');
-          console.color(color)
+
           let colorName;
           let closest = getClosestColorName(color);
           let duplicateName = existingColorNames.includes(closest);
@@ -69,7 +69,7 @@ function addColorsFromImage() {
 
           let newColor = new Leo.BackgroundColor({
             name: colorName,
-            colorKeys: [color],
+            colorKeys: [color.hex()],
             colorspace: 'CAM02p',
             ratios: ratios,
             smooth: true
@@ -89,14 +89,14 @@ function addColorsFromImage() {
   
             grouped.forEach((color) => {
               const existingColorNames = getAllColorNames();
-  
+
               let colorName
               for(let i = 0; i < color.length; i++) {
                 let closest = getClosestColorName(color[i]);
                 let duplicateName = existingColorNames.includes(closest);
                 if(closest && !duplicateName) colorName = closest;
               }
-  
+
               if(!colorName) colorName = getRandomColorName();
   
               let newColor = new Leo.BackgroundColor({

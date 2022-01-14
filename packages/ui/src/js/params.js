@@ -59,6 +59,7 @@ function paramSetup() {
         let colorSpace = color.colorspace;
         let ratios = color.ratios;
         let smooth = color.smooth;
+
         // Create color scale item
         let newColor = new Leo.BackgroundColor({
           name: colorName,
