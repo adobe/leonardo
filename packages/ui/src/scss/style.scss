@@ -1869,6 +1869,10 @@ a:focus {
 .sideNavContent_main {
   grid-area: main;
   position: relative;
+
+  @media screen and (min-width: 800px) {
+    margin-right: 32px;
+  }
 }
 
 .sideNavContent_aside {
@@ -2273,4 +2277,13 @@ a:focus {
   transition: 0.1s ease-out opacity;
   opacity: 0.4;
   cursor: none;
+}
+
+// Homepage docs for code snippets
+pre {
+  display: block;
+  background-color: var(--spectrum-global-color-gray-50);
+  padding: 12px 12px 0px 12px;
+  border: 1px solid var(--spectrum-global-color-gray-200);
+  border-radius: var(--spectrum-alias-border-radius-regular);
 }

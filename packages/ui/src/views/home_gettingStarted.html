@@ -1,22 +1,22 @@
 <div class="sideNavContent sideNavContent--splitView" id="getstartedContent">
-  <div class="sideNavContent_main">
-    <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">Leonardo API</h1>
+  <div class="sideNavContent_main spectrum-Typography">
+    <h1 class="spectrum-Heading spectrum-Heading--sizeXXL spectrum-Heading--heavy">Leonardo API</h1>
     <hr class="spectrum-Divider spectrum-Divider--sizeM">
     <p class="spectrum-Body spectrum-Body--sizeL">
       The API docs will help you to use @adobe/leonardo-contrast-colors in your development environment.
     </p>
-    <h2 id="quick-start">Quick start</h2>
-    <h3 id="install-the-package">Install the package:</h3>
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="quick-start">Quick start</h2>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="install-the-package">Install the package:</h3>
     <pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">i</span> @<span class="hljs-keyword">adobe</span>/<span class="hljs-keyword">leonardo</span>-<span class="hljs-keyword">contrast</span>-<span class="hljs-keyword">colors</span>
     </code></pre>
-    <h3 id="import-the-package">Import the package:</h3>
-    <h4 id="cjs-node-12-x">CJS (Node 12.x)</h4>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="import-the-package">Import the package:</h3>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="cjs-node-12-x">CJS (Node 12.x)</h4>
     <pre><code class="lang-js"><span class="hljs-keyword">const</span> { Theme, Color, BackgroundColor } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@adobe/leonardo-contrast-colors'</span>);
     </code></pre>
-    <h4 id="esm-node-13-x">ESM (Node 13.x)</h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="esm-node-13-x">ESM (Node 13.x)</h4>
     <pre><code class="lang-js"><span class="hljs-keyword">import</span> { Theme, Color, BackgroundColor } <span class="hljs-keyword">from</span> <span class="hljs-string">'@adobe/leonardo-contrast-colors'</span>;
     </code></pre>
-    <h3 id="create-and-pass-colors-and-a-background-color-to-a-new-theme-see-additional-options-below">Create and pass colors and a background color to a new Theme (see additional options below):</h3>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="create-and-pass-colors-and-a-background-color-to-a-new-theme-see-additional-options-below">Create and pass colors and a background color to a new Theme (see additional options below):</h3>
     <pre><code class="lang-js"><span class="hljs-keyword">let</span> gray = <span class="hljs-keyword">new</span> BackgroundColor({
           name: <span class="hljs-string">'gray'</span>,
           colorKeys: [<span class="hljs-string">'#cacaca'</span>],
@@ -40,8 +40,8 @@
     <span class="hljs-comment">// returns theme colors as JSON</span>
     <span class="hljs-keyword">let</span> colors = theme.contrastColors;
     </code></pre>
-    <h2 id="api-reference">API Reference</h2>
-    <h3 id="theme"><code>Theme</code></h3>
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="api-reference">API Reference</h2>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="theme"><code>Theme</code></h3>
     <p>Class function used to generate adaptive contrast-based colors. Parameters are destructured and need to be explicitly called.</p>
     <table class="spectrum-Table spectrum-Table--sizeM">
        <thead class="spectrum-Table-head">
@@ -51,7 +51,7 @@
              <th  class="spectrum-Table-headCell">Description</th>
           </tr>
        </thead class="spectrum-Table-head">
-       <tbody class="spectrum-Table-body">>
+       <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>colors</code></td>
              <td class="spectrum-Table-cell" tabindex="0">Array</td>
@@ -79,7 +79,7 @@
           </tr>
        </tbody>
     </table class="spectrum-Table spectrum-Table--sizeM">
-    <h4 id="setters">Setters</h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="setters">Setters</h4>
     <table class="spectrum-Table spectrum-Table--sizeM">
        <thead class="spectrum-Table-head">
           <tr class="spectrum-Table-row">
@@ -87,7 +87,7 @@
              <th  class="spectrum-Table-headCell">Description of output</th>
           </tr>
        </thead class="spectrum-Table-head">
-       <tbody class="spectrum-Table-body">>
+       <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>Theme.lightness</code></td>
              <td class="spectrum-Table-cell" tabindex="0">Sets the theme&#39;s lightness value</td>
@@ -126,13 +126,13 @@
           </tr>
        </tbody>
     </table class="spectrum-Table spectrum-Table--sizeM">
-    <h4 id="theme-addcolor-color"><code>Theme.addColor = color</code></h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="theme-addcolor-color"><code>Theme.addColor = color</code></h4>
     <p>Add a <code>Color</code> to an existing theme</p>
     <pre><code class="lang-js"><span class="hljs-keyword">const</span> red = new <span class="hljs-type">Color</span>(<span class="hljs-meta">{...}</span>)
     
     theme.addColor = red;
     </code></pre>
-    <h4 id="theme-removecolor-color"><code>Theme.removeColor = color</code></h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="theme-removecolor-color"><code>Theme.removeColor = color</code></h4>
     <p>Remove a <code>Color</code> from an existing theme. Accepts an object with the <code>Color</code>&#39;s name and value, or by passing the <code>Color</code> class itself.</p>
     <pre><code class="lang-js">// <span class="hljs-type">Remove</span> via color name
     theme.removeColor = {name: '<span class="hljs-type">Red</span>'};
@@ -141,7 +141,7 @@
     <span class="hljs-keyword">const</span> red = new <span class="hljs-type">Color</span>(<span class="hljs-meta">{...}</span>)
     theme.removeColor = red;
     </code></pre>
-    <h4 id="theme-updatecolor-name-property"><code>Theme.updateColor = {name, property}</code></h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="theme-updatecolor-name-property"><code>Theme.updateColor = {name, property}</code></h4>
     <p>Update a <code>Color</code> via its setters from the theme. Accepts an object with the name of the color you wish to modify, followed by the property and the new value you wish to modify.</p>
     <pre><code class="lang-js">const red = <span class="hljs-keyword">new</span> Color({...})
     <span class="hljs-comment">// Change the colors ratios</span>
@@ -153,7 +153,7 @@
     <span class="hljs-comment">// Change the color's name</span>
     theme.updateColor = {<span class="hljs-string">name:</span> <span class="hljs-string">'red'</span>, <span class="hljs-string">name:</span> <span class="hljs-string">'Crimson'</span>};
     </code></pre>
-    <h4 id="supported-output-formats">Supported output formats:</h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="supported-output-formats">Supported output formats:</h4>
     <p>Available output formats conform to the <a href="https://www.w3.org/TR/css-color-4/">W3C CSS Color Module Level 4</a> spec for the supported options, as listed below:</p>
     <table class="spectrum-Table spectrum-Table--sizeM">
        <thead class="spectrum-Table-head">
@@ -162,7 +162,7 @@
              <th  class="spectrum-Table-headCell">Sample value</th>
           </tr>
        </thead class="spectrum-Table-head">
-       <tbody class="spectrum-Table-body">>
+       <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>&#39;HEX&#39;</code>  <em>(default)</em></td>
              <td class="spectrum-Table-cell" tabindex="0"><code>#RRGGBB</code></td>
@@ -201,8 +201,8 @@
           </tr>
        </tbody>
     </table class="spectrum-Table spectrum-Table--sizeM">
-    <hr>
-    <h3 id="color"><code>Color</code></h3>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM">
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="color"><code>Color</code></h3>
     <p>Class function used to define colors for a theme. Parameters are destructured and need to be explicitly called.</p>
     <table class="spectrum-Table spectrum-Table--sizeM">
        <thead class="spectrum-Table-head">
@@ -212,7 +212,7 @@
              <th  class="spectrum-Table-headCell">Description</th>
           </tr>
        </thead class="spectrum-Table-head">
-       <tbody class="spectrum-Table-body">>
+       <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>name</code></td>
              <td class="spectrum-Table-cell" tabindex="0">String</td>
@@ -245,7 +245,7 @@
           </tr>
        </tbody>
     </table class="spectrum-Table spectrum-Table--sizeM">
-    <h4 id="setters">Setters</h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="setters">Setters</h4>
     <table class="spectrum-Table spectrum-Table--sizeM">
        <thead class="spectrum-Table-head">
           <tr class="spectrum-Table-row">
@@ -253,7 +253,7 @@
              <th  class="spectrum-Table-headCell">Description of output</th>
           </tr>
        </thead class="spectrum-Table-head">
-       <tbody class="spectrum-Table-body">>
+       <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>Color.colorKeys</code></td>
              <td class="spectrum-Table-cell" tabindex="0">Sets the color keys</td>
@@ -280,7 +280,7 @@
           </tr>
        </tbody>
     </table class="spectrum-Table spectrum-Table--sizeM">
-    <h4 id="supported-interpolation-colorspaces">Supported interpolation colorspaces:</h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="supported-interpolation-colorspaces">Supported interpolation colorspaces:</h4>
     <p>Below are the available options for interpolation in Leonardo:</p>
     <ul>
        <li><a href="https://en.wikipedia.org/wiki/HCL_color_space">LCH</a></li>
@@ -291,7 +291,7 @@
        <li><a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV</a></li>
        <li><a href="https://en.wikipedia.org/wiki/RGB_color_space">RGB</a></li>
     </ul>
-    <h4 id="ratios-as-an-array">Ratios as an array</h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="ratios-as-an-array">Ratios as an array</h4>
     <p>When passing a flat array of target ratios, the output colors in your Theme will be generated by concatenating the color name (eg &quot;Blue&quot;) with numeric increments. Colors with a <strong>positive contrast ratio</strong> with the base (ie, 2:1) will be named in increments of 100. For example, <code>gray100</code>, <code>gray200</code>.</p>
     <p>Colors with a <strong>negative contrast ratio</strong> with the base (ie -2:1) will be named in increments less than 100 and <em>based on the number of negative values declared</em>. For example, if there are 3 negative values <code>[-1.4, -1.3, -1.2, 1, 2, 3]</code>, the name for those values will be incremented by 100/4 (length plus one to avoid a <code>0</code> value), such as <code>gray25</code>, <code>gray50</code>, and <code>gray75</code>.</p>
     <p>For example:</p>
@@ -313,7 +313,7 @@
       }
     ]
     </code></pre>
-    <h4 id="ratios-as-an-object">Ratios as an object</h4>
+    <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="ratios-as-an-object">Ratios as an object</h4>
     <p>When defining ratios as an object with key-value pairs, you define what name will be output in your Leonardo theme.</p>
     <pre><code class="lang-js"><span class="hljs-keyword">new</span> Color({
     <span class="hljs-symbol">  name:</span> <span class="hljs-string">'blue'</span>,
@@ -336,8 +336,8 @@
       }
     ]
     </code></pre>
-    <hr>
-    <h2 id="output-examples">Output examples</h2>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM">
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="output-examples">Output examples</h2>
     <p>There are two types of output you can get from the <code>Theme</code> class:
        | Getter | Description of output |
        |--------|-----------------------|
@@ -345,7 +345,7 @@
        | <code>Theme.contrastColorPairs</code> | Returns object with key-value pairs |
        | <code>Theme.contrastColorValues</code> | Returns flat array of color values |
     </p>
-    <h3 id="theme-contrastcolors"><code>Theme.contrastColors</code></h3>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="theme-contrastcolors"><code>Theme.contrastColors</code></h3>
     <p>Each color is an object named by user-defined value (eg <code>name: &#39;gray&#39;</code>). &quot;Values&quot; array consists of all generated color values for the color, with properties <code>name</code>, <code>contrast</code>, and <code>value</code>:</p>
     <pre><code class="lang-js">[
       { <span class="hljs-string">background:</span> <span class="hljs-string">"#e0e0e0"</span> },
@@ -369,7 +369,7 @@
       }
     ]
     </code></pre>
-    <h3 id="theme-contrastcolorpairs"><code>Theme.contrastColorPairs</code></h3>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="theme-contrastcolorpairs"><code>Theme.contrastColorPairs</code></h3>
     <p>Simplified format as an object of key-value pairs. Property is equal to the <a href="#Ratios-as-an-array">generated</a> or <a href="#Ratios-as-an-object">user-defined name</a> for each generated value.</p>
     <pre><code class="lang-js">{
       <span class="hljs-string">"gray100"</span>: <span class="hljs-string">"#e0e0e0"</span><span class="hljs-comment">;</span>
@@ -382,7 +382,7 @@
       <span class="hljs-string">"blue400"</span>: <span class="hljs-string">"#1c0ad1"</span><span class="hljs-comment">;</span>
     }
     </code></pre>
-    <h3 id="theme-contrastcolorvalues"><code>Theme.contrastColorValues</code></h3>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="theme-contrastcolorvalues"><code>Theme.contrastColorValues</code></h3>
     <p>Returns all color values in a flat array.</p>
     <pre><code class="lang-js">[
       <span class="hljs-string">"#e0e0e0"</span>,
@@ -395,10 +395,10 @@
       <span class="hljs-string">"#1c0ad1"</span>
     ]
     </code></pre>
-    <hr>
-    <h2 id="leonardo-with-css-variables">Leonardo with CSS variables</h2>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM">
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="leonardo-with-css-variables">Leonardo with CSS variables</h2>
     <p>Here are a few examples of how you can utilize Leonardo to dynamically create or modify CSS variables for your application.</p>
-    <h3 id="vanilla-js">Vanilla JS</h3>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="vanilla-js">Vanilla JS</h3>
     <pre><code class="lang-js"><span class="hljs-built_in">let</span> varPrefix = '--';
     
     // Iterate each <span class="hljs-built_in">color</span> object
@@ -416,7 +416,7 @@
       }
     }
     </code></pre>
-    <h3 id="react">React</h3>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="react">React</h3>
     <p>Create a new Theme component <code>Theme.js</code> with your parameters:</p>
     <pre><code class="lang-js"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Leo <span class="hljs-keyword">from</span> <span class="hljs-string">'@adobe/leonardo-contrast-colors'</span>;
     
@@ -552,7 +552,7 @@
       }}
     /&gt;
     </code></pre>
-    <h3 id="dark-mode-support-in-react">Dark mode support in React</h3>
+    <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="dark-mode-support-in-react">Dark mode support in React</h3>
     <p>Include the following in your App.js file to listen for dark mode. This will pass a different lightness value (of your choice) to Leonardo. It&#39;s recommended to restrict the lightness range based on mode in order to avoid inaccessible ranges and to provide a better overall experience</p>
     <pre><code class="lang-js">const mq = window.<span class="hljs-built_in">match</span>Media('(prefers-color-scheme: dark)');
     // Update lightness and slider <span class="hljs-keyword">min</span>/<span class="hljs-keyword">max</span> <span class="hljs-keyword">to</span> be conditional:
@@ -568,8 +568,8 @@
       <span class="hljs-built_in">set</span>SliderMax((mq.matches) ? <span class="hljs-number">30</span> : <span class="hljs-number">100</span>);
     });
     </code></pre>
-    <hr>
-    <h2 id="why-are-not-all-contrast-ratios-available">Why are not all contrast ratios available?</h2>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM">
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="why-are-not-all-contrast-ratios-available">Why are not all contrast ratios available?</h2>
     <p>You may notice the tool takes an input (target ratio) but most often outputs a contrast ratio slightly higher. This has to do with the available colors in the RGB color space, and the math associated with calculating these ratios.</p>
     <p>For example let&#39;s look at blue and white.
        Blue: rgb(0, 0, 255)
@@ -583,16 +583,16 @@
     </p>
     <p>If 8.58 is input as the target ratio with the starting color of blue, the output will not be exact. This is exaggerated by the various colorspace interpolations.</p>
     <p>Since the WCAG requirement is defined as a <em>minimum contrast requirement</em>, it should be fine to generate colors that are a little <em>more</em> accessible than the minimum.</p>
-    <hr>
-    <h2 id="chroma-js">Chroma.js</h2>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM">
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="chroma-js">Chroma.js</h2>
     <p>This project is currently built using <a href="https://gka.github.io/chroma.js/">Chroma.js</a> with custom extensions to support<a href="https://gramaz.io/d3-cam02/">CIE CAM02</a>. Additional functionality is added in Leonardo to enhance chroma scales so that they properly order colors by lightness and correct the lightness of the scale based on HSLuv.</p>
-    <h2 id="contributing">Contributing</h2>
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="contributing">Contributing</h2>
     <p>Contributions are welcomed! Read the <a href="">Contributing Guide</a> for more information.</p>
-    <h2 id="development">Development</h2>
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="development">Development</h2>
     <p>You can run tests and watch for changes with:</p>
     <pre><code class="lang-sh"><span class="hljs-attribute">yarn dev</span>
     </code></pre>
-    <h2 id="licensing">Licensing</h2>
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="licensing">Licensing</h2>
     <p>This project is licensed under the Apache V2 License. See <a href="LICENSE">LICENSE</a> for more information.</p>
   </div>
 
