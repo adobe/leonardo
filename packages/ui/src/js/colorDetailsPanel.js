@@ -47,13 +47,13 @@ import {
   updateColorWheel
 } from './colorWheel';
 
-function showColorDetails(e) {
+function showColorDetails(e, colorId) {
   let panelOpen = true;
   let element = e.target.id;
   const chartsModeSelect = document.getElementById('chartsMode');
 
   let button = document.getElementById(element);
-  const id = element.replace('-toggleConfig', '');
+  const id = (colorId) ? colorId : element.replace('-toggleConfig', '');
   let triggeredColorNameInputId = id.concat('_colorName');
   let triggeredColorNameInput = document.getElementById(triggeredColorNameInputId);
   let triggeredColorName = triggeredColorNameInput.value;

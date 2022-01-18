@@ -19,6 +19,7 @@ import {
 } from './themeUpdate';
 import {throttle} from './utils';
 import {getColorClassById} from './getThemeData';
+import {showColorDetails} from './colorDetailsPanel';
 import {create3dModel} from './create3dModel';
 import {_theme} from './initialTheme';
 
@@ -83,14 +84,26 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     currentKeys.splice(index, 1)
     _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
 
-    var id = e.target.parentNode.id;
-    // console.log(id)
-    var self = document.getElementById(id);
-    updateRamps(currentColor, parent)
-    updateColorDots(null, 'theme');
-    updateColorDots(chartsModeSelect.value, 'colorScale', currentKeys, parent);
+    // var id = e.target.parentNode.id;
 
-    self.remove();
+    // var self = document.getElementById(id);
+    updateRamps(currentColor, parent)
+    // updateColorDots(null, 'theme');
+    // updateColorDots(chartsModeSelect.value, 'colorScale', currentKeys, parent);
+
+    // self.remove();
+    let contentArea = document.getElementById('colorDetails');
+
+    let configPanel = document.getElementById('colorConfigPanel');
+  
+    contentArea.innerHTML = ' ';
+    contentArea.style.display = 'none';
+    configPanel.innerHTML = ' ';
+    configPanel.style.display = 'none';
+
+    let triggerId = parent.concat('-toggleConfig');
+    let trigger = document.getElementById(triggerId);
+    trigger.click();
     // throttle(themeUpdateParams, 50)
   });
 
