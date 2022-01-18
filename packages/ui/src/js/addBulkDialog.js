@@ -27,7 +27,8 @@ function addBulk(e) {
 
   let dialog = document.getElementsByClassName('addBulkColorDialog');
   for(let i = 0; i < dialog.length; i++) {
-    document.getElementById('addBulkDialog_ScaleName').innerHTML = id;
+    let colorName = getColorClassById(id).name;
+    document.getElementById('addBulkDialog_ScaleName').innerHTML = colorName;
     dialog[i].classList.add("is-open");
     dialog[i].id = id.concat('_dialog');
   }

@@ -38,9 +38,12 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
     ? '_keyColors'
     : `_${scalePosition}KeyColors`;
 
+
   let destId = parent.concat(concatString);
   let dest = document.getElementById(destId);
   let div = document.createElement('div');
+
+  console.log(scaleType, thisId, destId)
 
   let randId = randomId();
   if(scalePosition === 'middle') {

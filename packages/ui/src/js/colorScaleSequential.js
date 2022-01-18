@@ -42,7 +42,8 @@ import {
   createSVGswatches,
   downloadSwatches
 } from './createSVGswatches';
-import {createPanelReportTable} from './createPanelReportTable'
+import {createPanelReportTable} from './createPanelReportTable';
+import {addScaleBulk} from './addScaleBulkDialog';
 
 const chroma = require('chroma-js');
 
@@ -227,6 +228,9 @@ function colorScaleSequential(scaleType = 'sequential') {
   quoteSwitch.addEventListener('change', () => {
     createSamples(sampleNumber.value, scaleType);
   })
+
+  // const bulkAddButton = document.getElementById('sequential_addBulk');
+  // bulkAddButton.addEventListener('click', addScaleBulk);
 
   // const accordionTrigger = document.getElementById('sequential_advancedAccordion-Trigger');
   // const accordion = document.getElementById('sequential_advancedAccordion');
