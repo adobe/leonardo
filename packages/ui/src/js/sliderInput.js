@@ -9,9 +9,19 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {createOutputColors} from './createOutputColors';
+import {
+  createOutputColors,
+  createDetailOutputColors
+} from './createOutputColors';
 import {createOutputParameters} from './createOutputParameters';
-
+import {
+  getThemeContrastRatios,
+  getLuminosities
+} from './getThemeData';
+import {
+  createRatioChart,
+  createLuminosityChart
+} from './createRatioChart';
 import {_theme} from './initialTheme';
 import {
   round, 
@@ -40,6 +50,24 @@ function sliderInput(e) {
   updateThemeClass.then(() => {
     createOutputColors();
     createOutputParameters();
+
+    if(document.getElementById('detailJustifiedWrapper')) {
+      const currentColorId = document.querySelector('[id$="_colorName2"]').id;
+      const currentColorName = document.getElementById(currentColorId).value;
+      createDetailOutputColors(currentColorName);
+    }
+
+    const lineTypeSelect = document.getElementById('chartLineType');
+    const lineType = lineTypeSelect.value;
+    let isStep = (lineType === 'step') ? true : false;
+
+    let chartLuminosities = Promise.resolve(getLuminosities());
+    chartLuminosities.then(function(resolve) {
+      createLuminosityChart(resolve, isStep);
+    });  
+
+    let chartRatios = Promise.resolve(getThemeContrastRatios());
+    chartRatios.then(function(resolve) {createRatioChart(resolve, isStep)});
   });
 }
 

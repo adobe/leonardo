@@ -12,7 +12,9 @@ governing permissions and limitations under the License.
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import {
   getColorClassByName,
-  getColorClassById
+  getColorClassById,
+  getThemeContrastRatios,
+  getLuminosities
 } from './getThemeData';
 import {
   addKeyColor,
@@ -35,6 +37,7 @@ import {createRGBchannelChart} from './createRGBchannelChart';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {openDetailTab} from './tabs';
 import {themeDeleteItem} from './colorScale';
+import {createDetailOutputColors} from './createOutputColors';
 import {
   _theme, 
   _colorScales
@@ -46,6 +49,10 @@ import {
   updateColorDots,
   updateColorWheel
 } from './colorWheel';
+import {
+  createRatioChart,
+  createLuminosityChart
+} from './createRatioChart'
 
 function showColorDetails(e, colorId) {
   let panelOpen = true;
@@ -58,6 +65,8 @@ function showColorDetails(e, colorId) {
   let triggeredColorNameInput = document.getElementById(triggeredColorNameInputId);
   let triggeredColorName = triggeredColorNameInput.value;
   // let triggeredScaleType = document.getElementById(id.concat('_scaleTypeBadge')).innerHTML;
+  const lineTypeSelect = document.getElementById('chartLineType');
+  const lineType = lineTypeSelect.value;
 
   let colorData = getColorClassByName(triggeredColorName);
 
@@ -263,6 +272,7 @@ function showColorDetails(e, colorId) {
     updateRamps(colorData, thisId)
     updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
     create3dModel('tabModelContent', colorData, chartsModeSelect.value);
+    createDetailOutputColors(colorData.name)
   })
 
   let interpDropdownIcon = document.createElement('span');
@@ -321,6 +331,7 @@ function showColorDetails(e, colorId) {
     updateRamps(colorData2, thisId);
     updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
     create3dModel('tabModelContent', colorData2, chartsModeSelect.value);
+    createDetailOutputColors(colorData2.name)
     // createRGBchannelChart(colors);
     // createInterpolationCharts(colors, chartsMode)  
   })
@@ -449,14 +460,14 @@ function showColorDetails(e, colorId) {
   tabItem1.id = 'tabInterpCharts';
   let tabItem1Label = document.createElement('label');
   tabItem1Label.className = 'spectrum-Tabs-itemLabel';
-  tabItem1Label.innerHTML = 'Analyze';
+  tabItem1Label.innerHTML = 'Color charts';
 
-  // let tabItem2 = document.createElement('div');
-  // tabItem2.className = 'spectrum-Tabs-item detail-Tabs-item';
-  // tabItem2.id = 'tabRGBChannels';
-  // let tabItem2Label = document.createElement('label');
-  // tabItem2Label.className = 'spectrum-Tabs-itemLabel';
-  // tabItem2Label.innerHTML = 'RGB Channels';
+  let tabItem2 = document.createElement('div');
+  tabItem2.className = 'spectrum-Tabs-item detail-Tabs-item';
+  tabItem2.id = 'tabLightness';
+  let tabItem2Label = document.createElement('label');
+  tabItem2Label.className = 'spectrum-Tabs-itemLabel';
+  tabItem2Label.innerHTML = 'Lightness stops';
 
   let tabItem3 = document.createElement('div');
   tabItem3.className = 'spectrum-Tabs-item detail-Tabs-item';
@@ -470,12 +481,98 @@ function showColorDetails(e, colorId) {
   tabContent1.className = 'tabDetailContent';
 
   let tabContent2 = document.createElement('div');
-  tabContent2.id = 'tabRGBChannelsContent';
+  tabContent2.id = 'tabLightnessContent';
   tabContent2.className = 'tabDetailContent';
 
   let tabContent3 = document.createElement('div');
   tabContent3.id = 'tabModelContent';
   tabContent3.className = 'tabDetailContent';
+
+  // Create charts grid (wrapper)
+  let chartsGrid = document.createElement('div');
+  chartsGrid.className = 'paletteContrastChartsGrid';
+  // Create select for chart line type
+  let chartsForm = document.createElement('div');
+  chartsForm.className = "spectrum-Form spectrum-Form--row";
+  chartsForm.style.justifyContent = 'space-between';
+  // Create title
+  let chartsFormTitle = document.createElement('h5');
+  chartsFormTitle.className = "spectrum-Heading spectrum-Heading--sizeXXS";
+  chartsFormTitle.style.width = 'auto';
+  chartsFormTitle.innerHTML = 'Lightness stops preview';
+  // Create form item
+  let chartsFormItem = document.createElement('div');
+  chartsFormItem.className = "spectrum-Form-item spectrum-Form-item--row";
+  // Create lebel
+  let chartsFormLabel = document.createElement('label');
+  chartsFormLabel.for = 'lightnessChartLineType';
+  chartsFormLabel.className = "spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left";
+  chartsFormLabel.innerHTML = 'Chart line type';
+  // Create select
+  let chartsSelect = document.createElement('select');
+  chartsSelect.className = 'spectrum-Picker spectrum-Picker--sizeM';
+  chartsSelect.name = 'lightnessChartLineType';
+  chartsSelect.id = 'lightnessChartLineType';
+  let chartsSelectIcon = document.createElement('span');
+  chartsSelectIcon.className = 'spectrum-Picker-iconWrapper';
+  chartsSelectIcon.innerHTML = `
+  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+  </svg>`;
+  // Populate options
+  chartsSelect.options.length = 0;
+  let chartsSelectOpts = {
+    'step': 'Steps',
+    'curve': 'Curve'
+  };
+  for(let index in chartsSelectOpts) { chartsSelect.options[chartsSelect.options.length] = new Option(chartsSelectOpts[index], index); }
+  chartsSelect.value = lineType;
+  // Create swatch output wrapper
+  let swatchWrapper = document.createElement('div');
+  swatchWrapper.id = 'detailJustifiedWrapper';
+  let swatches = document.createElement('div');
+  swatches.className = "hideSwatchLuminosity hideSwatchContrast";
+  swatches.id = 'detailSwatchesOutputs';
+  // Create charts wrapper
+  let swatchChartsWrapper = document.createElement('div');
+  swatchChartsWrapper.id = 'detailContrastChartsWrapper';
+  // Create Contrast chart
+  let contrastChartWrapper = document.createElement('div')
+  let contrastChartTitle = document.createElement('h5');
+  contrastChartTitle.className = "spectrum-Heading spectrum-Heading--sizeXXS";
+  contrastChartTitle.innerHTML = 'Contrast';
+  let contrastChart = document.createElement('div');
+  contrastChart.className = 'panel-SubTab-Content';
+  contrastChart.id = 'detailContrastChart';
+  let lightnessChartWrapper = document.createElement('div')
+  let lightnessChartTitle = document.createElement('h5');
+  lightnessChartTitle.className = "spectrum-Heading spectrum-Heading--sizeXXS";
+  lightnessChartTitle.innerHTML = 'Lightness';
+  let lightnessChart = document.createElement('div');
+  lightnessChart.className = 'panel-SubTab-Content';
+  lightnessChart.id = 'detailLightnessChart';
+  // Put the charts tab content together
+  chartsSelect.appendChild(chartsSelectIcon);
+  chartsFormItem.appendChild(chartsFormLabel);
+  chartsFormItem.appendChild(chartsSelect);
+
+  chartsForm.appendChild(chartsFormTitle);
+  chartsForm.appendChild(chartsFormItem);
+  
+  swatchWrapper.appendChild(swatches);
+
+  contrastChartWrapper.appendChild(contrastChartTitle);
+  contrastChartWrapper.appendChild(contrastChart);
+  lightnessChartWrapper.appendChild(lightnessChartTitle);
+  lightnessChartWrapper.appendChild(lightnessChart);
+  swatchChartsWrapper.appendChild(contrastChartWrapper);
+  swatchChartsWrapper.appendChild(lightnessChartWrapper);
+
+  chartsGrid.appendChild(chartsForm);
+  chartsGrid.appendChild(swatchWrapper);
+  chartsGrid.appendChild(swatchChartsWrapper);
+
+  tabContent2.appendChild(chartsGrid);
 
   // Chart colorspace preview picker
   // let chartsMode = document.createElement('div');
@@ -512,10 +609,10 @@ function showColorDetails(e, colorId) {
     
   // Put the tabs together
   tabItem1.appendChild(tabItem1Label);
-  // tabItem2.appendChild(tabItem2Label);
+  tabItem2.appendChild(tabItem2Label);
   tabItem3.appendChild(tabItem3Label);
   tabs.appendChild(tabItem1);
-  // tabs.appendChild(tabItem2);
+  tabs.appendChild(tabItem2);
   tabs.appendChild(tabItem3);
   tabsWrapper.appendChild(tabs);
   // tabsWrapper.appendChild(chartsMode);
@@ -577,7 +674,6 @@ function showColorDetails(e, colorId) {
   chartsColRight.appendChild(chart1);
   chartsColRight.appendChild(chart2);
   chartsColRight.appendChild(chart3);
-  // tabContent2.appendChild(chartRgb);
 
   chartsRow.appendChild(chartsColLeft);
   chartsRow.appendChild(chartsColRight);
@@ -586,7 +682,7 @@ function showColorDetails(e, colorId) {
 
   wrapper.appendChild(tabsWrapper)
   wrapper.appendChild(tabContent1);
-  // wrapper.appendChild(tabContent2);
+  wrapper.appendChild(tabContent2);
   wrapper.appendChild(tabContent3);
 
   // Then run functions on the basic placeholder inputs
@@ -598,6 +694,8 @@ function showColorDetails(e, colorId) {
   let rampData = colorData.backgroundColorScale;
 
   let colors = rampData;
+
+  let detailLineType = document.getElementById('lightnessChartLineType');
 
   chartsModeSelect.addEventListener('change', (e) => {
     if(panelOpen) {
@@ -618,8 +716,15 @@ function showColorDetails(e, colorId) {
   createRGBchannelChart(colors);
   createInterpolationCharts(colors, chartsModeSelect.value);
 
-  // TODO: 3D chart in this context needs to be
-  // different -- just one color...
+  // Create output swatches for lightness tab
+  createDetailOutputColors(colorData.name);
+  // Get theme data for contrast and lightness stops and populate visualizations
+  let chartRatios = Promise.resolve(getThemeContrastRatios());
+  chartRatios.then(function(resolve) {createRatioChart(resolve)});
+  let chartLuminosities = Promise.resolve(getLuminosities());
+  chartLuminosities.then(function(resolve) {createLuminosityChart(resolve)});
+
+  
   create3dModel('tabModelContent', [colorData], chartsModeSelect.value);
 
   // Make the color wheel
@@ -634,7 +739,7 @@ function showColorDetails(e, colorId) {
   // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
   // document.getElementById('tabChartContent').click();
   document.getElementById('tabInterpCharts').addEventListener('click', (e) => {openDetailTab(e, 'tabInterpChartsContent')});
-  // document.getElementById('tabRGBChannels').addEventListener('click', (e) => {openDetailTab(e, 'tabRGBChannelsContent')});
+  document.getElementById('tabLightness').addEventListener('click', (e) => {openDetailTab(e, 'tabLightnessContent')});
   document.getElementById('tabModel').addEventListener('click', (e) => {openDetailTab(e, 'tabModelContent', colors)});
   document.getElementById('tabInterpCharts').click();
 
@@ -663,6 +768,15 @@ function showColorDetails(e, colorId) {
 
   });
   // console.log(_theme)
+
+  detailLineType.addEventListener('change', (e) => {
+    let val = e.target.value;
+    let isStep = (val === 'step') ? true : false;
+    lineTypeSelect.value = val;
+
+    lineTypeSelect.dispatchEvent(new Event("change"));
+  });
+
 }
 
 module.exports = {showColorDetails}

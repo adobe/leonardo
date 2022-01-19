@@ -68,7 +68,10 @@ import {
 import { 
   _theme 
 } from './js/initialTheme';
-import {getContrastRatios} from './js/getThemeData';
+import {
+  getThemeContrastRatios,
+  getContrastRatioInputs
+} from './js/getThemeData';
 import {
   addColorScale,
   addColorScaleUpdate
@@ -140,7 +143,7 @@ posthtml()
 window.updateParams = updateParams;
 function updateParams() {
   let name = document.getElementById('themeNameInput').value;
-  let ratios = getContrastRatios();
+  let ratios = getContrastRatioInputs();
   let theme = {
     baseScale: _theme.backgroundColor.name,
     colorScales: _theme.colors.map((c) => {

@@ -13,7 +13,7 @@ import * as Leo from '@adobe/leonardo-contrast-colors';
 import {_theme} from './initialTheme';
 // import {updateParams} from './params';
 import {
-  getContrastRatios,
+  getContrastRatioInputs,
   getThemeData,
   getThemeName,
   getAllColorNames
@@ -54,7 +54,7 @@ function addColorScale(newColor, addToTheme = true) {
       // colorNameValue = colorNameOptions[Math.floor(Math.random()*colorNameOptions.length)];
       colorNameValue = getRandomColorName()
     }
-    let ratios = getContrastRatios();
+    let ratios = getContrastRatioInputs();
     if (ratios === undefined) ratios = [4.5]
 
     newColor = new Leo.BackgroundColor({

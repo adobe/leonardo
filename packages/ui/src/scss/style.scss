@@ -1056,6 +1056,8 @@ a:focus {
   display: none;
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200) 0;
+  overflow-y: auto;
+  overflow-x: clip;
 }
 
 .tabHeader {

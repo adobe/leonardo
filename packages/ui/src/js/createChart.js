@@ -66,10 +66,26 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
     chartHeight = 216;
   }
-  if(dest === '#contrastChart' || dest === '#luminosityChart') {
+  if(
+    dest === '#contrastChart' || 
+    dest === '#detailContrastChart' ||
+    dest === '#luminosityChart' ||
+    dest === '#detailLightnessChart'
+  ) {
     adjustedWidth = windowWidth - panelsOffset;
     chartWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
+  }
+  if(
+    dest === '#contrastChart' || 
+    dest === '#luminosityChart' 
+  ) {
     chartHeight = 300;
+  }
+  if(
+    dest === '#detailContrastChart' ||
+    dest === '#detailLightnessChart'
+  ) {
+    chartHeight = 240;
   }
 
 

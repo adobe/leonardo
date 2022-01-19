@@ -17,7 +17,7 @@ import {createPaletteCharts} from './createPaletteCharts';
 import {
   getThemeName,
   getColorClassById,
-  getContrastRatios,
+  getThemeContrastRatios,
   getAllColorKeys,
   getLuminosities
 } from './getThemeData';
@@ -43,7 +43,7 @@ function themeUpdate() {
   createOutputColors();
   createOutputParameters();
 
-  let chartRatios = Promise.resolve(getContrastRatios());
+  let chartRatios = Promise.resolve(getThemeContrastRatios());
   chartRatios.then(function(resolve) {createRatioChart(resolve)});
 
   // Create dots for color wheel

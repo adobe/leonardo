@@ -12,7 +12,8 @@ governing permissions and limitations under the License.
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import * as d3 from './d3';
 import {
-  getContrastRatios, 
+  getContrastRatioInputs, 
+  getThemeContrastRatios,
   getLuminosities
 } from './getThemeData';
 import {_theme} from './initialTheme';
@@ -30,7 +31,7 @@ import {
 
 function addRatio() {
   // Gather all existing ratios from _theme
-  let themeRatios = getContrastRatios();
+  let themeRatios = getContrastRatioInputs();
   // find highest value
   var hi = Math.max(...themeRatios);
   // Assign an incremented value for the new ratio
@@ -52,7 +53,7 @@ function addRatio() {
 
 function createRatioInput(v, c) {
   if(!c) {
-    const AllRatios = Promise.resolve(getContrastRatios());
+    const AllRatios = Promise.resolve(getContrastRatioInputs());
     AllRatios.then(function(resolve) {
       let ratioIndex = resolve.length;
       let indexedColor = _theme.contrastColors[1].values[ratioIndex];
@@ -317,7 +318,7 @@ function syncRatioInputs(e) {
   let targetContrast, luminosity, swatchColor;
   let swatch = document.getElementById(swatchId);
 
-  if (thisId.includes('_luminosity')) {
+  if (thisId.includes('_luminosity')) { // Luminosity input
     baseId = thisId.replace('_luminosity', '');
     let ratioInput = document.getElementById(baseId);
     luminosity = val;
@@ -333,12 +334,12 @@ function syncRatioInputs(e) {
 
     ratioInput.value = targetContrast;
   }
-  else {
+  else { // Ratio input
     targetContrast = val;
     baseId = thisId;
   }
 
-  let themeRatios = Promise.resolve(getContrastRatios());
+  let themeRatios = Promise.resolve(getContrastRatioInputs());
   themeRatios.then(function(resolve) {
     const index = resolve.indexOf(targetContrast);
     if (index > -1) {
@@ -352,6 +353,7 @@ function syncRatioInputs(e) {
       let luminosityInputId = `${thisId}_luminosity`;
       let luminosityInput = document.getElementById(luminosityInputId);
       // Must calculate luminosity of respective contrast value 
+
       let tempColor = _theme.contrastColors[1].values[index].value;
       luminosity = d3.hsluv(tempColor).v;
       luminosityInput.value = round(luminosity, 2);
@@ -408,7 +410,7 @@ function deleteRatio(e) {
   dot.remove();
   self.remove();
   // slider.remove();
-  let themeRatios = getContrastRatios();
+  let themeRatios = getContrastRatioInputs();
   const index = themeRatios.indexOf(value);
   if (index > -1) {
     themeRatios.splice(index, 1);
@@ -418,7 +420,7 @@ function deleteRatio(e) {
   ratioUpdate();
 }
 
-function ratioUpdate(chartRatios = Promise.resolve(getContrastRatios()), chartLuminosities = Promise.resolve(getLuminosities())) {
+function ratioUpdate(chartRatios = Promise.resolve(getThemeContrastRatios()), chartLuminosities = Promise.resolve(getLuminosities())) {
   Promise.all([chartRatios, chartLuminosities]).then(function(values) {
     createOutputColors();
     createRatioChart(values[0]);
@@ -427,7 +429,7 @@ function ratioUpdate(chartRatios = Promise.resolve(getContrastRatios()), chartLu
   })
 }
 
-function ratioUpdateValues(themeRatios = getContrastRatios()) {
+function ratioUpdateValues(themeRatios = getThemeContrastRatios()) {
   themeRatios = themeRatios.map((r) => {return Number(r)});
   let argArray = [];
   _theme.colors.forEach((c) => {

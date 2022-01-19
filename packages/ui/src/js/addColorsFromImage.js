@@ -3,7 +3,7 @@ import {_theme} from './initialTheme';
 import { themeUpdateParams } from './themeUpdate';
 import { addColorScale } from './colorScale';
 import {
-  getContrastRatios,
+  getContrastRatioInputs,
   getAllColorNames
 } from './getThemeData';
 import {
@@ -26,7 +26,7 @@ function addColorsFromImage() {
   const imageColorGrouping = 100; // 30
 
   const input = document.getElementById('image-upload');
-  const ratios = getContrastRatios();
+  const ratios = getContrastRatioInputs();
   const preview = document.getElementById('image-preview');
   while(preview.firstChild) {
     preview.removeChild(preview.firstChild);

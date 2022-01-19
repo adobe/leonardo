@@ -669,6 +669,10 @@ function colorToGrayScale(color) {
   return newC.hex();
 }
 
+function getLightness(color) {
+  let c = chroma(color).lch();
+  return c[0];
+}
 
 module.exports = {
   randomId,
@@ -685,6 +689,7 @@ module.exports = {
   getAllChannelValues,
   findMatchingLuminosity,
   lerp,
+  getLightness,
   colorToGrayScale,
   cssColorToRgb,
   removeElementsByClass,

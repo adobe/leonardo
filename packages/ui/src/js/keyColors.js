@@ -22,6 +22,7 @@ import {getColorClassById} from './getThemeData';
 import {showColorDetails} from './colorDetailsPanel';
 import {create3dModel} from './create3dModel';
 import {_theme} from './initialTheme';
+import {createDetailOutputColors} from './createOutputColors';
 
 function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
   let parent = thisId.replace('_addKeyColor', '');
@@ -52,7 +53,8 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
 
     throttle(updateRamps(currentColor, parent), 10)
-
+    throttle(createDetailOutputColors(currentColorName), 10);
+    
     setTimeout(function() {
       updateColorDots(chartsModeSelect.value, 'colorScale', currentKeys, parent);
       // updateColorDots(null, 'theme');
@@ -104,6 +106,9 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     let triggerId = parent.concat('-toggleConfig');
     let trigger = document.getElementById(triggerId);
     trigger.click();
+
+    createDetailOutputColors(currentColor.name)
+
     // throttle(themeUpdateParams, 50)
   });
 
@@ -142,6 +147,7 @@ function addKeyColor(e) {
   // Update gradient
   updateRamps(currentColor, parentId);
   updateColorDots(null, 'theme');
+  createDetailOutputColors(currentColorName)
 }
 
 function deleteColor(e) {
@@ -152,6 +158,7 @@ function deleteColor(e) {
   self.remove();
 
   themeUpdateParams();
+  
 }
 
 function clearAllColors(e) {

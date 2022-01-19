@@ -10,6 +10,9 @@ governing permissions and limitations under the License.
 */
 
 import {
+  getLightness
+} from './utils';
+import {
   _theme,
   _colorScales
 } from './initialTheme';
@@ -33,7 +36,7 @@ function getColorClassByName(colorName) {
 }
 
 // GET all contrast ratios
-function getContrastRatios() {
+function getContrastRatioInputs() {
   let ratioInputs = document.getElementsByClassName('ratio-Field');
   let ratios = [];
   for(let i = 0; i < ratioInputs.length; i++) {
@@ -42,11 +45,28 @@ function getContrastRatios() {
   return ratios;
 }
 
+function getThemeContrastRatios() {
+  let theme = _theme.contrastColors;
+  let themeRatios = theme[1].values;
+  let ratios = [];
+
+  for(let i = 0; i < themeRatios.length; i++) {
+    const value = themeRatios[i].contrast;
+    ratios.push(value);
+  }
+
+  return ratios;
+}
+
 function getLuminosities() {
-  let luminosityInputs = document.getElementsByClassName('luminosity-Field');
+  let theme = _theme.contrastColors;
+  let colors = theme[1].values;
   let luminosities = [];
-  for(let i = 0; i < luminosityInputs.length; i++) {
-    luminosities.push(Number(luminosityInputs[i].value));
+
+  for(let i = 0; i < colors.length; i++) {
+    const value = colors[i].value;
+    const lightness = getLightness(value)
+    luminosities.push(lightness);
   }
   return luminosities;
 }
@@ -98,7 +118,8 @@ function getAllColorNames() {
 
 module.exports = {
   getColorClassById,
-  getContrastRatios,
+  getContrastRatioInputs,
+  getThemeContrastRatios,
   getThemeName,
   getThemeData,
   getAllColorNames,

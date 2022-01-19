@@ -9,11 +9,17 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import * as Leo from '@adobe/leonardo-contrast-colors'
 import {createChart} from './createChart';
 import {
-  getContrastRatios, 
+  getThemeContrastRatios, 
   getLuminosities
 } from './getThemeData';
+import {_theme} from './initialTheme';
+
+const chroma = require('chroma-js');
+const { extendChroma } = require('./chroma-plus');
+extendChroma(chroma);
 
 const lineTypeSelect = document.getElementById('chartLineType');
 const lineType = lineTypeSelect.value;
@@ -23,16 +29,23 @@ lineTypeSelect.addEventListener('change', (e) => {
   let val = e.target.value;
   isStep = (val === 'step') ? true : false;
 
-  let chartRatios = Promise.resolve(getContrastRatios());
-  chartRatios.then(function(resolve) {createRatioChart(resolve)});
+  let chartRatios = Promise.resolve(getThemeContrastRatios());
+  chartRatios.then(function(resolve) {createRatioChart(resolve, isStep)});
 
   let chartLuminosities = Promise.resolve(getLuminosities());
-  chartLuminosities.then(function(resolve) {createLuminosityChart(resolve)});
+  chartLuminosities.then(function(resolve) {createLuminosityChart(resolve, isStep)});
 });
 
-function createRatioChart(chartRatios) {
+function createRatioChart(chartRatios, bool) {
+  if(!bool) bool = isStep;
   let dest = document.getElementById('contrastChart');
   dest.innerHTML = ' ';
+  let dest2 = document.getElementById('detailContrastChart');
+  if(dest2) dest2.innerHTML = ' ';
+
+  let lightness = Number(document.getElementById('themeBrightnessSlider').value);
+  // Calculate highest possible contrast ratio (black or white) against background color
+  const maxPossibleRatio = (lightness > 50) ? Leo.contrast([0, 0, 0], chroma(_theme.contrastColors[0].background).rgb()): Leo.contrast([255, 255, 255], chroma(_theme.contrastColors[0].background).rgb());
 
   const fillRange = (start, end) => {
     return Array(end - start + 1).fill().map((item, index) => start + index);
@@ -41,20 +54,29 @@ function createRatioChart(chartRatios) {
   let dataContrast = [
     {
       x: dataXcontrast,
-      y: chartRatios.map(function(d) {return parseFloat(d);}) // convert to number
+      y: chartRatios.map(function(d) {
+        let cappedRatio = (d > maxPossibleRatio) ? maxPossibleRatio : d;
+        return parseFloat(cappedRatio);
+      }) // convert to number
     }
   ];
   let minRatio = Math.min(...chartRatios);
   let maxRatio = Math.max(...chartRatios);
   let yMin = (minRatio < 1) ? minRatio: 1;
-  let yMax = (maxRatio < 7) ? 7 : ((maxRatio < 12) ? 12 : 21);
+  // let yMax = (maxRatio < 7) ? 7 : ((maxRatio < 12) ? 12 : 21);
+  let yMax = 21;
   
-  createChart(dataContrast, 'Contrast ratio', 'Swatches', "#contrastChart", yMin, yMax, true, undefined, undefined, isStep);
+  createChart(dataContrast, 'Contrast ratio', 'Swatches', "#contrastChart", yMin, yMax, true, undefined, undefined, bool);
+  // for color details view
+  createChart(dataContrast, 'Contrast ratio', 'Swatches', "#detailContrastChart", yMin, yMax, true, undefined, undefined, bool);
 }
 
-function createLuminosityChart(chartLuminosities) {
+function createLuminosityChart(chartLuminosities, bool) {
+  if(!bool) bool = isStep;
   let dest = document.getElementById('luminosityChart');
   dest.innerHTML = ' ';
+  let dest2 = document.getElementById('detailLightnessChart');
+  if(dest2) dest2.innerHTML = ' ';
 
   const fillRange = (start, end) => {
     return Array(end - start + 1).fill().map((item, index) => start + index);
@@ -71,7 +93,9 @@ function createLuminosityChart(chartLuminosities) {
   let yMin = 0;
   let yMax = 100;
   
-  createChart(dataLuminosity, 'Luminosity', 'Swatches', "#luminosityChart", yMin, yMax, true, undefined, undefined, isStep);
+  createChart(dataLuminosity, 'Lightness', 'Swatches', "#luminosityChart", yMin, yMax, true, undefined, undefined, bool);
+  // for color details view
+  createChart(dataLuminosity, 'Lightness', 'Swatches', "#detailLightnessChart", yMin, yMax, true, undefined, undefined, bool);
 }
 
 module.exports = {

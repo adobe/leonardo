@@ -1,4 +1,5 @@
-#swatchesOutputs {
+#swatchesOutputs,
+#detailSwatchesOutputs {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -75,14 +76,16 @@
   font-size: 12px;
 }
 
-#justifiedWrapper .themeOutputSwatch {
+#justifiedWrapper .themeOutputSwatch,
+#detailJustifiedWrapper .themeOutputSwatch {
   justify-content: space-between;
   border-radius: 0;
   margin: 0;
   border:none;
 }
 
-#justifiedWrapper {
+#justifiedWrapper,
+#detailJustifiedWrapper {
   .themeOutputItem:first-of-type {
     .themeOutputSwatch:first-of-type {
       border-top-left-radius: var(--spectrum-alias-border-radius-regular);
@@ -107,7 +110,8 @@
     white-space: nowrap;
   }
 
-  #swatchesOutputs .themeOutputItem {
+  #swatchesOutputs .themeOutputItem, 
+  #detailSwatchesOutputs .themeOutputItem {
     display: flex;
     flex-direction: row;
     /* for fluid heights */
@@ -115,7 +119,8 @@
     max-height: 150px;
   }
 
-  #swatchesOutputs .themeOutputColor {
+  #swatchesOutputs .themeOutputColor,
+  #detailSwatchesOutputs .themeOutputColor {
     display: inline-flex;
     width: 100%;
     flex-direction: row;
@@ -124,7 +129,8 @@
     min-width: 280px;
   }
   
-  #swatchesOutputs .themeOutputSwatch {
+  #swatchesOutputs .themeOutputSwatch,
+  #detailSwatchesOutputs .themeOutputSwatch {
     width: 100%;
     min-width: 36px;
     height: 100%;
