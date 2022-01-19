@@ -926,6 +926,12 @@ a:focus {
   margin: 0;
   // width: calc(100% - 4px);
   overflow: auto;
+
+  pre {
+    margin: 0;
+    border: none;
+    padding: 0;
+  }
 }
 
 .themeOutputParams {
