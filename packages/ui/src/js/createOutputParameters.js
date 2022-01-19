@@ -91,7 +91,12 @@ ${joinedDeclarations}
 
 function createTokensOutput() {
   let paramsOutput = document.getElementById('themeTokensParams');
-  let tokenObj = {};
+  let themeName = getThemeName();
+
+  let themeObj = {};
+  let contrastText = (_theme.contrast != 1) ? `, contrast of ${_theme.contrast * 100}%` : '';
+  let saturationText = (_theme.saturation != 100) ? `, saturation of ${_theme.saturation}%` : '';
+  themeObj['description'] = `Color theme tokens at lightness of ${_theme.lightness}%${contrastText}${saturationText}`
 
   const textLowContrast = 'Do not use for UI elements or text.'
   const textLarge = 'Color can be used for UI elements or large text.'
@@ -105,7 +110,7 @@ function createTokensOutput() {
     type: "color",
     description: `UI background color. All color contrasts evaluated and generated against this color.`
   }
-  tokenObj['Background'] = backgroundColorObj
+  themeObj['Background'] = backgroundColorObj
 
   for(let i=1; i < contrastColors.length; i++) {
     let thisColor = contrastColors[i];
@@ -118,9 +123,12 @@ function createTokensOutput() {
         type: "color",
         description: `${descriptionText} Contrast is ${color.contrast}:1 against background ${backgroundColor}`
       }
-      tokenObj[color.name] = colorObj
+      themeObj[color.name] = colorObj
     }
   }
+  let tokenObj = {
+    [themeName]: themeObj
+  };
 
   const highlightedCode = hljs.highlight(JSON.stringify(tokenObj, null, 2), {language: 'javascript'}).value
   paramsOutput.innerHTML = highlightedCode;
