@@ -499,7 +499,7 @@ function showColorDetails(e, colorId) {
   let chartsFormTitle = document.createElement('h5');
   chartsFormTitle.className = "spectrum-Heading spectrum-Heading--sizeXXS";
   chartsFormTitle.style.width = 'auto';
-  chartsFormTitle.innerHTML = 'Lightness stops preview';
+  chartsFormTitle.innerHTML = 'Output color (ordered by contrast ascending)';
   // Create form item
   let chartsFormItem = document.createElement('div');
   chartsFormItem.className = "spectrum-Form-item spectrum-Form-item--row";
