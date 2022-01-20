@@ -99,6 +99,8 @@ function updateRamps(color, id, scaleType = 'theme') {
     max = Math.max(...lums);
   }
 
+  if(scaleType === 'diverging') id = scaleType;
+
   let gradientId = id.concat('_gradient');
   document.getElementById(gradientId).innerHTML = ' ';
   themeRamp(colors, gradientId, angle);

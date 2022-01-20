@@ -74,8 +74,10 @@ function filterNaN(x) {
   }
 }
 
-function removeElementsByClass(className){
-  const elements = document.getElementsByClassName(className);
+function removeElementsByClass(className, parent){
+  let elements;
+  if(!parent) elements = document.getElementsByClassName(className);
+  else elements = parent.getElementsByClassName(className);
   while(elements.length > 0){
       elements[0].parentNode.removeChild(elements[0]);
   }

@@ -214,14 +214,14 @@ function colorScaleDiverging(scaleType = 'diverging') {
   const hasEndButton = Promise.resolve(document.getElementById(buttonEndId))
   Promise.all([hasStartButton, hasEndButton]).then(() => {
     document.getElementById(buttonStartId).addEventListener('click', (e) => {
-      addScaleKeyColor(scaleType, e);
+      addScaleKeyColor(scaleType, e, 'start');
       updateColorDots(chartsModeSelect.value, scaleType);
       createSamples(sampleNumber.value, scaleType);
       createDemos(scaleType);
       create3dModel(PlotDestId, [colorClass], chartsModeSelect.value, scaleType)
     })
     document.getElementById(buttonEndId).addEventListener('click', (e) => {
-      addScaleKeyColor(scaleType, e);
+      addScaleKeyColor(scaleType, e, 'end');
       updateColorDots(chartsModeSelect.value, scaleType);
       createSamples(sampleNumber.value, scaleType);
       createDemos(scaleType);

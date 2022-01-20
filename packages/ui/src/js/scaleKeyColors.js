@@ -32,18 +32,18 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
   let currentColor;
   if(scaleType === 'sequential') currentColor = _sequentialScale;
   if(scaleType === 'diverging') currentColor = _divergingScale;
-  let parent = thisId.replace('_addKeyColor', '');
+  let currentKeys = (scaleType === 'sequential') ? currentColor.colorKeys : ((scalePosition === 'start') ? currentColor.startKeys : ((scalePosition === 'end') ? currentColor.endKeys : currentColor.middleKey))
+  let parent = thisId.replace('_addKeyColor', '').replace('_addStartKeyColor', '').replace('_addEndKeyColor', '');
+
   let concatString = 
     (scaleType === 'theme' || scaleType === 'sequential') 
     ? '_keyColors'
     : `_${scalePosition}KeyColors`;
 
-
   let destId = parent.concat(concatString);
+
   let dest = document.getElementById(destId);
   let div = document.createElement('div');
-
-  console.log(scaleType, thisId, destId)
 
   let randId = randomId();
   if(scalePosition === 'middle') {
@@ -58,27 +58,26 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
 
   sw.oninput = throttle((e) => {
     // Replace current indexed value from color keys with new value from color input field
-    const colorClass = (scaleType==='sequential') ? _sequentialScale : _divergingScale;
     c = e.target.value;
 
     if(scaleType === 'sequential') {
-      let currentKeys = currentColor.colorKeys;
+      // let currentKeys = currentColor.colorKeys;
       currentKeys.splice(index, 1, c)
-      colorClass.colorKeys = currentKeys;  
+      currentColor.colorKeys = currentKeys;  
     }
     if(scaleType === 'diverging') {
       if(scalePosition === 'start') {
-        let currentKeys = currentColor.startKeys;
+        // let currentKeys = currentColor.startKeys;
         currentKeys.splice(index, 1, c)
-        colorClass.startKeys = currentKeys;  
+        currentColor.startKeys = currentKeys;  
       }
       if(scalePosition === 'end') {
-        let currentKeys = currentColor.endKeys;
+        // let currentKeys = currentColor.endKeys;
         currentKeys.splice(index, 1, c)
-        colorClass.endKeys = currentKeys;  
+        currentColor.endKeys = currentKeys;  
       } 
       if(scalePosition === 'middle')  {
-        colorClass.middleKey = c;  
+        currentColor.middleKey = c;  
       }
     }
     
@@ -102,9 +101,16 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
   sw.style.backgroundColor = c;
   div.appendChild(sw);
 
+  let isDisabledClass;
+  if(scaleType === 'sequential') isDisabledClass = (currentKeys.length > 2) ? '' : 'is-disabled' ;
+  else isDisabledClass = (currentKeys.length > 1) ? '' : 'is-disabled' ;
+
   if(scalePosition !== 'middle') {
     let button = document.createElement('button');
-    button.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM';
+    button.className = 
+      (scaleType === 'diverging') 
+      ? `spectrum-ActionButton spectrum-ActionButton--sizeM removeKeyColor-${scaleType}-${scalePosition} ${isDisabledClass}`
+      : `spectrum-ActionButton spectrum-ActionButton--sizeM removeKeyColor-${scaleType} ${isDisabledClass}`;
     button.innerHTML = `
     <svg class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
       <use xlink:href="#spectrum-icon-18-Delete" />
@@ -130,7 +136,7 @@ function replaceScaleKeyInputsFromClass(id, scaleType, index, scalePosition) {
 
   let parentId = id.replace('_addKeyColor', '');
   // let inputs = document.getElementsByClassName(`keyColor-${scaleType}`);
-  removeElementsByClass(`keyColor-${scaleType}`)
+  // removeElementsByClass(`keyColor-${scaleType}`)
 
   let currentColor, colorKeys;
   if (scaleType === 'sequential') {
@@ -152,6 +158,20 @@ function replaceScaleKeyInputsFromClass(id, scaleType, index, scalePosition) {
     if(scalePosition === 'end') currentColor.endKeys = colorKeys;
   }
 
+  if(scaleType === 'sequential') {
+    removeElementsByClass(`keyColor-${scaleType}`)
+  } else {
+    if(scalePosition === 'start') {
+      // only remove respective inputs
+      let parentDest = document.getElementById('diverging_startKeyColors');
+      removeElementsByClass(`keyColor-${scaleType}`, parentDest)
+    } else {
+      // only remove respective inputs
+      let parentDest = document.getElementById('diverging_endKeyColors');
+      removeElementsByClass(`keyColor-${scaleType}`, parentDest)
+    }
+  }
+
   // If new color keys length is less than three, force
   // smoothing to false, and update UI toggle, as smooth
   // option should be removed when only two key colors are
@@ -161,29 +181,66 @@ function replaceScaleKeyInputsFromClass(id, scaleType, index, scalePosition) {
     currentColor.smooth = false;
   }
 
-  colorKeys.forEach((key, i) => {
-    addScaleKeyColorInput(key, id, scaleType, i)
-  })
+  // colorKeys.forEach((key, i) => {
+  //   addScaleKeyColorInput(key, id, scaleType, i)
+  // })
+  if(scaleType === 'sequential') {
+    currentColor.colorKeys.forEach((key, i) => {
+      addScaleKeyColorInput(key, id, scaleType, i, scalePosition)
+    })
+  } else {
+    if(scalePosition === 'start') {
+      currentColor.startKeys.forEach((key, i) => {
+        addScaleKeyColorInput(key, id, scaleType, i, scalePosition)
+      })
+      
+    } else {
+      currentColor.endKeys.forEach((key, i) => {
+        addScaleKeyColorInput(key, id, scaleType, i, scalePosition)
+      })
+    }
+  }
   // Update gradient
   updateRamps(currentColor, parentId, scaleType);
   // updateColorDots();
+  let targetClass, buttons;
+  if(scaleType === 'diverging') {
+    targetClass = `removeKeyColor-${scaleType}-${scalePosition}`;
+    buttons = document.getElementsByClassName(targetClass);
+  } else {
+    targetClass = `removeKeyColor-${scaleType}`;
+    buttons = document.getElementsByClassName(targetClass);
+  }
+  if(colorKeys.length >=2) {
+    for(let i=0; i < buttons.length; i++) {
+      buttons[i].classList.remove('is-disabled');
+      buttons[i].disabled = false;
+    }
+  } else {
+    for(let i=0; i < buttons.length; i++) {
+      buttons[i].classList.add('is-disabled');
+      buttons[i].disabled = true;
+    }
+  }
+
   if(colorKeys.length >= 3) {
     smooth.disabled = false;
     smoothWrapper.classList.remove('is-disabled')
   } else {
     smooth.disabled = true;
-    smoothWrapper.classList.add('is-disabled')
+    smoothWrapper.classList.add('is-disabled');
   }
+
 }
 
-function addScaleKeyColor(scaleType, e) {
+function addScaleKeyColor(scaleType, e, position) {
   let smoothWrapper = document.getElementById(`${scaleType}_smoothWrapper`);
   let smooth = document.getElementById(`${scaleType}_smooth`);
   let thisId = e.target.id;
   let parentId = thisId.replace('_addKeyColor', '');
 
-  let currentColor = (scaleType === 'sequential') ? _sequentialScale : null ; // TODO: replace with _diverging when available
-  let currentKeys = currentColor.colorKeys;
+  let currentColor = (scaleType === 'sequential') ? _sequentialScale : _divergingScale ; // TODO: replace with _diverging when available
+  let currentKeys = (scaleType === 'sequential') ? currentColor.colorKeys : ((position === 'start') ? currentColor.startKeys : currentColor.endKeys );
 
   let lastIndex = currentKeys.length;
   if(!lastIndex) lastIndex = 0;
@@ -198,12 +255,41 @@ function addScaleKeyColor(scaleType, e) {
   currentKeys.push(c)
 
   // Update color class arguments via the theme class
-  currentColor.colorKeys = currentKeys;
-  removeElementsByClass(`keyColor-${scaleType}`)
+  if(scaleType === 'sequential') {
+    currentColor.colorKeys = currentKeys;
 
-  currentColor.colorKeys.forEach((key, i) => {
-    addScaleKeyColorInput(key, thisId, scaleType, i)
-  })
+    removeElementsByClass(`keyColor-${scaleType}`)
+  } else {
+    if(position === 'start') {
+      currentColor.startKeys = currentKeys;
+      // only remove respective inputs
+      let parentDest = document.getElementById('diverging_startKeyColors');
+      removeElementsByClass(`keyColor-${scaleType}`, parentDest)
+    } else {
+      currentColor.endKeys = currentKeys;
+      // only remove respective inputs
+      let parentDest = document.getElementById('diverging_endKeyColors');
+      removeElementsByClass(`keyColor-${scaleType}`, parentDest)
+    }
+  }
+
+  if(scaleType === 'sequential') {
+    currentColor.colorKeys.forEach((key, i) => {
+      addScaleKeyColorInput(key, thisId, scaleType, i, position)
+    })
+  } else {
+    if(position === 'start') {
+      currentColor.startKeys.forEach((key, i) => {
+        addScaleKeyColorInput(key, thisId, scaleType, i, position)
+      })
+      
+    } else {
+      currentColor.endKeys.forEach((key, i) => {
+        addScaleKeyColorInput(key, thisId, scaleType, i, position)
+      })
+    }
+  }
+
 
   // Update gradient
   updateRamps(currentColor, parentId, scaleType);
