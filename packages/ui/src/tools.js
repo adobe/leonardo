@@ -67,6 +67,7 @@ import {
 } from './js/tabs';
 import toggleTooltip from './js/tooltip';
 import { compareColors } from './js/compareColors';
+import { convertColors } from './js/convertColors';
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')
@@ -105,6 +106,8 @@ document.getElementById("welcome").click();
 
 document.getElementById('compareColorOneInput').dispatchEvent(new Event("input"));
 document.getElementById('compareColorTwoInput').dispatchEvent(new Event("input"));
+
+document.getElementById('convertColorOneInput').dispatchEvent(new Event("input"));
 
 window.onload = function() {
   // On window load, transition to remove page loader

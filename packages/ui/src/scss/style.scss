@@ -191,7 +191,7 @@ body,
     "rightPanel";
 
   @media screen and (min-width: 1065px) {
-    grid-template-columns: auto 560px;
+    grid-template-columns: 50% 50%;
     grid-template-rows: auto;
     grid-template-areas:
       "main rightPanel";
@@ -1830,8 +1830,17 @@ a:focus {
 
 .home-Wrapper--float {
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   align-content: center;
+}
+
+.home-Wrapper--right {
+  padding-top: 0;
+  overflow-y: auto;
+
+  @media screen and (min-width: 1065px) {
+    padding-top: 52px;
+  }
 }
 
 .floating-wrapper {
@@ -2218,7 +2227,8 @@ a:focus {
   fill: var(--spectrum-global-color-gray-100);
 }
 
-#colorCompareForm {
+#colorCompareForm,
+#colorConvertForm {
   margin-top: var(--spectrum-global-dimension-size-500);
 
   .spectrum-Form-item ~ .spectrum-Form-item {
@@ -2294,4 +2304,8 @@ pre {
   padding: 12px 12px 0px 12px;
   border: 1px solid var(--spectrum-global-color-gray-200);
   border-radius: var(--spectrum-alias-border-radius-regular);
+}
+
+.table-cell-item {
+  display: block;
 }
