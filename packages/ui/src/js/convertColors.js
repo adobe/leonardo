@@ -35,7 +35,7 @@ function convertColor(e) {
     // If it's a valid color input, do this stuff...
     if(chroma.valid(value)) {
       let color = chroma(value);
-      console.log('VALID COLOR FOR CONVERSION')
+
       // Colorize the big swatch
       let swatch = document.getElementById(swatchId);
       swatch.style.backgroundColor = chroma(color).hex();
@@ -56,14 +56,14 @@ function convertColor(e) {
         let colorChannels, colorChannelLabels, colorString;
         if(colorSpaces[i] === 'HEX') colorChannels = '';
         if(colorSpaces[i] === 'RGB') colorChannels = color.rgb();
-        if(colorSpaces[i] === 'HSL') colorChannels = color.hsl();
-        if(colorSpaces[i] === 'HSV') colorChannels = color.hsv();
+        if(colorSpaces[i] === 'HSL') colorChannels = color.hsl().map((c, i) => {if(i>0) return c * 100; else return c}); // all channels except hue are percentages  
+        if(colorSpaces[i] === 'HSV') colorChannels = color.hsv().map((c, i) => {if(i>0) return c * 100; else return c}); // all channels except hue are percentages
         if(colorSpaces[i] === 'LAB') colorChannels = color.lab();
         if(colorSpaces[i] === 'LCH') colorChannels = color.lch();
         if(colorSpaces[i] === 'HSLuv') colorChannels = color.hsluv();
         if(colorSpaces[i] === 'CAM02') colorChannels = color.jab();
         if(colorSpaces[i] === 'CAM02p') colorChannels = color.jch();
-        if(colorSpaces[i] === 'CMYK') colorChannels = color.cmyk();
+        if(colorSpaces[i] === 'CMYK') colorChannels = color.cmyk().map((c) => {return c * 100});
         if(colorSpaces[i] === 'XYZ') colorChannels = Object.values(new simpleColorConverter({ rgb: {r: color.rgb()[0], g: color.rgb()[1], b: color.rgb()[2] }, to: 'xyz' }).color);
         if(colorSpaces[i] === 'Pantone') colorChannels = new simpleColorConverter({ rgb: {r: color.rgb()[0], g: color.rgb()[1], b: color.rgb()[2] }, to: 'pantone' }).color;
 

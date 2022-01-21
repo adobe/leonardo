@@ -4,11 +4,17 @@
   <main class="home-Wrapper home-Wrapper--float">
     <div class="floating-wrapper">
 
-      <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">
-        Convert color
-      </h1>
+      <!-- <div class="flex-spaced"> -->
+        <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">
+          Convert color
+        </h1>
+        <!-- <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--primary">
+          Bulk
+        </button> -->
+      <!-- </div> -->
+
       <!-- <p class="spectrum-Body spectrum-Body--sizeM">
-        Converts to all supported color spaces. 
+        Converts to all supported color spaces. Pantone returns the closest matching pantone color.
       </p> -->
       <!-- <p class="spectrum-Body spectrum-Body--sizeXS spectrum-Body--detail">
         Supports Hex, RGB, HSL, HSV, HSLuv, Lab, LCh, CAM02, CAM02-Ch.
@@ -24,10 +30,28 @@
           </div>
           <div class="swatch--large" id="convertColorOne_swatch"></div>
         </div>
-
-  
       </div>
 
+      <div class="spectrum-Typography">
+        <h3 class="spectrum-Heading spectrum-Heading--sizeS" style="margin-top: 48px">
+          Have a lot to convert?
+        </h3>
+        <p class="spectrum-Body spectrum-Body--sizeS">
+          Use the bulk converter to convert all your colors in the formats you need.
+        </p>
+        <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--primary" id="bulkConvertButton" onclick="bulkConvert()">
+          Convert bulk
+        </button> 
+      </div>
+
+      <!-- <button class="spectrum-ActionButton spectrum-ActionButton--sizeM">
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Bulk conversion">
+          <use xlink:href="#spectrum-icon-18-Box"></use>
+        </svg>
+        <span class="spectrum-ActionButton-label">
+          Convert bulk
+        </span>
+      </button> -->
     </div>
   </main>
 
@@ -38,4 +62,7 @@
 
   </div>
 
+  <div id="dialogOverlay" style="display: none;"></div>
+
+  <include src="src/views/dialog_bulkColorConverter.html"></include>
 </div>

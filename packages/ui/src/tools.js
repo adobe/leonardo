@@ -68,6 +68,11 @@ import {
 import toggleTooltip from './js/tooltip';
 import { compareColors } from './js/compareColors';
 import { convertColors } from './js/convertColors';
+import {
+  bulkConvert,
+  bulkItemConvertColorInput,
+  cancelBulkConvert
+} from './js/bulkConvertDialog'
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')
