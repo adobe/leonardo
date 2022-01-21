@@ -58,8 +58,6 @@ function createPaletteInterpolationCharts(colors, mode, scaleType = 'theme') {
     yMin = 0;
     yMax = 360;
     c3Label = `Lightness (${mode} - L)`;
-    // yMin2 = 0;
-    // yMax2 = 100;
   }
   if(mode === 'CAM02') {
     func = 'jab';
@@ -80,8 +78,6 @@ function createPaletteInterpolationCharts(colors, mode, scaleType = 'theme') {
     yMin = 0;
     yMax = 360;
     c3Label = `Lightness (${mode} - J)`;
-    // yMin2 = 0;
-    // yMax2 = 100;
   }
   if(mode === 'HSL') {
     func = 'hsl';
@@ -207,8 +203,6 @@ function createPaletteInterpolationCharts(colors, mode, scaleType = 'theme') {
 const modePicker = document.getElementById('chartsMode');
 
 function createPaletteCharts(mode) {
-  // let mode = modePicker.value;
-  // if(mode === undefined) mode = 'CAM02'; // provide default
   const colorClasses = _theme.colors;
   let colors = colorClasses.map((c) => {
     return createScale({swatches: 31, colorKeys: c.colorKeys, colorspace: c.colorspace, smooth: c.smooth});

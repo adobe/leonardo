@@ -95,18 +95,13 @@ function bulkItemConvertColorInput(e) {
 
 function createColorJson(value, colorSpaces) {
   if(!chroma.valid(value)) {
-    // Alert? Error?
+    // Should return an error
   } 
   // If it's a valid color input, do this stuff...
   else {
     let color = chroma(value);
 
-    let colorObj = {
-      // hex: value
-      // Lab (L): value
-      // Lab (A): value
-      // Lab (B): value
-    }
+    let colorObj = {}
     
     for(let i = 0; i < colorSpaces.length; i++) {
       let colorChannels, colorChannelLabels;

@@ -432,10 +432,12 @@ function ratioUpdate(chartRatios = Promise.resolve(getThemeContrastRatios()), ch
 function ratioUpdateValues(themeRatios = getThemeContrastRatios()) {
   themeRatios = themeRatios.map((r) => {return Number(r)});
   let argArray = [];
-  _theme.colors.forEach((c) => {
-    argArray.push( {color: c.name, ratios: themeRatios} )
-  })
 
+  _theme.colors.forEach((c) => {
+    if(c) {
+      argArray.push( {color: c.name, ratios: themeRatios} )
+    }
+  })
   _theme.updateColor = argArray;
 }
 

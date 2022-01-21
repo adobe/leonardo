@@ -13,11 +13,6 @@ import d3 from './d3';
 import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
 import {addScaleKeyColorInput} from './scaleKeyColors';
-// import {
-//   createColorWheel,
-//   updateColorWheel,
-//   updateColorDots
-// } from './colorWheel';
 import {
   updateRamps
 } from './ramps';
@@ -30,7 +25,6 @@ import {createPanelReportTable} from './createPanelReportTable';
 function addScaleBulk(e) {
   // id is scaleType
   let id = e.target.id.replace('_addBulk', '');
-  let colorClass = (id === 'sequential') ? _sequentialScale : ((id === 'diverging') ? _divergingScale : _qualitativeScale);
 
   console.log(id)
   let colorNameInputId = id.concat('_name')

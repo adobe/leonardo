@@ -9,7 +9,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from '@adobe/leonardo-contrast-colors';
 import * as d3 from './d3';
 import {_theme} from './initialTheme';
 import {_sequentialScale} from './initialSequentialScale';
@@ -17,7 +16,6 @@ import {_divergingScale} from './initialDivergingScale';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {createInterpolationCharts} from './createInterpolationCharts';
 import {createPaletteInterpolationCharts} from './createPaletteCharts';
-import {create3dModel} from './create3dModel';
 import {
   makePowScale,
   orderColorsByLuminosity
@@ -42,12 +40,9 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
   let colorClass = (scaleType === 'sequential') ? _sequentialScale : _divergingScale;
   if(scaleType === 'sequential') {
     domains = colorClass.domains;  
-    // domains = colorKeys.map(key => { return d3.hsluv(key).v})
     let shift = Number(colorClass.shift);
     let inverseShift = 1 / shift;
-    let shiftShift = Math.pow(inverseShift, inverseShift)
     let domainPowScale = makePowScale( inverseShift );
-    // let domainPowScale = (x) => {return Math.pow(x, inverseShift)}
     sqrtDomains = domains.map((d) => {return domainPowScale(d)})
     domains = sqrtDomains;
   }
@@ -79,7 +74,6 @@ function themeRampKeyColors(colorKeys, dest, scaleType) {
     let leftPosition = `calc(${Math.round(left)}% - ${Math.round(dotOffset)}px)`;
     let dot = document.createElement('div');
     dot.className = 'themeRampDot';
-    // dot.style.backgroundColor = key;
     dot.title = `Key color: ${key}`;
     dot.style.left = leftPosition;
     container.appendChild(dot);
@@ -113,8 +107,6 @@ function updateRamps(color, id, scaleType = 'theme') {
     themeRamp(colors, gradientSwatchId, '45');
 
     createRGBchannelChart(colors);
-    // let chartsModeSelect = document.getElementById('chartsMode');
-    // create3dModel('tabModelContent', [color], chartsModeSelect.value);
 
   } else {
     createRGBchannelChart(colors, `${id}RGBchart`);
@@ -149,7 +141,6 @@ function createAllColorRamps() {
     let colors = rampData;
   
     themeRamp(colors, dest)
-    // colors = cvdColors(colors);
   })
 }
 

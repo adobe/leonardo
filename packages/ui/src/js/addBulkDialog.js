@@ -68,7 +68,6 @@ function bulkItemColorInput(e) {
   }
 
   _theme.updateColor = {color: currentColorName, colorKeys: newKeys}
-  // addKeyColorInput(c, thisId, currentColorName, lastIndex);
 
   // Update gradient
   updateRamps(currentColor, itemId);

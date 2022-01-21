@@ -9,8 +9,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { stackOrderNone } = require("d3");
-
 function openPanelTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;

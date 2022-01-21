@@ -9,27 +9,19 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from '@adobe/leonardo-contrast-colors'
 import hljs from 'highlight.js/lib/core';
-import * as d3 from './d3';
 import {_theme} from './initialTheme';
 import {createPaletteCharts} from './createPaletteCharts';
 import {
-  getThemeName,
-  getColorClassById,
   getThemeContrastRatios,
-  getAllColorKeys,
   getLuminosities
 } from './getThemeData';
 import {createOutputColors} from './createOutputColors';
-import {cvdColors} from './cvdColors'
 import {
   createRatioChart,
   createLuminosityChart
 } from './createRatioChart';
 import {
-  getConvertedColorCoodrindates,
-  createColorWheelDots,
   updateColorDots
 } from './colorWheel';
 import {createOutputParameters} from './createOutputParameters';
@@ -47,7 +39,6 @@ function themeUpdate() {
   chartRatios.then(function(resolve) {createRatioChart(resolve)});
 
   // Create dots for color wheel
-  // let allKeyColorsMerged = [].concat.apply([], allKeyColors);
   let colorWheelModeDropdown = document.getElementById('chartsMode');
   let colorWheelMode = colorWheelModeDropdown.value
 

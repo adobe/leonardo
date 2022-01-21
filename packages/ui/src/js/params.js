@@ -15,7 +15,6 @@ import {
   addRatioInputs,
   sortRatios
 } from './ratios';
-import {sliderInput} from './sliderInput';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {round} from './utils';
 import {
@@ -26,7 +25,6 @@ import {
 function paramSetup() {
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
-  let pathName = url.pathname;
   let themeBase = document.getElementById('themeBase');
   let RATIOS;
   let RATIOCOLORS;
@@ -74,10 +72,7 @@ function paramSetup() {
 
       RATIOS = Promise.resolve([...colorScales[0].ratios]);
       RATIOCOLORS = Promise.resolve(_theme.contrastColors[1].values.map((c) => {return c.value}));
-      // let sampleColors = _theme.contrastColors[2].values.map((c) => {return c.value});
-      // addRatioInputs(colorScales[2].ratios, sampleColors)
     } else {
-      // addColorScale('Gray', ['#000000'], 'CIECAM02', [3, 4.5]);
     }
 
     let slider = document.getElementById('themeBrightnessSlider');
@@ -155,7 +150,6 @@ function paramSetup() {
       '#8a8a8a', 
       '#747474'
     ]);
-    // addColorScale('Gray', ['#000000'], 'CAM02');
     let length = _theme.colors.length;
     for(let i=0; i<length; i++) {
       // add color scale to UI from the default theme,

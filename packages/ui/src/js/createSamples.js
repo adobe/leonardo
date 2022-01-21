@@ -15,7 +15,6 @@ import { createHtmlElement } from './createHtmlElement';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
-import {downloadSwatches} from './createSVGswatches';
 import {cssColorToRgb} from './utils';
 hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('css', css);
@@ -28,13 +27,10 @@ function createSamples(samples, scaleType) {
   const output = outputFormatPicker.value;
   const quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
   const quotes = quoteSwitch.checked;
-  // const colorFunction = colorClass.colorFunction;
   // reassign new swatch value
   colorClass.swatches = samples;
   const panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
   panelOutputContent.innerHTML = ' ';
-  // const sampleD3Wrapper = document.getElementById(`${scaleType}ColorScaleD3Output`);
-  // sampleD3Wrapper.innerHTML = ' ';
 
   let samplesWrapper = document.getElementById(`${scaleType}SampleSwatches`);
   samplesWrapper.innerHTML = ' ';
@@ -53,8 +49,6 @@ function createSamples(samples, scaleType) {
 
   colorClass.output = output;
   sampleColors = colorClass.colors;
-
-  // const sampleColorsReversed = sampleColors.reverse();
 
   colorClass.samples = (colorClass.output === 'HEX' || colorClass.output === 'RGB') ? sampleColors: sampleColors.map((c) => {return cssColorToRgb(c)});
 

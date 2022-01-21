@@ -1,3 +1,14 @@
+/*
+Copyright 2022 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
 import { saveAs } from 'file-saver';
 import d3 from './d3';
 import {
@@ -5,7 +16,6 @@ import {
   _themeTypography
 } from './initialTheme';
 import {getThemeName} from './getThemeData';
-import { createSvgElement } from './createHtmlElement';
 import {capitalizeFirstLetter} from './utils';
 
 function createSVGuiKit() {
@@ -33,8 +43,6 @@ function createSVGuiKit() {
   svgWrapper.setAttribute("version", "1.1");
   svgWrapper.setAttributeNS( null, 'width', maxSvgWidth + 'px' );
   svgWrapper.setAttributeNS( null, 'height', maxSvgHeight + 'px' );
-  // svgWrapper.setAttributeNS( null, 'fill', colors[0].background );
-  // svgWrapper.style.backgroundColor = colors[0].background;
   svgWrapper.setAttribute("aria-hidden", "true");
 
   let background = document.createElementNS(svgns, 'rect');

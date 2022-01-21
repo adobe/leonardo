@@ -8,8 +8,6 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import * as Leo from '@adobe/leonardo-contrast-colors';
-import * as d3 from './d3';
 import {
   addScaleKeyColor,
   addScaleKeyColorInput
@@ -19,7 +17,6 @@ import {
   themeRampKeyColors,
   updateRamps
 } from './ramps';
-import { createTable } from './createTable';
 import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
 import {createInterpolationCharts} from './createInterpolationCharts';
@@ -31,34 +28,13 @@ import {
   updateColorDots
 } from './colorWheel';
 import {create3dModel} from './create3dModel';
-import {
-  throttle,
-  round,
-  getDifference
-} from './utils';
 import {createSamples} from './createSamples';
 import {createDemos} from './createDemos';
-import {
-  createSVGswatches,
-  downloadSwatches
-} from './createSVGswatches';
 import {createPanelReportTable} from './createPanelReportTable';
-import {addScaleBulk} from './addScaleBulkDialog';
 
 const chroma = require('chroma-js');
 
 function colorScaleSequential(scaleType = 'sequential') {
-  // let colorKeys;
-  // Set up some sensible defaults
-  // let defaultColors = ['#FFDD00', '#7AcA02', '#0CA9AC', '#005285', '#2E005C']
-  // let defaultColors = ['#2E005C', '#005285', '#0CA9AC', '#7AcA02', '#FFDD00']
-  // let defaultColors = ['#2E005C', '#FFDD00']
-  // let defaultColors = ['#5c3cec','#9eecff', '#46006B']
-  // let defaultColors = ['#002f61', '#ffff00'];
-  // let defaultColors = ['#e3e3e3', '#333333']
-  // _sequentialScale.colorKeys = defaultColors;
-  // _sequentialScale.smooth = false;
-
   let defaultBackgroundColor;
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
   if (mq.matches) {
@@ -101,8 +77,6 @@ function colorScaleSequential(scaleType = 'sequential') {
 
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
-  // let buttonStartId = `${scaleType}_addStartKeyColor`;
-  // let buttonEndId = `${scaleType}_addEndKeyColor`;
 
   const hasColorKeys = Promise.resolve(colorKeys);
   hasColorKeys.then((values) => {
@@ -162,7 +136,6 @@ function colorScaleSequential(scaleType = 'sequential') {
   interpolationMode.addEventListener('change', (e) => {
     let colorspace = e.target.value;
     colorClass.colorspace = colorspace;
-    // colors = colorClass.colors;
 
     updateRamps(colorClass, scaleType, scaleType);
     createSamples(sampleNumber.value, scaleType);
@@ -184,9 +157,7 @@ function colorScaleSequential(scaleType = 'sequential') {
   })
 
   downloadGradient.addEventListener('click', (e) => {
-    // const stopsInput = document.getElementById(`${scaleType}GradientStops`);
     const stops = 100;
-    // const originalSwatches = colorClass.swatches;
     colorClass.swatches = Number(stops);
     
     const gradientColors = colorClass.colors;
@@ -228,15 +199,6 @@ function colorScaleSequential(scaleType = 'sequential') {
   quoteSwitch.addEventListener('change', () => {
     createSamples(sampleNumber.value, scaleType);
   })
-
-  // const bulkAddButton = document.getElementById('sequential_addBulk');
-  // bulkAddButton.addEventListener('click', addScaleBulk);
-
-  // const accordionTrigger = document.getElementById('sequential_advancedAccordion-Trigger');
-  // const accordion = document.getElementById('sequential_advancedAccordion');
-  // accordionTrigger.addEventListener('click', (e) => {
-  //   accordion.classList.toggle('is-open')
-  // })
 }
 
 module.exports = {

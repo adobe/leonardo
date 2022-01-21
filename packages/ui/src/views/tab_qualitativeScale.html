@@ -42,8 +42,7 @@
                 <input class="spectrum-Slider-controls" type="range" min="11" max="50" step="1" value="11" id="{{ scaleType }}_Threshold" name="{{ scaleType }}_Threshold"></input>
               </div>
             </div>
-          <!-- </div>
-          <div class="spectrum-Form spectrum-Form--row"> -->
+
             <div class="spectrum-Form-item">
               <div class="spectrum-Switch">
                 <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_minContrast" >
@@ -207,7 +206,6 @@
       <div class="" id="{{scaleType}}_generatedColors">
         <div id="cvdSafeColors"></div>
       </div>
-        <!-- <div class="themeColor_gradient" id="{{scaleType}}_gradient"> Selected colors here </div> -->
 
       <div id="" class="spectrum-Content-Tabs spectrum-Content-Tabs--noPadding">
         <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
@@ -220,15 +218,11 @@
           <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
             <label class="spectrum-Tabs-itemLabel">Analyze</label>
           </div>
-          <!-- <div id="tab{{scaleType}}Output" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}OutputWrapper', `{{ scaleType }}`)">
-            <label class="spectrum-Tabs-itemLabel">Output</label>
-          </div> -->
         </div>
 
       </div>
 
       <div id="{{ scaleType }}SimulationWrapper" class="{{scaleType}}TabsWrapper">
-        <!-- <hr class="spectrum-Divider spectrum-Divider--sizeM"/> -->
 
         <div id="simulatedColors"></div>
         <p class="spectrum-Body spectrum-Body--sizeXXS">Simulated colors are ordered by hue and saturation for best comparison of similar colors.</p>
@@ -236,15 +230,11 @@
 
       <div id="{{scaleType}}DemoWrapper" class="{{scaleType}}TabsWrapper demoVisualizationWrapper">
         <div class="demoVisualization--row">
-          <!-- <div id="{{scaleType}}Heatmap" class="demoVisualization"></div> -->
-          <!-- <div id="{{scaleType}}Scatter" class="demoVisualization"></div>   -->
           <div id="{{scaleType}}Chord" class="demoVisualization"></div>  
           <div id="{{scaleType}}Donut" class="demoVisualization"></div>  
         </div>
         <div class="demoVisualization--row">
           <div id="{{scaleType}}StackedArea" class="demoVisualization demoVisualization--large"></div>  
-          <!-- <div id="{{scaleType}}ViolinJitter" class="demoVisualization"></div>   -->
-          <!-- <div id="{{scaleType}}Choropleth" class="demoVisualization"></div> -->
         </div>
 
         
@@ -285,37 +275,13 @@
                 <div id="{{scaleType}}ColorWheelPaths" class="polarPathsWrapper" ></div>
               </div>
             </div>
-
-            <!-- <div class="chart--labelless" id="{{scaleType}}RGBchart">
-              RGB chart
-            </div> -->
           </div>
 
           <!-- Column 2 -->
           <div class="chartsColumn--right">
-            <!-- <div class="chart--labelless" id="{{scaleType}}InterpolationChart">
-              chart 1
-            </div>
-            <div class="chart--labelless" id="{{scaleType}}InterpolationChart2">
-              chart 2
-            </div>  
-            <div class="chart--labelless" id="{{scaleType}}InterpolationChart3">
-              chart 3
-            </div>    -->
           </div>
         </div>
       </div>
-
-      <!-- <div id="{{scaleType}}RGBChartsWrapper" class="{{scaleType}}TabsWrapper">
-        <div class="chart--labelless" id="{{scaleType}}RGBchart">
-          RGB chart
-        </div>
-      </div> -->
-
-      <!-- <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">
-        <svg class="chart3D" id="{{scaleType}}Model"></svg>
-      </div> -->
-
       
       </div>
     </main>

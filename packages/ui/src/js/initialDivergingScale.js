@@ -14,12 +14,8 @@ import * as d3 from './d3';
 import {SequentialScale} from './initialSequentialScale';
 import {
    convertColorValue,
-   makePowScale,
-   removeDuplicates,
    round,
-   findMatchingLuminosity,
    orderColorsByLuminosity,
-   createEquiLuminantKey
  } from './utils';
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
@@ -48,7 +44,6 @@ class DivergingScale {
     this._output = output;
     this._swatches = swatches,
     this._scaleSwatches = (swatches)/2,
-    // this._luminosities = this._getLuminosities();
 
     this._startScale = new SequentialScale({
       swatches: this._scaleSwatches,
@@ -96,7 +91,6 @@ class DivergingScale {
   }
 
   set endKeys(colors) {
-    // this._endKeys = colors;
     this._endKeys = colors;
     this._endScale.colorKeys = [...colors,  this._middleKey];
     this._colorKeys = null;
@@ -219,10 +213,7 @@ class DivergingScale {
     this._scaleSwatches = swatches / 2;
     if(this._startScale) this._startScale.swatches = this._scaleSwatches;
     if(this._endScale) this._endScale.swatches = this._scaleSwatches;  
-    // if(this._startScale && this._endScale) {
-    //   this._colors = null;
-    //   this._colors = this._createColorScale();  
-    // }
+
     this._colors = this._createColorScale();  
 
   }
@@ -263,8 +254,7 @@ class DivergingScale {
       colorKeys: newColors,
       colorspace: this._colorspace,
       sortColor: false,
-      // shift: this._shift,
-      // smooth: this._smooth,
+
       distributeLightness: 'linear',
       fullScale: false,
       asFun: true
@@ -331,9 +321,9 @@ class DivergingScale {
 
 let _divergingScale = new DivergingScale({
   swatches: 50,
-  startKeys: ['#580000', '#DD8629'], // ['#19beaa', '#004d4b']
-  endKeys: ['#3EA8A6', '#003233'], // ['#d37222', '#700036']
-  middleKey: '#FFFFE0', // '#f7f7f7'
+  startKeys: ['#580000', '#DD8629'], 
+  endKeys: ['#3EA8A6', '#003233'], 
+  middleKey: '#FFFFE0', 
   colorspace: 'CAM02',
   distributeLightness: 'polynomial', // 'linear' | 'parabolic' | 'polynomial'
   smooth: false,
@@ -346,10 +336,3 @@ window._divergingScale = _divergingScale;
 module.exports = {
   _divergingScale
 }
-
-
-// let defaultStartColors = ['#580000', '#DD8629'];
-// let defaultEndColors = ['#3EA8A6', '#003233'];
-// let defaultMiddleColor = '#FFFFE0';
-// _divergingScale.colorspace = 'CAM02';
-// _divergingScale.distributeLightness = 'polynomial';

@@ -58,6 +58,10 @@ loadIcons('./spectrum-css-icons.svg');
 loadIcons('./spectrum-icons.svg');
 
 // Import local Javascript functions
+import {_sequentialScale} from './js/initialSequentialScale';
+import {_divergingScale} from './js/initialDivergingScale';
+import {_qualitativeScale} from './js/initialQualitativeScale';
+
 import { 
   throttle
 } from './js/utils';
@@ -68,9 +72,6 @@ import {
   openScaleTab,
   openSideNavItem
 } from './js/tabs';
-import {_sequentialScale} from './js/initialSequentialScale';
-import {_divergingScale} from './js/initialDivergingScale';
-import {_qualitativeScale} from './js/initialQualitativeScale';
 
 import {colorScaleDiverging} from './js/colorScaleDiverging';
 import {colorScaleSequential} from './js/colorScaleSequential';

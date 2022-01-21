@@ -9,7 +9,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import * as d3 from 'd3';
-import {getSmallestWindowDimension} from './colorWheel';
 
 const panelsOffset = 722; // should be 722 ...not 752
 
@@ -32,7 +31,6 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
   
       chartWidth = adjustedWidth;
       adjustedHeight = (windowHeight - 332) / 3;
-      // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
       chartHeight = 178;
   }
   if(
@@ -46,24 +44,20 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
 
     chartWidth = adjustedWidth;
     adjustedHeight = (windowHeight - 332) / 3;
-    // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
     chartHeight = 196;
   }
   if(
-    // dest === '#RGBchart'||
     dest === `#sequentialRGBchart` ||
     dest === '#divergingRGBchart'
   ) {
     chartWidth = 308;
     adjustedHeight = (windowHeight - 332) / 3;
-    // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
     chartHeight = 175; // 196
 
   }
   if(dest === '#RGBchart') {
     chartWidth = 308;
     adjustedHeight = (windowHeight - 332) / 3;
-    // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
     chartHeight = 216;
   }
   if(
@@ -130,24 +124,12 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
           let y_scale = d3.scaleLinear()
             .range([innerheight, 0])
             .domain([ yMin, yMax ]);
-                      // d3.min(datasets, function(d) { return d3.min(d.y); }),
-                      // d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
-
 
           let color_scale;
           if(!visColors) { 
             color_scale = d3.scaleOrdinal(d3.schemeCategory10)
             .domain(d3.range(datasets.length)) ;
           } 
-          // if(scaleType === 'diverging') {
-          //   const fillRange = (start, end) => {
-          //     return Array(end - start).fill().map((item, index) => start + index);
-          //   };
-          //   let domains = fillRange(1, colors.length);
-          //   color_scale = d3.scaleThreshold()
-          //     .range(visColors)
-          //     .domain(domains);
-          // }
           else {
             color_scale = () => { return visColors };
           }
@@ -203,7 +185,6 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
               .attr("transform", "translate(0," + innerheight + ")")
               .call(x_axis)
               .append("text")
-              // .attr("dy", "-.71em")
               .attr("dy", "2.5em")
               .attr("x", (innerwidth/2))
               .style("text-anchor", "middle")
@@ -214,7 +195,6 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
               .call(y_axis)
               .append("text")
               .attr("transform", "rotate(-90)")
-              // .attr("y", 6)
               .attr("dy", "-2.25em")
               .attr('x', (-innerheight/2))
               .style("text-anchor", "middle")
@@ -234,23 +214,10 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
               .attr("class", "x axis")
               .attr("transform", "translate(0," + innerheight + ")")
               .call(x_axis)
-              // .append("text")
-              // .attr("dy", "-.71em")
-              // .attr("dy", "2.75em")
-              // .attr("x", (innerwidth/2))
-              // .style("text-anchor", "middle")
-              // .text(xlabel) ;
 
             svg.append("g")
               .attr("class", "y axis")
               .call(y_axis)
-              // .append("text")
-              // .attr("transform", "rotate(-90)")
-              // .attr("y", 6)
-              // .attr("dy", "-2em")
-              // .attr('x', (-innerheight/2))
-              // .style("text-anchor", "middle")
-              // .text(ylabel) ;
           }
 
 
@@ -308,8 +275,6 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
 function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleType) {
   let chartWidth, chartHeight;
   const windowWidth = window.innerWidth;
-
-  // let adjustedWidth = smallestWidth / 2 - 16;
   
   let adjustedWidth, adjustedHeight;
   const maxWidth = 800;
@@ -326,17 +291,12 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
 
     chartWidth = adjustedWidth;
     adjustedHeight = (windowHeight - 332) / 3;
-    // chartHeight = (adjustedHeight < 170) ? 170 : adjustedHeight;
     chartHeight = 196;
   } else {
-    // let adjustedWidth = windowWidth - (388 + 40);// subtract panel width and padding from measurement
-    // adjustedWidth = (adjustedWidth < maxWidth) ? adjustedWidth : maxWidth;
-    // let width = window.innerWidth - panelsOffset - 332;// subtract panel width and padding from measurement
     let newMaxWidth = 600;
     let adjustedWidth = windowWidth - 320 - panelsOffset - 48;// subtract panel width and padding from measurement
     let newAdjustedWidth = (adjustedWidth < newMaxWidth) ? adjustedWidth : newMaxWidth;
 
-    // adjustedWidth = (width < maxWidth) ? width : maxWidth;
     adjustedHeight = (window.innerHeight / 3) - 80;// subtract heading, tabs height and padding from measurement
     
     chartWidth = newAdjustedWidth;
@@ -394,9 +354,7 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
         let y_scale = d3.scaleLinear()
           .range([innerheight, 0])
           .domain([ yMin, yMax ]);
-                    // d3.min(datasets, function(d) { return d3.min(d.y); }),
-                    // d3.max(datasets, function(d) { return d3.max(d.y); }) ]) ;
-
+          
         let color_scale = colors
 
         let x_axis = d3.axisBottom(x_scale);

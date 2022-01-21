@@ -56,20 +56,6 @@ function cvdColors(colors) {
       colors = blinder.achromatopsia(colors);
       showToast();
     }
-    // TODO: Have simulations of various luminosity formulas
-    // to help illustrate the differences between them & achromatopsia
-    // else if (cvdMode == 'RelativeLuminance') {
-    //   colors = ;
-    //   showToast();
-    // }
-    // else if (cvdMode == 'APCALuminance') {
-    //   colors = ;
-    //   showToast();
-    // }
-    // else if (cvdMode == 'Lstar') {
-    //   colors = ;
-    //   showToast();
-    // }
     else {
       hideToast();
     }

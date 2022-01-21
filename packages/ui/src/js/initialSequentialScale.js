@@ -10,11 +10,9 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
-import * as d3 from './d3';
 import {
    convertColorValue,
    makePowScale,
-   removeDuplicates,
    round,
    findMatchingLuminosity,
    orderColorsByLuminosity
@@ -35,7 +33,6 @@ class SequentialScale {
     output
    }) {
     this._swatches = swatches,
-    // this._colorKeys = this._sortColorKeys(colorKeys);
     this._colorKeys = colorKeys;
     this._luminosities = this._getLuminosities();
     this._colorspace = colorspace;
@@ -44,12 +41,10 @@ class SequentialScale {
     this._distributeLightness = distributeLightness;
     this._output = output;
     this._colors = this._createColorScale();
-    // this._luminosities = this._getColorLuminosities();
     this._domains = this._getDomains();
   }
 
   set colorKeys(colors) {
-    // this._colorKeys = this._sortColorKeys(colors);
     this._colorKeys = colors;
     this._colors = null;
     this._colorsReversed = null;
@@ -167,21 +162,6 @@ class SequentialScale {
     return lumsObj.map((c) => c.lum);
   }
 
-  // _sortColorKeys(colors) {
-  //   let lumsObj = colors.map((c) => {
-  //     return {
-  //       color: c,
-  //       lum: chroma(c).hsluv()[2]
-  //     }
-  //   });
-  //   lumsObj.sort((a, b) => (a.lum < b.lum) ? 1 : -1)
-  //   // keep the sorted luminosities
-  //   this._luminosities = lumsObj.map((c) => c.lum);
-
-  //   // return lumsObj.map((c) => c.color);
-  //   return orderColorsByLuminosity(colors, 'toLight')
-  // }
-
   _createColorScale() {
     if(this._colors) this._colors = null;
     if(this._colorsReversed) this._colorsReversed = null;
@@ -213,9 +193,6 @@ class SequentialScale {
 
     let newColors = findMatchingLuminosity(initialColorScale, generousColorLength, newLums, this._smooth);
 
-    // let filteredColors = newColors.filter(function(x) {
-    //   return x !== undefined;
-    // });
     newColors = [...new Set(newColors)]
     const lastColorIndex = newColors.length-1;
     // Manually ensure first and last user-input key colors

@@ -59,15 +59,15 @@ import ClipboardJS from 'clipboard';
 import TinyURL from 'tinyurl';
 
 // Import local Javascript functions
+import { 
+  _theme 
+} from './js/initialTheme';
 import {
   paramSetup,
 } from './js/params';
 import { 
   throttle
 } from './js/utils';
-import { 
-  _theme 
-} from './js/initialTheme';
 import {
   getThemeContrastRatios,
   getContrastRatioInputs
@@ -213,26 +213,12 @@ document.getElementById('chartsMode').value = 'CAM02p'
 
 document.getElementById("tabPanelColorScales").click();
 document.getElementById("tabJSParameters").click();
-// document.getElementById("tabHome").click();
-document.getElementById('tabJustifiedSwatches').click();
 document.getElementById("tabPalette").click();
 document.getElementById("welcome").click();
 document.getElementById("tabColorWheel").click();
-// document.getElementById("tabSubPanelContrastChart").click();
-
-// // Add event listener so that homepage CTA button initaites themes tab
-// document.getElementById('homeCTA').addEventListener('click', function() {
-//   document.getElementById('tabTheme').click();
-// })
 
 
 
 window.onload = function() {
-  // let uri = window.location.toString();
-  // let cleanURL = uri.substring(0, uri.indexOf("?"));
-
-  // window.history.replaceState({}, document.title, cleanURL);
-
-  // On window load, transition to remove page loader
   pageLoader();
 }

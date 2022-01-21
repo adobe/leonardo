@@ -1,3 +1,14 @@
+/*
+Copyright 2022 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import {_theme} from './initialTheme';
 import { themeUpdateParams } from './themeUpdate';
@@ -10,9 +21,7 @@ import {
   getClosestColorName,
   getRandomColorName
 } from './predefinedColorNames';
-import {baseScaleOptions} from './createBaseScaleOptions';
 import {
-  getColorDifference,
   groupCommonHues,
   removeElementsByClass
 } from './utils';
@@ -34,14 +43,9 @@ function addColorsFromImage() {
   const curFiles = input.files;
   if(curFiles.length === 0) {
     const para = document.createElement('p');
-    // para.textContent = 'No files currently selected for upload';
-    // preview.appendChild(para);
   } else {
-    // const list = document.createElement('ol');
-    // preview.appendChild(list);
 
     for(const file of curFiles) {
-      // const listItem = document.createElement('li');
       const para = document.createElement('p');
       para.className = 'spectrum-Body image-preview_text'
 
@@ -83,9 +87,6 @@ function addColorsFromImage() {
             // then, we need to call our own utility function to group
             // common hues to become key colors of the same color scale.
             let grouped = groupCommonHues(colors);
-  
-            // colors.forEach((color) => {console.color(color)})
-            // console.log(grouped)
   
             grouped.forEach((color) => {
               const existingColorNames = getAllColorNames();
@@ -140,16 +141,6 @@ const fileTypes = [
 
 function validFileType(file) {
 return fileTypes.includes(file.type);
-}
-
-function returnFileSize(number) {
-  if(number < 1024) {
-    return number + 'bytes';
-  } else if(number > 1024 && number < 1048576) {
-    return (number/1024).toFixed(1) + 'KB';
-  } else if(number > 1048576) {
-    return (number/1048576).toFixed(1) + 'MB';
-  }
 }
 
 window.addColorsFromImage = addColorsFromImage;

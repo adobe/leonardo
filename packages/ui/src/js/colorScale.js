@@ -13,20 +13,15 @@ import * as Leo from '@adobe/leonardo-contrast-colors';
 import {_theme} from './initialTheme';
 // import {updateParams} from './params';
 import {
-  getContrastRatioInputs,
-  getThemeData,
-  getThemeName,
-  getAllColorNames
+  getContrastRatioInputs
 } from './getThemeData';
 import {
-  randomId,
-  throttle
+  randomId
 } from './utils';
 import {
   themeUpdateParams,
   toggleControls
 } from './themeUpdate';
-import {updateColorDots} from './colorWheel';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {showColorDetails} from './colorDetailsPanel';
 import {themeRamp} from './ramps';
@@ -36,7 +31,6 @@ import {
 } from './predefinedColorNames';
 
 function addColorScaleUpdate(c, k, s, r) {
-  // if (!c) c = 'nameIsMissingSomewhere';
   addColorScale(c, k, s, r);
   themeUpdateParams();
 }
@@ -49,9 +43,6 @@ function addColorScale(newColor, addToTheme = true) {
   if(!newColor) {
     if(_theme.colors.length == 0) colorNameValue = 'Gray';
     else {
-      // First, filter out all existing used color names from available random names
-      // colorNameOptions = predefinedColorNames.filter(item => !existingColorNames.includes(item));
-      // colorNameValue = colorNameOptions[Math.floor(Math.random()*colorNameOptions.length)];
       colorNameValue = getRandomColorName()
     }
     let ratios = getContrastRatioInputs();
@@ -108,7 +99,6 @@ function addColorScale(newColor, addToTheme = true) {
   colorNameInput.name = thisId.concat('_colorName');
   colorNameInput.value = newColor.name;
 
-  // colorNameInput.onblur = throttle(themeUpdateParams, 10);
   colorNameInput.addEventListener('focus', (e) => {
     colorNameValue = e.target.value;
   })
@@ -121,13 +111,6 @@ function addColorScale(newColor, addToTheme = true) {
   });
   colorNameInputWrapper.appendChild(colorNameInput)
   colorName.appendChild(colorNameInputWrapper);
-
-  // Color scale type badge
-  // let scaleType = document.createElement('div');
-  // scaleType.className = 'spectrum-Badge spectrum-Badge--sizeS spectrum-Badge--neutral colorScaleType-badge';
-  // scaleType.id = thisId.concat('_scaleTypeBadge');
-  // scaleType.innerHTML = 'UI color'
-  // scaleType.title = 'UI colors are used to generate swatches'
 
   // Actions
   let actions = document.createElement('div');
@@ -142,7 +125,6 @@ function addColorScale(newColor, addToTheme = true) {
     <use xlink:href="#spectrum-icon-18-Edit" />
   </svg>`
   edit.addEventListener('click', showColorDetails);
-  // edit.addEventListener('click', openEditColorScale) // TODO => create openEditColorScale function to open colors tab w/ settings of this object.
   let deleteColor = document.createElement('button');
   deleteColor.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
   deleteColor.title = 'Delete color scale'
@@ -153,7 +135,6 @@ function addColorScale(newColor, addToTheme = true) {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  // actions.appendChild(scaleType);
   actions.appendChild(edit);
   actions.appendChild(deleteColor);
 
@@ -173,16 +154,13 @@ function addColorScale(newColor, addToTheme = true) {
   }
 
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', baseScaleOptions);
-  // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
 
-  // deleteColor.addEventListener('click', );
   deleteColor.addEventListener('click', function(e){ 
     themeDeleteItem(e);
     _theme.removeColor = newColor;
     
     themeUpdateParams();
   });
-  // console.log(_theme)
 }
 
 // Deletes a Color class from Theme
@@ -192,10 +170,6 @@ function themeDeleteItem(e) {
 
   self.remove();
   baseScaleOptions();
-  // toggleControls();
-
-  // themeUpdateParams();
-
   let items = document.getElementsByClassName('themeColor_item');
   if(items.length == 0) {
     clearParams();

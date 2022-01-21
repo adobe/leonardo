@@ -15,11 +15,9 @@ import {updateRamps} from './ramps';
 import {updateColorDots} from './colorWheel'
 import {
   themeUpdateParams,
-  themeUpdate
 } from './themeUpdate';
 import {throttle} from './utils';
 import {getColorClassById} from './getThemeData';
-import {showColorDetails} from './colorDetailsPanel';
 import {create3dModel} from './create3dModel';
 import {_theme} from './initialTheme';
 import {createDetailOutputColors} from './createOutputColors';
@@ -41,9 +39,6 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
   const chartsModeSelect = document.getElementById('chartsMode');
   const currentColor = _theme.colors[currentColorIndex]
 
-  // let currentColor = _theme.colors.filter(entry => {return entry.name === currentColorName});
-  // currentColor = currentColor[0];
-
   sw.oninput = (e) => {
     // Replace current indexed value from color keys with new value from color input field
     let currentKeys = currentColor.colorKeys;
@@ -57,7 +52,6 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     
     setTimeout(function() {
       updateColorDots(chartsModeSelect.value, 'colorScale', currentKeys, parent);
-      // updateColorDots(null, 'theme');
     }, 500);
   };
 
@@ -78,7 +72,6 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     <use xlink:href="#spectrum-icon-18-Delete" />
   </svg>`;
 
-  // button.addEventListener('click', deleteColor);
   button.addEventListener('click',  function(e) {
     // Remove current indexed value from color keys
     let currentColor = _theme.colors[currentColorIndex]
@@ -86,14 +79,8 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     currentKeys.splice(index, 1)
     _theme.updateColor = {color: currentColorName, colorKeys: currentKeys}
 
-    // var id = e.target.parentNode.id;
-
-    // var self = document.getElementById(id);
     updateRamps(currentColor, parent)
-    // updateColorDots(null, 'theme');
-    // updateColorDots(chartsModeSelect.value, 'colorScale', currentKeys, parent);
 
-    // self.remove();
     let contentArea = document.getElementById('colorDetails');
 
     let configPanel = document.getElementById('colorConfigPanel');
@@ -108,8 +95,6 @@ function addKeyColorInput(c, thisId = this.id, currentColorName, index) {
     trigger.click();
 
     createDetailOutputColors(currentColor.name)
-
-    // throttle(themeUpdateParams, 50)
   });
 
   div.appendChild(sw);
@@ -137,7 +122,6 @@ function addKeyColor(e) {
   let fCshadeHalf = lastColorLightness / 2;
   let c = ( lastColorLightness >= 50) ? d3.hsluv(lastColor.l, lastColor.u, fCshadeHalf) :  d3.hsluv(lastColor.l, lastColor.u, fCtintHalf);
   c = d3.rgb(c).formatHex();
-  // console.log(d3.rgb(lastColor).formatHex())
   currentKeys.push(c)
 
   // Update color class arguments via the theme class
@@ -152,7 +136,6 @@ function addKeyColor(e) {
 
 function deleteColor(e) {
   var id = e.target.parentNode.id;
-  // console.log(id)
   var self = document.getElementById(id);
 
   self.remove();

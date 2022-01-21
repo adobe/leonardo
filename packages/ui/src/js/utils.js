@@ -628,42 +628,6 @@ function alphaBlend(color1, color2) {
   return chroma(c3);
 }
 
-
-// function relativeLuminance(color) {
-//   const rgb = chroma(color).rgb();
-//   const r = rgb[0];
-//   const g = rgb[1];
-//   const b = rgb[2];
-
-//   const a = [r, g, b].map((v) => {
-//     v /= 255;
-//     return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-//   });
-//   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
-// }
-
-// function APCALuminance(color) {
-//   const rgb = chroma(color).rgb();
-//   const r = rgb[0];
-//   const g = rgb[1];
-//   const b = rgb[2];
-
-//   const a = [r, g, b].map((v) => {
-//     return Math.pow(v/255, 2.4);
-//   });
-//   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
-// }
-
-// function simulateRelativeLuminance(color) {
-
-// }
-// function simulateAPCALuminance(color) {
-
-// }
-// function simulateLstar(color) {
-
-// }
-
 function colorToGrayScale(color) {
   let c = chroma(color).lch()
   let newC = chroma.lch(c[0], 0, c[2])

@@ -35,11 +35,6 @@
                         <use xlink:href="#spectrum-icon-18-Add"></use>
                     </svg>
                   </button>
-                  <!-- <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" title="Add bulk key colors" id="{{ scaleType }}_addStartBulk">
-                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-                        <use xlink:href="#spectrum-icon-18-BoxAdd"></use>
-                    </svg>
-                  </button> -->
               </div>
               </div>
           </div>
@@ -66,11 +61,6 @@
                       <use xlink:href="#spectrum-icon-18-Add"></use>
                   </svg>
                 </button>
-                <!-- <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" title="Add bulk key colors" id="{{ scaleType }}_addEndBulk">
-                  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-                      <use xlink:href="#spectrum-icon-18-BoxAdd"></use>
-                  </svg>
-                </button> -->
             </div>
             </div>
         </div>
@@ -79,9 +69,6 @@
 
          <div class="spectrum-Panel-Item">
           <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Interpolation options</span>
-          <!-- <p class="spectrum-Body spectrum-Body--sizeXS" style="margin-bottom: 12px;">
-            Color scales intersect each of your key colors by a straight line in color space. Different color spaces will change the appearance of your scale.
-          </p> -->
           <div class="spectrum-Form spectrum-Form--row" id="{{ scaleType }}-themeColor_keyColors">
                <div class="spectrum-Form-item spectrum-Form-item--row">
                   <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color space</label>
@@ -196,9 +183,6 @@
 
       <div id="" class="spectrum-Content-Tabs spectrum-Content-Tabs--noPadding">
         <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
-          <!-- <div id="tab{{scaleType}}ColorWheel" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ColorWheelWrapper', `{{ scaleType }}`)">
-            <label class="spectrum-Tabs-itemLabel">Color wheel</label>
-          </div> -->
           <div id="tab{{scaleType}}Demo" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}DemoWrapper', `{{ scaleType }}`)">
             <label class="spectrum-Tabs-itemLabel">Visualize</label>
           </div>
@@ -214,43 +198,10 @@
         </div>
       </div>
 
-      <!-- <div id="{{ scaleType }}ColorWheelWrapper" class="{{scaleType}}TabsWrapper">
-          <div id="colorWheel--controlsWrapper">
-            <div id="{{ scaleType }}ColorWheel"></div>
-
-            <div class="spectrum-Form" id="chartsControls">
-              <div class="spectrum-Form-item">
-                <div id="{{ scaleType }}ColorWheelLightnessWrapper" class="spectrum-Slider">
-                  <div class="spectrum-Slider-labelContainer">
-                    <label class="spectrum-Slider-label" id="{{ scaleType }}ColorWheelLightnessLabel" for="{{ scaleType }}ColorWheelLightness">Color wheel lightness</label>
-                  </div>
-                  <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="50" id="{{ scaleType }}ColorWheelLightness" name="{{ scaleType }}ColorWheelLightness"></input>
-                </div>
-              </div>
-
-              <div class="spectrum-Form-item">
-                <label for="{{ scaleType }}ColorDotsMode" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color wheel display</label>
-                  <select class="spectrum-Picker spectrum-Picker--sizeM" name="{{ scaleType }}ColorDotsMode" id="{{ scaleType }}ColorDotsMode">
-                    <option value="colorScale">Color scales</option>
-                    <option value="colorKeys">All key colors</option>
-                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-                      <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-                    </svg>
-                  </select>
-              </div>
-
-            </div>
-          </div>
-      </div> -->
-
       <div id="{{scaleType}}DemoWrapper" class="spectrum-Body {{scaleType}}TabsWrapper demoVisualizationWrapper">
         <div class="demoVisualization--row">
           <div id="{{scaleType}}Heatmap" class="demoVisualization"></div>
           <div id="{{scaleType}}Scatter" class="demoVisualization"></div>  
-          <!-- <div id="{{scaleType}}Chord" class="demoVisualization"></div>   -->
-          <!-- <div id="{{scaleType}}Density" class="demoVisualization"></div>   -->
-          <!-- <div id="{{scaleType}}Hexbin" class="demoVisualization"></div>   -->
-          <!-- <div id="{{scaleType}}ViolinJitter" class="demoVisualization"></div>   -->
         </div>
         <div class="demoVisualization--row">
           <div id="{{scaleType}}Choropleth" class="demoVisualization demoVisualization--large"></div>

@@ -61,9 +61,7 @@ function createRatioChart(chartRatios, bool) {
     }
   ];
   let minRatio = Math.min(...chartRatios);
-  let maxRatio = Math.max(...chartRatios);
   let yMin = (minRatio < 1) ? minRatio: 1;
-  // let yMax = (maxRatio < 7) ? 7 : ((maxRatio < 12) ? 12 : 21);
   let yMax = 21;
   
   createChart(dataContrast, 'Contrast ratio', 'Swatches', "#contrastChart", yMin, yMax, true, undefined, undefined, bool);
@@ -88,8 +86,7 @@ function createLuminosityChart(chartLuminosities, bool) {
       y: chartLuminosities.map(function(d) {return parseFloat(d);}) // convert to number
     }
   ];
-  // let minLum = Math.min(...chartLuminosities);
-  // let maxLum = Math.max(...chartLuminosities);
+
   let yMin = 0;
   let yMax = 100;
   

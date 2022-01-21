@@ -8,8 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import * as Leo from '@adobe/leonardo-contrast-colors';
-import * as d3 from './d3';
+
 import {
   addScaleKeyColor,
   addScaleKeyColorInput
@@ -21,7 +20,6 @@ import {
 } from './ramps';
 import {_sequentialScale} from './initialSequentialScale';
 import {_divergingScale} from './initialDivergingScale';
-import {createInterpolationCharts} from './createInterpolationCharts';
 import {createPaletteInterpolationCharts} from './createPaletteCharts';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {downloadSVGgradient} from './createSVGgradient';
@@ -31,17 +29,9 @@ import {
   updateColorDots
 } from './colorWheel';
 import {create3dModel} from './create3dModel';
-import {
-  throttle
-} from './utils';
 import {createSamples} from './createSamples';
 import {createDemos} from './createDemos';
-import {
-  createSVGswatches,
-  downloadSwatches
-} from './createSVGswatches';
 import {createPanelReportTable} from './createPanelReportTable'
-
 
 const chroma = require('chroma-js');
 
@@ -84,13 +74,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
   // If class is preset to smooth, check the smooth switch in the UI
   if(colorClass.smooth === true) smooth.checked = true;
-  // if(colorKeys.length >= 3) {
-  //   smooth.disabled = false;
-  //   smoothWrapper.classList.remove('is-disabled')
-  // } else {
-  //   smooth.disabled = true;
-  //   smoothWrapper.classList.add('is-disabled')
-  // }
+
   interpolationMode.value = colorClass.colorspace;
 
   let gradientId = `${scaleType}_gradient`;
@@ -167,7 +151,6 @@ function colorScaleDiverging(scaleType = 'diverging') {
   interpolationMode.addEventListener('change', (e) => {
     let colorspace = e.target.value;
     colorClass.colorspace = colorspace;
-    // colors = colorClass.colors;
 
     updateRamps(colorClass, scaleType, scaleType);
     createSamples(sampleNumber.value, scaleType);
@@ -190,9 +173,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
   })
 
   downloadGradient.addEventListener('click', (e) => {
-    // const stopsInput = document.getElementById(`${scaleType}GradientStops`);
     const stops = 100;
-    // const originalSwatches = colorClass.swatches;
     colorClass.swatches = Number(stops);
     
     const gradientColors = colorClass.colors;

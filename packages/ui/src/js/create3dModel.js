@@ -16,7 +16,6 @@ import {
   filterNaN,
   convertToCartesian
 } from './utils'
-import { createHtmlElement } from './createHtmlElement';
 
 function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
   // Force colorClasses to be an array if it was erroneously passed
@@ -30,8 +29,6 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
       if (!images[i].classList.contains('is-hidden')) images[i].classList.add('is-hidden')
     }
   }
-
-
 
   var pointCount = 3142;
   var i, r;
@@ -125,7 +122,6 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
     displayModeBar: true,
     modeBarButtonsToRemove: [
       'orbitRotation',
-      // 'resetCameraLastSave3d'
     ],
     displaylogo: false,
     responsive: true

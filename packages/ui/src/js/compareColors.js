@@ -21,17 +21,7 @@ import {createTable} from './createTable';
 
 const DeltaE = require('delta-e');
 
-function toObject(color) {
-  let arr = chroma(color).rgb();
-  return {
-    r: arr[0],
-    g: arr[1],
-    b: arr[2]
-  }
-}
-
 const minimumThreshold = 11;
-const secondaryThreshold = 20;
 
 function testCvd(color1, color2, mode) {
   let sim1 = (mode === 'normal vision') ? color1 : simulateCvd(color1, mode);
@@ -39,10 +29,6 @@ function testCvd(color1, color2, mode) {
 
   let deltaE = getDifference(sim1, sim2);
 
-  // If allowing a secondary threshold
-  // let result = (deltaE < minimumThreshold) ? 'Fail' : ((deltaE < secondaryThreshold) ? 'Safe' : 'Very safe'); 
-
-  // For only one threshold
   let result = (deltaE < minimumThreshold) ? 'Unsafe' : 'Safe'; 
 
   return {
@@ -66,11 +52,6 @@ function colorDifferenceReport(fg, bg) {
   for(let i=0; i<modes.length; i++) {
     let colorData = testCvd(fg, bg, modes[i]);
 
-    // If allowing a secondary threshold
-    // let badgeClass = (colorData.deltaE < minimumThreshold) ? 'negative' : ((colorData.deltaE < secondaryThreshold) ? 'neutral' : 'positive');
-    // let meterClass = (colorData.deltaE < minimumThreshold) ? 'is-negative' : ((colorData.deltaE < secondaryThreshold) ? 'is-notice' : 'is-positive');
-
-    // For only one threshold
     let badgeClass = (colorData.deltaE < minimumThreshold) ? 'negative' : 'positive';
     let meterClass = (colorData.deltaE < minimumThreshold) ? 'is-negative' : 'is-positive';
 
@@ -102,10 +83,6 @@ function colorDifferenceReport(fg, bg) {
   createTable(headers, rows, 'colorDifferenceReport')
 }
 
-function swapColors() {
-  // Swap input values
-  // Trigger 'oninput' event on inputs
-}
 
 function contrastReport(fg, bg, level) {
   // Get output targets
@@ -269,6 +246,5 @@ document.getElementById('compareColorTwoInput').addEventListener('input', compar
 document.getElementById('complianceLevel').addEventListener('change', levelSelect);
 
 module.exports = {
-  swapColors,
   compareColors
 }

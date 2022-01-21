@@ -9,7 +9,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from '@adobe/leonardo-contrast-colors';
 import {
   getColorClassByName,
   getColorClassById,
@@ -36,7 +35,6 @@ import {createInterpolationCharts} from './createInterpolationCharts';
 import {createRGBchannelChart} from './createRGBchannelChart';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {openDetailTab} from './tabs';
-import {themeDeleteItem} from './colorScale';
 import {createDetailOutputColors} from './createOutputColors';
 import {
   _theme, 
@@ -59,12 +57,10 @@ function showColorDetails(e, colorId) {
   let element = e.target.id;
   const chartsModeSelect = document.getElementById('chartsMode');
 
-  let button = document.getElementById(element);
   const id = (colorId) ? colorId : element.replace('-toggleConfig', '');
   let triggeredColorNameInputId = id.concat('_colorName');
   let triggeredColorNameInput = document.getElementById(triggeredColorNameInputId);
   let triggeredColorName = triggeredColorNameInput.value;
-  // let triggeredScaleType = document.getElementById(id.concat('_scaleTypeBadge')).innerHTML;
   const lineTypeSelect = document.getElementById('chartLineType');
   const lineType = lineTypeSelect.value;
 
@@ -72,7 +68,6 @@ function showColorDetails(e, colorId) {
 
   // Clear main container
   let contentArea = document.getElementById('colorDetails');
-  // contentArea.innerHTML = ' ';
   contentArea.style.display = 'flex';
   // Clear config panel, just to be safe
   let configPanel = document.getElementById('colorConfigPanel');
@@ -87,8 +82,6 @@ function showColorDetails(e, colorId) {
 
   // create unique ID for color object
   let thisId = id;
-  // generate color select objects:
-  // gradient, inputs, etc.
   let wrapper = contentArea;
 
   // Create back button
@@ -109,29 +102,11 @@ function showColorDetails(e, colorId) {
     themeUpdateParams()
   }
 
-  // let cancelButton = document.createElement('button');
-  // cancelButton.className = 'spectrum-Button spectrum-Button--sizeM spectrum-Button--primary spectrum-Button--quiet spectrum-ButtonGroup-item';
-  // cancelButton.title = 'Cancel'
-  // cancelButton.innerHTML = `Cancel`;
-  // cancelButton.onclick = () => {
-  //   contentArea.innerHTML = ' ';
-  //   contentArea.style.display = 'none';
-  //   configPanel.innerHTML = ' ';
-  //   configPanel.style.display = 'none';
-  //   panelOpen = false;
-  // }
-  // let backLabel = document.createElement('span')
-  // backLabel.className = 'spectrum-Heading spectrum-Heading--sizeXS panelBackButtonLabel';
-  // backLabel.innerHTML = 'Back to all colors';
-
   let headerButtonGroup = document.createElement('div');
   headerButtonGroup.className = 'spectrum-ButtonGroup';
 
   headerButtonGroup.appendChild(backButton);
-  // headerButtonGroup.appendChild(cancelButton);
-
   panelHeader.appendChild(headerButtonGroup);
-  // panelHeader.appendChild(backLabel);
 
   // Create gradient
   let gradient = document.createElement('div');
@@ -259,9 +234,6 @@ function showColorDetails(e, colorId) {
   interpLabel.className = 'spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left';
   interpLabel.for = thisId.concat('_mode');
   let interpLabelText = 'Color space';
-  // let interpDropdown = document.createElement('div');
-  // interpDropdown.className = 'spectrum-Picker spectrum-Picker--sizeM';
-  // interpDropdown.id = thisId.concat('_modeDropdown');
   let interpSelect = document.createElement('select');
   interpSelect.className = 'spectrum-Picker spectrum-Picker--sizeM pickerMode';
   interpSelect.id = thisId.concat('_mode');
@@ -283,7 +255,6 @@ function showColorDetails(e, colorId) {
   </svg>`;
 
   interpLabel.innerHTML = interpLabelText;
-  // interpDropdown.appendChild(interpSelect);
   interpSelect.appendChild(interpDropdownIcon);
   interp.appendChild(interpLabel);
   interp.appendChild(interpSelect);
@@ -318,7 +289,6 @@ function showColorDetails(e, colorId) {
   smoothInput.oninput = throttle(themeUpdateParams, 20);
   smoothInput.addEventListener('input', (e) => {
     const checked = e.target.checked;
-    // const boolean = checked.toString();
     const boolean = (checked) ? true : 'false';
     _theme.updateColor = {color: colorData.name, smooth: boolean}
 
@@ -331,9 +301,7 @@ function showColorDetails(e, colorId) {
     updateRamps(colorData2, thisId);
     updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
     create3dModel('tabModelContent', colorData2, chartsModeSelect.value);
-    createDetailOutputColors(colorData2.name)
-    // createRGBchannelChart(colors);
-    // createInterpolationCharts(colors, chartsMode)  
+    createDetailOutputColors(colorData2.name) 
   })
   let smoothSwitch = document.createElement('span');
   smoothSwitch.className = 'spectrum-Switch-switch';
@@ -351,26 +319,6 @@ function showColorDetails(e, colorId) {
   interpDetails.className = 'spectrum-Body spectrum-Body--sizeXS';
   interpDetails.style.marginBottom = '12px';
   interpDetails.innerHTML = 'Color scales intersect each of your key colors by a straight line in color space. Different color spaces will change the appearance of your scale.'
-
-  // // Create output panel item
-  // let panelOutput = document.createElement('div');
-  // panelOutput.className = 'spectrum-Panel-Item';
-  // let panelOutputLabel = document.createElement('span')
-  // panelOutputLabel.className = 'spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title';
-  // panelOutputLabel.innerHTML = 'Color scale values';
-  // let panelOutputContent = document.createElement('div');
-  // panelOutputContent.className = 'themeOutputParams';
-  // panelOutputContent.id = 'panelColorScaleOutput';
-  // // let abbreviatedColors = [];
-  // // colorData.backgroundColorScale.map((c, i) => {
-  // //   if(Number.isInteger(i/10)) abbreviatedColors.push(c)
-  // // })
-  // const abbreviatedColorsString = colorData.backgroundColorScale.toString().replaceAll(',', ', ');
-  // panelOutputContent.innerHTML = abbreviatedColorsString;
-
-  // panelOutput.appendChild(panelOutputLabel);
-  // panelOutput.appendChild(panelOutputContent);
-
 
   let downloadGradient = document.createElement('button');
   downloadGradient.className = 'spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet';
@@ -426,16 +374,7 @@ function showColorDetails(e, colorId) {
 
   let deletePanel = document.createElement('div');
   deletePanel.className = 'spectrum-Panel-Item spectrum-ButtonGroup';
-  // deleteColor.innerHTML = `
-  // <!-- <span class="spectrum-ActionButton-label">Add Color</span> -->
-  // <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
-  //   <use xlink:href="#spectrum-icon-18-Delete" />
-  // </svg>`;
-
-  // deletePanel.appendChild(backButton);
-  // deletePanel.appendChild(downloadGradient)
   deletePanel.appendChild(deleteColor);
-
   colorName.appendChild(actions);
 
   /**
@@ -574,39 +513,6 @@ function showColorDetails(e, colorId) {
 
   tabContent2.appendChild(chartsGrid);
 
-  // Chart colorspace preview picker
-  // let chartsMode = document.createElement('div');
-  // chartsMode.className = 'spectrum-Form-item spectrum-Form-item--row';
-  // let chartsModeLabel = document.createElement('label');
-  // chartsModeLabel.className = 'spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left';
-  // chartsModeLabel.for = 'chartsMode';
-  // let chartsModeLabelText = 'Charts mode';
-  // let chartsModeSelect = document.createElement('select');
-  // chartsModeSelect.className = 'spectrum-Picker spectrum-Picker--sizeM pickerMode';
-  // chartsModeSelect.id = 'chartsMode';
-  // chartsModeSelect.name = 'chartsMode';
-  // // chartsModeSelect.oninput = throttle(themeUpdateParams, 20);
-
-  // let chartsModeDropdownIcon = document.createElement('span');
-  // chartsModeDropdownIcon.className = 'spectrum-Picker-iconWrapper';
-  // chartsModeDropdownIcon.innerHTML = `
-  // <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-  //   <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-  // </svg>`;
-
-  // chartsModeLabel.innerHTML = chartsModeLabelText;
-  // // chartsModeDropdown.appendChild(chartsModeSelect);
-  // chartsModeSelect.appendChild(chartsModeDropdownIcon);
-  // chartsMode.appendChild(chartsModeLabel);
-  // chartsMode.appendChild(chartsModeSelect);
-
-  // // Interpolation options
-  // chartsModeSelect.options.length = 0;
-
-  // for(let index in opts) { chartsModeSelect.options[chartsModeSelect.options.length] = new Option(opts[index], index); }
-  // chartsModeSelect.value = 'CAM02p';
-
-    
   // Put the tabs together
   tabItem1.appendChild(tabItem1Label);
   tabItem2.appendChild(tabItem2Label);
@@ -615,7 +521,6 @@ function showColorDetails(e, colorId) {
   tabs.appendChild(tabItem2);
   tabs.appendChild(tabItem3);
   tabsWrapper.appendChild(tabs);
-  // tabsWrapper.appendChild(chartsMode);
 
   // Put it all together
   inputs.appendChild(keyColors);
@@ -625,7 +530,6 @@ function showColorDetails(e, colorId) {
   interpInputs.appendChild(smoothFormItem);
 
   configPanelItem.appendChild(colorName);
-  // configPanelItem.appendChild(scaleType);
   panelKeyColors.appendChild(inputs);
   panelInterpolationMode.appendChild(panelInterpTitle);
   panelInterpolationMode.appendChild(interpDetails);
@@ -636,14 +540,11 @@ function showColorDetails(e, colorId) {
   configPanelTopWrapper.appendChild(panelKeyColors);
   configPanelTopWrapper.appendChild(panelInterpolationMode);
   configPanelTopWrapper.appendChild(panelExport);
-  // configPanelTopWrapper.appendChild(panelOutput);
   configPanel.appendChild(configPanelTopWrapper);
 
 
-  // bottomPanel.appendChild(colorWheelPanel);
   bottomPanel.appendChild(deletePanel);
   configPanel.appendChild(bottomPanel);
-  // configPanel.appendChild(deletePanel);
 
   // Content area needs to be appended with items
   wrapper.appendChild(title);
@@ -736,19 +637,11 @@ function showColorDetails(e, colorId) {
   document.getElementById(thisId.concat('_colorName')).addEventListener('input', function(e) {
 
   });
-  // document.getElementById(thisId.concat('_delete')).addEventListener('click', themeDeleteItem);
-  // document.getElementById('tabChartContent').click();
   document.getElementById('tabInterpCharts').addEventListener('click', (e) => {openDetailTab(e, 'tabInterpChartsContent')});
   document.getElementById('tabLightness').addEventListener('click', (e) => {openDetailTab(e, 'tabLightnessContent')});
   document.getElementById('tabModel').addEventListener('click', (e) => {openDetailTab(e, 'tabModelContent', colors)});
   document.getElementById('tabInterpCharts').click();
 
-  // deleteColor.addEventListener('click', themeDeleteItem);
-  // deleteColor.addEventListener('click', function(){ 
-  //   const thisColorId = id;
-  //   let colorData = getColorClassById(thisColorId);
-  //   return _theme.removeColor = colorData;
-  // });
   deleteColor.addEventListener('click', function(e){ 
     const thisColorId = id;
     // let colorData = getColorClassById(thisColorId);
@@ -764,14 +657,10 @@ function showColorDetails(e, colorId) {
     configPanel.innerHTML = ' ';
     configPanel.style.display = 'none';
     panelOpen = false;
-    // themeUpdateParams()
-
   });
-  // console.log(_theme)
 
   detailLineType.addEventListener('change', (e) => {
     let val = e.target.value;
-    let isStep = (val === 'step') ? true : false;
     lineTypeSelect.value = val;
 
     lineTypeSelect.dispatchEvent(new Event("change"));

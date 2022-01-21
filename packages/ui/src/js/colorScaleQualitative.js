@@ -52,7 +52,6 @@ window._qualitativeScale = _qualitativeScale;
 function colorScaleQualitative(scaleType = 'qualitative') {
   const testColors = _qualitativeScale.sampleColors;
   testColorsInput.value = _qualitativeScale.sampleColors;
-  // backgroundInput.value = '#ffffff';
   
   showColors(testColors, 'originalColors', true)
   createColorWheel(chartsModeSelect.value, 50, scaleType);
@@ -64,7 +63,6 @@ function colorScaleQualitative(scaleType = 'qualitative') {
 chartsModeSelect.addEventListener('change', () => {
   if(newSafeColors) {
     updateColorWheel(chartsModeSelect.value, 50, null, chartsModeSelect.value, 'qualitative', _qualitativeScale.keeperColors)
-    // updateColorDots(chartsModeSelect.value, 'qualitative', newSafeColors);
   }
 })
 
@@ -75,9 +73,7 @@ function updateColors() {
   const testColors = _qualitativeScale.sampleColors
 
   document.getElementById('cvdSafeColors').innerHTML = ' ';
-  // newSafeColors = getLargestSetCvdColors(testColors);
 
-  // TEMPORARY
   newSafeColors = getCvdSafeColors(testColors);
 
   showColors(newSafeColors, 'cvdSafeColors');
@@ -138,10 +134,6 @@ backgroundInput.addEventListener('input', function(e) {
     wrapper.classList.remove('spectrum--darkest');
     wrapper.classList.add('spectrum--light')
   }
-
-  // TODO
-  // let level = document.getElementById(`scales_complianceLevel`).value;
-  // createPanelReportTable([color1, color2], value, scaleType, level)
 })
 
 function updateColorsIfContrast() {
@@ -206,12 +198,10 @@ function getModes() {
 
 function createOutput() {
   const scaleType = 'qualitative';
-  // const outputFormatPicker = document.getElementById(`${scaleType}_format`);
-  // const output = outputFormatPicker.value;
+
   const output = _qualitativeScale.output;
   const quoteSwitch = document.getElementById(`${scaleType}paramStringQuotes`);
   const quotes = quoteSwitch.checked;
-  // const colorFunction = colorClass.colorFunction;
   // reassign new swatch value
   const panelOutputContent = document.getElementById(`${scaleType}ColorScaleOutput`);
   panelOutputContent.innerHTML = ' ';
@@ -240,42 +230,6 @@ outputModeSelect.addEventListener('change', (e) => {
 })
 quoteSwitch.addEventListener('change', createOutput)
 
-/** 
- *  Not confident in Chroma.js deltaE function.
- *  Docs reference 1984 formula with 'adaptation'
- *  and link to internet archived content.
- * 
- *  Delta-E npmjs package has 2000 formula update
- *  of deltaE, along with 1976 and 1994 formulas.
- *  Docs include more links to research and details
- *  than Chroma.js, leading me to have more confidence
- *  in this package.
- * 
- *  Note: test differences in deltaE between these 
- *  packages with the following items:
- * 
- *  var color1 = {L: 36, A: 60, B: 41};
- *  var color2 = {L: 89, A: 0, B: 76}; 
- *  console.log(DeltaE.getDeltaE00(color1, color2));
- *  returns 61.16740074680422
- * 
- *  compared to :
- *  var color1 = chroma.lab(36, 60, 41);
- *  var color2 = chroma.lab(89, 0, 76);
- *  console.log(chroma.deltaE(color1, color2));
- *  returns 53.7220116450339
- * 
- *  Also, Chroma differs when passing RGB values to deltaE:
- *  var color1 = 'rgb(173, 2, 22)';
- *  var color2 = 'rgb(255, 222, 65)';
- *  console.log(chroma.deltaE(color1, color2));
- *  returns 76.046866524513779
- */
-
-
-// 
-// return `rgb(${sim.r}, ${sim.g}, ${sim.b})`;
-// console.log(simulateCvd('rgb(120, 50, 30)', 'protanopia'))
 
 /**
  *  Helper function to test two colors for all CVD
@@ -293,11 +247,9 @@ quoteSwitch.addEventListener('change', createOutput)
  */
 
 function testCvd(color1, color2, log) {
-  // const minimumThreshold = 11;
-  // Temporarily grab threshold from the UI
+  //  grab threshold from the UI
   let minimumThreshold = Number(rangeInput.value);
 
-  // const modes = ['protanopia', 'deuteranopia', 'tritanopia', 'achromatopsia'];
   const modes = getModes();
   let result = true;
 
@@ -465,7 +417,6 @@ function showColors(arr, dest, panel = false) {
       swatch.className = (!panel) ? 'simulationSwatch' : 'panelSwatch';
       swatch.style.backgroundColor = color;
       swatch.style.color = (contrast < 4.5) ? '#ffffff' : '#000000';
-      // swatch.innerHTML = (!panel) ? `${color}` : ' ';
   
       if(dest === 'cvdSafeColors') {
         swatch.innerHTML = `${color}`;
@@ -524,8 +475,7 @@ function showColors(arr, dest, panel = false) {
 function showSimulatedColors(arr, sortBySimmilarity) {
   let wrap = document.getElementById('simulatedColors');
   wrap.innerHTML = ' ';
-  // loop through each CVD type
-  // let modes = ['protanopia', 'deuteranopia', 'tritanopia', 'achromatopsia'];
+
   let modes = getModes();
   modes.forEach((mode, index) => {
     let label = document.createElement('h3');
@@ -563,7 +513,6 @@ function showSimulatedColors(arr, sortBySimmilarity) {
     });
   })
 }
-// showSimulatedColors(safeColors, true);
 
 function arrayRemove(arr, values) { 
   const toRemove = new Set(values);
@@ -572,24 +521,6 @@ function arrayRemove(arr, values) {
     return !toRemove.has(value);
   });
 }
-
-// function shuffle(array) {
-//   let currentIndex = array.length,  randomIndex;
-
-//   // While there remain elements to shuffle...
-//   while (currentIndex != 0) {
-
-//     // Pick a remaining element...
-//     randomIndex = Math.floor(Math.random() * currentIndex);
-//     currentIndex--;
-
-//     // And swap it with the current element.
-//     [array[currentIndex], array[randomIndex]] = [
-//       array[randomIndex], array[currentIndex]];
-//   }
-
-//   return array;
-// }
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);

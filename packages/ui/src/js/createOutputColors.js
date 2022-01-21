@@ -1,7 +1,17 @@
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import d3 from './d3'
 import {_theme} from './initialTheme';
-import {cvdColors} from './cvdColors';
 import {
   round, 
   cssColorToRgb,
@@ -9,7 +19,6 @@ import {
 } from './utils';
 
 function createOutputColors(dest) {
-  let colorClasses = _theme.colors;
   if(dest) dest = document.getElementById(dest);
   
   let swatchesOutputs = document.getElementById('swatchesOutputs')
@@ -31,7 +40,6 @@ function createOutputColors(dest) {
   let themeColorArray = [];
 
   themeOutputs.style.backgroundColor = themeBackgroundColor;
-  // swatchesOutputs.style.backgroundColor = themeBackgroundColor;
   let destinations = (dest) ? [ dest ] : [ themeOutputs, swatchesOutputs ];
   // Iterate each color from theme except 1st object (background)
   destinations.map((dest) => {
@@ -73,8 +81,6 @@ function createOutputColors(dest) {
             colorForTransform = cssColorToRgb(originalValue);
           }
 
-          // transform original color based on preview mode
-          // let colorValue = cvdColors(colorForTransform);
           let colorValue = colorForTransform;
 
           if(dest === swatchesOutputs) colorValue = colorToGrayScale(colorForTransform);
@@ -143,10 +149,7 @@ function createOutputColors(dest) {
           colorForTransform = cssColorToRgb(originalValue);
         }
 
-        // transform original color based on preview mode
-        // let colorValue = cvdColors(colorForTransform);
         let colorValue = colorForTransform;
-        // let currentBackgroundColor = originalValue;
 
         let div = document.createElement('div');
         div.className = 'themeOutputSwatch';
@@ -171,10 +174,6 @@ function createOutputColors(dest) {
   let copyThemeColors = document.getElementById('copyThemeColors');
   copyThemeColors.setAttribute('data-clipboard-text', colorsForCopy);
 }
-
-// document.getElementById('cvdMode').addEventListener('change', () => {
-//   createOutputColors('swatchesOutputs')
-// })
 
 function createDetailOutputColors(colorName) {
   let swatchesOutputs = document.getElementById('detailSwatchesOutputs')
@@ -280,42 +279,6 @@ function createDetailOutputColors(colorName) {
     swatchWrapper.appendChild(div);
   }
   wrapper.appendChild(swatchWrapper);
-  // }
-  // else if (colorOutput.background && dest === themeOutputs) {
-  //   let p = document.createElement('p');
-  //   p.className = 'spectrum-Heading spectrum-Heading--sizeXXS  themeOutputItem--Heading';
-  //   p.innerHTML = 'Background color';
-  //   p.style.color = (backgroundLum > 50) ? '#000000' : '#ffffff';
-
-  //   wrapper.appendChild(p);
-
-  //   let originalValue = colorOutput.background; // output value of color
-  //   // set global variable value. Probably shouldn't do it this way.
-  //   let colorForTransform;
-  //   if(_theme.output === 'RGB' || _theme.output === 'HEX') {
-  //     colorForTransform = originalValue;
-  //   } else {
-  //     // First, make the color an RGB color
-  //     colorForTransform = cssColorToRgb(originalValue);
-  //   }
-
-  //   // transform original color based on preview mode
-  //   // let colorValue = cvdColors(colorForTransform);
-  //   let colorValue = colorForTransform;
-  //   // let currentBackgroundColor = originalValue;
-
-  //   let div = document.createElement('div');
-  //   div.className = 'themeOutputSwatch';
-  //   div.setAttribute('tabindex', '0');
-  //   div.setAttribute('data-clipboard-text', originalValue);
-  //   div.style.backgroundColor = colorValue;
-  //   div.style.borderColor = (backgroundLum > 50) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
-
-  //   swatchWrapper.appendChild(div);
-  //   wrapper.appendChild(swatchWrapper);
-
-  //   themeColorArray.push(originalValue);
-  // }
 
   dest.appendChild(wrapper);
 }

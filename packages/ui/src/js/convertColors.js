@@ -9,13 +9,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from '@adobe/leonardo-contrast-colors';
 import {
-  round,
-  simulateCvd,
-  getDifference,
-  capitalizeFirstLetter,
-  alphaBlend
+  round
 } from './utils';
 import {createTable} from './createTable';
 
@@ -44,11 +39,7 @@ function convertColor(e) {
       
       // Create table with all conversions
       let headers = ['Color space', 'Channels', 'String format']
-      let rows = [
-        // ['Regular text (24px / 19px bold and below)', `<span class="spectrum-Badge spectrum-Badge--sizeS spectrum-Badge--${smallTextClass}">${smallTextStatus}</span>`, WCAGmins[0]],
-        // ['Large text (24px / 19px bold and above)', `<span class="spectrum-Badge spectrum-Badge--sizeS spectrum-Badge--${largeTextClass}">${largeTextStatus}</span>`, WCAGmins[1]],
-        // ['UI Components & graphics', `<span class="spectrum-Badge spectrum-Badge--sizeS spectrum-Badge--${uiClass}">${uiStatus}</span>`, WCAGmins[2]],
-      ];
+      let rows = [];
       let colorSpaces = [
         'HEX', 'RGB', 'HSL', "HSV", 'LAB', 'LCH', 'HSLuv', 'CAM02', 'CAM02p', 'CMYK', 'XYZ', 'Pantone'
       ]
@@ -110,8 +101,8 @@ function convertColor(e) {
 
         let rowItem = [
           `${colorSpaces[i]}`,       // Name
-          `${channelsOutput}`,   // Channels
-          `${colorString}`         // String
+          `${channelsOutput}`,       // Channels
+          `${colorString}`           // String
         ]
 
         rows.push(rowItem);

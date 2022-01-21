@@ -135,8 +135,6 @@ function replaceScaleKeyInputsFromClass(id, scaleType, index, scalePosition) {
   let smooth = document.getElementById(`${scaleType}_smooth`);
 
   let parentId = id.replace('_addKeyColor', '');
-  // let inputs = document.getElementsByClassName(`keyColor-${scaleType}`);
-  // removeElementsByClass(`keyColor-${scaleType}`)
 
   let currentColor, colorKeys;
   if (scaleType === 'sequential') {
@@ -181,9 +179,6 @@ function replaceScaleKeyInputsFromClass(id, scaleType, index, scalePosition) {
     currentColor.smooth = false;
   }
 
-  // colorKeys.forEach((key, i) => {
-  //   addScaleKeyColorInput(key, id, scaleType, i)
-  // })
   if(scaleType === 'sequential') {
     currentColor.colorKeys.forEach((key, i) => {
       addScaleKeyColorInput(key, id, scaleType, i, scalePosition)
@@ -202,7 +197,7 @@ function replaceScaleKeyInputsFromClass(id, scaleType, index, scalePosition) {
   }
   // Update gradient
   updateRamps(currentColor, parentId, scaleType);
-  // updateColorDots();
+
   let targetClass, buttons;
   if(scaleType === 'diverging') {
     targetClass = `removeKeyColor-${scaleType}-${scalePosition}`;
@@ -251,7 +246,6 @@ function addScaleKeyColor(scaleType, e, position) {
 
   let c = ( lastColorLightness >= 50) ? chroma.hsluv(lastColor[0], lastColor[1], fCshadeHalf) : chroma.hsluv(lastColor[0], lastColor[1], fCtintHalf);
   c = c.hex();
-  // console.log(d3.rgb(lastColor).formatHex())
   currentKeys.push(c)
 
   // Update color class arguments via the theme class
@@ -293,7 +287,6 @@ function addScaleKeyColor(scaleType, e, position) {
 
   // Update gradient
   updateRamps(currentColor, parentId, scaleType);
-  // updateColorDots();
 
   if(currentKeys.length >= 3) {
     smooth.disabled = false;
@@ -314,7 +307,6 @@ function clearAllColors(e) {
   _theme.updateColor = {color: color.name, colorKeys: ['#000000']}
 
   updateRamps();
-  // themeUpdate();
 }
 
 window.clearAllColors = clearAllColors;
