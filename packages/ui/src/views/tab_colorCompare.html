@@ -19,7 +19,10 @@
           <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
             <input type='text' class="spectrum-Textfield-input" id="compareColorOneInput" placeholder="Enter color" value="#7AC600" aria-labelledby="compareColorOneInput"/>
           </div>
-          <div class="swatch--large" id="compareColorOne_swatch"></div>
+          <div style="position: relative;">
+            <input type="color" class="swatch--large" id="compareColorOne_picker"/>
+            <div class="swatch--large" id="compareColorOne_swatch"></div>            
+          </div>
 
           <div id="alphaSlider" class="spectrum-ColorSlider">
             <div class="spectrum-ColorSlider-checkerboard" role="presentation">
@@ -42,7 +45,10 @@
           <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
             <input type='text' class="spectrum-Textfield-input" id="compareColorTwoInput" placeholder="Enter color" value="#0E55A8" aria-labelledby="compareColorTwoInput"/>
           </div>
-          <div class="swatch--large" id="compareColorTwo_swatch"></div>
+          <div style="position: relative;">
+            <input type="color" class="swatch--large" id="compareColorTwo_picker"/>
+            <div class="swatch--large" id="compareColorTwo_swatch"></div>
+          </div>
         </div>
   
       </div>

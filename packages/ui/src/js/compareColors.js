@@ -152,6 +152,7 @@ function compareColors(e) {
     // Identify which input is triggered
     let id = e.target.id;
     let swatchId = id.replace('Input', '_swatch');
+    let pickerId = id.replace('Input', '_picker');
     let value = e.target.value;
 
     // If it's a valid color input, do this stuff...
@@ -160,7 +161,9 @@ function compareColors(e) {
       
       // Colorize the big swatch
       let swatch = document.getElementById(swatchId);
+      let picker = document.getElementById(pickerId);
       swatch.style.backgroundColor = chroma(color).hex();
+      picker.value = chroma(color).hex();
 
       // Maybe do some stuffs... then,
       let fg = (id.includes('One')) ? color : chroma(document.getElementById('compareColorOneInput').value);
@@ -175,6 +178,18 @@ function compareColors(e) {
       colorDifferenceReport(fg, bg);
     }
   } 
+}
+
+function colorPickerInput(e) {
+  if(e !== undefined) {
+    let id = e.target.id;
+    let inputId = id.replace('_picker', 'Input');
+    let value = e.target.value;
+    let color = chroma(value);
+    let input = document.getElementById(inputId);
+    input.value = chroma(color).hex();
+    input.dispatchEvent(new Event("input"));
+  }
 }
 
 function sliderRangeInteraction(value) {
@@ -239,10 +254,13 @@ function alphaGradient(color) {
 window.sliderRangeInteraction = sliderRangeInteraction;
 
 window.compareColors = compareColors;
+window.colorPickerInput = colorPickerInput;
 window.levelSelect = levelSelect;
 
 document.getElementById('compareColorOneInput').addEventListener('input', compareColors);
 document.getElementById('compareColorTwoInput').addEventListener('input', compareColors);
+document.getElementById('compareColorOne_picker').addEventListener('input', colorPickerInput);
+document.getElementById('compareColorTwo_picker').addEventListener('input', colorPickerInput);
 document.getElementById('complianceLevel').addEventListener('change', levelSelect);
 
 module.exports = {

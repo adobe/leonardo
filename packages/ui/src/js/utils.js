@@ -10,6 +10,7 @@ governing permissions and limitations under the License.
 */
 import * as d3 from './d3';
 import {simulate} from '@bjornlu/colorblind';
+const blinder = require('color-blind');
 
 const chroma = require('chroma-js');
 const { extendChroma } = require('./chroma-plus');
@@ -563,12 +564,30 @@ function createEquiLuminantKey(middleKey, colorKeys) {
  *  console.log(simulateCvd('rgb(120, 50, 30)', 'protanopia'))
  *  returns {r: 62, g: 62, b: 30}
  */
- function simulateCvd(color, deficiency) {
+ function simulateCvd(color, deficiency, lib = 'color-blind') {
   if (!color) console.warn(`${color} is invalid`)
   let cRgb = chroma(color).rgb();
   let c = { r: cRgb[0], g: cRgb[1], b: cRgb[2] }
-  let sim = simulate(c, deficiency);
-  let simRgb = chroma.rgb(sim.r, sim.g, sim.b).hex();
+  let sim, simRgb;
+  /* Added conditions so that I can easily swap between CVD simulation
+   * libraries. This is helpful to see any discrepancies between
+   * the resulting simulation colors.
+   * 
+   * Note: color-blind library is closer in alignment with Sim Daltonism,
+   * color-blindness.com and other online simulators.
+   */
+  if(lib === 'bjornlu') {
+    sim = simulate(c, deficiency);
+    simRgb = chroma.rgb(sim.r, sim.g, sim.b).hex();
+  }
+  else if(lib === 'color-blind') {
+    if(deficiency === 'deuteranopia') sim = blinder.deuteranopia(color.hex())
+    if(deficiency === 'protanopia') sim = blinder.protanopia(color.hex())
+    if(deficiency === 'tritanopia') sim = blinder.tritanopia(color.hex())
+    if(deficiency === 'achromatopsia') sim = blinder.achromatopsia(color.hex())
+    simRgb = sim;
+  }
+  
   return simRgb
 }
 
