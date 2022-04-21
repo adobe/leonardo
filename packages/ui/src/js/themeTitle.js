@@ -10,16 +10,27 @@ governing permissions and limitations under the License.
 */
 
 let themeTitleInput = document.getElementById('themeNameInput');
-let themeTitle = document.getElementById('themeTitle');
+let themeTitleTextField = document.getElementById('themeNameTextfield')
+// let themeTitle = document.getElementById('themeTitle');
 
-function updateThemeTitle() {
-  themeTitle.innerHTML = ' ';
-  let title = themeTitleInput.value;
-  if(title) themeTitle.innerHTML = `${title} theme`;
-}
+// function updateThemeTitle() {
+//   themeTitle.innerHTML = ' ';
+//   let title = themeTitleInput.value;
+//   if(title) themeTitle.innerHTML = `${title} theme`;
+// }
 
-themeTitleInput.addEventListener('input', updateThemeTitle);
+// // themeTitleInput.addEventListener('input', updateThemeTitle);
 
-window.updateThemeTitle = updateThemeTitle;
+// window.updateThemeTitle = updateThemeTitle;
 
-module.exports = {updateThemeTitle};
+// module.exports = {updateThemeTitle};
+
+themeTitleInput.addEventListener('focus', () => {
+  themeTitleTextField.classList.remove('spectrum-Textfield--custom')
+  themeTitleInput.style.width = `200px`
+});
+themeTitleInput.addEventListener('blur', () => {
+  themeTitleTextField.classList.add('spectrum-Textfield--custom')
+  let characters = themeTitleInput.value.length
+  themeTitleInput.style.width = `${characters + 4}ch`
+});

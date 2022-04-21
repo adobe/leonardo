@@ -162,6 +162,10 @@ governing permissions and limitations under the License.
   overflow: auto;
 }
 
+.js-plotly-plot .plotly .user-select-none {
+  margin: 0 auto;
+}
+
 .chartsWrapper {
   flex-direction: column;
   padding-top: var(--spectrum-global-dimension-size-200);

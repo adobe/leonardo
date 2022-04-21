@@ -22,9 +22,151 @@
     </div>
   </div>
 
-  <div class="spectrum-Heading spectrum-Heading--XXS" id="themeTitle"></div>
+  <div class="spectrum-Form spectrum-Form--row">
+
+    <div class="spectrum-Form-item">
+      <div class="spectrum-Textfield spectrum-Textfield--custom" id="themeNameTextfield">
+        <input type='text' class="spectrum-Textfield-input" id="themeNameInput" value="Untitled"/>
+      </div>
+    </div>
+
+    <div class="spectrum-Form-item spectrum-Form-item--row">
+      <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background</label>
+      <select class="spectrum-Picker is-disabled" name="themeBase" id="themeBase" disabled>
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+          <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+        </svg>
+      </select>
+      <span>
+        
+        <!-- <button id="viewTip" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" onclick="toggleTooltip('BackgroundScaleTooltip')">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Info" />
+          </svg>
+          <span class="spectrum-ActionButton-label is-hidden">More information</span>
+        </button>
+        <span id="BackgroundScaleTooltip" class="spectrum-Tooltip spectrum-Tooltip--top">
+          <span class="spectrum-Tooltip-label">Choose one of your color scales to be used as the background.</span>
+          <span class="spectrum-Tooltip-tip"></span>
+        </span> -->
+
+      </span>
+    </div>
+  </div>
 
   <div class="spectrum-AppHeader_item spectrum-AppHeader_item--last">
+    <div class="spectrum-ActionGroup">
+      <button id="buttonAnalysisColorSpace" class="spectrum-ActionButton spectrum-ActionButton--quiet spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+        <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Edit">
+          <use xlink:href="#spectrum-icon-18-Beaker" />
+        </svg>
+      </button>
+      <button id="buttonAdaptiveControls" class="spectrum-ActionButton spectrum-ActionButton--quiet spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+        <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Copy">
+          <use xlink:href="#spectrum-icon-18-Contrast" />
+        </svg>
+      </button>
+
+      <button id="buttonShareOptions" class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta spectrum-ActionGroup-item">
+        <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Copy">
+          <use xlink:href="#spectrum-icon-18-Share" />
+        </svg>
+        <span class="spectrum-Button-label">Share</span>
+      </button>
+
+      <div id="popoverShareOptions" class="spectrum-Popover spectrum-Popover--paddedSmall">
+        <div class="spectrum-Form spectrum-Form--spaced">
+          <div class="spectrum-ActionGroup spectrum-ActionGroup--vertical spectrum-ActionGroup--LeftAligned">
+            <button tabindex="0" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet copyThemeURL">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+                <use xlink:href="#spectrum-icon-18-Link" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Copy theme URL</span>
+            </button> 
+            <button id="downloadThemeColorsSvg" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet">
+              <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
+                <use xlink:href="#spectrum-icon-18-Download" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Download SVG UI kit</span>
+            </button>  
+            <button id="copyThemeColors" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet copyButton">
+              <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Copy">
+                <use xlink:href="#spectrum-icon-18-Copy" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Copy color values</span>
+            </button>
+          </div>
+        </div>
+        <div class="spectrum-Form-item spectrum-Form-item--row">
+          <button id="closeShareOptions" class="spectrum-Button spectrum-Button--sizeM spectrum-Button--primary">Close</button>
+        </div>
+      </div>
+
+      <div id="popoverAnalysisColorSpace" class="spectrum-Popover spectrum-Popover--padded">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+            Analysis color space
+          </h3>
+        </div>
+        <div class="spectrum-Form spectrum-Form--spaced">
+          <div class="spectrum-Form-item spectrum-Form-item--row" style="display: inline-flex">
+            <select class="spectrum-Picker spectrum-Picker--sizeM" name="chartsMode" id="chartsMode" aria-labelledby="chartsModeHeading">
+              <option value="CAM02">CAM02</option>
+              <option value="CAM02p">CAM02 (Ch)</option>
+              <option value="LAB">Lab</option>
+              <option value="LCH">LCh</option>
+              <option value="HSL">HSL</option>
+              <option value="HSV">HSV</option>
+              <option value="HSLuv">HSLuv</option>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
+          </div>
+          <p class="spectrum-Body spectrum-Body--sizeXS">Charts and models will display in the selected color space. A <a href="https://en.wikipedia.org/wiki/List_of_color_spaces_and_their_uses#Uniform_color_spaces" target="_blank">uniform color space</a> is recommended.</p>
+
+          <div class="spectrum-Form-item spectrum-Form-item--row">
+            <button id="closeAnalysisColorSpace" class="spectrum-Button spectrum-Button--sizeM spectrum-Button--primary">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="popoverAdaptiveControls" class="spectrum-Popover spectrum-Popover--padded">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+            Adaptive theme controls
+          </h3>
+        </div>
+        <p class="spectrum-Body spectrum-Body--sizeXS">Modify your entire theme without compromising color relationships. Try making a <b>dark mode</b> theme.</p>
+        <div class="spectrum-Form-item">
+          <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Lightness</label>
+              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">100%</div>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" id="themeBrightnessSlider" name="themeBrightnessSlider" disabled></input>
+          </div>
+          <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
+              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">100%</div>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="0.25" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" disabled></input>
+          </div>
+          <div id="saturationSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+            <div class="spectrum-Slider-labelContainer">
+              <label class="spectrum-Slider-label" id="themeSaturationLabel" for="themeSaturationSlider">Saturation</label>
+              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeSaturationLabel" id="themeSaturationValue">100%</div>
+            </div>
+            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" step="1" id="themeSaturationSlider" name="themeSaturationSlider" disabled></input>
+          </div>
+        </div>
+        <div class="spectrum-Form-item spectrum-Form-item--row">
+          <button id="closeAdaptiveControls" class="spectrum-Button spectrum-Button--sizeM spectrum-Button--primary">Close</button>
+        </div>
+      </div>
+    </div>
+
     <include src="src/views/GithubLink.html"></include>
   </div>
 </header>

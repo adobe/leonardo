@@ -150,7 +150,7 @@ body,
   height: calc(100vh - var(--header-height));
   overflow: hidden;
   display: grid;
-  grid-template-columns: 304px auto;
+  grid-template-columns: 388px auto;
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -684,7 +684,7 @@ main {
   grid-area: main;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 56px);
+  height: calc(100vh - 56px);
   overflow: hidden;
 
   &#main_diverging,
@@ -1188,7 +1188,7 @@ a:focus {
 }
 
 .spectrum-Picker#themeBase {
-  width: 126px;
+  width: 84px;
 }
 
 [dir="ltr"] .spectrum-Picker {
@@ -1362,7 +1362,7 @@ a:focus {
   flex-direction: column;
   padding: var(--spectrum-global-dimension-size-200);
   position: absolute;
-  width: calc(100vw - 420px - 304px);
+  width: calc(100vw - 420px);
   align-items: center;
   height: 100%;
   background-color: var(--theme-background);

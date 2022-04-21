@@ -29,6 +29,7 @@ import '@spectrum-css/actiongroup/dist/index-vars.css';
 import '@spectrum-css/divider/dist/index-vars.css';
 import '@spectrum-css/fieldgroup/dist/index-vars.css';
 import '@spectrum-css/textfield/dist/index-vars.css';
+import '@spectrum-css/popover/dist/index-vars.css';
 import '@spectrum-css/picker/dist/index-vars.css';
 import '@spectrum-css/fieldlabel/dist/index-vars.css';
 import '@spectrum-css/checkbox/dist/index-vars.css';
@@ -130,6 +131,9 @@ import {pageLoader} from './js/pageLoader'
 import { format } from 'path';
 import { create3dModel } from './js/create3dModel';
 import {sortColorScales} from './js/sortColorScales';
+import {
+  togglePopover
+} from './js/popover';
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')
@@ -216,8 +220,6 @@ document.getElementById("tabJSParameters").click();
 document.getElementById("tabPalette").click();
 document.getElementById("welcome").click();
 document.getElementById("tabColorWheel").click();
-
-
 
 window.onload = function() {
   pageLoader();

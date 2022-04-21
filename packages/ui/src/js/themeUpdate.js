@@ -96,7 +96,7 @@ function toggleControls() {
 }
 
 // Update theme when theme name is changed
-document.getElementById('themeNameInput').addEventListener('input', throttle(themeUpdateParams, 50));
+document.getElementById('themeNameInput').addEventListener('change', throttle(themeUpdateParams, 50));
 // Update theme when base color selection is changed
 document.getElementById('themeBase').addEventListener('input', throttle(themeUpdateParams, 50));
 

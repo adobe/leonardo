@@ -36,8 +36,14 @@ function paramSetup() {
   let themeNameInput = document.getElementById('themeNameInput');
   if(params.has('name')) {
     themeNameInput.value = params.get('name').toString();
+    let characters = params.get('name').toString().length;
+    themeNameInput.style.width = `${characters + 4}ch`
+  } else {
+    themeNameInput.value = 'Untitled';
+    let characters = 'Untitled'.length;
+    themeNameInput.style.width = `${characters + 4}ch`
   }
-  updateThemeTitle();
+  // updateThemeTitle();
 
   if(params.has('config') && params.get('config') !== undefined) {
     let configParam = params.get('config');
