@@ -56,7 +56,7 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
   sw.type = "color";
   sw.value = c;
 
-  sw.oninput = throttle((e) => {
+  sw.addEventListener('input', throttle((e) => {
     // Replace current indexed value from color keys with new value from color input field
     c = e.target.value;
 
@@ -87,13 +87,12 @@ function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosit
     if( scaleType === 'sequential' || scaleType === 'diverging') {
       createPanelReportTable(null, null, scaleType);
     }
+  }, 10));
 
-    setTimeout(() => {
-      createDemos(scaleType);
-      create3dModel(`${scaleType}ModelWrapper`, [colorClass], chartsModeSelect.value, scaleType)
-    }, 100)
-
-  }, 10);
+  sw.addEventListener('input', throttle(() => {
+    createDemos(scaleType);
+    create3dModel(`${scaleType}ModelWrapper`, [currentColor], chartsModeSelect.value, scaleType)
+  }, 250));
 
 
   sw.className = 'keyColor-Item';

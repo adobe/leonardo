@@ -73,7 +73,8 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     dest === '#contrastChart' || 
     dest === '#luminosityChart' 
   ) {
-    chartHeight = 300;
+    if(windowHeight < 900) chartHeight = (windowHeight / 2) - 174;
+    else chartHeight = 300;
   }
   if(
     dest === '#detailContrastChart' ||
@@ -278,6 +279,7 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
   
   let adjustedWidth, adjustedHeight;
   const maxWidth = 800;
+  const minWidth = 200;
   const windowHeight = window.innerHeight;
 
   if(      
@@ -302,6 +304,10 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
     chartWidth = newAdjustedWidth;
     chartHeight = adjustedHeight;
   }
+
+  // Prevent negative values from being passed to the SVG attributes
+  // by setting a min width for hte charts.
+  if(chartWidth < minWidth) chartWidth = minWidth;
 
   let xy_chart = d3_xy_chart()
     .width(chartWidth)

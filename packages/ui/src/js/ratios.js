@@ -324,8 +324,8 @@ function syncRatioInputs(e) {
     luminosity = val;
 
     let currentSwatchColor = window.getComputedStyle(swatch).getPropertyValue('background-color');
-    let tempColorHsluv = d3.hsluv(currentSwatchColor);
-    swatchColor = d3.hsluv(tempColorHsluv.l, tempColorHsluv.u, val).formatHex();
+    let tempColorHsluv = d3.lch(currentSwatchColor);
+    swatchColor = d3.lch(val, tempColorHsluv.c, tempColorHsluv.h).formatHex();
 
     let bg = _theme.contrastColors[0].background;
     let fgArray = [d3.rgb(swatchColor).r, d3.rgb(swatchColor).g, d3.rgb(swatchColor).b]
@@ -355,10 +355,10 @@ function syncRatioInputs(e) {
       // Must calculate luminosity of respective contrast value 
 
       let tempColor = _theme.contrastColors[1].values[index].value;
-      luminosity = d3.hsluv(tempColor).v;
+      luminosity = d3.lch(tempColor).l;
       luminosityInput.value = round(luminosity, 2);
 
-      swatchColor = d3.hsluv(0, 0, luminosity).formatHex();
+      swatchColor = d3.lch(luminosity, 0, 0).formatHex();
     }
 
     swatch.style.backgroundColor = swatchColor;

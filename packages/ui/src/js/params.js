@@ -15,6 +15,10 @@ import {
   addRatioInputs,
   sortRatios
 } from './ratios';
+import {
+  getRandomColorName,
+  getClosestColorName
+} from './predefinedColorNames';
 import {baseScaleOptions} from './createBaseScaleOptions';
 import {round} from './utils';
 import {
@@ -68,6 +72,13 @@ function paramSetup() {
         })
 
         addColorScale(newColor);
+
+        // If the color scale name matches the base scale
+        // in the config, assign it to the theme's backgroundColor
+        // via the theme setter
+        if(colorName === baseScale) {
+          _theme.backgroundColor = newColor;
+        }
       })
 
       RATIOS = Promise.resolve([...colorScales[0].ratios]);
@@ -92,6 +103,7 @@ function paramSetup() {
     baseScaleOptions();
     themeBase.value = baseScale;
 
+
     Promise.all([RATIOS, RATIOCOLORS]).then((values) => {
       addRatioInputs(values[0], values[1])
     }).then(() => {
@@ -109,7 +121,7 @@ function paramSetup() {
       (values) => {
         RATIOS = values[2]
         let newColor = new Leo.BackgroundColor({
-          name: 'RANDOM NAME!',
+          name: getClosestColorName(values[0][0]),
           colorKeys: values[0],
           colorspace: values[1],
           ratios: values[2],

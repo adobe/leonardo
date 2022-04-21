@@ -686,6 +686,11 @@ main {
   flex-direction: column;
   max-height: calc(100vh - 56px);
   overflow: hidden;
+
+  &#main_diverging,
+  &#main_sequential {
+    overflow: auto;
+  }
 }
 #contentTabWrapper {
   display: flex;
@@ -1800,7 +1805,7 @@ a:focus {
 }
 
 .paletteContrastChartsGrid {
-  width: 100%;
+  width: calc(100% - 32px);
   max-width: 800px;
   display: flex;
   flex-direction: column;

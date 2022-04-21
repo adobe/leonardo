@@ -122,7 +122,7 @@
   #swatchesOutputs .themeOutputColor,
   #detailSwatchesOutputs .themeOutputColor {
     display: inline-flex;
-    width: 100%;
+    width: calc(100% - 24px);
     flex-direction: row;
     flex-wrap: nowrap;
     flex-shrink: 0;

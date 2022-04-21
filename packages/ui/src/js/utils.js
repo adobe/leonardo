@@ -421,6 +421,24 @@ function orderColors(colors, priority1, priority2, random = false) {
   return orderedColors;
 }
 
+function shuffleArray(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 function createColorData(color, mode) {
   const f = getChannelsAndFunction(mode);
   const method = (d) => d3[f.func](d);
@@ -581,10 +599,10 @@ function createEquiLuminantKey(middleKey, colorKeys) {
     simRgb = chroma.rgb(sim.r, sim.g, sim.b).hex();
   }
   else if(lib === 'color-blind') {
-    if(deficiency === 'deuteranopia') sim = blinder.deuteranopia(color.hex())
-    if(deficiency === 'protanopia') sim = blinder.protanopia(color.hex())
-    if(deficiency === 'tritanopia') sim = blinder.tritanopia(color.hex())
-    if(deficiency === 'achromatopsia') sim = blinder.achromatopsia(color.hex())
+    if(deficiency === 'deuteranopia') sim = blinder.deuteranopia(chroma(color).hex())
+    if(deficiency === 'protanopia') sim = blinder.protanopia(chroma(color).hex())
+    if(deficiency === 'tritanopia') sim = blinder.tritanopia(chroma(color).hex())
+    if(deficiency === 'achromatopsia') sim = blinder.achromatopsia(chroma(color).hex())
     simRgb = sim;
   }
   
@@ -687,5 +705,6 @@ module.exports = {
   simulateCvd,
   getDifference,
   getChannelsAndFunction,
-  orderColorsByLuminosity
+  orderColorsByLuminosity,
+  shuffleArray
 }

@@ -16,7 +16,8 @@ import {
   capitalizeFirstLetter,
   cssColorToRgb,
   simulateCvd,
-  getDifference
+  getDifference,
+  shuffleArray
 } from './utils';
 import {
   createColorWheel,
@@ -74,13 +75,15 @@ function updateColors() {
 
   document.getElementById('cvdSafeColors').innerHTML = ' ';
 
-  newSafeColors = getCvdSafeColors(testColors);
+  const getSafeColors = Promise.resolve(getCvdSafeColors(testColors));
 
-  showColors(newSafeColors, 'cvdSafeColors');
-  showSimulatedColors(newSafeColors, true);
-  createDemos(scaleType, _qualitativeScale.keeperColors);
-
-  createOutput();
+  getSafeColors.then((newSafeColors) => {
+    showColors(newSafeColors, 'cvdSafeColors');
+    showSimulatedColors(newSafeColors, true);
+    createDemos(scaleType, _qualitativeScale.keeperColors);
+  
+    createOutput();
+  })
 }
 
 testColorsInput.addEventListener('input', throttle(inputUpdate, 10))
@@ -146,35 +149,52 @@ backgroundInput.addEventListener('input', throttle(updateColorsIfContrast, 100))
 button.addEventListener('click', function() {
   const scaleType = 'qualitative';
   document.getElementById('cvdSafeColors').innerHTML = ' ';
-  const testColors = _qualitativeScale.sampleColors;
+
+  const testColors = Promise.resolve(_qualitativeScale.sampleColors);
+  const getKeepers = Promise.resolve(_qualitativeScale.keeperColors);
 
   let valid = true;
-  _qualitativeScale.keeperColors.map((item) => {
-    if(item.length < 7) valid = false;
+  getKeepers.then((keepers) => {
+    keepers.map((item) => {
+      if(item.length < 7) valid = false;
+    })
   })
 
-  if(valid) {
-    newSafeColors = getLargestSetCvdColors(testColors, _qualitativeScale.keeperColors);
-    if(!newSafeColors && _qualitativeScale.keeperColors.length > 0) {
-      // If newSafeColors is undefined, and keeperColors are larger than one,
-      // this means we've found the only available combination of CVD safe colors.
-      // In this case, we want to show the keeper colors in the simulations. 
-      showColors(_qualitativeScale.keeperColors, 'cvdSafeColors');
-      showSimulatedColors(_qualitativeScale.keeperColors, true);  
-    } else {
-      // Otherwise, show the newSafeColors set, because it includes additional
-      // color options that can be added to the keeperColors set.
-      showColors(newSafeColors, 'cvdSafeColors');
-      showSimulatedColors(newSafeColors, true);  
-    }
-  } else {
-    newSafeColors = getLargestSetCvdColors(testColors);
-    showColors(newSafeColors, 'cvdSafeColors');
-    showSimulatedColors(newSafeColors, true);
-  }
-  updateColorDots(chartsModeSelect.value, scaleType, _qualitativeScale.keeperColors);
-  createDemos(scaleType, _qualitativeScale.keeperColors);
-  createOutput();
+  Promise.all([testColors, getKeepers]).then((resolve) => {
+    let testColors = resolve[0];
+    let keepers = resolve[1];
+
+    const getSafeColorSet = Promise.resolve(getLargestSetCvdColors(testColors, _qualitativeScale.keeperColors));
+    getSafeColorSet.then((newSafeColors) => {
+      if(valid) {
+        if (newSafeColors === undefined) newSafeColors = getLargestSetCvdColors(testColors, keepers);
+        if(!newSafeColors && keepers.length > 0) {
+          // If newSafeColors is undefined, and keeperColors are larger than one,
+          // this means we've found the only available combination of CVD safe colors.
+          // In this case, we want to show the keeper colors in the simulations. 
+  
+          showColors(keepers, 'cvdSafeColors');
+          showSimulatedColors(keepers, true);  
+        } else {
+          // Otherwise, show the newSafeColors set, because it includes additional
+          // color options that can be added to the keeperColors set.
+          console.log(newSafeColors)
+
+          showColors(newSafeColors, 'cvdSafeColors');
+  
+          showSimulatedColors(newSafeColors, true);  
+        }
+      } else {
+        showColors(newSafeColors, 'cvdSafeColors');
+        showSimulatedColors(newSafeColors, true);  
+      }
+  
+      updateColorDots(chartsModeSelect.value, scaleType, keepers);
+      createDemos(scaleType, keepers);
+      createOutput();
+    })
+  
+  })
 })
 
 function clearKeepers() {
@@ -274,12 +294,17 @@ function testCvd(color1, color2, log) {
  *  For each color, if it passes & then passes with all other colors, 
  *  put it in the safeColors array
  */
-function getCvdSafeColors(colors, sample) {
-  let set = orderColors(colors, 'hue', 'lightness');
+function getCvdSafeColors(colors, sample, random = false) {
+  let set;
+  if(random) { set = shuffleArray(colors);}
+  else {set = orderColors(colors, 'hue', 'lightness');}
   let ratios = minContrast.checked;
   let background = backgroundInput.value;
-
-  if(ratios) set = eliminateLowContrastFromSet(set, background, 3)
+  let complianceLevelPicker = document.getElementById('scales_complianceLevel');
+  let complianceLevel = complianceLevelPicker.value;
+  let contrastMinimum = (complianceLevel === 'AAA') ? 4.5 : 3;
+  // TODO: Compliance picker does not run updateColor
+  if(ratios) set = eliminateLowContrastFromSet(set, background, contrastMinimum)
   
   let safeColors = [];
   if(sample) {
@@ -472,45 +497,79 @@ function showColors(arr, dest, panel = false) {
   }
 }
 
-function showSimulatedColors(arr, sortBySimmilarity) {
+function showSimulatedColors(array, sortBySimmilarity) {
   let wrap = document.getElementById('simulatedColors');
   wrap.innerHTML = ' ';
+  let parentWrap = document.getElementById('qualitativeSimulationWrapper');
+  // parentWrap.innerHTML = ' ';
 
-  let modes = getModes();
-  modes.forEach((mode, index) => {
-    let label = document.createElement('h3');
-    label.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
-    label.innerHTML = `${capitalizeFirstLetter(mode)}`
-    wrap.appendChild(label);
-    let simColor = arr.map((color) => {return simulateCvd(color, mode)});
-    let originalIndicies = Array.from(Array(arr.length - 1).keys());
-    // if sort by similarity, order colors by hue
-    if(sortBySimmilarity) {
-      // for each color, convert to lch object
-      let colorsLch = simColor.map((color, i) => {
-        let lch = chroma(color).lch();
-        return {hue: lch[2], saturation: lch[1], lightness: lch[0], color, index: i}
-      })
-      if(mode === 'achromatopsia') colorsLch.sort((a, b) => (a.lightness > b.lightness) ? 1 : -1 )
-      // Sort by hue, then by saturation
-      else colorsLch.sort((a, b) => (a.hue > b.hue) ? 1 : (a.hue === b.hue) ? ((a.saturation > b.saturation) ? 1 : -1) : -1 )
-      // Redefine simColor with sorted colors
-      simColor = colorsLch.map((object) => {return object.color});
-      // Redefine original indicies so we can properly map original
-      // color value to the newly sorted simultated colors
-      originalIndicies = colorsLch.map((object) => {return object.index});
-    }
-    simColor.map((color, index) => { 
-      let swatch = document.createElement('div');
-      swatch.className = 'simulationSwatch';
-      swatch.style.backgroundColor = color;
-      let tinySwatch = document.createElement('div');
-      tinySwatch.className = 'tinySwatch';
-      tinySwatch.style.backgroundColor = arr[originalIndicies[index]];
-      swatch.appendChild(tinySwatch);
-      // swatch.innerHTML = arr[originalIndicies[index]]
-      wrap.appendChild(swatch);
-    });
+  const getAllModes = Promise.resolve(getModes());
+  const arr = Promise.resolve(array);
+
+  Promise.all([getAllModes, arr]).then((resolve) => {
+    let modes = resolve[0];
+    let arr = resolve[1];
+    modes.forEach((mode, index) => {
+      // if arr is an array, that means colors have been passed.
+      // showSimulatedColors should display all colors in their respective simulations
+      if(Array.isArray(arr)) {
+        const simArray = Promise.resolve(arr.map((color) => {return simulateCvd(color, mode)}));
+      
+        simArray.then((simColor) => {
+          let label = document.createElement('h3');
+          label.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
+          label.innerHTML = `${capitalizeFirstLetter(mode)}`
+          wrap.appendChild(label);
+  
+          let originalIndicies = Array.from(Array(arr.length - 1).keys());
+          // if sort by similarity, order colors by hue
+          if(sortBySimmilarity) {
+            // for each color, convert to lch object
+            let colorsLch = simColor.map((color, i) => {
+              let lch = chroma(color).lch();
+              return {hue: lch[2], saturation: lch[1], lightness: lch[0], color, index: i}
+            })
+            if(mode === 'achromatopsia') colorsLch.sort((a, b) => (a.lightness > b.lightness) ? 1 : -1 )
+            // Sort by hue, then by saturation
+            else colorsLch.sort((a, b) => (a.hue > b.hue) ? 1 : (a.hue === b.hue) ? ((a.saturation > b.saturation) ? 1 : -1) : -1 )
+            // Redefine simColor with sorted colors
+            simColor = colorsLch.map((object) => {return object.color});
+            // Redefine original indicies so we can properly map original
+            // color value to the newly sorted simultated colors
+            originalIndicies = colorsLch.map((object) => {return object.index});
+          }
+          simColor.map((color, index) => { 
+            let swatch = document.createElement('div');
+            swatch.className = 'simulationSwatch';
+            swatch.style.backgroundColor = color;
+            let tinySwatch = document.createElement('div');
+            tinySwatch.className = 'tinySwatch';
+            tinySwatch.style.backgroundColor = arr[originalIndicies[index]];
+            swatch.appendChild(tinySwatch);
+            // swatch.innerHTML = arr[originalIndicies[index]]
+            wrap.appendChild(swatch);
+          });
+        })
+
+        // Only add this text once; don't add if its already there.
+        if(!document.getElementById('simulationDisclaimer')) {
+          let textSpan = document.createElement('p');
+          textSpan.id = 'simulationDisclaimer';
+          textSpan.className = "spectrum-Body spectrum-Body--sizeXXS";
+          textSpan.innerHTML = 'Simulated colors are ordered by hue and saturation for best comparison of similar colors.'
+          parentWrap.appendChild(textSpan)
+        }
+      } 
+      // if no colors are passed to showSimulatedColors, ie, arr
+      // is not an array, we need to output something other than simulated colors.
+      else {
+        let textSpan = document.createElement('p');
+        textSpan.className = "spectrum-Body spectrum-Body--sizeXXS";
+        textSpan.innerHTML = 'No colors to preview. Cycle through colors again.'
+        parentWrap.appendChild(textSpan)
+      }
+      
+    })
   })
 }
 
