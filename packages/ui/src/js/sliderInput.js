@@ -67,7 +67,16 @@ function sliderInput(e) {
     });  
 
     let chartRatios = Promise.resolve(getThemeContrastRatios());
-    chartRatios.then(function(resolve) {createRatioChart(resolve, isStep)});
+    chartRatios.then(function(resolve) {
+      createRatioChart(resolve, isStep);
+    });
+
+    // Loop every target ratio input and trigger input event to refresh
+    // lightness values and position of dot on gradient visual
+    let ratioFields = document.getElementsByClassName('ratio-Field');
+    for(let i = 0; i < ratioFields.length; i++) {
+      ratioFields[i].dispatchEvent(new Event("input"));
+    }
   });
 }
 
