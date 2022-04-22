@@ -15,6 +15,10 @@
         <label class="spectrum-Tabs-itemLabel">Design</label>
       </div>
 
+      <div role="tab" aria-controls="palette" id="tabPalette" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'a11yTab')">
+        <label class="spectrum-Tabs-itemLabel">Accessible</label>
+      </div>
+
       <div role="tab" aria-controls="codeTab" id="tabTheme" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'codeTab')">
         <label class="spectrum-Tabs-itemLabel">Code</label>
       </div>
@@ -56,18 +60,18 @@
 
   <div class="spectrum-AppHeader_item spectrum-AppHeader_item--last">
     <div class="spectrum-ActionGroup">
-      <button id="buttonAnalysisColorSpace" class="spectrum-ActionButton spectrum-ActionButton--quiet spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+      <button id="buttonAnalysisColorSpace" class="spectrum-ActionButton spectrum-ActionButton--quiet spectrum-ActionButton--sizeM spectrum-ActionGroup-item spectrum-Popover-trigger">
         <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Edit">
           <use xlink:href="#spectrum-icon-18-Beaker" />
         </svg>
       </button>
-      <button id="buttonAdaptiveControls" class="spectrum-ActionButton spectrum-ActionButton--quiet spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+      <button id="buttonAdaptiveControls" class="spectrum-ActionButton spectrum-ActionButton--quiet spectrum-ActionButton--sizeM spectrum-ActionGroup-item spectrum-Popover-trigger">
         <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Copy">
           <use xlink:href="#spectrum-icon-18-Contrast" />
         </svg>
       </button>
 
-      <button id="buttonShareOptions" class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta spectrum-ActionGroup-item">
+      <button id="buttonShareOptions" class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta spectrum-ActionGroup-item spectrum-Popover-trigger">
         <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Copy">
           <use xlink:href="#spectrum-icon-18-Share" />
         </svg>

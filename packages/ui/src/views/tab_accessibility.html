@@ -1,0 +1,39 @@
+<!-- Accessibility Tab -->
+<div id="a11yTab" class="AppTab appFramePanelLeft">
+  <div class="spectrum-Panel spectrum-Panel--left">
+    <div class="spectrum-Panel-ContentWrapper">
+      <div class="spectrum-Panel-Item">
+        <div class="spectrum-Panel-Title">
+          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS" id="outputFormatHeading">
+            Stuff here
+          </h3>
+        </div>
+        params from qual
+      </div>
+  
+    </div>
+  </div>
+
+
+  <main>
+    <div class="spectrum-Content-Tabs">
+      <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+        <div id="tabJSParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'contrastPairsWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Contrasting pairs</label>
+        </div>
+        <div id="tabCSS" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'colorBlindSafeWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Colorblind safe</label>
+        </div>
+      </div>
+    </div>
+    <div id="contrastPairsWrapper" class="tabcontent">
+      Contrast pairs
+    </div>
+
+    <div id="colorBlindSafeWrapper" class="tabcontent">
+      Color blind safe colors
+    </div>
+
+  </main>
+
+</div>

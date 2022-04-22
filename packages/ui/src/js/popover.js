@@ -33,6 +33,21 @@ function togglePopover(e) {
     popover.classList.add('is-open');
     button.classList.add('is-selected');
   }
+  
+  // Remove open/selection states from all other buttons and popovers
+  let popovers = document.getElementsByClassName('spectrum-Popover');
+  let buttons = document.getElementsByClassName('spectrum-Popover-trigger')
+  for(i = 0; i < popovers.length; i++) {
+    if(popovers[i].id !== targetId) {
+      popovers[i].classList.remove('is-open')
+    }
+  }
+
+  for(i = 0; i < buttons.length; i++) {
+    if(buttons[i].id !== buttonId) {
+      buttons[i].classList.remove('is-selected')
+    } 
+  }
 }
 
 window.togglePopover = togglePopover;
