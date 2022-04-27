@@ -218,6 +218,7 @@ document.getElementById('chartsMode').value = 'CAM02p'
 document.getElementById("tabPanelColorScales").click();
 document.getElementById("tabJSParameters").click();
 document.getElementById("tabPalette").click();
+document.getElementById('tabContrastingPairs').click();
 document.getElementById("welcome").click();
 document.getElementById("tabColorWheel").click();
 

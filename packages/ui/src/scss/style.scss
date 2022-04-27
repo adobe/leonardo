@@ -723,6 +723,15 @@ main {
   justify-content: flex-start;
 }
 
+.a11y-Tabs-content {
+  flex-direction: column;
+  padding: var(--spectrum-global-dimension-size-200);
+  align-items: flex-start;
+  max-height: calc(100vh - 136px);
+  justify-content: flex-start;
+}
+
+
 .spectrum-Code {
   line-height: 1.3;
 }
