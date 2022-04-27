@@ -9,6 +9,13 @@
   padding: var(--spectrum-global-dimension-size-150) var(--spectrum-global-dimension-size-200);
   align-items: center;
   justify-content: space-between;
+
+  .spectrum-ActionGroup {
+    flex-shrink: 0;
+  }
+  .spectrum-Form--row {
+    margin-right: 8px;
+  }
 }
 
 .spectrum-AppHeader_item {

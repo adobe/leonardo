@@ -20,7 +20,7 @@
       </div> -->
 
       <div role="tab" aria-controls="codeTab" id="tabTheme" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'codeTab')">
-        <label class="spectrum-Tabs-itemLabel">Code</label>
+        <label class="spectrum-Tabs-itemLabel">Code output</label>
       </div>
 
     </div>
@@ -33,32 +33,35 @@
         <input type='text' class="spectrum-Textfield-input" id="themeNameInput" value="Untitled"/>
       </div>
     </div>
-
-    <div class="spectrum-Form-item spectrum-Form-item--row">
-      <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background</label>
-      <select class="spectrum-Picker is-disabled" name="themeBase" id="themeBase" disabled>
-        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-          <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-        </svg>
-      </select>
-      <span>
-        
-        <!-- <button id="viewTip" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" onclick="toggleTooltip('BackgroundScaleTooltip')">
-          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-            <use xlink:href="#spectrum-icon-18-Info" />
-          </svg>
-          <span class="spectrum-ActionButton-label is-hidden">More information</span>
-        </button>
-        <span id="BackgroundScaleTooltip" class="spectrum-Tooltip spectrum-Tooltip--top">
-          <span class="spectrum-Tooltip-label">Choose one of your color scales to be used as the background.</span>
-          <span class="spectrum-Tooltip-tip"></span>
-        </span> -->
-
-      </span>
-    </div>
   </div>
 
   <div class="spectrum-AppHeader_item spectrum-AppHeader_item--last">
+    <div class="spectrum-Form spectrum-Form--row">
+      <div class="spectrum-Form-item spectrum-Form-item--row">
+        <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background</label>
+        <select class="spectrum-Picker is-disabled" name="themeBase" id="themeBase" disabled>
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+            <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+          </svg>
+        </select>
+        <span>
+          
+          <!-- <button id="viewTip" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" onclick="toggleTooltip('BackgroundScaleTooltip')">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <use xlink:href="#spectrum-icon-18-Info" />
+            </svg>
+            <span class="spectrum-ActionButton-label is-hidden">More information</span>
+          </button>
+          <span id="BackgroundScaleTooltip" class="spectrum-Tooltip spectrum-Tooltip--top">
+            <span class="spectrum-Tooltip-label">Choose one of your color scales to be used as the background.</span>
+            <span class="spectrum-Tooltip-tip"></span>
+          </span> -->
+  
+        </span>
+      </div>
+    </div>
+    
+
     <div class="spectrum-ActionGroup">
       <button id="buttonAnalysisColorSpace" class="spectrum-ActionButton spectrum-ActionButton--quiet spectrum-ActionButton--sizeM spectrum-ActionGroup-item spectrum-Popover-trigger">
         <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Edit">
