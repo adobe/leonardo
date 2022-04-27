@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 :root {
   --gradient-height-offset: 284px;
+  --chartWrapperMaxWidth: calc(1000px - 48px);
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: var(--gradient-height);
   --color-size: 32px;
@@ -1072,6 +1073,7 @@ a:focus {
   padding: var(--spectrum-global-dimension-size-200) 0;
   overflow-y: auto;
   overflow-x: clip;
+  width: var(--chartWrapperMaxWidth);
 }
 
 .tabHeader {
@@ -1252,7 +1254,7 @@ a:focus {
   height: 72px;
   margin: 8px 0;
   width: calc(100% - var(--spectrum-global-dimension-size-400));
-  max-width: 796px;
+  max-width: var(--chartWrapperMaxWidth);
   -webkit-transition: height 200ms;
   transition: height 200ms;
 
@@ -1379,7 +1381,7 @@ a:focus {
 
   .spectrum-Heading {
     width: 100%;
-    max-width: 796px;
+    max-width: var(--chartWrapperMaxWidth);
   }
 }
 
@@ -1546,7 +1548,7 @@ a:focus {
   justify-content: space-between;
   align-items: center;
   width: calc(100% - 32px);
-  max-width: 796px;
+  max-width: var(--chartWrapperMaxWidth);
 }
 .spectrum-Panel-SubTabs {
   display: flex;
@@ -1783,10 +1785,9 @@ a:focus {
 }
 
 #paletteChartsWrapper {
-  // display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .paletteChartsGrid {
@@ -2017,7 +2018,7 @@ a:focus {
 .scaleMainContent-Wrapper {
   padding: var(--spectrum-global-dimension-size-200);
   width: calc(100% - var(--spectrum-global-dimension-size-400));
-  max-width: 796px;
+  max-width: var(--chartWrapperMaxWidth);
   margin: 0 auto;
 
   .themeColor_gradient {

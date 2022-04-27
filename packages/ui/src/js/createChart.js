@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 import * as d3 from 'd3';
 
-const panelsOffset = 722; // should be 722 ...not 752
+const panelsOffset = 402; // should be 722 ...not 752
 
 function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors, scaleType, stepped = false) {
   let chartWidth, chartHeight;
@@ -26,7 +26,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
       dest === '#interpolationChart3' 
     ) {
       let availableWidth = windowWidth - panelsOffset;// subtract panel width and padding from measurement
-      let newMaxWidth = 476;
+      let newMaxWidth = 548; //476
       adjustedWidth = (availableWidth < newMaxWidth) ? availableWidth : newMaxWidth;
   
       chartWidth = adjustedWidth;
@@ -56,7 +56,7 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
 
   }
   if(dest === '#RGBchart') {
-    chartWidth = 308;
+    chartWidth = 368;
     adjustedHeight = (windowHeight - 332) / 3;
     chartHeight = 216;
   }
@@ -299,7 +299,9 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
     let adjustedWidth = windowWidth - 320 - panelsOffset - 48;// subtract panel width and padding from measurement
     let newAdjustedWidth = (adjustedWidth < newMaxWidth) ? adjustedWidth : newMaxWidth;
 
-    adjustedHeight = (window.innerHeight / 3) - 80;// subtract heading, tabs height and padding from measurement
+    let minHeight = 196;
+    let dynamicHeight = (window.innerHeight / 3) - 80;// subtract heading, tabs height and padding from measurement
+    adjustedHeight = (dynamicHeight < minHeight) ? minHeight : dynamicHeight;
     
     chartWidth = newAdjustedWidth;
     chartHeight = adjustedHeight;
