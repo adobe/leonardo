@@ -251,7 +251,8 @@ function distributeLuminosity() {
     let newVal = lerp(minVal, maxVal, perc);
     newLums.push(round(newVal, 2))
   }  
-  newLums.reverse();
+  
+  if(_theme.lightness > 50) newLums.reverse();
 
   // newLums.sort(function(a, b){return a-b});
   // Update ratio inputs with new values
