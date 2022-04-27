@@ -329,7 +329,7 @@ function showColorDetails(e, colorId) {
 </svg>
 <span class="spectrum-ActionButton-label">Download SVG gradient</span>`
   downloadGradient.addEventListener('click', (e) => {
-    downloadSVGgradient(colorData.backgroundColorScale, colorData.mode, colorData.name);
+    downloadSVGgradient(colorData.backgroundColorScale, colorData.colorspace, colorData.name);
   })
 
   let panelExport = document.createElement('div');
