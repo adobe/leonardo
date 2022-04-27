@@ -14,21 +14,21 @@
       </div>
       <div id="colorScales" class="paneltabcontent">
         <div class="spectrum-Panel-Item" style="flex-shrink: 0;">
-          <div>
-            <button class="spectrum-ActionButton spectrum-ActionButton--sizeM " onClick="addColorScaleUpdate()">
+          <div class="spectrum-ActionGroup">
+            <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item" onClick="addColorScaleUpdate()">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
                 <use xlink:href="#spectrum-icon-18-Add" />
               </svg>
               <span class="spectrum-ActionButton-label">Add color</span>
             </button>
-            <label tabindex="0" id="image-upload-button" for="image-upload" class="spectrum-ActionButton spectrum-ActionButton--sizeM ">
+            <label tabindex="0" id="image-upload-button" for="image-upload" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add Color">
                 <use xlink:href="#spectrum-icon-18-Image" />
               </svg>
               <span class="spectrum-ActionButton-label">Extract from image</span>
             </label>
             <input id="image-upload" type="file" style="display:none;" onInput="addColorsFromImage()"/>
-            <button title="Sort ratios ascending" id="sort" onclick="sortColorScales()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+            <button title="Sort ratios ascending" id="sort" onclick="sortColorScales()" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true" aria-label="Sort">
                 <use xlink:href="#spectrum-css-icon-Arrow100" />
               </svg>
@@ -51,10 +51,16 @@
         <div class="spectrum-Panel-Item ">
           <div class="spectrum-ActionGroup spectrum-ActionGroup--spaced">
             <button id="addRatio" onclick="addRatio()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add lightness stop">
                 <use xlink:href="#spectrum-icon-18-Add" />
               </svg>
-              <span class="spectrum-ActionButton-label">Add swatch</span>
+              <span class="spectrum-ActionButton-label">Add</span>
+            </button>
+            <button id="bulkLightnessButton" onclick="addLightnessBulk()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Import from colors">
+                <use xlink:href="#spectrum-icon-18-BoxAdd" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Import</span>
             </button>
             <button title="Sort ratios ascending" id="sort" onclick="sortRatios()" class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true" aria-label="Sort">
@@ -63,7 +69,7 @@
               <span class="spectrum-ActionButton-label">Sort</span>
             </button>
             <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item" name="distribute" id="distribute">
-              <option value="none">Distribute by...</option>
+              <option value="none">Distribute</option>
               <option value="ratios">Contrast ratios</option>
               <option value="luminosity">Lightness</option>
             </select>  

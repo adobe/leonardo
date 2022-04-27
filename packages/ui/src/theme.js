@@ -95,6 +95,11 @@ import {
   cancelBulk
 } from './js/addBulkDialog';
 import {
+  addLightnessBulk,
+  bulkLightnessInput,
+  cancelLightnessBulk
+} from './js/addLightnessBulkDialog';
+import {
   clearAllColors
 } from './js/keyColors';
 import {
