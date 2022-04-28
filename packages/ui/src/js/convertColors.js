@@ -41,7 +41,7 @@ function convertColor(e) {
       let headers = ['Color space', 'Channels', 'String format']
       let rows = [];
       let colorSpaces = [
-        'HEX', 'RGB', 'HSL', "HSV", 'LAB', 'LCH', 'HSLuv', 'CAM02', 'CAM02p', 'CMYK', 'XYZ', 'Pantone'
+        'HEX', 'RGB', 'HSL', "HSV", 'LAB', 'LCH', 'OKLAB', 'OKLCH', 'HSLuv', 'CAM02', 'CAM02p', 'CMYK', 'XYZ', 'Pantone'
       ]
       for(let i = 0; i < colorSpaces.length; i++) {
         let colorChannels, colorChannelLabels, colorString;
@@ -51,6 +51,8 @@ function convertColor(e) {
         if(colorSpaces[i] === 'HSV') colorChannels = color.hsv().map((c, i) => {if(i>0) return c * 100; else return c}); // all channels except hue are percentages
         if(colorSpaces[i] === 'LAB') colorChannels = color.lab();
         if(colorSpaces[i] === 'LCH') colorChannels = color.lch();
+        if(colorSpaces[i] === 'OKLAB') colorChannels = color.oklab();
+        if(colorSpaces[i] === 'OKLCH') colorChannels = color.oklch();
         if(colorSpaces[i] === 'HSLuv') colorChannels = color.hsluv();
         if(colorSpaces[i] === 'CAM02') colorChannels = color.jab();
         if(colorSpaces[i] === 'CAM02p') colorChannels = color.jch();
@@ -64,6 +66,8 @@ function convertColor(e) {
         if(colorSpaces[i] === 'HSV') colorChannelLabels =  ['H', 'S', 'V'];
         if(colorSpaces[i] === 'LAB') colorChannelLabels =  ['L', 'A', 'B'];
         if(colorSpaces[i] === 'LCH') colorChannelLabels = ['L', 'C', 'H'];
+        if(colorSpaces[i] === 'OKLAB') colorChannelLabels =  ['L', 'A', 'B'];
+        if(colorSpaces[i] === 'OKLCH') colorChannelLabels = ['L', 'C', 'H'];
         if(colorSpaces[i] === 'HSLuv') colorChannelLabels = ['H (L)', 'S (U)', 'L (V)'];
         if(colorSpaces[i] === 'CAM02') colorChannelLabels = ['L', 'A', 'B'];
         if(colorSpaces[i] === 'CAM02p') colorChannelLabels = ['L', 'C', 'H'];
@@ -77,6 +81,8 @@ function convertColor(e) {
         if(colorSpaces[i] === 'HSV') colorString = `hsv(${round(colorChannels[0], 2)}, ${round(colorChannels[1], 2)}, ${round(colorChannels[2], 2)})`;
         if(colorSpaces[i] === 'LAB') colorString = `lab(${round(colorChannels[0], 2)}%, ${round(colorChannels[1], 2)}, ${round(colorChannels[2], 2)})`;
         if(colorSpaces[i] === 'LCH') colorString = `lch(${round(colorChannels[0], 2)}%, ${round(colorChannels[1], 2)}, ${round(colorChannels[2], 2)})`;
+        if(colorSpaces[i] === 'OKLAB') colorString = `oklab(${round(colorChannels[0], 2)}%, ${round(colorChannels[1], 2)}, ${round(colorChannels[2], 2)})`;
+        if(colorSpaces[i] === 'OKLCH') colorString = `oklch(${round(colorChannels[0], 2)}%, ${round(colorChannels[1], 2)}, ${round(colorChannels[2], 2)})`;
         if(colorSpaces[i] === 'HSLuv') colorString = `hsluv(${round(colorChannels[0], 2)}, ${round(colorChannels[1], 2)}, ${round(colorChannels[2], 2)})`;
         if(colorSpaces[i] === 'CAM02') colorString = `jab(${round(colorChannels[0], 2)}, ${round(colorChannels[1], 2)}, ${round(colorChannels[2], 2)})`;
         if(colorSpaces[i] === 'CAM02p') colorString = `jch(${round(colorChannels[0], 2)}, ${round(colorChannels[1], 2)}, ${round(colorChannels[2], 2)})`;

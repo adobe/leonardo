@@ -270,7 +270,9 @@ function showColorDetails(e, colorId) {
     'HSL': 'HSL',
     'HSLuv': 'HSLuv',
     'HSV': 'HSV',
-    'RGB': 'RGB'
+    'RGB': 'RGB',
+    'OKLAB': 'OKLAB',
+    'OKLCH': 'OKLCH'
   };
 
   for(let index in opts) { interpSelect.options[interpSelect.options.length] = new Option(opts[index], index); }

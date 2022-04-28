@@ -58,7 +58,7 @@ function bulkItemConvertColorInput(e) {
   // add key colors for each input
   for(let i=0; i<bulkValues.length; i++) {
     console.log(bulkValues[i])
-    let colorVal = d3.color(bulkValues[i]).formatHex();
+    let colorVal = chroma(bulkValues[i]).hex(); //d3.color(bulkValues[i]).formatHex()
     colors.push(colorVal)
   }
 
@@ -111,6 +111,8 @@ function createColorJson(value, colorSpaces) {
       if(colorSpaces[i] === 'HSV') colorChannels = color.hsv().map((c, i) => {if(i>0) return c * 100; else return c}); // all channels except hue are percentages
       if(colorSpaces[i] === 'LAB') colorChannels = color.lab();
       if(colorSpaces[i] === 'LCH') colorChannels = color.lch();
+      if(colorSpaces[i] === 'OKLAB') colorChannels = color.oklab();
+      if(colorSpaces[i] === 'OKLCH') colorChannels = color.oklch();
       if(colorSpaces[i] === 'HSLuv') colorChannels = color.hsluv();
       if(colorSpaces[i] === 'CAM02') colorChannels = color.jab();
       if(colorSpaces[i] === 'CAM02p') colorChannels = color.jch();
@@ -122,8 +124,10 @@ function createColorJson(value, colorSpaces) {
       if(colorSpaces[i] === 'RGB') colorChannelLabels =  ['rgb (R)', 'rgb (G)', 'rgb (B)'];
       if(colorSpaces[i] === 'HSL') colorChannelLabels =  ['hsl (H)', 'hsl (S)', 'hsl (L)'];
       if(colorSpaces[i] === 'HSV') colorChannelLabels =  ['hsv (H)', 'hsv (S)', 'hsv (V)'];
-      if(colorSpaces[i] === 'LAB') colorChannelLabels =  ['Lab (L)', 'Lab (A)', 'Lab (B)'];
+      if(colorSpaces[i] === 'LAB') colorChannelLabels =  ['LAB (L)', 'LAB (A)', 'LAB (B)'];
       if(colorSpaces[i] === 'LCH') colorChannelLabels = ['LCh (L)', 'LCh (C)', 'LCh (H)'];
+      if(colorSpaces[i] === 'OKLAB') colorChannelLabels =  ['OKLAB (L)', 'OKLAB (A)', 'OKLAB (B)'];
+      if(colorSpaces[i] === 'OKLCH') colorChannelLabels = ['OKLCH (L)', 'OKLCh (C)', 'OKLCh (H)'];
       if(colorSpaces[i] === 'HSLuv') colorChannelLabels = ['HSLuv (L)', 'HSLuv (U)', 'HSLuv (V)'];
       if(colorSpaces[i] === 'CAM02') colorChannelLabels = ['CAM02 (L)', 'CAM02 (A)', 'CAM02 (B)'];
       if(colorSpaces[i] === 'CAM02p') colorChannelLabels = ['CAM02 (L)', 'CAM02 (C)', 'CAM02 (H)'];
