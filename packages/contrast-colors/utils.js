@@ -23,6 +23,8 @@ const colorSpaces = {
   LAB: 'lab',
   LCH: 'lch', // named per correct color definition order
   RGB: 'rgb',
+  OKLAB: 'oklab',
+  OKLCH: 'oklch'
 };
 
 function round(x, n = 0) {
