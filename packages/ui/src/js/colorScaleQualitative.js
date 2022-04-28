@@ -61,10 +61,11 @@ function colorScaleQualitative(scaleType = 'qualitative') {
   createOutput();
 }
 
-chartsModeSelect.addEventListener('change', () => {
-  if(newSafeColors) {
-    updateColorWheel(chartsModeSelect.value, 50, null, chartsModeSelect.value, 'qualitative', _qualitativeScale.keeperColors)
-  }
+
+chartsModeSelect.addEventListener('change', (e) => {
+  let lightness = (e.target.value === 'HSV') ? 100 : ((e.target.value === 'HSLuv') ? 60 : 50);
+
+  updateColorWheel(e.target.value, lightness, true, null, 'qualitative', _qualitativeScale.keeperColors)
 })
 
 function updateColors() {
