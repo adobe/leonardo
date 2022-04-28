@@ -477,61 +477,133 @@ function createColorData(color, mode) {
 }
 
 function getChannelsAndFunction(mode) {
-  let c1, c2, c3, func;
+  let c1, c2, c3, func, yMin, yMax, yMin2, yMax2, c1Label, c2Label, c3Label;
   if(mode === 'RGB') {
-    func = 'rgb';
-    c1 = 'r';
-    c2 = 'g';
-    c3 = 'b';
-  }
-  else if(mode === 'LAB') {
-    func = 'lab';
-    c1 = 'a';
-    c2 = 'b';
-    c3 = 'l';
-  }
-  else if(mode === 'LCH') {
-    func = 'lch';
-    c1 = 'h';
-    c2 = 'c';
-    c3 = 'l';
-  }
-  else if(mode === 'CAM02') {
-    func = 'jab';
-    c1 = 'a';
-    c2 = 'b';
-    c3 = 'J';
-  }
-  else if(mode === 'CAM02p') {
-    func = 'jch';
-    c1 = 'h';
-    c2 = 'C';
-    c3 = 'J';
-  }
-  else if(mode === 'HSL') {
     func = 'hsl';
-    c1 = 'h';
-    c2 = 's';
-    c3 = 'l';
+    c1 = 0;
+    c1Label = `Hue (HSL - H)`;
+    c2 = 1;
+    c2Label = `Saturation (HSL - S)`;
+    c3 = 2;
+    c3Label = `Lightness (${mode} - L)`;
+    yMin = 0;
+    yMax = 360;
+    yMin2 = 0;
+    yMax2 = 1;
   }
-  else if(mode === 'HSLuv') {
+  if(mode === 'LAB') {
+    func = 'lab';
+    c1 = 1;
+    c1Label = `Redness / Greenness (${mode} - A)`;
+    c2 = 2;
+    c2Label = `Blueness / Yellowness (${mode} - B)`;
+    c3 = 0;
+    c3Label = `Lightness (${mode} - L)`;
+  }
+  if(mode === 'LCH') {
+    func = 'lch';
+    c1 = 2;
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 1;
+    c2Label = `Chroma (${mode} - C)`;
+    c3 = 0;
+    c3Label = `Lightness (${mode} - L)`;
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'OKLAB') {
+    func = 'oklab';
+    c1 = 1;
+    c1Label = `Redness / Greenness (${mode} - A)`;
+    c2 = 2;
+    c2Label = `Blueness / Yellowness (${mode} - B)`;
+    c3 = 0;
+    c3Label = `Lightness (${mode} - L)`;
+  }
+  if(mode === 'OKLCH') {
+    func = 'oklch';
+    c1 = 2;
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 1;
+    c2Label = `Chroma (${mode} - C)`;
+    c3 = 0;
+    c3Label = `Lightness (${mode} - L)`;
+    yMin = 0;
+    yMax = 360;
+    yMax2 = .322;
+  }
+  if(mode === 'CAM02') {
+    func = 'jab';
+    c1 = 1;
+    c1Label = `Redness / Greenness (${mode} - A)`;
+    c2 = 2;
+    c2Label = `Blueness / Yellowness (${mode} - B)`;
+    c3 = 0;
+    c3Label = `Lightness (${mode} - J)`;
+  }
+  if(mode === 'CAM02p') {
+    func = 'jch';
+    c1 = 2;
+    c1Label = `Hue (CAM02 (Ch) - H)`;
+    c2 = 1;
+    c2Label = `Chroma (CAM02 (Ch) - C)`;
+    c3 = 0;
+    c3Label = `Lightness (${mode} - J)`;
+    yMin = 0;
+    yMax = 360;
+  }
+  if(mode === 'HSL') {
+    func = 'hsl';
+    c1 = 0;
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 1;
+    c2Label = `Saturation (${mode} - S)`;
+    c3 = 2;
+    c3Label = `Lightness (${mode} - L)`;
+    yMin = 0;
+    yMax = 360;
+    yMin2 = 0;
+    yMax2 = 1;
+  }
+  if(mode === 'HSLuv') {
     func = 'hsluv';
-    c1 = 'l';
-    c2 = 'u';
-    c3 = 'v';
+    c1 = 0;
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 1;
+    c2Label = `Saturation (${mode} - S)`;
+    c3 = 2;
+    c3Label = `Lightness (${mode} - L)`;
+    yMin = 0;
+    yMax = 360;
+    yMin2 = 0;
+    yMax2 = 100;
   }
-  else if(mode === 'HSV') {
+  if(mode === 'HSV') {
     func = 'hsv';
-    c1 = 'h';
-    c2 = 's';
-    c3 = 'v';
+    c1 = 0;
+    c1Label = `Hue (${mode} - H)`;
+    c2 = 1;
+    c2Label = `Saturation (${mode} - S)`;
+    c3 = 2;
+    c3Label = `Value (${mode} - V)`;
+    yMin = 0;
+    yMax = 360;
+    yMin2 = 0;
+    yMax2 = 1;
   }
 
   return {
     func: func,
     c1: c1,
     c2: c2,
-    c3: c3
+    c3: c3,
+    c1Label: c1Label,
+    c2Label: c2Label,
+    c3Label: c3Label,
+    yMin: yMin,
+    yMax: yMax,
+    yMin2: yMin2,
+    yMax2: yMax2
   }
 }
 

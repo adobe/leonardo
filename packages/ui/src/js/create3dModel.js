@@ -14,7 +14,8 @@ import Plotly from 'plotly.js-dist-min'
 import {getThemeName} from './getThemeData';
 import {
   filterNaN,
-  convertToCartesian
+  convertToCartesian,
+  getChannelsAndFunction
 } from './utils'
 
 function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
@@ -146,7 +147,8 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
 
 function createColorData(colorClasses, mode, scaleType) {
   const f = getChannelsAndFunction(mode);
-  const method = (d) => d3[f.func](d);
+  const method = (d) => chroma(d)[f.func]();
+
   let dataArray = [];
 
   for(let i = 0; i < colorClasses.length; i++) {
@@ -155,26 +157,28 @@ function createColorData(colorClasses, mode, scaleType) {
     let dataA = currentColor.map(function(d) {
       let channelValue = method(d)[f.c1];
       // Need to do some geometry for polar colorspaces
-      if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
-        let s = (mode === 'HSL' || mode === 'HSV') ? method(d)[f.c2] * 100 : method(d)[f.c2];
+      if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv' || mode === 'OKLCH') {
+        let s = (mode === 'HSL' || mode === 'HSV') ? method(d)[f.c2] * 100 : ((mode === 'OKLCH') ? method(d)[f.c2] * 310 : method(d)[f.c2]);
         let h = channelValue;
         return filterNaN(convertToCartesian(s, h).x);
       }
+      if (mode === 'OKLAB') return filterNaN(channelValue * 460)
       else return filterNaN(channelValue);
     });
     let dataB = currentColor.map(function(d) {
       let channelValue = method(d)[f.c3];
-      if(mode === 'HSL' || mode === 'HSV') channelValue = channelValue * 100;
+      if(mode === 'HSL' || mode === 'HSV' || mode === 'OKLCH' || mode === 'OKLAB') channelValue = channelValue * 100;
       return filterNaN(channelValue);
     });
     let dataC = currentColor.map(function(d) {
       let channelValue = method(d)[f.c2];
       // Need to do some geometry for polar colorspaces
-      if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
-        let s = (mode === 'HSL' || mode === 'HSV') ? channelValue * 100 : channelValue;
+      if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv' || mode === 'OKLCH') {
+        let s = (mode === 'HSL' || mode === 'HSV') ? channelValue * 100 : ((mode === 'OKLCH') ? channelValue * 310 : channelValue);
         let h = method(d)[f.c1];
         return filterNaN(convertToCartesian(s, h).y);
       }
+      if (mode === 'OKLAB') return filterNaN(channelValue * 460)
       return filterNaN(channelValue);
     });
 
@@ -211,77 +215,23 @@ function createColorData(colorClasses, mode, scaleType) {
   return mergedData;
 }
 
-function getChannelsAndFunction(mode) {
-  let c1, c2, c3, func;
-  if(mode === 'RGB') {
-    func = 'rgb';
-    c1 = 'r';
-    c2 = 'g';
-    c3 = 'b';
-  }
-  else if(mode === 'LAB') {
-    func = 'lab';
-    c1 = 'a';
-    c2 = 'b';
-    c3 = 'l';
-  }
-  else if(mode === 'LCH') {
-    func = 'lch';
-    c1 = 'h';
-    c2 = 'c';
-    c3 = 'l';
-  }
-  else if(mode === 'CAM02') {
-    func = 'jab';
-    c1 = 'a';
-    c2 = 'b';
-    c3 = 'J';
-  }
-  else if(mode === 'CAM02p') {
-    func = 'jch';
-    c1 = 'h';
-    c2 = 'C';
-    c3 = 'J';
-  }
-  else if(mode === 'HSL') {
-    func = 'hsl';
-    c1 = 'h';
-    c2 = 's';
-    c3 = 'l';
-  }
-  else if(mode === 'HSLuv') {
-    func = 'hsluv';
-    c1 = 'l';
-    c2 = 'u';
-    c3 = 'v';
-  }
-  else if(mode === 'HSV') {
-    func = 'hsv';
-    c1 = 'h';
-    c2 = 's';
-    c3 = 'v';
-  }
-
-  return {
-    func: func,
-    c1: c1,
-    c2: c2,
-    c3: c3
-  }
-}
-
 function createMinMaxDataForPlot(mode) {
   let dataArray = [];
   const markerSize = 1;
   const markerColor = 'rgba(0, 0, 0, 0)';
   let dataA, dataB, dataC;
 
-  if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
+  if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv' || mode === 'OKLCH') {
     dataA = [0, 100];
     dataB = [0, 100];
     dataC = [0, -100];
   }
   if (mode === 'LAB') {
+    dataA = [0, 100];
+    dataB = [-128, 128];
+    dataC = [-128, 128];
+  }
+  if (mode === 'OKLAB') {
     dataA = [0, 100];
     dataB = [-128, 128];
     dataC = [-128, 128];

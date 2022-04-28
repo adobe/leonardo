@@ -115,6 +115,11 @@ function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme', d
       c = chroma(color).hcl()[1];
       h = chroma(color).hcl()[0]
     }
+    if(mode === 'OKLCH' || mode === 'OKLAB') {
+      c = chroma(color).oklch()[1] * 310;
+      // c = chroma(color).oklch()[1];
+      h = chroma(color).oklch()[2]
+    }
     if(mode === 'CAM02p' || mode === 'CAM02') {
       c = chroma(color).jch()[1];
       h = chroma(color).jch()[2]
@@ -271,6 +276,13 @@ function createColorWheel(mode, lightness, scaleType) {
       colorMid2 = chroma.hsv(angle, 0.5, lightness/100).hex();
       colorMid3 = chroma.hsv(angle, 0.75, lightness/100).hex();
       colorStop = chroma.hsv(angle, 1, lightness/100).hex();
+    }
+    else if(mode === 'OKLCH' || mode === 'OKLAB') {
+      colorStart = chroma.oklch(lightness/100, 0, angle).hex();
+      colorMid1 = chroma.oklch(lightness/100, 0.0805, angle).hex();
+      colorMid2 = chroma.oklch(lightness/100, 0.161, angle).hex();
+      colorMid3 = chroma.oklch(lightness/100, 0.2415, angle).hex();
+      colorStop = chroma.oklch(lightness/100, .322, angle).hex();
     }
     else if(mode === 'LCH' || mode === 'LAB') {
       colorStart = chroma.lch(lightness, 0, angle).hex();
