@@ -2250,6 +2250,10 @@ a:focus {
   }
 }
 
+#colorCompareForm {
+  margin-bottom: var(--spectrum-global-dimension-size-500);
+}
+
 .compare-Tabs-content {
   flex-direction: column;
 }

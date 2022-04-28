@@ -14,7 +14,7 @@
       <div class="spectrum-Form spectrum-Form--row spectrum-Form--topAlign" id="colorCompareForm">
         <div class="spectrum-Form-item">
           <label class="spectrum-Heading spectrum-Heading--sizeXXS" id="compareColorOne" for="compareColorOneInput">
-            Foreground color
+            Foreground color*
           </label>
           <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
             <input type='text' class="spectrum-Textfield-input" id="compareColorOneInput" placeholder="Enter color" value="#7AC600" aria-labelledby="compareColorOneInput"/>
@@ -52,6 +52,43 @@
         </div>
   
       </div>
+
+      <h4 class="spectrum-Heading spectrum-Heading--sizeXS">
+        Supported formats
+      </h4>
+      <table class="spectrum-Table spectrum-Table--sizeM spectrum-Table--quiet spectrum-Table--compact">
+        <thead class="spectrum-Table-head">
+          <tr>
+            <th class="spectrum-Table-headCell is-sortable is-sorted-desc" aria-sort="descending" tabindex="0">
+              Color space
+            </th>
+            <th class="spectrum-Table-headCell is-sortable" aria-sort="descending">
+              Opaque
+            </th>
+            <th class="spectrum-Table-headCell">
+              Alpha
+            </th>
+          </tr>
+        </thead>
+        <tbody class="spectrum-Table-body">
+          <tr class="spectrum-Table-row">
+            <td class="spectrum-Table-cell" tabindex="0">HEX</td>
+            <td class="spectrum-Table-cell" tabindex="0">#FFFFFF</td>
+            <td class="spectrum-Table-cell" tabindex="0">#FFFFFFFF</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+            <td class="spectrum-Table-cell" tabindex="0">RGB</td>
+            <td class="spectrum-Table-cell" tabindex="0">rgb(255, 255, 255)</td>
+            <td class="spectrum-Table-cell" tabindex="0">rgba(255, 255, 255, 1)</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+            <td class="spectrum-Table-cell" tabindex="0">HSL</td>
+            <td class="spectrum-Table-cell" tabindex="0">hsl(360, 100%, 50%)</td>
+            <td class="spectrum-Table-cell" tabindex="0">hsla(360, 100%, 50%, 1)</td>
+          </tr>
+        </tbody>
+      </table>
+
 
     </div>
   </main>
