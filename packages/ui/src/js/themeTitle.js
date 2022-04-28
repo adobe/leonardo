@@ -11,19 +11,17 @@ governing permissions and limitations under the License.
 
 let themeTitleInput = document.getElementById('themeNameInput');
 let themeTitleTextField = document.getElementById('themeNameTextfield')
-// let themeTitle = document.getElementById('themeTitle');
 
-// function updateThemeTitle() {
-//   themeTitle.innerHTML = ' ';
-//   let title = themeTitleInput.value;
-//   if(title) themeTitle.innerHTML = `${title} theme`;
-// }
-
-// // themeTitleInput.addEventListener('input', updateThemeTitle);
-
-// window.updateThemeTitle = updateThemeTitle;
-
-// module.exports = {updateThemeTitle};
+function handleKeyUp(event) {
+  //key code for enter
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    event.target.blur();
+    themeTitleTextField.classList.add('spectrum-Textfield--custom')
+    let characters = themeTitleInput.value.length
+    themeTitleInput.style.width = `${characters + 4}ch`
+  }
+ }
 
 themeTitleInput.addEventListener('focus', () => {
   themeTitleTextField.classList.remove('spectrum-Textfield--custom')
@@ -34,3 +32,8 @@ themeTitleInput.addEventListener('blur', () => {
   let characters = themeTitleInput.value.length
   themeTitleInput.style.width = `${characters + 4}ch`
 });
+
+themeTitleInput.addEventListener('keydown', (e) => {
+  handleKeyUp(e);
+});
+
