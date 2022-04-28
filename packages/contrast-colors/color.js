@@ -17,13 +17,16 @@ const {
 } = require('./utils');
 
 class Color {
-  constructor({ name, colorKeys, colorspace = 'RGB', ratios, smooth = false, output = 'HEX' }) {
+  constructor({ name, colorKeys, colorspace = 'RGB', ratios, smooth = false, output = 'HEX', saturation = 100 }) {
     this._name = name;
     this._colorKeys = colorKeys;
+    this._modifiedKeys = colorKeys;
     this._colorspace = colorspace;
     this._ratios = ratios;
     this._smooth = smooth;
     this._output = output;
+    this._saturation = saturation;
+    
     if (!this._name) {
       throw new Error('Color missing name');
     }
@@ -55,6 +58,15 @@ class Color {
 
   get colorKeys() {
     return this._colorKeys;
+  }
+
+  set saturation(saturation) {
+    this._saturation = saturation;
+    this._updateColorSaturation();
+  }
+
+  get saturation() {
+    return this._saturation;
   }
 
   set colorspace(colorspace) {
@@ -109,12 +121,28 @@ class Color {
     return this._colorScale;
   }
 
+  _updateColorSaturation() {
+    let newColorKeys = [];
+    this._colorKeys.forEach(key => {
+      let currentHsluv = chroma(`${key}`).hsluv();
+      let currentSaturation = currentHsluv[1];
+      let newSaturation = currentSaturation * (this._saturation / 100);
+      let newHsluv = chroma.hsluv(currentHsluv[0], newSaturation, currentHsluv[2]);
+      let newColor = chroma.rgb(newHsluv).hex();
+      newColorKeys.push(newColor);
+    });
+    // set color keys with new modified array
+    this._modifiedKeys = newColorKeys;
+
+    this._generateColorScale();
+  }
+
   _generateColorScale() {
     // This would create 3000 color values based on all parameters
     // and return an array of colors:
     this._colorScale = createScale({
       swatches: 3000,
-      colorKeys: this._colorKeys,
+      colorKeys: this._modifiedKeys,
       colorspace: this._colorspace,
       shift: 1,
       smooth: this._smooth,

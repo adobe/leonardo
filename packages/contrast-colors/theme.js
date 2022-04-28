@@ -75,6 +75,7 @@ class Theme {
     this._saturation = saturation;
     // Update all colors key colors
     this._updateColorSaturation(saturation);
+    this._findContrastColors();
   }
 
   get saturation() {
@@ -208,31 +209,9 @@ class Theme {
   }
 
   _updateColorSaturation(saturation) {
-    let originalColorKeys = [];
-
     this._colors.map((color) => {
-      const colorKeys = color.colorKeys;
-      originalColorKeys.push(colorKeys)
-      let newColorKeys = [];
-      colorKeys.forEach(key => {
-        let currentHsluv = chroma(`${key}`).hsluv();
-        let currentSaturation = currentHsluv[1];
-        let newSaturation = currentSaturation * (saturation / 100);
-        let newHsluv = chroma.hsluv(currentHsluv[0], newSaturation, currentHsluv[2]);
-        let newColor = chroma.rgb(newHsluv).hex();
-        newColorKeys.push(newColor);
-      });
-      // set each colors color keys with new modified array
-      color.colorKeys = newColorKeys;
+      color.saturation = saturation;
     })
-    // Find contrast colors based on new color keys
-    this._findContrastColors();
-    // Reset the color keys to original values. This is important
-    // to ensure each time saturation is set, the value is a percentage
-    // of the original keys, rather than a percentage of the last modified set
-    this._colors.map((color, index) => {
-      color.colorKeys = originalColorKeys[index];
-    });
   }
 
   _findContrastColors() {
