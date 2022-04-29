@@ -12,7 +12,7 @@
       </div>
 
       <div role="tab" aria-controls="palette" id="tabPalette" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'palette')">
-        <label class="spectrum-Tabs-itemLabel">Design</label>
+        <label class="spectrum-Tabs-itemLabel">Create</label>
       </div>
 <!-- 
       <div role="tab" aria-controls="palette" id="tabPalette" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'a11yTab')">
@@ -20,7 +20,7 @@
       </div> -->
 
       <div role="tab" aria-controls="codeTab" id="tabTheme" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'codeTab')">
-        <label class="spectrum-Tabs-itemLabel">Implement</label>
+        <label class="spectrum-Tabs-itemLabel">Use</label>
       </div>
 
     </div>
@@ -36,31 +36,6 @@
   </div>
 
   <div class="spectrum-AppHeader_item spectrum-AppHeader_item--last">
-    <div class="spectrum-Form spectrum-Form--row">
-      <div class="spectrum-Form-item spectrum-Form-item--row">
-        <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background</label>
-        <select class="spectrum-Picker is-disabled" name="themeBase" id="themeBase" disabled>
-          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
-            <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
-          </svg>
-        </select>
-        <span>
-          
-          <!-- <button id="viewTip" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" onclick="toggleTooltip('BackgroundScaleTooltip')">
-            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
-              <use xlink:href="#spectrum-icon-18-Info" />
-            </svg>
-            <span class="spectrum-ActionButton-label is-hidden">More information</span>
-          </button>
-          <span id="BackgroundScaleTooltip" class="spectrum-Tooltip spectrum-Tooltip--top">
-            <span class="spectrum-Tooltip-label">Choose one of your color scales to be used as the background.</span>
-            <span class="spectrum-Tooltip-tip"></span>
-          </span> -->
-  
-        </span>
-      </div>
-    </div>
-    
 
     <div class="spectrum-ActionGroup">
       <button id="buttonAnalysisColorSpace" class="spectrum-ActionButton spectrum-ActionButton--quiet spectrum-ActionButton--sizeM spectrum-ActionGroup-item spectrum-Popover-trigger">
@@ -143,35 +118,46 @@
       <div id="popoverAdaptiveControls" class="spectrum-Popover spectrum-Popover--padded">
         <div class="spectrum-Panel-Title">
           <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
-            Adaptive theme controls
+            Theme settings
           </h3>
         </div>
-        <p class="spectrum-Body spectrum-Body--sizeXS">Modify your entire theme without compromising color relationships. Try making a <b>dark mode</b> theme.</p>
-        <div class="spectrum-Form-item">
-          <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
-            <div class="spectrum-Slider-labelContainer">
-              <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Lightness</label>
-              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">100%</div>
-            </div>
-            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" id="themeBrightnessSlider" name="themeBrightnessSlider" disabled></input>
+        <!-- <p class="spectrum-Body spectrum-Body--sizeXS">Modify your entire theme without compromising color relationships. Try making a <b>dark mode</b> theme.</p> -->
+        <div class="spectrum-Form spectrum-Form--spaced">
+          <div class="spectrum-Form-item">
+            <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background color scale</label>
+            <select class="spectrum-Picker is-disabled" name="themeBase" id="themeBase" disabled>
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+            </select>
           </div>
-          <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
-            <div class="spectrum-Slider-labelContainer">
-              <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
-              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">100%</div>
+        
+          <div class="spectrum-Form-item">
+            <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+              <div class="spectrum-Slider-labelContainer">
+                <label class="spectrum-Slider-label" id="themeBrightnessLabel" for="themeBrightnessSlider">Lightness</label>
+                <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeBrightnessLabel" id="themeBrightnessValue">100%</div>
+              </div>
+              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" id="themeBrightnessSlider" name="themeBrightnessSlider" disabled></input>
             </div>
-            <input class="spectrum-Slider-controls" type="range" min="0.25" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" disabled></input>
-          </div>
-          <div id="saturationSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
-            <div class="spectrum-Slider-labelContainer">
-              <label class="spectrum-Slider-label" id="themeSaturationLabel" for="themeSaturationSlider">Saturation</label>
-              <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeSaturationLabel" id="themeSaturationValue">100%</div>
+            <div id="contrastSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+              <div class="spectrum-Slider-labelContainer">
+                <label class="spectrum-Slider-label" id="themeContrastLabel" for="themeContrastSlider">Contrast</label>
+                <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeContrastLabel" id="themeContrastValue">100%</div>
+              </div>
+              <input class="spectrum-Slider-controls" type="range" min="0.25" max="5" value="1" step="0.01" id="themeContrastSlider" name="themeContrastSlider" disabled></input>
             </div>
-            <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" step="1" id="themeSaturationSlider" name="themeSaturationSlider" disabled></input>
+            <div id="saturationSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
+              <div class="spectrum-Slider-labelContainer">
+                <label class="spectrum-Slider-label" id="themeSaturationLabel" for="themeSaturationSlider">Saturation</label>
+                <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="themeSaturationLabel" id="themeSaturationValue">100%</div>
+              </div>
+              <input class="spectrum-Slider-controls" type="range" min="0" max="100" value="100" step="1" id="themeSaturationSlider" name="themeSaturationSlider" disabled></input>
+            </div>
           </div>
-        </div>
-        <div class="spectrum-Form-item spectrum-Form-item--row">
-          <button id="closeAdaptiveControls" class="spectrum-Button spectrum-Button--sizeM spectrum-Button--primary">Close</button>
+          <div class="spectrum-Form-item spectrum-Form-item--row">
+            <button id="closeAdaptiveControls" class="spectrum-Button spectrum-Button--sizeM spectrum-Button--primary">Close</button>
+          </div>
         </div>
       </div>
     </div>
