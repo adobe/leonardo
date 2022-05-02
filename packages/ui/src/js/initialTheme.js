@@ -29,7 +29,6 @@ let _theme = new Leo.Theme({
   output: 'HEX'
 });
 
-console.log(_theme.colors)
 window._theme = _theme;
 
 module.exports = {

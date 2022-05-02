@@ -15,7 +15,10 @@ import {
   _theme,
   _themeTypography
 } from './initialTheme';
-import {getThemeName} from './getThemeData';
+import {
+  getThemeName,
+  getContrastRatioInputs
+} from './getThemeData';
 import {capitalizeFirstLetter} from './utils';
 
 function createSVGuiKit() {
@@ -27,13 +30,14 @@ function createSVGuiKit() {
   const rectSize = 80;
   const marginX = rectSize + 16 ;
   const offsetX = 166;
+  const titleYOffset = 72;
   const marginY = rectSize + 57;
 
   const swatchesPerColor = colors[1].values.length;
   const numberOfColors = colors.length - 1;
   const maxColorWidth = (marginX * swatchesPerColor) + offsetX;
   const maxSvgWidth = maxColorWidth;
-  const maxColorsHeight = marginY * numberOfColors;
+  const maxColorsHeight = marginY * numberOfColors + titleYOffset;
   const maxSvgHeight = maxColorsHeight;
   let textColorPositive = (isDark) ? '#fff' : '#000';
   let textColorInverse = (isDark) ? '#000' : '#fff';
@@ -55,6 +59,17 @@ function createSVGuiKit() {
   let outerElement = document.createElement('div');
   outerElement.id = 'UIkit';
 
+  // Create text element with theme url at bottom of kit
+  let textTitle = document.createElementNS( svgns, 'text');
+  textTitle.setAttribute('x', 16);
+  textTitle.setAttribute('y', 48);
+  textTitle.setAttribute('fill', textColorPositive);
+  textTitle.setAttribute('font-size', 32);
+  textTitle.setAttribute('font-weight', 700);
+  textTitle.setAttribute('font-family', "Adobe Clean, AdobeClean-Regular, Adobe Clean");
+  textTitle.textContent = `${getThemeName()}`;
+
+  svgWrapper.appendChild( textTitle );
   
   for(let i=0; i < colors.length; i++) {
     if(!colors[i].name) {
@@ -64,7 +79,7 @@ function createSVGuiKit() {
       let tokenColorName = `${name.replace(/\s+/g, '')}`; // these names will have had spaces removed already
       let values = colors[i].values;
       let increment = i - 0.75;
-      let y = marginY * increment;
+      let y = marginY * increment + titleYOffset;
 
       var title = document.createElementNS( svgns,'text' );
       var descriptor = document.createElementNS( svgns,'text' );
