@@ -2308,10 +2308,10 @@
   resolved "https://registry.yarnpkg.com/@spectrum-css/link/-/link-3.1.3.tgz#b0e560a7e0acdb4a2b329b6669696aa3438f5993"
   integrity sha512-8Pmy5d73MwKcATTPaj+fSrZYnIw7GmfX40AvpC1xx5LauOxsbUb4AVNp1kn2H8rrOBmxF7czyhoBBhEiv66QUg==
 
-"@spectrum-css/menu@^2.1.1":
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/@spectrum-css/menu/-/menu-2.1.5.tgz#78c60689d1855a66eafe177321cb5589c7090ab0"
-  integrity sha512-NJjiYpCFrBDLs0bjBAZFZO3/4Nz9Z8X/FFebFkbKYbOnECS9ZUe2mXvDhNB1yDRQksBWwo3m76+/OU2VfBYDQg==
+"@spectrum-css/menu@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/menu/-/menu-3.0.4.tgz#daae70a3e8af08eba9afd72ae07c5b737e30fc3b"
+  integrity sha512-kKlNZ08GZv0/jQ/lh/JrIz0rYCO8GIPud/Iw/3+4ziKlA7LTa6lAQTWPghSWwBb3QGt1StOF12xM3RAAML3PUQ==
 
 "@spectrum-css/page@^3.0.2":
   version "3.0.2"
@@ -2389,6 +2389,11 @@
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-3.0.2.tgz#ea9062c3c98dfc6ba59e5df14a03025ad8969999"
   integrity sha512-vzS9KqYXot4J3AEER/u618MXWAS+IoMvYMNrOoscKiLLKYQWenaueakUWulFonToPd/9vIpqtdbwxznqrK5qDw==
+
+"@spectrum-css/vars@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@spectrum-css/vars/-/vars-4.0.0.tgz#939c8883ca1524dd30669f09f7b29ccc609e0035"
+  integrity sha512-Bo1TflLD3kfuOVRySOEDR/ozEdKY+h5eFs+84UUIyb3Yz+MGVgLYuU0054gclcXldV31HvEK/RNVvGkIA2djOQ==
 
 "@spectrum-css/vars@^4.0.0":
   version "4.0.0"

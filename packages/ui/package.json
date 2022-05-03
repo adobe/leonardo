@@ -51,7 +51,7 @@
     "@adobe/leonardo-contrast-colors": "^1.0.0-alpha.12",
     "@adobe/spectrum-css-workflow-icons": "^1.0.0",
     "@bjornlu/colorblind": "^1.0.3",
-    "@spectrum-css/actionbutton": "^1.0.3",
+    "@spectrum-css/actionbutton": "^1.0.4",
     "@spectrum-css/actiongroup": "^1.0.3",
     "@spectrum-css/alert": "^2.0.5",
     "@spectrum-css/badge": "^1.0.1",
@@ -71,7 +71,7 @@
     "@spectrum-css/link": "^3.0.2",
     "@spectrum-css/menu": "^2.1.1",
     "@spectrum-css/page": "^3.0.2",
-    "@spectrum-css/picker": "^1.0.3",
+    "@spectrum-css/picker": "^1.0.4",
     "@spectrum-css/popover": "^3.0.4",
     "@spectrum-css/progressbar": "^1.0.11",
     "@spectrum-css/progresscircle": "^1.0.3",
@@ -108,7 +108,6 @@
     "node-vibrant": "^3.2.1-alpha.1",
     "plotly.js-dist-min": "^2.5.1",
     "posthtml-parser": "^0.10.1",
-    "simple-color-converter": "^2.1.13",
-    "tinyurl": "^1.1.7"
+    "simple-color-converter": "^2.1.13"
   }
 }

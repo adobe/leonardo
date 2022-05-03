@@ -616,13 +616,13 @@ body,
     background-color: var(--spectrum-global-color-gray-300);
   }
   input[type=range]:focus::-ms-fill-lower {
-    background-color: var(--spectrum-global-color-blue-400);
+    background-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   }
   input[type=range]::-ms-fill-upper {
     background-color: var(--spectrum-global-color-gray-300);
   }
   input[type=range]:focus::-ms-fill-upper {
-    background-color: var(--spectrum-global-color-blue-400);
+    background-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   }
 }
 
