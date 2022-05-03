@@ -70,7 +70,7 @@ test('should return blue colors of 3:1 and 4.5:1 against black', () => {
 
   const contrastColors = searchColors(color, bgRgbArray, baseV, color.ratios).map((clr) => convertColorValue(clr, 'RGB'));
 
-  expect(contrastColors).toEqual(['rgb(72, 38, 255)', 'rgb(126, 81, 255)']); // 3 & 4.51
+  expect(contrastColors).toEqual(['rgb(73, 38, 255)', 'rgb(126, 81, 255)']); // 3 & 4.51
 });
 
 test('should return blue color of -1.3 against light gray', () => {
@@ -85,7 +85,7 @@ test('should return blue color of -1.3 against light gray', () => {
 
   const contrastColors = searchColors(color, bgRgbArray, baseV, color.ratios).map((clr) => convertColorValue(clr, 'RGB'));
 
-  expect(contrastColors).toEqual(['rgb(206, 176, 255)']); // 1.31
+  expect(contrastColors).toEqual(['rgb(207, 176, 255)']); // 1.31
 });
 
 test('should return blue color of -2 against dark gray', () => {

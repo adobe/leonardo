@@ -1854,6 +1854,7 @@ a:focus {
 
   @media screen and (min-width: 1065px) {
     padding-top: 52px;
+    max-height: calc(100vh - 120px);
   }
 }
 

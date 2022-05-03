@@ -68,7 +68,7 @@ test('should set theme saturation to 60%', () => {
   theme.saturation = 60;
   const themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual(['rgb(119, 142, 193)', 'rgb(90, 108, 187)']);
+  expect(themeColors).toEqual(['rgb(119, 142, 193)', 'rgb(90, 107, 187)']);
 });
 
 /** Single color updates */
@@ -104,7 +104,7 @@ test('should remove a color by its class', () => {
       values: [
         { name: 'gray33', contrast: -2.2, value: '#000000' },
         { name: 'gray67', contrast: -1.3, value: '#1b1b1b' },
-        { name: 'gray100', contrast: 1, value: '#313131' },
+        { name: 'gray100', contrast: 1, value: '#303030' },
         { name: 'gray200', contrast: 1.3, value: '#424242' },
         { name: 'gray300', contrast: 1.6, value: '#4f4f4f' },
         { name: 'gray400', contrast: 2.5, value: '#6c6c6c' },
@@ -147,7 +147,7 @@ test('should remove a color by its name', () => {
       values: [
         { name: 'gray33', contrast: -2.2, value: '#000000' },
         { name: 'gray67', contrast: -1.3, value: '#1b1b1b' },
-        { name: 'gray100', contrast: 1, value: '#313131' },
+        { name: 'gray100', contrast: 1, value: '#303030' },
         { name: 'gray200', contrast: 1.3, value: '#424242' },
         { name: 'gray300', contrast: 1.6, value: '#4f4f4f' },
         { name: 'gray400', contrast: 2.5, value: '#6c6c6c' },
