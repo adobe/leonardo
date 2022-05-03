@@ -113,9 +113,16 @@ function createOutputColors(dest) {
 
           let div = document.createElement('div');
           div.className = 'themeOutputSwatch';
-          // copy text should be for value of original color, not of preview color.
-          div.setAttribute('data-clipboard-text', originalValue);
-          div.setAttribute('tabindex', '0');
+          if(dest === themeOutputs) {
+            div.title = `Click to copy value ${originalValue}`
+            // copy text should be for value of original color, not of preview color.
+            div.setAttribute('data-clipboard-text', originalValue);
+            div.setAttribute('tabindex', '0');
+          } 
+          if(dest !== themeOutputs) {
+            div.style.cursor = 'default'
+          }
+
           div.style.backgroundColor = colorValue;
           div.style.borderColor = (backgroundLum > 50 && contrast < 3) ?  'rgba(0, 0, 0, 0.2)' : ((backgroundLum <= 50 && contrast < 3) ? ' rgba(255, 255, 255, 0.4)' : 'transparent');
           
@@ -153,6 +160,7 @@ function createOutputColors(dest) {
 
         let div = document.createElement('div');
         div.className = 'themeOutputSwatch';
+        div.title = `Click to copy value ${originalValue}`
         div.setAttribute('tabindex', '0');
         div.setAttribute('data-clipboard-text', originalValue);
         div.style.backgroundColor = colorValue;

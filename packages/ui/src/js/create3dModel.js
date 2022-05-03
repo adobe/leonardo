@@ -137,7 +137,7 @@ function create3dModel(dest, colorClasses, mode, scaleType = 'theme') {
 
   // Then, display example image based on the selected mode.
   if(scaleType === 'theme') {
-    let modelMode = (mode === 'CAM02') ? 'LAB' : ((mode === 'CAM02p') ? 'LCH' : ((mode === 'HSLuv') ? 'LUV' : mode))
+    let modelMode = (mode === 'CAM02') ? 'LAB' : ((mode === 'CAM02p') ? 'LCH' : ((mode === 'HSLuv') ? 'LUV' : ((mode === 'OKLCH') ? 'OKLAB' : mode)))
     let image = document.getElementById(`ModelImage_${modelMode}`);
     image.classList.remove('is-hidden');
   }
