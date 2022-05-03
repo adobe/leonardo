@@ -10,7 +10,8 @@ governing permissions and limitations under the License.
 */
 
 import {
-  round
+  round,
+  colorPickerInput
 } from './utils';
 import {createTable} from './createTable';
 
@@ -120,8 +121,10 @@ function convertColor(e) {
 }
 
 document.getElementById('convertColorOneInput').addEventListener('input', convertColor);
+document.getElementById('convertColorOne_picker').addEventListener('input', colorPickerInput);
 
 window.convertColor = convertColor;
+window.colorPickerInput = colorPickerInput;
 
 module.exports = {
   convertColor

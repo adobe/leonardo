@@ -749,6 +749,18 @@ function getLightness(color) {
   return c[0];
 }
 
+function colorPickerInput(e) {
+  if(e !== undefined) {
+    let id = e.target.id;
+    let inputId = id.replace('_picker', 'Input');
+    let value = e.target.value;
+    let color = chroma(value);
+    let input = document.getElementById(inputId);
+    input.value = chroma(color).hex();
+    input.dispatchEvent(new Event("input"));
+  }
+}
+
 module.exports = {
   randomId,
   throttle,
@@ -778,5 +790,6 @@ module.exports = {
   getDifference,
   getChannelsAndFunction,
   orderColorsByLuminosity,
-  shuffleArray
+  shuffleArray,
+  colorPickerInput
 }

@@ -15,7 +15,8 @@ import {
   simulateCvd,
   getDifference,
   capitalizeFirstLetter,
-  alphaBlend
+  alphaBlend,
+  colorPickerInput
 } from './utils';
 import {createTable} from './createTable';
 
@@ -178,18 +179,6 @@ function compareColors(e) {
       colorDifferenceReport(fg, bg);
     }
   } 
-}
-
-function colorPickerInput(e) {
-  if(e !== undefined) {
-    let id = e.target.id;
-    let inputId = id.replace('_picker', 'Input');
-    let value = e.target.value;
-    let color = chroma(value);
-    let input = document.getElementById(inputId);
-    input.value = chroma(color).hex();
-    input.dispatchEvent(new Event("input"));
-  }
 }
 
 function sliderRangeInteraction(value) {
