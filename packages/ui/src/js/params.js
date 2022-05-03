@@ -162,11 +162,19 @@ function paramSetup() {
   }
   else if(!params.has('config') || params.get('config') === undefined || !params.has('colorKeys')) {
     addRatioInputs([
-      3., 
-      4.5
+      1.45,
+      2.05,
+      3, 
+      4.54,
+      7,
+      10.86
     ], [
+      '#d6d6d6',
+      '#b5b5b5',
       '#8a8a8a', 
-      '#747474'
+      '#767676',
+      '#595959',
+      '#3d3d3d'
     ]);
     let length = _theme.colors.length;
     for(let i=0; i<length; i++) {
