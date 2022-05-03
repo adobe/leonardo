@@ -442,9 +442,25 @@ function ratioUpdateValues(themeRatios = getThemeContrastRatios()) {
   _theme.updateColor = argArray;
 }
 
+function dispatchRatioInputEvents() {
+  let inputWrapper = document.getElementById('ratioInput-wrapper');
+  inputWrapper.classList.add('is-disabled');
+
+  // Loop every target ratio input and trigger input event to refresh
+  // lightness values and position of dot on gradient visual
+  let ratioFields = document.getElementsByClassName('ratio-Field');
+  for(let i = 0; i < ratioFields.length; i++) {
+    ratioFields[i].dispatchEvent(new Event("input"));
+  }
+  setTimeout(() => {
+    inputWrapper.classList.remove('is-disabled');
+  }, 900)
+}
+
 window.addRatio = addRatio;
 window.sortRatios = sortRatios;
 window.distributeRatios = distributeRatios;
+window.dispatchRatioInputEvents = dispatchRatioInputEvents;
 
 module.exports = {
   addRatio,
@@ -452,6 +468,7 @@ module.exports = {
   addRatioInputs,
   sort,
   sortRatios,
+  dispatchRatioInputEvents,
   syncRatioInputs,
   distributeRatios,
   checkRatioStepModifiers,

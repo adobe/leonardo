@@ -23,6 +23,7 @@ import {
   createLuminosityChart
 } from './createRatioChart';
 import {_theme} from './initialTheme';
+import {dispatchRatioInputEvents} from './ratios';
 import {
   round, 
   throttle
@@ -70,13 +71,6 @@ function sliderInput(e) {
     chartRatios.then(function(resolve) {
       createRatioChart(resolve, isStep);
     });
-
-    // Loop every target ratio input and trigger input event to refresh
-    // lightness values and position of dot on gradient visual
-    let ratioFields = document.getElementsByClassName('ratio-Field');
-    for(let i = 0; i < ratioFields.length; i++) {
-      ratioFields[i].dispatchEvent(new Event("input"));
-    }
   });
 }
 
@@ -85,6 +79,7 @@ const sliderC = document.getElementById('themeContrastSlider');
 const sliderD = document.getElementById('themeSaturationSlider');
 sliderB.addEventListener('input', sliderValue);
 sliderB.addEventListener('input', throttle(sliderInput, 10));
+sliderB.addEventListener('change', throttle(dispatchRatioInputEvents, 20));
 
 sliderC.addEventListener('input', sliderValue);
 sliderC.addEventListener('input', throttle(sliderInput, 10));
