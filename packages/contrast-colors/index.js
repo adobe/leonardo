@@ -30,43 +30,6 @@ extendChroma(chroma);
 // console.color('#6fa7ff');
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('hsl'))
 
-function APCAvalidation(fontSize, fontWeight, level) {
-  // Error or warning messages
-  const doNotUse = 'Do not use this color for text.';
-  const byline = 'Color may be used for Copyright or ByLine only.';
-  const notBodyText = 'Do not use this color for body text (blocks or columns).';
-  // Sizes < 48
-  const doNotUseFontWeight = 'Do not use font weight 100';
-  // Sizes 48+
-  const avoidFontWeight = 'Avoid using font weight 100';
-  if(fontWeight === 100 && fontSize < 48) {
-    console.log(doNotUseFontWeight);
-    throw new Warning(doNotUseFontWeight);
-  }
-  if(fontWeight === 100 && fontSize >= 48) {
-    console.log(avoidFontWeight);
-    throw new Warning(avoidFontWeight);
-  }
-  return fontSize, fontWeight;
-  // const APCALookupTable = {
-  //   '10px': ,
-  //   '11px': ,
-  //   '12px': ,
-  //   '14px': ,
-  //   '16px': ,
-  //   '18px': ,
-  //   '24px': ,
-  //   '30px': ,
-  //   '36px': ,
-  //   '48px': ,
-  //   '60px': ,
-  //   '72px': ,
-  //   '96px': ,
-  //   '120px': ,
-  // }
-}
-window.APCAvalidation = APCAvalidation;
-
 module.exports = {
   Color,
   BackgroundColor,
@@ -76,6 +39,5 @@ module.exports = {
   contrast: getContrast,
   minPositive,
   ratioName,
-  convertColorValue,
-  APCAvalidation
+  convertColorValue
 };
