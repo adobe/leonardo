@@ -53,7 +53,7 @@ class Color {
   // Setting and getting properties of the Color class
   set colorKeys(colorKeys) {
     this._colorKeys = colorKeys;
-    this._generateColorScale();
+    this._updateColorSaturation();
   }
 
   get colorKeys() {

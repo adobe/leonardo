@@ -118,8 +118,8 @@ class Theme {
   }
   // modify individual colors
   set updateColor(param) {
-    // pass arguments in the format _updateColorParameter(color: 'ColorToChange', [propertyToChange]: 'newValue')
-    // eg, changing the name of a color: _updateColorParameter(color: 'blue', name: 'cerulean')
+    // pass arguments in the format updateColor: {color: 'ColorToChange', [propertyToChange]: 'newValue'}
+    // eg, changing the name of a color: updateColor: {color: 'blue', name: 'cerulean'}
     // If param is an array, loop through each object, otherwise execute once
     if(Array.isArray(param)) {
       for(let i = 0; i < param.length; i ++) {
