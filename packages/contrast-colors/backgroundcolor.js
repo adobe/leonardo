@@ -57,7 +57,6 @@ class BackgroundColor extends Color {
     }
 
     this._backgroundColorScale = bgColorArrayFiltered.map((color) => convertColorValue(color, this._output));
-    console.log(this._backgroundColorScale)
 
     return this._backgroundColorScale;
   }
