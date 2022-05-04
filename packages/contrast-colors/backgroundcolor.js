@@ -51,10 +51,13 @@ class BackgroundColor extends Color {
 
     // Manually cap the background array at 100 colors, then add white back to the end
     // since it sometimes gets removed.
-    bgColorArrayFiltered.length = 100;
-    bgColorArrayFiltered.push('#ffffff');
+    if(bgColorArrayFiltered.length > 101) {
+      bgColorArrayFiltered.length = 100;
+      bgColorArrayFiltered.push('#ffffff');
+    }
 
     this._backgroundColorScale = bgColorArrayFiltered.map((color) => convertColorValue(color, this._output));
+    console.log(this._backgroundColorScale)
 
     return this._backgroundColorScale;
   }
