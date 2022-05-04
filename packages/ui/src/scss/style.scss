@@ -1498,10 +1498,10 @@ a:focus {
 
 .ratioGrid {
   display: grid;
-  grid-template-columns: 84px 70px 32px;
+  grid-template-columns: 84px 70px 66px 32px;
   column-gap: 8px;
   grid-template-areas: 
-  'ratio luminosity actions';
+  'ratio luminosity status actions';
 
   .spectrum-Textfield {
     width: 100%;
@@ -1518,6 +1518,9 @@ a:focus {
 }
 .ratioGrid--luminosity {
   grid-area: luminosity;
+}
+.ratioGrid--status {
+  grid-area: status;
 }
 .ratioGrid--swatchName {
   grid-area: swatchName;

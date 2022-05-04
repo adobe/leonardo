@@ -28,6 +28,7 @@ import {
   round,
   lerp
 } from './utils';
+import { difference } from 'd3';
 
 function addRatio() {
   // Gather all existing ratios from _theme
@@ -114,6 +115,23 @@ function createRatioInput(v, c) {
   luminosityInput.onkeydown = checkRatioStepModifiers;
   luminosityInput.oninput = syncRatioInputs;
 
+  // Pass fail status
+  let statusLabel = document.createElement('div');
+  statusLabel.id = randId + '_status';
+  let statusIconName = (v < 3) ? 'Alert' : 'Checkmak' ;
+  let statusClass = (v < 3) ? 'statusLabel--fail' : 'statusLabel--pass' ;
+  let statusLabelText = (v < 3) ? 'Fail' : ((v < 4.5) ? '+18px': 'Pass' );
+  statusLabel.title = (v < 3) ? 'Contrast fails minimums for text and UI components' : ((v < 4.5) ? 'Contrast passes minimum for large text and UI components': 'Contrast passes minimums for all text and UI components' );
+  let statusLabelSpan = document.createElement('span');
+  statusLabel.className = `statusLabel ${statusClass}`;
+  statusLabelSpan.className = 'spectrum-Body spectrum-Body--sizeXS statusLabel-text';
+  statusLabelSpan.innerHTML = statusLabelText;
+  let statusIcon = `<svg class="spectrum-Icon spectrum-Icon--sizeS statusLabel-validationIcon" focusable="false" aria-hidden="true">
+  <use xlink:href="#spectrum-icon-18-${statusIconName}"></use>
+</svg>`;
+  statusLabel.innerHTML = statusIcon;
+  statusLabel.appendChild(statusLabelSpan);
+
   // Customize swatch names input
   // var swatchNameInput = document.createElement('input');
   // let swatchNameInputWrapper = document.createElement('div');
@@ -147,6 +165,7 @@ function createRatioInput(v, c) {
   div.appendChild(luminosityInputWrapper);
   // div.appendChild(swatchNameInputWrapper);
   div.appendChild(button);
+  div.appendChild(statusLabel);
   ratios.appendChild(div);
 
   /** 
@@ -338,6 +357,18 @@ function syncRatioInputs(e) {
   else { // Ratio input
     targetContrast = val;
     baseId = thisId;
+
+    // update status value
+    let status = document.getElementById(`${thisId}_status`);
+    let statusClass = (val < 3) ? 'statusLabel--fail' : 'statusLabel--pass' ;
+    let statusLabelText = (val < 3) ? 'Fail' : ((val < 4.5) ? '+18px': 'Pass' );
+    status.title = (val < 3) ? 'Contrast fails minimums for text and UI components' : ((val < 4.5) ? 'Contrast passes minimum for large text and UI components': 'Contrast passes minimums for all text and UI components' );
+    status.className = `statusLabel ${statusClass}`;
+    let statusIconName = (val < 3) ? 'Alert' : 'Checkmark' ;
+    let statusContent = `<svg class="spectrum-Icon spectrum-Icon--sizeS statusLabel-validationIcon" focusable="false" aria-hidden="true">
+    <use xlink:href="#spectrum-icon-18-${statusIconName}"></use>
+  </svg> <span class="spectrum-Body spectrum-Body--sizeXS statusLabel-text">${statusLabelText}</span>`;
+    status.innerHTML = statusContent;
   }
 
   let themeRatios = Promise.resolve(getContrastRatioInputs());
