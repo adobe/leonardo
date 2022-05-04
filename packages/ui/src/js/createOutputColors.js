@@ -224,8 +224,6 @@ function createDetailOutputColors(colorName) {
     wrapper.appendChild(p);
   }
 
-  console.log(colorOutput)
-
   for(let j=0; j<colorOutput.values.length; j++) { // for each value object
     let originalValue = colorOutput.values[j].value; // output value of color
     let formattedName = colorName.replace(/\s+/g, ''); // these names will have had spaces removed already
