@@ -242,7 +242,7 @@ test('should update predefined color keys', () => {
   theme.updateColor = {color: 'Color', colorKeys: ['#ff8602', '#ab3c00', '#ffd88b']}
   const themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual(['#d86202', '#b74601']);
+  expect(themeColors).toEqual(['#d66201', '#b74700']);
 });
 
 test('should update predefined color keys as object return', () => {
@@ -290,5 +290,5 @@ test('should update predefined colors interpolation', () => {
   theme.updateColor = {color: 'Color', colorspace: 'LCH'}
   const themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual(['#d86202', '#b74601']);
+  expect(themeColors).toEqual(['#d86202', '#b84601']);
 });

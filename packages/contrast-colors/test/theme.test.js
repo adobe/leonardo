@@ -750,7 +750,7 @@ test('should generate 2 colors with bidirectional contrast (light background)', 
   const theme = new Theme({ colors: [color], backgroundColor: '#D8D8D8' });
   const themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual(['#f1f0f6', '#585899']);
+  expect(themeColors).toEqual(['#f1f0f6', '#58589a']);
 });
 
 test('should generate 2 colors with bidirectional contrast (dark background)', () => {
@@ -762,6 +762,7 @@ test('should generate 2 colors with bidirectional contrast (dark background)', (
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#323232' });
   const themeColors = theme.contrastColorValues;
+  console.log(theme.contrastColors)
 
   expect(themeColors).toEqual(['#121c4e', '#9895c0']);
 });
@@ -902,7 +903,7 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
   const theme = new Theme({ colors: [color], backgroundColor: '#537b9d' });
   const themeColors = theme.contrastColorValues;
 
-  expect(themeColors).toEqual(['#b74601', '#d86202']);
+  expect(themeColors).toEqual(['#b84601', '#d86202']);
 });
 
 
