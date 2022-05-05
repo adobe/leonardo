@@ -179,7 +179,7 @@ button.addEventListener('click', function() {
         } else {
           // Otherwise, show the newSafeColors set, because it includes additional
           // color options that can be added to the keeperColors set.
-          console.log(newSafeColors)
+          // console.log(newSafeColors)
 
           showColors(newSafeColors, 'cvdSafeColors');
   

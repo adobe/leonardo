@@ -69,7 +69,6 @@ function downloadSwatches(scaleType) {
     var blob = new Blob([`${svg}`], {type: "image/svg+xml;charset=utf-8"});
   
     saveAs(blob, filename);
-    console.log(document.getElementById(`${scaleType}SampleSwatches`))
     document.getElementById(`${scaleType}SVGcolorSamples`).remove();
   })
 }
