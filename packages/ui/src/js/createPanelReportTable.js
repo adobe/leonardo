@@ -18,7 +18,6 @@ import {
 const chroma = require('chroma-js');
 
 function createPanelReportTable(colors, background, scaleType, level) {
-  console.log(colors, background, scaleType, level)
   if(!colors) {
     const colorClass = (scaleType==='sequential') ? _sequentialScale : _divergingScale;
     let scaleColors = colorClass.colors;

@@ -173,12 +173,16 @@ function colorScaleDiverging(scaleType = 'diverging') {
   })
 
   downloadGradient.addEventListener('click', (e) => {
+    const originalSwatches = colorClass.swatches;
     const stops = 100;
     colorClass.swatches = Number(stops);
-    
+
+    let scaleName = document.getElementById(`${scaleType}_name`).value;
+    let filename = `${scaleName}_${scaleType}`;
+
     const gradientColors = colorClass.colors;
     setTimeout(() => {
-      downloadSVGgradient(gradientColors, colorClass.colorspace, scaleType);
+      downloadSVGgradient(gradientColors, colorClass.colorspace, filename);
       colorClass.swatches = originalSwatches;  
     }, 500)
   })

@@ -24,8 +24,8 @@ function createXML(scaleType) {
   let scaleName = document.getElementById(`${scaleType}_name`).value;
 
   let colorTags = colors.map((c) => {return `<color>${c}</color>`});
-  let colorTagString = colorTags.toString().replaceAll(',', '\n        ');
-
+  let colorTagString = colorTags.toString().replaceAll(',<', '\n        <');
+  
   let xml = `
   <?xml version='1.0'?>
   <workbook>
