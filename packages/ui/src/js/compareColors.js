@@ -145,7 +145,9 @@ function levelSelect(e) {
   let fg = chroma(document.getElementById('compareColorOneInput').value);
   let bg = chroma(document.getElementById('compareColorTwoInput').value);
 
-  contrastReport(fg, bg, value);
+  let blendedValue = alphaBlend(fg.hex(), bg);
+
+  contrastReport(blendedValue, bg, value);
 }
 
 function compareColors(e) {
