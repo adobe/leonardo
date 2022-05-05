@@ -51,7 +51,7 @@ class BackgroundColor extends Color {
 
     // Manually cap the background array at 100 colors, then add white back to the end
     // since it sometimes gets removed.
-    if(bgColorArrayFiltered.length > 101) {
+    if(bgColorArrayFiltered.length >= 101) {
       bgColorArrayFiltered.length = 100;
       bgColorArrayFiltered.push('#ffffff');
     }
