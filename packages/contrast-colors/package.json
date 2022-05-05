@@ -18,7 +18,7 @@
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "chroma-js": "^2.1.2",
+    "chroma-js": "^2.4.2",
     "ciebase": "^0.1.1",
     "ciecam02": "^0.4.6",
     "hsluv": "^0.1.0"

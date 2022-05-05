@@ -132,7 +132,7 @@ function createEvent(col, dur, title, meta, cat, pos, width, customClass) {
   en.classList.add('event', dur, cat, width, customClass);
   en.appendChild(head);
   en.appendChild(detail);
-  en.style.top = 56 + (pos * 33);
+  en.style.top = 56 + (pos * 33) + 'px';
 
   col.appendChild(en);
 }
@@ -178,10 +178,12 @@ createEvent(col4, 'event120', 'Backlog grooming', 'UT-112', 'catPrimary', 8);
 function createColors() {
   let br = document.getElementById('sliderBrightness');
   let con = document.getElementById('sliderContrast');
+  let sat = document.getElementById('sliderSaturation');
   let mode = document.getElementById('darkMode');
 
   let brVal = Number(br.value);
   let conVal = Number(con.value);
+  let satVal = Number(sat.value);
 
   if(mode.checked == true) {
     br.min= "0";
@@ -205,6 +207,7 @@ function createColors() {
 
   myTheme.lightness = brVal;
   myTheme.contrast = conVal;
+  myTheme.saturation = satVal;
 
   let colorPairs = myTheme.contrastColorPairs;
 
@@ -218,5 +221,6 @@ createColors();
 document.getElementById('darkMode').addEventListener('input', createColors)
 document.getElementById('sliderBrightness').addEventListener('input', createColors)
 document.getElementById('sliderContrast').addEventListener('input', createColors)
+document.getElementById('sliderSaturation').addEventListener('input', createColors)
 
 window.createColors = createColors;

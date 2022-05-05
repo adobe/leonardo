@@ -1,0 +1,25 @@
+<div class="addBulkColorDialog spectrum-Dialog spectrum-Dialog--small spectrum-Dialog--confirmation" id="">
+  <div class="spectrum-Dialog-grid">
+    <h2 class="spectrum-Dialog-heading">Add bulk key colors to <span id="addBulkDialog_ScaleName">color scale</span></h2>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM spectrum-Divider--horizontal spectrum-Dialog-divider"/>
+    <section class="spectrum-Dialog-content">
+      <span class="spectrum-Typography">
+        <p class="spectrum-Body4">Enter hex colors separated by comma or new line.</p>
+        <p class="spectrum-Body4">These will be added as <b>key colors<b> to this color scale. </p>
+      </span>
+      <div class="spectrum-Form spectrum-Form--labelsAbove">
+        <div class="spectrum-Form-item">
+          <label for="fieldLabelExample-lifestory" class="spectrum-Form-itemLabel">Colors (Hex)</label>
+          <div class="spectrum-Textfield spectrum-Textfield--multiline" style="width:100%;">
+            <textarea id="bulkColors" class="spectrum-Textfield-input" placeholder="Enter colors here"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="spectrum-ButtonGroup spectrum-Dialog-buttonGroup spectrum-Dialog-buttonGroup--noFooter">
+      <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--secondary spectrum-ButtonGroup-item" onclick="cancelBulk()">Cancel</button>
+      <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta spectrum-ButtonGroup-item" id="bulkAddButton">Add</button>
+
+    </div>
+  </div>
+</div>

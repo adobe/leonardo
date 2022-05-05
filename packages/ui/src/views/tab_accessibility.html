@@ -1,0 +1,160 @@
+<!-- Accessibility Tab -->
+<div id="a11yTab" class="AppTab appFramePanelLeft">
+  <div class="spectrum-Panel spectrum-Panel--left">
+
+    <div class="spectrum-Panel-ContentWrapper">
+      <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
+        <div class="spectrum-Panel-Item">
+          <div class="spectrum-Panel-Title">
+            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS" id="{{ scaleType }}_nameLabel">
+              WCAG compliance
+            </h3>
+          </div>
+          <div class="spectrum-Form spectrum-Form--row">
+            <div class="spectrum-Form-item">
+              <label for="theme_complianceVersion" class="spectrum-FieldLabel spectrum-FieldLabel--left spectrum-Fieldlabel--sizeM">Version</label>
+              <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item pickerCompliance" name="theme_complianceVersion" id="theme_complianceVersion">
+                <option value="2">2.0</option>
+                <!-- <option value="3">3.0</option> -->
+              </select>  
+            </div>
+            <div class="spectrum-Form-item">
+              <label for="theme_complianceLevel" class="spectrum-FieldLabel spectrum-FieldLabel--left spectrum-Fieldlabel--sizeM">Level</label>
+              <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item pickerCompliance" name="theme_complianceLevel" id="theme_complianceLevel">
+                <option value="AA">AA</option>
+                <option value="AAA">AAA</option>
+              </select>  
+            </div>
+            <!-- future picker for rel lum vs APCA formulas -->
+          </div>
+        </div>
+
+         <div class="spectrum-Panel-Item">
+          <span class="spectrum-Heading spectrum-Heading--sizeXXS spectrum-Panel-Item-Title">Colorblind support</span>
+          <div class="spectrum-Form spectrum-Form--row">
+            <div class="spectrum-Form-item">
+              <div id="" class="spectrum-Slider">
+                <div class="spectrum-Slider-labelContainer">
+                  <label class="spectrum-Slider-label" id="{{ scaleType }}_ThresholdLabel" for="{{ scaleType }}_Threshold">Color difference (min DeltaE)</label>
+                  <div class="spectrum-Slider-value" role="textbox" aria-readonly="true" aria-labelledby="{{ scaleType }}_ThresholdLabel" id="{{ scaleType }}_ThresholdValue">11</div>
+                </div>
+                <input class="spectrum-Slider-controls" type="range" min="11" max="50" step="1" value="11" id="{{ scaleType }}_Threshold" name="{{ scaleType }}_Threshold"></input>
+              </div>
+            </div>
+
+            <div class="spectrum-Form-item">
+              <div class="spectrum-Switch">
+                <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_minContrast" >
+                <span class="spectrum-Switch-switch"></span>
+                <label class="spectrum-Switch-label" for="{{ scaleType }}_minContrast">1.4.11 compliant</label>
+              </div>
+            </div>
+
+          </div>
+            <div class="spectrum-Form spectrum-Form--row">
+              <div class="spectrum-Form-item">
+                <label class="spectrum-Checkbox spectrum-Checkbox--sizeM">
+                  <input type="checkbox" class="spectrum-Checkbox-input" id="check_Protanopia" checked>
+                  <span class="spectrum-Checkbox-box">
+                    <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                      <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                    </svg>
+                    <svg class="spectrum-Icon spectrum-UIIcon-Dash100 spectrum-Checkbox-partialCheckmark" focusable="false" aria-hidden="true">
+                      <use xlink:href="#spectrum-css-icon-Dash100" />
+                    </svg>
+                  </span>
+                  <span class="spectrum-Checkbox-label">Protan (red/green)</span>
+                </label>
+              </div>
+              <div class="spectrum-Form-item">
+                <label class="spectrum-Checkbox spectrum-Checkbox--sizeM">
+                  <input type="checkbox" class="spectrum-Checkbox-input" id="check_Deuteranopia" checked>
+                  <span class="spectrum-Checkbox-box">
+                    <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                      <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                    </svg>
+                    <svg class="spectrum-Icon spectrum-UIIcon-Dash100 spectrum-Checkbox-partialCheckmark" focusable="false" aria-hidden="true">
+                      <use xlink:href="#spectrum-css-icon-Dash100" />
+                    </svg>
+                  </span>
+                  <span class="spectrum-Checkbox-label">Deutan (red/green)</span>
+                </label>
+              </div>
+            </div>
+            <div class="spectrum-Form spectrum-Form--row" style="margin-top: 0;">
+              <div class="spectrum-Form-item">
+                <label class="spectrum-Checkbox spectrum-Checkbox--sizeM">
+                  <input type="checkbox" class="spectrum-Checkbox-input" id="check_Tritanopia" checked>
+                  <span class="spectrum-Checkbox-box">
+                    <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                      <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                    </svg>
+                    <svg class="spectrum-Icon spectrum-UIIcon-Dash100 spectrum-Checkbox-partialCheckmark" focusable="false" aria-hidden="true">
+                      <use xlink:href="#spectrum-css-icon-Dash100" />
+                    </svg>
+                  </span>
+                  <span class="spectrum-Checkbox-label">Tritan (blue/yellow)</span>
+                </label>
+              </div>
+
+              <div class="spectrum-Form-item">
+                <label class="spectrum-Checkbox spectrum-Checkbox--sizeM">
+                  <input type="checkbox" class="spectrum-Checkbox-input" id="check_Achromatopsia">
+                  <span class="spectrum-Checkbox-box">
+                    <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                      <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                    </svg>
+                    <svg class="spectrum-Icon spectrum-UIIcon-Dash100 spectrum-Checkbox-partialCheckmark" focusable="false" aria-hidden="true">
+                      <use xlink:href="#spectrum-css-icon-Dash100" />
+                    </svg>
+                  </span>
+                  <span class="spectrum-Checkbox-label">Achromatopsia</span>
+                </label>
+              </div>
+             
+            </div>
+         </div>
+
+      
+        </div>
+
+        <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
+
+        </div>
+   </div>
+
+  </div>
+
+
+  <main>
+    <div class="spectrum-Content-Tabs">
+      <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+        <div id="tabContrastingPairs" class="spectrum-Tabs-item a11y-Tabs-item" tabindex="0" onclick="openAccessibilityTab(event, 'contrastPairsWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Contrasting pairs</label>
+        </div>
+        <div id="tabColorblindSafe" class="spectrum-Tabs-item a11y-Tabs-item" tabindex="0" onclick="openAccessibilityTab(event, 'colorBlindSafeWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Colorblind safe</label>
+        </div>
+      </div>
+    </div>
+    <div id="contrastPairsWrapper" class="a11y-Tabs-content">
+      <div class="a11yTable">
+        <div class="a11yTable-row">
+          <div class="a11yTable-item">
+            Blue 100
+          </div>  
+          <div class="a11yTable-item a11yTable-card">
+            Blue 500
+          </div>  
+        </div>
+      </div>
+
+    </div>
+
+    <div id="colorBlindSafeWrapper" class="a11y-Tabs-content">
+      Color blind safe colors
+    </div>
+
+  </main>
+
+</div>

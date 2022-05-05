@@ -75,8 +75,10 @@ h1 + cite {
   .spectrum-Form-item {
     width: 210px;
   }
+  + .spectrum-Form-item--row {
+    margin-top: var(--spectrum-global-dimension-size-400);
+  }
 }
-
 
 .spectrum-Textfield {
   width: 21ch;
@@ -168,9 +170,9 @@ h1 + cite {
   font-size: 14px;
 }
 
-#contrastCheckInput {
-  height: 340px;
-}
+// #contrastCheckInput {
+//   height: 340px;
+// }
 
 #alphaSlider {
   width: 208px;

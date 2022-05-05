@@ -39,5 +39,5 @@ module.exports = {
   contrast: getContrast,
   minPositive,
   ratioName,
-  convertColorValue,
+  convertColorValue
 };
