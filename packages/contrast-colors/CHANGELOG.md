@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.13](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.12...@adobe/leonardo-contrast-colors@1.0.0-alpha.13) (2022-05-05)
+
+
+### Bug Fixes
+
+* BackgroundColor length threshold updated to >= ([54fe5e5](https://github.com/adobe/leonardo/commit/54fe5e56d38eaf61c246090090c644caa3b32a59))
+
+
+
+
+
 # [1.0.0-alpha.12](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.11...@adobe/leonardo-contrast-colors@1.0.0-alpha.12) (2021-09-14)
 
 
