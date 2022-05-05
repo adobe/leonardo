@@ -50,9 +50,9 @@ function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false
     dest === `#sequentialRGBchart` ||
     dest === '#divergingRGBchart'
   ) {
-    chartWidth = 308;
+    chartWidth = 368;
     adjustedHeight = (windowHeight - 332) / 3;
-    chartHeight = 175; // 196
+    chartHeight = 196; // 196
 
   }
   if(dest === '#RGBchart') {
