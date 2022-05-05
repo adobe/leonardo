@@ -1,0 +1,27 @@
+.statusLabel {
+  display: flex;
+  flex-direction: row;
+  height: 32px;
+  grid-area: status;
+  align-items: center;
+  cursor: default;
+
+  .statusLabel-text {
+    margin-left: 4px;
+    color: var(--spectrum-global-color-gray-700);
+  }
+}
+
+.statusLabel--fail {
+  .statusLabel-validationIcon {
+    color: var(--spectrum-global-color-red-600);
+  }
+  .statusLabel-text {
+    color: var(--spectrum-global-color-red-700);
+  }
+}
+.statusLabel--pass {
+  .statusLabel-validationIcon {
+    color: var(--spectrum-global-color-green-600);
+  }
+}

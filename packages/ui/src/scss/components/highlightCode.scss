@@ -1,0 +1,32 @@
+/* Code syntax highlighting aliases */
+.hljs-keyword {
+  color: var(--spectrum-global-color-fuchsia-600);
+}
+.hljs-section {
+  color: var(--spectrum-global-color-red-600);
+}
+.hljs-literal,
+.hljs-number {
+  color: var(--spectrum-global-color-purple-600);
+}
+.hljs-attr {
+  color: var(--spectrum-global-color-seafoam-600);
+}
+.hljs-title {
+  color: var(--spectrum-global-color-indigo-600);
+}
+.hljs-title.class_ {
+  color: var(--spectrum-global-color-blue-600);
+}
+.hljs-variable {
+  color: var(--spectrum-global-color-magenta-600);
+}
+.hljs-string {
+  color: var(--spectrum-global-color-fuchsia-600);
+}
+.hljs-function {
+  color: var(--spectrum-global-color-blue-600);
+}
+.hljs-comment {
+  color: var(--spectrum-global-color-gray-500);
+}

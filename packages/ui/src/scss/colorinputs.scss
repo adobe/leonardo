@@ -45,7 +45,7 @@ input[type="color"]:disabled {
 input[type=color]:focus {
   outline: none;
   border: 1px solid var(--spectrum-alias-background-color-default);
-  box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
+  box-shadow: 0 0 0 2px var(--spectrum-alias-focus-color);
 }
 
 input[type="color"]::-webkit-color-swatch {
@@ -74,6 +74,21 @@ input[type="color"].keyColor-Item + .spectrum-ActionButton {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+// Middle color for diverging needs full rounding
+.keyColor-diverging-middle > input[type="color"]  {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.keyColor-diverging-middle > input[type="color"]::-webkit-color-swatch {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.keyColor-diverging-middle > input[type="color"]::-moz-color-swatch {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
 .spectrum-FieldLabel--right {
   padding: var(--spectrum-fieldlabel-side-padding-top, var(--spectrum-global-dimension-size-100)) 0 0 var(--spectrum-fieldlabel-side-padding-x, var(--spectrum-global-dimension-size-100));
 }

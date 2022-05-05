@@ -1,0 +1,251 @@
+<!-- Color Scales Tab (partial / dynamic) -->
+<div id="{{ scaleType }}" class="AppTab appFramePanelLeft appFramePanelLeft--large">
+  <div class="spectrum-Panel">
+    <div class="spectrum-Panel-ContentWrapper">
+      <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
+        <div class="spectrum-Panel-Item">
+          <div class="spectrum-Panel-Title">
+            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS" id="{{ scaleType }}_nameLabel">
+              Scale name 
+            </h3>
+          </div>
+          <div class="spectrum-Form">
+            <div class="spectrum-Form-item">
+              <div class="spectrum-Textfield spectrum-Textfield--sizeM spectrum-Textfield--fullwidth">
+                <input type="text" class="spectrum-Textfield-input" id="{{ scaleType }}_name" name="{{ scaleType }}_name" aria-labelledby="{{ scaleType }}_nameLabel" value="My sequential scale">
+              </div>
+            </div>
+          </div>
+        </div>
+         <div class="spectrum-Panel-Item">
+            <div class="spectrum-Form spectrum-Form--row themeColor_configs" id="{{ scaleType }}-themeColor_configs">
+               <div class="themeColor_subheading">
+                  <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">Key colors</h4>
+                  <div class="keyColorActions">
+                     <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionButton--quiet" id="{{ scaleType }}_addKeyColor" title="Add key color">
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Add">
+                           <use xlink:href="#spectrum-icon-18-Add"></use>
+                        </svg>
+                     </button>
+                  </div>
+               </div>
+               <div class="keyColorsWrapper" id="{{ scaleType }}_keyColors">
+               </div>
+            </div>
+         </div>
+
+         <div class="spectrum-Panel-Item">
+          <div class="spectrum-Panel-Title">
+            <h4 class="spectrum-Heading spectrum-Heading--sizeXXS">Interpolation options</h4>
+          </div>
+          <div class="spectrum-Form spectrum-Form--row" id="{{ scaleType }}-themeColor_keyColors">
+               <div class="spectrum-Form-item spectrum-Form-item--row">
+                  <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color space</label>
+                  <select class="spectrum-Picker spectrum-Picker--sizeM pickerMode" id="{{ scaleType }}_mode" name="{{ scaleType }}_mode">
+                     <span class="spectrum-Picker-iconWrapper">
+                        <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                           <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                        </svg>
+                     </span>
+                     <option value="CAM02">CAM02</option>
+                     <option value="CAM02p">CAM02 (Ch)</option>
+                     <option value="LCH">Lch</option>
+                     <option value="LAB">Lab</option>
+                     <option value="HSL">HSL</option>
+                     <option value="HSLuv">HSLuv</option>
+                     <option value="HSV">HSV</option>
+                     <option value="RGB">RGB</option>
+                     <option value="OKLAB">OKLAB</option>
+                     <option value="OKLCH">OKLCH</option>
+                  </select>
+               </div>
+               <div class="spectrum-Form-item">
+                  <div class="spectrum-Switch is-disabled" id="{{ scaleType }}_smoothWrapper">
+                    <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}_smooth" disabled>
+                    <span class="spectrum-Switch-switch"></span>
+                    <label class="spectrum-Switch-label" for="{{ scaleType }}_smooth">Smooth</label>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      </div>
+    
+      <div class="spectrum-Panel-Item spectrum-Panel-Item--noPadding">
+        <div class="spectrum-Panel-Item">
+          <div class="spectrum-Panel-Title">
+            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS" id="outputFormatHeading">
+              Output
+            </h3>
+          </div>
+          <div class="spectrum-Form spectrum-Form--row" style="margin-bottom: var(--spectrum-global-dimension-size-100); margin-top: 0">
+            <div class="spectrum-Form-item">
+              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}Samples">Quantity</label>
+              <div id="" class="spectrum-Textfield pickerMode">
+                <input class="spectrum-Textfield-input " type="number" min="2" max="100" step="1" value="7" id="{{ scaleType }}Samples" name="{{ scaleType }}Samples"></input>
+              </div>
+            </div>
+            <div class="spectrum-Form-item">
+              <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left" for="{{ scaleType }}_format">Format</label>
+              <select class="spectrum-Picker spectrum-Picker--sizeM pickerOutputFormat pickerMode" id="{{ scaleType }}_format" name="{{ scaleType }}_format">
+                <span class="spectrum-Picker-iconWrapper">
+                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                      <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                    </svg>
+                </span>
+                <option value="HEX">Hex</option>
+                <option value="RGB">RGB</option>
+                <option value="LAB">Lab</option>
+                <option value="LCH">Lch</option>
+                <option value="HSL">HSL</option>
+              </select>
+            </div>
+            <div class="spectrum-Form-item">
+              <div class="spectrum-Switch" id="{{ scaleType }}paramStringQuotesWrapper">
+                <input type="checkbox" class="spectrum-Switch-input" id="{{ scaleType }}paramStringQuotes">
+                <span class="spectrum-Switch-switch"></span>
+                <label class="spectrum-Switch-label" for="{{ scaleType }}paramStringQuotes">Quotes</label>
+              </div>
+            </div>
+          </div>
+          <div class="sampleSwatches" id="{{scaleType}}SampleSwatches">
+            <!-- generated samples here -->
+          </div>
+          <div class="themeOutputParams" id="{{scaleType}}ColorScaleOutput">
+            <!-- generated values here -->
+          </div>
+        </div>
+        <div class="spectrum-Panel-Item">
+          <div class="spectrum-Panel-Title">
+            <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+              Export 
+            </h3>
+          </div>
+          <div class="spectrum-ActionGroup spectrum-ActionGroup--compact spectrum-Panel-ActionGroup">
+            <button title="Download Tableau xml file" id="{{ scaleType }}_downloadXml" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+              <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
+                <use xlink:href="#spectrum-icon-18-Download" />
+              </svg>
+              <span class="spectrum-ActionButton-label">Tableau (XML)</span>
+            </button>
+            <button title="Download SVG colors" id="downloadSequentialSwatches" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+              <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
+                <use xlink:href="#spectrum-icon-18-Download" />
+              </svg>
+              <span class="spectrum-ActionButton-label">SVG colors</span>
+            </button>  
+            <button title="Download SVG gradient" id="{{ scaleType }}_downloadGradient" class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+              <svg class="spectrum-Icon spectrum-Icon--sizeM" focusable="false" aria-hidden="true" aria-label="Download">
+                <use xlink:href="#spectrum-icon-18-Download" />
+              </svg>
+              <span class="spectrum-ActionButton-label">SVG gradient</span>
+            </button>
+          </div>
+        </div>
+      </div>
+   </div>
+  </div>
+
+  <main id="main_sequential">
+    <div class="scaleMainContent-Wrapper">
+      <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS colorScaleHeaderWrapper">Color scale</h2>
+      <div class="themeColor_gradient" id="{{scaleType}}_gradient">
+      </div>
+
+      <div id="" class="spectrum-Content-Tabs spectrum-Content-Tabs--noPadding">
+        <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+          <div id="tab{{scaleType}}Demo" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}DemoWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Visualize</label>
+          </div>
+          <div id="tab{{scaleType}}Charts" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ChartsWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Analyze</label>
+          </div>
+        
+          <div id="tab{{scaleType}}Model" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}ModelWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Model</label>
+          </div>
+          <div id="tab{{scaleType}}Accessibility" class="spectrum-Tabs-item {{scaleType}}-Tabs-item" tabindex="0" onclick="openScaleTab(event, '{{ scaleType }}AccessibilityWrapper', `{{ scaleType }}`)">
+            <label class="spectrum-Tabs-itemLabel">Accessibility</label>
+          </div>
+        </div>
+      </div>
+
+      <div id="{{scaleType}}DemoWrapper" class="spectrum-Body {{scaleType}}TabsWrapper demoVisualizationWrapper">
+        <div class="demoVisualization--row">
+          <div id="{{scaleType}}Heatmap" class="demoVisualization"></div>
+          <div id="{{scaleType}}Scatter" class="demoVisualization"></div>  
+        </div>
+        <div class="demoVisualization--row">
+          <div id="{{scaleType}}Choropleth" class="demoVisualization demoVisualization--large"></div>
+        </div>
+
+        
+        <hr class="spectrum-Divider spectrum-Divider--sizeS"/>
+        <p class="spectrum-Body spectrum-Body--sizeS"> 
+          Visualizations from <a class="spectrum-Link" href="https://www.d3-graph-gallery.com/" target="_blank">d3-graph-gallery</a>
+        </p>
+      </div>
+
+      <div id="{{scaleType}}ChartsWrapper" class="{{scaleType}}TabsWrapper">
+        <div class="chartsRow">
+          <!-- Column 1 -->
+          <div class="chartsColumn--left">
+            <label for="{{ scaleType }}_chartsMode" class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">
+              Analysis color space
+            </label>
+            <div class="spectrum-Form-item spectrum-Form-item--row" style="display: inline-flex">
+                <select class="spectrum-Picker spectrum-Picker--sizeM chartsMode" name="{{ scaleType }}_chartsMode" id="{{ scaleType }}_chartsMode">
+                  <option value="CAM02">CAM02 (recommended)</option>
+                  <option value="CAM02p">CAM02-Ch (recommended)</option>
+                  <option value="LAB">Lab (recommended)</option>
+                  <option value="LCH">LCh (recommended)</option>
+                  <option value="OKLAB">OKLab</option>
+                  <option value="OKLCH">OKLCh</option>
+                  <option value="HSL">HSL</option>
+                  <option value="HSV">HSV</option>
+                  <option value="HSLuv">HSLuv</option>
+                  <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                  </svg>
+                </select>
+            </div>
+      
+            <p class="spectrum-Body spectrum-Body--sizeXS" style="margin-top: var(--spectrum-global-dimension-size-100)">
+              Charts and models will display in the selected color space. 
+            </p>
+
+            <div id="{{ scaleType }}ColorWheelWrapper" class="tab-ColorWheel">
+              <div id="{{ scaleType }}ColorWheel">
+                <div id="{{scaleType}}ColorWheelPaths" class="polarPathsWrapper" ></div>
+              </div>
+            </div>
+
+            <div class="chart--labelless" id="{{scaleType}}RGBchart">
+              RGB chart
+            </div>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="chartsColumn--right">
+            <div class="chart--labelless" id="{{scaleType}}InterpolationChart">
+              chart 1
+            </div>
+            <div class="chart--labelless" id="{{scaleType}}InterpolationChart2">
+              chart 2
+            </div>  
+            <div class="chart--labelless" id="{{scaleType}}InterpolationChart3">
+              chart 3
+            </div>   
+          </div>
+        </div>
+      </div>
+
+      <div id="{{scaleType}}AccessibilityWrapper" class="{{scaleType}}TabsWrapper">
+        <div id="{{scaleType}}_a11yTable"></div>
+      </div>
+
+      <div id="{{scaleType}}ModelWrapper" class="{{scaleType}}TabsWrapper">
+        <svg class="chart3D" id="{{scaleType}}Model"></svg>
+      </div>
+    </main>
+</div>

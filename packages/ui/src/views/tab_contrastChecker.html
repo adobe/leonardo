@@ -1,0 +1,81 @@
+<!-- Contrast Checker Tab -->
+<div id="contrastChecker" class="AppTab">
+
+  <main class="home-Wrapper spectrum-Typography" id="converterWrapper">
+      <div id="converterGroup">
+        <div>
+          <h1 class="spectrum-Heading spectrum-Heading--XXL spectrum-Heading--heavy"> Color Contrast Checker </h1>
+          <p class="spectrum-Body spectrum-Body--S"> Check the contrast of foreground and background colors with WCAG 2.0 relative luminance and WCAG 3.0 APCA (advanced perceptual contrast) formulas.</p>
+        </div>
+    
+        <div class="converter--row">
+          <div class="converter--column" id="contrastCheckInput">
+            <div id="inputWrapper">
+              <div class="spectrum-Form">
+                <div class="spectrum-Form-item--row">
+                  <div class="spectrum-Form-item">
+                    <label class="spectrum-FieldLabel">Contrast formula:</label>
+                    <div class="spectrum-Dropdown" id="contrastMethodDropdown">
+                      <select class="spectrum-FieldButton spectrum-Dropdown-trigger" name="contrastMethod" id="contrastMethod">
+                        <option value="WCAG">WCAG</option>
+                        <option value="APCA">APCA (draft)</option>
+                      </select>
+                      <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-UIIcon-ChevronDownMedium spectrum-Dropdown-icon">
+                        <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="spectrum-Form-item--row">
+                  <div class="spectrum-Form-item">
+                    <label for="input" class="spectrum-FieldLabel">Foreground color</label>
+                    <input type="text" id="foregroundInput" placeholder="Enter color value" class="spectrum-Textfield"></input>
+                    <input type="color" class="" id="foregroundColorInput"></input>
+    
+                    <div id="alphaSlider" class="spectrum-ColorSlider">
+                      <div class="spectrum-ColorSlider-checkerboard" role="presentation">
+                        <div id="alphaSliderGradient" class="spectrum-ColorSlider-gradient" role="presentation" ></div>
+                      </div>
+                    
+                      <div id="alphaSliderHandleWrap" class="spectrum-ColorHandle spectrum-ColorSlider-handle">
+                        <div id="alphaSliderHandle" class="spectrum-ColorHandle-color"></div>
+                      </div>
+                    
+                      <input id="alphaSliderRange" type="range" class="spectrum-ColorSlider-slider" min="0" max="100" step="1" onchange="sliderRangeInteraction(this.value)">
+                    </div>
+                  </div>
+                  <div class="spectrum-Form-item">
+                    <label for="input" class="spectrum-FieldLabel">Background color</label>
+                    <input type="text" id="backgroundInput" placeholder="Enter color value" class="spectrum-Textfield"></input>
+                    <input type="color" class="" id="backgroundColorInput"></input>
+                  </div>
+                </div>
+                <p class="spectrum-Body spectrum-Body--XS">Supports hex, rgb, hsl, hsv, hsluv, lab, lch, and jab with alpha</p>
+              </div>
+            </div>
+            
+            <div id="outputWrapper">
+                <h2>Contrast ratio:</h2>
+                <div id="ratioOutput"></div>
+            </div>
+          </div>
+              
+          <div id="demoWrapper">
+            <span id="largeText">Large text is 18pt or 14pt bold.</span>
+            <span id="smallText">Small text is less than 18pt or less than 14pt bold.</span>
+            <span id="uiDemo">
+              <button class="spectrum-Button" id="demoButton">    
+                <span id="demoButtonText" class="spectrum-Button-label">Button</span>
+              </button>
+            </span>
+          </div>
+        </div>
+        
+        <footer>
+          <p class="footer--cta">Try <a class="spectrum-Link" href="index.html">generating color by desired contrast ratio</a> instead.</p>
+        </footer>
+       </div>
+
+    </main>
+
+</div>
