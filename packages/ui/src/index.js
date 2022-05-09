@@ -76,6 +76,17 @@ posthtml()
   .then((result) => result);
 
 
+// Redirect for URL parameters
+let url = new URL(window.location);
+let params = new URLSearchParams(url.search.slice(1));
+console.log(url.href)
+
+if(params.has('colorKeys') || params.has('name')) {
+  let newURL = url.href.replace('index', 'theme')
+  window.location.replace(newURL);
+}
+
+
 window.matchMedia('(prefers-color-scheme: dark)')
   .addEventListener('change', event => {
   if (event.matches) {
