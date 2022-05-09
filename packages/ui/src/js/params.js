@@ -119,6 +119,28 @@ function paramSetup() {
     });
   }
   else if(params.has('colorKeys')) {
+    // old way used #, but now it's seen as a hash.
+    // Have to replace # with character code and reset URL
+    if(window.location.hash) {
+      let hash = window.location.hash.toString();
+      // let newParam = hash.replaceAll(`#`, `%23`).replaceAll(`,`, `%54`);
+      let paramArray = hash.split('&');
+      console.log(paramArray)
+      let paramOptions = ['base', 'mode', 'ratios'];
+      paramArray.map((p) => {
+        for(let i = 0; i < paramOptions.length; i++) {
+          if(p.includes(paramOptions[i])) {
+            // strip string to reveal parameters
+            let value = p.replace(`${paramOptions[i]}=`, '');
+            params.set(`${paramOptions[i]}`, value)
+          }
+        }
+      })
+      
+      params.set('colorKeys', paramArray[0])
+      window.history.replaceState({}, '', '?' + params); // update the page's URL.
+    }
+
     let colorKeys = Promise.resolve(params.get('colorKeys').split(','));
     let colorspace = Promise.resolve(params.get('mode'));
     let ratios = Promise.resolve(params.get('ratios').split(',').map((r) => {return Number(r)}));
