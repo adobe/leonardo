@@ -7,6 +7,7 @@
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
     "serve": "npx parcel src/index.html src/theme.html src/scales.html src/tools.html src/demo.html --no-hmr",
+    "clean": "rm -rf dist/*",
     "dev": "yarn copyIcons && yarn serve",
     "copyIcons": "mkdir -p dist && yarn copyWorkflowIcons && yarn copyUIIcons",
     "copyWorkflowIcons": "cp -r ../../node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg dist/",
@@ -14,7 +15,7 @@
     "copyCNAME": "cp -r src/CNAME dist/CNAME",
     "postPublish": "yarn deploySite",
     "buildSite": "npx parcel build --no-minify src/index.html src/scales.html src/tools.html src/theme.html src/demo.html --public-url ./ && yarn copyCNAME && yarn copyIcons",
-    "deploySite": "yarn buildSite && npx gh-pages -d dist"
+    "deploySite": "yarn clean && yarn buildSite && npx gh-pages -d dist"
   },
   "keywords": [
     "accessibility",
