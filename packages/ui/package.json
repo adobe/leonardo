@@ -14,7 +14,7 @@
     "copyCNAME": "cp -r src/CNAME dist/CNAME",
     "postPublish": "yarn deploySite",
     "buildSite": "npx parcel build --no-minify src/index.html src/scales.html src/tools.html src/theme.html src/demo.html --public-url ./ && yarn copyCNAME && yarn copyIcons",
-    "deploySite": "yarn buildSite && npx ghpages -p dist"
+    "deploySite": "yarn buildSite && npx gh-pages -d dist"
   },
   "keywords": [
     "accessibility",
@@ -37,7 +37,7 @@
   ],
   "license": "Apache-2.0",
   "devDependencies": {
-    "ghpages": "^0.0.10",
+    "gh-pages": "^3.2.3",
     "highlight.js": "^11.2.0",
     "parcel-bundler": "^1.12.4",
     "posthtml": "^0.16.5",
