@@ -79,10 +79,18 @@ posthtml()
 // Redirect for URL parameters
 let url = new URL(window.location);
 let params = new URLSearchParams(url.search.slice(1));
-console.log(url.href)
 
 if(params.has('colorKeys') || params.has('name')) {
-  let newURL = url.href.replace('index', 'theme')
+  let newURL;
+  // if URL includes "index", replace with "theme"
+  if(JSON.stringify(url.href).includes('index')) {
+    newURL = url.href.replace('index', 'theme')
+  } 
+  // if URL is at root, such as leonardocolor.io/?params, redirect to "theme"
+  else {
+    newURL = url.href.replace('/?', '/theme?')
+  }
+  
   window.location.replace(newURL);
 }
 
