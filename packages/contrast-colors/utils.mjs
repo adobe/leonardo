@@ -10,8 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const chroma = require('chroma-js');
-const { catmullRom2bezier, prepareCurve } = require('./curve');
+import chroma from "chroma-js";
+import { catmullRom2bezier, prepareCurve } from "./curve";
 
 const colorSpaces = {
   CAM02: 'jab',
@@ -497,7 +497,7 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
   return outputColors;
 };
 
-module.exports = {
+export {
   cArray,
   hsluvArray,
   colorSpaces,

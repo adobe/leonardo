@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 /* global test, expect */
 
-const { createScale } = require('../index');
+import { createScale } from "../index";
 
 test('should generate 8 colors in Lab', () => {
   const scale = createScale({ swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true });

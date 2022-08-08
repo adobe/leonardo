@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 /* global test, expect */
 
-const { contrast } = require('../index');
+import { contrast } from "../index";
 
 test('should provide negative contrast in light theme (-1.55...)', () => {
   const contrastValue = contrast([255, 255, 255], [207, 207, 207]); // white is UI color, gray is base. Should return negative whole number

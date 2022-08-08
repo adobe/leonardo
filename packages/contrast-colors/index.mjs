@@ -10,33 +10,26 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const chroma = require('chroma-js');
-const { extendChroma } = require('./chroma-plus');
-const {
-  convertColorValue,
-  createScale,
-  getContrast,
-  luminance,
-  minPositive,
-  ratioName,
-} = require('./utils');
+import chroma from "chroma-js";
+import { extendChroma } from "./chroma-plus";
+import { convertColorValue, createScale, getContrast as contrast, luminance, minPositive, ratioName } from "./utils";
 
-const { Color } = require('./color');
-const { BackgroundColor } = require('./backgroundcolor');
-const { Theme } = require('./theme');
+import { Color } from "./color";
+import { BackgroundColor } from "./backgroundcolor";
+import { Theme } from "./theme";
 
 extendChroma(chroma);
 
 // console.color('#6fa7ff');
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('hsl'))
 
-module.exports = {
+export {
   Color,
   BackgroundColor,
   Theme,
   createScale,
   luminance,
-  contrast: getContrast,
+  contrast,
   minPositive,
   ratioName,
   convertColorValue
