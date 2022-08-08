@@ -10,11 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const chroma = require('chroma-js');
-const {
-  colorSpaces,
-  createScale,
-} = require('./utils');
+import chroma from "chroma-js";
+import { colorSpaces, createScale } from "./utils";
 
 class Color {
   constructor({ name, colorKeys, colorspace = 'RGB', ratios, smooth = false, output = 'HEX', saturation = 100 }) {
@@ -150,4 +147,4 @@ class Color {
     });
   }
 }
-module.exports = { Color };
+export { Color };

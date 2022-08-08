@@ -10,14 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const {
-  hsluvArray,
-  convertColorValue,
-  createScale,
-  removeDuplicates,
-} = require('./utils');
+import { hsluvArray, convertColorValue, createScale, removeDuplicates } from "./utils";
 
-const { Color } = require('./color');
+import { Color } from "./color";
 
 class BackgroundColor extends Color {
   get backgroundColorScale() {
@@ -61,4 +56,4 @@ class BackgroundColor extends Color {
     return this._backgroundColorScale;
   }
 }
-module.exports = { BackgroundColor };
+export { BackgroundColor };

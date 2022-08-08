@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 
 /* global test, expect */
 
-const { BackgroundColor } = require('../index');
+import { BackgroundColor } from "../index";
 
 // Test simple generation in all color spaces
 test('should generate 101 grayscale colors in default LAB colorspace)', () => {

@@ -35,7 +35,6 @@ const bezlen = (x1, y1, x2, y2, x3, y3, x4, y4, z) => {
   }
   return z2 * sum;
 };
-exports.bezlen = bezlen;
 
 const findDotsAtSegment = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) => {
   const t1 = 1 - t;
@@ -47,9 +46,8 @@ const findDotsAtSegment = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) => {
   const y = t13 * p1y + t12 * 3 * t * c1y + t1 * 3 * t * t * c2y + t3 * p2y;
   return { x, y };
 };
-exports.findDotsAtSegment = findDotsAtSegment;
 
-exports.catmullRom2bezier = (crp, z) => {
+const catmullRom2bezier = (crp, z) => {
   const d = [];
   let end = { x: +crp[0], y: +crp[1] };
   for (let i = 0, iLen = crp.length; iLen - 2 * !z > i; i += 2) {
@@ -104,7 +102,7 @@ const bezlen2 = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
   return len;
 };
 
-exports.prepareCurve = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
+const prepareCurve = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
   const len = Math.floor(bezlen2(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) * .75);
   const fs = [];
   let oldi = 0;
@@ -124,3 +122,12 @@ exports.prepareCurve = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
   }
   return (x) => fs[Math.round(x)] || null;
 };
+
+
+export {
+  bezlen,
+  findDotsAtSegment,
+  prepareCurve,
+  catmullRom2bezier
+};
+

@@ -10,8 +10,8 @@ governing permissions and limitations under the License.
 */
 /* global test, expect */
 
-const { Color } = require('../index');
-const { searchColors, convertColorValue } = require('../utils');
+import { Color } from "../index";
+import { searchColors, convertColorValue } from "../utils";
 
 test('should return blue color of 3.12:1 against white', () => {
   const color = new Color({ 

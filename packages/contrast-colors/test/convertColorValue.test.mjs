@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { convertColorValue } = require('../index.js');
+import { convertColorValue } from "../index.js";
 
 test('should return color object for HSL color', function() {
   let result = convertColorValue('#2c66f1', 'HSL', true);
