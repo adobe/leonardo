@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 /* global test, expect */
-const { Color } = require('../index');
+import { Color } from "../index";
 
 test('should set color name of Color class', () => {
   const color = new Color({

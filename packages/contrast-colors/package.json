@@ -4,16 +4,31 @@
   "description": "Generate colors based on a desired contrast ratio",
   "repository": "git@github.com:adobe/leonardo.git",
   "main": "./index.js",
-  "module": "./wrapper.mjs",
+  "type": "module",
   "exports": {
     ".": {
-      "require": "./index.js",
-      "default": "./wrapper.mjs"
+      "default": "./index.js"
     }
   },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "mjs",
+      "cjs",
+      "jsx",
+      "ts",
+      "tsx",
+      "json",
+      "node"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.m[jt]s?(x)",
+      "**/?(*.)+(spec|test).m[jt]s?(x)"
+    ]
+  },
   "scripts": {
-    "dev": "jest --watch",
-    "test": "jest"
+    "dev": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
@@ -24,6 +39,7 @@
     "hsluv": "^0.1.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.18.6",
     "apca-w3": "^0.1.9",
     "colorparsley": "^0.1.8",
     "eslint": "^7.32.0",

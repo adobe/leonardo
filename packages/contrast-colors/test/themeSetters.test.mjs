@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 /* global test, expect */
-const { Theme, Color, BackgroundColor } = require('../index');
+import { Theme, Color, BackgroundColor } from "../index";
 
 // Output formats
 test('should set theme output to HEX', () => {
