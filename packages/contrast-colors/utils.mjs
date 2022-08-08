@@ -10,6 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import { APCAcontrast, sRGBtoY } from "apca-w3";
 import chroma from "chroma-js";
 import { catmullRom2bezier, prepareCurve } from "./curve";
 
@@ -383,36 +384,42 @@ function luminance(r, g, b) {
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
 
-function getContrast(color, base, baseV) {
-  if (baseV === undefined) { // If base is an array and baseV undefined
-    const baseLightness = chroma.rgb(...base).hsluv()[2];
-    baseV = round(baseLightness / 100, 2);
-  }
-
-  const colorLum = luminance(color[0], color[1], color[2]);
-  const baseLum = luminance(base[0], base[1], base[2]);
-
-  const cr1 = (colorLum + 0.05) / (baseLum + 0.05); // will return value >=1 if color is darker than background
-  const cr2 = (baseLum + 0.05) / (colorLum + 0.05); // will return value >=1 if color is lighter than background
-
-  if (baseV < 0.5) { // Dark themes
-    // If color is darker than background, return cr1 which will be whole number
-    if (cr1 >= 1) {
+function getContrast(color, base, baseV, method='wcag2') {
+  if(method === 'wcag2') {
+    if (baseV === undefined) { // If base is an array and baseV undefined
+      const baseLightness = chroma.rgb(...base).hsluv()[2];
+      baseV = round(baseLightness / 100, 2);
+    }
+  
+    const colorLum = luminance(color[0], color[1], color[2]);
+    const baseLum = luminance(base[0], base[1], base[2]);
+  
+    const cr1 = (colorLum + 0.05) / (baseLum + 0.05); // will return value >=1 if color is darker than background
+    const cr2 = (baseLum + 0.05) / (colorLum + 0.05); // will return value >=1 if color is lighter than background
+  
+    if (baseV < 0.5) { // Dark themes
+      // If color is darker than background, return cr1 which will be whole number
+      if (cr1 >= 1) {
+        return cr1;
+      }
+      // If color is lighter than background, return cr2 as negative whole number
+      return -cr2;
+    }
+    // Light themes
+    // If color is lighter than background, return cr2 which will be whole number
+    if (cr1 < 1) {
+      return cr2;
+    }
+    // If color is darker than background, return cr1 as negative whole number
+    if (cr1 === 1) {
       return cr1;
     }
-    // If color is lighter than background, return cr2 as negative whole number
-    return -cr2;
+    return -cr1;
+  } else if (method === 'wcag3') {
+    return APCAcontrast( sRGBtoY( color ), sRGBtoY( base ) );
+  } else {
+    throw new Error(`Contrast calculation method ${method} unsupported; use 'wcag2' or 'wcag3'`);
   }
-  // Light themes
-  // If color is lighter than background, return cr2 which will be whole number
-  if (cr1 < 1) {
-    return cr2;
-  }
-  // If color is darker than background, return cr1 as negative whole number
-  if (cr1 === 1) {
-    return cr1;
-  }
-  return -cr1;
 }
 
 function minPositive(r) {
