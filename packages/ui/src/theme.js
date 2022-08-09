@@ -139,6 +139,7 @@ import {sortColorScales} from './js/sortColorScales';
 import {
   togglePopover
 } from './js/popover';
+import { forceSimulation } from 'd3';
 
 const { readFileSync } = require('fs')
 const posthtml = require('posthtml')
@@ -166,7 +167,8 @@ function updateParams() {
     }),
     lightness: _theme.lightness,
     contrast: _theme.contrast,
-    saturation: _theme.saturation
+    saturation: _theme.saturation,
+    formula: _theme.formula
   };
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));

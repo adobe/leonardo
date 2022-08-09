@@ -52,6 +52,14 @@ function paramSetup() {
     let baseScale = config.baseScale;
     let lightness = (config.lightness) ? config.lightness : config.brightness;
     let contrast;
+    let formula;
+    if(!config.formula) {
+      formula = 'wcag2'
+    } else {
+      formula = config.formula
+    }
+    _theme.formula = formula;
+
     if(!config.contrast) {
       contrast = 1;
     } else {
@@ -114,6 +122,10 @@ function paramSetup() {
       addRatioInputs(values[0], values[1])
     }).then(() => {
       setTimeout(() => {
+        document.getElementById('themeWCAG').value = formula;
+        let label = document.getElementById('ratioInputLabel')
+        label.innerHTML = (formula === 'wcag2') ? 'WCAG 2 contrast' : ((formula === 'wcag3') ? 'APCA contrast': 'Contrast');
+      
         sortRatios();
       }, 500)
     });
