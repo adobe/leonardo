@@ -881,7 +881,7 @@ a:focus {
 
 .ratio-Field {
   padding-left: var(--spectrum-global-dimension-size-400);
-  width: 12ch;
+  width: 13ch;
   // width: 100%;
   // margin-right: 8px;
 }
@@ -1501,7 +1501,7 @@ a:focus {
 
 .ratioGrid {
   display: grid;
-  grid-template-columns: 84px 70px 66px 32px;
+  grid-template-columns: 90px 70px 58px 32px;
   column-gap: 8px;
   grid-template-areas: 
   'ratio luminosity status actions';
