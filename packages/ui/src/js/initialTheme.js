@@ -16,7 +16,7 @@ const tempGray = new Leo.BackgroundColor({
   name: 'Gray',
   colorKeys: ['#000000'],
   colorspace: 'RGB',
-  ratios: [3, 4.5],
+  ratios: [3.2, 4.5],
   output: 'HEX'
 });
 

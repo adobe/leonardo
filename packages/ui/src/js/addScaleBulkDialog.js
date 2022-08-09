@@ -26,7 +26,7 @@ function addScaleBulk(e) {
   // id is scaleType
   let id = e.target.id.replace('_addBulk', '');
 
-  console.log(id)
+  // console.log(id)
   let colorNameInputId = id.concat('_name')
   let colorNameInput = document.getElementById(colorNameInputId);
   let colorName = colorNameInput.value;
@@ -55,7 +55,7 @@ function cancelScaleBulk() {
 function bulkScaleItemColorInput(e) {
   let id = e.target.parentNode.parentNode.parentNode.id;
   let itemId = id.replace('_dialog', '');
-  console.log(itemId)
+  // console.log(itemId)
   const currentColor = (itemId === 'sequential') ? _sequentialScale : ((itemId === 'divergingScale') ? _divergingScale : _qualitativeScale);
 
   const currentKeys = currentColor.colorKeys;

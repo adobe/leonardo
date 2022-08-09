@@ -10,6 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import { APCAcontrast, sRGBtoY } from "apca-w3";
 import chroma from "chroma-js";
 import { catmullRom2bezier, prepareCurve } from "./curve";
 
@@ -383,49 +384,56 @@ function luminance(r, g, b) {
   return (a[0] * 0.2126) + (a[1] * 0.7152) + (a[2] * 0.0722);
 }
 
-function getContrast(color, base, baseV) {
-  if (baseV === undefined) { // If base is an array and baseV undefined
-    const baseLightness = chroma.rgb(...base).hsluv()[2];
-    baseV = round(baseLightness / 100, 2);
-  }
-
-  const colorLum = luminance(color[0], color[1], color[2]);
-  const baseLum = luminance(base[0], base[1], base[2]);
-
-  const cr1 = (colorLum + 0.05) / (baseLum + 0.05); // will return value >=1 if color is darker than background
-  const cr2 = (baseLum + 0.05) / (colorLum + 0.05); // will return value >=1 if color is lighter than background
-
-  if (baseV < 0.5) { // Dark themes
-    // If color is darker than background, return cr1 which will be whole number
-    if (cr1 >= 1) {
+function getContrast(color, base, baseV, method='wcag2') {
+  if(method === 'wcag2') {
+    if (baseV === undefined) { // If base is an array and baseV undefined
+      const baseLightness = chroma.rgb(...base).hsluv()[2];
+      baseV = round(baseLightness / 100, 2);
+    }
+  
+    const colorLum = luminance(color[0], color[1], color[2]);
+    const baseLum = luminance(base[0], base[1], base[2]);
+  
+    const cr1 = (colorLum + 0.05) / (baseLum + 0.05); // will return value >=1 if color is darker than background
+    const cr2 = (baseLum + 0.05) / (colorLum + 0.05); // will return value >=1 if color is lighter than background
+  
+    if (baseV < 0.5) { // Dark themes
+      // If color is darker than background, return cr1 which will be whole number
+      if (cr1 >= 1) {
+        return cr1;
+      }
+      // If color is lighter than background, return cr2 as negative whole number
+      return -cr2;
+    }
+    // Light themes
+    // If color is lighter than background, return cr2 which will be whole number
+    if (cr1 < 1) {
+      return cr2;
+    }
+    // If color is darker than background, return cr1 as negative whole number
+    if (cr1 === 1) {
       return cr1;
     }
-    // If color is lighter than background, return cr2 as negative whole number
-    return -cr2;
+    return -cr1;
+  } else if (method === 'wcag3') {
+    return APCAcontrast( sRGBtoY( color ), sRGBtoY( base ) );
+  } else {
+    throw new Error(`Contrast calculation method ${method} unsupported; use 'wcag2' or 'wcag3'`);
   }
-  // Light themes
-  // If color is lighter than background, return cr2 which will be whole number
-  if (cr1 < 1) {
-    return cr2;
-  }
-  // If color is darker than background, return cr1 as negative whole number
-  if (cr1 === 1) {
-    return cr1;
-  }
-  return -cr1;
 }
 
-function minPositive(r) {
+function minPositive(r, formula) {
   if (!r) { throw new Error('Array undefined'); }
   if (!Array.isArray(r)) { throw new Error('Passed object is not an array'); }
-  return Math.min(...r.filter((val) => val >= 1));
+  const min = (formula === 'wcag2') ? 0 : 1;
+  return Math.min(...r.filter((val) => val >= min));
 }
 
-function ratioName(r) {
+function ratioName(r, formula) {
   if (!r) { throw new Error('Ratios undefined'); }
   r = r.sort((a, b) => a - b); // sort ratio array in case unordered
 
-  const min = minPositive(r);
+  const min = minPositive(r, formula);
   const minIndex = r.indexOf(min);
   const nArr = []; // names array
 
@@ -448,7 +456,7 @@ function ratioName(r) {
   return nArr;
 }
 
-const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
+const searchColors = (color, bgRgbArray, baseV, ratioValues, formula) => {
   const colorLen = 3000;
   const colorScale = createScale({
     swatches: colorLen,
@@ -465,7 +473,7 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
       return ccache[i];
     }
     const rgb = chroma(colorScale(i)).rgb();
-    const c = getContrast(rgb, bgRgbArray, baseV);
+    const c = getContrast(rgb, bgRgbArray, baseV, formula);
     ccache[i] = c;
     // ccounter++;
     return c;
