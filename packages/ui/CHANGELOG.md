@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.3.7...@adobe/leonardo-ui@1.4.1) (2022-08-09)
+
+
+### Bug Fixes
+
+* added alpha blend when compliance level changed in color compare ([947d1c7](https://github.com/adobe/leonardo/commit/947d1c7724a6dc9a57cf854226d01b0b3845bf7c))
+* adjustments to URL redirect to support urls without index.html (root) ([#163](https://github.com/adobe/leonardo/issues/163)) ([6bc0f21](https://github.com/adobe/leonardo/commit/6bc0f217fc7b9612d99e5e68beaa06153a68d0b7))
+* bugs in XML, SVG color outputs for scales. Removed console.logs ([42e4a15](https://github.com/adobe/leonardo/commit/42e4a1526d8c3fb9538ba60c52aa050db0bffc8a))
+* clean dist before deploy ([7eab1c3](https://github.com/adobe/leonardo/commit/7eab1c37d263f371bb505d06fa072f990c20cba3))
+* corrected URL redirect for backwards compatability ([#157](https://github.com/adobe/leonardo/issues/157)) ([a4c206d](https://github.com/adobe/leonardo/commit/a4c206d69d770c391b763832a635ae44eb521081))
+* update gh-pages so deploy deletes old files ([#158](https://github.com/adobe/leonardo/issues/158)) ([165ebaa](https://github.com/adobe/leonardo/commit/165ebaae847eeca20d22cac47fc4925c5ff1cfe0))
+
+
+
+
+
 # [1.4.0](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.3.7...@adobe/leonardo-ui@1.4.0) (2022-08-09)
 
 
