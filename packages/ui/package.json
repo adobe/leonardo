@@ -1,7 +1,7 @@
 {
   "name": "@adobe/leonardo-ui",
   "private": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Demonstration UI for Leonardo",
   "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@adobe/focus-ring-polyfill": "^0.1.5",
-    "@adobe/leonardo-contrast-colors": "^1.0.0-alpha.14",
+    "@adobe/leonardo-contrast-colors": "^1.0.0-alpha.15",
     "@adobe/spectrum-css-workflow-icons": "^1.0.0",
     "@bjornlu/colorblind": "^1.0.3",
     "@spectrum-css/actionbutton": "^1.0.4",
