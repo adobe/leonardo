@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.14](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.13...@adobe/leonardo-contrast-colors@1.0.0-alpha.14) (2022-08-09)
+
+
+### Features
+
+* updated support for APCA with tests and UI ([13251e5](https://github.com/adobe/leonardo/commit/13251e5efdc2e8eef9a536acda2c8d8cb1223945))
+
+
+
+
+
 # [1.0.0-alpha.13](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.12...@adobe/leonardo-contrast-colors@1.0.0-alpha.13) (2022-05-05)
 
 

@@ -17,11 +17,12 @@ import { colorSpaces, convertColorValue, multiplyRatios, ratioName, round, searc
 import { BackgroundColor } from "./backgroundcolor";
 
 class Theme {
-  constructor({ colors, backgroundColor, lightness, contrast = 1, saturation = 100, output = 'HEX' }) {
+  constructor({ colors, backgroundColor, lightness, contrast = 1, saturation = 100, output = 'HEX', formula = 'wcag2' }) {
     this._output = output;
     this._colors = colors;
     this._lightness = lightness;
     this._saturation = saturation;
+    this._formula = formula;
 
     this._setBackgroundColor(backgroundColor);
     this._setBackgroundColorValue();
@@ -43,6 +44,15 @@ class Theme {
     this._findContrastColors();
     this._findContrastColorPairs();
     this._findContrastColorValues();
+  }
+
+  set formula(formula) {
+    this._formula = formula;
+    this._findContrastColors();
+  }
+
+  get formula() {
+    return this._formula;
   }
 
   set contrast(contrast) {
@@ -239,12 +249,12 @@ class Theme {
         // modify target ratio based on contrast multiplier
         ratioValues = ratioValues.map((ratio) => multiplyRatios(+ratio, this._contrast));
 
-        const contrastColors = searchColors(color, bgRgbArray, baseV, ratioValues).map((clr) => convertColorValue(clr, this._output));
+        const contrastColors = searchColors(color, bgRgbArray, baseV, ratioValues, this._formula).map((clr) => convertColorValue(clr, this._output));
         
         for (let i = 0; i < contrastColors.length; i++) {
           let n;
           if (!swatchNames) {
-            const rVal = ratioName(color.ratios)[i];
+            const rVal = ratioName(color.ratios, this._formula)[i];
             n = color.name.concat(rVal).replace(/\s+/g, ''); // concat with ratio name and remove any spaces from original name
           } else {
             n = swatchNames[i];

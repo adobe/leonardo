@@ -125,7 +125,7 @@ function paramSetup() {
       let hash = window.location.hash.toString();
       // let newParam = hash.replaceAll(`#`, `%23`).replaceAll(`,`, `%54`);
       let paramArray = hash.split('&');
-      console.log(paramArray)
+      // console.log(paramArray)
       let paramOptions = ['base', 'mode', 'ratios'];
       paramArray.map((p) => {
         for(let i = 0; i < paramOptions.length; i++) {
@@ -171,7 +171,7 @@ function paramSetup() {
       setTimeout(() => {
         RATIOCOLORS = Promise.resolve(_theme.contrastColors[1].values.map((c) => {return c.value}));
         RATIOCOLORS.then((resolve) => {
-          console.log(resolve)
+          // console.log(resolve)
           addRatioInputs(RATIOS, resolve)
         });
       }, 100)
@@ -186,7 +186,7 @@ function paramSetup() {
     addRatioInputs([
       1.45,
       2.05,
-      3, 
+      3.02, 
       4.54,
       7,
       10.86

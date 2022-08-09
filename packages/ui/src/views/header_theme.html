@@ -124,16 +124,27 @@
           </h3>
         </div>
         <!-- <p class="spectrum-Body spectrum-Body--sizeXS">Modify your entire theme without compromising color relationships. Try making a <b>dark mode</b> theme.</p> -->
-        <div class="spectrum-Form spectrum-Form--spaced">
+        <div class="spectrum-Form spectrum-Form--row">
           <div class="spectrum-Form-item">
-            <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background color scale</label>
+            <label id="themeBaseLabel" for="themeBase" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left is-disabled">Background color</label>
             <select class="spectrum-Picker is-disabled" name="themeBase" id="themeBase" disabled>
               <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
               </svg>
             </select>
           </div>
-        
+          <div class="spectrum-Form-item">
+            <label id="themeWCAGlabel" for="themeWCAG" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Contrast formula</label>
+            <select class="spectrum-Picker" name="themeWCAG" id="themeWCAG">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+              </svg>
+              <option value="wcag2">Relative Luminance</option>
+              <option value="wcag3">APCA</option>
+            </select>
+          </div>
+        </div>
+        <div class="spectrum-Form spectrum-Form--spaced">
           <div class="spectrum-Form-item">
             <div id="brightnessSliderWrapper" class="spectrum-Slider is-disabled themeSettingsSlider">
               <div class="spectrum-Slider-labelContainer">
