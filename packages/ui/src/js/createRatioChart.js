@@ -43,9 +43,10 @@ function createRatioChart(chartRatios, bool) {
   let dest2 = document.getElementById('detailContrastChart');
   if(dest2) dest2.innerHTML = ' ';
 
+  let wcagFormula = document.getElementById('themeWCAG').value;
   let lightness = Number(document.getElementById('themeBrightnessSlider').value);
   // Calculate highest possible contrast ratio (black or white) against background color
-  const maxPossibleRatio = (lightness > 50) ? Leo.contrast([0, 0, 0], chroma(_theme.contrastColors[0].background).rgb()): Leo.contrast([255, 255, 255], chroma(_theme.contrastColors[0].background).rgb());
+  const maxPossibleRatio = (lightness > 50) ? Leo.contrast([0, 0, 0], chroma(_theme.contrastColors[0].background).rgb(), undefined, wcagFormula) : Leo.contrast([255, 255, 255], chroma(_theme.contrastColors[0].background).rgb(), undefined, wcagFormula);
 
   const fillRange = (start, end) => {
     return Array(end - start + 1).fill().map((item, index) => start + index);
@@ -61,8 +62,8 @@ function createRatioChart(chartRatios, bool) {
     }
   ];
   let minRatio = Math.min(...chartRatios);
-  let yMin = (minRatio < 1) ? minRatio: 1;
-  let yMax = 21;
+  let yMin = (wcagFormula === 'wcag3') ? 0 : ( (minRatio < 1) ? minRatio: 1 );
+  let yMax = (wcagFormula === 'wcag3') ? 106 : 21;
   
   createChart(dataContrast, 'Contrast ratio', 'Swatches', "#contrastChart", yMin, yMax, true, undefined, undefined, bool);
   // for color details view

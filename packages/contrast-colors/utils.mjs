@@ -422,17 +422,18 @@ function getContrast(color, base, baseV, method='wcag2') {
   }
 }
 
-function minPositive(r) {
+function minPositive(r, formula) {
   if (!r) { throw new Error('Array undefined'); }
   if (!Array.isArray(r)) { throw new Error('Passed object is not an array'); }
-  return Math.min(...r.filter((val) => val >= 1));
+  const min = (formula === 'wcag2') ? 0 : 1;
+  return Math.min(...r.filter((val) => val >= min));
 }
 
-function ratioName(r) {
+function ratioName(r, formula) {
   if (!r) { throw new Error('Ratios undefined'); }
   r = r.sort((a, b) => a - b); // sort ratio array in case unordered
 
-  const min = minPositive(r);
+  const min = minPositive(r, formula);
   const minIndex = r.indexOf(min);
   const nArr = []; // names array
 
@@ -455,7 +456,7 @@ function ratioName(r) {
   return nArr;
 }
 
-const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
+const searchColors = (color, bgRgbArray, baseV, ratioValues, formula) => {
   const colorLen = 3000;
   const colorScale = createScale({
     swatches: colorLen,
@@ -472,7 +473,7 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues) => {
       return ccache[i];
     }
     const rgb = chroma(colorScale(i)).rgb();
-    const c = getContrast(rgb, bgRgbArray, baseV);
+    const c = getContrast(rgb, bgRgbArray, baseV, formula);
     ccache[i] = c;
     // ccounter++;
     return c;

@@ -72,6 +72,7 @@ let ${themeName.replace(/\s/g, '')} = new Leo.Theme({
   contrast: ${_theme.contrast},
   saturation: ${_theme.saturation},
   output: "${_theme.output}"
+  formula: "${_theme.formula}"
 });`;
 
   const highlightedCode = hljs.highlight(paramOutputString, {language: 'javascript'}).value
@@ -122,17 +123,21 @@ function createTokensOutput() {
     description: `UI background color. All color contrasts evaluated and generated against this color.`
   }
   themeObj['Background'] = backgroundColorObj
+  
+  let formulaString = (_theme.formula === 'wcag2') ? 'WCAG 2.x (relative luminance)' : 'WCAG 3 (APCA)';
+  let largeText = (_theme.formula === 'wcag3') ? 60 : 3;
+  let smallText = (_theme.formula === 'wcag3') ? 75 : 4.5;
 
   for(let i=1; i < contrastColors.length; i++) {
     let thisColor = contrastColors[i];
     for(let j=0; j < thisColor.values.length; j++) {
       let color = thisColor.values[j]
-      let descriptionText = (color.contrast < 3) ? textLowContrast : ((color.contrast >= 3 && color.contrast < 4.5) ? textLarge : textSmall);
+      let descriptionText = (color.contrast < largeText) ? textLowContrast : ((color.contrast >= largeText && color.contrast < smallText) ? textLarge : textSmall);
       
       let colorObj = {
         value: color.value,
         type: "color",
-        description: `${descriptionText} Contrast is ${color.contrast}:1 against background ${backgroundColor}`
+        description: `${descriptionText} ${formulaString} contrast is ${color.contrast}:1 against background ${backgroundColor}`
       }
       themeObj[color.name] = colorObj
     }

@@ -21,6 +21,7 @@ import {
 function createOutputColors(dest) {
   if(dest) dest = document.getElementById(dest);
   
+  let wcagFormula = document.getElementById('themeWCAG').value;
   let swatchesOutputs = document.getElementById('swatchesOutputs')
   let themeOutputs = document.getElementById('themeOutputs');
   swatchesOutputs.classList = 'hideSwatchLuminosity hideSwatchContrast';
@@ -88,11 +89,12 @@ function createOutputColors(dest) {
           // get the ratio to print inside the swatch
           let contrast = theme[i].values[j].contrast;
           let colorArray = [d3.rgb(colorForTransform).r, d3.rgb(colorForTransform).g, d3.rgb(colorForTransform).b]
-          let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
+          let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray, undefined, wcagFormula);
 
           let innerTextColor =  (d3.hsluv(colorForTransform).v > 50) ? '#000000' : '#ffffff';
           let contrastRounded = (Math.round(actualContrast * 100))/100;
-          let contrastText = document.createTextNode(contrastRounded + ' :1');
+          let contrastTextNode = (wcagFormula === 'wcag2') ? contrastRounded + ' :1' : contrastRounded;
+          let contrastText = document.createTextNode(contrastTextNode);
           let contrastTextSpan = document.createElement('span');
           contrastTextSpan.className = 'themeOutputSwatch_contrast';
           contrastTextSpan.appendChild(contrastText);
@@ -184,6 +186,7 @@ function createOutputColors(dest) {
 }
 
 function createDetailOutputColors(colorName) {
+  let wcagFormula = document.getElementById('themeWCAG').value;
   let swatchesOutputs = document.getElementById('detailSwatchesOutputs')
   if(swatchesOutputs) swatchesOutputs.innerHTML = ' ';
 
@@ -244,11 +247,12 @@ function createDetailOutputColors(colorName) {
     // get the ratio to print inside the swatch
     let contrast = colorOutput.values[j].contrast;
     let colorArray = [d3.rgb(colorForTransform).r, d3.rgb(colorForTransform).g, d3.rgb(colorForTransform).b]
-    let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray);
+    let actualContrast = Leo.contrast(colorArray, themeBackgroundColorArray, undefined, wcagFormula);
 
     let innerTextColor =  (d3.hsluv(colorForTransform).v > 50) ? '#000000' : '#ffffff';
     let contrastRounded = (Math.round(actualContrast * 100))/100;
-    let contrastText = document.createTextNode(contrastRounded + ' :1');
+    let contrastTextNode = (wcagFormula === 'wcag2') ? contrastRounded + ' :1' : contrastRounded;
+    let contrastText = document.createTextNode(contrastTextNode);
     let contrastTextSpan = document.createElement('span');
     contrastTextSpan.className = 'themeOutputSwatch_contrast';
     contrastTextSpan.appendChild(contrastText);

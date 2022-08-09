@@ -82,3 +82,9 @@ test('should provide APCA contrast of ~ 106', () => {
 
   expect(contrastValue).toBe(106.04067321268862);
 });
+
+test('should provide APCA contrast less than APCA officially supports', () => {
+  const contrastValue = contrast([238, 238, 238], [255,255,255], undefined, 'wcag3'); // Leonardo needs more than just 7.5+ for contrast values
+
+  expect(contrastValue).toBe(7.567424744881627);
+});

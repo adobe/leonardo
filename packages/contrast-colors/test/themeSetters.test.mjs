@@ -292,3 +292,22 @@ test('should update predefined colors interpolation', () => {
 
   expect(themeColors).toEqual(['#d86202', '#b84601']);
 });
+
+// // Formula setter 
+// test('should set formula to wcag3 with updated contrast values', () => {
+//   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+//   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'HEX' });
+//   theme.formula = 'wcag3';
+//   const themeColors = theme.contrastColors;
+
+//   expect(themeColors).toEqual([
+//     { background: '#f5f5f5' },
+//     {
+//       name: 'Color',
+//       values: [
+//         { name: 'Color100', contrast: 60, value: '#548fe0' },
+//         { name: 'Color200', contrast: 75, value: '#2b66f0' }
+//       ]
+//     }
+//   ]);
+// });
