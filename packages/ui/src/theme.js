@@ -227,6 +227,7 @@ document.getElementById('tabContrastingPairs').click();
 document.getElementById("welcome").click();
 document.getElementById("tabColorWheel").click();
 
+
 window.onload = function() {
   pageLoader();
 }

@@ -762,7 +762,6 @@ test('should generate 2 colors with bidirectional contrast (dark background)', (
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#323232' });
   const themeColors = theme.contrastColorValues;
-  console.log(theme.contrastColors)
 
   expect(themeColors).toEqual(['#121c4e', '#9895c0']);
 });
@@ -1064,7 +1063,54 @@ test('should remove a color from existing theme', () => {
   ]);
 });
 
-// Expected errors
+/** 
+ * APCA contrast test
+ */
+
+ test('should use APCA to generate theme for three colors', () => {
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [8, 60, 75, 90, 106] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [40, 60, 75, 90] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [40, 60, 75, 90] });
+  const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 100, formula: 'wcag3' });
+  const themeColors = theme.contrastColors;
+
+  expect(themeColors).toEqual([
+    { background: '#ffffff' },
+    {
+      name: 'gray',
+      values: [
+        { name: 'gray100', contrast: 8, value: '#ededed' },
+        { name: 'gray200', contrast: 60, value: '#8e8e8e' },
+        { name: 'gray300', contrast: 75, value: '#6e6e6e' },
+        { name: 'gray400', contrast: 90, value: '#4a4a4a' },
+        { name: 'gray500', contrast: 106, value: '#000000' }
+      ],
+    },
+    {
+      name: 'blue',
+      values: [
+        { name: 'blue100', contrast: 40, value: '#c6a4ff' },
+        { name: 'blue200', contrast: 60, value: '#9f73ff' },
+        { name: 'blue300', contrast: 75, value: '#7145ff' },
+        { name: 'blue400', contrast: 90, value: '#1a08dd' }
+      ],
+    },
+    {
+      name: 'red',
+      values: [
+        { name: 'red100', contrast: 40, value: '#ff9797' },
+        { name: 'red200', contrast: 60, value: '#ff4444' },
+        { name: 'red300', contrast: 75, value: '#d20000' },
+        { name: 'red400', contrast: 90, value: '#850000' }
+      ],
+    },
+  ]);
+});
+
+
+/**
+ * Expected errors
+*/ 
 test('should generate no colors, missing colorKeys', () => {
   expect(
     () => {

@@ -31,14 +31,17 @@ import {
 import { difference } from 'd3';
 
 function addRatio() {
+  let wcagFormula = document.getElementById('themeWCAG').value;
   // Gather all existing ratios from _theme
   let themeRatios = getContrastRatioInputs();
   // find highest value
   var hi = Math.max(...themeRatios);
+  // Define cap based on wcag formula
+  let cap = (wcagFormula === 'wcag2') ? 20 : 106;
   // Assign an incremented value for the new ratio
   let value;
-  if(hi < 20) value = Number(hi + 1).toFixed(2);
-  if(hi == 21) value = Number(hi - 1).toFixed(2);
+  if(hi < (cap - 1)) value = Number(hi + 1).toFixed(2);
+  if(hi == cap) value = Number(hi - 1).toFixed(2);
   // Add new value to array of existing ratios
   themeRatios.push(value);
   themeRatios = themeRatios.map((r) => {return Number(r)});
@@ -72,7 +75,8 @@ function createRatioInput(v, c) {
 
   // let methodPicker = document.getElementById('contrastMethod');
   // let method = methodPicker.value;
-  let method = "WCAG";
+  let themeWCAG = document.getElementById('themeWCAG').value; 
+  let method = (themeWCAG === 'wcag2') ? "WCAG" : "APCA";
 
   var ratios = document.getElementById('ratioInput-wrapper');
   var div = document.createElement('div');
@@ -91,8 +95,8 @@ function createRatioInput(v, c) {
   ratioInputWrapper.className = 'spectrum-Textfield ratioGrid--ratio';
   ratioInput.className = 'spectrum-Textfield-input ratio-Field';
   ratioInput.type = "number";
-  ratioInput.min = (method === 'APCA') ? APCAminValue : '-10';
-  ratioInput.max = (method === 'APCA') ? APCAmaxValue : '21';
+  ratioInput.min = (method === 'APCA') ? '-107' : '-10';
+  ratioInput.max = (method === 'APCA') ? '106' : '21';
   ratioInput.step = '.01';
   let ratioInputDefaultValue = (method === 'WCAG') ? 4.5 : 60;
   ratioInput.placeholder = ratioInputDefaultValue
@@ -310,6 +314,7 @@ function sort() {
   for(let i=0; i < ratioFields.length; i++) {
     ratioInputs.push(ratioFields[i].value);
   }
+  // console.log(ratioInputs)
 
   ratioInputs.sort(function(a, b){return a-b});
 
@@ -333,6 +338,7 @@ function syncRatioInputs(e) {
   let thisId = e.target.id;
   let baseId = (thisId.includes('_luminosity')) ? thisId.replace('_luminosity', '') : thisId;
   let swatchId = baseId.concat('-sw');
+  let wcagFormula = document.getElementById('themeWCAG').value;
 
   let val = e.target.value;
   let targetContrast, luminosity, swatchColor;
@@ -350,28 +356,31 @@ function syncRatioInputs(e) {
     let bg = _theme.contrastColors[0].background;
     let fgArray = [d3.rgb(swatchColor).r, d3.rgb(swatchColor).g, d3.rgb(swatchColor).b]
     let bgArray = [d3.rgb(bg).r, d3.rgb(bg).g, d3.rgb(bg).b]
-    targetContrast = round(Leo.contrast(fgArray, bgArray), 2);
+    targetContrast = round(Leo.contrast(fgArray, bgArray, undefined, wcagFormula), 2);
 
     ratioInput.value = targetContrast;
   }
-  else { // Ratio input
+  else { // Ratio input create status report output only
     targetContrast = val;
     baseId = thisId;
 
+    let largeText = (wcagFormula === 'wcag3') ? 60 : 3;
+    let smallText = (wcagFormula === 'wcag3') ? 75 : 4.5;
+
     // update status value
     let status = document.getElementById(`${thisId}_status`);
-    let statusClass = (val < 3) ? 'statusLabel--fail' : 'statusLabel--pass' ;
-    let statusLabelText = (val < 3) ? 'Fail' : ((val < 4.5) ? '+18px': 'Pass' );
-    status.title = (val < 3) ? 'Contrast fails minimums for text and UI components' : ((val < 4.5) ? 'Contrast passes minimum for large text and UI components': 'Contrast passes minimums for all text and UI components' );
+    let statusClass = (val < largeText) ? 'statusLabel--fail' : 'statusLabel--pass' ;
+    let statusLabelText = (val < largeText) ? 'Fail' : ((val < smallText) ? '+18px': 'Pass' );
+    status.title = (val < largeText) ? 'Contrast fails minimums for text and UI components' : ((val < smallText) ? 'Contrast passes minimum for large text and UI components': 'Contrast passes minimums for all text and UI components' );
     status.className = `statusLabel ${statusClass}`;
-    let statusIconName = (val < 3) ? 'Alert' : 'Checkmark' ;
+    let statusIconName = (val < largeText) ? 'Alert' : 'Checkmark' ;
     let statusContent = `<svg class="spectrum-Icon spectrum-Icon--sizeS statusLabel-validationIcon" focusable="false" aria-hidden="true">
     <use xlink:href="#spectrum-icon-18-${statusIconName}"></use>
   </svg> <span class="spectrum-Body spectrum-Body--sizeXS statusLabel-text">${statusLabelText}</span>`;
     status.innerHTML = statusContent;
   }
 
-  let themeRatios = Promise.resolve(getContrastRatioInputs());
+  let themeRatios = Promise.resolve(getContrastRatioInputs()); // grab array of all inputs & their values for the ratios
   themeRatios.then(function(resolve) {
     const index = resolve.indexOf(targetContrast);
     if (index > -1) {
@@ -487,6 +496,54 @@ function dispatchRatioInputEvents() {
     inputWrapper.classList.remove('is-disabled');
   }, 900)
 }
+
+document.getElementById('themeWCAG').addEventListener('input', function(e) {
+  let inputWrapper = document.getElementById('ratioInput-wrapper');
+  inputWrapper.classList.add('is-disabled');
+  let value = e.target.value;
+  _theme.formula = value;
+
+  let label = document.getElementById('ratioInputLabel')
+  label.innerHTML = (value === 'wcag2') ? 'WCAG 2 contrast' : ((value === 'wcag3') ? 'APCA contrast': 'Contrast');
+
+  // Gather all luminosity input values
+  // Create temporary color for each with it's L value
+  // Calculate new contrast formula value based on the temp color
+  // Map that to the new ratio input values
+  let LumFields = document.getElementsByClassName('luminosity-Field');
+  let LumValues = []
+  for(let i = 0; i < LumFields.length; i++) {
+    LumValues.push(LumFields[i].value)
+  }
+
+  let newContrasts = LumValues.map((l) => {
+    let swatchColor = d3.hsluv(0, 0, l).formatHex();
+    let bg = _theme.contrastColors[0].background;
+    let fgArray = [d3.rgb(swatchColor).r, d3.rgb(swatchColor).g, d3.rgb(swatchColor).b]
+    let bgArray = [d3.rgb(bg).r, d3.rgb(bg).g, d3.rgb(bg).b]
+    return round(Leo.contrast(fgArray, bgArray, undefined, value), 2); 
+  })
+
+  let RatioFields = document.getElementsByClassName('ratio-Field');
+  const updateRatioValues = () => {
+      for (let i=0; i<RatioFields.length; i++) {
+      RatioFields[i].min = (value === 'wcag3') ? '-107' : '-10';
+      RatioFields[i].max = (value === 'wcag3') ? '106' : '21';
+      RatioFields[i].value = newContrasts[i];
+    }
+  }
+  const update = Promise.resolve(updateRatioValues());
+
+  update.then(function() {
+    for (let i=0; i<RatioFields.length; i++) {
+      RatioFields[i].dispatchEvent(new Event("input"));
+    }
+  })
+
+  setTimeout(() => {
+    inputWrapper.classList.remove('is-disabled');
+  }, 500)
+})
 
 window.addRatio = addRatio;
 window.sortRatios = sortRatios;

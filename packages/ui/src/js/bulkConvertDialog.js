@@ -42,7 +42,7 @@ function bulkItemConvertColorInput(e) {
   let bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").replace(" ", "").split("\n");
   bulkValues = bulkValues.map((value) => {return value.replace(" ", "")});
   for (let i=0; i<bulkValues.length; i++) {
-    console.log(bulkValues[i])
+    // console.log(bulkValues[i])
     if (!bulkValues[i].startsWith('#')) {
       bulkValues[i] = '#' + bulkValues[i]
     }
@@ -67,7 +67,7 @@ function bulkItemConvertColorInput(e) {
     data.push(createColorJson(c, opts))
   })
   
-  console.log(data)
+  // console.log(data)
 
   const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
   const header = Object.keys(data[0])
@@ -76,7 +76,7 @@ function bulkItemConvertColorInput(e) {
     ...data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
   ].join('\r\n')
 
-  console.log(csv)
+  // console.log(csv)
 
   const csvData = Promise.resolve(csv);
 
