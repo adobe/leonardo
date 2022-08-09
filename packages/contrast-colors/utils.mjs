@@ -385,12 +385,12 @@ function luminance(r, g, b) {
 }
 
 function getContrast(color, base, baseV, method='wcag2') {
+  if (baseV === undefined) { // If base is an array and baseV undefined
+    const baseLightness = chroma.rgb(...base).hsluv()[2];
+    baseV = round(baseLightness / 100, 2);
+  }
+
   if(method === 'wcag2') {
-    if (baseV === undefined) { // If base is an array and baseV undefined
-      const baseLightness = chroma.rgb(...base).hsluv()[2];
-      baseV = round(baseLightness / 100, 2);
-    }
-  
     const colorLum = luminance(color[0], color[1], color[2]);
     const baseLum = luminance(base[0], base[1], base[2]);
   
@@ -416,7 +416,7 @@ function getContrast(color, base, baseV, method='wcag2') {
     }
     return -cr1;
   } else if (method === 'wcag3') {
-    return APCAcontrast( sRGBtoY( color ), sRGBtoY( base ) );
+    return (baseV < 0.5) ? APCAcontrast( sRGBtoY( color ), sRGBtoY( base ) ) * -1 : APCAcontrast( sRGBtoY( color ), sRGBtoY( base ) );
   } else {
     throw new Error(`Contrast calculation method ${method} unsupported; use 'wcag2' or 'wcag3'`);
   }
