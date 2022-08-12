@@ -64,6 +64,13 @@ test('should set theme output to LCH', () => {
 // Saturation
 test('should set theme saturation to 60%', () => {
   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB', saturation: 60  });
+  const themeColors = theme.contrastColorValues;
+
+  expect(themeColors).toEqual(['rgb(119, 142, 193)', 'rgb(90, 107, 187)']);
+});
+test('should set theme saturation to 60%', () => {
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB'  });
   theme.saturation = 60;
   const themeColors = theme.contrastColorValues;

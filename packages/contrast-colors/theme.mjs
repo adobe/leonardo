@@ -41,6 +41,9 @@ class Theme {
       throw new Error(`Output “${output}” not supported`);
     }
 
+    // Only run the update if saturation is set below 100%
+    if(this._saturation < 100) this._updateColorSaturation(this._saturation);
+
     this._findContrastColors();
     this._findContrastColorPairs();
     this._findContrastColorValues();
