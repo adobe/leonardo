@@ -9,10 +9,10 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import d3 from './d3';
 import {
   round
 } from './utils';
+import {contrast} from '@adobe/leonardo-contrast-colors';
 import { saveAs } from 'file-saver';
 
 const simpleColorConverter = require('simple-color-converter');
@@ -38,6 +38,7 @@ function cancelBulkConvert() {
 }
 
 function bulkItemConvertColorInput(e) {
+  let background = document.getElementById('bulkConvertBackground').value;
   let bulkInputs = document.getElementById('bulkConvertColors');
   let bulkValues = bulkInputs.value.replace(/\r\n/g,"\n").replace(/[,\/]/g,"\n").replace(" ", "").replace(/['\/]/g, "").replace(/["\/]/g, "").replace(" ", "").split("\n");
   bulkValues = bulkValues.map((value) => {return value.replace(" ", "")});
@@ -64,11 +65,9 @@ function bulkItemConvertColorInput(e) {
 
   let data = [];
   colors.map((c) => {
-    data.push(createColorJson(c, opts))
+    data.push(createColorJson(c, opts, background))
   })
   
-  // console.log(data)
-
   const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
   const header = Object.keys(data[0])
   const csv = [
@@ -93,7 +92,7 @@ function bulkItemConvertColorInput(e) {
   bulkInputs.value = " ";
 }
 
-function createColorJson(value, colorSpaces) {
+function createColorJson(value, colorSpaces, background) {
   if(!chroma.valid(value)) {
     // Should return an error
   } 
@@ -119,6 +118,8 @@ function createColorJson(value, colorSpaces) {
       if(colorSpaces[i] === 'CMYK') colorChannels = color.cmyk().map((c) => {return c * 100});
       if(colorSpaces[i] === 'XYZ') colorChannels = Object.values(new simpleColorConverter({ rgb: {r: color.rgb()[0], g: color.rgb()[1], b: color.rgb()[2] }, to: 'xyz' }).color);
       if(colorSpaces[i] === 'Pantone') colorChannels = new simpleColorConverter({ rgb: {r: color.rgb()[0], g: color.rgb()[1], b: color.rgb()[2] }, to: 'pantone' }).color;
+      if(colorSpaces[i] === 'wcag2') colorChannels = round(contrast(color.rgb(), chroma(background).rgb(), 'wcag2'), 2)
+      if(colorSpaces[i] === 'wcag3') colorChannels = round(contrast(color.rgb(), chroma(background).rgb(), 'wcag3'), 2)
 
       if(colorSpaces[i] === 'HEX') colorChannelLabels = ['Hex'];
       if(colorSpaces[i] === 'RGB') colorChannelLabels =  ['rgb (R)', 'rgb (G)', 'rgb (B)'];
@@ -134,6 +135,9 @@ function createColorJson(value, colorSpaces) {
       if(colorSpaces[i] === 'CMYK') colorChannelLabels = ['cmyk (C)', 'cmyk (M)', 'cmyk (Y)', 'cmyk (K)'];
       if(colorSpaces[i] === 'XYZ') colorChannelLabels = ['xyz (X)', 'xyz (Y)', 'xyz (Z)'];
       if(colorSpaces[i] === 'Pantone') colorChannelLabels = ['Pantone'];
+
+      if(colorSpaces[i] === 'wcag2') colorChannelLabels = [`Rel Lum vs ${background}`]
+      if(colorSpaces[i] === 'wcag3') colorChannelLabels = [`APCA vs ${background}`]
 
       if(Array.isArray(colorChannels)) {
         colorChannels = colorChannels.map((c) => {return round(c, 2)})
