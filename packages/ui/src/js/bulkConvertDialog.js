@@ -9,6 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import { APCAcontrast, sRGBtoY } from "apca-w3";
 import {
   round
 } from './utils';
@@ -118,8 +119,13 @@ function createColorJson(value, colorSpaces, background) {
       if(colorSpaces[i] === 'CMYK') colorChannels = color.cmyk().map((c) => {return c * 100});
       if(colorSpaces[i] === 'XYZ') colorChannels = Object.values(new simpleColorConverter({ rgb: {r: color.rgb()[0], g: color.rgb()[1], b: color.rgb()[2] }, to: 'xyz' }).color);
       if(colorSpaces[i] === 'Pantone') colorChannels = new simpleColorConverter({ rgb: {r: color.rgb()[0], g: color.rgb()[1], b: color.rgb()[2] }, to: 'pantone' }).color;
-      if(colorSpaces[i] === 'wcag2') colorChannels = round(contrast(color.rgb(), chroma(background).rgb(), 'wcag2'), 2)
-      if(colorSpaces[i] === 'wcag3') colorChannels = round(contrast(color.rgb(), chroma(background).rgb(), 'wcag3'), 2)
+      if(colorSpaces[i] === 'wcag2') colorChannels = round(contrast(color.rgb(), chroma(background).rgb(), 'wcag2'), 2);
+      if(colorSpaces[i] === 'wcag3') {
+        const baseLightness = chroma(background).hsluv()[2];
+        const baseV = round(baseLightness / 100, 2);
+        let base = chroma(background).rgb();
+        colorChannels = round( (baseV < 0.5) ? APCAcontrast( sRGBtoY( color.rgb() ), sRGBtoY( base ) ) * -1 : APCAcontrast( sRGBtoY( color.rgb() ), sRGBtoY( base ) ), 2);
+      }
 
       if(colorSpaces[i] === 'HEX') colorChannelLabels = ['Hex'];
       if(colorSpaces[i] === 'RGB') colorChannelLabels =  ['rgb (R)', 'rgb (G)', 'rgb (B)'];
@@ -138,6 +144,7 @@ function createColorJson(value, colorSpaces, background) {
 
       if(colorSpaces[i] === 'wcag2') colorChannelLabels = [`Rel Lum vs ${background}`]
       if(colorSpaces[i] === 'wcag3') colorChannelLabels = [`APCA vs ${background}`]
+
 
       if(Array.isArray(colorChannels)) {
         colorChannels = colorChannels.map((c) => {return round(c, 2)})
