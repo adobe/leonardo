@@ -161,6 +161,45 @@
           </div>
         </div>
       </div>
+
+      <div class="spectrum-Form spectrum-Form--labelsAbove">
+        <div class="spectrum-Form-item">
+          <label class="spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-Form-itemLabel" for="spectrum-textinput-instance">Contrast</label>
+          <div class="spectrum-Form-itemField">
+            <div class="spectrum-FieldGroup">
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-wcag2">
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">Relative luminance</span>
+              </label>
+            </div>
+          </div>
+          <div class="spectrum-Form-itemField">
+            <div class="spectrum-FieldGroup">
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-wcag3">
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">APCA</span>
+              </label>
+            </div>
+          </div>
+          <div class="spectrum-Form-itemField">
+            <div class="spectrum-Form-item spectrum-Form-item--row">
+              <label class="spectrum-FieldLabel spectrum-FieldLabel--left spectrum-Fieldlabel--sizeM ">Background color</label>
+              <input type="color" id="bulkConvertBackground" class="keyColor-Item keyColor-Item--standalone"/>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </section>
     <div class="spectrum-ButtonGroup spectrum-Dialog-buttonGroup spectrum-Dialog-buttonGroup--noFooter">
       <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--secondary spectrum-ButtonGroup-item" onclick="cancelBulkConvert()">Cancel</button>
