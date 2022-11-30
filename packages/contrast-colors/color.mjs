@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 import chroma from "chroma-js";
-import { colorSpaces, createScale } from "./utils";
+import { colorSpaces, createScale } from "./utils.mjs";
 
 class Color {
   constructor({ name, colorKeys, colorspace = 'RGB', ratios, smooth = false, output = 'HEX', saturation = 100 }) {

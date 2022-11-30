@@ -3,11 +3,13 @@
   "version": "1.0.0-alpha.16",
   "description": "Generate colors based on a desired contrast ratio",
   "repository": "git@github.com:adobe/leonardo.git",
-  "main": "./index.js",
-  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./index.mjs",
+  "type": "commonjs",
   "exports": {
     ".": {
-      "default": "./index.js"
+      "import": "./index.mjs",
+      "require": "./dist/index.js"
     }
   },
   "jest": {

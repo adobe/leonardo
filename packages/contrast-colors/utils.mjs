@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 import { APCAcontrast, sRGBtoY } from "apca-w3";
 import chroma from "chroma-js";
-import { catmullRom2bezier, prepareCurve } from "./curve";
+import { catmullRom2bezier, prepareCurve } from "./curve.mjs";
 
 const colorSpaces = {
   CAM02: 'jab',
