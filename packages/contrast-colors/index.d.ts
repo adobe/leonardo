@@ -14,8 +14,8 @@ export as namespace ContrastColors;
 export = ContrastColors;
 
 declare namespace ContrastColors {
-  type InterpolationColorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV';
-  type Colorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV' | 'HEX';
+  type InterpolationColorSpace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV';
+  type ColorSpace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV' | 'HEX';
   
   type RGBArray = number[];
   
@@ -32,7 +32,7 @@ declare namespace ContrastColors {
 
   interface ColorScale {
     colorKeys: string[],
-    colorspace: Colorspace,
+    colorSpace: ColorSpace,
     shift: number,
     colors: string[],
     scale: ((d: any) => string) | d3.ScaleLinear<number, number>,
@@ -42,7 +42,7 @@ declare namespace ContrastColors {
   interface NamedColorScale {
     name: string,
     colorKeys: string[],
-    colorspace: InterpolationColorspace,
+    colorSpace: InterpolationColorSpace,
     ratios: number[] | { [key: string]: number },
     smooth?: boolean
   }
@@ -50,14 +50,14 @@ declare namespace ContrastColors {
   function createScale({
     swatches,
     colorKeys,
-    colorspace,
+    colorSpace,
     shift,
     fullScale,
     smooth
   }: {
     swatches: number,
     colorKeys: string[],
-    colorspace?: InterpolationColorspace,
+    colorSpace?: InterpolationColorSpace,
     shift?: number,
     fullScale?: boolean,
     smooth?: boolean
@@ -71,11 +71,11 @@ declare namespace ContrastColors {
   
   function generateBaseScale({
     colorKeys,
-    colorspace,
+    colorSpace,
     smooth
   }: {
     colorKeys: string[],
-    colorspace?: Colorspace,
+    colorSpace?: ColorSpace,
     smooth?: boolean
   }): string[];
   
@@ -83,16 +83,16 @@ declare namespace ContrastColors {
     colorKeys,
     base,
     ratios,
-    colorspace,
+    colorSpace,
     smooth,
     output
   }: {
     colorKeys: string[],
     base: string,
     ratios: number[],
-    colorspace?: InterpolationColorspace,
+    colorSpace?: InterpolationColorSpace,
     smooth?: boolean,
-    output?: Colorspace
+    output?: ColorSpace
   }): string[] | never;
   
   function minPositive(r: number[]): number | never;
@@ -110,12 +110,12 @@ declare namespace ContrastColors {
     baseScale: string,
     brightness?: number,
     contrast?: number,
-    output?: Colorspace,
+    output?: ColorSpace,
   }): AdaptiveTheme | never;
   
   function fixColorValue(
     color: string, 
-    format: Colorspace, 
+    format: ColorSpace, 
     object?: boolean
   ): string | { [key: string]: number };
 }

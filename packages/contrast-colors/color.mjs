@@ -14,11 +14,11 @@ import chroma from "chroma-js";
 import { colorSpaces, createScale } from "./utils";
 
 class Color {
-  constructor({ name, colorKeys, colorspace = 'RGB', ratios, smooth = false, output = 'HEX', saturation = 100 }) {
+  constructor({ name, colorKeys, colorSpace = 'RGB', ratios, smooth = false, output = 'HEX', saturation = 100 }) {
     this._name = name;
     this._colorKeys = colorKeys;
     this._modifiedKeys = colorKeys;
-    this._colorspace = colorspace;
+    this._colorspace = colorSpace;
     this._ratios = ratios;
     this._smooth = smooth;
     this._output = output;
@@ -31,10 +31,10 @@ class Color {
       throw new Error('Color Keys are undefined');
     }
     if (!colorSpaces[this._colorspace]) {
-      throw new Error(`Colorspace “${colorspace}” not supported`);
+      throw new Error(`ColorSpace “${colorSpace}” not supported`);
     }
     if (!colorSpaces[this._output]) {
-      throw new Error(`Output “${colorspace}” not supported`);
+      throw new Error(`Output “${colorSpace}” not supported`);
     }
     // validate color keys
     for (let i = 0; i < this._colorKeys.length; i++) {
@@ -66,12 +66,12 @@ class Color {
     return this._saturation;
   }
 
-  set colorspace(colorspace) {
-    this._colorspace = colorspace;
+  set colorSpace(colorSpace) {
+    this._colorspace = colorSpace;
     this._generateColorScale();
   }
 
-  get colorspace() {
+  get colorSpace() {
     return this._colorspace;
   }
 
@@ -140,7 +140,7 @@ class Color {
     this._colorScale = createScale({
       swatches: 3000,
       colorKeys: this._modifiedKeys,
-      colorspace: this._colorspace,
+      colorSpace: this._colorspace,
       shift: 1,
       smooth: this._smooth,
       asFun: true,

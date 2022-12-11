@@ -55,7 +55,7 @@ function createJSOutput() {
   name: "${thisColor.name}",
   colorKeys: [${thisColor.colorKeys.map((c) => `'${c}'`)}],
   ratios: [${thisColor.ratios}],
-  colorspace: "${thisColor.colorspace}",
+  colorSpace: "${thisColor.colorSpace}",
   smooth: ${thisColor.smooth}
 });`;
     colorDeclarations.push(colorString);

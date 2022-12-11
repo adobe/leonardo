@@ -73,7 +73,7 @@ function colorScaleSequential(scaleType = 'sequential') {
     smooth.disabled = true;
     smoothWrapper.classList.add('is-disabled')
   }
-  interpolationMode.value = colorClass.colorspace;
+  interpolationMode.value = colorClass.colorSpace;
 
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
@@ -134,8 +134,8 @@ function colorScaleSequential(scaleType = 'sequential') {
   })
 
   interpolationMode.addEventListener('change', (e) => {
-    let colorspace = e.target.value;
-    colorClass.colorspace = colorspace;
+    let colorSpace = e.target.value;
+    colorClass.colorSpace = colorSpace;
 
     updateRamps(colorClass, scaleType, scaleType);
     createSamples(sampleNumber.value, scaleType);
@@ -165,7 +165,7 @@ function colorScaleSequential(scaleType = 'sequential') {
     let filename = `${scaleName}_${scaleType}`;
 
     setTimeout(() => {
-      downloadSVGgradient(gradientColors, colorClass.colorspace, filename);
+      downloadSVGgradient(gradientColors, colorClass.colorSpace, filename);
       colorClass.swatches = originalSwatches;  
     }, 500)
   })

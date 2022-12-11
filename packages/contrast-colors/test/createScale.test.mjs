@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import { createScale } from "../index";
 
 test('should generate 8 colors in Lab', () => {
-  const scale = createScale({ swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'LAB', shift: 1, fullScale: true });
+  const scale = createScale({ swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorSpace: 'LAB', shift: 1, fullScale: true });
 
   expect(scale).toEqual(
     [
@@ -30,7 +30,7 @@ test('should generate 8 colors in Lab', () => {
 });
 
 test('should generate 8 colors in OKlab', () => {
-  const scale = createScale({ swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'OKLAB', shift: 1, fullScale: true });
+  const scale = createScale({ swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorSpace: 'OKLAB', shift: 1, fullScale: true });
 
   expect(scale).toEqual(
     [
@@ -47,7 +47,7 @@ test('should generate 8 colors in OKlab', () => {
 });
 
 test('should generate 8 colors in OKLCh', () => {
-  const scale = createScale({ swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorspace: 'OKLCH', shift: 1, fullScale: true });
+  const scale = createScale({ swatches: 8, colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'], colorSpace: 'OKLCH', shift: 1, fullScale: true });
 
   expect(scale).toEqual(
     [

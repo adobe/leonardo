@@ -13,7 +13,7 @@ import { Theme, Color, BackgroundColor } from "../index";
 
 // Output formats
 test('should set theme output to HEX', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB' });
   theme.output = 'HEX';
   const themeColors = theme.contrastColorValues;
@@ -21,7 +21,7 @@ test('should set theme output to HEX', () => {
   expect(themeColors).toEqual(['#548fe0', '#2b66f0']);
 });
 test('should set theme output to RGB', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB' });
   theme.output = 'RGB';
   const themeColors = theme.contrastColorValues;
@@ -29,7 +29,7 @@ test('should set theme output to RGB', () => {
   expect(themeColors).toEqual(['rgb(84, 143, 224)', 'rgb(43, 102, 240)']);
 });
 test('should set theme output to HSL', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB' });
   theme.output = 'HSL';
   const themeColors = theme.contrastColorValues;
@@ -37,7 +37,7 @@ test('should set theme output to HSL', () => {
   expect(themeColors).toEqual(['hsl(215deg, 69%, 60%)', 'hsl(222deg, 87%, 55%)']);
 });
 test('should set theme output to HSV', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB' });
   theme.output = 'HSV';
   const themeColors = theme.contrastColorValues;
@@ -45,7 +45,7 @@ test('should set theme output to HSV', () => {
   expect(themeColors).toEqual(['hsv(215deg, 63%, 88%)', 'hsv(222deg, 82%, 94%)']);
 });
 test('should set theme output to LAB', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB' });
   theme.output = 'LAB';
   const themeColors = theme.contrastColorValues;
@@ -53,7 +53,7 @@ test('should set theme output to LAB', () => {
   expect(themeColors).toEqual(['lab(59%, 6, -47)', 'lab(47%, 31, -74)']);
 });
 test('should set theme output to LCH', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB' });
   theme.output = 'LCH';
   const themeColors = theme.contrastColorValues;
@@ -63,14 +63,14 @@ test('should set theme output to LCH', () => {
 
 // Saturation
 test('should set theme saturation to 60%', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB', saturation: 60  });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['rgb(119, 142, 193)', 'rgb(90, 107, 187)']);
 });
 test('should set theme saturation to 60%', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB'  });
   theme.saturation = 60;
   const themeColors = theme.contrastColorValues;
@@ -79,14 +79,14 @@ test('should set theme saturation to 60%', () => {
 });
 
 /** Single color updates */
-test('should set colorspace for one color in theme to CAM02', () => {
+test('should set colorSpace for one color in theme to CAM02', () => {
   const gray = new Color({
     name: 'gray',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'RGB',
+    colorSpace: 'RGB',
     ratios: [3, 4.5],
   });
-  gray.colorspace = 'CAM02';
+  gray.colorSpace = 'CAM02';
 
   const theme = new Theme({ colors: [gray], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
@@ -95,9 +95,9 @@ test('should set colorspace for one color in theme to CAM02', () => {
 });
 
 test('should remove a color by its class', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorSpace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20, contrast: 1.5 });
 
   theme.removeColor = red;
@@ -138,9 +138,9 @@ test('should remove a color by its class', () => {
 
 
 test('should remove a color by its name', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorSpace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20, contrast: 1.5 });
 
   theme.removeColor = {name: 'red'};
@@ -181,9 +181,9 @@ test('should remove a color by its name', () => {
 
 
 test('should set contrast multiple times', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorSpace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 100, contrast: 1 });
 
   theme.contrast = 3;
@@ -242,7 +242,7 @@ test('should update predefined color keys', () => {
     name: 'Color',
     colorKeys: ['#cacaca'],
     ratios: [1.2, -1.2],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#537b9d' });
 
@@ -257,7 +257,7 @@ test('should update predefined color keys as object return', () => {
     name: 'Color',
     colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
     ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
-    colorspace: 'RGB',
+    colorSpace: 'RGB',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#e1e1e1' });
   theme.updateColor = {color: 'Color', colorKeys: ['#ff00ff']}
@@ -290,11 +290,11 @@ test('should update predefined colors interpolation', () => {
     name: 'Color',
     colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
     ratios: [1.2, -1.2],
-    colorspace: 'RGB',
+    colorSpace: 'RGB',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#537b9d' });
 
-  theme.updateColor = {color: 'Color', colorspace: 'LCH'}
+  theme.updateColor = {color: 'Color', colorSpace: 'LCH'}
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['#d86202', '#b84601']);
@@ -302,7 +302,7 @@ test('should update predefined colors interpolation', () => {
 
 // // Formula setter 
 // test('should set formula to wcag3 with updated contrast values', () => {
-//   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+//   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
 //   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'HEX' });
 //   theme.formula = 'wcag3';
 //   const themeColors = theme.contrastColors;

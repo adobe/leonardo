@@ -51,7 +51,7 @@ function addColorScale(newColor, addToTheme = true) {
     newColor = new Leo.BackgroundColor({
       name: colorNameValue,
       colorKeys: ['#000000'],
-      colorspace: 'RGB',
+      colorSpace: 'RGB',
       ratios: ratios,
       output: 'RGB'
     })
