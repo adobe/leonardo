@@ -144,7 +144,7 @@ Class function used to define colors for a theme. Parameters are destructured an
 |-----------|-------|------|
 | `name` | String | User-defined name for a color, (eg "Blue"). Used to name output color values |
 | `colorKeys` | Array of strings | List of specific colors to interpolate between in order to generate a full lightness scale of the color. |
-| `colorspace` | Enum | The [colorspace](#Supported-interpolation-colorspaces) in which the key colors will be interpolated within. |
+| `colorSpace` | Enum | The [colorSpace](#Supported-interpolation-colorspaces) in which the key colors will be interpolated within. |
 | `ratios` | Array or Object | List of target contrast ratios, or object with named keys for each value. |
 | `smooth` | Boolean | Applies bezier smoothing to interpolation (false by default) |
 | `output` | Enum | Desired color output format |
@@ -153,7 +153,7 @@ Class function used to define colors for a theme. Parameters are destructured an
 | Setter | Description of output |
 |--------|-----------------------|
 | `Color.colorKeys` | Sets the color keys |
-| `Color.colorspace` | Sets the interpolation colorspace |
+| `Color.colorSpace` | Sets the interpolation colorSpace |
 | `Color.ratios` | Sets the ratios |
 | `Color.name` | Sets the name |
 | `Color.smooth` | Sets the smoothing option |
@@ -496,7 +496,7 @@ Blue: rgb(0, **1**, 255)
 White: rgb(255, 255, 255)
 Contrast ratio: **8.57**:1
 
-If 8.58 is input as the target ratio with the starting color of blue, the output will not be exact. This is exaggerated by the various colorspace interpolations.
+If 8.58 is input as the target ratio with the starting color of blue, the output will not be exact. This is exaggerated by the various colorSpace interpolations.
 
 Since the WCAG requirement is defined as a *minimum contrast requirement*, it should be fine to generate colors that are a little *more* accessible than the minimum.
 

@@ -31,7 +31,7 @@ class BackgroundColor extends Color {
     Color.prototype._generateColorScale.call(this);
 
     // create massive scale
-    const backgroundColorScale = createScale({ swatches: 1000, colorKeys: this._colorKeys, colorspace: this._colorspace, shift: 1, smooth: this._smooth });
+    const backgroundColorScale = createScale({ swatches: 1000, colorKeys: this._colorKeys, colorSpace: this._colorspace, shift: 1, smooth: this._smooth });
 
     // Inject original keycolors to ensure they are present in the background options
     backgroundColorScale.push(...this.colorKeys);

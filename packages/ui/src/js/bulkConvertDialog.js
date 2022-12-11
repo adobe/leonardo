@@ -51,7 +51,7 @@ function bulkItemConvertColorInput(e) {
   }
 
   let opts = ['HEX']; // By default, always include hex
-  let checkboxes = document.getElementsByClassName('convertBulkColorspace');
+  let checkboxes = document.getElementsByClassName('convertBulkColorSpace');
   for(let i = 0; i < checkboxes.length; i++) {
     if (checkboxes[i].checked) opts.push(checkboxes[i].id.replace('checkboxConvert-', ''))
   }

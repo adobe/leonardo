@@ -152,7 +152,7 @@ function makePowScale(exp = 1, domains = [0, 1], range = [0, 1]) {
 function createScale({
   swatches,
   colorKeys,
-  colorspace = 'LAB',
+  colorSpace = 'LAB',
   shift = 1,
   fullScale = true,
   smooth = false,
@@ -160,9 +160,9 @@ function createScale({
   sortColor = true,
   asFun = false,
 } = {}) {
-  const space = colorSpaces[colorspace];
+  const space = colorSpaces[colorSpace];
   if (!space) {
-    throw new Error(`Colorspace “${colorspace}” not supported`);
+    throw new Error(`ColorSpace “${colorSpace}” not supported`);
   }
   if (!colorKeys) {
     throw new Error(`Colorkeys missing: returned “${colorKeys}”`);
@@ -315,7 +315,7 @@ function convertColorValue(color, format, object = false) {
     throw new Error(`Cannot convert color value of “${color}”`);
   }
   if (!colorSpaces[format]) {
-    throw new Error(`Cannot convert to colorspace “${format}”`);
+    throw new Error(`Cannot convert to colorSpace “${format}”`);
   }
   const space = colorSpaces[format];
   const colorObj = chroma(String(color))[space]();
@@ -461,7 +461,7 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues, formula) => {
   const colorScale = createScale({
     swatches: colorLen,
     colorKeys: color._modifiedKeys,
-    colorspace: color._colorspace,
+    colorSpace: color._colorspace,
     shift: 1,
     smooth: color._smooth,
     asFun: true,

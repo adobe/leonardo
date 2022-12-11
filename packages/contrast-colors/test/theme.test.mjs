@@ -12,9 +12,9 @@ governing permissions and limitations under the License.
 import { Theme, Color, BackgroundColor } from "../index";
 
 test('should generate theme for three colors', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90 });
   const themeColors = theme.contrastColors;
 
@@ -60,9 +60,9 @@ test('should generate theme for three colors', () => {
 
 
 test('should output theme as key-value pairs', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90 });
   const themeColors = theme.contrastColorPairs;
 
@@ -92,9 +92,9 @@ test('should output theme as key-value pairs', () => {
 });
 
 test('should generate theme for three colors in LCH format', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90, output: 'LCH' });
   const themeColors = theme.contrastColors;
 
@@ -139,9 +139,9 @@ test('should generate theme for three colors in LCH format', () => {
 });
 
 test('should generate theme for three colors with negative ratios', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90 });
   const themeColors = theme.contrastColors;
 
@@ -191,9 +191,9 @@ test('should generate theme for three colors using variables as parameters', () 
   const tempRatios = [2, 3, 4.5, 8, 12];
   const baseRatios = [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21];
 
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: baseRatios });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: tempRatios });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: tempRatios });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: baseRatios });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: tempRatios });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: tempRatios });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90 });
   const themeColors = theme.contrastColors;
 
@@ -238,9 +238,9 @@ test('should generate theme for three colors using variables as parameters', () 
 });
 
 test('should increase contrast of existing theme', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90});
   theme.contrast = 1.4;
   const themeColors = theme.contrastColors;
@@ -288,9 +288,9 @@ test('should increase contrast of existing theme', () => {
 });
 
 test('should generate theme with increased contrast', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90, contrast: 1.4 });
   const themeColors = theme.contrastColors;
 
@@ -337,9 +337,9 @@ test('should generate theme with increased contrast', () => {
 });
 
 test('should generate white theme with increased contrast', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorSpace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 100, contrast: 2 });
   const themeColors = theme.contrastColors;
 
@@ -387,9 +387,9 @@ test('should generate white theme with increased contrast', () => {
 
 
 test('should generate dark theme with increased contrast', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorSpace: 'HSL', ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20, contrast: 1.5 });
   const themeColors = theme.contrastColors;
 
@@ -460,9 +460,9 @@ test('should generate colors with user-defined names', () => {
     'red--highestContrast': 12,
   };
 
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: grayRatios });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: blueRatios });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: redRatios });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorSpace: 'HSL', ratios: grayRatios });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: blueRatios });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: redRatios });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20 });
   const themeColors = theme.contrastColors;
 
@@ -529,9 +529,9 @@ test('should generate colors with user-defined names as key-value pairs', () => 
     'red--highestContrast': 12,
   };
 
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: grayRatios });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: blueRatios });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: redRatios });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorSpace: 'HSL', ratios: grayRatios });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: blueRatios });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: redRatios });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20 });
   const themeColors = theme.contrastColorPairs;
 
@@ -584,9 +584,9 @@ test('should generate colors with user-defined names and increased contrast', ()
     'red--highestContrast': 12,
   };
 
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorspace: 'HSL', ratios: grayRatios });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: blueRatios });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: redRatios });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca'], colorSpace: 'HSL', ratios: grayRatios });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: blueRatios });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: redRatios });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 20, contrast: 1.2 });
   const themeColors = theme.contrastColors;
 
@@ -639,7 +639,7 @@ test('should generate 2 colors (CAM02 interpolation)', () => {
   const gray = new Color({
     name: 'gray',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
   });
   const theme = new Theme({ colors: [gray], backgroundColor: '#f5f5f5' });
@@ -653,7 +653,7 @@ test('should generate 2 colors (LAB interpolation)', () => {
     name: 'Indigo',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'LAB',
+    colorSpace: 'LAB',
   });
   const theme = new Theme({ colors: [indigo], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
@@ -666,7 +666,7 @@ test('should generate 2 colors (LCH interpolation)', () => {
     name: 'Indigo',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   });
   const theme = new Theme({ colors: [indigo], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
@@ -679,7 +679,7 @@ test('should generate 2 colors (HSL interpolation)', () => {
     name: 'Indigo',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'HSL',
+    colorSpace: 'HSL',
   });
   const theme = new Theme({ colors: [indigo], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
@@ -692,7 +692,7 @@ test('should generate 2 colors (HSLuv interpolation)', () => {
     name: 'Indigo',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'HSLuv',
+    colorSpace: 'HSLuv',
   });
   const theme = new Theme({ colors: [indigo], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
@@ -705,7 +705,7 @@ test('should generate 2 colors (HSV interpolation)', () => {
     name: 'Indigo',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'HSV',
+    colorSpace: 'HSV',
   });
   const theme = new Theme({ colors: [indigo], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
@@ -718,7 +718,7 @@ test('should generate 2 colors (RGB interpolation)', () => {
     name: 'Indigo',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'RGB',
+    colorSpace: 'RGB',
   });
   const theme = new Theme({ colors: [indigo], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
@@ -731,7 +731,7 @@ test('should generate 2 colors on dark background', () => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   });
   const theme = new Theme({ colors: [color], backgroundColor: '#323232' });
   const themeColors = theme.contrastColorValues;
@@ -745,7 +745,7 @@ test('should generate 2 colors with bidirectional contrast (light background)', 
     name: 'Color',
     colorKeys: ['#012676'],
     ratios: [-1.25, 4.5],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#D8D8D8' });
   const themeColors = theme.contrastColorValues;
@@ -758,7 +758,7 @@ test('should generate 2 colors with bidirectional contrast (dark background)', (
     name: 'Color',
     colorKeys: ['#012676'],
     ratios: [-1.25, 4.5],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#323232' });
   const themeColors = theme.contrastColorValues;
@@ -772,7 +772,7 @@ test('should generate black when ratio darker than available colors', () => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [21],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#d8d8d8' });
   const themeColors = theme.contrastColorValues;
@@ -785,7 +785,7 @@ test('should generate white when ratio lighter than available colors', () => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [21],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#323232' });
   const themeColors = theme.contrastColorValues;
@@ -798,7 +798,7 @@ test('should generate white when negative ratio lighter than available colors (l
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [-21],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5' });
   const themeColors = theme.contrastColorValues;
@@ -810,7 +810,7 @@ test('should generate white when negative ratio lighter than available colors (w
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [-21],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   });
   const theme = new Theme({ colors: [color], backgroundColor: '#ffffff' });
   const themeColors = theme.contrastColorValues;
@@ -823,7 +823,7 @@ test('should generate black when negative ratio darker than available colors (gr
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [-21],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#323232' });
   const themeColors = theme.contrastColorValues;
@@ -836,7 +836,7 @@ test('should generate black when negative ratio darker than available colors (bl
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [-21],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#000000' });
   const themeColors = theme.contrastColorValues;
@@ -850,7 +850,7 @@ test('should generate slightly lighter & darker grays on a darker midtone gray b
     name: 'Color',
     colorKeys: ['#000000'],
     ratios: [1.2, -1.2],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#6b6b6b' });
   const themeColors = theme.contrastColorValues;
@@ -862,7 +862,7 @@ test('should generate slightly lighter & darker grays on a lighter midtone gray 
     name: 'Color',
     colorKeys: ['#000000'],
     ratios: [1.2, -1.2],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#787878' });
   const themeColors = theme.contrastColors;
@@ -884,7 +884,7 @@ test('should generate slightly lighter & darker oranges on a darker midtone slat
     name: 'Color',
     colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
     ratios: [1.2, -1.2],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#537a9c' });
   const themeColors = theme.contrastColorValues;
@@ -897,7 +897,7 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
     name: 'Color',
     colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
     ratios: [1.2, -1.2],
-    colorspace: 'LCH',
+    colorSpace: 'LCH',
   }); // positive & negative ratios
   const theme = new Theme({ colors: [color], backgroundColor: '#537b9d' });
   const themeColors = theme.contrastColorValues;
@@ -908,42 +908,42 @@ test('should generate slightly lighter & darker oranges on a lighter midtone sla
 
 // Output formats
 test('should generate 2 colors in HEX format', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'HEX'  });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['#548fe0', '#2b66f0']);
 });
 test('should generate 2 colors in RGB format', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'RGB'  });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['rgb(84, 143, 224)', 'rgb(43, 102, 240)']);
 });
 test('should generate 2 colors in HSL format', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'HSL'  });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['hsl(215deg, 69%, 60%)', 'hsl(222deg, 87%, 55%)']);
 });
 test('should generate 2 colors in HSV format', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'HSV' });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['hsv(215deg, 63%, 88%)', 'hsv(222deg, 82%, 94%)']);
 });
 test('should generate 2 colors in LAB format', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'LAB' });
   const themeColors = theme.contrastColorValues;
 
   expect(themeColors).toEqual(['lab(59%, 6, -47)', 'lab(47%, 31, -74)']);
 });
 test('should generate 2 colors in LCH format', () => {
-  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+  const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'LCH' });
 
   const themeColors = theme.contrastColorValues;
@@ -953,12 +953,12 @@ test('should generate 2 colors in LCH format', () => {
 
 // Add color to theme
 test('should add a color to existing theme', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 90 });
 
-  const yellow = new Color({ name: 'yellow', colorKeys: ['#ffff00'], colorspace: 'HSL', ratios: [2, 3, 4.5, 8, 12]});
+  const yellow = new Color({ name: 'yellow', colorKeys: ['#ffff00'], colorSpace: 'HSL', ratios: [2, 3, 4.5, 8, 12]});
   theme.addColor = yellow;
 
   const themeColors = theme.contrastColors;
@@ -1014,10 +1014,10 @@ test('should add a color to existing theme', () => {
 });
 
 test('should remove a color from existing theme', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
-  const yellow = new Color({ name: 'yellow', colorKeys: ['#ffff00'], colorspace: 'HSL', ratios: [2, 3, 4.5, 8, 12]});
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [2, 3, 4.5, 8, 12] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [2, 3, 4.5, 8, 12] });
+  const yellow = new Color({ name: 'yellow', colorKeys: ['#ffff00'], colorSpace: 'HSL', ratios: [2, 3, 4.5, 8, 12]});
   const theme = new Theme({ colors: [gray, blue, red, yellow], backgroundColor: gray, lightness: 90 });
   theme.removeColor = yellow;
 
@@ -1068,9 +1068,9 @@ test('should remove a color from existing theme', () => {
  */
 
  test('should use APCA to generate theme for three colors', () => {
-  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorspace: 'HSL', ratios: [8, 60, 75, 90, 106] });
-  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorspace: 'LAB', ratios: [40, 60, 75, 90] });
-  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorspace: 'RGB', ratios: [40, 60, 75, 90] });
+  const gray = new BackgroundColor({ name: 'gray', colorKeys: ['#cacaca', '#323232'], colorSpace: 'HSL', ratios: [8, 60, 75, 90, 106] });
+  const blue = new Color({ name: 'blue', colorKeys: ['#0000ff'], colorSpace: 'LAB', ratios: [40, 60, 75, 90] });
+  const red = new Color({ name: 'red', colorKeys: ['#ff0000'], colorSpace: 'RGB', ratios: [40, 60, 75, 90] });
   const theme = new Theme({ colors: [gray, blue, red], backgroundColor: gray, lightness: 100, formula: 'wcag3' });
   const themeColors = theme.contrastColors;
 

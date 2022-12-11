@@ -175,7 +175,7 @@ function convertColorValue(color, format, object = false) {
     throw new Error(`Cannot convert color value of “${color}”`);
   }
   if (!colorSpaces[format]) {
-    throw new Error(`Cannot convert to colorspace “${format}”`);
+    throw new Error(`Cannot convert to colorSpace “${format}”`);
   }
   
   const space = colorSpaces[format];

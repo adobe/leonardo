@@ -72,7 +72,7 @@ function paramSetup() {
       colorScales.map(color => {
         let colorName = color.name;
         let keyColors = color.colorKeys;
-        let colorSpace = color.colorspace;
+        let colorSpace = color.colorSpace;
         let ratios = color.ratios;
         let smooth = color.smooth;
 
@@ -80,7 +80,7 @@ function paramSetup() {
         let newColor = new Leo.BackgroundColor({
           name: colorName,
           colorKeys: keyColors,
-          colorspace: colorSpace,
+          colorSpace: colorSpace,
           ratios: ratios,
           smooth: smooth
         })
@@ -154,16 +154,16 @@ function paramSetup() {
     }
 
     let colorKeys = Promise.resolve(params.get('colorKeys').split(','));
-    let colorspace = Promise.resolve(params.get('mode'));
+    let colorSpace = Promise.resolve(params.get('mode'));
     let ratios = Promise.resolve(params.get('ratios').split(',').map((r) => {return Number(r)}));
 
-    Promise.all([colorKeys, colorspace, ratios]).then(
+    Promise.all([colorKeys, colorSpace, ratios]).then(
       (values) => {
         RATIOS = values[2]
         let newColor = new Leo.BackgroundColor({
           name: getClosestColorName(values[0][0]),
           colorKeys: values[0],
-          colorspace: values[1],
+          colorSpace: values[1],
           ratios: values[2],
           smooth: false
         })

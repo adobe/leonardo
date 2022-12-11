@@ -126,7 +126,7 @@ const modePicker = document.getElementById('chartsMode');
 function createPaletteCharts(mode) {
   const colorClasses = _theme.colors;
   let colors = colorClasses.map((c) => {
-    return createScale({swatches: 31, colorKeys: c.colorKeys, colorspace: c.colorspace, smooth: c.smooth});
+    return createScale({swatches: 31, colorKeys: c.colorKeys, colorSpace: c.colorSpace, smooth: c.smooth});
   });
 
   // Artificially add black because it's missing...

@@ -15,7 +15,7 @@ test('should set color name of Color class', () => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });
@@ -30,7 +30,7 @@ test('should set color keys of Color class', () => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });
@@ -41,26 +41,26 @@ test('should set color keys of Color class', () => {
   expect(colorKeys).toEqual(['#ff00ff', '#ff32ff', '#320077']);
 });
 
-test('should set colorspace of Color class', () => {
+test('should set colorSpace of Color class', () => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });
 
-  color.colorspace = 'HSL'
-  const colorspace = color.colorspace;
+  color.colorSpace = 'HSL'
+  const colorSpace = color.colorSpace;
 
-  expect(colorspace).toEqual('HSL');
+  expect(colorSpace).toEqual('HSL');
 });
 
 test('should set ratios of Color class', () => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });
@@ -75,7 +75,7 @@ test('should set smooth of Color class', () => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });

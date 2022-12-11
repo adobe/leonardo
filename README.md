@@ -59,7 +59,7 @@ Blue: rgb(0, **1**, 255)
 White: rgb(255, 255, 255)
 Contrast ratio: **8.57**:1
 
-If 8.58 is input as the target ratio with the starting color of blue, the output will not be exact. This is exaggerated by the various colorspace interpolations.
+If 8.58 is input as the target ratio with the starting color of blue, the output will not be exact. This is exaggerated by the various color space interpolations.
 
 Since the WCAG requirement is defined as a *minimum contrast requirement*, it should be fine to generate colors that are a little *more* accessible than the minimum.
 
