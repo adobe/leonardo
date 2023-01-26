@@ -121,11 +121,11 @@ class Color {
   _updateColorSaturation() {
     let newColorKeys = [];
     this._colorKeys.forEach(key => {
-      let currentHsluv = chroma(`${key}`).hsluv();
-      let currentSaturation = currentHsluv[1];
+      let currentOklch = chroma(`${key}`).oklch();
+      let currentSaturation = currentOklch[1];
       let newSaturation = currentSaturation * (this._saturation / 100);
-      let newHsluv = chroma.hsluv(currentHsluv[0], newSaturation, currentHsluv[2]);
-      let newColor = chroma.rgb(newHsluv).hex();
+      let newOklch = chroma.oklch(currentOklch[0], newSaturation, currentOklch[2]);
+      let newColor = chroma.rgb(newOklch).hex();
       newColorKeys.push(newColor);
     });
     // set color keys with new modified array
