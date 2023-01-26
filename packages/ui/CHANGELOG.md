@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.4.2...@adobe/leonardo-ui@1.4.3) (2023-01-26)
+
+**Note:** Version bump only for package @adobe/leonardo-ui
+
+
+
+
+
 ## [1.4.2](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.4.1...@adobe/leonardo-ui@1.4.2) (2022-08-12)
 
 **Note:** Version bump only for package @adobe/leonardo-ui
