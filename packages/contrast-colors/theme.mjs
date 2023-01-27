@@ -12,9 +12,9 @@ governing permissions and limitations under the License.
 
 import chroma from "chroma-js";
 
-import { colorSpaces, convertColorValue, multiplyRatios, ratioName, round, searchColors } from "./utils";
+import { colorSpaces, convertColorValue, multiplyRatios, ratioName, round, searchColors } from "./utils.mjs";
 
-import { BackgroundColor } from "./backgroundcolor";
+import { BackgroundColor } from "./backgroundcolor.mjs";
 
 class Theme {
   constructor({ colors, backgroundColor, lightness, contrast = 1, saturation = 100, output = 'HEX', formula = 'wcag2' }) {

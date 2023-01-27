@@ -11,12 +11,12 @@ governing permissions and limitations under the License.
 */
 
 import chroma from "chroma-js";
-import { extendChroma } from "./chroma-plus";
-import { convertColorValue, createScale, getContrast as contrast, luminance, minPositive, ratioName } from "./utils";
+import { extendChroma } from "./chroma-plus.mjs";
+import { convertColorValue, createScale, getContrast as contrast, luminance, minPositive, ratioName } from "./utils.mjs";
 
-import { Color } from "./color";
-import { BackgroundColor } from "./backgroundcolor";
-import { Theme } from "./theme";
+import { Color } from "./color.mjs";
+import { BackgroundColor } from "./backgroundcolor.mjs";
+import { Theme } from "./theme.mjs";
 
 extendChroma(chroma);
 

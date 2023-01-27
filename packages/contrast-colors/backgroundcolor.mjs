@@ -10,9 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { hsluvArray, convertColorValue, createScale, removeDuplicates } from "./utils";
+import { hsluvArray, convertColorValue, createScale, removeDuplicates } from "./utils.mjs";
 
-import { Color } from "./color";
+import { Color } from "./color.mjs";
 
 class BackgroundColor extends Color {
   get backgroundColorScale() {
