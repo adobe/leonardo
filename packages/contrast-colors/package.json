@@ -5,6 +5,7 @@
   "repository": "git@github.com:adobe/leonardo.git",
   "main": "./index.js",
   "type": "module",
+  "types": "./index.d.ts",
   "exports": {
     ".": {
       "default": "./index.js"
