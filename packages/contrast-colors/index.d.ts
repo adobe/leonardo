@@ -10,112 +10,153 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-export as namespace ContrastColors;
-export = ContrastColors;
+import type ChromaJs from 'chroma-js'
 
-declare namespace ContrastColors {
-  type InterpolationColorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV';
-  type Colorspace = 'CAM02' | 'CAM02p' | 'LCH' | 'LAB' | 'HSL' | 'HSLuv' | 'RGB' | 'HSV' | 'HEX';
-  
-  type RGBArray = number[];
-  
-  type AdaptiveTheme = (brightness: number, constrast?: number) => AdaptiveTheme | ({ 
-    background: string 
-  } | {
-    name: string,
-    values: {
-      name: string,
-      contrast: number,
-      value: string
-    }[]
-  })[];
+type Colorspace = 'CAM02' | 'CAM02p' | 'HEX' | 'HSL' | 'HSLuv' | 'HSV' | 'LAB' | 'LCH' | 'RGB' | 'OKLAB' | 'OKLCH'
 
-  interface ColorScale {
-    colorKeys: string[],
-    colorspace: Colorspace,
-    shift: number,
-    colors: string[],
-    scale: ((d: any) => string) | d3.ScaleLinear<number, number>,
-    colorsHex: string[]
-  }
+type RGBArray = [number, number, number]
 
-  interface NamedColorScale {
-    name: string,
-    colorKeys: string[],
-    colorspace: InterpolationColorspace,
-    ratios: number[] | { [key: string]: number },
-    smooth?: boolean
-  }
+interface ColorBase {
+  name: string
+  /**
+   * Colors to be validated by {@link ChromaJs.valid}
+   */
+  colorKeys: any[]
+  colorspace?: Colorspace
+  ratios: Ratios
+  smooth?: boolean
+  output?: Colorspace
+  saturation?: number
+}
 
-  function createScale({
-    swatches,
-    colorKeys,
-    colorspace,
-    shift,
-    fullScale,
-    smooth
-  }: {
-    swatches: number,
-    colorKeys: string[],
-    colorspace?: InterpolationColorspace,
-    shift?: number,
-    fullScale?: boolean,
-    smooth?: boolean
-  }): ColorScale | never;
-  
-  function luminance(r: number, g: number, b: number): number;
-  
-  function contrast(color: RGBArray, base: RGBArray, baseV: number): number;
-  
-  function binarySearch(list: number[], value: number, baseLum: number): number;
-  
-  function generateBaseScale({
-    colorKeys,
-    colorspace,
-    smooth
-  }: {
-    colorKeys: string[],
-    colorspace?: Colorspace,
-    smooth?: boolean
-  }): string[];
-  
-  function generateContrastColors({
-    colorKeys,
-    base,
-    ratios,
-    colorspace,
-    smooth,
-    output
-  }: {
-    colorKeys: string[],
-    base: string,
-    ratios: number[],
-    colorspace?: InterpolationColorspace,
-    smooth?: boolean,
-    output?: Colorspace
-  }): string[] | never;
-  
-  function minPositive(r: number[]): number | never;
-  
-  function ratioName(r: number[]): number[] | never;
-  
-  function generateAdaptiveTheme({ 
-    colorScales, 
-    baseScale,
-    brightness,
-    contrast, 
-    output
-  }: {
-    colorScales: NamedColorScale[],
-    baseScale: string,
-    brightness?: number,
-    contrast?: number,
-    output?: Colorspace,
-  }): AdaptiveTheme | never;
-  
-  function fixColorValue(
-    color: string, 
-    format: Colorspace, 
-    object?: boolean
-  ): string | { [key: string]: number };
+export class Color implements Required<ColorBase> {
+  constructor({ name, colorKeys, colorspace, ratios, smooth, output, saturation }: ColorBase)
+  name: string
+  colorKeys: any[]
+  colorspace: Colorspace
+  ratios: Ratios
+  smooth: boolean
+  output: Colorspace
+  saturation: number
+  readonly colorScale: ChromaJs.Scale
+}
+
+export class BackgroundColor extends Color {
+  readonly backgroundColorScale: ChromaJs.Scale
+}
+type ColorLike = string | number | ChromaJs.Color
+type ContrastFormula = 'wcag2' | 'wcag3'
+type LightnessDistribution = 'linear' | 'polynomial'
+
+/**
+ * Helper function for rounding color values to whole numbers.
+ */
+export function convertColorValue(color: ColorLike, format: Colorspace,
+  /** @default false */
+  object?: boolean): number
+
+export function createScale({ swatches, colorKeys, colorspace, shift, fullScale, smooth, distributeLightness, sortColor, asFun, }?: {
+  /** The number of swatches in the scale. */
+  swatches: number
+  /** Colors passed to {@link chroma} */
+  colorKeys: string[]
+  /** @default 'LAB' */
+  colorspace?: Colorspace
+  /** @default 1 */
+  shift?: number
+  /** @default true */
+  fullScale?: boolean
+  /** @default false */
+  smooth?: boolean
+  /** @default 'linear' */
+  distributeLightness?: LightnessDistribution
+  /** @default true */
+  sortColor?: boolean
+  /** @default false */
+  asFun?: boolean
+}): ChromaJs.Scale
+
+
+export function luminance(r: number, g: number, b: number): number
+
+export function contrast(color: RGBArray, base: RGBArray, baseV?: number,
+  /** @default 'wcag2' */
+  method?: ContrastFormula): number
+
+interface ContrastColor extends Color { background: ReturnType<typeof convertColorValue> }
+
+
+interface UpdateColorOptions extends Partial<ColorBase> {
+  /**
+   * The current name of the color to be updated.
+   */
+  color: string
+  /**
+   * A new name for the color.
+  */
+  name?: string
+}
+
+export function minPositive(r: number[], formula: ContrastFormula): number
+
+export function ratioName(r: number[], formula: ContrastFormula): number[]
+
+export class Theme implements Required<ThemeBase> {
+  constructor({ colors, backgroundColor,
+    lightness,
+    /** @default 1 */
+    contrast,
+    /** @default 100 */
+    saturation,
+    /** @default 'HEX' */
+    output,
+    /** @default 'wcag2' */
+    formula }: ThemeBase)
+
+  colors: Color[]
+  backgroundColor: BackgroundColor
+  lightness: number
+  contrast: number
+  output: Colorspace
+  saturation: number
+  formula: ContrastFormula
+
+  readonly backgroundColorValue: number
+
+  /**
+   * Array to be populated with JSON objects for each color, including names & contrast values
+   */
+  readonly contrastColors: ContrastColor[]
+
+  /*  Objext to be populated with flat list of all color values as named key-value pairs */
+  readonly contrastColorPairs: ContrastColor
+
+  /*  Array to be populated with flat list of all color values */
+  readonly contrastColorValues: any[]
+
+  /** Add individual new colors */
+  set addColor(arg: Color)
+  /** Remove individual colors */
+  set removeColor(arg: Color)
+  /**
+   * Modify individual colors
+   * @example ```
+   * // changing the name of a color:
+   * {color: 'blue', name: 'cerulean'}
+   * ```
+   */
+  set updateColor(arg: UpdateColorOptions | UpdateColorOptions[])
+}
+
+
+type Ratios = number[] | Record<string, number>
+
+interface ThemeBase {
+  colors: Color[]
+  backgroundColor: Color
+  lightness: number
+  contrast?: number
+  saturation?: number
+  output?: Colorspace
+  formula?: ContrastFormula
 }
