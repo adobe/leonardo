@@ -85,7 +85,6 @@ export function contrast(color: RGBArray, base: RGBArray, baseV?: number,
 
 interface ContrastColor extends Color { background: ReturnType<typeof convertColorValue> }
 
-
 interface UpdateColorOptions extends Partial<ColorBase> {
   /**
    * The current name of the color to be updated.
