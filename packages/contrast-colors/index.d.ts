@@ -21,7 +21,7 @@ interface ColorBase {
   /**
    * Colors to be validated by {@link ChromaJs.valid}
    */
-  colorKeys: any[]
+  colorKeys: any[] // FIXME
   colorspace?: Colorspace
   ratios: Ratios
   smooth?: boolean
@@ -131,7 +131,7 @@ export class Theme implements Required<ThemeBase> {
   readonly contrastColorPairs: ContrastColor
 
   /*  Array to be populated with flat list of all color values */
-  readonly contrastColorValues: any[]
+  readonly contrastColorValues: any[] // FIXME
 
   /** Add individual new colors */
   set addColor(arg: Color)
