@@ -83,6 +83,8 @@ export function contrast(color: RGBArray, base: RGBArray, baseV?: number,
   /** @default 'wcag2' */
   method?: ContrastFormula): number
 
+
+// FIXME Uncertain typing. Examine object at runtime to verify accuracy
 interface ContrastColor extends Color { background: ReturnType<typeof convertColorValue> }
 
 interface UpdateColorOptions extends Partial<ColorBase> {
@@ -125,13 +127,16 @@ export class Theme implements Required<ThemeBase> {
   /**
    * Array to be populated with JSON objects for each color, including names & contrast values
    */
+  // FIXME Uncertain typing. Examine object at runtime to verify accuracy
   readonly contrastColors: ContrastColor[]
 
   /*  Objext to be populated with flat list of all color values as named key-value pairs */
+  // FIXME Uncertain typing. Examine object at runtime to verify accuracy
   readonly contrastColorPairs: ContrastColor
 
   /*  Array to be populated with flat list of all color values */
-  readonly contrastColorValues: any[] // FIXME
+  // FIXME Uncertain typing. Examine object at runtime to verify accuracy
+  readonly contrastColorValues: any[]
 
   /** Add individual new colors */
   set addColor(arg: Color)
