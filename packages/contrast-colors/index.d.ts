@@ -14,7 +14,7 @@ import type ChromaJs from 'chroma-js'
 
 /**
  * A valid CSS hexadecimal color.
- * @remarks This could theoretically be specified with a more precise string template, but in practice, TS attempts to interpolate every possible combination of digits.
+ * @remarks This could theoretically be specified with a more precise string template... but interpolating all possible values could get weird in some environments.
  */
 type HexColor = `#${string}`
 
@@ -22,13 +22,13 @@ type HexColor = `#${string}`
  * Supported colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
  * @example '#RRGGBB' // HEX
  * @example 'rgb(255, 255, 255)' // RGB
- * @example 'hsl(360deg, 0 %, 100 %)' // HSL
- * @example 'hsv(360deg, 0 %, 100 %)' // HSV
+ * @example 'hsl(360deg, 0%, 100%)' // HSL
+ * @example 'hsv(360deg, 0%, 100%)' // HSV
  * @example 'hsluv(360, 0, 100)' // HSLuv
- * @example 'lab(100 %, 0, 0)' // LAB
- * @example 'lch(100 %, 0, 360deg)' // LCH
- * @example 'jab(100 %, 0, 0)' // CAM02
- * @example 'jch(100 %, 0, 360deg)' // CAM02p
+ * @example 'lab(100%, 0, 0)' // LAB
+ * @example 'lch(100%, 0, 360deg)' // LCH
+ * @example 'jab(100%, 0, 0)' // CAM02
+ * @example 'jch(100%, 0, 360deg)' // CAM02p
  */
 type Colorspace =
   | 'HEX'
