@@ -12,11 +12,6 @@ governing permissions and limitations under the License.
 
 import type ChromaJs from 'chroma-js'
 
-/**
- * A valid CSS hexadecimal color.
- * @remarks This could theoretically be specified with a more precise string template... but interpolating all possible values could get weird in some environments.
- */
-type HexColor = `#${string}`
 
 /**
  * Supported colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
@@ -43,6 +38,14 @@ type Colorspace =
 
 /**
  * Supported interpolation colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
+ * @example 'rgb(255, 255, 255)' // RGB
+ * @example 'hsl(360deg, 0%, 100%)' // HSL
+ * @example 'hsv(360deg, 0%, 100%)' // HSV
+ * @example 'hsluv(360, 0, 100)' // HSLuv
+ * @example 'lab(100%, 0, 0)' // LAB
+ * @example 'lch(100%, 0, 360deg)' // LCH
+ * @example 'jab(100%, 0, 0)' // CAM02
+ * @example 'jch(100%, 0, 360deg)' // CAM02p
  */
 type InterpolationColorspace = Exclude<Colorspace, 'HEX'>
 
@@ -58,7 +61,7 @@ interface ColorBase {
    *
    * @remarks Strings are passed to {@link ChromaJs.valid}
    */
-  colorKeys: HexColor[]
+  colorKeys: CssColor[]
   /**
    * The colorspace in which the key colors will be interpolated.
    */
@@ -82,7 +85,7 @@ interface ColorBase {
 export class Color implements Required<ColorBase> {
   constructor({ name, colorKeys, colorspace, ratios, smooth, output, saturation }: ColorBase)
   name: string
-  colorKeys: HexColor[]
+  colorKeys: CssColor[]
   colorspace: InterpolationColorspace
   ratios: Ratios
   smooth: boolean
@@ -111,7 +114,7 @@ export function convertColorValue(color: string, format: Colorspace,
 export function createScale({ swatches, colorKeys, colorspace, shift, fullScale, smooth, distributeLightness, sortColor, asFun, }?: {
   /** The number of swatches/steps in the scale. */
   swatches: number
-  colorKeys: HexColor[]
+  colorKeys: CssColor[]
   /**
    * The colorspace used to interpolate the color scale.
    * @default 'LAB' */
@@ -226,13 +229,13 @@ export class Theme implements Required<ThemeBase> {
    * }
    *
    */
-  readonly contrastColorPairs: Record<string, HexColor>
+  readonly contrastColorPairs: Record<string, CssColor>
 
   /**
    * All color values in a flat array.
    * @example [ "#e0e0e0", "#a0a0a0", "#808080", "#646464", "#b18cff", "#8d63ff", "#623aff", "#1c0ad1" ]
    */
-  readonly contrastColorValues: HexColor[]
+  readonly contrastColorValues: CssColor[]
 
   /**
    * Add a {@link Color} to the theme
@@ -326,7 +329,7 @@ type RatiosArray = number[]
 type RatiosObject = Record<string, number>
 
 interface ContrastColorBackground {
-  background: HexColor
+  background: CssColor
 }
 
 interface ContrastColor {
@@ -337,7 +340,7 @@ interface ContrastColor {
 interface ContrastColorValue {
   name: string,
   contrast: number
-  value: HexColor
+  value: CssColor
 }
 
 
@@ -368,3 +371,212 @@ interface ThemeBase {
   output?: Colorspace
   formula?: ContrastFormula
 }
+
+
+/**
+ * A valid CSS color.
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color_value}
+ */
+type CssColor = RgbHexColor | RgbColor | HslColor | HsvColor | HsluvColor | LabColor | LchColor | Cam02Color | Cam02pColor | CssColorName
+
+/**
+ * A string representing a CSS hexadecimal RGB color.
+ * @example '#ff0000'
+ * @example '#369'
+ * @remarks Significantly more permissive than hex colors are, but probably the safest solution given the current limitations of Typescript's string literals.
+ */
+type RgbHexColor = `#${string}`
+/**
+ * A CSS RGB color function.
+ *  @example 'rgb(255, 255, 255)'
+ */
+type RgbColor = `rgb(${number}, ${number}, ${number})`
+/**
+ * A CSS HSL color function.
+ * @example 'hsl(360deg, 0%, 100%)'
+ */
+type HslColor = `hsl(${Degrees}, ${Percent}, ${Percent})`
+
+/**
+ * @example 'hsv(360deg, 0%, 100%)'
+ */
+type HsvColor = `hsv(${Degrees}, ${Percent}, ${Percent})`
+
+/**
+ * @example 'hsluv(360, 0, 100)'
+ */
+type HsluvColor = `hsluv(${number}, ${number}, ${number})`
+
+/**
+ * @example 'lab(100%, 0, 0)'
+ */
+type LabColor = `lab(${Percent}, ${number}, ${number})`
+
+/**
+ * @example 'lch(100%, 0, 360deg)'
+ */
+type LchColor = `lch(${Percent}, ${number}, ${Degrees})`
+
+
+
+
+/**
+ * @example 'jab(100%, 0, 0)'
+ */
+type Cam02Color = `jab(${Percent}, ${number}, ${number})`
+
+/**
+ * @example 'jch(100%, 0, 360deg)'
+ */
+type Cam02pColor = `jch(${Percent}, ${number}, ${Degrees})`
+type Percent = `${number}%`
+type Degrees = `${number}deg`
+
+type CssColorName = 'aliceblue' |
+  'antiquewhite' |
+  'aqua' |
+  'aquamarine' |
+  'azure' |
+  'beige' |
+  'bisque' |
+  'black' |
+  'blanchedalmond' |
+  'blue' |
+  'blueviolet' |
+  'brown' |
+  'burlywood' |
+  'cadetblue' |
+  'chartreuse' |
+  'chocolate' |
+  'coral' |
+  'cornflowerblue' |
+  'cornsilk' |
+  'crimson' |
+  'cyan' |
+  'darkblue' |
+  'darkcyan' |
+  'darkgoldenrod' |
+  'darkgray' |
+  'darkgreen' |
+  'darkgrey' |
+  'darkkhaki' |
+  'darkmagenta' |
+  'darkolivegreen' |
+  'darkorange' |
+  'darkorchid' |
+  'darkred' |
+  'darksalmon' |
+  'darkseagreen' |
+  'darkslateblue' |
+  'darkslategray' |
+  'darkslategrey' |
+  'darkturquoise' |
+  'darkviolet' |
+  'deeppink' |
+  'deepskyblue' |
+  'dimgray' |
+  'dimgrey' |
+  'dodgerblue' |
+  'firebrick' |
+  'floralwhite' |
+  'forestgreen' |
+  'fuchsia' |
+  'gainsboro' |
+  'ghostwhite' |
+  'goldenrod' |
+  'gold' |
+  'gray' |
+  'green' |
+  'greenyellow' |
+  'grey' |
+  'honeydew' |
+  'hotpink' |
+  'indianred' |
+  'indigo' |
+  'ivory' |
+  'khaki' |
+  'lavenderblush' |
+  'lavender' |
+  'lawngreen' |
+  'lemonchiffon' |
+  'lightblue' |
+  'lightcoral' |
+  'lightcyan' |
+  'lightgoldenrodyellow' |
+  'lightgray' |
+  'lightgreen' |
+  'lightgrey' |
+  'lightpink' |
+  'lightsalmon' |
+  'lightseagreen' |
+  'lightskyblue' |
+  'lightslategray' |
+  'lightslategrey' |
+  'lightsteelblue' |
+  'lightyellow' |
+  'lime' |
+  'limegreen' |
+  'linen' |
+  'magenta' |
+  'maroon' |
+  'mediumaquamarine' |
+  'mediumblue' |
+  'mediumorchid' |
+  'mediumpurple' |
+  'mediumseagreen' |
+  'mediumslateblue' |
+  'mediumspringgreen' |
+  'mediumturquoise' |
+  'mediumvioletred' |
+  'midnightblue' |
+  'mintcream' |
+  'mistyrose' |
+  'moccasin' |
+  'navajowhite' |
+  'navy' |
+  'oldlace' |
+  'olive' |
+  'olivedrab' |
+  'orange' |
+  'orangered' |
+  'orchid' |
+  'palegoldenrod' |
+  'palegreen' |
+  'paleturquoise' |
+  'palevioletred' |
+  'papayawhip' |
+  'peachpuff' |
+  'peru' |
+  'pink' |
+  'plum' |
+  'powderblue' |
+  'purple' |
+  'rebeccapurple' |
+  'red' |
+  'rosybrown' |
+  'royalblue' |
+  'saddlebrown' |
+  'salmon' |
+  'sandybrown' |
+  'seagreen' |
+  'seashell' |
+  'sienna' |
+  'silver' |
+  'skyblue' |
+  'slateblue' |
+  'slategray' |
+  'slategrey' |
+  'snow' |
+  'springgreen' |
+  'steelblue' |
+  'tan' |
+  'teal' |
+  'thistle' |
+  'tomato' |
+  'turquoise' |
+  'violet' |
+  'wheat' |
+  'white' |
+  'whitesmoke' |
+  'yellow' |
+  'yellowgreen'
