@@ -12,6 +12,33 @@ governing permissions and limitations under the License.
 
 import type ChromaJs from 'chroma-js'
 
+type ColorTuple = [number, number, number]
+
+declare module 'chroma-js' {
+  interface ChromaStatic {
+    jch(...args: ColorTuple): ChromaJs.Color
+    jab(...args: ColorTuple): ChromaJs.Color
+    getCSSGradient(scale: Scale,
+      /**
+       * @default 1
+       */
+      length: number,
+      /**
+       * @default 90
+       */
+      deg: number,
+      /**
+       * @default .005
+       */
+      ε: number): string
+  }
+  interface Color {
+    jch(): ColorTuple
+    jab(): ColorTuple
+    hsluv(): ColorTuple
+  }
+}
+
 /**
  * Supported colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
  * @example '#RRGGBB' // HEX
@@ -48,7 +75,7 @@ type Colorspace =
  */
 type InterpolationColorspace = Exclude<Colorspace, 'HEX'>
 
-type RGBArray = [number, number, number]
+type RGBArray = ColorTuple
 
 interface ColorBase {
   /**
