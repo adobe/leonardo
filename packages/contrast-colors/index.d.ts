@@ -397,7 +397,7 @@ interface ThemeBase {
  * A valid CSS color.
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color_value}
  */
-type CssColor = RgbHexColor | RgbColor | HslColor | HsvColor | HsluvColor | LabColor | LchColor | Cam02Color | Cam02pColor | CssColorName
+type CssColor = RgbHexColor | RgbColor | HslColor | HsvColor | HsluvColor | LabColor | LchColor | OkLabColor | OkLchColor | Cam02Color | Cam02pColor | CssColorName
 
 /**
  * A string representing a CSS hexadecimal RGB color.
@@ -436,6 +436,16 @@ type LabColor = `lab(${Percent}, ${number}, ${number})`
  * @example 'lch(100%, 0, 360deg)'
  */
 type LchColor = `lch(${Percent}, ${number}, ${Degrees})`
+
+/**
+ * @example 'oklab(100%, 0, 0)'
+ */
+type OkLabColor = `oklab(${Percent}, ${number}, ${number})`
+
+/**
+ * @example 'oklch(100%, 0, 360deg)'
+ */
+type OkLchColor = `oklch(${Percent}, ${number}, ${Degrees})`
 
 /**
  * @example 'jab(100%, 0, 0)'
