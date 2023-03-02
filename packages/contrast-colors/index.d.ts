@@ -12,7 +12,6 @@ governing permissions and limitations under the License.
 
 import type ChromaJs from 'chroma-js'
 
-
 /**
  * Supported colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
  * @example '#RRGGBB' // HEX
@@ -58,7 +57,6 @@ interface ColorBase {
   name: string
   /**
    * List of specific colors to interpolate between in order to generate a full lightness scale of the color.
-   *
    * @remarks Strings are passed to {@link ChromaJs.valid}
    */
   colorKeys: CssColor[]
@@ -132,7 +130,6 @@ export function createScale({ swatches, colorKeys, colorspace, shift, fullScale,
   /** @default false */
   asFun?: boolean
 }): ChromaJs.Scale
-
 
 export function luminance(r: number, g: number, b: number): number
 
@@ -227,7 +224,6 @@ export class Theme implements Required<ThemeBase> {
    *   "blue300": "#623aff",
    *   "blue400": "#1c0ad1"
    * }
-   *
    */
   readonly contrastColorPairs: Record<string, CssColor>
 
@@ -303,7 +299,6 @@ type RatiosArray = number[]
 
 /**
  * When defining ratios as an object with key-value pairs, you define what name will be output in your Leonardo theme.
- *
  * @example ```
  * new Color({
     name: 'blue',
@@ -343,7 +338,6 @@ interface ContrastColorValue {
   value: CssColor
 }
 
-
 interface ThemeBase {
   /**
    * List of {@link Color} classes to generate theme colors for.
@@ -371,7 +365,6 @@ interface ThemeBase {
   output?: Colorspace
   formula?: ContrastFormula
 }
-
 
 /**
  * A valid CSS color.
@@ -416,9 +409,6 @@ type LabColor = `lab(${Percent}, ${number}, ${number})`
  * @example 'lch(100%, 0, 360deg)'
  */
 type LchColor = `lch(${Percent}, ${number}, ${Degrees})`
-
-
-
 
 /**
  * @example 'jab(100%, 0, 0)'
