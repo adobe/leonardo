@@ -48,6 +48,8 @@ declare module 'chroma-js' {
  * @example 'hsluv(360, 0, 100)' // HSLuv
  * @example 'lab(100%, 0, 0)' // LAB
  * @example 'lch(100%, 0, 360deg)' // LCH
+ * @example 'oklab(100%, 0, 0)' // OKLAB
+ * @example 'oklch(100%, 0, 360deg)' // OKLCH
  * @example 'jab(100%, 0, 0)' // CAM02
  * @example 'jch(100%, 0, 360deg)' // CAM02p
  */
@@ -59,6 +61,8 @@ type Colorspace =
   | 'HSLuv'
   | 'LAB'
   | 'LCH'
+  | 'OKLAB'
+  | 'OKLCH'
   | 'CAM02'
   | 'CAM02p'
 
@@ -70,6 +74,8 @@ type Colorspace =
  * @example 'hsluv(360, 0, 100)' // HSLuv
  * @example 'lab(100%, 0, 0)' // LAB
  * @example 'lch(100%, 0, 360deg)' // LCH
+ * @example 'oklab(100%, 0, 0)' // OKLAB
+ * @example 'oklch(100%, 0, 360deg)' // OKLCH
  * @example 'jab(100%, 0, 0)' // CAM02
  * @example 'jch(100%, 0, 360deg)' // CAM02p
  */
