@@ -42,16 +42,16 @@ declare module 'chroma-js' {
 /**
  * Supported colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
  * @example '#RRGGBB' // HEX
- * @example 'rgb(255, 255, 255)' // RGB
- * @example 'hsl(360deg, 0%, 100%)' // HSL
- * @example 'hsv(360deg, 0%, 100%)' // HSV
- * @example 'hsluv(360, 0, 100)' // HSLuv
- * @example 'lab(100%, 0, 0)' // LAB
- * @example 'lch(100%, 0, 360deg)' // LCH
- * @example 'oklab(100%, 0, 0)' // OKLAB
- * @example 'oklch(100%, 0, 360deg)' // OKLCH
- * @example 'jab(100%, 0, 0)' // CAM02
- * @example 'jch(100%, 0, 360deg)' // CAM02p
+ * @example 'rgb(255 255 255)' // RGB
+ * @example 'hsl(360deg 0% 100%)' // HSL
+ * @example 'hsv(360deg 0% 100%)' // HSV
+ * @example 'hsluv(360 0 100)' // HSLuv
+ * @example 'lab(100% 0 0)' // LAB
+ * @example 'lch(100% 0 360deg)' // LCH
+ * @example 'oklab(100% 0 0)' // OKLAB
+ * @example 'oklch(100% 0 360deg)' // OKLCH
+ * @example 'jab(100% 0 0)' // CAM02
+ * @example 'jch(100% 0 360deg)' // CAM02p
  */
 type Colorspace =
   | 'HEX'
@@ -68,16 +68,16 @@ type Colorspace =
 
 /**
  * Supported interpolation colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
- * @example 'rgb(255, 255, 255)' // RGB
- * @example 'hsl(360deg, 0%, 100%)' // HSL
- * @example 'hsv(360deg, 0%, 100%)' // HSV
- * @example 'hsluv(360, 0, 100)' // HSLuv
- * @example 'lab(100%, 0, 0)' // LAB
- * @example 'lch(100%, 0, 360deg)' // LCH
- * @example 'oklab(100%, 0, 0)' // OKLAB
- * @example 'oklch(100%, 0, 360deg)' // OKLCH
- * @example 'jab(100%, 0, 0)' // CAM02
- * @example 'jch(100%, 0, 360deg)' // CAM02p
+ * @example 'rgb(255 255 255)' // RGB
+ * @example 'hsl(360deg 0% 100%)' // HSL
+ * @example 'hsv(360deg 0% 100%)' // HSV
+ * @example 'hsluv(360 0 100)' // HSLuv
+ * @example 'lab(100% 0 0)' // LAB
+ * @example 'lch(100% 0 360deg)' // LCH
+ * @example 'oklab(100% 0 0)' // OKLAB
+ * @example 'oklch(100% 0 360deg)' // OKLCH
+ * @example 'jab(100% 0 0)' // CAM02
+ * @example 'jch(100% 0 360deg)' // CAM02p
  */
 type InterpolationColorspace = Exclude<Colorspace, 'HEX'>
 
@@ -414,54 +414,54 @@ type CssColor = RgbHexColor | RgbColor | HslColor | HsvColor | HsluvColor | LabC
 type RgbHexColor = `#${string}`
 /**
  * A CSS RGB color function.
- *  @example 'rgb(255, 255, 255)'
+ *  @example 'rgb(255 255 255)'
  */
-type RgbColor = `rgb(${number}, ${number}, ${number})`
+type RgbColor = `rgb(${number} ${number} ${number})`
 /**
  * A CSS HSL color function.
- * @example 'hsl(360deg, 0%, 100%)'
+ * @example 'hsl(360deg 0% 100%)'
  */
-type HslColor = `hsl(${Degrees}, ${Percent}, ${Percent})`
+type HslColor = `hsl(${Degrees} ${Percent} ${Percent})`
 
 /**
- * @example 'hsv(360deg, 0%, 100%)'
+ * @example 'hsv(360deg 0% 100%)'
  */
-type HsvColor = `hsv(${Degrees}, ${Percent}, ${Percent})`
+type HsvColor = `hsv(${Degrees} ${Percent} ${Percent})`
 
 /**
- * @example 'hsluv(360, 0, 100)'
+ * @example 'hsluv(360 0 100)'
  */
-type HsluvColor = `hsluv(${number}, ${number}, ${number})`
+type HsluvColor = `hsluv(${number} ${number} ${number})`
 
 /**
- * @example 'lab(100%, 0, 0)'
+ * @example 'lab(100% 0 0)'
  */
-type LabColor = `lab(${Percent}, ${number}, ${number})`
+type LabColor = `lab(${Percent} ${number} ${number})`
 
 /**
- * @example 'lch(100%, 0, 360deg)'
+ * @example 'lch(100% 0 360deg)'
  */
-type LchColor = `lch(${Percent}, ${number}, ${Degrees})`
+type LchColor = `lch(${Percent} ${number} ${Degrees})`
 
 /**
- * @example 'oklab(100%, 0, 0)'
+ * @example 'oklab(100% 0 0)'
  */
-type OkLabColor = `oklab(${Percent}, ${number}, ${number})`
+type OkLabColor = `oklab(${Percent} ${number} ${number})`
 
 /**
- * @example 'oklch(100%, 0, 360deg)'
+ * @example 'oklch(100% 0 360deg)'
  */
-type OkLchColor = `oklch(${Percent}, ${number}, ${Degrees})`
+type OkLchColor = `oklch(${Percent} ${number} ${Degrees})`
 
 /**
- * @example 'jab(100%, 0, 0)'
+ * @example 'jab(100% 0 0)'
  */
-type Cam02Color = `jab(${Percent}, ${number}, ${number})`
+type Cam02Color = `jab(${Percent} ${number} ${number})`
 
 /**
- * @example 'jch(100%, 0, 360deg)'
+ * @example 'jch(100% 0 360deg)'
  */
-type Cam02pColor = `jch(${Percent}, ${number}, ${Degrees})`
+type Cam02pColor = `jch(${Percent} ${number} ${Degrees})`
 type Percent = `${number}%`
 type Degrees = `${number}deg`
 
