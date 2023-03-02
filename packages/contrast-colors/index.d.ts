@@ -85,7 +85,7 @@ export class Color implements Required<ColorBase> {
   name: string
   colorKeys: CssColor[]
   colorspace: InterpolationColorspace
-  ratios: Ratios
+  ratios: RatiosArray | RatiosObject
   smooth: boolean
   output: Colorspace
   saturation: number
