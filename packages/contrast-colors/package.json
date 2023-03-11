@@ -5,6 +5,7 @@
   "repository": "git@github.com:adobe/leonardo.git",
   "main": "./index.js",
   "type": "module",
+  "types": "./index.d.ts",
   "exports": {
     ".": {
       "default": "./index.js"
@@ -22,8 +23,8 @@
       "node"
     ],
     "testMatch": [
-      "**/__tests__/**/*.m[jt]s?(x)",
-      "**/?(*.)+(spec|test).m[jt]s?(x)"
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)"
     ]
   },
   "scripts": {
@@ -36,12 +37,11 @@
     "chroma-js": "^2.4.2",
     "ciebase": "^0.1.1",
     "ciecam02": "^0.4.6",
-    "hsluv": "^0.1.0"
+    "hsluv": "^0.1.0",
+    "apca-w3": "^0.1.9"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.18.6",
-    "apca-w3": "^0.1.9",
-    "colorparsley": "^0.1.8",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
