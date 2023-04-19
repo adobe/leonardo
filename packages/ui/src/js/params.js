@@ -27,6 +27,7 @@ import {
 } from './initialTheme';
 
 function paramSetup() {
+  let setFirstColorSmoothing = false;
   let url = new URL(window.location);
   let params = new URLSearchParams(url.search.slice(1));
   let themeBase = document.getElementById('themeBase');
@@ -51,6 +52,7 @@ function paramSetup() {
     let colorScales = config.colorScales;
     let baseScale = config.baseScale;
     let lightness = (config.lightness) ? config.lightness : config.brightness;
+
     let contrast;
     let formula;
     if(!config.formula) {
@@ -69,12 +71,15 @@ function paramSetup() {
     if(colorScales.length > 0) {
       _theme.removeColor = tempGray;
 
-      colorScales.map(color => {
+      colorScales.map((color, i) => {
         let colorName = color.name;
         let keyColors = color.colorKeys;
         let colorSpace = color.colorspace;
         let ratios = color.ratios;
-        let smooth = color.smooth;
+        let smooth = (i === 0) ? false : color.smooth;
+        if(color.smooth === "true") {
+          if(color.colorspace === 'OKLAB' || color.colorspace === 'OKLCH') setFirstColorSmoothing = true;
+        }
 
         // Create color scale item
         let newColor = new Leo.BackgroundColor({
@@ -102,9 +107,12 @@ function paramSetup() {
 
     let slider = document.getElementById('themeBrightnessSlider');
     let sliderVal = document.getElementById('themeBrightnessValue');
+
+    if(lightness === undefined) lightness = 0; 
+    _theme.lightness = lightness;
     slider.value = lightness;
     sliderVal.innerHTML = lightness;
-    _theme.lightness = lightness;
+    
 
     let contrastSlider = document.getElementById('themeContrastSlider');
     let contrastSliderVal = document.getElementById('themeContrastValue');
@@ -225,6 +233,10 @@ function paramSetup() {
   }
 
   setTimeout(() => {
+    if(setFirstColorSmoothing) {
+      let firstColorName = _theme.colors[0].name;
+      _theme.updateColor = {name: firstColorName, smooth: 'true'}
+    }
     themeUpdate();
   }, 200)
   clearParams();
