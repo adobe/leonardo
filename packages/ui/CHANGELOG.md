@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.4](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.4.3...@adobe/leonardo-ui@1.4.4) (2023-08-01)
+
+
+### Bug Fixes
+
+* undefined lightness and smoothing issue ([#205](https://github.com/adobe/leonardo/issues/205)) ([300175b](https://github.com/adobe/leonardo/commit/300175b60b79b26bda2599a54b44fbe935716a9a))
+
+
+
+
+
 ## [1.4.3](https://github.com/adobe/leonardo/compare/@adobe/leonardo-ui@1.4.2...@adobe/leonardo-ui@1.4.3) (2023-01-26)
 
 **Note:** Version bump only for package @adobe/leonardo-ui

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.18](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.17...@adobe/leonardo-contrast-colors@1.0.0-alpha.18) (2023-08-01)
+
+**Note:** Version bump only for package @adobe/leonardo-contrast-colors
+
+
+
+
+
 # [1.0.0-alpha.17](https://github.com/adobe/leonardo/compare/@adobe/leonardo-contrast-colors@1.0.0-alpha.16...@adobe/leonardo-contrast-colors@1.0.0-alpha.17) (2023-01-26)
 
 **Note:** Version bump only for package @adobe/leonardo-contrast-colors
