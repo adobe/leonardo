@@ -12,7 +12,7 @@
   ],
   "license": "Apache-2.0",
   "devDependencies": {
-    "lerna": "^3.16.4"
+    "lerna": "^7.1.4"
   },
   "workspaces": [
     "packages/*"
