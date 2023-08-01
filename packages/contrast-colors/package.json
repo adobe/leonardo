@@ -1,6 +1,6 @@
 {
   "name": "@adobe/leonardo-contrast-colors",
-  "version": "1.0.0-alpha.17",
+  "version": "1.0.0-alpha.18",
   "description": "Generate colors based on a desired contrast ratio",
   "repository": "git@github.com:adobe/leonardo.git",
   "main": "./index.js",
@@ -34,11 +34,11 @@
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "apca-w3": "^0.1.9",
     "chroma-js": "^2.4.2",
     "ciebase": "^0.1.1",
     "ciecam02": "^0.4.6",
-    "hsluv": "^0.1.0",
-    "apca-w3": "^0.1.9"
+    "hsluv": "^0.1.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.18.6",
