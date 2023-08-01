@@ -38,6 +38,7 @@
   ],
   "license": "Apache-2.0",
   "devDependencies": {
+    "@parcel/transformer-webmanifest": "^2.9.3",
     "gh-pages": "^3.2.3",
     "highlight.js": "^11.2.0",
     "parcel-bundler": "^1.12.4",
