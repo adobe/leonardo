@@ -2,19 +2,33 @@
   "name": "leonardo-monorepo",
   "version": "0.0.0",
   "private": true,
-  "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
-    "release": "npx lerna publish"
+    "moon": "moon",
+    "pre-commit": "lint-staged",
+    "prepare": "husky install",
+    "release": "changeset publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/leonardo.git"
   },
   "contributors": [
     "Larry Davis <lazdnet@gmail.com>"
   ],
   "license": "Apache-2.0",
   "devDependencies": {
-    "lerna": "^3.16.4"
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@moonrepo/cli": "^1.18.1",
+    "ava": "^6.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "engines": {
+    "node": "18.13.0"
+  },
+  "packageManager": "pnpm@8.13.0"
 }
