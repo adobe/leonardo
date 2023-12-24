@@ -65,7 +65,7 @@ let ${themeName.replace(/[^a-zA-Z0-9_$]/g, '_')} = new Leo.Theme({
   lightness: ${_theme.lightness},
   contrast: ${_theme.contrast},
   saturation: ${_theme.saturation},
-  output: "${_theme.output},"
+  output: "${_theme.output}",
   formula: "${_theme.formula}"
 });`;
 
