@@ -8,7 +8,8 @@
     "release": "npx lerna publish"
   },
   "contributors": [
-    "Larry Davis <lazdnet@gmail.com>"
+    "Larry Davis <lazdnet@gmail.com>",
+    "Miguel Gargallo <andorra.mg@gmail.com"
   ],
   "license": "Apache-2.0",
   "devDependencies": {

@@ -15,14 +15,17 @@ For a detailed walkthrough of Leonardo, [check out this article](https://medium.
 ## Project Goals
 To make it easier for designers and engineers to leverage color science to create custom interpolations for a value scale, and to make it easier for designers and engineers to conform to [WCAG minimum contrast standards](https://www.w3.org/TR/WCAG21/#contrast-minimum) by using contrast ratio as the starting point, rather than a post-color-selection auditing process.
 
-1. [Leonardo web application](#leonardo-web-application)
-2. [Show me a demo](#show-me-a-demo)
-3. [What is "adaptive color"?](#what-is-adaptive-color)
-4. [Using Leonardo](#using-leonardo)
-5. [Why are not all contrast ratios available?](#why-are-not-all-contrast-ratios-available)
-6. [D3 Color](#d3-color)
-7. [Contributing](#contributing)
-8. [Licensing](#licensing)
+- [Leonardo](#leonardo)
+  - [Project Goals](#project-goals)
+  - [Leonardo web application](#leonardo-web-application)
+  - [Show me a demo](#show-me-a-demo)
+  - [What is adaptive color?](#what-is-adaptive-color)
+  - [Using Leonardo](#using-leonardo)
+  - [Why are not all contrast ratios available?](#why-are-not-all-contrast-ratios-available)
+  - [D3 Color](#d3-color)
+  - [Contributing](#contributing)
+  - [Development](#development)
+  - [Licensing](#licensing)
 
 
 ## Leonardo web application
@@ -79,6 +82,15 @@ To get started [developing Leonardo UI](packages/ui#development):
 
 *Note: [Yarn](https://yarnpkg.com/) must be installed on your machine*
 
+![WARNING]
+> I use nvm 16
+
+```sh
+nvm install 16 && nvm use 16
+```
+
+Then 
+
 ```sh
 # Install dependencies
 yarn install
@@ -86,8 +98,17 @@ yarn install
 # Change directory to Leonardo UI
 cd packages/ui
 
-# Run local server
+# Prepare and Run local server
+yarn prepare && yarn dev
+
+# When you want to run simply
 yarn dev
+
+# Then, visit the live reloading web UIs here:
+http://localhost:1234/index.html
+
+## Do all with 1 command lets make things easier for devs:
+yarn install && cd packages/ui && yarn prepare && yarn dev
 ```
 
 To get started [developing Leonardo `contrast-colors` package](packages/contrast-colors#development):
