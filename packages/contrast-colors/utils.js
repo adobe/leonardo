@@ -349,9 +349,6 @@ function convertColorValue(color, format, object = false) {
         if (letter === 'l' || letter === 'j') {
           rnd += '%';
         }
-        if (letter === 'h') {
-          rnd += 'deg';
-        }
       }
     } else if (space !== 'hsluv') {
       if (letter === 's' || letter === 'l' || letter === 'v') {
@@ -360,8 +357,6 @@ function convertColorValue(color, format, object = false) {
           rnd = round(ch * 100);
           rnd += '%';
         }
-      } else if (letter === 'h' && !object) {
-        rnd += 'deg';
       }
     }
     return rnd;
