@@ -11,25 +11,9 @@
       "default": "./index.js"
     }
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "mjs",
-      "cjs",
-      "jsx",
-      "ts",
-      "tsx",
-      "json",
-      "node"
-    ],
-    "testMatch": [
-      "**/__tests__/**/*.[jt]s?(x)",
-      "**/?(*.)+(spec|test).[jt]s?(x)"
-    ]
-  },
   "scripts": {
-    "dev": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
+    "dev": "npx ava --watch",
+    "test": "npx ava"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
@@ -41,7 +25,7 @@
     "hsluv": "^0.1.0"
   },
   "devDependencies": {
-    "jest": "^26.6.3"
+    "ava": "^6.1.1"
   },
   "publishConfig": {
     "access": "public"
