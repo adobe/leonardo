@@ -9,96 +9,95 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { saveAs } from 'file-saver';
-import {_theme} from './initialTheme';
-import { createSvgElement } from './createHtmlElement';
+import { saveAs } from "file-saver";
+import { _theme } from "./initialTheme";
+import { createSvgElement } from "./createHtmlElement";
 
 function createSVGgradient(colors) {
   let gradientWidth = 800;
   let gradientHeight = 80;
 
   var svgns = "http://www.w3.org/2000/svg";
-  
-  let svgWrapper = document.createElementNS(svgns, 'svg');
+
+  let svgWrapper = document.createElementNS(svgns, "svg");
   svgWrapper.setAttribute("xmlns", svgns);
   svgWrapper.setAttribute("version", "1.1");
-  svgWrapper.setAttributeNS( null, 'width', gradientWidth + 'px' );
-  svgWrapper.setAttributeNS( null, 'height', gradientHeight + 'px' );
+  svgWrapper.setAttributeNS(null, "width", gradientWidth + "px");
+  svgWrapper.setAttributeNS(null, "height", gradientHeight + "px");
   svgWrapper.setAttribute("aria-hidden", "true");
-  svgWrapper.id = 'gradientSvg';
+  svgWrapper.id = "gradientSvg";
 
-  let outerElement = document.createElement('div');
-  outerElement.id = '_SVGgradient';
+  let outerElement = document.createElement("div");
+  outerElement.id = "_SVGgradient";
 
   outerElement.appendChild(svgWrapper);
   document.body.appendChild(outerElement);
 
   createSvgElement({
-    element: 'rect',
-    id: 'gradientRect',
+    element: "rect",
+    id: "gradientRect",
     attributes: {
       width: gradientWidth,
       height: gradientHeight,
       fill: "url(#gradientLinearGrad)",
-      rx: 8
+      rx: 8,
     },
-    appendTo: 'gradientSvg'
+    appendTo: "gradientSvg",
   });
-  
+
   createSvgElement({
-    element: 'defs',
-    id: 'gradientDefs',
-    appendTo: 'gradientSvg'
+    element: "defs",
+    id: "gradientDefs",
+    appendTo: "gradientSvg",
   });
-  
+
   createSvgElement({
-    element: 'linearGradient',
-    id: 'gradientLinearGrad',
+    element: "linearGradient",
+    id: "gradientLinearGrad",
     attributes: {
       x1: 0,
       y1: 0,
       x2: gradientWidth,
       y2: 0,
-      gradientUnits: "userSpaceOnUse"
+      gradientUnits: "userSpaceOnUse",
     },
-    appendTo: 'gradientDefs'
-  })
-  
-  for(let i=0; i < colors.length; i++) {
+    appendTo: "gradientDefs",
+  });
+
+  for (let i = 0; i < colors.length; i++) {
     let length = colors.length - 1;
 
     // only take 10 values from scale
-    if(Number.isInteger(i/4)) {
+    if (Number.isInteger(i / 4)) {
       createSvgElement({
-        element: 'stop',
+        element: "stop",
         attributes: {
-          offset: i/length,
-          'stop-color': colors[i]
+          offset: i / length,
+          "stop-color": colors[i],
         },
-        appendTo: 'gradientLinearGrad'
+        appendTo: "gradientLinearGrad",
       });
     }
   }
-
 }
 
 function downloadSVGgradient(colors, mode, gradientName) {
   const createGradient = Promise.resolve(createSVGgradient(colors));
 
   createGradient.then(() => {
-    let svg = document.getElementById('_SVGgradient').innerHTML;
+    let svg = document.getElementById("_SVGgradient").innerHTML;
     let filename = `${gradientName}_${mode}_gradient.svg`;
-    var blob = new Blob([`${svg}`], {type: "image/svg+xml;charset=utf-8"});
-  
+    var blob = new Blob([`${svg}`], { type: "image/svg+xml;charset=utf-8" });
+
     saveAs(blob, filename);
-  
-    document.getElementById('_SVGgradient').remove();  
-  })
+
+    document.getElementById("_SVGgradient").remove();
+  });
 }
 
 window.downloadSVGgradient = downloadSVGgradient;
 
 module.exports = {
   createSVGgradient,
-  downloadSVGgradient
-}
+  downloadSVGgradient,
+};

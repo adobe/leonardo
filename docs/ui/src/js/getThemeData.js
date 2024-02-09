@@ -9,19 +9,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {
-  getLightness
-} from './utils';
-import {
-  _theme,
-  _colorScales
-} from './initialTheme';
+import { getLightness } from "./utils";
+import { _theme, _colorScales } from "./initialTheme";
 
 window.getColorClassById = getColorClassById;
 function getColorClassById(id) {
   let thisElement = document.getElementById(id);
   // 1. find color name from id
-  let colorNameInput = id.concat('_colorName');
+  let colorNameInput = id.concat("_colorName");
   let colorName = document.getElementById(colorNameInput).value;
 
   // 2. Scrape information from the color class of the same name
@@ -29,7 +24,9 @@ function getColorClassById(id) {
 }
 
 function getColorClassByName(colorName) {
-  let currentColor = _theme.colors.filter(color => {return color.name === colorName});
+  let currentColor = _theme.colors.filter((color) => {
+    return color.name === colorName;
+  });
   currentColor = currentColor[0];
 
   return currentColor;
@@ -37,9 +34,9 @@ function getColorClassByName(colorName) {
 
 // GET all contrast ratios
 function getContrastRatioInputs() {
-  let ratioInputs = document.getElementsByClassName('ratio-Field');
+  let ratioInputs = document.getElementsByClassName("ratio-Field");
   let ratios = [];
-  for(let i = 0; i < ratioInputs.length; i++) {
+  for (let i = 0; i < ratioInputs.length; i++) {
     ratios.push(ratioInputs[i].value);
   }
   return ratios;
@@ -50,7 +47,7 @@ function getThemeContrastRatios() {
   let themeRatios = theme[1].values;
   let ratios = [];
 
-  for(let i = 0; i < themeRatios.length; i++) {
+  for (let i = 0; i < themeRatios.length; i++) {
     const value = themeRatios[i].contrast;
     ratios.push(value);
   }
@@ -63,9 +60,9 @@ function getLuminosities() {
   let colors = theme[1].values;
   let luminosities = [];
 
-  for(let i = 0; i < colors.length; i++) {
+  for (let i = 0; i < colors.length; i++) {
     const value = colors[i].value;
-    const lightness = getLightness(value)
+    const lightness = getLightness(value);
     luminosities.push(lightness);
   }
   return luminosities;
@@ -73,7 +70,7 @@ function getLuminosities() {
 
 function getThemeName() {
   // Get name
-  let themeNameInput = document.getElementById('themeNameInput');
+  let themeNameInput = document.getElementById("themeNameInput");
   let themeName = themeNameInput.value;
   return themeName;
 }
@@ -89,30 +86,29 @@ function getThemeData() {
     baseScale: baseSelectValue,
     colorScales: colorScales,
     brightness: brightness,
-    contrast: contrast
-  }
+    contrast: contrast,
+  };
 }
 
 function getAllColorKeys() {
   let scales = _theme.colors;
-  if(scales) {
+  if (scales) {
     let colorKeys = [];
-    scales.map(scale => {
+    scales.map((scale) => {
       let keys = scale.colorKeys;
-      keys.forEach(key => {
-        colorKeys.push(key)
-      })
+      keys.forEach((key) => {
+        colorKeys.push(key);
+      });
     });
-  
+
     return colorKeys;
-  }
-  else throw new Error('No color scales defined')
+  } else throw new Error("No color scales defined");
 }
 
 function getAllColorNames() {
   let colors = _theme.colors;
   let colorNames = [];
-  colors.forEach((color) => colorNames.push(color.name))
+  colors.forEach((color) => colorNames.push(color.name));
   return colorNames;
 }
 
@@ -125,5 +121,5 @@ module.exports = {
   getAllColorNames,
   getLuminosities,
   getColorClassByName,
-  getAllColorKeys
-}
+  getAllColorKeys,
+};

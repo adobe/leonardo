@@ -11,7 +11,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spectrum-global-dimension-size-400) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
+  padding: var(--spectrum-global-dimension-size-400)
+    var(--spectrum-global-dimension-size-300)
+    var(--spectrum-global-dimension-size-300);
   border-radius: var(--spectrum-alias-border-radius-medium);
   border-width: 1px;
   border-style: solid;
@@ -20,7 +22,10 @@
   min-width: 180px;
   width: calc(33% - 58px);
   text-decoration: none;
-  transition: border-color var(--spectrum-global-animation-duration-100, 130ms) ease-out, background-color var(--spectrum-global-animation-duration-100, 130ms) ease-out;
+  transition:
+    border-color var(--spectrum-global-animation-duration-100, 130ms) ease-out,
+    background-color var(--spectrum-global-animation-duration-100, 130ms)
+      ease-out;
 
   &:hover {
     border-color: var(--spectrum-global-color-gray-400);

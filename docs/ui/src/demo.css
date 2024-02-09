@@ -124,7 +124,9 @@ label {
   padding: 8px 32px 16px 16px;
   background-color: var(--backgroundDefault);
   border-left: 1px solid var(--gray300);
-  box-shadow: -1px 0 16px 0 var(--shadow-color), 0 0 32px 0 var(--shadow-color);
+  box-shadow:
+    -1px 0 16px 0 var(--shadow-color),
+    0 0 32px 0 var(--shadow-color);
   z-index: 1;
 }
 

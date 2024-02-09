@@ -11,23 +11,23 @@ governing permissions and limitations under the License.
 
 function toggleSwatchContrast(e) {
   let on = e.target.checked;
-  let wrapper = document.getElementById('swatchesOutputs');
+  let wrapper = document.getElementById("swatchesOutputs");
 
-  if(!on) {
-    wrapper.classList.add('hideSwatchContrast')
+  if (!on) {
+    wrapper.classList.add("hideSwatchContrast");
   } else {
-    wrapper.classList.remove('hideSwatchContrast')
+    wrapper.classList.remove("hideSwatchContrast");
   }
 }
 
 function toggleSwatchLuminosity(e) {
   let on = e.target.checked;
-  let wrapper = document.getElementById('swatchesOutputs');
+  let wrapper = document.getElementById("swatchesOutputs");
 
-  if(!on) {
-    wrapper.classList.add('hideSwatchLuminosity')
+  if (!on) {
+    wrapper.classList.add("hideSwatchLuminosity");
   } else {
-    wrapper.classList.remove('hideSwatchLuminosity')
+    wrapper.classList.remove("hideSwatchLuminosity");
   }
 }
 
@@ -36,5 +36,5 @@ window.toggleSwatchLuminosity = toggleSwatchLuminosity;
 
 module.exports = {
   toggleSwatchContrast,
-  toggleSwatchLuminosity
-}
+  toggleSwatchLuminosity,
+};

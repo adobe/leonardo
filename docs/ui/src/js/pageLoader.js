@@ -9,10 +9,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-
 function pageLoader() {
-  const loader = document.getElementById('pageLoader');
-  const page = document.getElementById('page');
+  const loader = document.getElementById("pageLoader");
+  const page = document.getElementById("page");
   setTimeout(() => {
     page.style.opacity = 1;
   }, 50);
@@ -21,10 +20,10 @@ function pageLoader() {
     loader.style.opacity = 0;
     setTimeout(() => {
       loader.remove();
-    }, 150)
-  }, 1000)
+    }, 150);
+  }, 1000);
 }
 
 module.exports = {
-  pageLoader
-}
+  pageLoader,
+};

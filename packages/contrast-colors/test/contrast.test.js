@@ -46,7 +46,7 @@ test("should provide APCA contrast of ~ 75.6", (t) => {
     [18, 52, 176],
     [233, 228, 208],
     undefined,
-    "wcag3"
+    "wcag3",
   ); // lighter gray is UI color, gray is base. Should return negative whole number
   t.is(contrastValue, 75.57062523197818);
 });
@@ -56,7 +56,7 @@ test("should provide APCA contrast of ~ 78.3", (t) => {
     [233, 228, 208],
     [18, 52, 176],
     undefined,
-    "wcag3"
+    "wcag3",
   ); // lighter gray is UI color, gray is base. Should return negative whole number
   t.is(contrastValue, 78.28508284557655);
 });
@@ -66,7 +66,7 @@ test("should provide APCA contrast of ~ 38.7", (t) => {
     [255, 162, 0],
     [255, 255, 255],
     undefined,
-    "wcag3"
+    "wcag3",
   ); // lighter gray is UI color, gray is base. Should return negative whole number
   t.is(contrastValue, 38.67214116963013);
 });
@@ -76,7 +76,7 @@ test("should provide APCA contrast of ~ -43.1 since bg lum is greater than 50%",
     [255, 255, 255],
     [255, 162, 0],
     undefined,
-    "wcag3"
+    "wcag3",
   ); // lighter gray is UI color, gray is base. Should return negative whole number
   t.is(contrastValue, -43.12544505836451);
 });
@@ -86,7 +86,7 @@ test("should provide APCA contrast of ~ 107.9", (t) => {
     [255, 255, 255],
     [0, 0, 0],
     undefined,
-    "wcag3"
+    "wcag3",
   ); // lighter gray is UI color, gray is base. Should return negative whole number
   t.is(contrastValue, 107.88473318309848);
 });
@@ -96,7 +96,7 @@ test("should provide APCA contrast of ~ 106", (t) => {
     [0, 0, 0],
     [255, 255, 255],
     undefined,
-    "wcag3"
+    "wcag3",
   ); // lighter gray is UI color, gray is base. Should return negative whole number
   t.is(contrastValue, 106.04067321268862);
 });
@@ -106,7 +106,7 @@ test("should provide APCA contrast less than APCA officially supports", (t) => {
     [238, 238, 238],
     [255, 255, 255],
     undefined,
-    "wcag3"
+    "wcag3",
   ); // Leonardo needs more than just 7.5+ for contrast values
   t.is(contrastValue, 7.567424744881627);
 });

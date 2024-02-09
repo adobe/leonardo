@@ -6,7 +6,8 @@
   border-bottom: 2px solid var(--panelBorder);
   background-color: var(--headerBackground);
   margin: 0;
-  padding: var(--spectrum-global-dimension-size-150) var(--spectrum-global-dimension-size-200);
+  padding: var(--spectrum-global-dimension-size-150)
+    var(--spectrum-global-dimension-size-200);
   align-items: center;
   justify-content: space-between;
 
@@ -53,7 +54,7 @@
   text-decoration: none;
 }
 #headerLogo ~ .spectrum-AppHeader-Title {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 #octo-link {
   margin-left: 16px;

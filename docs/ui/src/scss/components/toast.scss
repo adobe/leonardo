@@ -1,4 +1,3 @@
-
 .spectrum-Toast {
   position: absolute;
   left: 50%;
@@ -17,25 +16,43 @@
 }
 
 .spectrum-Bounce {
-    animation-duration: 250ms;
-    animation-iteration-count: 1;
-    animation-name: spectrum-Bounce;
-    animation-timing-function: var(--spectrum-ease-in-out);
+  animation-duration: 250ms;
+  animation-iteration-count: 1;
+  animation-name: spectrum-Bounce;
+  animation-timing-function: var(--spectrum-ease-in-out);
 }
 @keyframes spectrum-Bounce {
-  0%   { transform: translate(-50%, 50%); opacity: 0;}
-  50%  { transform: translate(-50%, var(--toast-offset-bounce-up-light));  opacity: 1;}
-  75%  { transform: translate(-50%, var(--toast-offset)); opacity: 1;}
-  100% { transform: translate(-50%, var(--toast-offset)); opacity: 1;}
+  0% {
+    transform: translate(-50%, 50%);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, var(--toast-offset-bounce-up-light));
+    opacity: 1;
+  }
+  75% {
+    transform: translate(-50%, var(--toast-offset));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, var(--toast-offset));
+    opacity: 1;
+  }
 }
 
 .spectrum-Exit {
-    animation-duration: 220ms;
-    animation-iteration-count: 1;
-    animation-name: spectrum-Exit;
-    animation-timing-function: var(--spectrum-ease-in-out);
+  animation-duration: 220ms;
+  animation-iteration-count: 1;
+  animation-name: spectrum-Exit;
+  animation-timing-function: var(--spectrum-ease-in-out);
 }
 @keyframes spectrum-Exit {
-    0% { transform: translate(-50%, var(--toast-offset)); opacity: 1;}
-    100%   { transform: translate(-50%, 50%); opacity: 0;}
+  0% {
+    transform: translate(-50%, var(--toast-offset));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 50%);
+    opacity: 0;
+  }
 }

@@ -49,12 +49,12 @@ function openPanelSubTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display = "flex";
   evt.currentTarget.className += " is-selected";
-} 
+}
 
 function openCompareTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
-  
+
   // Get all elements with class="tabcontent" and hide them
   tabcontent = document.getElementsByClassName("compare-Tabs-content");
   for (let i = 0; i < tabcontent.length; i++) {
@@ -70,12 +70,12 @@ function openCompareTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display = "flex";
   evt.currentTarget.className += " is-selected";
-} 
+}
 
 function openSwatchTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
-  
+
   // Get all elements with class="tabcontent" and hide them
   tabcontent = document.getElementsByClassName("swatch-Tabs-content");
   for (let i = 0; i < tabcontent.length; i++) {
@@ -91,7 +91,7 @@ function openSwatchTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display = "flex";
   evt.currentTarget.className += " is-selected";
-} 
+}
 
 function openTab(evt, tabName) {
   // Declare all variables
@@ -139,7 +139,7 @@ function openDetailTab(evt, tabName, colors) {
   // Declare all variables
   var i, tabcontent, tablinks;
   let thisId = evt.target.id;
-  if(!tabName) tabName = thisId.concat('Content')
+  if (!tabName) tabName = thisId.concat("Content");
 
   // Get all elements with class="tabcontent" and hide them
   tabcontent = document.getElementsByClassName("tabDetailContent");
@@ -157,10 +157,10 @@ function openDetailTab(evt, tabName, colors) {
   document.getElementById(tabName).style.display = "flex";
   evt.currentTarget.className += " is-selected";
 
-  if(tabName === 'tabModelContent') {
+  if (tabName === "tabModelContent") {
     // chartData.createData(colors);
     // charts.init3dChart()
-  };
+  }
 }
 
 function openAppTab(evt, tabName) {
@@ -197,7 +197,10 @@ function openSideNavItem(evt, contentName) {
   // Get all elements with class="spectrum-SideNav-item" and remove the class "is-selected"
   sidenavlinks = document.getElementsByClassName("spectrum-SideNav-item");
   for (let i = 0; i < sidenavlinks.length; i++) {
-    sidenavlinks[i].className = sidenavlinks[i].className.replace(" is-selected", "");
+    sidenavlinks[i].className = sidenavlinks[i].className.replace(
+      " is-selected",
+      "",
+    );
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
@@ -269,5 +272,5 @@ module.exports = {
   openSideNavItem,
   openScaleTab,
   openCompareTab,
-  openColorTab
-}
+  openColorTab,
+};

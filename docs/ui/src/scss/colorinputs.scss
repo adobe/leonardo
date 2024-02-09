@@ -42,7 +42,7 @@ input[type="color"]:disabled {
 }
 
 .slider:focus,
-input[type=color]:focus {
+input[type="color"]:focus {
   outline: none;
   border: 1px solid var(--spectrum-alias-background-color-default);
   box-shadow: 0 0 0 2px var(--spectrum-alias-focus-color);
@@ -58,7 +58,7 @@ input[type="color"]::-moz-color-swatch {
 }
 
 // Color Input Classes
-.keyColor > input[type="color"]  {
+.keyColor > input[type="color"] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -76,7 +76,7 @@ input[type="color"].keyColor-Item + .spectrum-ActionButton {
 }
 
 // Middle color for diverging needs full rounding
-.keyColor-diverging-middle > input[type="color"]  {
+.keyColor-diverging-middle > input[type="color"] {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
@@ -90,5 +90,13 @@ input[type="color"].keyColor-Item + .spectrum-ActionButton {
 }
 
 .spectrum-FieldLabel--right {
-  padding: var(--spectrum-fieldlabel-side-padding-top, var(--spectrum-global-dimension-size-100)) 0 0 var(--spectrum-fieldlabel-side-padding-x, var(--spectrum-global-dimension-size-100));
+  padding: var(
+      --spectrum-fieldlabel-side-padding-top,
+      var(--spectrum-global-dimension-size-100)
+    )
+    0 0
+    var(
+      --spectrum-fieldlabel-side-padding-x,
+      var(--spectrum-global-dimension-size-100)
+    );
 }

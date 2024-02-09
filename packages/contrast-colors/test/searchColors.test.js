@@ -26,7 +26,7 @@ test("should return blue color of 3.12:1 against white", (t) => {
     color,
     bgRgbArray,
     baseV,
-    color.ratios
+    color.ratios,
   ).map((clr) => convertColorValue(clr, "RGB"));
   t.deepEqual(contrastColors, ["rgb(163, 121, 255)"]);
 });
@@ -44,7 +44,7 @@ test("should return blue color of 3.12:1 against black", (t) => {
     color,
     bgRgbArray,
     baseV,
-    color.ratios
+    color.ratios,
   ).map((clr) => convertColorValue(clr, "RGB"));
   t.deepEqual(contrastColors, ["rgb(80, 43, 255)"]); // 3.13
 });
@@ -62,7 +62,7 @@ test("should return blue colors of 3:1 and 4.5:1 against white", (t) => {
     color,
     bgRgbArray,
     baseV,
-    color.ratios
+    color.ratios,
   ).map((clr) => convertColorValue(clr, "RGB"));
   t.deepEqual(contrastColors, ["rgb(167, 124, 255)", "rgb(129, 84, 255)"]); // 3.01 & 4.52
 });
@@ -80,7 +80,7 @@ test("should return blue colors of 3:1 and 4.5:1 against black", (t) => {
     color,
     bgRgbArray,
     baseV,
-    color.ratios
+    color.ratios,
   ).map((clr) => convertColorValue(clr, "RGB"));
   t.deepEqual(contrastColors, ["rgb(73, 38, 255)", "rgb(126, 81, 255)"]); // 3 & 4.51
 });
@@ -98,7 +98,7 @@ test("should return blue color of -1.3 against light gray", (t) => {
     color,
     bgRgbArray,
     baseV,
-    color.ratios
+    color.ratios,
   ).map((clr) => convertColorValue(clr, "RGB"));
   t.deepEqual(contrastColors, ["rgb(207, 176, 255)"]); // 1.31
 });
@@ -116,7 +116,7 @@ test("should return blue color of -2 against dark gray", (t) => {
     color,
     bgRgbArray,
     baseV,
-    color.ratios
+    color.ratios,
   ).map((clr) => convertColorValue(clr, "RGB"));
   t.deepEqual(contrastColors, ["rgb(167, 125, 255)"]); // 2.01
 });

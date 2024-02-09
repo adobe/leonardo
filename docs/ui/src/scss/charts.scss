@@ -10,7 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-
 .charts > svg {
   color: var(--spectrum-global-color-gray-600);
 }
@@ -74,13 +73,13 @@ governing permissions and limitations under the License.
 // #interpolationChart3,
 #contrastChart {
   g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
-    stroke: #0F4F87;
+    stroke: #0f4f87;
   }
   g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
-    stroke: #449CAD;
+    stroke: #449cad;
   }
   g.d3_xy_chart_line path.line {
-    stroke: #76D0C5;
+    stroke: #76d0c5;
   }
 }
 
@@ -121,7 +120,7 @@ governing permissions and limitations under the License.
 ._3d.grid,
 ._3dtheme.grid,
 ._3dsequential.grid,
-._3ddiverging.grid  {
+._3ddiverging.grid {
   stroke: var(--spectrum-global-color-gray-300);
   stroke-width: 0.3;
   fill: var(--spectrum-global-color-gray-300);
