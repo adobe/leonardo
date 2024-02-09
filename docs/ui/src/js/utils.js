@@ -8,79 +8,87 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import * as d3 from './d3';
-import {simulate} from '@bjornlu/colorblind';
-const blinder = require('color-blind');
+import * as d3 from "./d3";
+import { simulate } from "@bjornlu/colorblind";
+const blinder = require("color-blind");
 
-const chroma = require('chroma-js');
-const { extendChroma } = require('./chroma-plus');
-const DeltaE = require('delta-e');
+const chroma = require("chroma-js");
+const { extendChroma } = require("./chroma-plus");
+const DeltaE = require("delta-e");
 
 extendChroma(chroma);
 
 window.chroma = chroma;
 
 function randomId() {
-  return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
+  return Math.random()
+    .toString(36)
+    .replace(/[^a-z]+/g, "")
+    .substr(2, 10);
 }
 
 function throttle(func, wait) {
- var timerId, lastRan;
+  var timerId, lastRan;
 
- return function throttled() {
-   var context = this;
-   var args = arguments;
+  return function throttled() {
+    var context = this;
+    var args = arguments;
 
-   if (!lastRan) {
-     func.apply(context, args);
-     lastRan = Date.now();
-   } else {
-     clearTimeout(timerId);
-     timerId = setTimeout(function () {
-       if ((Date.now() - lastRan) >= wait) {
-         func.apply(context, args);
-         lastRan = Date.now();
-       }
-     }, (wait - (Date.now() - lastRan)) || 0);
-   }
- };
+    if (!lastRan) {
+      func.apply(context, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(timerId);
+      timerId = setTimeout(
+        function () {
+          if (Date.now() - lastRan >= wait) {
+            func.apply(context, args);
+            lastRan = Date.now();
+          }
+        },
+        wait - (Date.now() - lastRan) || 0,
+      );
+    }
+  };
 }
 
 function camelCase(str) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-    return index === 0 ? word.toLowerCase() : word.toUpperCase();
-  }).replace(/\s+/g, '');
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
 }
 
 function convertToCartesian(s, h, clamp) {
-  if(clamp) {
-    if(s > 100) s = 100;
+  if (clamp) {
+    if (s > 100) s = 100;
   }
   // convert degrees to radians
   let hRad = (h * Math.PI) / 180;
   let xAxis = s * Math.cos(hRad);
   let yAxis = s * Math.sin(hRad);
 
-  return{
+  return {
     x: xAxis,
-    y: yAxis
+    y: yAxis,
   };
 }
 
 function filterNaN(x) {
-  if(isNaN(x) || x === undefined) {
+  if (isNaN(x) || x === undefined) {
     return 0;
   } else {
     return x;
   }
 }
 
-function removeElementsByClass(className, parent){
+function removeElementsByClass(className, parent) {
   let elements;
-  if(!parent) elements = document.getElementsByClassName(className);
+  if (!parent) elements = document.getElementsByClassName(className);
   else elements = parent.getElementsByClassName(className);
-  while(elements.length > 0){
-      elements[0].parentNode.removeChild(elements[0]);
+  while (elements.length > 0) {
+    elements[0].parentNode.removeChild(elements[0]);
   }
 }
 
@@ -95,44 +103,44 @@ const lerp = (x, y, a) => x * (1 - a) + y * a;
 // Copied directly from contrast-colors. For some reason it would
 // not import properly.
 const colorSpaces = {
-  CAM02: 'jab',
-  CAM02p: 'jch',
-  HEX: 'hex',
-  HSL: 'hsl',
-  HSLuv: 'hsluv',
-  HSV: 'hsv',
-  LAB: 'lab',
-  LCH: 'lch', // named per correct color definition order
-  RGB: 'rgb',
+  CAM02: "jab",
+  CAM02p: "jch",
+  HEX: "hex",
+  HSL: "hsl",
+  HSLuv: "hsluv",
+  HSV: "hsv",
+  LAB: "lab",
+  LCH: "lch", // named per correct color definition order
+  RGB: "rgb",
 };
 
 function cssColorToRgb(colorString) {
   let colorStringArr, newColor, inputFormat;
 
-  if(colorString.match(/^hsl\(/)) {
-    inputFormat = 'hsl';
+  if (colorString.match(/^hsl\(/)) {
+    inputFormat = "hsl";
   }
-  if(colorString.match(/^hsv\(/)) {
-    inputFormat = 'hsv';
+  if (colorString.match(/^hsv\(/)) {
+    inputFormat = "hsv";
   }
-  if(colorString.match(/^lab\(/)) {
-    inputFormat = 'lab';
+  if (colorString.match(/^lab\(/)) {
+    inputFormat = "lab";
   }
-  if(colorString.match(/^lch\(/)) {
-    inputFormat = 'lch';
+  if (colorString.match(/^lch\(/)) {
+    inputFormat = "lch";
   }
-  if(colorString.match(/^jab\(/)) {
-    inputFormat = 'jab';
+  if (colorString.match(/^jab\(/)) {
+    inputFormat = "jab";
   }
-  if(colorString.match(/^jch\(/)) {
-    inputFormat = 'jch';
+  if (colorString.match(/^jch\(/)) {
+    inputFormat = "jch";
   }
-  if(colorString.match(/^hsluv\(/)) {
-    inputFormat = 'hsluv';
-  } 
+  if (colorString.match(/^hsluv\(/)) {
+    inputFormat = "hsluv";
+  }
 
-  if(!colorString) {
-    console.warn(`Cannot convert css color of ${colorString}`)
+  if (!colorString) {
+    console.warn(`Cannot convert css color of ${colorString}`);
   } else {
     let colorStringNums = colorString
       .match(/\(.*?\)/g)
@@ -142,12 +150,16 @@ function cssColorToRgb(colorString) {
       .replaceAll("%", "")
       .replace("deg", "")
       .trim(); // find numbers only
-    colorStringArr = colorStringNums.split(','); // split numbers into array
-    colorStringArr = colorStringArr.map((c) => {return filterNaN(Number(c))})
+    colorStringArr = colorStringNums.split(","); // split numbers into array
+    colorStringArr = colorStringArr.map((c) => {
+      return filterNaN(Number(c));
+    });
     let c1 = colorStringArr[0];
-    let c2 = (inputFormat === 'hsl') ? colorStringArr[1]/100: colorStringArr[1];
-    let c3 = (inputFormat === 'hsl') ? colorStringArr[2]/100: colorStringArr[2];
-    newColor = chroma(c1, c2, c3, inputFormat)
+    let c2 =
+      inputFormat === "hsl" ? colorStringArr[1] / 100 : colorStringArr[1];
+    let c3 =
+      inputFormat === "hsl" ? colorStringArr[2] / 100 : colorStringArr[2];
+    newColor = chroma(c1, c2, c3, inputFormat);
 
     return newColor.hex();
   }
@@ -156,8 +168,8 @@ function cssColorToRgb(colorString) {
 window.bulkConvertColorValue = bulkConvertColorValue;
 function bulkConvertColorValue(colors, format, object = false) {
   let formatted = [];
-  for(let i = 0; i < colors.length; i ++) {
-    formatted.push(convertColorValue(colors[i], format, object))
+  for (let i = 0; i < colors.length; i++) {
+    formatted.push(convertColorValue(colors[i], format, object));
   }
   return formatted;
 }
@@ -165,11 +177,11 @@ function bulkConvertColorValue(colors, format, object = false) {
 window.getAllChannelValues = getAllChannelValues;
 function getAllChannelValues(colors, format, key) {
   const array = bulkConvertColorValue(colors, format, true);
-  let permittedValues = array.map(value => value[key]);
+  let permittedValues = array.map((value) => value[key]);
   return permittedValues;
 }
 
-window.convertColorValue=convertColorValue;
+window.convertColorValue = convertColorValue;
 function convertColorValue(color, format, object = false) {
   if (!color) {
     throw new Error(`Cannot convert color value of “${color}”`);
@@ -177,13 +189,13 @@ function convertColorValue(color, format, object = false) {
   if (!colorSpaces[format]) {
     throw new Error(`Cannot convert to colorspace “${format}”`);
   }
-  
+
   const space = colorSpaces[format];
   const colorObj = chroma(String(color))[space]();
-  if (format === 'HSL') {
+  if (format === "HSL") {
     colorObj.pop();
   }
-  if (format === 'HEX') {
+  if (format === "HEX") {
     if (object) {
       const rgb = chroma(String(color)).rgb();
       return { r: rgb[0], g: rgb[1], b: rgb[2] };
@@ -197,39 +209,39 @@ function convertColorValue(color, format, object = false) {
   newColorObj = newColorObj.map((ch, i) => {
     let rnd = round(ch);
     let j = i;
-    if (space === 'hsluv') {
+    if (space === "hsluv") {
       j += 2;
     }
     let letter = space.charAt(j);
-    if (space === 'jch' && letter === 'c') {
-      letter = 'C';
+    if (space === "jch" && letter === "c") {
+      letter = "C";
     }
-    colorObject[letter === 'j' ? 'J' : letter] = rnd;
+    colorObject[letter === "j" ? "J" : letter] = rnd;
     if (space in { lab: 1, lch: 1, jab: 1, jch: 1 }) {
       if (!object) {
-        if (letter === 'l' || letter === 'j') {
-          rnd += '%';
+        if (letter === "l" || letter === "j") {
+          rnd += "%";
         }
-        if (letter === 'h') {
-          rnd += 'deg';
+        if (letter === "h") {
+          rnd += "deg";
         }
       }
-    } else if (space !== 'hsluv') {
-      if (letter === 's' || letter === 'l' || letter === 'v') {
+    } else if (space !== "hsluv") {
+      if (letter === "s" || letter === "l" || letter === "v") {
         colorObject[letter] = round(ch, 2);
         if (!object) {
           rnd = round(ch * 100);
-          rnd += '%';
+          rnd += "%";
         }
-      } else if (letter === 'h' && !object) {
-        rnd += 'deg';
+      } else if (letter === "h" && !object) {
+        rnd += "deg";
       }
     }
     return rnd;
   });
 
   const stringName = space;
-  const stringValue = `${stringName}(${newColorObj.join(', ')})`;
+  const stringValue = `${stringName}(${newColorObj.join(", ")})`;
 
   if (object) {
     return colorObject;
@@ -248,7 +260,9 @@ function removeDuplicates(originalArray, prop) {
   const lookupObject = {};
   const keys1 = Object.keys(originalArray);
 
-  keys1.forEach((i) => { lookupObject[originalArray[i][prop]] = originalArray[i]; });
+  keys1.forEach((i) => {
+    lookupObject[originalArray[i][prop]] = originalArray[i];
+  });
 
   const keys2 = Object.keys(lookupObject);
   keys2.forEach((i) => newArray.push(lookupObject[i]));
@@ -257,15 +271,21 @@ function removeDuplicates(originalArray, prop) {
 
 function findMatchingLuminosity(colorScale, colorLen, luminosities, smooth) {
   const colorSearch = (x) => {
-    const first = (smooth) ?  chroma(colorScale(0)).hsluv()[2] : colorScale(0).hsluv()[2];
-    const last = (smooth) ?  chroma(colorScale(colorLen)).hsluv()[2] : colorScale(colorLen).hsluv()[2];
+    const first = smooth
+      ? chroma(colorScale(0)).hsluv()[2]
+      : colorScale(0).hsluv()[2];
+    const last = smooth
+      ? chroma(colorScale(colorLen)).hsluv()[2]
+      : colorScale(colorLen).hsluv()[2];
 
     const dir = first < last ? 1 : -1;
     const ε = 0.01;
     x += 0.005 * Math.sign(x);
     let step = colorLen / 2;
     let dot = step;
-    let val = (smooth) ?  chroma(colorScale(dot)).hsluv()[2] : colorScale(dot).hsluv()[2];
+    let val = smooth
+      ? chroma(colorScale(dot)).hsluv()[2]
+      : colorScale(dot).hsluv()[2];
     let counter = 100;
     while (Math.abs(val - x) > ε && counter) {
       counter--;
@@ -275,29 +295,31 @@ function findMatchingLuminosity(colorScale, colorLen, luminosities, smooth) {
       } else {
         dot -= step * dir;
       }
-      val = (smooth) ?  chroma(colorScale(dot)).hsluv()[2] : colorScale(dot).hsluv()[2];
+      val = smooth
+        ? chroma(colorScale(dot)).hsluv()[2]
+        : colorScale(dot).hsluv()[2];
     }
     return round(dot, 3);
   };
   const outputColors = [];
   luminosities.forEach((lum) => {
-    if(smooth) {
-      let findColor = colorScale(colorSearch(+lum))
-      outputColors.push(chroma(findColor).hex())
+    if (smooth) {
+      let findColor = colorScale(colorSearch(+lum));
+      outputColors.push(chroma(findColor).hex());
     } else {
-      outputColors.push(colorScale(colorSearch(+lum)).hex())
+      outputColors.push(colorScale(colorSearch(+lum)).hex());
     }
   });
 
   return outputColors;
-};
+}
 
 function getColorDifference(color1, color2) {
   // pre-formatting and running through specific deltaE formula
   let c1 = chroma(color1).lab();
   let c2 = chroma(color2).lab();
-  let c1Lab = { L: c1[0], A: c1[1] , B: c1[2] }
-  let c2Lab = { L: c2[0], A: c2[1] , B: c2[2] }
+  let c1Lab = { L: c1[0], A: c1[1], B: c1[2] };
+  let c2Lab = { L: c2[0], A: c2[1], B: c2[2] };
   // Use DeltaE 2000 formula (latest)
   return DeltaE.getDeltaE00(c1Lab, c2Lab);
 }
@@ -308,9 +330,9 @@ function groupCommonHues(colors) {
   // into a sub-array.
   // EXAMPLE: ['yellow', 'lightyellow', 'blue', 'green', 'lightgreen']
   // should become: [ ['yellow', 'lightyellow'], ['blue'], ['green', 'lightgreen'] ]
-  
-  // First, resort colors by hue 
-  let orderedColors = orderColors(colors, 'hue', 'saturation');
+
+  // First, resort colors by hue
+  let orderedColors = orderColors(colors, "hue", "saturation");
   // Acceptable difference in hues
   const hueGroupThreshold = 22; // 10
   const hueThreshold = 22; // 10
@@ -322,31 +344,35 @@ function groupCommonHues(colors) {
   const minChroma = 30;
   const minLuma = 8;
   let filteredColors = [];
-  for(let i=0; i< colors.length; i++) {
-    if(chroma(orderedColors[i]).lch()[1] > minChroma && chroma(orderedColors[i]).lch()[0] > minLuma) filteredColors.push(orderedColors[i]);
+  for (let i = 0; i < colors.length; i++) {
+    if (
+      chroma(orderedColors[i]).lch()[1] > minChroma &&
+      chroma(orderedColors[i]).lch()[0] > minLuma
+    )
+      filteredColors.push(orderedColors[i]);
     else continue;
   }
 
   // Create new array, bucketing similar hues within sub-arrays
   let bucketedColors = [];
-  for(let i = 0; i < filteredColors.length; i++) {
-    const lastIndex = (i === 0) ? filteredColors.length - 1 : i -1;
+  for (let i = 0; i < filteredColors.length; i++) {
+    const lastIndex = i === 0 ? filteredColors.length - 1 : i - 1;
     const currentColor = filteredColors[i];
     const lastColor = filteredColors[lastIndex];
     const hueDiff = chroma(currentColor).jch()[2] - chroma(lastColor).jch()[2];
 
-    if(hueDiff < 0) hueDiff = hueDiff * -1;
+    if (hueDiff < 0) hueDiff = hueDiff * -1;
 
-    if(hueDiff >= hueGroupThreshold || bucketedColors.length === 0) {
+    if (hueDiff >= hueGroupThreshold || bucketedColors.length === 0) {
       const newArr = [];
-      newArr.push(currentColor)
-      bucketedColors.push(newArr)
+      newArr.push(currentColor);
+      bucketedColors.push(newArr);
       // console.log(`Adding new array with color ${currentColor}`)
-    } 
+    }
     // Find the right bucket to place the color if it's within the hue threshold
-    if(hueDiff < hueGroupThreshold && bucketedColors.length > 0) {
+    if (hueDiff < hueGroupThreshold && bucketedColors.length > 0) {
       // Loop the bucketed colors
-      for(let z=0; z<bucketedColors.length; z++) {
+      for (let z = 0; z < bucketedColors.length; z++) {
         const currentBucket = bucketedColors[z];
 
         let colorDiffs = currentBucket.map((color) => {
@@ -362,10 +388,14 @@ function groupCommonHues(colors) {
 
         // if minimum color difference of currentColor, when compared to all colors of
         // the current bucket..
-        if(minDiff > colorDifferenceMin && maxDiff < colorDifferenceMax && minHueDiff <= hueThreshold) {
-          currentBucket.push(currentColor)
-        } 
-      } 
+        if (
+          minDiff > colorDifferenceMin &&
+          maxDiff < colorDifferenceMax &&
+          minHueDiff <= hueThreshold
+        ) {
+          currentBucket.push(currentColor);
+        }
+      }
     }
   }
   // // FOR DEBUGGING ONLY
@@ -385,55 +415,75 @@ function getRandomInt(max) {
  *  by hue and lightness
  */
 function orderColors(colors, priority1, priority2, random = false) {
-  let validOptions = ['hue', 'saturation', 'lightness'];
-  for(let i = 0; i < validOptions.length; i++) {
-    if(!validOptions.includes(priority1)) console.warn(`${priority1} is not a valid option of ${validOptions}`);
-    if(priority2) {
-      if(!validOptions.includes(priority2)) console.warn(`${priority1} is not a valid option of ${validOptions}`);
+  let validOptions = ["hue", "saturation", "lightness"];
+  for (let i = 0; i < validOptions.length; i++) {
+    if (!validOptions.includes(priority1))
+      console.warn(`${priority1} is not a valid option of ${validOptions}`);
+    if (priority2) {
+      if (!validOptions.includes(priority2))
+        console.warn(`${priority1} is not a valid option of ${validOptions}`);
     }
   }
   // for each color, convert to lch object
   let colorsJch = colors.map((color, i) => {
     let jch = chroma(color).jch();
-    return {hue: Math.floor(jch[2]), saturation: Math.floor(jch[1]), lightness: Math.floor(jch[0]), color, index: i}
-  })
+    return {
+      hue: Math.floor(jch[2]),
+      saturation: Math.floor(jch[1]),
+      lightness: Math.floor(jch[0]),
+      color,
+      index: i,
+    };
+  });
 
   let sorted;
-  if(priority2) {
+  if (priority2) {
     // Sort by priority 1, then by priority 1
-    sorted = colorsJch.sort((a, b) => (a[priority1] > b[priority1]) ? 1 : (a[priority1] === b[priority1]) ? ((a[priority2] > b[priority2]) ? 1 : -1) : -1 )
+    sorted = colorsJch.sort((a, b) =>
+      a[priority1] > b[priority1]
+        ? 1
+        : a[priority1] === b[priority1]
+          ? a[priority2] > b[priority2]
+            ? 1
+            : -1
+          : -1,
+    );
   } else {
-    sorted = colorsJch.sort((a, b) => (a[priority1] > b[priority1]) ? 1 : -1 )
+    sorted = colorsJch.sort((a, b) => (a[priority1] > b[priority1] ? 1 : -1));
   }
-  
+
   // Create random "starting point" for hues
   // Only useful in CVD scenario
-  if(random) {
-    if(priority1 === 'hue') {
+  if (random) {
+    if (priority1 === "hue") {
       let randomIndex = getRandomInt(sorted.length);
       let firstHalf = sorted.splice(0, randomIndex);
       let secondHalf = sorted.splice(randomIndex);
-      sorted = secondHalf.concat(firstHalf)
-    }  
+      sorted = secondHalf.concat(firstHalf);
+    }
   }
 
-  const orderedColors = sorted.map((object) => {return object.color});
+  const orderedColors = sorted.map((object) => {
+    return object.color;
+  });
   return orderedColors;
 }
 
 function shuffleArray(array) {
-  let currentIndex = array.length,  randomIndex;
+  let currentIndex = array.length,
+    randomIndex;
 
   // While there remain elements to shuffle...
   while (currentIndex != 0) {
-
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
     // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
+      array[randomIndex],
+      array[currentIndex],
+    ];
   }
 
   return array;
@@ -443,26 +493,41 @@ function createColorData(color, mode) {
   const f = getChannelsAndFunction(mode);
   const method = (d) => d3[f.func](d);
 
-  let dataA = color.map(function(d) {
+  let dataA = color.map(function (d) {
     let channelValue = method(d)[f.c1];
     // Need to do some geometry for polar colorspaces
-    if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
-      let s = (mode === 'HSL' || mode === 'HSV') ? method(d)[f.c2] * 100 : method(d)[f.c2];
+    if (
+      mode === "CAM02p" ||
+      mode === "LCH" ||
+      mode === "HSL" ||
+      mode === "HSV" ||
+      mode === "HSLuv"
+    ) {
+      let s =
+        mode === "HSL" || mode === "HSV"
+          ? method(d)[f.c2] * 100
+          : method(d)[f.c2];
       let h = channelValue;
       return filterNaN(convertToCartesian(s, h).x);
-    }
-    else return filterNaN(channelValue);
+    } else return filterNaN(channelValue);
   });
-  let dataB = color.map(function(d) {
+  let dataB = color.map(function (d) {
     let channelValue = method(d)[f.c3];
-    if(mode === 'HSL' || mode === 'HSV') channelValue = channelValue * 100;
+    if (mode === "HSL" || mode === "HSV") channelValue = channelValue * 100;
     return filterNaN(channelValue);
   });
-  let dataC = color.map(function(d) {
+  let dataC = color.map(function (d) {
     let channelValue = method(d)[f.c2];
     // Need to do some geometry for polar colorspaces
-    if(mode === 'CAM02p' || mode === 'LCH' || mode === 'HSL' || mode === 'HSV' || mode === 'HSLuv') {
-      let s = (mode === 'HSL' || mode === 'HSV') ? channelValue * 100 : channelValue;
+    if (
+      mode === "CAM02p" ||
+      mode === "LCH" ||
+      mode === "HSL" ||
+      mode === "HSV" ||
+      mode === "HSLuv"
+    ) {
+      let s =
+        mode === "HSL" || mode === "HSV" ? channelValue * 100 : channelValue;
       let h = method(d)[f.c1];
       return filterNaN(convertToCartesian(s, h).y);
     }
@@ -472,14 +537,14 @@ function createColorData(color, mode) {
   return {
     a: dataA,
     b: dataB,
-    c: dataC
-  }
+    c: dataC,
+  };
 }
 
 function getChannelsAndFunction(mode) {
   let c1, c2, c3, func, yMin, yMax, yMin2, yMax2, c1Label, c2Label, c3Label;
-  if(mode === 'RGB') {
-    func = 'hsl';
+  if (mode === "RGB") {
+    func = "hsl";
     c1 = 0;
     c1Label = `Hue (HSL - H)`;
     c2 = 1;
@@ -491,8 +556,8 @@ function getChannelsAndFunction(mode) {
     yMin2 = 0;
     yMax2 = 1;
   }
-  if(mode === 'LAB') {
-    func = 'lab';
+  if (mode === "LAB") {
+    func = "lab";
     c1 = 1;
     c1Label = `Redness / Greenness (${mode} - A)`;
     c2 = 2;
@@ -500,8 +565,8 @@ function getChannelsAndFunction(mode) {
     c3 = 0;
     c3Label = `Lightness (${mode} - L)`;
   }
-  if(mode === 'LCH') {
-    func = 'lch';
+  if (mode === "LCH") {
+    func = "lch";
     c1 = 2;
     c1Label = `Hue (${mode} - H)`;
     c2 = 1;
@@ -511,8 +576,8 @@ function getChannelsAndFunction(mode) {
     yMin = 0;
     yMax = 360;
   }
-  if(mode === 'OKLAB') {
-    func = 'oklab';
+  if (mode === "OKLAB") {
+    func = "oklab";
     c1 = 1;
     c1Label = `Redness / Greenness (${mode} - A)`;
     c2 = 2;
@@ -520,8 +585,8 @@ function getChannelsAndFunction(mode) {
     c3 = 0;
     c3Label = `Lightness (${mode} - L)`;
   }
-  if(mode === 'OKLCH') {
-    func = 'oklch';
+  if (mode === "OKLCH") {
+    func = "oklch";
     c1 = 2;
     c1Label = `Hue (${mode} - H)`;
     c2 = 1;
@@ -530,10 +595,10 @@ function getChannelsAndFunction(mode) {
     c3Label = `Lightness (${mode} - L)`;
     yMin = 0;
     yMax = 360;
-    yMax2 = .322;
+    yMax2 = 0.322;
   }
-  if(mode === 'CAM02') {
-    func = 'jab';
+  if (mode === "CAM02") {
+    func = "jab";
     c1 = 1;
     c1Label = `Redness / Greenness (${mode} - A)`;
     c2 = 2;
@@ -541,8 +606,8 @@ function getChannelsAndFunction(mode) {
     c3 = 0;
     c3Label = `Lightness (${mode} - J)`;
   }
-  if(mode === 'CAM02p') {
-    func = 'jch';
+  if (mode === "CAM02p") {
+    func = "jch";
     c1 = 2;
     c1Label = `Hue (CAM02 (Ch) - H)`;
     c2 = 1;
@@ -552,8 +617,8 @@ function getChannelsAndFunction(mode) {
     yMin = 0;
     yMax = 360;
   }
-  if(mode === 'HSL') {
-    func = 'hsl';
+  if (mode === "HSL") {
+    func = "hsl";
     c1 = 0;
     c1Label = `Hue (${mode} - H)`;
     c2 = 1;
@@ -565,8 +630,8 @@ function getChannelsAndFunction(mode) {
     yMin2 = 0;
     yMax2 = 1;
   }
-  if(mode === 'HSLuv') {
-    func = 'hsluv';
+  if (mode === "HSLuv") {
+    func = "hsluv";
     c1 = 0;
     c1Label = `Hue (${mode} - H)`;
     c2 = 1;
@@ -578,8 +643,8 @@ function getChannelsAndFunction(mode) {
     yMin2 = 0;
     yMax2 = 100;
   }
-  if(mode === 'HSV') {
-    func = 'hsv';
+  if (mode === "HSV") {
+    func = "hsv";
     c1 = 0;
     c1Label = `Hue (${mode} - H)`;
     c2 = 1;
@@ -603,27 +668,28 @@ function getChannelsAndFunction(mode) {
     yMin: yMin,
     yMax: yMax,
     yMin2: yMin2,
-    yMax2: yMax2
-  }
+    yMax2: yMax2,
+  };
 }
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function orderColorsByLuminosity(colors, direction = 'toLight') { // 'toLight' or 'toDark'
+function orderColorsByLuminosity(colors, direction = "toLight") {
+  // 'toLight' or 'toDark'
   let luminosities = colors.map((color, index) => {
     return {
       color: color,
-      luminosity: d3.hsluv(color).v
-    }
+      luminosity: d3.hsluv(color).v,
+    };
   });
-  if(direction === 'toLight') {
-    luminosities.sort((a, b) => (a.luminosity < b.luminosity) ? 1 : -1)
+  if (direction === "toLight") {
+    luminosities.sort((a, b) => (a.luminosity < b.luminosity ? 1 : -1));
     return luminosities.map((c) => c.color);
   }
-  if(direction === 'toDark') {
-    luminosities.sort((a, b) => (a.luminosity < b.luminosity) ? -1 : 1)
+  if (direction === "toDark") {
+    luminosities.sort((a, b) => (a.luminosity < b.luminosity ? -1 : 1));
     return luminosities.map((c) => c.color);
   } else {
     console.warn(`Direction must be of value 'toLight' or 'toDark'`);
@@ -631,56 +697,58 @@ function orderColorsByLuminosity(colors, direction = 'toLight') { // 'toLight' o
 }
 
 // Artificially create a semi-chromatic tone based on the
-// hue of the lightest color key (each scale) and the 
+// hue of the lightest color key (each scale) and the
 // luminosity of the midpoint. This helps to create
 // a transition between each scale at the midpoint, rather
 // than a sharp midpoint.
 function createEquiLuminantKey(middleKey, colorKeys) {
   let luminance = d3.jch(middleKey).J;
-  let sorted = orderColorsByLuminosity(colorKeys, 'toLight');
+  let sorted = orderColorsByLuminosity(colorKeys, "toLight");
   let lightestColor = sorted[0];
   let hue = d3.jch(lightestColor).h;
   let chroma = 8;
   let newColor = d3.jch(luminance, chroma, hue).formatHex();
-  
+
   return newColor;
 }
 
 /**
  *  Helper function to reformat colors as an object
  *  to pass through the simulator. Returns colors in RGB
- * 
+ *
  *  works as expected:
  *  console.log(simulateCvd('rgb(120, 50, 30)', 'protanopia'))
  *  returns {r: 62, g: 62, b: 30}
  */
- function simulateCvd(color, deficiency, lib = 'color-blind') {
-  if (!color) console.warn(`${color} is invalid`)
+function simulateCvd(color, deficiency, lib = "color-blind") {
+  if (!color) console.warn(`${color} is invalid`);
   let cRgb = chroma(color).rgb();
-  let c = { r: cRgb[0], g: cRgb[1], b: cRgb[2] }
+  let c = { r: cRgb[0], g: cRgb[1], b: cRgb[2] };
   let sim, simRgb;
   /* Added conditions so that I can easily swap between CVD simulation
    * libraries. This is helpful to see any discrepancies between
    * the resulting simulation colors.
-   * 
+   *
    * Note: color-blind library is closer in alignment with Sim Daltonism,
    * color-blindness.com and other online simulators.
    */
-  if(lib === 'bjornlu') {
+  if (lib === "bjornlu") {
     sim = simulate(c, deficiency);
     simRgb = chroma.rgb(sim.r, sim.g, sim.b).hex();
-  }
-  else if(lib === 'color-blind') {
-    if(deficiency === 'deuteranopia') sim = blinder.deuteranopia(chroma(color).hex())
-    if(deficiency === 'protanopia') sim = blinder.protanopia(chroma(color).hex())
-    if(deficiency === 'tritanopia') sim = blinder.tritanopia(chroma(color).hex())
-    if(deficiency === 'achromatopsia') sim = blinder.achromatopsia(chroma(color).hex())
+  } else if (lib === "color-blind") {
+    if (deficiency === "deuteranopia")
+      sim = blinder.deuteranopia(chroma(color).hex());
+    if (deficiency === "protanopia")
+      sim = blinder.protanopia(chroma(color).hex());
+    if (deficiency === "tritanopia")
+      sim = blinder.tritanopia(chroma(color).hex());
+    if (deficiency === "achromatopsia")
+      sim = blinder.achromatopsia(chroma(color).hex());
     simRgb = sim;
   }
-  
-  return simRgb
-}
 
+  return simRgb;
+}
 
 /**
  *  Note: returns unexpected result.
@@ -690,22 +758,22 @@ function createEquiLuminantKey(middleKey, colorKeys) {
  *  let colorRgb2 = 'rgb(255, 222, 65)';
  *  console.log(getDifference(colorRgb1, colorRgb2));
  *  Returns 62.725336807388025
- * 
+ *
  *  May be chroma.js Lab conversion rounding
  *  as those RGB values do not come to whole numbers
  *  in Lab color space.
- */ 
- function getDifference(color1, color2) {
+ */
+function getDifference(color1, color2) {
   // pre-formatting and running through specific deltaE formula
   let c1 = chroma(color1).lab();
   let c2 = chroma(color2).lab();
-  let c1Lab = { L: c1[0], A: c1[1] , B: c1[2] }
-  let c2Lab = { L: c2[0], A: c2[1] , B: c2[2] }
+  let c1Lab = { L: c1[0], A: c1[1], B: c1[2] };
+  let c2Lab = { L: c2[0], A: c2[1], B: c2[2] };
   // Use DeltaE 2000 formula (latest)
   return DeltaE.getDeltaE00(c1Lab, c2Lab);
 }
 
-/** 
+/**
  * Function for blending a translucent color with its background
  * This is an appropriate method for identifying resulting color
  * value to calculate contrast from
@@ -714,32 +782,32 @@ function alphaBlend(color1, color2) {
   color1 = chroma(color1);
   color2 = chroma(color2);
   let c1 = color1.rgba();
-  let c2 = color2.rgb(); 
+  let c2 = color2.rgb();
 
   let r1, g1, b1, a1;
   let r2, g2, b2;
-  
+
   r1 = c1[0];
   g1 = c1[1];
   b1 = c1[2];
   a1 = c1[3];
-  
+
   r2 = c2[0];
   g2 = c2[1];
   b2 = c2[2];
-  
-  let r3 = r2 + (r1-r2)*a1
-  let g3 = g2 + (g1-g2)*a1
-  let b3 = b2 + (b1-b2)*a1
-  
+
+  let r3 = r2 + (r1 - r2) * a1;
+  let g3 = g2 + (g1 - g2) * a1;
+  let b3 = b2 + (b1 - b2) * a1;
+
   let c3 = [r3, g3, b3];
 
   return chroma(c3);
 }
 
 function colorToGrayScale(color) {
-  let c = chroma(color).lch()
-  let newC = chroma.lch(c[0], 0, c[2])
+  let c = chroma(color).lch();
+  let newC = chroma.lch(c[0], 0, c[2]);
 
   return newC.hex();
 }
@@ -750,9 +818,9 @@ function getLightness(color) {
 }
 
 function colorPickerInput(e) {
-  if(e !== undefined) {
+  if (e !== undefined) {
     let id = e.target.id;
-    let inputId = id.replace('_picker', 'Input');
+    let inputId = id.replace("_picker", "Input");
     let value = e.target.value;
     let color = chroma(value);
     let input = document.getElementById(inputId);
@@ -791,5 +859,5 @@ module.exports = {
   getChannelsAndFunction,
   orderColorsByLuminosity,
   shuffleArray,
-  colorPickerInput
-}
+  colorPickerInput,
+};

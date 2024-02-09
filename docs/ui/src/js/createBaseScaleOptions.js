@@ -9,23 +9,21 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {
-  getAllColorNames,
-  getColorClassByName
-} from './getThemeData.js'
-import {createOutputColors} from './createOutputColors';
-import {createOutputParameters} from './createOutputParameters';
-import {_theme} from './initialTheme';
+import { getAllColorNames, getColorClassByName } from "./getThemeData.js";
+import { createOutputColors } from "./createOutputColors";
+import { createOutputParameters } from "./createOutputParameters";
+import { _theme } from "./initialTheme";
 
 // Create options for colors to use as base scale
 function baseScaleOptions() {
-  let baseSelect = document.getElementById('themeBase');
+  let baseSelect = document.getElementById("themeBase");
   let colorNames = getAllColorNames();
 
   // Remove all existing options and start from scratch
-  var i, L = baseSelect.options.length - 1;
-  for(i = L; i >= 0; i--) {
-     baseSelect.remove(i);
+  var i,
+    L = baseSelect.options.length - 1;
+  for (i = L; i >= 0; i--) {
+    baseSelect.remove(i);
   }
 
   let opts = {};
@@ -34,19 +32,24 @@ function baseScaleOptions() {
     opts[colorname] = colorname;
   }
 
-  for(let index in opts) { baseSelect.options[baseSelect.options.length] = new Option(opts[index], index); }
+  for (let index in opts) {
+    baseSelect.options[baseSelect.options.length] = new Option(
+      opts[index],
+      index,
+    );
+  }
 }
 
-let baseSelect = document.getElementById('themeBase');
-baseSelect.addEventListener('change', function(e) {
-  let colorName = `${e.target.value}`
+let baseSelect = document.getElementById("themeBase");
+baseSelect.addEventListener("change", function (e) {
+  let colorName = `${e.target.value}`;
   let colorClass = getColorClassByName(colorName);
   _theme.backgroundColor = colorClass;
 
   createOutputColors();
   createOutputParameters();
-})
+});
 
 module.exports = {
-  baseScaleOptions
-}
+  baseScaleOptions,
+};

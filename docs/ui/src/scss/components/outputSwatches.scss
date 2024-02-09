@@ -41,7 +41,9 @@
   border: 1px solid transparent;
   margin: 0 16px 32px 0;
   cursor: pointer;
-  transition: border .25s ease-out, box-shadow .25s ease-out;
+  transition:
+    border 0.25s ease-out,
+    box-shadow 0.25s ease-out;
   padding: 4px 6px;
 
   &:focus {
@@ -52,7 +54,9 @@
   &:active {
     border-color: var(--spectrum-alias-background-color-default);
     box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
-    transition: border .075s ease-out, box-shadow .075s ease-out;
+    transition:
+      border 0.075s ease-out,
+      box-shadow 0.075s ease-out;
   }
 }
 
@@ -70,7 +74,6 @@
   margin: 0 8px 0 0;
 }
 
-
 // default font size to display in theme tab
 .themeOutputSwatch_contrast {
   font-size: 12px;
@@ -81,7 +84,7 @@
   justify-content: space-between;
   border-radius: 0;
   margin: 0;
-  border:none;
+  border: none;
 }
 
 #justifiedWrapper,
@@ -103,14 +106,13 @@
     }
   }
 
-
   .themeOutputSwatch_luminosity,
   .themeOutputSwatch_contrast {
     font-size: 14px;
     white-space: nowrap;
   }
 
-  #swatchesOutputs .themeOutputItem, 
+  #swatchesOutputs .themeOutputItem,
   #detailSwatchesOutputs .themeOutputItem {
     display: flex;
     flex-direction: row;
@@ -128,7 +130,7 @@
     flex-shrink: 0;
     min-width: 280px;
   }
-  
+
   #swatchesOutputs .themeOutputSwatch,
   #detailSwatchesOutputs .themeOutputSwatch {
     width: 100%;
@@ -143,7 +145,6 @@
   top: -22px;
   left: 0;
 }
-
 
 .themeOutputSwatch_luminosity,
 .themeOutputSwatch_contrast {
@@ -216,7 +217,7 @@
 }
 
 .swatch--large,
-input[type=color].swatch--large {
+input[type="color"].swatch--large {
   margin-top: var(--spectrum-global-dimension-size-100);
   height: 164px;
   width: 164px;
@@ -224,7 +225,7 @@ input[type=color].swatch--large {
   border: 1px solid var(--translucentLightBorder);
 }
 
-input[type=color].swatch--large {
+input[type="color"].swatch--large {
   opacity: 0;
   position: absolute;
   top: 0;

@@ -3,7 +3,7 @@
   padding: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: 'Adobe Clean'; // local update since no typekit support currently.
+  font-family: "Adobe Clean"; // local update since no typekit support currently.
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: var(--header-height) auto;
@@ -15,7 +15,7 @@
 }
 
 #output {
-  font-family: 'Source Code Pro', monospace;
+  font-family: "Source Code Pro", monospace;
   margin-top: 16px;
   padding: 0 4px;
   color: #000000;
@@ -23,7 +23,7 @@
 }
 
 #input {
-    margin-right: 8px;
+  margin-right: 8px;
 }
 
 #converterWrapper {
@@ -53,7 +53,7 @@
   max-width: 60ch;
 }
 
-#converterGroup input[type=text] + input[type=color] {
+#converterGroup input[type="text"] + input[type="color"] {
   margin-left: 6px;
 }
 
@@ -62,8 +62,8 @@ cite {
 }
 
 h1 + cite {
-    margin-top: -4px;
-    margin-bottom: 8px;
+  margin-top: -4px;
+  margin-bottom: 8px;
 }
 
 .spectrum-Form-item--row {

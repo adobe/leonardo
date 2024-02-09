@@ -13,11 +13,11 @@ function togglePopover(e) {
   let thisId = e.target.id;
   let baseId;
 
-  if(thisId.includes("button")) {
-    baseId = thisId.replace('button', '');
+  if (thisId.includes("button")) {
+    baseId = thisId.replace("button", "");
   }
-  if(thisId.includes("close")) {
-    baseId = thisId.replace('close', '');
+  if (thisId.includes("close")) {
+    baseId = thisId.replace("close", "");
   }
 
   let targetId = `popover`.concat(baseId);
@@ -26,43 +26,53 @@ function togglePopover(e) {
   let button = document.getElementById(buttonId);
   let popover = document.getElementById(targetId);
 
-  if(popover.classList.contains('is-open')) {
-    popover.classList.remove('is-open');
-    button.classList.remove('is-selected');
+  if (popover.classList.contains("is-open")) {
+    popover.classList.remove("is-open");
+    button.classList.remove("is-selected");
   } else {
-    popover.classList.add('is-open');
-    button.classList.add('is-selected');
+    popover.classList.add("is-open");
+    button.classList.add("is-selected");
   }
-  
+
   // Remove open/selection states from all other buttons and popovers
-  let popovers = document.getElementsByClassName('spectrum-Popover');
-  let buttons = document.getElementsByClassName('spectrum-Popover-trigger')
-  for(i = 0; i < popovers.length; i++) {
-    if(popovers[i].id !== targetId) {
-      popovers[i].classList.remove('is-open')
+  let popovers = document.getElementsByClassName("spectrum-Popover");
+  let buttons = document.getElementsByClassName("spectrum-Popover-trigger");
+  for (i = 0; i < popovers.length; i++) {
+    if (popovers[i].id !== targetId) {
+      popovers[i].classList.remove("is-open");
     }
   }
 
-  for(i = 0; i < buttons.length; i++) {
-    if(buttons[i].id !== buttonId) {
-      buttons[i].classList.remove('is-selected')
-    } 
+  for (i = 0; i < buttons.length; i++) {
+    if (buttons[i].id !== buttonId) {
+      buttons[i].classList.remove("is-selected");
+    }
   }
 }
 
 window.togglePopover = togglePopover;
 
-document.getElementById('buttonAdaptiveControls').addEventListener('click', togglePopover);
-document.getElementById('closeAdaptiveControls').addEventListener('click', togglePopover);
+document
+  .getElementById("buttonAdaptiveControls")
+  .addEventListener("click", togglePopover);
+document
+  .getElementById("closeAdaptiveControls")
+  .addEventListener("click", togglePopover);
 
-document.getElementById('buttonAnalysisColorSpace').addEventListener('click', togglePopover);
-document.getElementById('closeAnalysisColorSpace').addEventListener('click', togglePopover);
+document
+  .getElementById("buttonAnalysisColorSpace")
+  .addEventListener("click", togglePopover);
+document
+  .getElementById("closeAnalysisColorSpace")
+  .addEventListener("click", togglePopover);
 
-document.getElementById('buttonShareOptions').addEventListener('click', togglePopover);
-document.getElementById('closeShareOptions').addEventListener('click', togglePopover);
-
-
+document
+  .getElementById("buttonShareOptions")
+  .addEventListener("click", togglePopover);
+document
+  .getElementById("closeShareOptions")
+  .addEventListener("click", togglePopover);
 
 module.exports = {
-  togglePopover
-}
+  togglePopover,
+};

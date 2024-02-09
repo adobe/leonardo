@@ -1,19 +1,18 @@
 /*
-Copyright 2019 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
+Copyright 2024 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the 'License');
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
 
-const chromajs = require("chroma-js");
-const hsluv = require("hsluv");
-const ciebase = require("ciebase");
-const ciecam02 = require("ciecam02");
+import chromajs from "chroma-js";
+import hsluv from "hsluv";
+import ciebase from "ciebase";
+import ciecam02 from "ciecam02";
 
 const cam = ciecam02.cam(
   {
@@ -157,7 +156,7 @@ const getCSSGradient = (scale, length = 1, deg = 90, ε = 0.005) => {
     .join()});`;
 };
 
-exports.extendChroma = (chroma) => {
+const extendChroma = (chroma) => {
   // JCH
   chroma.Color.prototype.jch = function () {
     return rgb2jch(this._rgb.slice(0, 3).map((c) => c / 255));
@@ -264,3 +263,5 @@ exports.extendChroma = (chroma) => {
 
   chroma.getCSSGradient = getCSSGradient;
 };
+
+export { extendChroma };

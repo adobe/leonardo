@@ -9,14 +9,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {themeUpdate} from './themeUpdate';
+import { themeUpdate } from "./themeUpdate";
 
 function showToast() {
   let toast = document.getElementById("toastCVDpreview");
   if (toast.classList.contains("is-visible")) {
     // do nothing
-  }
-  else {
+  } else {
     toast.classList.remove("spectrum-Exit");
     toast.classList.add("spectrum-Bounce");
     toast.classList.add("is-visible");
@@ -54,5 +53,5 @@ module.exports = {
   showToast,
   hideToast,
   exitPreview,
-  neverShowToast
-}
+  neverShowToast,
+};

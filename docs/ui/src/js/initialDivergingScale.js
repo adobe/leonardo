@@ -9,30 +9,26 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from '@adobe/leonardo-contrast-colors';
-import * as d3 from './d3';
-import {SequentialScale} from './initialSequentialScale';
-import {
-   convertColorValue,
-   round,
-   orderColorsByLuminosity,
- } from './utils';
-const chroma = require('chroma-js');
-const { extendChroma } = require('./chroma-plus');
+import * as Leo from "@adobe/leonardo-contrast-colors";
+import * as d3 from "./d3";
+import { SequentialScale } from "./initialSequentialScale";
+import { convertColorValue, round, orderColorsByLuminosity } from "./utils";
+const chroma = require("chroma-js");
+const { extendChroma } = require("./chroma-plus");
 extendChroma(chroma);
 
 class DivergingScale {
-  constructor({ 
+  constructor({
     swatches,
     startKeys,
     endKeys,
     middleKey,
     colorspace,
     smooth,
-    distributeLightness = 'polynomial',
+    distributeLightness = "polynomial",
     shift = 1,
-    output
-   }) {
+    output,
+  }) {
     this._startKeys = startKeys;
     this._endKeys = endKeys;
     this._middleKey = middleKey;
@@ -42,18 +38,17 @@ class DivergingScale {
     this._shift = shift;
     this._smooth = smooth;
     this._output = output;
-    this._swatches = swatches,
-    this._scaleSwatches = (swatches)/2,
-
-    this._startScale = new SequentialScale({
-      swatches: this._scaleSwatches,
-      colorKeys: this._startKeys,
-      colorspace: this._colorspace,
-      distributeLightness: this._distributeLightness,
-      smooth: this._smooth,
-      shift: this._shift,
-      output: this._output
-    });
+    (this._swatches = swatches),
+      (this._scaleSwatches = swatches / 2),
+      (this._startScale = new SequentialScale({
+        swatches: this._scaleSwatches,
+        colorKeys: this._startKeys,
+        colorspace: this._colorspace,
+        distributeLightness: this._distributeLightness,
+        smooth: this._smooth,
+        shift: this._shift,
+        output: this._output,
+      }));
 
     this._endScale = new SequentialScale({
       swatches: this._scaleSwatches,
@@ -62,7 +57,7 @@ class DivergingScale {
       distributeLightness: this._distributeLightness,
       smooth: this._smooth,
       shift: this._shift,
-      output: this._output
+      output: this._output,
     });
 
     this._domains = this._getDomains();
@@ -92,7 +87,7 @@ class DivergingScale {
 
   set endKeys(colors) {
     this._endKeys = colors;
-    this._endScale.colorKeys = [...colors,  this._middleKey];
+    this._endScale.colorKeys = [...colors, this._middleKey];
     this._colorKeys = null;
     this._colorKeys = this._combineColorKeys();
 
@@ -100,7 +95,6 @@ class DivergingScale {
     this._colors = this._createColorScale();
 
     this._domains = this._getDomains();
-
   }
 
   get endKeys() {
@@ -140,7 +134,7 @@ class DivergingScale {
   get samples() {
     return this._samples;
   }
-  
+
   set colorspace(colorspace) {
     this._colorspace = colorspace;
     this._startScale.colorspace = colorspace;
@@ -186,8 +180,8 @@ class DivergingScale {
 
     let newColors = this._combineColors();
     this._colors = newColors.map((c) => {
-          return convertColorValue(c, output)
-        })
+      return convertColorValue(c, output);
+    });
   }
 
   get output() {
@@ -211,11 +205,10 @@ class DivergingScale {
   set swatches(swatches) {
     this._swatches = swatches;
     this._scaleSwatches = swatches / 2;
-    if(this._startScale) this._startScale.swatches = this._scaleSwatches;
-    if(this._endScale) this._endScale.swatches = this._scaleSwatches;  
+    if (this._startScale) this._startScale.swatches = this._scaleSwatches;
+    if (this._endScale) this._endScale.swatches = this._scaleSwatches;
 
-    this._colors = this._createColorScale();  
-
+    this._colors = this._createColorScale();
   }
 
   get swatches() {
@@ -227,7 +220,7 @@ class DivergingScale {
   }
 
   set luminosities(luminosities) {
-    this._luminosities = luminosities
+    this._luminosities = luminosities;
   }
   get luminosities() {
     return this._luminosities;
@@ -255,42 +248,46 @@ class DivergingScale {
       colorspace: this._colorspace,
       sortColor: false,
 
-      distributeLightness: 'linear',
+      distributeLightness: "linear",
       fullScale: false,
-      asFun: true
+      asFun: true,
     });
 
     newColors.map((c) => {
-      return convertColorValue(c, this._output)
-    })
+      return convertColorValue(c, this._output);
+    });
 
     return newColors;
   }
 
   _getLuminosities() {
-    return [...this._startScale.luminosities, d3.hsluv(this._middleKey).v, ...this._endScale.luminosities];
+    return [
+      ...this._startScale.luminosities,
+      d3.hsluv(this._middleKey).v,
+      ...this._endScale.luminosities,
+    ];
   }
 
   _combineColorKeys() {
     const startKeys = this._startKeys;
     const endKeys = this._endKeys;
-    const sortedStartKeys = orderColorsByLuminosity(startKeys, 'toDark');
-    const sortedEndKeys = orderColorsByLuminosity(endKeys, 'toLight');
+    const sortedStartKeys = orderColorsByLuminosity(startKeys, "toDark");
+    const sortedEndKeys = orderColorsByLuminosity(endKeys, "toLight");
 
-    return [...sortedStartKeys, this._middleKey, ...sortedEndKeys]
+    return [...sortedStartKeys, this._middleKey, ...sortedEndKeys];
   }
 
   _combineColors() {
     const startColorScale = this._startScale.colors;
     const startColors = [];
     // For all but the last color
-    for(let i = 0; i < startColorScale.length - 1; i++) {
+    for (let i = 0; i < startColorScale.length - 1; i++) {
       startColors.push(startColorScale[i]);
     }
     const endColorScaleReversed = this._endScale.colorsReversed;
     const endColors = [];
     // For all but the first color
-    for(let i = 1; i < startColorScale.length; i++) {
+    for (let i = 1; i < startColorScale.length; i++) {
       endColors.push(endColorScaleReversed[i]);
     }
 
@@ -303,35 +300,42 @@ class DivergingScale {
   _getDomains() {
     // We know the middle key must always be at the midpoint of the domains.
     // Start key domains will be before, end key domains will be after.
-    let startDomains = this._startScale.domains.sort(function(a, b) {
+    let startDomains = this._startScale.domains.sort(function (a, b) {
       return a - b;
     });
-    startDomains = startDomains.map((d) => {return round(d/2, 2)})
+    startDomains = startDomains.map((d) => {
+      return round(d / 2, 2);
+    });
     let endDomains = this._endScale.domains;
-    endDomains = endDomains.map((d) => {return 1 - d}); // reverse domain
-    endDomains = endDomains.map((d) => {return round((d + 1) / 2, 2)})
+    endDomains = endDomains.map((d) => {
+      return 1 - d;
+    }); // reverse domain
+    endDomains = endDomains.map((d) => {
+      return round((d + 1) / 2, 2);
+    });
     let combined = [...startDomains, ...endDomains];
     let domains = [...new Set(combined)];
 
-    let clampedDomains = domains.map((d) => {return round(d, 2)})
+    let clampedDomains = domains.map((d) => {
+      return round(d, 2);
+    });
     return domains;
   }
 }
 
 let _divergingScale = new DivergingScale({
   swatches: 50,
-  startKeys: ['#580000', '#DD8629'], 
-  endKeys: ['#3EA8A6', '#003233'], 
-  middleKey: '#FFFFE0', 
-  colorspace: 'CAM02',
-  distributeLightness: 'polynomial', // 'linear' | 'parabolic' | 'polynomial'
+  startKeys: ["#580000", "#DD8629"],
+  endKeys: ["#3EA8A6", "#003233"],
+  middleKey: "#FFFFE0",
+  colorspace: "CAM02",
+  distributeLightness: "polynomial", // 'linear' | 'parabolic' | 'polynomial'
   smooth: false,
-  output: 'RGB'
+  output: "RGB",
 });
-
 
 window._divergingScale = _divergingScale;
 
 module.exports = {
-  _divergingScale
-}
+  _divergingScale,
+};

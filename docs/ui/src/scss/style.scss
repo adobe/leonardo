@@ -16,7 +16,9 @@ governing permissions and limitations under the License.
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: var(--gradient-height);
   --color-size: 32px;
-  --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
+  --colors-wrapper-height: calc(
+    100vh - var(--gradient-height-offset) - var(--color-size)
+  );
   --gradient-slider-height: var(--gradient-height);
   --slider-thumb-size: 8px; // 24px
   --header-height: 58px;
@@ -29,34 +31,60 @@ governing permissions and limitations under the License.
   --toast-offset-bounce-up: calc(var(--toast-offset) - 5px);
   --toast-offset-bounce-up-light: calc(var(--toast-offset) - 4px);
   --toast-offset-bounce-down: -17px;
-  --spectrum-ease-out: cubic-bezier(0, 0, 0.40, 1);
-  --spectrum-ease-in-out: cubic-bezier(0.45, 0, 0.40, 1);
-  --spectrum-ease-in: cubic-bezier(0.50, 0, 1, 1);
+  --spectrum-ease-out: cubic-bezier(0, 0, 0.4, 1);
+  --spectrum-ease-in-out: cubic-bezier(0.45, 0, 0.4, 1);
+  --spectrum-ease-in: cubic-bezier(0.5, 0, 1, 1);
 
-  --spectrum-fieldlabel-text-size: var(--spectrum-global-dimension-font-size-75, 12px);
+  --spectrum-fieldlabel-text-size: var(
+    --spectrum-global-dimension-font-size-75,
+    12px
+  );
   --spectrum-fieldlabel-text-font-weight: 400;
   --spectrum-fieldlabel-text-line-height: 1.3;
 
-  --spectrum-global-font-weight-bold: 600; 
-  --spectrum-alias-heading-text-font-weight-regular: var(--spectrum-global-font-weight-bold);
-  --spectrum-heading-m-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
-  --spectrum-heading-l-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
-  --spectrum-heading-xl-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
-  --spectrum-heading-xxl-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
-  --spectrum-body-s-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
-  --spectrum-body-m-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
-  --spectrum-body-l-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
-  --spectrum-body-xl-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
-  --spectrum-button-primary-texticon-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-global-font-weight-bold: 600;
+  --spectrum-alias-heading-text-font-weight-regular: var(
+    --spectrum-global-font-weight-bold
+  );
+  --spectrum-heading-m-text-font-weight: var(
+    --spectrum-alias-heading-text-font-weight-regular
+  );
+  --spectrum-heading-l-text-font-weight: var(
+    --spectrum-alias-heading-text-font-weight-regular
+  );
+  --spectrum-heading-xl-text-font-weight: var(
+    --spectrum-alias-heading-text-font-weight-regular
+  );
+  --spectrum-heading-xxl-text-font-weight: var(
+    --spectrum-alias-heading-text-font-weight-regular
+  );
+  --spectrum-body-s-strong-text-font-weight: var(
+    --spectrum-global-font-weight-bold
+  );
+  --spectrum-body-m-strong-text-font-weight: var(
+    --spectrum-global-font-weight-bold
+  );
+  --spectrum-body-l-strong-text-font-weight: var(
+    --spectrum-global-font-weight-bold
+  );
+  --spectrum-body-xl-strong-text-font-weight: var(
+    --spectrum-global-font-weight-bold
+  );
+  --spectrum-button-primary-texticon-text-font-weight: var(
+    --spectrum-global-font-weight-bold
+  );
 
-  --spectrum-alias-focus-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
+  --spectrum-alias-focus-color: var(
+    --spectrum-alias-focus-ring-color,
+    var(--spectrum-global-color-blue-400)
+  );
   // defaults
   --headerBackground: var(--spectrum-global-color-gray-50);
   --panelBackground: var(--spectrum-global-color-gray-75);
   --panelBorder: var(--spectrum-global-color-gray-300);
 }
 
-@media(prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
   .spectrum {
     --theme-background: var(--spectrum-global-color-gray-100, #f5f5f5);
     --headerBackground: var(--spectrum-global-color-gray-50, #ffffff);
@@ -68,7 +96,7 @@ governing permissions and limitations under the License.
     --transparentGray900: rgba(0, 0, 0, 0.5);
   }
 }
-@media(prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   .spectrum {
     --theme-background: var(--spectrum-global-color-gray-50, #1d1d1d);
     --headerBackground: var(--spectrum-global-color-gray-100);
@@ -87,11 +115,13 @@ body {
   // font-family: 'Adobe Clean'; // local update since no typekit support currently.
 }
 
-body, 
+body,
 .spectrum,
 .spectrum-ActionButton,
 .spectrum-Textfield-input,
-.spectrum-LogicButton, .spectrum-ClearButton, .spectrum-Button,
+.spectrum-LogicButton,
+.spectrum-ClearButton,
+.spectrum-Button,
 .spectrum-Picker,
 .spectrum-Heading,
 .spectrum-Body {
@@ -103,7 +133,7 @@ body,
 }
 
 .spectrum-Code {
-  font-family: Menlo, Monaco, 'Courier New', monospace;
+  font-family: Menlo, Monaco, "Courier New", monospace;
 }
 
 .appFrame {
@@ -130,8 +160,7 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas:
-    "leftPanel main rightPanel";
+  grid-template-areas: "leftPanel main rightPanel";
 }
 
 .appFramePanel {
@@ -157,8 +186,7 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas:
-    "leftPanel main";
+  grid-template-areas: "leftPanel main";
 }
 
 .appFramePanelLeft--large {
@@ -175,8 +203,7 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas:
-    "main rightPanel";
+  grid-template-areas: "main rightPanel";
 }
 
 .appFramePanelRight--large {
@@ -196,9 +223,8 @@ body,
   @media screen and (min-width: 1065px) {
     grid-template-columns: 50% 50%;
     grid-template-rows: auto;
-    grid-template-areas:
-      "main rightPanel";
-  } 
+    grid-template-areas: "main rightPanel";
+  }
 }
 
 .appFrameSideNav {
@@ -211,10 +237,8 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas:
-    "leftPanel main";
+  grid-template-areas: "leftPanel main";
 }
-
 
 /* Tabs aren't inheriting all styles properly. Remapping here */
 .spectrum-Tabs {
@@ -222,7 +246,10 @@ body,
   padding: 0;
 }
 .spectrum-Tabs-item {
-  color: var(--spectrum-tabs-text-color, var(--spectrum-alias-label-text-color));
+  color: var(
+    --spectrum-tabs-text-color,
+    var(--spectrum-alias-label-text-color)
+  );
 
   a.spectrum-Tabs-itemLabel {
     color: inherit;
@@ -238,8 +265,15 @@ body,
   }
 }
 .spectrum-Tabs-item.is-selected {
-  color: var(--spectrum-tabs-text-color-selected, var(--spectrum-alias-heading-text-color));
-  border-bottom: 2px solid var(--spectrum-tabs-selection-indicator-color, var(--spectrum-global-color-gray-900));
+  color: var(
+    --spectrum-tabs-text-color-selected,
+    var(--spectrum-alias-heading-text-color)
+  );
+  border-bottom: 2px solid
+    var(
+      --spectrum-tabs-selection-indicator-color,
+      var(--spectrum-global-color-gray-900)
+    );
 }
 .spectrum-Tabs-selectionIndicator {
   display: none; /* simplifying design to speed up development */
@@ -292,7 +326,6 @@ body,
   justify-content: space-between;
 }
 
-
 .spectrum-Panel-Item {
   padding: var(--spectrum-global-dimension-size-200);
 }
@@ -325,7 +358,7 @@ body,
 .spectrum-Panel-Item--subItem {
   padding: 0 2px;
   width: 100%;
-  
+
   ~ .spectrum-Panel-Item.spectrum-Panel-Item--subItem {
     border-top: 1px solid var(--panelBorder);
   }
@@ -462,7 +495,7 @@ body,
 // }
 
 #colorSlider-wrapper {
-  /* temporarily until getting this to work */ 
+  /* temporarily until getting this to work */
   display: none;
 
   position: relative;
@@ -508,21 +541,21 @@ body,
 }
 
 .spectrum-Slider {
-  input[type=range] {
+  input[type="range"] {
     -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
     width: 100%; /* Specific width is required for Firefox. */
     background: transparent; /* Otherwise white in Chrome */
   }
 
-  input[type=range]::-webkit-slider-thumb {
+  input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
   }
 
-  input[type=range]:focus {
+  input[type="range"]:focus {
     outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
   }
 
-  input[type=range]::-ms-track {
+  input[type="range"]::-ms-track {
     width: 100%;
     cursor: pointer;
 
@@ -537,76 +570,137 @@ body,
     width: 16px;
     height: 16px;
     background-color: var(--spectrum-global-color-gray-100);
-    margin: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2) 0 0 calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2);
-    border-width: var(--spectrum-slider-handle-border-size, var(--spectrum-alias-border-size-thick));
+    margin: calc(
+        var(
+            --spectrum-slider-handle-width,
+            var(--spectrum-global-dimension-size-200)
+          ) / -2
+      )
+      0 0
+      calc(
+        var(
+            --spectrum-slider-handle-width,
+            var(--spectrum-global-dimension-size-200)
+          ) / -2
+      );
+    border-width: var(
+      --spectrum-slider-handle-border-size,
+      var(--spectrum-alias-border-size-thick)
+    );
     border-style: solid;
-    border-color: var(--spectrum-slider-m-handle-border-color, var(--spectrum-global-color-gray-700));
-    border-radius: var(--spectrum-slider-handle-border-radius, var(--spectrum-alias-border-radius-medium));
-    transition: border-width var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
+    border-color: var(
+      --spectrum-slider-m-handle-border-color,
+      var(--spectrum-global-color-gray-700)
+    );
+    border-radius: var(
+      --spectrum-slider-handle-border-radius,
+      var(--spectrum-alias-border-radius-medium)
+    );
+    transition: border-width
+      var(
+        --spectrum-slider-animation-duration,
+        var(--spectrum-global-animation-duration-100)
+      )
+      ease-in-out;
     outline: none;
     cursor: grab;
   }
 
   @mixin thumbFocus {
-    background-color:  var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
-    border-color: var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
-    transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
+    background-color: var(
+      --spectrum-alias-focus-color,
+      var(--spectrum-alias-focus-color)
+    );
+    border-color: var(
+      --spectrum-alias-focus-color,
+      var(--spectrum-alias-focus-color)
+    );
+    transition: background-color
+      var(
+        --spectrum-slider-animation-duration,
+        var(--spectrum-global-animation-duration-100)
+      )
+      ease-in-out;
   }
 
-  input[type=range]::-webkit-slider-thumb {
+  input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     @include thumb;
     margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   }
-  input[type=range]:focus::-webkit-slider-thumb {
+  input[type="range"]:focus::-webkit-slider-thumb {
     @include thumbFocus;
   }
 
   /* All the same stuff for Firefox */
-  input[type=range]::-moz-range-thumb {
+  input[type="range"]::-moz-range-thumb {
     @include thumb;
   }
 
-  input[type=range]:focus::-moz-range-thumb {
+  input[type="range"]:focus::-moz-range-thumb {
     @include thumbFocus;
   }
 
   /* All the same stuff for IE */
-  input[type=range]::-ms-thumb {
+  input[type="range"]::-ms-thumb {
     @include thumb;
   }
 
-  input[type=range]:focus::-ms-thumb {
+  input[type="range"]:focus::-ms-thumb {
     @include thumbFocus;
   }
 
   /* TRACK */
   @mixin track {
     width: 100%;
-    height: var(--spectrum-slider-track-height, var(--spectrum-alias-border-size-thick));
+    height: var(
+      --spectrum-slider-track-height,
+      var(--spectrum-alias-border-size-thick)
+    );
     box-sizing: border-box;
     z-index: 1;
     background-color: var(--spectrum-global-color-gray-300);
-    top: calc(var(--spectrum-slider-height, var(--spectrum-alias-single-line-height)) / 2);
-    margin-top: calc(var(--spectrum-slider-fill-track-height, var(--spectrum-alias-border-size-thick)) / -2);
+    top: calc(
+      var(--spectrum-slider-height, var(--spectrum-alias-single-line-height)) /
+        2
+    );
+    margin-top: calc(
+      var(
+          --spectrum-slider-fill-track-height,
+          var(--spectrum-alias-border-size-thick)
+        ) / -2
+    );
     pointer-events: none;
-    padding: 0 var(--spectrum-slider-handle-gap, var(--spectrum-alias-border-size-thicker)) 0 0;
-    margin-left: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / 2 * -1);
+    padding: 0
+      var(
+        --spectrum-slider-handle-gap,
+        var(--spectrum-alias-border-size-thicker)
+      )
+      0 0;
+    margin-left: calc(
+      var(
+          --spectrum-slider-handle-width,
+          var(--spectrum-global-dimension-size-200)
+        ) / 2 * -1
+    );
   }
 
-  input[type=range]::-webkit-slider-runnable-track {
+  input[type="range"]::-webkit-slider-runnable-track {
     @include track;
   }
 
-  input[type=range]:focus::-webkit-slider-runnable-track {
-    background: var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
+  input[type="range"]:focus::-webkit-slider-runnable-track {
+    background: var(
+      --spectrum-alias-focus-color,
+      var(--spectrum-alias-focus-color)
+    );
   }
 
-  input[type=range]::-moz-range-track {
+  input[type="range"]::-moz-range-track {
     @include track;
   }
 
-  input[type=range]::-ms-track {
+  input[type="range"]::-ms-track {
     @include track;
 
     background: transparent;
@@ -614,17 +708,23 @@ body,
     border-width: 2px 0;
     color: transparent;
   }
-  input[type=range]::-ms-fill-lower {
+  input[type="range"]::-ms-fill-lower {
     background-color: var(--spectrum-global-color-gray-300);
   }
-  input[type=range]:focus::-ms-fill-lower {
-    background-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
+  input[type="range"]:focus::-ms-fill-lower {
+    background-color: var(
+      --spectrum-alias-focus-ring-color,
+      var(--spectrum-global-color-blue-400)
+    );
   }
-  input[type=range]::-ms-fill-upper {
+  input[type="range"]::-ms-fill-upper {
     background-color: var(--spectrum-global-color-gray-300);
   }
-  input[type=range]:focus::-ms-fill-upper {
-    background-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
+  input[type="range"]:focus::-ms-fill-upper {
+    background-color: var(
+      --spectrum-alias-focus-ring-color,
+      var(--spectrum-global-color-blue-400)
+    );
   }
 }
 
@@ -733,11 +833,9 @@ main {
   justify-content: flex-start;
 }
 
-
 .spectrum-Code {
   line-height: 1.3;
 }
-
 
 h1 {
   margin-bottom: 0px;
@@ -790,7 +888,6 @@ p {
   width: var(--spectrum-global-dimension-size-200);
 }
 
-
 .colorField {
   display: flex;
   flex-direction: row;
@@ -824,8 +921,8 @@ p {
 }
 
 .variableColor-wrapper {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 #keyColor-wrapper {
@@ -849,7 +946,8 @@ p {
 
 a:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
+  box-shadow: 0 0 0 2px
+    var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
   border-radius: var(--spectrum-alias-border-radius-regular);
 }
 
@@ -961,7 +1059,7 @@ a:focus {
   justify-self: flex-start;
 
   + .themeOutputParams {
-    margin-top: var(--spectrum-global-dimension-size-200)
+    margin-top: var(--spectrum-global-dimension-size-200);
   }
 }
 
@@ -977,7 +1075,8 @@ a:focus {
   max-height: calc(100vh - 568px);
 }
 
-#contrastConfigs, #ratioInput-wrapper {
+#contrastConfigs,
+#ratioInput-wrapper {
   flex-direction: column;
   width: 100%;
 }
@@ -989,9 +1088,9 @@ a:focus {
   padding: 2px; /* This ensures focus rings are visible */
   overflow: auto;
 }
- #sequentialConfigs {
-   display: none;
- }
+#sequentialConfigs {
+  display: none;
+}
 
 #ratioInput-wrapper {
   // max-height: calc(var(--gradient-height) - 110px);
@@ -1050,7 +1149,6 @@ a:focus {
 #colorspaceLabel {
   text-transform: capitalize;
 }
-
 
 #scaleConfigs {
   display: flex;
@@ -1194,7 +1292,6 @@ a:focus {
   width: 20ch;
 }
 
-
 .spectrum-Textfield--fullwidth {
   width: 100%;
 }
@@ -1217,7 +1314,12 @@ a:focus {
   position: absolute;
   right: var(--spectrum-global-dimension-size-150);
   top: 4px;
-  margin-top: calc(var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75)) / -2);
+  margin-top: calc(
+    var(
+        --spectrum-icon-chevron-down-medium-height,
+        var(--spectrum-global-dimension-size-75)
+      ) / -2
+  );
 }
 
 .themeColor_item ~ .themeColor_item {
@@ -1239,7 +1341,7 @@ a:focus {
   display: inline-flex;
   border-top-left-radius: var(--spectrum-global-dimension-size-50);
   border-bottom-left-radius: var(--spectrum-global-dimension-size-50);
-  margin-right:  var(--spectrum-global-dimension-size-100);
+  margin-right: var(--spectrum-global-dimension-size-100);
   overflow: clip;
 
   .gradient {
@@ -1282,8 +1384,12 @@ a:focus {
   height: auto;
   flex-direction: column;
   align-items: flex-start;
-  -webkit-transition: height 100ms, padding 100ms;
-  transition: height 100ms, padding 100ms;
+  -webkit-transition:
+    height 100ms,
+    padding 100ms;
+  transition:
+    height 100ms,
+    padding 100ms;
 
   .spectrum-Form-item {
     opacity: 1;
@@ -1422,19 +1528,27 @@ a:focus {
     align-items: center;
     height: 100%;
   }
-
 }
 
 // Missing slider CSS for disabled state
 .spectrum-Slider-controls:disabled {
   &::-webkit-slider-thumb {
-    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
+    border-color: var(
+      --spectrum-slider-handle-border-color-disabled,
+      var(--spectrum-global-color-gray-400)
+    );
   }
   &::-moz-range-thumb {
-    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
+    border-color: var(
+      --spectrum-slider-handle-border-color-disabled,
+      var(--spectrum-global-color-gray-400)
+    );
   }
   &::-ms-thumb {
-    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400))
+    border-color: var(
+      --spectrum-slider-handle-border-color-disabled,
+      var(--spectrum-global-color-gray-400)
+    );
   }
 }
 
@@ -1469,7 +1583,6 @@ a:focus {
   border-radius: var(--spectrum-alias-border-radius-regular);
 }
 
-
 #addFromURLinput {
   width: 100%;
 }
@@ -1497,14 +1610,13 @@ a:focus {
 }
 
 /* Style formatting templates for columns of each Ratio Item
-   and the labels above the ratio inputs */ 
+   and the labels above the ratio inputs */
 
 .ratioGrid {
   display: grid;
   grid-template-columns: 90px 70px 58px 32px;
   column-gap: 8px;
-  grid-template-areas: 
-  'ratio luminosity status actions';
+  grid-template-areas: "ratio luminosity status actions";
 
   .spectrum-Textfield {
     width: 100%;
@@ -1539,7 +1651,7 @@ a:focus {
 }
 .spectrum-Content-Tabs {
   padding: 8px 16px 8px;
-  height: 44px;  
+  height: 44px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1550,7 +1662,7 @@ a:focus {
 }
 
 .spectrum-Detail-Tabs {
-  height: 44px;  
+  height: 44px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1695,7 +1807,7 @@ a:focus {
   transition: opacity 0.125s ease-in-out;
 }
 
-#colorWheel--controlsWrapper{
+#colorWheel--controlsWrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -1743,7 +1855,9 @@ a:focus {
   height: 16px;
   border-radius: 100%;
   border: 2px solid #ffffff;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 2px rgba(0, 0, 0, 0.5),
+    inset 0 0 2px rgba(0, 0, 0, 0.5);
   position: absolute;
 }
 .luminosityDot {
@@ -1751,10 +1865,12 @@ a:focus {
   height: 8px;
   border-radius: 100%;
   background: #ffffff;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 1);
+  box-shadow:
+    0 0 4px rgba(0, 0, 0, 0.3),
+    0 0 1px rgba(0, 0, 0, 1);
   position: absolute;
   left: calc(50% - 6px);
-  transition: top .2s ease-in-out;
+  transition: top 0.2s ease-in-out;
 }
 
 #paletteChartsWrapper {
@@ -1867,8 +1983,7 @@ a:focus {
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas:
-    "main aside";
+  grid-template-areas: "main aside";
   position: relative;
 }
 
@@ -1960,9 +2075,8 @@ a:focus {
 }
 
 #swatchAttributeSwitch-Wrapper {
-  margin-bottom: var(--spectrum-global-dimension-size-150)
+  margin-bottom: var(--spectrum-global-dimension-size-150);
 }
-
 
 .colorScaleType-badge {
   height: var(--spectrum-global-dimension-size-175);
@@ -1987,8 +2101,6 @@ a:focus {
   }
 }
 
-
-
 .scaleMainContent-Wrapper {
   padding: var(--spectrum-global-dimension-size-200);
   width: calc(100% - var(--spectrum-global-dimension-size-400));
@@ -2003,9 +2115,6 @@ a:focus {
   //   display: none;
   // }
 }
-
-
-
 
 .demoVisualizationWrapper {
   display: flex;
@@ -2070,7 +2179,7 @@ a:focus {
 #pageLoader {
   height: 100vh;
   width: 100vw;
-  position:absolute;
+  position: absolute;
   top: 0;
   left: 0;
   background-color: var(--spectrum-global-color-gray-100);
@@ -2079,7 +2188,7 @@ a:focus {
   align-items: center;
   z-index: 100;
   opacity: 1;
-  transition: opacity .125s ease-in;
+  transition: opacity 0.125s ease-in;
 }
 
 #ModelExampleImage {

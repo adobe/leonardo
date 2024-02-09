@@ -1,101 +1,178 @@
 <!-- Theme Tab -->
 <div id="codeTab" class="AppTab appFramePanelLeft">
-
   <main>
     <div class="spectrum-Content-Tabs">
       <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
-        <div id="tabJSParameters" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'parameterWrapper')">
+        <div
+          id="tabJSParameters"
+          class="spectrum-Tabs-item main-Tabs-item"
+          tabindex="0"
+          onclick="openTab(event, 'parameterWrapper')"
+        >
           <label class="spectrum-Tabs-itemLabel">Javascript</label>
         </div>
-        <div id="tabCSS" class="spectrum-Tabs-item main-Tabs-item" tabindex="0" onclick="openTab(event, 'cssWrapper')">
+        <div
+          id="tabCSS"
+          class="spectrum-Tabs-item main-Tabs-item"
+          tabindex="0"
+          onclick="openTab(event, 'cssWrapper')"
+        >
           <label class="spectrum-Tabs-itemLabel">CSS</label>
         </div>
-        <div id="tabTokens" class="spectrum-Tabs-item main-Tabs-item" tabindex="0"  onclick="openTab(event, 'tokensWrapper')">
+        <div
+          id="tabTokens"
+          class="spectrum-Tabs-item main-Tabs-item"
+          tabindex="0"
+          onclick="openTab(event, 'tokensWrapper')"
+        >
           <label class="spectrum-Tabs-itemLabel">Design tokens</label>
         </div>
       </div>
     </div>
     <div id="parameterWrapper" class="tabcontent">
-      <div class="tabHeader"> 
+      <div class="tabHeader">
         <div>
-          <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Parameters for @adobe/leonardo-contrast-colors</h2>
-          <p class="spectrum-Body spectrum-Body--sizeXS">See 
-            <a href="#" class="spectrum-Link" target="_blank">Getting started</a> 
+          <h2
+            class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS"
+          >
+            Parameters for @adobe/leonardo-contrast-colors
+          </h2>
+          <p class="spectrum-Body spectrum-Body--sizeXS">
+            See
+            <a href="#" class="spectrum-Link" target="_blank"
+              >Getting started</a
+            >
             for information on how to use these parameters.
           </p>
         </div>
-        <button id="copyThemeParams" data-clipboard-target="#themeJSParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+        <button
+          id="copyThemeParams"
+          data-clipboard-target="#themeJSParams"
+          class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton"
+        >
           <span class="spectrum-ActionButton-label">Copy parameters</span>
         </button>
       </div>
 
       <div class="themeOutputParams">
-        <pre id="themeJSParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
+        <pre
+          id="themeJSParams"
+          class="spectrum-Code spectrum-Code--sizeS"
+        ></pre>
       </div>
     </div>
 
     <div id="cssWrapper" class="tabcontent">
       <div class="tabHeader">
-        <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">CSS properties</h2>
-        <button id="copyThemeCSS" data-clipboard-target="#themeCSSParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+        <h2
+          class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS"
+        >
+          CSS properties
+        </h2>
+        <button
+          id="copyThemeCSS"
+          data-clipboard-target="#themeCSSParams"
+          class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton"
+        >
           <span class="spectrum-ActionButton-label">Copy CSS</span>
         </button>
       </div>
 
       <div class="themeOutputParams">
-        <pre id="themeCSSParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
+        <pre
+          id="themeCSSParams"
+          class="spectrum-Code spectrum-Code--sizeS"
+        ></pre>
       </div>
     </div>
 
     <div id="tokensWrapper" class="tabcontent">
       <div class="tabHeader">
         <div>
-          <h2 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS">Design tokens</h2>
-          <p class="spectrum-Body spectrum-Body--sizeXS">See 
-            <a href="https://www.w3.org/community/design-tokens/" class="spectrum-Link" target="_blank">w3c working group spec</a> 
+          <h2
+            class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXS"
+          >
+            Design tokens
+          </h2>
+          <p class="spectrum-Body spectrum-Body--sizeXS">
+            See
+            <a
+              href="https://www.w3.org/community/design-tokens/"
+              class="spectrum-Link"
+              target="_blank"
+              >w3c working group spec</a
+            >
             for details.
           </p>
         </div>
-        <button id="copyThemeTokens" data-clipboard-target="#themeTokensParams" class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton">
+        <button
+          id="copyThemeTokens"
+          data-clipboard-target="#themeTokensParams"
+          class="spectrum-ActionButton spectrum-ActionButton--sizeM copyButton"
+        >
           <span class="spectrum-ActionButton-label">Copy Tokens</span>
         </button>
       </div>
 
       <div class="themeOutputParams">
-        <pre id="themeTokensParams" class="spectrum-Code spectrum-Code--sizeS"></pre>
+        <pre
+          id="themeTokensParams"
+          class="spectrum-Code spectrum-Code--sizeS"
+        ></pre>
       </div>
     </div>
-
   </main>
 
   <div class="spectrum-Panel spectrum-Panel--left">
     <div class="spectrum-Panel-ContentWrapper">
       <div class="spectrum-Panel-Item">
         <div class="spectrum-Panel-Title">
-          <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS" id="outputFormatHeading">
+          <h3
+            class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS"
+            id="outputFormatHeading"
+          >
             Output color format
           </h3>
         </div>
-        <div class="spectrum-Form spectrum-Form--spaced" style="margin-top: var(--spectrum-global-dimension-size-100)">
+        <div
+          class="spectrum-Form spectrum-Form--spaced"
+          style="margin-top: var(--spectrum-global-dimension-size-100)"
+        >
           <div class="spectrum-Form-item">
-              <select class="spectrum-Picker" name="contrastMethod" id="colorOutputFormat" aria-labelledby="outputFormatHeading">
-                <option value="HEX">Hex</option>
-                <option value="RGB">RGB</option>
-                <option value="LAB">Lab</option>
-                <option value="LCH">LCh</option>
-                <option value="HSL">HSL</option>
-              <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+            <select
+              class="spectrum-Picker"
+              name="contrastMethod"
+              id="colorOutputFormat"
+              aria-labelledby="outputFormatHeading"
+            >
+              <option value="HEX">Hex</option>
+              <option value="RGB">RGB</option>
+              <option value="LAB">Lab</option>
+              <option value="LCH">LCh</option>
+              <option value="HSL">HSL</option>
+              <svg
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium"
+              >
                 <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
               </svg>
             </select>
-            <p class="spectrum-Body spectrum-Body--sizeXS" style="margin-top: var(--spectrum-global-dimension-size-100)">Output formats compliant with 
-              <a class="spectrum-Link" href="https://www.w3.org/TR/css-color-4/" target="_blank">CSS Color Module Level 4</a>
-              . Not all formats supported.</p>
+            <p
+              class="spectrum-Body spectrum-Body--sizeXS"
+              style="margin-top: var(--spectrum-global-dimension-size-100)"
+            >
+              Output formats compliant with
+              <a
+                class="spectrum-Link"
+                href="https://www.w3.org/TR/css-color-4/"
+                target="_blank"
+                >CSS Color Module Level 4</a
+              >
+              . Not all formats supported.
+            </p>
           </div>
         </div>
       </div>
-  
     </div>
   </div>
-
 </div>
