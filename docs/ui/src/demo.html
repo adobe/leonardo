@@ -11,83 +11,95 @@ governing permissions and limitations under the License.
 -->
 
 <html>
+
 <head>
-  <include src="src/htmlHead.html"></include>
+    <include src="src/htmlHead.html"></include>
 
 </head>
+
 <body class="demo">
-  <header>
-    <h2>Leonardo Demo App</h2>
-    <div id="controls">
-      <div class="form-Item">
-        <label for="sliderBrightness">Brightness</label>
-        <input id="sliderBrightness" name="sliderBrightness" type="range" step="1"></input>
-      </div>
-      <div class="form-Item">
-        <label for="sliderContrast">Contrast</label>
-        <input id="sliderContrast" name="sliderContrast" type="range" min="1" max="5" step="0.05" value="1"></input>
-      </div>
-      <div class="form-Item">
-        <label for="sliderSaturation">Saturation</label>
-        <input id="sliderSaturation" name="sliderSaturation" type="range" min="0" max="100" step="1" value="100"></input>
-      </div>
-      <div class="form-Item">
-        <input id="darkMode" name="darkMode" type="checkbox"/><label for="darkMode">Dark Mode</label>
-      </div>
-    </div>
-  </header>
-  <main id="demoApp">
-    <div id="master">
-      <div class="calendarTimeColumn">
-        <span class="calendarTime"> 7am </span>
-        <span class="calendarTime"> 8am </span>
-        <span class="calendarTime"> 9am </span>
-        <span class="calendarTime"> 10am </span>
-        <span class="calendarTime"> 11am </span>
-        <span class="calendarTime"> 12pm </span>
-        <span class="calendarTime"> 1pm </span>
-        <span class="calendarTime"> 2pm </span>
-        <span class="calendarTime"> 3pm </span>
-        <span class="calendarTime"> 4pm </span>
-        <span class="calendarTime"> 5pm </span>
-        <span class="calendarTime"> 6pm </span>
-        <span class="calendarTime"> 7pm </span>
-        <span class="calendarTime"> 8pm </span>
-        <span class="calendarTime"> 9pm </span>
-        <span class="calendarTime"> 10pm </span>
-        <span class="calendarTime"> 11pm </span>
-      </div>
-      <div class="calendarWrapper">
-        <div class="calendarHeader">
-          <h3>Calendar</h3>
-          <button href="#" class="buttonPrimary">New Event</button>
+    <header>
+        <h2>Leonardo Demo App</h2>
+        <div id="controls">
+            <div class="form-Item">
+                <label for="sliderBrightness">Brightness</label>
+                <input id="sliderBrightness" name="sliderBrightness" type="range" step="1"></input>
+            </div>
+            <div class="form-Item">
+                <label for="sliderContrast">Contrast</label>
+                <input id="sliderContrast" name="sliderContrast" type="range" min="1" max="5" step="0.05"
+                    value="1"></input>
+            </div>
+            <div class="form-Item">
+                <label for="sliderSaturation">Saturation</label>
+                <input id="sliderSaturation" name="sliderSaturation" type="range" min="0" max="100" step="1"
+                    value="100"></input>
+            </div>
+            <div class="form-Item">
+                <input id="darkMode" name="darkMode" type="checkbox" /><label for="darkMode">Dark Mode</label>
+            </div>
         </div>
-        <div id="calendar"></div>
-      </div>
-    </div>
-    <div id="detail">
-      <div class="detailBody">
-        <h2 class="detailTitle"> Leonardo integration</h2>
-        <p class="detailMeta"><a href="https://leonardocolor.io">https://leonardocolor.io</a></p>
-        <label class="detailLabel">Description: </label>
-        <div class="detailContent">
-          <p>
-            This app demonstrates how Leonardo can be used to create an adaptive color palette. The user can control the theme's lightnerss, contrast, and saturation using the sliders at the top of the page.
-          </p>
-          <p>
-            The sliders pass inputs to the <code>Theme</code> setters, which return new colors from Leonardo. Colors are implemented as CSS properties so that Leonardo can dymanically update their values.
-          </p>
-          <p>
-            Take a look at <a href="https://github.com/adobe/leonardo/blob/main/packages/ui/src/demo.js" target="_blank">here</a> to see how this demo app is built.
-          </p>
+    </header>
+    <main id="demoApp">
+        <div id="master">
+            <div class="calendarTimeColumn">
+                <span class="calendarTime"> 7am </span>
+                <span class="calendarTime"> 8am </span>
+                <span class="calendarTime"> 9am </span>
+                <span class="calendarTime"> 10am </span>
+                <span class="calendarTime"> 11am </span>
+                <span class="calendarTime"> 12pm </span>
+                <span class="calendarTime"> 1pm </span>
+                <span class="calendarTime"> 2pm </span>
+                <span class="calendarTime"> 3pm </span>
+                <span class="calendarTime"> 4pm </span>
+                <span class="calendarTime"> 5pm </span>
+                <span class="calendarTime"> 6pm </span>
+                <span class="calendarTime"> 7pm </span>
+                <span class="calendarTime"> 8pm </span>
+                <span class="calendarTime"> 9pm </span>
+                <span class="calendarTime"> 10pm </span>
+                <span class="calendarTime"> 11pm </span>
+            </div>
+            <div class="calendarWrapper">
+                <div class="calendarHeader">
+                    <h3>Calendar</h3>
+                    <button href="#" class="buttonPrimary">New Event</button>
+                </div>
+                <div id="calendar"></div>
+            </div>
         </div>
-      </div>
-      <div class="detailFooter">
-        <button onclick="location.href='https://github.com/adobe/leonardo/blob/master/packages/ui/src/demo.js'" class="button buttonSecondary">View Demo Source</button>
-        <button onclick="location.href='https://leonardocolor.io'" class="button buttonPrimary">Visit Leonardo</button>
-      </div>
-    </div>
-  </main>
-  <script src="demo.js"></script>
+        <div id="detail">
+            <div class="detailBody">
+                <h2 class="detailTitle"> Leonardo integration</h2>
+                <p class="detailMeta"><a href="https://leonardocolor.io">https://leonardocolor.io</a></p>
+                <label class="detailLabel">Description: </label>
+                <div class="detailContent">
+                    <p>
+                        This app demonstrates how Leonardo can be used to create an adaptive color palette. The user can
+                        control the theme's lightnerss, contrast, and saturation using the sliders at the top of the
+                        page.
+                    </p>
+                    <p>
+                        The sliders pass inputs to the <code>Theme</code> setters, which return new colors from
+                        Leonardo. Colors are implemented as CSS properties so that Leonardo can dymanically update their
+                        values.
+                    </p>
+                    <p>
+                        Take a look at <a href="https://github.com/adobe/leonardo/blob/main/packages/ui/src/demo.js"
+                            target="_blank">here</a> to see how this demo app is built.
+                    </p>
+                </div>
+            </div>
+            <div class="detailFooter">
+                <button onclick="location.href='https://github.com/adobe/leonardo/blob/master/packages/ui/src/demo.js'"
+                    class="button buttonSecondary">View Demo Source</button>
+                <button onclick="location.href='https://leonardocolor.io'" class="button buttonPrimary">Visit
+                    Leonardo</button>
+            </div>
+        </div>
+    </main>
+    <script src="demo.js" type="module"></script>
 </body>
+
 </html>
