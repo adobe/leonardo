@@ -8,18 +8,18 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { _theme } from "./initialTheme";
-import { addColorScale } from "./colorScale";
-import { themeUpdate } from "./themeUpdate";
-import { removeElementsByClass } from "./utils";
-const chroma = require("chroma-js");
-const { extendChroma } = require("./chroma-plus");
+import {_theme} from './initialTheme';
+import {addColorScale} from './colorScale';
+import {themeUpdate} from './themeUpdate';
+import {removeElementsByClass} from './utils';
+const chroma = require('chroma-js');
+const {extendChroma} = require('./chroma-plus');
 extendChroma(chroma);
 
 window.sortColorScales = sortColorScales;
 function sortColorScales() {
   // Create an overlay to show progress
-  const wrapper = document.getElementById("themeColorWrapper");
+  const wrapper = document.getElementById('themeColorWrapper');
   wrapper.style.opacity = 0.4;
 
   // Artificially pause
@@ -49,7 +49,7 @@ function sortColorScales() {
       // that cross over the 360deg threshold (ie, [1, 358])
       if (Math.max(...hues) > 340 && Math.min(...hues) < 20) avgHues = 360;
 
-      objArr.push({ hue: avgHues, color: _theme.colors[i] });
+      objArr.push({hue: avgHues, color: _theme.colors[i]});
     }
 
     // Then, sort the new array by the hue key
@@ -64,7 +64,7 @@ function sortColorScales() {
     _theme.colors = [];
     // Then replace all DOM elements for colorscales with new ones so they're
     // presented in the same order as the theme has them.
-    removeElementsByClass("themeColor_item");
+    removeElementsByClass('themeColor_item');
     for (let i = 0; i < sortedColors.length; i++) {
       addColorScale(sortedColors[i]);
     }
@@ -75,5 +75,5 @@ function sortColorScales() {
 }
 
 module.exports = {
-  sortColorScales,
+  sortColorScales
 };

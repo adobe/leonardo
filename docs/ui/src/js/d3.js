@@ -20,16 +20,16 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const d3 = require("d3");
-const d3cam02 = require("d3-cam02");
-const d3hsluv = require("d3-hsluv");
-const d3hsv = require("d3-hsv");
+const d3 = require('d3');
+const d3cam02 = require('d3-cam02');
+const d3hsluv = require('d3-hsluv');
+const d3hsv = require('d3-hsv');
 
 const d3plus = {
   ...d3,
   ...d3cam02,
   ...d3hsluv,
-  ...d3hsv,
+  ...d3hsv
 };
 
 d3plus.interpolateJch = (start, end) => {
@@ -55,8 +55,8 @@ d3plus.interpolateJch = (start, end) => {
     end.h -= 360;
   }
 
-  const startc = d3.hcl(start + "").c;
-  const endc = d3.hcl(end + "").c;
+  const startc = d3.hcl(start + '').c;
+  const endc = d3.hcl(end + '').c;
   if (!startc) {
     start.h = end.h;
   }
@@ -74,7 +74,7 @@ d3plus.interpolateJch = (start, end) => {
     start.C = C(t);
     start.h = h(t);
     start.opacity = opacity(t);
-    return start + "";
+    return start + '';
   };
 };
 

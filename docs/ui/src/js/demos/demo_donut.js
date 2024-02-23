@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import d3 from "../d3";
+import d3 from '../d3';
 
 function donut(scaleType, colors) {
   // set the dimensions and margins of the graph
@@ -23,11 +23,11 @@ function donut(scaleType, colors) {
   // append the svg object to the div called 'my_dataviz'
   var svg = d3
     .select(`#${scaleType}Donut`)
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .append('g')
+    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
   // Create dummy data
   var data = {
@@ -39,7 +39,7 @@ function donut(scaleType, colors) {
     f: 5,
     g: 2,
     h: 3,
-    i: 3,
+    i: 3
   };
 
   // set the color scale
@@ -53,24 +53,24 @@ function donut(scaleType, colors) {
 
   // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
   svg
-    .selectAll("whatever")
+    .selectAll('whatever')
     .data(data_ready)
     .enter()
-    .append("path")
+    .append('path')
     .attr(
-      "d",
+      'd',
       d3
         .arc()
         .innerRadius(100) // This is the size of the donut hole
-        .outerRadius(radius),
+        .outerRadius(radius)
     )
-    .attr("fill", function (d) {
+    .attr('fill', function (d) {
       return color(d.data.key);
     })
-    .attr("stroke", "black")
-    .style("stroke-width", "1px");
+    .attr('stroke', 'black')
+    .style('stroke-width', '1px');
 }
 
 module.exports = {
-  donut,
+  donut
 };

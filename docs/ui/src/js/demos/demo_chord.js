@@ -9,13 +9,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import d3 from "../d3";
-import { _divergingScale } from "../initialDivergingScale";
-import { _sequentialScale } from "../initialSequentialScale";
+import d3 from '../d3';
+import {_divergingScale} from '../initialDivergingScale';
+import {_sequentialScale} from '../initialSequentialScale';
 
 function chord(scaleType, colors) {
-  const colorClass =
-    scaleType === "sequential" ? _sequentialScale : _divergingScale;
+  const colorClass = scaleType === 'sequential' ? _sequentialScale : _divergingScale;
   const originalSwatches = colorClass.swatches;
   colorClass.swatches = 4;
 
@@ -27,18 +26,18 @@ function chord(scaleType, colors) {
   // create the svg area
   var svg = d3
     .select(`#${scaleType}Chord`)
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .append('g')
+    .attr('transform', `translate(${width / 2}, ${height / 2})`);
 
   // create a matrix
   var matrix = [
     [0, 5871, 8916, 2868],
     [1951, 0, 2060, 6171],
     [8010, 16145, 0, 8045],
-    [1013, 990, 940, 0],
+    [1013, 990, 940, 0]
   ];
 
   // 4 groups, so create a vector of 4 colors
@@ -50,39 +49,39 @@ function chord(scaleType, colors) {
   // add the groups on the outer part of the circle
   svg
     .datum(res)
-    .append("g")
-    .selectAll("g")
+    .append('g')
+    .selectAll('g')
     .data(function (d) {
       return d.groups;
     })
     .enter()
-    .append("g")
-    .append("path")
-    .style("fill", function (d, i) {
+    .append('g')
+    .append('path')
+    .style('fill', function (d, i) {
       return colors[i];
     })
-    .style("stroke", "black")
-    .attr("d", d3.arc().innerRadius(radius).outerRadius(outerRadius));
+    .style('stroke', 'black')
+    .attr('d', d3.arc().innerRadius(radius).outerRadius(outerRadius));
 
   // Add the links between groups
   svg
     .datum(res)
-    .append("g")
-    .selectAll("path")
+    .append('g')
+    .selectAll('path')
     .data(function (d) {
       return d;
     })
     .enter()
-    .append("path")
-    .attr("d", d3.ribbon().radius(radius))
-    .style("fill", function (d) {
+    .append('path')
+    .attr('d', d3.ribbon().radius(radius))
+    .style('fill', function (d) {
       return colors[d.source.index];
     }) // colors depend on the source group. Change to target otherwise.
-    .style("stroke", "black");
+    .style('stroke', 'black');
 
   colorClass.swatches = originalSwatches;
 }
 
 module.exports = {
-  chord,
+  chord
 };

@@ -16,9 +16,7 @@ governing permissions and limitations under the License.
   --gradient-height: calc(100vh - var(--gradient-height-offset));
   --colors-height: var(--gradient-height);
   --color-size: 32px;
-  --colors-wrapper-height: calc(
-    100vh - var(--gradient-height-offset) - var(--color-size)
-  );
+  --colors-wrapper-height: calc(100vh - var(--gradient-height-offset) - var(--color-size));
   --gradient-slider-height: var(--gradient-height);
   --slider-thumb-size: 8px; // 24px
   --header-height: 58px;
@@ -35,49 +33,23 @@ governing permissions and limitations under the License.
   --spectrum-ease-in-out: cubic-bezier(0.45, 0, 0.4, 1);
   --spectrum-ease-in: cubic-bezier(0.5, 0, 1, 1);
 
-  --spectrum-fieldlabel-text-size: var(
-    --spectrum-global-dimension-font-size-75,
-    12px
-  );
+  --spectrum-fieldlabel-text-size: var(--spectrum-global-dimension-font-size-75, 12px);
   --spectrum-fieldlabel-text-font-weight: 400;
   --spectrum-fieldlabel-text-line-height: 1.3;
 
   --spectrum-global-font-weight-bold: 600;
-  --spectrum-alias-heading-text-font-weight-regular: var(
-    --spectrum-global-font-weight-bold
-  );
-  --spectrum-heading-m-text-font-weight: var(
-    --spectrum-alias-heading-text-font-weight-regular
-  );
-  --spectrum-heading-l-text-font-weight: var(
-    --spectrum-alias-heading-text-font-weight-regular
-  );
-  --spectrum-heading-xl-text-font-weight: var(
-    --spectrum-alias-heading-text-font-weight-regular
-  );
-  --spectrum-heading-xxl-text-font-weight: var(
-    --spectrum-alias-heading-text-font-weight-regular
-  );
-  --spectrum-body-s-strong-text-font-weight: var(
-    --spectrum-global-font-weight-bold
-  );
-  --spectrum-body-m-strong-text-font-weight: var(
-    --spectrum-global-font-weight-bold
-  );
-  --spectrum-body-l-strong-text-font-weight: var(
-    --spectrum-global-font-weight-bold
-  );
-  --spectrum-body-xl-strong-text-font-weight: var(
-    --spectrum-global-font-weight-bold
-  );
-  --spectrum-button-primary-texticon-text-font-weight: var(
-    --spectrum-global-font-weight-bold
-  );
+  --spectrum-alias-heading-text-font-weight-regular: var(--spectrum-global-font-weight-bold);
+  --spectrum-heading-m-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
+  --spectrum-heading-l-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
+  --spectrum-heading-xl-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
+  --spectrum-heading-xxl-text-font-weight: var(--spectrum-alias-heading-text-font-weight-regular);
+  --spectrum-body-s-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-body-m-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-body-l-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-body-xl-strong-text-font-weight: var(--spectrum-global-font-weight-bold);
+  --spectrum-button-primary-texticon-text-font-weight: var(--spectrum-global-font-weight-bold);
 
-  --spectrum-alias-focus-color: var(
-    --spectrum-alias-focus-ring-color,
-    var(--spectrum-global-color-blue-400)
-  );
+  --spectrum-alias-focus-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   // defaults
   --headerBackground: var(--spectrum-global-color-gray-50);
   --panelBackground: var(--spectrum-global-color-gray-75);
@@ -133,7 +105,7 @@ body,
 }
 
 .spectrum-Code {
-  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-family: Menlo, Monaco, 'Courier New', monospace;
 }
 
 .appFrame {
@@ -147,8 +119,8 @@ body,
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas:
-    "header"
-    "default";
+    'header'
+    'default';
 }
 .appFramePanels {
   margin: 0;
@@ -160,7 +132,7 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas: "leftPanel main rightPanel";
+  grid-template-areas: 'leftPanel main rightPanel';
 }
 
 .appFramePanel {
@@ -173,7 +145,7 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas: "main";
+  grid-template-areas: 'main';
 }
 
 .appFramePanelLeft {
@@ -186,7 +158,7 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas: "leftPanel main";
+  grid-template-areas: 'leftPanel main';
 }
 
 .appFramePanelLeft--large {
@@ -203,7 +175,7 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas: "main rightPanel";
+  grid-template-areas: 'main rightPanel';
 }
 
 .appFramePanelRight--large {
@@ -217,13 +189,13 @@ body,
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas:
-    "main"
-    "rightPanel";
+    'main'
+    'rightPanel';
 
   @media screen and (min-width: 1065px) {
     grid-template-columns: 50% 50%;
     grid-template-rows: auto;
-    grid-template-areas: "main rightPanel";
+    grid-template-areas: 'main rightPanel';
   }
 }
 
@@ -237,7 +209,7 @@ body,
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas: "leftPanel main";
+  grid-template-areas: 'leftPanel main';
 }
 
 /* Tabs aren't inheriting all styles properly. Remapping here */
@@ -246,10 +218,7 @@ body,
   padding: 0;
 }
 .spectrum-Tabs-item {
-  color: var(
-    --spectrum-tabs-text-color,
-    var(--spectrum-alias-label-text-color)
-  );
+  color: var(--spectrum-tabs-text-color, var(--spectrum-alias-label-text-color));
 
   a.spectrum-Tabs-itemLabel {
     color: inherit;
@@ -265,15 +234,8 @@ body,
   }
 }
 .spectrum-Tabs-item.is-selected {
-  color: var(
-    --spectrum-tabs-text-color-selected,
-    var(--spectrum-alias-heading-text-color)
-  );
-  border-bottom: 2px solid
-    var(
-      --spectrum-tabs-selection-indicator-color,
-      var(--spectrum-global-color-gray-900)
-    );
+  color: var(--spectrum-tabs-text-color-selected, var(--spectrum-alias-heading-text-color));
+  border-bottom: 2px solid var(--spectrum-tabs-selection-indicator-color, var(--spectrum-global-color-gray-900));
 }
 .spectrum-Tabs-selectionIndicator {
   display: none; /* simplifying design to speed up development */
@@ -541,21 +503,21 @@ body,
 }
 
 .spectrum-Slider {
-  input[type="range"] {
+  input[type='range'] {
     -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
     width: 100%; /* Specific width is required for Firefox. */
     background: transparent; /* Otherwise white in Chrome */
   }
 
-  input[type="range"]::-webkit-slider-thumb {
+  input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
   }
 
-  input[type="range"]:focus {
+  input[type='range']:focus {
     outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
   }
 
-  input[type="range"]::-ms-track {
+  input[type='range']::-ms-track {
     width: 100%;
     cursor: pointer;
 
@@ -570,137 +532,76 @@ body,
     width: 16px;
     height: 16px;
     background-color: var(--spectrum-global-color-gray-100);
-    margin: calc(
-        var(
-            --spectrum-slider-handle-width,
-            var(--spectrum-global-dimension-size-200)
-          ) / -2
-      )
-      0 0
-      calc(
-        var(
-            --spectrum-slider-handle-width,
-            var(--spectrum-global-dimension-size-200)
-          ) / -2
-      );
-    border-width: var(
-      --spectrum-slider-handle-border-size,
-      var(--spectrum-alias-border-size-thick)
-    );
+    margin: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2) 0 0 calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / -2);
+    border-width: var(--spectrum-slider-handle-border-size, var(--spectrum-alias-border-size-thick));
     border-style: solid;
-    border-color: var(
-      --spectrum-slider-m-handle-border-color,
-      var(--spectrum-global-color-gray-700)
-    );
-    border-radius: var(
-      --spectrum-slider-handle-border-radius,
-      var(--spectrum-alias-border-radius-medium)
-    );
-    transition: border-width
-      var(
-        --spectrum-slider-animation-duration,
-        var(--spectrum-global-animation-duration-100)
-      )
-      ease-in-out;
+    border-color: var(--spectrum-slider-m-handle-border-color, var(--spectrum-global-color-gray-700));
+    border-radius: var(--spectrum-slider-handle-border-radius, var(--spectrum-alias-border-radius-medium));
+    transition: border-width var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
     outline: none;
     cursor: grab;
   }
 
   @mixin thumbFocus {
-    background-color: var(
-      --spectrum-alias-focus-color,
-      var(--spectrum-alias-focus-color)
-    );
-    border-color: var(
-      --spectrum-alias-focus-color,
-      var(--spectrum-alias-focus-color)
-    );
-    transition: background-color
-      var(
-        --spectrum-slider-animation-duration,
-        var(--spectrum-global-animation-duration-100)
-      )
-      ease-in-out;
+    background-color: var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
+    border-color: var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
+    transition: background-color var(--spectrum-slider-animation-duration, var(--spectrum-global-animation-duration-100)) ease-in-out;
   }
 
-  input[type="range"]::-webkit-slider-thumb {
+  input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
     @include thumb;
     margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   }
-  input[type="range"]:focus::-webkit-slider-thumb {
+  input[type='range']:focus::-webkit-slider-thumb {
     @include thumbFocus;
   }
 
   /* All the same stuff for Firefox */
-  input[type="range"]::-moz-range-thumb {
+  input[type='range']::-moz-range-thumb {
     @include thumb;
   }
 
-  input[type="range"]:focus::-moz-range-thumb {
+  input[type='range']:focus::-moz-range-thumb {
     @include thumbFocus;
   }
 
   /* All the same stuff for IE */
-  input[type="range"]::-ms-thumb {
+  input[type='range']::-ms-thumb {
     @include thumb;
   }
 
-  input[type="range"]:focus::-ms-thumb {
+  input[type='range']:focus::-ms-thumb {
     @include thumbFocus;
   }
 
   /* TRACK */
   @mixin track {
     width: 100%;
-    height: var(
-      --spectrum-slider-track-height,
-      var(--spectrum-alias-border-size-thick)
-    );
+    height: var(--spectrum-slider-track-height, var(--spectrum-alias-border-size-thick));
     box-sizing: border-box;
     z-index: 1;
     background-color: var(--spectrum-global-color-gray-300);
-    top: calc(
-      var(--spectrum-slider-height, var(--spectrum-alias-single-line-height)) /
-        2
-    );
-    margin-top: calc(
-      var(
-          --spectrum-slider-fill-track-height,
-          var(--spectrum-alias-border-size-thick)
-        ) / -2
-    );
+    top: calc(var(--spectrum-slider-height, var(--spectrum-alias-single-line-height)) / 2);
+    margin-top: calc(var(--spectrum-slider-fill-track-height, var(--spectrum-alias-border-size-thick)) / -2);
     pointer-events: none;
-    padding: 0
-      var(
-        --spectrum-slider-handle-gap,
-        var(--spectrum-alias-border-size-thicker)
-      )
-      0 0;
-    margin-left: calc(
-      var(
-          --spectrum-slider-handle-width,
-          var(--spectrum-global-dimension-size-200)
-        ) / 2 * -1
-    );
+    padding: 0 var(--spectrum-slider-handle-gap, var(--spectrum-alias-border-size-thicker)) 0 0;
+    margin-left: calc(var(--spectrum-slider-handle-width, var(--spectrum-global-dimension-size-200)) / 2 * -1);
   }
 
-  input[type="range"]::-webkit-slider-runnable-track {
+  input[type='range']::-webkit-slider-runnable-track {
     @include track;
   }
 
-  input[type="range"]:focus::-webkit-slider-runnable-track {
-    background: var(
-      --spectrum-alias-focus-color,
-      var(--spectrum-alias-focus-color)
-    );
+  input[type='range']:focus::-webkit-slider-runnable-track {
+    background: var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
   }
 
-  input[type="range"]::-moz-range-track {
+  input[type='range']::-moz-range-track {
     @include track;
   }
 
-  input[type="range"]::-ms-track {
+  input[type='range']::-ms-track {
     @include track;
 
     background: transparent;
@@ -708,23 +609,17 @@ body,
     border-width: 2px 0;
     color: transparent;
   }
-  input[type="range"]::-ms-fill-lower {
+  input[type='range']::-ms-fill-lower {
     background-color: var(--spectrum-global-color-gray-300);
   }
-  input[type="range"]:focus::-ms-fill-lower {
-    background-color: var(
-      --spectrum-alias-focus-ring-color,
-      var(--spectrum-global-color-blue-400)
-    );
+  input[type='range']:focus::-ms-fill-lower {
+    background-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   }
-  input[type="range"]::-ms-fill-upper {
+  input[type='range']::-ms-fill-upper {
     background-color: var(--spectrum-global-color-gray-300);
   }
-  input[type="range"]:focus::-ms-fill-upper {
-    background-color: var(
-      --spectrum-alias-focus-ring-color,
-      var(--spectrum-global-color-blue-400)
-    );
+  input[type='range']:focus::-ms-fill-upper {
+    background-color: var(--spectrum-alias-focus-ring-color, var(--spectrum-global-color-blue-400));
   }
 }
 
@@ -895,7 +790,7 @@ p {
   min-width: 40px;
   margin-bottom: 8px;
 
-  input[type="color"] {
+  input[type='color'] {
     margin-right: 8px;
   }
   textarea {
@@ -946,8 +841,7 @@ p {
 
 a:focus {
   outline: none;
-  box-shadow: 0 0 0 2px
-    var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
+  box-shadow: 0 0 0 2px var(--spectrum-alias-focus-color, var(--spectrum-alias-focus-color));
   border-radius: var(--spectrum-alias-border-radius-regular);
 }
 
@@ -1204,8 +1098,8 @@ a:focus {
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas:
-    "themeConfig"
-    "themeDefault";
+    'themeConfig'
+    'themeDefault';
 
   background-color: var(--panelBackground);
 }
@@ -1303,7 +1197,7 @@ a:focus {
   width: 150px;
 }
 
-[dir="ltr"] .spectrum-Picker {
+[dir='ltr'] .spectrum-Picker {
   padding: 0 8px;
   height: 32px;
   border-width: 1px;
@@ -1314,12 +1208,7 @@ a:focus {
   position: absolute;
   right: var(--spectrum-global-dimension-size-150);
   top: 4px;
-  margin-top: calc(
-    var(
-        --spectrum-icon-chevron-down-medium-height,
-        var(--spectrum-global-dimension-size-75)
-      ) / -2
-  );
+  margin-top: calc(var(--spectrum-icon-chevron-down-medium-height, var(--spectrum-global-dimension-size-75)) / -2);
 }
 
 .themeColor_item ~ .themeColor_item {
@@ -1533,22 +1422,13 @@ a:focus {
 // Missing slider CSS for disabled state
 .spectrum-Slider-controls:disabled {
   &::-webkit-slider-thumb {
-    border-color: var(
-      --spectrum-slider-handle-border-color-disabled,
-      var(--spectrum-global-color-gray-400)
-    );
+    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400));
   }
   &::-moz-range-thumb {
-    border-color: var(
-      --spectrum-slider-handle-border-color-disabled,
-      var(--spectrum-global-color-gray-400)
-    );
+    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400));
   }
   &::-ms-thumb {
-    border-color: var(
-      --spectrum-slider-handle-border-color-disabled,
-      var(--spectrum-global-color-gray-400)
-    );
+    border-color: var(--spectrum-slider-handle-border-color-disabled, var(--spectrum-global-color-gray-400));
   }
 }
 
@@ -1616,7 +1496,7 @@ a:focus {
   display: grid;
   grid-template-columns: 90px 70px 58px 32px;
   column-gap: 8px;
-  grid-template-areas: "ratio luminosity status actions";
+  grid-template-areas: 'ratio luminosity status actions';
 
   .spectrum-Textfield {
     width: 100%;
@@ -1983,7 +1863,7 @@ a:focus {
   grid-template-rows: auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas: "main aside";
+  grid-template-areas: 'main aside';
   position: relative;
 }
 

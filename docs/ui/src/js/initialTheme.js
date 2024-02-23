@@ -9,14 +9,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from "@adobe/leonardo-contrast-colors";
+import * as Leo from '@adobe/leonardo-contrast-colors';
 
 const tempGray = new Leo.BackgroundColor({
-  name: "Gray",
-  colorKeys: ["#000000"],
-  colorspace: "RGB",
+  name: 'Gray',
+  colorKeys: ['#000000'],
+  colorspace: 'RGB',
   ratios: [3.2, 4.5],
-  output: "HEX",
+  output: 'HEX'
 });
 
 let _theme = new Leo.Theme({
@@ -25,12 +25,12 @@ let _theme = new Leo.Theme({
   lightness: 100,
   contrast: 1,
   saturation: 100,
-  output: "HEX",
+  output: 'HEX'
 });
 
 window._theme = _theme;
 
 module.exports = {
   tempGray,
-  _theme,
+  _theme
 };

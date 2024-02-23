@@ -11,13 +11,13 @@ governing permissions and limitations under the License.
 
 function toggleTooltip(targetId) {
   let tooltip = document.getElementById(targetId);
-  if (!tooltip.classList.contains("is-open")) {
-    tooltip.classList.add("is-open");
+  if (!tooltip.classList.contains('is-open')) {
+    tooltip.classList.add('is-open');
   } else {
-    tooltip.classList.remove("is-open");
+    tooltip.classList.remove('is-open');
   }
 }
 
 window.toggleTooltip = toggleTooltip;
 
-module.exports = { toggleTooltip };
+module.exports = {toggleTooltip};
