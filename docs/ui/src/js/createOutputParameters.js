@@ -9,16 +9,16 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { _theme } from "./initialTheme";
-import { getAllColorNames, getThemeName } from "./getThemeData";
-import { camelCase } from "./utils";
-import hljs from "highlight.js/lib/core";
-import javascript from "highlight.js/lib/languages/javascript";
-import css from "highlight.js/lib/languages/css";
-hljs.registerLanguage("javascript", javascript);
-hljs.registerLanguage("css", css);
+import {_theme} from './initialTheme';
+import {getAllColorNames, getThemeName} from './getThemeData';
+import {camelCase} from './utils';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import css from 'highlight.js/lib/languages/css';
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('css', css);
 
-const outputFormatPicker = document.getElementById("colorOutputFormat");
+const outputFormatPicker = document.getElementById('colorOutputFormat');
 
 function createOutputParameters() {
   const outputFormat = outputFormatPicker.value;
@@ -31,15 +31,15 @@ function createOutputParameters() {
 
     // Reset to hex so all other functions of the UI continue to work.
     // Otherwise CSS Module 4 formatted colors won't be parsed by Chroma.js
-    _theme.output = "HEX";
+    _theme.output = 'HEX';
   });
 }
 
 function createJSOutput() {
-  let paramsOutput = document.getElementById("themeJSParams");
+  let paramsOutput = document.getElementById('themeJSParams');
 
   let themeName = getThemeName();
-  if (!themeName) themeName = "myTheme";
+  if (!themeName) themeName = 'myTheme';
   let colors = _theme.colors;
   let colorNames = getAllColorNames();
   let colorDeclarations = [];
@@ -59,7 +59,7 @@ function createJSOutput() {
 
   let paramOutputString = `${joinedDeclarations}
 
-let ${themeName.replace(/\s/g, "")} = new Leo.Theme({
+let ${themeName.replace(/\s/g, '')} = new Leo.Theme({
   colors: [${colorNames.map((n) => camelCase(n))}],
   backgroundColor: ${camelCase(_theme.backgroundColor.name)},
   lightness: ${_theme.lightness},
@@ -70,17 +70,17 @@ let ${themeName.replace(/\s/g, "")} = new Leo.Theme({
 });`;
 
   const highlightedCode = hljs.highlight(paramOutputString, {
-    language: "javascript",
+    language: 'javascript'
   }).value;
   paramsOutput.innerHTML = highlightedCode;
 }
 
 function createCSSOutput() {
   let themeName = getThemeName();
-  let themeCssClass = `.${themeName.replace(/\s/g, "")}`;
-  if (!themeName) themeCssClass = ":root";
+  let themeCssClass = `.${themeName.replace(/\s/g, '')}`;
+  if (!themeName) themeCssClass = ':root';
 
-  let paramsOutput = document.getElementById("themeCSSParams");
+  let paramsOutput = document.getElementById('themeCSSParams');
 
   let contrastPairs = _theme.contrastColorPairs;
   let declarations = [];
@@ -93,76 +93,65 @@ ${joinedDeclarations}
 }`;
 
   const highlightedCode = hljs.highlight(paramOutputString, {
-    language: "css",
+    language: 'css'
   }).value;
   paramsOutput.innerHTML = highlightedCode;
 }
 
 function createTokensOutput() {
-  let paramsOutput = document.getElementById("themeTokensParams");
+  let paramsOutput = document.getElementById('themeTokensParams');
   let themeName = getThemeName();
 
   let themeObj = {};
-  let contrastText =
-    _theme.contrast != 1 ? `, contrast of ${_theme.contrast * 100}%` : "";
-  let saturationText =
-    _theme.saturation != 100 ? `, saturation of ${_theme.saturation}%` : "";
-  themeObj["description"] =
-    `Color theme tokens at lightness of ${_theme.lightness}%${contrastText}${saturationText}`;
+  let contrastText = _theme.contrast != 1 ? `, contrast of ${_theme.contrast * 100}%` : '';
+  let saturationText = _theme.saturation != 100 ? `, saturation of ${_theme.saturation}%` : '';
+  themeObj['description'] = `Color theme tokens at lightness of ${_theme.lightness}%${contrastText}${saturationText}`;
 
-  const textLowContrast = "Do not use for UI elements or text.";
-  const textLarge = "Color can be used for UI elements or large text.";
-  const textSmall = "Color can be used for small text.";
+  const textLowContrast = 'Do not use for UI elements or text.';
+  const textLarge = 'Color can be used for UI elements or large text.';
+  const textSmall = 'Color can be used for small text.';
 
   let contrastColors = _theme.contrastColors;
   let backgroundColor = _theme.contrastColors[0].background;
 
   let backgroundColorObj = {
     value: backgroundColor,
-    type: "color",
-    description: `UI background color. All color contrasts evaluated and generated against this color.`,
+    type: 'color',
+    description: `UI background color. All color contrasts evaluated and generated against this color.`
   };
-  themeObj["Background"] = backgroundColorObj;
+  themeObj['Background'] = backgroundColorObj;
 
-  let formulaString =
-    _theme.formula === "wcag2"
-      ? "WCAG 2.x (relative luminance)"
-      : "WCAG 3 (APCA)";
-  let largeText = _theme.formula === "wcag3" ? 60 : 3;
-  let smallText = _theme.formula === "wcag3" ? 75 : 4.5;
+  let formulaString = _theme.formula === 'wcag2' ? 'WCAG 2.x (relative luminance)' : 'WCAG 3 (APCA)';
+  let largeText = _theme.formula === 'wcag3' ? 60 : 3;
+  let smallText = _theme.formula === 'wcag3' ? 75 : 4.5;
 
   for (let i = 1; i < contrastColors.length; i++) {
     let thisColor = contrastColors[i];
     for (let j = 0; j < thisColor.values.length; j++) {
       let color = thisColor.values[j];
-      let descriptionText =
-        color.contrast < largeText
-          ? textLowContrast
-          : color.contrast >= largeText && color.contrast < smallText
-            ? textLarge
-            : textSmall;
+      let descriptionText = color.contrast < largeText ? textLowContrast : color.contrast >= largeText && color.contrast < smallText ? textLarge : textSmall;
 
       let colorObj = {
         value: color.value,
-        type: "color",
-        description: `${descriptionText} ${formulaString} contrast is ${color.contrast}:1 against background ${backgroundColor}`,
+        type: 'color',
+        description: `${descriptionText} ${formulaString} contrast is ${color.contrast}:1 against background ${backgroundColor}`
       };
       themeObj[color.name] = colorObj;
     }
   }
   let tokenObj = {
-    [themeName]: themeObj,
+    [themeName]: themeObj
   };
 
   const highlightedCode = hljs.highlight(JSON.stringify(tokenObj, null, 2), {
-    language: "javascript",
+    language: 'javascript'
   }).value;
   paramsOutput.innerHTML = highlightedCode;
 }
 
-outputFormatPicker.addEventListener("change", createOutputParameters);
+outputFormatPicker.addEventListener('change', createOutputParameters);
 createOutputParameters();
 
 module.exports = {
-  createOutputParameters,
+  createOutputParameters
 };

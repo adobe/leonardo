@@ -9,27 +9,27 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { addColorScaleUpdate } from "./colorScale";
+import {addColorScaleUpdate} from './colorScale';
 
 function addFromURLDialog() {
-  let button = document.getElementById("addFromURLButton");
-  button.addEventListener("click", addFromURL);
+  let button = document.getElementById('addFromURLButton');
+  button.addEventListener('click', addFromURL);
 
-  let dialog = document.getElementById("addFromURLDialog");
-  dialog.classList.add("is-open");
+  let dialog = document.getElementById('addFromURLDialog');
+  dialog.classList.add('is-open');
 
-  document.getElementById("dialogOverlay").style.display = "block";
+  document.getElementById('dialogOverlay').style.display = 'block';
 }
 
 function cancelURL() {
-  let dialog = document.getElementById("addFromURLDialog");
-  dialog.classList.remove("is-open");
+  let dialog = document.getElementById('addFromURLDialog');
+  dialog.classList.remove('is-open');
 
-  document.getElementById("dialogOverlay").style.display = "none";
+  document.getElementById('dialogOverlay').style.display = 'none';
 }
 
 function addFromURL() {
-  let input = document.getElementById("addFromURLinput");
+  let input = document.getElementById('addFromURLinput');
   let value = input.value;
 
   let url = new URL(value);
@@ -37,21 +37,18 @@ function addFromURL() {
   let pathName = url.pathname;
 
   let crs, ratios, mode;
-  let cName =
-    predefinedColorNames[
-      Math.floor(Math.random() * predefinedColorNames.length)
-    ];
+  let cName = predefinedColorNames[Math.floor(Math.random() * predefinedColorNames.length)];
 
   // // If parameters exist, use parameter; else use default html input values
-  if (params.has("colorKeys")) {
-    let cr = params.get("colorKeys");
-    crs = cr.split(",");
+  if (params.has('colorKeys')) {
+    let cr = params.get('colorKeys');
+    crs = cr.split(',');
   }
 
-  if (params.has("ratios")) {
+  if (params.has('ratios')) {
     // transform parameter values into array of numbers
-    let rat = params.get("ratios");
-    ratios = rat.split(",");
+    let rat = params.get('ratios');
+    ratios = rat.split(',');
     ratios = ratios.map(Number);
 
     if (ratios[0] == 0) {
@@ -60,8 +57,8 @@ function addFromURL() {
     } else {
     }
   }
-  if (params.has("mode")) {
-    mode = params.get("mode");
+  if (params.has('mode')) {
+    mode = params.get('mode');
   } else {
     // do nothing
   }
@@ -71,7 +68,7 @@ function addFromURL() {
   // Run colorinput
   // throttle(themeUpdate, 10);
   // Clear out value when done
-  input.value = " ";
+  input.value = ' ';
 }
 
 window.addFromURLDialog = addFromURLDialog;
@@ -81,5 +78,5 @@ window.addFromURL = addFromURL;
 module.exports = {
   addFromURL,
   addFromURLDialog,
-  cancelURL,
+  cancelURL
 };

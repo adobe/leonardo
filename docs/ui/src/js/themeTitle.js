@@ -9,30 +9,30 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-let themeTitleInput = document.getElementById("themeNameInput");
-let themeTitleTextField = document.getElementById("themeNameTextfield");
+let themeTitleInput = document.getElementById('themeNameInput');
+let themeTitleTextField = document.getElementById('themeNameTextfield');
 
 function handleKeyUp(event) {
   //key code for enter
   if (event.keyCode === 13) {
     event.preventDefault();
     event.target.blur();
-    themeTitleTextField.classList.add("spectrum-Textfield--custom");
+    themeTitleTextField.classList.add('spectrum-Textfield--custom');
     let characters = themeTitleInput.value.length;
     themeTitleInput.style.width = `${characters + 4}ch`;
   }
 }
 
-themeTitleInput.addEventListener("focus", () => {
-  themeTitleTextField.classList.remove("spectrum-Textfield--custom");
+themeTitleInput.addEventListener('focus', () => {
+  themeTitleTextField.classList.remove('spectrum-Textfield--custom');
   themeTitleInput.style.width = `200px`;
 });
-themeTitleInput.addEventListener("blur", () => {
-  themeTitleTextField.classList.add("spectrum-Textfield--custom");
+themeTitleInput.addEventListener('blur', () => {
+  themeTitleTextField.classList.add('spectrum-Textfield--custom');
   let characters = themeTitleInput.value.length;
   themeTitleInput.style.width = `${characters + 4}ch`;
 });
 
-themeTitleInput.addEventListener("keydown", (e) => {
+themeTitleInput.addEventListener('keydown', (e) => {
   handleKeyUp(e);
 });

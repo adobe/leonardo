@@ -9,26 +9,25 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as d3 from "./d3";
-import { filterNaN } from "./utils";
-import { createChart } from "./createChart";
+import * as d3 from './d3';
+import {filterNaN} from './utils';
+import {createChart} from './createChart';
 
-function createRGBchannelChart(colors, id = "RGBchart") {
+function createRGBchannelChart(colors, id = 'RGBchart') {
   let dest = document.getElementById(id);
-  dest.innerHTML = " ";
+  dest.innerHTML = ' ';
 
-  if (id === "RGBchart") {
+  if (id === 'RGBchart') {
     colors = [...colors];
-    colors.push("#000000");
-  } else if (id === "sequentialRGBchart" || id === "divergingRGBchart") {
+    colors.push('#000000');
+  } else if (id === 'sequentialRGBchart' || id === 'divergingRGBchart') {
     colors = colors.reverse();
   }
 
   // Create chart headers
-  let RGBheader = document.createElement("h5");
-  RGBheader.className =
-    "spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS";
-  RGBheader.innerHTML = "RGB channels";
+  let RGBheader = document.createElement('h5');
+  RGBheader.className = 'spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS';
+  RGBheader.innerHTML = 'RGB channels';
   dest.appendChild(RGBheader);
 
   const fillRange = (start, end) => {
@@ -37,33 +36,30 @@ function createRGBchannelChart(colors, id = "RGBchart") {
       .map((item, index) => start + index);
   };
   let dataX = fillRange(1, colors.length);
-  let sortedDataX =
-    id === "RGBchart"
-      ? dataX.sort((a, b) => a - b)
-      : dataX.sort((a, b) => b - a);
+  let sortedDataX = id === 'RGBchart' ? dataX.sort((a, b) => a - b) : dataX.sort((a, b) => b - a);
 
   let data = [
     {
       x: sortedDataX,
       y: colors.map(function (d) {
         return filterNaN(d3.rgb(d).r);
-      }),
+      })
     },
     {
       x: sortedDataX,
       y: colors.map(function (d) {
         return filterNaN(d3.rgb(d).g);
-      }),
+      })
     },
     {
       x: sortedDataX,
       y: colors.map(function (d) {
         return filterNaN(d3.rgb(d).b);
-      }),
-    },
+      })
+    }
   ];
 
-  createChart(data, " ", " ", `#${id}`, 0, 255);
+  createChart(data, ' ', ' ', `#${id}`, 0, 255);
 }
 
-module.exports = { createRGBchannelChart };
+module.exports = {createRGBchannelChart};

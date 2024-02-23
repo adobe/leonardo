@@ -8,22 +8,11 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import * as d3 from "d3";
+import * as d3 from 'd3';
 
 const panelsOffset = 402; // should be 722 ...not 752
 
-function createChart(
-  data,
-  yLabel,
-  xLabel,
-  dest,
-  yMin,
-  yMax,
-  finiteScale = false,
-  visColors,
-  scaleType,
-  stepped = false,
-) {
+function createChart(data, yLabel, xLabel, dest, yMin, yMax, finiteScale = false, visColors, scaleType, stepped = false) {
   let chartWidth, chartHeight;
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
@@ -31,11 +20,7 @@ function createChart(
   let adjustedWidth;
   const maxWidth = 792;
 
-  if (
-    dest === "#interpolationChart" ||
-    dest === "#interpolationChart2" ||
-    dest === "#interpolationChart3"
-  ) {
+  if (dest === '#interpolationChart' || dest === '#interpolationChart2' || dest === '#interpolationChart3') {
     let availableWidth = windowWidth - panelsOffset; // subtract panel width and padding from measurement
     let newMaxWidth = 548; //476
     adjustedWidth = availableWidth < newMaxWidth ? availableWidth : newMaxWidth;
@@ -44,11 +29,7 @@ function createChart(
     adjustedHeight = (windowHeight - 332) / 3;
     chartHeight = 178;
   }
-  if (
-    dest === `#${scaleType}InterpolationChart` ||
-    dest === `#${scaleType}InterpolationChart2` ||
-    dest === `#${scaleType}InterpolationChart3`
-  ) {
+  if (dest === `#${scaleType}InterpolationChart` || dest === `#${scaleType}InterpolationChart2` || dest === `#${scaleType}InterpolationChart3`) {
     let availableWidth = windowWidth - (388 + 34) - 8; // subtract panel width and padding from measurement
     let newMaxWidth = 476;
     adjustedWidth = availableWidth < newMaxWidth ? availableWidth : newMaxWidth;
@@ -57,46 +38,37 @@ function createChart(
     adjustedHeight = (windowHeight - 332) / 3;
     chartHeight = 196;
   }
-  if (dest === `#sequentialRGBchart` || dest === "#divergingRGBchart") {
+  if (dest === `#sequentialRGBchart` || dest === '#divergingRGBchart') {
     chartWidth = 368;
     adjustedHeight = (windowHeight - 332) / 3;
     chartHeight = 196; // 196
   }
-  if (dest === "#RGBchart") {
+  if (dest === '#RGBchart') {
     chartWidth = 368;
     adjustedHeight = (windowHeight - 332) / 3;
     chartHeight = 216;
   }
-  if (
-    dest === "#contrastChart" ||
-    dest === "#detailContrastChart" ||
-    dest === "#luminosityChart" ||
-    dest === "#detailLightnessChart"
-  ) {
+  if (dest === '#contrastChart' || dest === '#detailContrastChart' || dest === '#luminosityChart' || dest === '#detailLightnessChart') {
     adjustedWidth = windowWidth - panelsOffset;
     chartWidth = adjustedWidth < maxWidth ? adjustedWidth : maxWidth;
   }
-  if (dest === "#contrastChart" || dest === "#luminosityChart") {
+  if (dest === '#contrastChart' || dest === '#luminosityChart') {
     if (windowHeight < 900) chartHeight = windowHeight / 2 - 174;
     else chartHeight = 300;
   }
-  if (dest === "#detailContrastChart" || dest === "#detailLightnessChart") {
+  if (dest === '#detailContrastChart' || dest === '#detailLightnessChart') {
     chartHeight = 240;
   }
 
-  let xy_chart = d3_xy_chart()
-    .width(chartWidth)
-    .height(chartHeight)
-    .xlabel(xLabel)
-    .ylabel(yLabel);
+  let xy_chart = d3_xy_chart().width(chartWidth).height(chartHeight).xlabel(xLabel).ylabel(yLabel);
 
-  let svg = d3.select(dest).append("svg").datum(data).call(xy_chart);
+  let svg = d3.select(dest).append('svg').datum(data).call(xy_chart);
 
   function d3_xy_chart() {
     let width = chartWidth,
       height = chartHeight,
-      xlabel = "X Axis Label",
-      ylabel = "Y Axis Label";
+      xlabel = 'X Axis Label',
+      ylabel = 'Y Axis Label';
 
     function chart(selection) {
       selection.each(function (datasets) {
@@ -115,18 +87,13 @@ function createChart(
         // Create the plot.
         //
         let marginBottom = 16;
-        let marginLeft =
-          dest === `#sequentialRGBchart` ||
-          dest === "#divergingRGBchart" ||
-          dest === "#RGBchart"
-            ? 0
-            : 36;
+        let marginLeft = dest === `#sequentialRGBchart` || dest === '#divergingRGBchart' || dest === '#RGBchart' ? 0 : 36;
 
         let margin = {
           top: 8,
           right: 8,
           bottom: marginBottom,
-          left: marginLeft,
+          left: marginLeft
         };
 
         let innerwidth = width - margin.left - margin.right;
@@ -141,19 +108,14 @@ function createChart(
             }),
             d3.max(datasets, function (d) {
               return d3.max(d.x);
-            }),
+            })
           ]);
 
-        let y_scale = d3
-          .scaleLinear()
-          .range([innerheight, 0])
-          .domain([yMin, yMax]);
+        let y_scale = d3.scaleLinear().range([innerheight, 0]).domain([yMin, yMax]);
 
         let color_scale;
         if (!visColors) {
-          color_scale = d3
-            .scaleOrdinal(d3.schemeCategory10)
-            .domain(d3.range(datasets.length));
+          color_scale = d3.scaleOrdinal(d3.schemeCategory10).domain(d3.range(datasets.length));
         } else {
           color_scale = () => {
             return visColors;
@@ -163,26 +125,22 @@ function createChart(
 
         let y_axis = d3.axisLeft(y_scale);
 
-        let x_grid = d3
-          .axisBottom(x_scale)
-          .tickSize(-innerheight)
-          .tickSizeOuter(0)
-          .tickFormat("");
+        let x_grid = d3.axisBottom(x_scale).tickSize(-innerheight).tickSizeOuter(0).tickFormat('');
 
         if (finiteScale) {
           x_axis.ticks(
             d3.max(datasets, function (d) {
               return d3.max(d.x);
-            }) - 1,
+            }) - 1
           );
           x_grid.ticks(
             d3.max(datasets, function (d) {
               return d3.max(d.x);
-            }) - 1,
+            }) - 1
           );
         }
 
-        let y_grid = d3.axisLeft(y_scale).tickSize(-innerwidth).tickFormat("");
+        let y_grid = d3.axisLeft(y_scale).tickSize(-innerwidth).tickFormat('');
 
         let draw_line;
         if (stepped)
@@ -208,101 +166,92 @@ function createChart(
 
         let svg = d3
           .select(this)
-          .attr("width", width)
-          .attr("height", height)
-          .append("g")
-          .attr(
-            "transform",
-            "translate(" + margin.left + "," + margin.top + ")",
-          );
+          .attr('width', width)
+          .attr('height', height)
+          .append('g')
+          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         // If dest is RGB chart, don't show ticks
-        if (dest !== "#RGBchart" || dest !== `#${scaleType}RGBchart`) {
+        if (dest !== '#RGBchart' || dest !== `#${scaleType}RGBchart`) {
           svg
-            .append("g")
-            .attr("class", "x grid")
-            .attr("transform", "translate(0," + innerheight + ")")
+            .append('g')
+            .attr('class', 'x grid')
+            .attr('transform', 'translate(0,' + innerheight + ')')
             .call(x_grid);
 
-          svg.append("g").attr("class", "y grid").call(y_grid);
+          svg.append('g').attr('class', 'y grid').call(y_grid);
 
           svg
-            .append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + innerheight + ")")
+            .append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + innerheight + ')')
             .call(x_axis)
-            .append("text")
-            .attr("dy", "2.5em")
-            .attr("x", innerwidth / 2)
-            .style("text-anchor", "middle")
+            .append('text')
+            .attr('dy', '2.5em')
+            .attr('x', innerwidth / 2)
+            .style('text-anchor', 'middle')
             .text(xlabel);
 
           svg
-            .append("g")
-            .attr("class", "y axis")
+            .append('g')
+            .attr('class', 'y axis')
             .call(y_axis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("dy", "-2.25em")
-            .attr("x", -innerheight / 2)
-            .style("text-anchor", "middle")
+            .append('text')
+            .attr('transform', 'rotate(-90)')
+            .attr('dy', '-2.25em')
+            .attr('x', -innerheight / 2)
+            .style('text-anchor', 'middle')
             .text(ylabel);
         } else {
           svg
-            .append("g")
-            .attr("class", "x grid")
-            .attr("transform", "translate(0," + innerheight + ")")
+            .append('g')
+            .attr('class', 'x grid')
+            .attr('transform', 'translate(0,' + innerheight + ')')
             .call(x_grid);
 
-          svg.append("g").attr("class", "y grid").call(y_grid);
+          svg.append('g').attr('class', 'y grid').call(y_grid);
 
           svg
-            .append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + innerheight + ")")
+            .append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + innerheight + ')')
             .call(x_axis);
 
-          svg.append("g").attr("class", "y axis").call(y_axis);
+          svg.append('g').attr('class', 'y axis').call(y_axis);
         }
 
         let data_lines = svg
-          .selectAll(".d3_xy_chart_line")
+          .selectAll('.d3_xy_chart_line')
           .data(
             datasets.map(function (d) {
               return d3.zip(d.x, d.y);
-            }),
+            })
           )
           .enter()
-          .append("g")
-          .attr("class", "d3_xy_chart_line");
+          .append('g')
+          .attr('class', 'd3_xy_chart_line');
 
         data_lines
-          .append("path")
-          .attr("class", "line")
-          .attr("d", function (d) {
+          .append('path')
+          .attr('class', 'line')
+          .attr('d', function (d) {
             return draw_line(d);
           })
-          .attr("stroke", function (_, i) {
+          .attr('stroke', function (_, i) {
             return color_scale(i);
           });
 
         data_lines
-          .append("text")
+          .append('text')
           .datum(function (d, i) {
-            return { name: datasets[i].label, final: d[d.length - 1] };
+            return {name: datasets[i].label, final: d[d.length - 1]};
           })
-          .attr("transform", function (d) {
-            return (
-              "translate(" +
-              x_scale(d.final[0]) +
-              "," +
-              y_scale(d.final[1]) +
-              ")"
-            );
+          .attr('transform', function (d) {
+            return 'translate(' + x_scale(d.final[0]) + ',' + y_scale(d.final[1]) + ')';
           })
-          .attr("x", 3)
-          .attr("dy", ".35em")
-          .attr("fill", function (_, i) {
+          .attr('x', 3)
+          .attr('dy', '.35em')
+          .attr('fill', function (_, i) {
             return color_scale(i);
           })
           .text(function (d) {
@@ -339,16 +288,7 @@ function createChart(
   }
 }
 
-function createColorChart(
-  data,
-  yLabel,
-  xLabel,
-  dest,
-  yMin,
-  yMax,
-  colors,
-  scaleType,
-) {
+function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleType) {
   let chartWidth, chartHeight;
   const windowWidth = window.innerWidth;
 
@@ -357,11 +297,7 @@ function createColorChart(
   const minWidth = 200;
   const windowHeight = window.innerHeight;
 
-  if (
-    dest === `#${scaleType}InterpolationChart` ||
-    dest === `#${scaleType}InterpolationChart2` ||
-    dest === `#${scaleType}InterpolationChart3`
-  ) {
+  if (dest === `#${scaleType}InterpolationChart` || dest === `#${scaleType}InterpolationChart2` || dest === `#${scaleType}InterpolationChart3`) {
     let adjustedWidth = windowWidth - (388 + 34) - 8; // subtract panel width and padding from measurement
     let newMaxWidth = 476;
     adjustedWidth = adjustedWidth < newMaxWidth ? adjustedWidth : newMaxWidth;
@@ -372,8 +308,7 @@ function createColorChart(
   } else {
     let newMaxWidth = 600;
     let adjustedWidth = windowWidth - 320 - panelsOffset - 48; // subtract panel width and padding from measurement
-    let newAdjustedWidth =
-      adjustedWidth < newMaxWidth ? adjustedWidth : newMaxWidth;
+    let newAdjustedWidth = adjustedWidth < newMaxWidth ? adjustedWidth : newMaxWidth;
 
     let minHeight = 196;
     let dynamicHeight = window.innerHeight / 3 - 80; // subtract heading, tabs height and padding from measurement
@@ -387,19 +322,15 @@ function createColorChart(
   // by setting a min width for hte charts.
   if (chartWidth < minWidth) chartWidth = minWidth;
 
-  let xy_chart = d3_xy_chart()
-    .width(chartWidth)
-    .height(chartHeight)
-    .xlabel(xLabel)
-    .ylabel(yLabel);
+  let xy_chart = d3_xy_chart().width(chartWidth).height(chartHeight).xlabel(xLabel).ylabel(yLabel);
 
-  let svg = d3.select(dest).append("svg").datum(data).call(xy_chart);
+  let svg = d3.select(dest).append('svg').datum(data).call(xy_chart);
 
   function d3_xy_chart() {
     let width = chartWidth,
       height = chartHeight,
-      xlabel = "X Axis Label",
-      ylabel = "Y Axis Label";
+      xlabel = 'X Axis Label',
+      ylabel = 'Y Axis Label';
 
     function chart(selection) {
       selection.each(function (datasets) {
@@ -419,20 +350,20 @@ function createColorChart(
         //
         let marginBottom;
         if (
-          dest === "#interpolationChart" ||
-          dest === "#interpolationChart2" ||
-          dest === "#interpolationChart3" ||
+          dest === '#interpolationChart' ||
+          dest === '#interpolationChart2' ||
+          dest === '#interpolationChart3' ||
           dest === `#${scaleType}InterpolationChart` ||
           dest === `#${scaleType}InterpolationChart2` ||
           dest === `#${scaleType}InterpolationChart3` ||
-          dest === "#paletteInterpolationChart" ||
-          dest === "#paletteInterpolationChart2" ||
-          dest === "#paletteInterpolationChart3"
+          dest === '#paletteInterpolationChart' ||
+          dest === '#paletteInterpolationChart2' ||
+          dest === '#paletteInterpolationChart3'
         )
           marginBottom = 16;
         else marginBottom = 36;
 
-        let margin = { top: 8, right: 8, bottom: marginBottom, left: 36 };
+        let margin = {top: 8, right: 8, bottom: marginBottom, left: 36};
 
         let innerwidth = width - margin.left - margin.right;
         let innerheight = height - margin.top - margin.bottom;
@@ -446,13 +377,10 @@ function createColorChart(
             }),
             d3.max(datasets, function (d) {
               return d3.max(d.x);
-            }),
+            })
           ]);
 
-        let y_scale = d3
-          .scaleLinear()
-          .range([innerheight, 0])
-          .domain([yMin, yMax]);
+        let y_scale = d3.scaleLinear().range([innerheight, 0]).domain([yMin, yMax]);
 
         let color_scale = colors;
 
@@ -460,12 +388,9 @@ function createColorChart(
 
         let y_axis = d3.axisLeft(y_scale);
 
-        let x_grid = d3
-          .axisBottom(x_scale)
-          .tickSize(-innerheight)
-          .tickFormat("");
+        let x_grid = d3.axisBottom(x_scale).tickSize(-innerheight).tickFormat('');
 
-        let y_grid = d3.axisLeft(y_scale).tickSize(-innerwidth).tickFormat("");
+        let y_grid = d3.axisLeft(y_scale).tickSize(-innerwidth).tickFormat('');
 
         let draw_line = d3
           .line()
@@ -479,68 +404,59 @@ function createColorChart(
 
         let svg = d3
           .select(this)
-          .attr("width", width)
-          .attr("height", height)
-          .append("g")
-          .attr(
-            "transform",
-            "translate(" + margin.left + "," + margin.top + ")",
-          );
+          .attr('width', width)
+          .attr('height', height)
+          .append('g')
+          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         svg
-          .append("g")
-          .attr("class", "x grid")
-          .attr("transform", "translate(0," + innerheight + ")")
+          .append('g')
+          .attr('class', 'x grid')
+          .attr('transform', 'translate(0,' + innerheight + ')')
           .call(x_grid);
 
-        svg.append("g").attr("class", "y grid").call(y_grid);
+        svg.append('g').attr('class', 'y grid').call(y_grid);
 
         svg
-          .append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + innerheight + ")")
+          .append('g')
+          .attr('class', 'x axis')
+          .attr('transform', 'translate(0,' + innerheight + ')')
           .call(x_axis);
 
-        svg.append("g").attr("class", "y axis").call(y_axis);
+        svg.append('g').attr('class', 'y axis').call(y_axis);
 
         let data_lines = svg
-          .selectAll(".d3_xy_chart_line")
+          .selectAll('.d3_xy_chart_line')
           .data(
             datasets.map(function (d) {
               return d3.zip(d.x, d.y);
-            }),
+            })
           )
           .enter()
-          .append("g")
-          .attr("class", "d3_xy_chart_line");
+          .append('g')
+          .attr('class', 'd3_xy_chart_line');
 
         data_lines
-          .append("path")
-          .attr("class", "line")
-          .attr("d", function (d) {
+          .append('path')
+          .attr('class', 'line')
+          .attr('d', function (d) {
             return draw_line(d);
           })
-          .attr("stroke", function (_, i) {
+          .attr('stroke', function (_, i) {
             return color_scale[i];
           });
 
         data_lines
-          .append("text")
+          .append('text')
           .datum(function (d, i) {
-            return { name: datasets[i].label, final: d[d.length - 1] };
+            return {name: datasets[i].label, final: d[d.length - 1]};
           })
-          .attr("transform", function (d) {
-            return (
-              "translate(" +
-              x_scale(d.final[0]) +
-              "," +
-              y_scale(d.final[1]) +
-              ")"
-            );
+          .attr('transform', function (d) {
+            return 'translate(' + x_scale(d.final[0]) + ',' + y_scale(d.final[1]) + ')';
           })
-          .attr("x", 3)
-          .attr("dy", ".35em")
-          .attr("fill", function (_, i) {
+          .attr('x', 3)
+          .attr('dy', '.35em')
+          .attr('fill', function (_, i) {
             return color_scale[i];
           })
           .text(function (d) {
@@ -579,5 +495,5 @@ function createColorChart(
 
 module.exports = {
   createChart,
-  createColorChart,
+  createColorChart
 };

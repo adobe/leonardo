@@ -13,7 +13,7 @@ section {
   grid-template-rows: auto;
   grid-template-columns: 50% 50%;
   grid-column-gap: var(--spectrum-global-dimension-size-200);
-  grid-template-areas: "sectionLeft sectionRight";
+  grid-template-areas: 'sectionLeft sectionRight';
 }
 
 .section--left,

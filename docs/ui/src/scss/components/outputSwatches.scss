@@ -217,7 +217,7 @@
 }
 
 .swatch--large,
-input[type="color"].swatch--large {
+input[type='color'].swatch--large {
   margin-top: var(--spectrum-global-dimension-size-100);
   height: 164px;
   width: 164px;
@@ -225,7 +225,7 @@ input[type="color"].swatch--large {
   border: 1px solid var(--translucentLightBorder);
 }
 
-input[type="color"].swatch--large {
+input[type='color'].swatch--large {
   opacity: 0;
   position: absolute;
   top: 0;

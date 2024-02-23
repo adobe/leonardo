@@ -9,26 +9,16 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from "@adobe/leonardo-contrast-colors";
-import * as d3 from "./d3";
-import { SequentialScale } from "./initialSequentialScale";
-import { convertColorValue, round, orderColorsByLuminosity } from "./utils";
-const chroma = require("chroma-js");
-const { extendChroma } = require("./chroma-plus");
+import * as Leo from '@adobe/leonardo-contrast-colors';
+import * as d3 from './d3';
+import {SequentialScale} from './initialSequentialScale';
+import {convertColorValue, round, orderColorsByLuminosity} from './utils';
+const chroma = require('chroma-js');
+const {extendChroma} = require('./chroma-plus');
 extendChroma(chroma);
 
 class DivergingScale {
-  constructor({
-    swatches,
-    startKeys,
-    endKeys,
-    middleKey,
-    colorspace,
-    smooth,
-    distributeLightness = "polynomial",
-    shift = 1,
-    output,
-  }) {
+  constructor({swatches, startKeys, endKeys, middleKey, colorspace, smooth, distributeLightness = 'polynomial', shift = 1, output}) {
     this._startKeys = startKeys;
     this._endKeys = endKeys;
     this._middleKey = middleKey;
@@ -47,7 +37,7 @@ class DivergingScale {
         distributeLightness: this._distributeLightness,
         smooth: this._smooth,
         shift: this._shift,
-        output: this._output,
+        output: this._output
       }));
 
     this._endScale = new SequentialScale({
@@ -57,7 +47,7 @@ class DivergingScale {
       distributeLightness: this._distributeLightness,
       smooth: this._smooth,
       shift: this._shift,
-      output: this._output,
+      output: this._output
     });
 
     this._domains = this._getDomains();
@@ -248,9 +238,9 @@ class DivergingScale {
       colorspace: this._colorspace,
       sortColor: false,
 
-      distributeLightness: "linear",
+      distributeLightness: 'linear',
       fullScale: false,
-      asFun: true,
+      asFun: true
     });
 
     newColors.map((c) => {
@@ -261,18 +251,14 @@ class DivergingScale {
   }
 
   _getLuminosities() {
-    return [
-      ...this._startScale.luminosities,
-      d3.hsluv(this._middleKey).v,
-      ...this._endScale.luminosities,
-    ];
+    return [...this._startScale.luminosities, d3.hsluv(this._middleKey).v, ...this._endScale.luminosities];
   }
 
   _combineColorKeys() {
     const startKeys = this._startKeys;
     const endKeys = this._endKeys;
-    const sortedStartKeys = orderColorsByLuminosity(startKeys, "toDark");
-    const sortedEndKeys = orderColorsByLuminosity(endKeys, "toLight");
+    const sortedStartKeys = orderColorsByLuminosity(startKeys, 'toDark');
+    const sortedEndKeys = orderColorsByLuminosity(endKeys, 'toLight');
 
     return [...sortedStartKeys, this._middleKey, ...sortedEndKeys];
   }
@@ -325,17 +311,17 @@ class DivergingScale {
 
 let _divergingScale = new DivergingScale({
   swatches: 50,
-  startKeys: ["#580000", "#DD8629"],
-  endKeys: ["#3EA8A6", "#003233"],
-  middleKey: "#FFFFE0",
-  colorspace: "CAM02",
-  distributeLightness: "polynomial", // 'linear' | 'parabolic' | 'polynomial'
+  startKeys: ['#580000', '#DD8629'],
+  endKeys: ['#3EA8A6', '#003233'],
+  middleKey: '#FFFFE0',
+  colorspace: 'CAM02',
+  distributeLightness: 'polynomial', // 'linear' | 'parabolic' | 'polynomial'
   smooth: false,
-  output: "RGB",
+  output: 'RGB'
 });
 
 window._divergingScale = _divergingScale;
 
 module.exports = {
-  _divergingScale,
+  _divergingScale
 };

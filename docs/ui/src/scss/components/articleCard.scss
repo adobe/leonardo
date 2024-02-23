@@ -21,8 +21,7 @@
   text-decoration: none;
   transition:
     border-color var(--spectrum-global-animation-duration-100, 130ms) ease-out,
-    background-color var(--spectrum-global-animation-duration-100, 130ms)
-      ease-out;
+    background-color var(--spectrum-global-animation-duration-100, 130ms) ease-out;
 
   &:hover {
     border-color: var(--spectrum-global-color-gray-400);
@@ -35,8 +34,7 @@
 }
 
 .articleCard_content {
-  padding: 0 var(--spectrum-global-dimension-size-300)
-    var(--spectrum-global-dimension-size-300);
+  padding: 0 var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
 }
 
 .articleCard_image {

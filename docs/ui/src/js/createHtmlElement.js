@@ -9,19 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-function createHtmlElement({
-  element,
-  id,
-  src,
-  className,
-  title,
-  styles,
-  type,
-  innerHTML,
-  attributes,
-  eventListeners,
-  appendTo,
-}) {
+function createHtmlElement({element, id, src, className, title, styles, type, innerHTML, attributes, eventListeners, appendTo}) {
   const el = document.createElement(element);
   if (id) el.id = id;
   if (className) el.className = className;
@@ -49,16 +37,8 @@ function createHtmlElement({
   dest.appendChild(el);
 }
 
-function createSvgElement({
-  element,
-  id,
-  className,
-  attributes,
-  styles,
-  textContent,
-  appendTo,
-}) {
-  const svgns = "http://www.w3.org/2000/svg";
+function createSvgElement({element, id, className, attributes, styles, textContent, appendTo}) {
+  const svgns = 'http://www.w3.org/2000/svg';
   const el = document.createElementNS(svgns, element);
   if (id) el.id = id;
   if (className) el.className = className;
@@ -79,5 +59,5 @@ function createSvgElement({
 
 module.exports = {
   createHtmlElement,
-  createSvgElement,
+  createSvgElement
 };
