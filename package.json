@@ -7,10 +7,6 @@
     "moon": "moon",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
-    "prettier": "npm run prettier:code &&npm run prettier:ui",
-    "prettier:ui": "npx prettier --check --config .prettierrc \"docs/ui/src/**/*.*\"",
-    "prettier:code": "npx prettier --check --config .prettierrc \"packages/contrast-colors/lib/**/*.*\"",
-    "prettier:fix": "npm run prettier:code -- --write && npm run prettier:ui -- --write",
     "release": "changeset publish"
   },
   "repository": {
