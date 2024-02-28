@@ -9,29 +9,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import chroma from "chroma-js";
+import chroma from 'chroma-js';
 
-import {
-  colorSpaces,
-  convertColorValue,
-  multiplyRatios,
-  ratioName,
-  round,
-  searchColors,
-} from "./utils.js";
+import {colorSpaces, convertColorValue, multiplyRatios, ratioName, round, searchColors} from './utils.js';
 
-import { BackgroundColor } from "./backgroundcolor.js";
+import {BackgroundColor} from './backgroundcolor.js';
 
 class Theme {
-  constructor({
-    colors,
-    backgroundColor,
-    lightness,
-    contrast = 1,
-    saturation = 100,
-    output = "HEX",
-    formula = "wcag2",
-  }) {
+  constructor({colors, backgroundColor, lightness, contrast = 1, saturation = 100, output = 'HEX', formula = 'wcag2'}) {
     this._output = output;
     this._colors = colors;
     this._lightness = lightness;
@@ -43,14 +28,13 @@ class Theme {
 
     this._contrast = contrast;
     if (!this._colors) {
-      throw new Error("No colors are defined");
+      throw new Error('No colors are defined');
     }
     if (!this._backgroundColor) {
-      throw new Error("Background color is undefined");
+      throw new Error('Background color is undefined');
     }
     colors.forEach((color) => {
-      if (!color.ratios)
-        throw new Error(`Color ${color.name}'s ratios are undefined`);
+      if (!color.ratios) throw new Error(`Color ${color.name}'s ratios are undefined`);
     });
     if (!colorSpaces[this._output]) {
       throw new Error(`Output “${output}” not supported`);
@@ -218,12 +202,12 @@ class Theme {
   }
 
   _setBackgroundColor(backgroundColor) {
-    if (typeof backgroundColor === "string") {
+    if (typeof backgroundColor === 'string') {
       // If it's a string, convert to Color object and assign lightness.
       const newBackgroundColor = new BackgroundColor({
-        name: "background",
+        name: 'background',
         colorKeys: [backgroundColor],
-        output: "RGB",
+        output: 'RGB'
       });
       const calcLightness = round(chroma(String(backgroundColor)).hsluv()[2]);
 
@@ -231,9 +215,8 @@ class Theme {
       this._lightness = calcLightness;
       this._backgroundColorValue = newBackgroundColor[this._lightness];
     } else {
-      backgroundColor.output = "RGB";
-      const calcBackgroundColorValue =
-        backgroundColor.backgroundColorScale[this._lightness];
+      backgroundColor.output = 'RGB';
+      const calcBackgroundColorValue = backgroundColor.backgroundColorScale[this._lightness];
 
       this._backgroundColor = backgroundColor;
       this._backgroundColorValue = calcBackgroundColorValue;
@@ -241,8 +224,7 @@ class Theme {
   }
 
   _setBackgroundColorValue() {
-    this._backgroundColorValue =
-      this._backgroundColor.backgroundColorScale[this._lightness];
+    this._backgroundColorValue = this._backgroundColor.backgroundColorScale[this._lightness];
   }
 
   _updateColorSaturation(saturation) {
@@ -254,15 +236,12 @@ class Theme {
   _findContrastColors() {
     const bgRgbArray = chroma(String(this._backgroundColorValue)).rgb();
     const baseV = this._lightness / 100;
-    const convertedBackgroundColorValue = convertColorValue(
-      this._backgroundColorValue,
-      this._output,
-    );
-    const baseObj = { background: convertedBackgroundColorValue };
+    const convertedBackgroundColorValue = convertColorValue(this._backgroundColorValue, this._output);
+    const baseObj = {background: convertedBackgroundColorValue};
 
     const returnColors = []; // Array to be populated with JSON objects for each color, including names & contrast values
     const returnColorValues = []; // Array to be populated with flat list of all color values
-    const returnColorPairs = { ...baseObj }; // Objext to be populated with flat list of all color values as named key-value pairs
+    const returnColorPairs = {...baseObj}; // Objext to be populated with flat list of all color values as named key-value pairs
     returnColors.push(baseObj);
 
     this._colors.map((color) => {
@@ -271,7 +250,7 @@ class Theme {
         const newArr = [];
         const colorObj = {
           name: color.name,
-          values: newArr,
+          values: newArr
         };
 
         let ratioValues;
@@ -284,23 +263,15 @@ class Theme {
         }
 
         // modify target ratio based on contrast multiplier
-        ratioValues = ratioValues.map((ratio) =>
-          multiplyRatios(+ratio, this._contrast),
-        );
+        ratioValues = ratioValues.map((ratio) => multiplyRatios(+ratio, this._contrast));
 
-        const contrastColors = searchColors(
-          color,
-          bgRgbArray,
-          baseV,
-          ratioValues,
-          this._formula,
-        ).map((clr) => convertColorValue(clr, this._output));
+        const contrastColors = searchColors(color, bgRgbArray, baseV, ratioValues, this._formula).map((clr) => convertColorValue(clr, this._output));
 
         for (let i = 0; i < contrastColors.length; i++) {
           let n;
           if (!swatchNames) {
             const rVal = ratioName(color.ratios, this._formula)[i];
-            n = color.name.concat(rVal).replace(/\s+/g, ""); // concat with ratio name and remove any spaces from original name
+            n = color.name.concat(rVal).replace(/\s+/g, ''); // concat with ratio name and remove any spaces from original name
           } else {
             n = swatchNames[i];
           }
@@ -308,7 +279,7 @@ class Theme {
           const obj = {
             name: n,
             contrast: ratioValues[i],
-            value: contrastColors[i],
+            value: contrastColors[i]
           };
           newArr.push(obj);
           // Push the same values to the returnColorPairs object
@@ -335,4 +306,4 @@ class Theme {
   }
 }
 
-export { Theme };
+export {Theme};

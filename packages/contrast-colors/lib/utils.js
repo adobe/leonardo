@@ -9,22 +9,22 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { APCAcontrast, sRGBtoY } from "apca-w3";
-import chroma from "chroma-js";
-import { catmullRom2bezier, prepareCurve } from "./curve.js";
+import {APCAcontrast, sRGBtoY} from 'apca-w3';
+import chroma from 'chroma-js';
+import {catmullRom2bezier, prepareCurve} from './curve.js';
 
 const colorSpaces = {
-  CAM02: "jab",
-  CAM02p: "jch",
-  HEX: "hex",
-  HSL: "hsl",
-  HSLuv: "hsluv",
-  HSV: "hsv",
-  LAB: "lab",
-  LCH: "lch", // named per correct color definition order
-  RGB: "rgb",
-  OKLAB: "oklab",
-  OKLCH: "oklch",
+  CAM02: 'jab',
+  CAM02p: 'jch',
+  HEX: 'hex',
+  HSL: 'hsl',
+  HSLuv: 'hsluv',
+  HSV: 'hsv',
+  LAB: 'lab',
+  LCH: 'lch', // named per correct color definition order
+  RGB: 'rgb',
+  OKLAB: 'oklab',
+  OKLCH: 'oklch'
 };
 
 function round(x, n = 0) {
@@ -58,10 +58,8 @@ function hsluvArray(c) {
 
 function smoothScale(ColorsArray, domains, space) {
   const points = [[], [], []];
-  ColorsArray.forEach((color, i) =>
-    points.forEach((point, j) => point.push(domains[i], color[j])),
-  );
-  if (space === "hcl") {
+  ColorsArray.forEach((color, i) => points.forEach((point, j) => point.push(domains[i], color[j])));
+  if (space === 'hcl') {
     const point = points[1];
     for (let i = 1; i < point.length; i += 2) {
       if (Number.isNaN(point[i])) {
@@ -86,7 +84,7 @@ function smoothScale(ColorsArray, domains, space) {
     // all are grey case
     if (nans.length) {
       // hue is not important except for JCh
-      const safeJChHue = chroma("#ccc").jch()[2];
+      const safeJChHue = chroma('#ccc').jch()[2];
       nans.forEach((j) => {
         point[j] = safeJChHue;
       });
@@ -111,7 +109,7 @@ function smoothScale(ColorsArray, domains, space) {
       }
     }
     // force hue to go on the shortest route
-    if (space in { hcl: 1, hsl: 1, hsluv: 1, hsv: 1, jch: 1 }) {
+    if (space in {hcl: 1, hsl: 1, hsluv: 1, hsv: 1, jch: 1}) {
       let prev = point[1];
       let addon = 0;
       for (let i = 3; i < point.length; i += 2) {
@@ -130,9 +128,7 @@ function smoothScale(ColorsArray, domains, space) {
       }
     }
   });
-  const prep = points.map((point) =>
-    catmullRom2bezier(point).map((curve) => prepareCurve(...curve)),
-  );
+  const prep = points.map((point) => catmullRom2bezier(point).map((curve) => prepareCurve(...curve)));
   return (d) => {
     const ch = prep.map((p) => {
       for (let i = 0; i < p.length; i++) {
@@ -144,7 +140,7 @@ function smoothScale(ColorsArray, domains, space) {
       return null;
     });
 
-    if (space === "jch" && ch[1] < 0) {
+    if (space === 'jch' && ch[1] < 0) {
       ch[1] = 0;
     }
 
@@ -158,17 +154,7 @@ function makePowScale(exp = 1, domains = [0, 1], range = [0, 1]) {
   return (x) => m * x ** exp + c;
 }
 
-function createScale({
-  swatches,
-  colorKeys,
-  colorspace = "LAB",
-  shift = 1,
-  fullScale = true,
-  smooth = false,
-  distributeLightness = "linear",
-  sortColor = true,
-  asFun = false,
-} = {}) {
+function createScale({swatches, colorKeys, colorspace = 'LAB', shift = 1, fullScale = true, smooth = false, distributeLightness = 'linear', sortColor = true, asFun = false} = {}) {
   const space = colorSpaces[colorspace];
   if (!space) {
     throw new Error(`Colorspace “${colorspace}” not supported`);
@@ -214,7 +200,7 @@ function createScale({
   //   let newDomains = percDomains.map((d) => {return parabola(d) * swatches})
   //   domains = newDomains;
   // }
-  if (distributeLightness === "polynomial") {
+  if (distributeLightness === 'polynomial') {
     // Equation based on polynomial mapping of lightness values in CIECAM02
     // of the RgBu diverging color scale.
     // const polynomial = (x) => { return 2.53906249999454 * Math.pow(x,4) - 6.08506944443434 * Math.pow(x,3) + 5.11197916665992 * Math.pow(x,2) - 2.56537698412552 * x + 0.999702380952327; }
@@ -234,7 +220,7 @@ function createScale({
 
   const sortedColor = colorKeys
     // Convert to HSLuv and keep track of original indices
-    .map((c, i) => ({ colorKeys: cArray(c), index: i }))
+    .map((c, i) => ({colorKeys: cArray(c), index: i}))
     // Sort by lightness
     .sort((c1, c2) => c2.colorKeys[0] - c1.colorKeys[0])
     // Retrieve original RGB color
@@ -244,10 +230,8 @@ function createScale({
 
   let scale;
   if (fullScale) {
-    const white =
-      space === "lch" ? chroma.lch(...chroma("#fff").lch()) : "#ffffff";
-    const black =
-      space === "lch" ? chroma.lch(...chroma("#000").lch()) : "#000000";
+    const white = space === 'lch' ? chroma.lch(...chroma('#fff').lch()) : '#ffffff';
+    const black = space === 'lch' ? chroma.lch(...chroma('#000').lch()) : '#000000';
     ColorsArray = [white, ...sortedColor, black];
   } else {
     if (sortColor) ColorsArray = sortedColor;
@@ -258,13 +242,13 @@ function createScale({
   if (smooth) {
     const stringColors = ColorsArray;
     ColorsArray = ColorsArray.map((d) => chroma(String(d))[space]());
-    if (space === "hcl") {
+    if (space === 'hcl') {
       // special case for HCL if C is NaN we should treat it as 0
       ColorsArray.forEach((c) => {
         c[1] = Number.isNaN(c[1]) ? 0 : c[1];
       });
     }
-    if (space === "jch") {
+    if (space === 'jch') {
       // JCh has some “random” hue for grey colors.
       // Replacing it to NaN, so we can apply the same method of dealing with them.
       for (let i = 0; i < stringColors.length; i++) {
@@ -281,11 +265,11 @@ function createScale({
     scale = chroma
       .scale(
         ColorsArray.map((color) => {
-          if (typeof color === "object" && color.constructor === chroma.Color) {
+          if (typeof color === 'object' && color.constructor === chroma.Color) {
             return color;
           }
           return String(color);
-        }),
+        })
       )
       .domain(domains)
       .mode(space);
@@ -295,8 +279,7 @@ function createScale({
   }
 
   // const Colors = new Array(swatches).fill().map((_, d) => chroma(scale(d)).hex());
-  const Colors =
-    !smooth || smooth === false ? scale.colors(swatches) : smoothScaleArray;
+  const Colors = !smooth || smooth === false ? scale.colors(swatches) : smoothScaleArray;
 
   const colors = Colors.filter((el) => el != null);
 
@@ -339,13 +322,13 @@ function convertColorValue(color, format, object = false) {
   }
   const space = colorSpaces[format];
   const colorObj = chroma(String(color))[space]();
-  if (format === "HSL") {
+  if (format === 'HSL') {
     colorObj.pop();
   }
-  if (format === "HEX") {
+  if (format === 'HEX') {
     if (object) {
       const rgb = chroma(String(color)).rgb();
-      return { r: rgb[0], g: rgb[1], b: rgb[2] };
+      return {r: rgb[0], g: rgb[1], b: rgb[2]};
     }
     return colorObj;
   }
@@ -356,39 +339,39 @@ function convertColorValue(color, format, object = false) {
   newColorObj = newColorObj.map((ch, i) => {
     let rnd = round(ch);
     let j = i;
-    if (space === "hsluv") {
+    if (space === 'hsluv') {
       j += 2;
     }
     let letter = space.charAt(j);
-    if (space === "jch" && letter === "c") {
-      letter = "C";
+    if (space === 'jch' && letter === 'c') {
+      letter = 'C';
     }
-    colorObject[letter === "j" ? "J" : letter] = rnd;
-    if (space in { lab: 1, lch: 1, jab: 1, jch: 1 }) {
+    colorObject[letter === 'j' ? 'J' : letter] = rnd;
+    if (space in {lab: 1, lch: 1, jab: 1, jch: 1}) {
       if (!object) {
-        if (letter === "l" || letter === "j") {
-          rnd += "%";
+        if (letter === 'l' || letter === 'j') {
+          rnd += '%';
         }
-        if (letter === "h") {
-          rnd += "deg";
+        if (letter === 'h') {
+          rnd += 'deg';
         }
       }
-    } else if (space !== "hsluv") {
-      if (letter === "s" || letter === "l" || letter === "v") {
+    } else if (space !== 'hsluv') {
+      if (letter === 's' || letter === 'l' || letter === 'v') {
         colorObject[letter] = round(ch, 2);
         if (!object) {
           rnd = round(ch * 100);
-          rnd += "%";
+          rnd += '%';
         }
-      } else if (letter === "h" && !object) {
-        rnd += "deg";
+      } else if (letter === 'h' && !object) {
+        rnd += 'deg';
       }
     }
     return rnd;
   });
 
   const stringName = space;
-  const stringValue = `${stringName}(${newColorObj.join(", ")})`;
+  const stringValue = `${stringName}(${newColorObj.join(', ')})`;
 
   if (object) {
     return colorObject;
@@ -404,14 +387,14 @@ function luminance(r, g, b) {
   return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
 }
 
-function getContrast(color, base, baseV, method = "wcag2") {
+function getContrast(color, base, baseV, method = 'wcag2') {
   if (baseV === undefined) {
     // If base is an array and baseV undefined
     const baseLightness = chroma.rgb(...base).hsluv()[2];
     baseV = round(baseLightness / 100, 2);
   }
 
-  if (method === "wcag2") {
+  if (method === 'wcag2') {
     const colorLum = luminance(color[0], color[1], color[2]);
     const baseLum = luminance(base[0], base[1], base[2]);
 
@@ -437,31 +420,27 @@ function getContrast(color, base, baseV, method = "wcag2") {
       return cr1;
     }
     return -cr1;
-  } else if (method === "wcag3") {
-    return baseV < 0.5
-      ? APCAcontrast(sRGBtoY(color), sRGBtoY(base)) * -1
-      : APCAcontrast(sRGBtoY(color), sRGBtoY(base));
+  } else if (method === 'wcag3') {
+    return baseV < 0.5 ? APCAcontrast(sRGBtoY(color), sRGBtoY(base)) * -1 : APCAcontrast(sRGBtoY(color), sRGBtoY(base));
   } else {
-    throw new Error(
-      `Contrast calculation method ${method} unsupported; use 'wcag2' or 'wcag3'`,
-    );
+    throw new Error(`Contrast calculation method ${method} unsupported; use 'wcag2' or 'wcag3'`);
   }
 }
 
 function minPositive(r, formula) {
   if (!r) {
-    throw new Error("Array undefined");
+    throw new Error('Array undefined');
   }
   if (!Array.isArray(r)) {
-    throw new Error("Passed object is not an array");
+    throw new Error('Passed object is not an array');
   }
-  const min = formula === "wcag2" ? 0 : 1;
+  const min = formula === 'wcag2' ? 0 : 1;
   return Math.min(...r.filter((val) => val >= min));
 }
 
 function ratioName(r, formula) {
   if (!r) {
-    throw new Error("Ratios undefined");
+    throw new Error('Ratios undefined');
   }
   r = r.sort((a, b) => a - b); // sort ratio array in case unordered
 
@@ -496,7 +475,7 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues, formula) => {
     colorspace: color._colorspace,
     shift: 1,
     smooth: color._smooth,
-    asFun: true,
+    asFun: true
   });
   const ccache = {};
   // let ccounter = 0;
@@ -533,25 +512,8 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues, formula) => {
     return round(dot, 3);
   };
   const outputColors = [];
-  ratioValues.forEach((ratio) =>
-    outputColors.push(colorScale(colorSearch(+ratio))),
-  );
+  ratioValues.forEach((ratio) => outputColors.push(colorScale(colorSearch(+ratio))));
   return outputColors;
 };
 
-export {
-  cArray,
-  hsluvArray,
-  colorSpaces,
-  convertColorValue,
-  createScale,
-  getContrast,
-  luminance,
-  minPositive,
-  multiplyRatios,
-  ratioName,
-  removeDuplicates,
-  round,
-  searchColors,
-  uniq,
-};
+export {cArray, hsluvArray, colorSpaces, convertColorValue, createScale, getContrast, luminance, minPositive, multiplyRatios, ratioName, removeDuplicates, round, searchColors, uniq};
