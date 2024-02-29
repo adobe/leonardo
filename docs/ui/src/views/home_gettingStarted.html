@@ -22,21 +22,21 @@
           colorKeys: [<span class="hljs-string">'#cacaca'</span>],
           ratios: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>, <span class="hljs-number">8</span>]
         });
-    
+
     <span class="hljs-keyword">let</span> blue = <span class="hljs-keyword">new</span> Color({
           name: <span class="hljs-string">'blue'</span>,
           colorKeys: [<span class="hljs-string">'#5CDBFF'</span>, <span class="hljs-string">'#0000FF'</span>],
           ratios: [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
         });
-    
+
     <span class="hljs-keyword">let</span> red = <span class="hljs-keyword">new</span> Color({
           name: <span class="hljs-string">'red'</span>,
           colorKeys: [<span class="hljs-string">'#FF9A81'</span>, <span class="hljs-string">'#FF0000'</span>],
           ratios: [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
         });
-    
+
     <span class="hljs-keyword">let</span> theme = <span class="hljs-keyword">new</span> Theme({colors: [gray, blue, red], backgroundColor: gray, lightness: <span class="hljs-number">97</span>});
-    
+
     <span class="hljs-comment">// returns theme colors as JSON</span>
     <span class="hljs-keyword">let</span> colors = theme.contrastColors;
     </code></pre>
@@ -129,14 +129,14 @@
     <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="docs-theme-addcolor-color"><code>Theme.addColor = color</code></h4>
     <p>Add a <code>Color</code> to an existing theme</p>
     <pre><code class="lang-js"><span class="hljs-keyword">const</span> red = new <span class="hljs-type">Color</span>(<span class="hljs-meta">{...}</span>)
-    
+
     theme.addColor = red;
     </code></pre>
     <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="docs-theme-removecolor-color"><code>Theme.removeColor = color</code></h4>
     <p>Remove a <code>Color</code> from an existing theme. Accepts an object with the <code>Color</code>&#39;s name and value, or by passing the <code>Color</code> class itself.</p>
     <pre><code class="lang-js">// <span class="hljs-type">Remove</span> via color name
     theme.removeColor = {name: '<span class="hljs-type">Red</span>'};
-    
+
     // <span class="hljs-type">Remove</span> via <span class="hljs-type">Color</span> class
     <span class="hljs-keyword">const</span> red = new <span class="hljs-type">Color</span>(<span class="hljs-meta">{...}</span>)
     theme.removeColor = red;
@@ -146,10 +146,10 @@
     <pre><code class="lang-js">const red = <span class="hljs-keyword">new</span> Color({...})
     <span class="hljs-comment">// Change the colors ratios</span>
     theme.updateColor = {<span class="hljs-string">name:</span> <span class="hljs-string">'red'</span>, <span class="hljs-string">ratios:</span> [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>, <span class="hljs-number">7</span>]};
-    
+
     <span class="hljs-comment">// Change the colors colorKeys</span>
     theme.updateColor = {<span class="hljs-string">name:</span> <span class="hljs-string">'red'</span>, <span class="hljs-string">colorKeys:</span> [<span class="hljs-string">'#ff0000'</span>]};
-    
+
     <span class="hljs-comment">// Change the color's name</span>
     theme.updateColor = {<span class="hljs-string">name:</span> <span class="hljs-string">'red'</span>, <span class="hljs-string">name:</span> <span class="hljs-string">'Crimson'</span>};
     </code></pre>
@@ -301,7 +301,7 @@
     <span class="hljs-symbol">  colorSpace:</span> <span class="hljs-string">'LCH'</span>,
     <span class="hljs-symbol">  ratios:</span> [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
     });
-    
+
     <span class="hljs-comment">// Returns:</span>
     [
       {
@@ -324,7 +324,7 @@
         <span class="hljs-string">'blue--normalText'</span>: <span class="hljs-number">4.5</span>
       }
     });
-    
+
     <span class="hljs-comment">// Returns:</span>
     [
       {
@@ -400,7 +400,7 @@
     <p>Here are a few examples of how you can utilize Leonardo to dynamically create or modify CSS variables for your application.</p>
     <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="docs-vanilla-js">Vanilla JS</h3>
     <pre><code class="lang-js"><span class="hljs-built_in">let</span> varPrefix = '--';
-    
+
     // Iterate each <span class="hljs-built_in">color</span> object
     <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = <span class="hljs-number">0</span>; i &lt; myTheme.<span class="hljs-built_in">length</span>; i++) {
       // Iterate each value object within each <span class="hljs-built_in">color</span> object
@@ -419,46 +419,46 @@
     <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="docs-react">React</h3>
     <p>Create a new Theme component <code>Theme.js</code> with your parameters:</p>
     <pre><code class="lang-js"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Leo <span class="hljs-keyword">from</span> <span class="hljs-string">'@adobe/leonardo-contrast-colors'</span>;
-    
-    <span class="hljs-keyword">const</span> Theme = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {  
+
+    <span class="hljs-keyword">const</span> Theme = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
       <span class="hljs-keyword">let</span> gray = <span class="hljs-keyword">new</span> Leo.BackgroundColor({
         <span class="hljs-attr">name</span>: <span class="hljs-string">'gray'</span>,
         <span class="hljs-attr">colorKeys</span>: [<span class="hljs-string">'#cacaca'</span>],
         <span class="hljs-attr">ratios</span>: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>, <span class="hljs-number">8</span>]
       });
-    
+
       <span class="hljs-keyword">let</span> blue = <span class="hljs-keyword">new</span> Leo.Color({
         <span class="hljs-attr">name</span>: <span class="hljs-string">'blue'</span>,
         <span class="hljs-attr">colorKeys</span>: [<span class="hljs-string">'#5CDBFF'</span>, <span class="hljs-string">'#0000FF'</span>],
         <span class="hljs-attr">ratios</span>: [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
       });
-    
+
       <span class="hljs-keyword">let</span> red = <span class="hljs-keyword">new</span> Leo.Color({
         <span class="hljs-attr">name</span>: <span class="hljs-string">'red'</span>,
         <span class="hljs-attr">colorKeys</span>: [<span class="hljs-string">'#FF9A81'</span>, <span class="hljs-string">'#FF0000'</span>],
         <span class="hljs-attr">ratios</span>: [<span class="hljs-number">3</span>, <span class="hljs-number">4.5</span>]
       });
-    
+
       <span class="hljs-keyword">const</span> adaptiveTheme = <span class="hljs-keyword">new</span> Leo.Theme({
         <span class="hljs-attr">colors</span>: [
-          gray, 
+          gray,
           blue,
           red
-        ], 
-        <span class="hljs-attr">backgroundColor</span>: gray, 
+        ],
+        <span class="hljs-attr">backgroundColor</span>: gray,
         <span class="hljs-attr">lightness</span>: <span class="hljs-number">97</span>,
         <span class="hljs-attr">contrast</span>: <span class="hljs-number">1</span>,
       });
-    
+
       <span class="hljs-keyword">return</span> adaptiveTheme;
     }
-    
+
     <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Theme;
     </code></pre>
     <p>Then import your Theme component at the top level of your application, and pass the Theme as a property of your app:</p>
     <pre><code class="lang-js"><span class="hljs-comment">// index.js</span>
     <span class="hljs-keyword">import</span> Theme <span class="hljs-keyword">from</span> <span class="hljs-string">'./components/Theme'</span>;
-    
+
     ReactDOM.render(
       &lt;React.StrictMode&gt;
         &lt;App adaptiveTheme={Theme()}/&gt;
@@ -469,14 +469,14 @@
     <p>In your App.js file, import <code>useTheme</code> from <code>css-vars-hook</code> and provide the following within your App function in order to format Leonardo&#39;s output in the structure required for <code>css-vars-hook</code>. </p>
     <pre><code class="lang-js"><span class="hljs-comment">// App.js</span>
     <span class="hljs-keyword">import</span> {useTheme} <span class="hljs-keyword">from</span> <span class="hljs-string">'css-vars-hook'</span>;
-    
+
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">App</span>(<span class="hljs-params">props</span>) </span>{
       <span class="hljs-keyword">const</span> [lightness, setLightness] = useState(<span class="hljs-number">100</span>);
       <span class="hljs-keyword">const</span> [contrast, setContrast] = useState(<span class="hljs-number">1</span>);
-    
+
       <span class="hljs-keyword">const</span> _createThemeObject = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
         <span class="hljs-keyword">let</span> themeObj = {}
-        props.adaptiveTheme.contrastColors.forEach(<span class="hljs-function"><span class="hljs-params">color</span> =&gt;</span> {      
+        props.adaptiveTheme.contrastColors.forEach(<span class="hljs-function"><span class="hljs-params">color</span> =&gt;</span> {
           <span class="hljs-keyword">if</span>(color.name) {
             <span class="hljs-keyword">let</span> values = color.values;
             values.forEach(<span class="hljs-function"><span class="hljs-params">instance</span> =&gt;</span> {
@@ -493,14 +493,14 @@
         })
         <span class="hljs-keyword">return</span> themeObj;
       };
-    
+
       <span class="hljs-keyword">const</span> theme = useState( _createThemeObject() );
-    
+
       <span class="hljs-keyword">const</span> {setRef, setVariable} = useTheme(theme);
-    
+
       <span class="hljs-keyword">return</span> (
-        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> 
-          <span class="hljs-attr">className</span>=<span class="hljs-string">"App"</span> 
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>
+          <span class="hljs-attr">className</span>=<span class="hljs-string">"App"</span>
           <span class="hljs-attr">ref</span>=<span class="hljs-string">{setRef}</span>
           &gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
@@ -509,8 +509,8 @@
     </code></pre>
     <p>To make your application adaptive, include a function for updating your theme before your return function:</p>
     <pre><code class="lang-js">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_updateColorVariables</span>(<span class="hljs-params"></span>) </span>{
-        <span class="hljs-keyword">let</span> themeInstance = _createThemeObject();    
-    
+        <span class="hljs-keyword">let</span> themeInstance = _createThemeObject();
+
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [key, value] <span class="hljs-keyword">of</span> <span class="hljs-built_in">Object</span>.entries( themeInstance )) {
           setVariable(key, value);
         }
@@ -559,7 +559,7 @@
     const [lightness, <span class="hljs-built_in">set</span>Lightness] = useState((mq.matches) ? <span class="hljs-number">8</span> : <span class="hljs-number">100</span>);
     const [sliderM<span class="hljs-keyword">in</span>, <span class="hljs-built_in">set</span>SliderM<span class="hljs-keyword">in</span>] = useState((mq.matches) ? <span class="hljs-number">0</span> : <span class="hljs-number">80</span>);
     const [sliderMax, <span class="hljs-built_in">set</span>SliderMax] = useState((mq.matches) ? <span class="hljs-number">30</span> : <span class="hljs-number">100</span>);
-    
+
     // Listener <span class="hljs-keyword">to</span> update when <span class="hljs-keyword">user</span> device mode changes:
     mq.addEventListener('change', function (evt) {
       props.adaptiveTheme.lightness = ((mq.matches) ? <span class="hljs-number">11</span> : <span class="hljs-number">100</span>)
@@ -590,7 +590,7 @@
     <p>Contributions are welcomed! Read the <a href="">Contributing Guide</a> for more information.</p>
     <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="docs-development">Development</h2>
     <p>You can run tests and watch for changes with:</p>
-    <pre><code class="lang-sh"><span class="hljs-attribute">yarn dev</span>
+    <pre><code class="lang-sh"><span class="hljs-attribute">npm run dev</span>
     </code></pre>
     <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="docs-licensing">Licensing</h2>
     <p>This project is licensed under the Apache V2 License. See <a href="LICENSE">LICENSE</a> for more information.</p>

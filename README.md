@@ -84,27 +84,27 @@ Contributions are welcomed! Read the [Contributing Guide](./.github/CONTRIBUTING
 
 To get started [developing Leonardo UI](packages/ui#development):
 
-_Note: [Yarn](https://yarnpkg.com/) must be installed on your machine_
+_Note: [Pnpm](https://pnpm.io/installation) must be installed on your machine_
 
 ```sh
 # Install dependencies
-yarn install
+pnpm install
 
 # Change directory to Leonardo UI
-cd packages/ui
+cd docs/ui/
 
 # Run local server
-yarn dev
+pnpm dev
 ```
 
 To get started [developing Leonardo `contrast-colors` package](packages/contrast-colors#development):
 
 ```sh
 # From root, change directory to contrast-colors
-cd packages/contrast-colors
+cd packages/contrast-colors/
 
 # Run tests and watch for changes
-yarn dev
+pnpm dev
 ```
 
 Then, visit the live reloading web UIs here:

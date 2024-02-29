@@ -36,7 +36,7 @@
     "vm-browserify": "^1.1.2"
   },
   "engines": {
-    "node": "20.0.0"
+    "node": ">=20.0.0"
   },
-  "packageManager": "pnpm@8.15.1"
+  "packageManager": "^pnpm@8.15.1"
 }
