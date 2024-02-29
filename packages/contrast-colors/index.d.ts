@@ -10,11 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import type ChromaJs from "chroma-js";
+import type ChromaJs from 'chroma-js';
 
 type ColorTuple = [number, number, number];
 
-declare module "chroma-js" {
+declare module 'chroma-js' {
   interface ChromaStatic {
     jch(...args: ColorTuple): ChromaJs.Color;
     jab(...args: ColorTuple): ChromaJs.Color;
@@ -31,7 +31,7 @@ declare module "chroma-js" {
       /**
        * @default .005
        */
-      ε: number,
+      ε: number
     ): string;
   }
   interface Color {
@@ -55,18 +55,7 @@ declare module "chroma-js" {
  * @example 'jab(100% 0 0)' // CAM02
  * @example 'jch(100% 0 360deg)' // CAM02p
  */
-type Colorspace =
-  | "HEX"
-  | "RGB"
-  | "HSL"
-  | "HSV"
-  | "HSLuv"
-  | "LAB"
-  | "LCH"
-  | "OKLAB"
-  | "OKLCH"
-  | "CAM02"
-  | "CAM02p";
+type Colorspace = 'HEX' | 'RGB' | 'HSL' | 'HSV' | 'HSLuv' | 'LAB' | 'LCH' | 'OKLAB' | 'OKLCH' | 'CAM02' | 'CAM02p';
 
 /**
  * Supported interpolation colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
@@ -81,7 +70,7 @@ type Colorspace =
  * @example 'jab(100% 0 0)' // CAM02
  * @example 'jch(100% 0 360deg)' // CAM02p
  */
-type InterpolationColorspace = Exclude<Colorspace, "HEX">;
+type InterpolationColorspace = Exclude<Colorspace, 'HEX'>;
 
 type RGBArray = ColorTuple;
 
@@ -116,15 +105,7 @@ interface ColorBase {
 }
 
 export class Color implements Required<ColorBase> {
-  constructor({
-    name,
-    colorKeys,
-    colorspace,
-    ratios,
-    smooth,
-    output,
-    saturation,
-  }: ColorBase);
+  constructor({name, colorKeys, colorspace, ratios, smooth, output, saturation}: ColorBase);
   name: string;
   colorKeys: CssColor[];
   colorspace: InterpolationColorspace;
@@ -142,8 +123,8 @@ export class BackgroundColor extends Color {
  * @see {@link https://www.w3.org/TR/WCAG22/#contrast-minimum}
  * @see {@link https://www.w3.org/TR/wcag-3.0/#visual-contrast-of-text}
  */
-type ContrastFormula = "wcag2" | "wcag3";
-type LightnessDistribution = "linear" | "polynomial";
+type ContrastFormula = 'wcag2' | 'wcag3';
+type LightnessDistribution = 'linear' | 'polynomial';
 
 /**
  * Helper function for rounding color values to whole numbers.
@@ -152,7 +133,7 @@ export function convertColorValue(
   color: string,
   format: Colorspace,
   /** @default false */
-  object?: boolean,
+  object?: boolean
 ): number;
 
 export function createScale({
@@ -164,7 +145,7 @@ export function createScale({
   smooth,
   distributeLightness,
   sortColor,
-  asFun,
+  asFun
 }?: {
   /** The number of swatches/steps in the scale. */
   swatches: number;
@@ -194,7 +175,7 @@ export function contrast(
   base: RGBArray,
   baseV?: number,
   /** @default 'wcag2' */
-  method?: ContrastFormula,
+  method?: ContrastFormula
 ): number;
 
 interface UpdateColorOptions extends Partial<ColorBase> {
@@ -230,7 +211,7 @@ export class Theme implements Required<ThemeBase> {
      */
     output,
     /** @default 'wcag2' */
-    formula,
+    formula
   }: ThemeBase);
 
   colors: Color[];
@@ -311,7 +292,7 @@ export class Theme implements Required<ThemeBase> {
    * theme.removeColor = red;
    * ```
    */
-  set removeColor(arg: Color | { name: string });
+  set removeColor(arg: Color | {name: string});
   /**
    * Update a {@link Color} via its setters from the theme. Accepts an object with the name of the color you wish to modify, followed by the property and the new value you wish to modify.
    * @example ```
@@ -428,19 +409,7 @@ interface ThemeBase {
  * A valid CSS color.
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color_value}
  */
-type CssColor =
-  | RgbHexColor
-  | RgbColor
-  | HslColor
-  | HsvColor
-  | HsluvColor
-  | LabColor
-  | LchColor
-  | OkLabColor
-  | OkLchColor
-  | Cam02Color
-  | Cam02pColor
-  | CssColorName;
+type CssColor = RgbHexColor | RgbColor | HslColor | HsvColor | HsluvColor | LabColor | LchColor | OkLabColor | OkLchColor | Cam02Color | Cam02pColor | CssColorName;
 
 /**
  * A string representing a CSS hexadecimal RGB color.
@@ -503,151 +472,151 @@ type Percent = `${number}%`;
 type Degrees = `${number}deg`;
 
 type CssColorName =
-  | "aliceblue"
-  | "antiquewhite"
-  | "aqua"
-  | "aquamarine"
-  | "azure"
-  | "beige"
-  | "bisque"
-  | "black"
-  | "blanchedalmond"
-  | "blue"
-  | "blueviolet"
-  | "brown"
-  | "burlywood"
-  | "cadetblue"
-  | "chartreuse"
-  | "chocolate"
-  | "coral"
-  | "cornflowerblue"
-  | "cornsilk"
-  | "crimson"
-  | "cyan"
-  | "darkblue"
-  | "darkcyan"
-  | "darkgoldenrod"
-  | "darkgray"
-  | "darkgreen"
-  | "darkgrey"
-  | "darkkhaki"
-  | "darkmagenta"
-  | "darkolivegreen"
-  | "darkorange"
-  | "darkorchid"
-  | "darkred"
-  | "darksalmon"
-  | "darkseagreen"
-  | "darkslateblue"
-  | "darkslategray"
-  | "darkslategrey"
-  | "darkturquoise"
-  | "darkviolet"
-  | "deeppink"
-  | "deepskyblue"
-  | "dimgray"
-  | "dimgrey"
-  | "dodgerblue"
-  | "firebrick"
-  | "floralwhite"
-  | "forestgreen"
-  | "fuchsia"
-  | "gainsboro"
-  | "ghostwhite"
-  | "goldenrod"
-  | "gold"
-  | "gray"
-  | "green"
-  | "greenyellow"
-  | "grey"
-  | "honeydew"
-  | "hotpink"
-  | "indianred"
-  | "indigo"
-  | "ivory"
-  | "khaki"
-  | "lavenderblush"
-  | "lavender"
-  | "lawngreen"
-  | "lemonchiffon"
-  | "lightblue"
-  | "lightcoral"
-  | "lightcyan"
-  | "lightgoldenrodyellow"
-  | "lightgray"
-  | "lightgreen"
-  | "lightgrey"
-  | "lightpink"
-  | "lightsalmon"
-  | "lightseagreen"
-  | "lightskyblue"
-  | "lightslategray"
-  | "lightslategrey"
-  | "lightsteelblue"
-  | "lightyellow"
-  | "lime"
-  | "limegreen"
-  | "linen"
-  | "magenta"
-  | "maroon"
-  | "mediumaquamarine"
-  | "mediumblue"
-  | "mediumorchid"
-  | "mediumpurple"
-  | "mediumseagreen"
-  | "mediumslateblue"
-  | "mediumspringgreen"
-  | "mediumturquoise"
-  | "mediumvioletred"
-  | "midnightblue"
-  | "mintcream"
-  | "mistyrose"
-  | "moccasin"
-  | "navajowhite"
-  | "navy"
-  | "oldlace"
-  | "olive"
-  | "olivedrab"
-  | "orange"
-  | "orangered"
-  | "orchid"
-  | "palegoldenrod"
-  | "palegreen"
-  | "paleturquoise"
-  | "palevioletred"
-  | "papayawhip"
-  | "peachpuff"
-  | "peru"
-  | "pink"
-  | "plum"
-  | "powderblue"
-  | "purple"
-  | "rebeccapurple"
-  | "red"
-  | "rosybrown"
-  | "royalblue"
-  | "saddlebrown"
-  | "salmon"
-  | "sandybrown"
-  | "seagreen"
-  | "seashell"
-  | "sienna"
-  | "silver"
-  | "skyblue"
-  | "slateblue"
-  | "slategray"
-  | "slategrey"
-  | "snow"
-  | "springgreen"
-  | "steelblue"
-  | "tan"
-  | "teal"
-  | "thistle"
-  | "tomato"
-  | "turquoise"
-  | "violet"
-  | "wheat"
-  | "white"
-  | "whitesmoke"
-  | "yellow"
-  | "yellowgreen";
+  | 'aliceblue'
+  | 'antiquewhite'
+  | 'aqua'
+  | 'aquamarine'
+  | 'azure'
+  | 'beige'
+  | 'bisque'
+  | 'black'
+  | 'blanchedalmond'
+  | 'blue'
+  | 'blueviolet'
+  | 'brown'
+  | 'burlywood'
+  | 'cadetblue'
+  | 'chartreuse'
+  | 'chocolate'
+  | 'coral'
+  | 'cornflowerblue'
+  | 'cornsilk'
+  | 'crimson'
+  | 'cyan'
+  | 'darkblue'
+  | 'darkcyan'
+  | 'darkgoldenrod'
+  | 'darkgray'
+  | 'darkgreen'
+  | 'darkgrey'
+  | 'darkkhaki'
+  | 'darkmagenta'
+  | 'darkolivegreen'
+  | 'darkorange'
+  | 'darkorchid'
+  | 'darkred'
+  | 'darksalmon'
+  | 'darkseagreen'
+  | 'darkslateblue'
+  | 'darkslategray'
+  | 'darkslategrey'
+  | 'darkturquoise'
+  | 'darkviolet'
+  | 'deeppink'
+  | 'deepskyblue'
+  | 'dimgray'
+  | 'dimgrey'
+  | 'dodgerblue'
+  | 'firebrick'
+  | 'floralwhite'
+  | 'forestgreen'
+  | 'fuchsia'
+  | 'gainsboro'
+  | 'ghostwhite'
+  | 'goldenrod'
+  | 'gold'
+  | 'gray'
+  | 'green'
+  | 'greenyellow'
+  | 'grey'
+  | 'honeydew'
+  | 'hotpink'
+  | 'indianred'
+  | 'indigo'
+  | 'ivory'
+  | 'khaki'
+  | 'lavenderblush'
+  | 'lavender'
+  | 'lawngreen'
+  | 'lemonchiffon'
+  | 'lightblue'
+  | 'lightcoral'
+  | 'lightcyan'
+  | 'lightgoldenrodyellow'
+  | 'lightgray'
+  | 'lightgreen'
+  | 'lightgrey'
+  | 'lightpink'
+  | 'lightsalmon'
+  | 'lightseagreen'
+  | 'lightskyblue'
+  | 'lightslategray'
+  | 'lightslategrey'
+  | 'lightsteelblue'
+  | 'lightyellow'
+  | 'lime'
+  | 'limegreen'
+  | 'linen'
+  | 'magenta'
+  | 'maroon'
+  | 'mediumaquamarine'
+  | 'mediumblue'
+  | 'mediumorchid'
+  | 'mediumpurple'
+  | 'mediumseagreen'
+  | 'mediumslateblue'
+  | 'mediumspringgreen'
+  | 'mediumturquoise'
+  | 'mediumvioletred'
+  | 'midnightblue'
+  | 'mintcream'
+  | 'mistyrose'
+  | 'moccasin'
+  | 'navajowhite'
+  | 'navy'
+  | 'oldlace'
+  | 'olive'
+  | 'olivedrab'
+  | 'orange'
+  | 'orangered'
+  | 'orchid'
+  | 'palegoldenrod'
+  | 'palegreen'
+  | 'paleturquoise'
+  | 'palevioletred'
+  | 'papayawhip'
+  | 'peachpuff'
+  | 'peru'
+  | 'pink'
+  | 'plum'
+  | 'powderblue'
+  | 'purple'
+  | 'rebeccapurple'
+  | 'red'
+  | 'rosybrown'
+  | 'royalblue'
+  | 'saddlebrown'
+  | 'salmon'
+  | 'sandybrown'
+  | 'seagreen'
+  | 'seashell'
+  | 'sienna'
+  | 'silver'
+  | 'skyblue'
+  | 'slateblue'
+  | 'slategray'
+  | 'slategrey'
+  | 'snow'
+  | 'springgreen'
+  | 'steelblue'
+  | 'tan'
+  | 'teal'
+  | 'thistle'
+  | 'tomato'
+  | 'turquoise'
+  | 'violet'
+  | 'wheat'
+  | 'white'
+  | 'whitesmoke'
+  | 'yellow'
+  | 'yellowgreen';

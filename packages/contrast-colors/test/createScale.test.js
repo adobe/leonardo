@@ -9,65 +9,38 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import test from "ava";
-import { createScale } from "../index.js";
+import test from 'ava';
+import {createScale} from '../index.js';
 
-test("should generate 8 colors in Lab", (t) => {
+test('should generate 8 colors in Lab', (t) => {
   const scale = createScale({
     swatches: 8,
-    colorKeys: ["#CCFFA9", "#FEFEC5", "#5F0198"],
-    colorspace: "LAB",
+    colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'],
+    colorspace: 'LAB',
     shift: 1,
-    fullScale: true,
+    fullScale: true
   });
-  t.deepEqual(scale, [
-    "#ffffff",
-    "#c6eba9",
-    "#b6bda8",
-    "#a48fa5",
-    "#8e62a1",
-    "#73329c",
-    "#470d6e",
-    "#000000",
-  ]);
+  t.deepEqual(scale, ['#ffffff', '#c6eba9', '#b6bda8', '#a48fa5', '#8e62a1', '#73329c', '#470d6e', '#000000']);
 });
 
-test("should generate 8 colors in OKlab", (t) => {
+test('should generate 8 colors in OKlab', (t) => {
   const scale = createScale({
     swatches: 8,
-    colorKeys: ["#CCFFA9", "#FEFEC5", "#5F0198"],
-    colorspace: "OKLAB",
+    colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'],
+    colorspace: 'OKLAB',
     shift: 1,
-    fullScale: true,
+    fullScale: true
   });
-  t.deepEqual(scale, [
-    "#ffffff",
-    "#c3ecac",
-    "#adc0ae",
-    "#9795ac",
-    "#8169a7",
-    "#6c399f",
-    "#3d0064",
-    "#000000",
-  ]);
+  t.deepEqual(scale, ['#ffffff', '#c3ecac', '#adc0ae', '#9795ac', '#8169a7', '#6c399f', '#3d0064', '#000000']);
 });
 
-test("should generate 8 colors in OKLCh", (t) => {
+test('should generate 8 colors in OKLCh', (t) => {
   const scale = createScale({
     swatches: 8,
-    colorKeys: ["#CCFFA9", "#FEFEC5", "#5F0198"],
-    colorspace: "OKLCH",
+    colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'],
+    colorspace: 'OKLCH',
     shift: 1,
-    fullScale: true,
+    fullScale: true
   });
-  t.deepEqual(scale, [
-    "#ffffff",
-    "#a1f5ac",
-    "#00d8c0",
-    "#00aed5",
-    "#0079d9",
-    "#503cbd",
-    "#440077",
-    "#000000",
-  ]);
+  t.deepEqual(scale, ['#ffffff', '#a1f5ac', '#00d8c0', '#00aed5', '#0079d9', '#503cbd', '#440077', '#000000']);
 });

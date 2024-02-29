@@ -9,15 +9,15 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import test from "ava";
-import { ratioName } from "../index.js";
+import test from 'ava';
+import {ratioName} from '../index.js';
 
-test("should output 10 numbers incremented by 100", (t) => {
+test('should output 10 numbers incremented by 100', (t) => {
   const theme = ratioName([1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);
   t.deepEqual(theme, [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]);
 });
 
-test("should output 10 numbers with first at 50", (t) => {
+test('should output 10 numbers with first at 50', (t) => {
   const theme = ratioName([-1.5, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);
   t.deepEqual(theme, [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]);
 });
