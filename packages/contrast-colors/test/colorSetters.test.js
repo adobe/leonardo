@@ -9,60 +9,60 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import test from "ava";
-import { Color } from "../index.js";
+import test from 'ava';
+import {Color} from '../index.js';
 
-test("should set color name of Color class", (t) => {
+test('should set color name of Color class', (t) => {
   const color = new Color({
-    name: "colorName",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
-    colorspace: "CAM02",
+    name: 'colorName',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
+    colorspace: 'CAM02',
     ratios: [3, 4.5],
-    smooth: true,
+    smooth: true
   });
 
-  color.name = "newColorName";
+  color.name = 'newColorName';
   const colorName = color.name;
 
-  t.is(colorName, "newColorName");
+  t.is(colorName, 'newColorName');
 });
 
-test("should set color keys of Color class", (t) => {
+test('should set color keys of Color class', (t) => {
   const color = new Color({
-    name: "colorName",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
-    colorspace: "CAM02",
+    name: 'colorName',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
+    colorspace: 'CAM02',
     ratios: [3, 4.5],
-    smooth: true,
+    smooth: true
   });
 
-  color.colorKeys = ["#ff00ff", "#ff32ff", "#320077"];
+  color.colorKeys = ['#ff00ff', '#ff32ff', '#320077'];
   const colorKeys = color.colorKeys;
 
-  t.deepEqual(colorKeys, ["#ff00ff", "#ff32ff", "#320077"]);
+  t.deepEqual(colorKeys, ['#ff00ff', '#ff32ff', '#320077']);
 });
 
-test("should set colorspace of Color class", (t) => {
+test('should set colorspace of Color class', (t) => {
   const color = new Color({
-    name: "colorName",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
-    colorspace: "CAM02",
+    name: 'colorName',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
+    colorspace: 'CAM02',
     ratios: [3, 4.5],
-    smooth: true,
+    smooth: true
   });
 
-  color.colorspace = "HSL";
+  color.colorspace = 'HSL';
   const colorspace = color.colorspace;
-  t.is(colorspace, "HSL");
+  t.is(colorspace, 'HSL');
 });
 
-test("should set ratios of Color class", (t) => {
+test('should set ratios of Color class', (t) => {
   const color = new Color({
-    name: "colorName",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
-    colorspace: "CAM02",
+    name: 'colorName',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
+    colorspace: 'CAM02',
     ratios: [3, 4.5],
-    smooth: true,
+    smooth: true
   });
 
   color.ratios = [5, 7, 12];
@@ -70,13 +70,13 @@ test("should set ratios of Color class", (t) => {
   t.deepEqual(ratios, [5, 7, 12]);
 });
 
-test("should set smooth of Color class", (t) => {
+test('should set smooth of Color class', (t) => {
   const color = new Color({
-    name: "colorName",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
-    colorspace: "CAM02",
+    name: 'colorName',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
+    colorspace: 'CAM02',
     ratios: [3, 4.5],
-    smooth: true,
+    smooth: true
   });
 
   color.smooth = false;

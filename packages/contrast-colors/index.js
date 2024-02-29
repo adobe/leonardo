@@ -10,34 +10,17 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import chroma from "chroma-js";
-import { extendChroma } from "./lib/chroma-plus.js";
-import {
-  convertColorValue,
-  createScale,
-  getContrast as contrast,
-  luminance,
-  minPositive,
-  ratioName,
-} from "./lib/utils.js";
+import chroma from 'chroma-js';
+import {extendChroma} from './lib/chroma-plus.js';
+import {convertColorValue, createScale, getContrast as contrast, luminance, minPositive, ratioName} from './lib/utils.js';
 
-import { Color } from "./lib/color.js";
-import { BackgroundColor } from "./lib/backgroundcolor.js";
-import { Theme } from "./lib/theme.js";
+import {Color} from './lib/color.js';
+import {BackgroundColor} from './lib/backgroundcolor.js';
+import {Theme} from './lib/theme.js';
 
 extendChroma(chroma);
 
 // console.color('#6fa7ff');
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('hsl'))
 
-export {
-  Color,
-  BackgroundColor,
-  Theme,
-  createScale,
-  luminance,
-  contrast,
-  minPositive,
-  ratioName,
-  convertColorValue,
-};
+export {Color, BackgroundColor, Theme, createScale, luminance, contrast, minPositive, ratioName, convertColorValue};

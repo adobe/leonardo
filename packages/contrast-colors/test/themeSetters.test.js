@@ -9,302 +9,302 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import test from "ava";
-import { Theme, Color, BackgroundColor } from "../index.js";
+import test from 'ava';
+import {Theme, Color, BackgroundColor} from '../index.js';
 
 // Output formats
-test("should set theme output to HEX", (t) => {
+test('should set theme output to HEX', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
+    name: 'Color',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: "CAM02",
+    colorspace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
-    backgroundColor: "#f5f5f5",
-    output: "RGB",
+    backgroundColor: '#f5f5f5',
+    output: 'RGB'
   });
-  theme.output = "HEX";
+  theme.output = 'HEX';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["#548fe0", "#2b66f0"]);
+  t.deepEqual(themeColors, ['#548fe0', '#2b66f0']);
 });
-test("should set theme output to RGB", (t) => {
+test('should set theme output to RGB', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
+    name: 'Color',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: "CAM02",
+    colorspace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
-    backgroundColor: "#f5f5f5",
-    output: "RGB",
+    backgroundColor: '#f5f5f5',
+    output: 'RGB'
   });
-  theme.output = "RGB";
+  theme.output = 'RGB';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["rgb(84, 143, 224)", "rgb(43, 102, 240)"]);
+  t.deepEqual(themeColors, ['rgb(84, 143, 224)', 'rgb(43, 102, 240)']);
 });
-test("should set theme output to HSL", (t) => {
+test('should set theme output to HSL', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
+    name: 'Color',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: "CAM02",
+    colorspace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
-    backgroundColor: "#f5f5f5",
-    output: "RGB",
+    backgroundColor: '#f5f5f5',
+    output: 'RGB'
   });
-  theme.output = "HSL";
+  theme.output = 'HSL';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["hsl(215deg, 69%, 60%)", "hsl(222deg, 87%, 55%)"]);
+  t.deepEqual(themeColors, ['hsl(215deg, 69%, 60%)', 'hsl(222deg, 87%, 55%)']);
 });
-test("should set theme output to HSV", (t) => {
+test('should set theme output to HSV', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
+    name: 'Color',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: "CAM02",
+    colorspace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
-    backgroundColor: "#f5f5f5",
-    output: "RGB",
+    backgroundColor: '#f5f5f5',
+    output: 'RGB'
   });
-  theme.output = "HSV";
+  theme.output = 'HSV';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["hsv(215deg, 63%, 88%)", "hsv(222deg, 82%, 94%)"]);
+  t.deepEqual(themeColors, ['hsv(215deg, 63%, 88%)', 'hsv(222deg, 82%, 94%)']);
 });
-test("should set theme output to LAB", (t) => {
+test('should set theme output to LAB', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
+    name: 'Color',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: "CAM02",
+    colorspace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
-    backgroundColor: "#f5f5f5",
-    output: "RGB",
+    backgroundColor: '#f5f5f5',
+    output: 'RGB'
   });
-  theme.output = "LAB";
+  theme.output = 'LAB';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["lab(59%, 6, -47)", "lab(47%, 31, -74)"]);
+  t.deepEqual(themeColors, ['lab(59%, 6, -47)', 'lab(47%, 31, -74)']);
 });
-test("should set theme output to LCH", (t) => {
+test('should set theme output to LCH', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
+    name: 'Color',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: "CAM02",
+    colorspace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
-    backgroundColor: "#f5f5f5",
-    output: "RGB",
+    backgroundColor: '#f5f5f5',
+    output: 'RGB'
   });
-  theme.output = "LCH";
+  theme.output = 'LCH';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["lch(59%, 47, 277deg)", "lch(47%, 81, 293deg)"]);
+  t.deepEqual(themeColors, ['lch(59%, 47, 277deg)', 'lch(47%, 81, 293deg)']);
 });
 
 // Saturation
-test("should set theme saturation to 60%", (t) => {
+test('should set theme saturation to 60%', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
+    name: 'Color',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: "CAM02",
+    colorspace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
-    backgroundColor: "#f5f5f5",
-    output: "RGB",
-    saturation: 60,
+    backgroundColor: '#f5f5f5',
+    output: 'RGB',
+    saturation: 60
   });
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["rgb(107, 143, 199)", "rgb(72, 110, 196)"]);
+  t.deepEqual(themeColors, ['rgb(107, 143, 199)', 'rgb(72, 110, 196)']);
 });
-test("should set theme saturation to 60% (updated)", (t) => {
+test('should set theme saturation to 60% (updated)', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
+    name: 'Color',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: "CAM02",
+    colorspace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
-    backgroundColor: "#f5f5f5",
-    output: "RGB",
+    backgroundColor: '#f5f5f5',
+    output: 'RGB'
   });
   theme.saturation = 60;
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["rgb(107, 143, 199)", "rgb(72, 110, 196)"]);
+  t.deepEqual(themeColors, ['rgb(107, 143, 199)', 'rgb(72, 110, 196)']);
 });
 
 /** Single color updates */
-test("should set colorspace for one color in theme to CAM02", (t) => {
+test('should set colorspace for one color in theme to CAM02', (t) => {
   const gray = new Color({
-    name: "gray",
-    colorKeys: ["#2451FF", "#C9FEFE", "#012676"],
-    colorspace: "RGB",
-    ratios: [3, 4.5],
+    name: 'gray',
+    colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
+    colorspace: 'RGB',
+    ratios: [3, 4.5]
   });
-  gray.colorspace = "CAM02";
+  gray.colorspace = 'CAM02';
 
-  const theme = new Theme({ colors: [gray], backgroundColor: "#f5f5f5" });
+  const theme = new Theme({colors: [gray], backgroundColor: '#f5f5f5'});
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["#548fe0", "#2b66f0"]);
+  t.deepEqual(themeColors, ['#548fe0', '#2b66f0']);
 });
 
-test("should remove a color by its class", (t) => {
+test('should remove a color by its class', (t) => {
   const gray = new BackgroundColor({
-    name: "gray",
-    colorKeys: ["#cacaca"],
-    colorspace: "HSL",
-    ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+    name: 'gray',
+    colorKeys: ['#cacaca'],
+    colorspace: 'HSL',
+    ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
   });
   const blue = new Color({
-    name: "blue",
-    colorKeys: ["#0000ff"],
-    colorspace: "LAB",
-    ratios: [2, 3, 4.5, 8, 12],
+    name: 'blue',
+    colorKeys: ['#0000ff'],
+    colorspace: 'LAB',
+    ratios: [2, 3, 4.5, 8, 12]
   });
   const red = new Color({
-    name: "red",
-    colorKeys: ["#ff0000"],
-    colorspace: "RGB",
-    ratios: [2, 3, 4.5, 8, 12],
+    name: 'red',
+    colorKeys: ['#ff0000'],
+    colorspace: 'RGB',
+    ratios: [2, 3, 4.5, 8, 12]
   });
   const theme = new Theme({
     colors: [gray, blue, red],
     backgroundColor: gray,
     lightness: 20,
-    contrast: 1.5,
+    contrast: 1.5
   });
 
   theme.removeColor = red;
 
   const themeColors = theme.contrastColors;
   t.deepEqual(themeColors, [
-    { background: "#303030" },
+    {background: '#303030'},
     {
-      name: "gray",
+      name: 'gray',
       values: [
-        { name: "gray33", contrast: -2.2, value: "#000000" },
-        { name: "gray67", contrast: -1.3, value: "#1b1b1b" },
-        { name: "gray100", contrast: 1, value: "#303030" },
-        { name: "gray200", contrast: 1.3, value: "#424242" },
-        { name: "gray300", contrast: 1.6, value: "#4f4f4f" },
-        { name: "gray400", contrast: 2.5, value: "#6c6c6c" },
-        { name: "gray500", contrast: 4, value: "#8d8d8d" },
-        { name: "gray600", contrast: 6.25, value: "#b2b2b2" },
-        { name: "gray700", contrast: 8.5, value: "#cfcfcf" },
-        { name: "gray800", contrast: 11.5, value: "#efefef" },
-        { name: "gray900", contrast: 17.5, value: "#ffffff" },
-        { name: "gray1000", contrast: 31, value: "#ffffff" },
-      ],
+        {name: 'gray33', contrast: -2.2, value: '#000000'},
+        {name: 'gray67', contrast: -1.3, value: '#1b1b1b'},
+        {name: 'gray100', contrast: 1, value: '#303030'},
+        {name: 'gray200', contrast: 1.3, value: '#424242'},
+        {name: 'gray300', contrast: 1.6, value: '#4f4f4f'},
+        {name: 'gray400', contrast: 2.5, value: '#6c6c6c'},
+        {name: 'gray500', contrast: 4, value: '#8d8d8d'},
+        {name: 'gray600', contrast: 6.25, value: '#b2b2b2'},
+        {name: 'gray700', contrast: 8.5, value: '#cfcfcf'},
+        {name: 'gray800', contrast: 11.5, value: '#efefef'},
+        {name: 'gray900', contrast: 17.5, value: '#ffffff'},
+        {name: 'gray1000', contrast: 31, value: '#ffffff'}
+      ]
     },
     {
-      name: "blue",
+      name: 'blue',
       values: [
-        { name: "blue100", contrast: 2.5, value: "#7045ff" },
-        { name: "blue200", contrast: 4, value: "#9f73ff" },
-        { name: "blue300", contrast: 6.25, value: "#c4a2ff" },
-        { name: "blue400", contrast: 11.5, value: "#f4ecff" },
-        { name: "blue500", contrast: 17.5, value: "#ffffff" },
-      ],
-    },
+        {name: 'blue100', contrast: 2.5, value: '#7045ff'},
+        {name: 'blue200', contrast: 4, value: '#9f73ff'},
+        {name: 'blue300', contrast: 6.25, value: '#c4a2ff'},
+        {name: 'blue400', contrast: 11.5, value: '#f4ecff'},
+        {name: 'blue500', contrast: 17.5, value: '#ffffff'}
+      ]
+    }
   ]);
 });
 
-test("should remove a color by its name", (t) => {
+test('should remove a color by its name', (t) => {
   const gray = new BackgroundColor({
-    name: "gray",
-    colorKeys: ["#cacaca"],
-    colorspace: "HSL",
-    ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+    name: 'gray',
+    colorKeys: ['#cacaca'],
+    colorspace: 'HSL',
+    ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
   });
   const blue = new Color({
-    name: "blue",
-    colorKeys: ["#0000ff"],
-    colorspace: "LAB",
-    ratios: [2, 3, 4.5, 8, 12],
+    name: 'blue',
+    colorKeys: ['#0000ff'],
+    colorspace: 'LAB',
+    ratios: [2, 3, 4.5, 8, 12]
   });
   const red = new Color({
-    name: "red",
-    colorKeys: ["#ff0000"],
-    colorspace: "RGB",
-    ratios: [2, 3, 4.5, 8, 12],
+    name: 'red',
+    colorKeys: ['#ff0000'],
+    colorspace: 'RGB',
+    ratios: [2, 3, 4.5, 8, 12]
   });
   const theme = new Theme({
     colors: [gray, blue, red],
     backgroundColor: gray,
     lightness: 20,
-    contrast: 1.5,
+    contrast: 1.5
   });
 
-  theme.removeColor = { name: "red" };
+  theme.removeColor = {name: 'red'};
 
   const themeColors = theme.contrastColors;
   t.deepEqual(themeColors, [
-    { background: "#303030" },
+    {background: '#303030'},
     {
-      name: "gray",
+      name: 'gray',
       values: [
-        { name: "gray33", contrast: -2.2, value: "#000000" },
-        { name: "gray67", contrast: -1.3, value: "#1b1b1b" },
-        { name: "gray100", contrast: 1, value: "#303030" },
-        { name: "gray200", contrast: 1.3, value: "#424242" },
-        { name: "gray300", contrast: 1.6, value: "#4f4f4f" },
-        { name: "gray400", contrast: 2.5, value: "#6c6c6c" },
-        { name: "gray500", contrast: 4, value: "#8d8d8d" },
-        { name: "gray600", contrast: 6.25, value: "#b2b2b2" },
-        { name: "gray700", contrast: 8.5, value: "#cfcfcf" },
-        { name: "gray800", contrast: 11.5, value: "#efefef" },
-        { name: "gray900", contrast: 17.5, value: "#ffffff" },
-        { name: "gray1000", contrast: 31, value: "#ffffff" },
-      ],
+        {name: 'gray33', contrast: -2.2, value: '#000000'},
+        {name: 'gray67', contrast: -1.3, value: '#1b1b1b'},
+        {name: 'gray100', contrast: 1, value: '#303030'},
+        {name: 'gray200', contrast: 1.3, value: '#424242'},
+        {name: 'gray300', contrast: 1.6, value: '#4f4f4f'},
+        {name: 'gray400', contrast: 2.5, value: '#6c6c6c'},
+        {name: 'gray500', contrast: 4, value: '#8d8d8d'},
+        {name: 'gray600', contrast: 6.25, value: '#b2b2b2'},
+        {name: 'gray700', contrast: 8.5, value: '#cfcfcf'},
+        {name: 'gray800', contrast: 11.5, value: '#efefef'},
+        {name: 'gray900', contrast: 17.5, value: '#ffffff'},
+        {name: 'gray1000', contrast: 31, value: '#ffffff'}
+      ]
     },
     {
-      name: "blue",
+      name: 'blue',
       values: [
-        { name: "blue100", contrast: 2.5, value: "#7045ff" },
-        { name: "blue200", contrast: 4, value: "#9f73ff" },
-        { name: "blue300", contrast: 6.25, value: "#c4a2ff" },
-        { name: "blue400", contrast: 11.5, value: "#f4ecff" },
-        { name: "blue500", contrast: 17.5, value: "#ffffff" },
-      ],
-    },
+        {name: 'blue100', contrast: 2.5, value: '#7045ff'},
+        {name: 'blue200', contrast: 4, value: '#9f73ff'},
+        {name: 'blue300', contrast: 6.25, value: '#c4a2ff'},
+        {name: 'blue400', contrast: 11.5, value: '#f4ecff'},
+        {name: 'blue500', contrast: 17.5, value: '#ffffff'}
+      ]
+    }
   ]);
 });
 
-test("should set contrast multiple times", (t) => {
+test('should set contrast multiple times', (t) => {
   const gray = new BackgroundColor({
-    name: "gray",
-    colorKeys: ["#cacaca"],
-    colorspace: "HSL",
-    ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
+    name: 'gray',
+    colorKeys: ['#cacaca'],
+    colorspace: 'HSL',
+    ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
   });
   const blue = new Color({
-    name: "blue",
-    colorKeys: ["#0000ff"],
-    colorspace: "LAB",
-    ratios: [2, 3, 4.5, 8, 12],
+    name: 'blue',
+    colorKeys: ['#0000ff'],
+    colorspace: 'LAB',
+    ratios: [2, 3, 4.5, 8, 12]
   });
   const red = new Color({
-    name: "red",
-    colorKeys: ["#ff0000"],
-    colorspace: "RGB",
-    ratios: [2, 3, 4.5, 8, 12],
+    name: 'red',
+    colorKeys: ['#ff0000'],
+    colorspace: 'RGB',
+    ratios: [2, 3, 4.5, 8, 12]
   });
   const theme = new Theme({
     colors: [gray, blue, red],
     backgroundColor: gray,
     lightness: 100,
-    contrast: 1,
+    contrast: 1
   });
 
   theme.contrast = 3;
@@ -315,108 +315,108 @@ test("should set contrast multiple times", (t) => {
 
   const themeColors = theme.contrastColors;
   t.deepEqual(themeColors, [
-    { background: "#ffffff" },
+    {background: '#ffffff'},
     {
-      name: "gray",
+      name: 'gray',
       values: [
-        { name: "gray33", contrast: -2.6, value: "#ffffff" },
-        { name: "gray67", contrast: -1.4, value: "#ffffff" },
-        { name: "gray100", contrast: 1, value: "#fefefe" },
-        { name: "gray200", contrast: 1.4, value: "#dadada" },
-        { name: "gray300", contrast: 1.8, value: "#c1c1c1" },
-        { name: "gray400", contrast: 3, value: "#959595" },
-        { name: "gray500", contrast: 5, value: "#6f6f6f" },
-        { name: "gray600", contrast: 8, value: "#505050" },
-        { name: "gray700", contrast: 11, value: "#3c3c3c" },
-        { name: "gray800", contrast: 15, value: "#272727" },
-        { name: "gray900", contrast: 23, value: "#000000" },
-        { name: "gray1000", contrast: 41, value: "#000000" },
-      ],
+        {name: 'gray33', contrast: -2.6, value: '#ffffff'},
+        {name: 'gray67', contrast: -1.4, value: '#ffffff'},
+        {name: 'gray100', contrast: 1, value: '#fefefe'},
+        {name: 'gray200', contrast: 1.4, value: '#dadada'},
+        {name: 'gray300', contrast: 1.8, value: '#c1c1c1'},
+        {name: 'gray400', contrast: 3, value: '#959595'},
+        {name: 'gray500', contrast: 5, value: '#6f6f6f'},
+        {name: 'gray600', contrast: 8, value: '#505050'},
+        {name: 'gray700', contrast: 11, value: '#3c3c3c'},
+        {name: 'gray800', contrast: 15, value: '#272727'},
+        {name: 'gray900', contrast: 23, value: '#000000'},
+        {name: 'gray1000', contrast: 41, value: '#000000'}
+      ]
     },
     {
-      name: "blue",
+      name: 'blue',
       values: [
-        { name: "blue100", contrast: 3, value: "#a77cff" },
-        { name: "blue200", contrast: 5, value: "#764aff" },
-        { name: "blue300", contrast: 8, value: "#2912ff" },
-        { name: "blue400", contrast: 15, value: "#241172" },
-        { name: "blue500", contrast: 23, value: "#000000" },
-      ],
+        {name: 'blue100', contrast: 3, value: '#a77cff'},
+        {name: 'blue200', contrast: 5, value: '#764aff'},
+        {name: 'blue300', contrast: 8, value: '#2912ff'},
+        {name: 'blue400', contrast: 15, value: '#241172'},
+        {name: 'blue500', contrast: 23, value: '#000000'}
+      ]
     },
     {
-      name: "red",
+      name: 'red',
       values: [
-        { name: "red100", contrast: 3, value: "#ff5d5d" },
-        { name: "red200", contrast: 5, value: "#e10000" },
-        { name: "red300", contrast: 8, value: "#a60000" },
-        { name: "red400", contrast: 15, value: "#560000" },
-        { name: "red500", contrast: 23, value: "#000000" },
-      ],
-    },
+        {name: 'red100', contrast: 3, value: '#ff5d5d'},
+        {name: 'red200', contrast: 5, value: '#e10000'},
+        {name: 'red300', contrast: 8, value: '#a60000'},
+        {name: 'red400', contrast: 15, value: '#560000'},
+        {name: 'red500', contrast: 23, value: '#000000'}
+      ]
+    }
   ]);
 });
 
-test("should update predefined color keys", (t) => {
+test('should update predefined color keys', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#cacaca"],
+    name: 'Color',
+    colorKeys: ['#cacaca'],
     ratios: [1.2, -1.2],
-    colorspace: "LCH",
+    colorspace: 'LCH'
   }); // positive & negative ratios
-  const theme = new Theme({ colors: [color], backgroundColor: "#537b9d" });
+  const theme = new Theme({colors: [color], backgroundColor: '#537b9d'});
 
   theme.updateColor = {
-    color: "Color",
-    colorKeys: ["#ff8602", "#ab3c00", "#ffd88b"],
+    color: 'Color',
+    colorKeys: ['#ff8602', '#ab3c00', '#ffd88b']
   };
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["#d86202", "#b84601"]);
+  t.deepEqual(themeColors, ['#d86202', '#b84601']);
 });
 
-test("should update predefined color keys as object return", (t) => {
+test('should update predefined color keys as object return', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#ff8602", "#ab3c00", "#ffd88b"],
+    name: 'Color',
+    colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
     ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
-    colorspace: "RGB",
+    colorspace: 'RGB'
   }); // positive & negative ratios
-  const theme = new Theme({ colors: [color], backgroundColor: "#e1e1e1" });
-  theme.updateColor = { color: "Color", colorKeys: ["#ff00ff"] };
-  theme.updateColor = { color: "Color", colorKeys: ["#000000"] };
+  const theme = new Theme({colors: [color], backgroundColor: '#e1e1e1'});
+  theme.updateColor = {color: 'Color', colorKeys: ['#ff00ff']};
+  theme.updateColor = {color: 'Color', colorKeys: ['#000000']};
 
   const themeColors = theme.contrastColors;
   t.deepEqual(themeColors, [
-    { background: "#e1e1e1" },
+    {background: '#e1e1e1'},
     {
-      name: "Color",
+      name: 'Color',
       values: [
-        { name: "Color100", contrast: 1, value: "#e1e1e1" },
-        { name: "Color200", contrast: 1.2, value: "#cecece" },
-        { name: "Color300", contrast: 1.4, value: "#bfbfbf" },
-        { name: "Color400", contrast: 2, value: "#a0a0a0" },
-        { name: "Color500", contrast: 3, value: "#808080" },
-        { name: "Color600", contrast: 4.5, value: "#646464" },
-        { name: "Color700", contrast: 6, value: "#515151" },
-        { name: "Color800", contrast: 8, value: "#3f3f3f" },
-        { name: "Color900", contrast: 12, value: "#232323" },
-        { name: "Color1000", contrast: 21, value: "#000000" },
-      ],
-    },
+        {name: 'Color100', contrast: 1, value: '#e1e1e1'},
+        {name: 'Color200', contrast: 1.2, value: '#cecece'},
+        {name: 'Color300', contrast: 1.4, value: '#bfbfbf'},
+        {name: 'Color400', contrast: 2, value: '#a0a0a0'},
+        {name: 'Color500', contrast: 3, value: '#808080'},
+        {name: 'Color600', contrast: 4.5, value: '#646464'},
+        {name: 'Color700', contrast: 6, value: '#515151'},
+        {name: 'Color800', contrast: 8, value: '#3f3f3f'},
+        {name: 'Color900', contrast: 12, value: '#232323'},
+        {name: 'Color1000', contrast: 21, value: '#000000'}
+      ]
+    }
   ]);
 });
 
-test("should update predefined colors interpolation", (t) => {
+test('should update predefined colors interpolation', (t) => {
   const color = new Color({
-    name: "Color",
-    colorKeys: ["#ff8602", "#ab3c00", "#ffd88b"],
+    name: 'Color',
+    colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
     ratios: [1.2, -1.2],
-    colorspace: "RGB",
+    colorspace: 'RGB'
   }); // positive & negative ratios
-  const theme = new Theme({ colors: [color], backgroundColor: "#537b9d" });
+  const theme = new Theme({colors: [color], backgroundColor: '#537b9d'});
 
-  theme.updateColor = { color: "Color", colorspace: "LCH" };
+  theme.updateColor = {color: 'Color', colorspace: 'LCH'};
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ["#d86202", "#b84601"]);
+  t.deepEqual(themeColors, ['#d86202', '#b84601']);
 });
 
 // // Formula setter
