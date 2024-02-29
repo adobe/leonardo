@@ -527,7 +527,13 @@ Contributions are welcomed! Read the [Contributing Guide](../../.github/CONTRIBU
 You can run tests and watch for changes with:
 
 ```sh
-yarn dev
+pnpm dev
+```
+
+or run just tests once with:
+
+```sh
+pnpm test
 ```
 
 ## Licensing
