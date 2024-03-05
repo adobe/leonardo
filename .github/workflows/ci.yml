@@ -1,0 +1,16 @@
+name: CI
+on: pull_request
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: moonrepo/setup-moon-action@v1
+      - run: moon ci
+      - uses: 'moonrepo/run-report-action@v1'
+        if: success() || failure()
+        with:
+          access-token: ${{ secrets.MOON_GH_TOKEN }}

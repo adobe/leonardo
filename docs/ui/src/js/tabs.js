@@ -14,20 +14,20 @@ function openPanelTab(evt, tabName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("paneltabcontent");
+  tabcontent = document.getElementsByClassName('paneltabcontent');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("panel-Tabs-item");
+  tablinks = document.getElementsByClassName('panel-Tabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 }
 
 function openPanelSubTab(evt, tabName) {
@@ -35,20 +35,20 @@ function openPanelSubTab(evt, tabName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("panel-SubTab-Content");
+  tabcontent = document.getElementsByClassName('panel-SubTab-Content');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("panel-SubTabs-item");
+  tablinks = document.getElementsByClassName('panel-SubTabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 }
 
 function openCompareTab(evt, tabName) {
@@ -56,20 +56,20 @@ function openCompareTab(evt, tabName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("compare-Tabs-content");
+  tabcontent = document.getElementsByClassName('compare-Tabs-content');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("compare-Tabs-item");
+  tablinks = document.getElementsByClassName('compare-Tabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 }
 
 function openSwatchTab(evt, tabName) {
@@ -77,20 +77,20 @@ function openSwatchTab(evt, tabName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("swatch-Tabs-content");
+  tabcontent = document.getElementsByClassName('swatch-Tabs-content');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("swatch-Tabs-item");
+  tablinks = document.getElementsByClassName('swatch-Tabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 }
 
 function openTab(evt, tabName) {
@@ -98,20 +98,20 @@ function openTab(evt, tabName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
+  tabcontent = document.getElementsByClassName('tabcontent');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("main-Tabs-item");
+  tablinks = document.getElementsByClassName('main-Tabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 }
 
 function openAccessibilityTab(evt, tabName) {
@@ -119,45 +119,45 @@ function openAccessibilityTab(evt, tabName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("a11y-Tabs-content");
+  tabcontent = document.getElementsByClassName('a11y-Tabs-content');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("a11y-Tabs-item");
+  tablinks = document.getElementsByClassName('a11y-Tabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 }
 
 function openDetailTab(evt, tabName, colors) {
   // Declare all variables
   var i, tabcontent, tablinks;
   let thisId = evt.target.id;
-  if (!tabName) tabName = thisId.concat("Content");
+  if (!tabName) tabName = thisId.concat('Content');
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabDetailContent");
+  tabcontent = document.getElementsByClassName('tabDetailContent');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("detail-Tabs-item");
+  tablinks = document.getElementsByClassName('detail-Tabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 
-  if (tabName === "tabModelContent") {
+  if (tabName === 'tabModelContent') {
     // chartData.createData(colors);
     // charts.init3dChart()
   }
@@ -168,20 +168,20 @@ function openAppTab(evt, tabName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("AppTab");
+  tabcontent = document.getElementsByClassName('AppTab');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("app-Tabs-item");
+  tablinks = document.getElementsByClassName('app-Tabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "grid";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'grid';
+  evt.currentTarget.className += ' is-selected';
 }
 
 function openSideNavItem(evt, contentName) {
@@ -189,23 +189,20 @@ function openSideNavItem(evt, contentName) {
   var i, sidenavcontent, sidenavlinks;
 
   // Get all elements with class="sideNavContent" and hide them
-  sidenavcontent = document.getElementsByClassName("sideNavContent");
+  sidenavcontent = document.getElementsByClassName('sideNavContent');
   for (let i = 0; i < sidenavcontent.length; i++) {
-    sidenavcontent[i].style.display = "none";
+    sidenavcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-SideNav-item" and remove the class "is-selected"
-  sidenavlinks = document.getElementsByClassName("spectrum-SideNav-item");
+  sidenavlinks = document.getElementsByClassName('spectrum-SideNav-item');
   for (let i = 0; i < sidenavlinks.length; i++) {
-    sidenavlinks[i].className = sidenavlinks[i].className.replace(
-      " is-selected",
-      "",
-    );
+    sidenavlinks[i].className = sidenavlinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(contentName).style.display = "grid";
-  evt.currentTarget.parentNode.className += " is-selected";
+  document.getElementById(contentName).style.display = 'grid';
+  evt.currentTarget.parentNode.className += ' is-selected';
 }
 
 function openColorTab(evt, tabName) {
@@ -213,20 +210,20 @@ function openColorTab(evt, tabName) {
   var i, tabcontent, tablinks;
 
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("colorTabsWrapper");
+  tabcontent = document.getElementsByClassName('colorTabsWrapper');
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
-  tablinks = document.getElementsByClassName("color-Tabs-item");
+  tablinks = document.getElementsByClassName('color-Tabs-item');
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 }
 
 function openScaleTab(evt, tabName, scaleType) {
@@ -236,18 +233,18 @@ function openScaleTab(evt, tabName, scaleType) {
   // Get all elements with class="tabcontent" and hide them
   tabcontent = document.getElementsByClassName(`${scaleType}TabsWrapper`);
   for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+    tabcontent[i].style.display = 'none';
   }
 
   // Get all elements with class="spectrum-Tabs-item" and remove the class "active"
   tablinks = document.getElementsByClassName(`${scaleType}-Tabs-item`);
   for (let i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+    tablinks[i].className = tablinks[i].className.replace(' is-selected', '');
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "flex";
-  evt.currentTarget.className += " is-selected";
+  document.getElementById(tabName).style.display = 'flex';
+  evt.currentTarget.className += ' is-selected';
 }
 
 window.openPanelTab = openPanelTab;
@@ -272,5 +269,5 @@ module.exports = {
   openSideNavItem,
   openScaleTab,
   openCompareTab,
-  openColorTab,
+  openColorTab
 };

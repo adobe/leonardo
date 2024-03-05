@@ -9,18 +9,18 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as d3 from "./d3";
-import { createColorChart, createChart } from "./createChart";
-import { filterNaN, getChannelsAndFunction } from "./utils";
-import chroma from "chroma-js";
+import * as d3 from './d3';
+import {createColorChart, createChart} from './createChart';
+import {filterNaN, getChannelsAndFunction} from './utils';
+import chroma from 'chroma-js';
 
-function createInterpolationCharts(colors, mode, scaleType = "theme") {
+function createInterpolationCharts(colors, mode, scaleType = 'theme') {
   let d1id, d2id, d3id;
   // colors = colors.map((c) => {return chroma(c)})
-  if (scaleType === "theme") {
-    d1id = "interpolationChart";
-    d2id = "interpolationChart2";
-    d3id = "interpolationChart3";
+  if (scaleType === 'theme') {
+    d1id = 'interpolationChart';
+    d2id = 'interpolationChart2';
+    d3id = 'interpolationChart3';
   } else {
     d1id = `${scaleType}InterpolationChart`;
     d2id = `${scaleType}InterpolationChart2`;
@@ -36,27 +36,24 @@ function createInterpolationCharts(colors, mode, scaleType = "theme") {
     let dest2 = values[1];
     let dest3 = values[2];
 
-    dest.innerHTML = " ";
-    dest2.innerHTML = " ";
-    dest3.innerHTML = " ";
+    dest.innerHTML = ' ';
+    dest2.innerHTML = ' ';
+    dest3.innerHTML = ' ';
 
     // Identify mode channels
     let colorData = getChannelsAndFunction(mode);
 
     // Create chart header
-    let InterpolationHeader = document.createElement("h5");
-    InterpolationHeader.className =
-      "spectrum-Heading spectrum-Heading--sizeXXS";
+    let InterpolationHeader = document.createElement('h5');
+    InterpolationHeader.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
     InterpolationHeader.innerHTML = `${colorData.c1Label}`;
     dest.appendChild(InterpolationHeader);
-    let InterpolationHeader2 = document.createElement("h5");
-    InterpolationHeader2.className =
-      "spectrum-Heading spectrum-Heading--sizeXXS";
+    let InterpolationHeader2 = document.createElement('h5');
+    InterpolationHeader2.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
     InterpolationHeader2.innerHTML = `${colorData.c2Label}`;
     dest2.appendChild(InterpolationHeader2);
-    let InterpolationHeader3 = document.createElement("h5");
-    InterpolationHeader3.className =
-      "spectrum-Heading spectrum-Heading--sizeXXS";
+    let InterpolationHeader3 = document.createElement('h5');
+    InterpolationHeader3.className = 'spectrum-Heading spectrum-Heading--sizeXXS';
     InterpolationHeader3.innerHTML = `${colorData.c3Label}`;
     dest3.appendChild(InterpolationHeader3);
 
@@ -81,7 +78,7 @@ function createInterpolationCharts(colors, mode, scaleType = "theme") {
       // return filterNaN(d3[func](d)[c3]);
     });
 
-    if (scaleType === "sequential") {
+    if (scaleType === 'sequential') {
       dataX = dataX.sort((a, b) => {
         return a - b;
       });
@@ -101,61 +98,28 @@ function createInterpolationCharts(colors, mode, scaleType = "theme") {
     let dataA = [
       {
         x: dataX,
-        y: dataYa,
-      },
+        y: dataYa
+      }
     ];
     let dataB = [
       {
         x: dataX,
-        y: dataYb,
-      },
+        y: dataYb
+      }
     ];
     let dataC = [
       {
         x: dataX,
-        y: dataYc,
-      },
+        y: dataYc
+      }
     ];
 
-    let lightnessMax =
-      mode === "HSL" || mode === "HSV" || mode === "OKLCH" || mode === "OKLAB"
-        ? 1
-        : 100;
+    let lightnessMax = mode === 'HSL' || mode === 'HSV' || mode === 'OKLCH' || mode === 'OKLAB' ? 1 : 100;
 
-    createChart(
-      dataA,
-      " ",
-      " ",
-      `#${d1id}`,
-      colorData.yMin,
-      colorData.yMax,
-      false,
-      visColors,
-      scaleType,
-    );
-    createChart(
-      dataB,
-      " ",
-      " ",
-      `#${d2id}`,
-      colorData.yMin2,
-      colorData.yMax2,
-      false,
-      visColors,
-      scaleType,
-    );
-    createChart(
-      dataC,
-      " ",
-      " ",
-      `#${d3id}`,
-      0,
-      lightnessMax,
-      false,
-      visColors,
-      scaleType,
-    );
+    createChart(dataA, ' ', ' ', `#${d1id}`, colorData.yMin, colorData.yMax, false, visColors, scaleType);
+    createChart(dataB, ' ', ' ', `#${d2id}`, colorData.yMin2, colorData.yMax2, false, visColors, scaleType);
+    createChart(dataC, ' ', ' ', `#${d3id}`, 0, lightnessMax, false, visColors, scaleType);
   });
 }
 
-module.exports = { createInterpolationCharts };
+module.exports = {createInterpolationCharts};

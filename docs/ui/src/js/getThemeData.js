@@ -9,14 +9,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { getLightness } from "./utils";
-import { _theme, _colorScales } from "./initialTheme";
+import {getLightness} from './utils';
+import {_theme, _colorScales} from './initialTheme';
 
 window.getColorClassById = getColorClassById;
 function getColorClassById(id) {
   let thisElement = document.getElementById(id);
   // 1. find color name from id
-  let colorNameInput = id.concat("_colorName");
+  let colorNameInput = id.concat('_colorName');
   let colorName = document.getElementById(colorNameInput).value;
 
   // 2. Scrape information from the color class of the same name
@@ -34,7 +34,7 @@ function getColorClassByName(colorName) {
 
 // GET all contrast ratios
 function getContrastRatioInputs() {
-  let ratioInputs = document.getElementsByClassName("ratio-Field");
+  let ratioInputs = document.getElementsByClassName('ratio-Field');
   let ratios = [];
   for (let i = 0; i < ratioInputs.length; i++) {
     ratios.push(ratioInputs[i].value);
@@ -70,7 +70,7 @@ function getLuminosities() {
 
 function getThemeName() {
   // Get name
-  let themeNameInput = document.getElementById("themeNameInput");
+  let themeNameInput = document.getElementById('themeNameInput');
   let themeName = themeNameInput.value;
   return themeName;
 }
@@ -86,7 +86,7 @@ function getThemeData() {
     baseScale: baseSelectValue,
     colorScales: colorScales,
     brightness: brightness,
-    contrast: contrast,
+    contrast: contrast
   };
 }
 
@@ -102,7 +102,7 @@ function getAllColorKeys() {
     });
 
     return colorKeys;
-  } else throw new Error("No color scales defined");
+  } else throw new Error('No color scales defined');
 }
 
 function getAllColorNames() {
@@ -121,5 +121,5 @@ module.exports = {
   getAllColorNames,
   getLuminosities,
   getColorClassByName,
-  getAllColorKeys,
+  getAllColorKeys
 };

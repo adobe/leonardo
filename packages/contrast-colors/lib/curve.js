@@ -22,14 +22,8 @@ const bezlen = (x1, y1, x2, y2, x3, y3, x4, y4, z) => {
   z = Math.max(0, Math.min(z, 1));
   const z2 = z / 2;
   const n = 12;
-  const Tvalues = [
-    -0.1252, 0.1252, -0.3678, 0.3678, -0.5873, 0.5873, -0.7699, 0.7699, -0.9041,
-    0.9041, -0.9816, 0.9816,
-  ];
-  const Cvalues = [
-    0.2491, 0.2491, 0.2335, 0.2335, 0.2032, 0.2032, 0.1601, 0.1601, 0.1069,
-    0.1069, 0.0472, 0.0472,
-  ];
+  const Tvalues = [-0.1252, 0.1252, -0.3678, 0.3678, -0.5873, 0.5873, -0.7699, 0.7699, -0.9041, 0.9041, -0.9816, 0.9816];
+  const Cvalues = [0.2491, 0.2491, 0.2335, 0.2335, 0.2032, 0.2032, 0.1601, 0.1601, 0.1069, 0.1069, 0.0472, 0.0472];
   let sum = 0;
   for (let i = 0; i < n; i++) {
     const ct = z2 * Tvalues[i] + z2;
@@ -49,43 +43,34 @@ const findDotsAtSegment = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) => {
   const t3 = t2 * t;
   const x = t13 * p1x + t12 * 3 * t * c1x + t1 * 3 * t * t * c2x + t3 * p2x;
   const y = t13 * p1y + t12 * 3 * t * c1y + t1 * 3 * t * t * c2y + t3 * p2y;
-  return { x, y };
+  return {x, y};
 };
 
 const catmullRom2bezier = (crp, z) => {
   const d = [];
-  let end = { x: +crp[0], y: +crp[1] };
+  let end = {x: +crp[0], y: +crp[1]};
   for (let i = 0, iLen = crp.length; iLen - 2 * !z > i; i += 2) {
     const p = [
-      { x: +crp[i - 2], y: +crp[i - 1] },
-      { x: +crp[i], y: +crp[i + 1] },
-      { x: +crp[i + 2], y: +crp[i + 3] },
-      { x: +crp[i + 4], y: +crp[i + 5] },
+      {x: +crp[i - 2], y: +crp[i - 1]},
+      {x: +crp[i], y: +crp[i + 1]},
+      {x: +crp[i + 2], y: +crp[i + 3]},
+      {x: +crp[i + 4], y: +crp[i + 5]}
     ];
     if (z) {
       if (!i) {
-        p[0] = { x: +crp[iLen - 2], y: +crp[iLen - 1] };
+        p[0] = {x: +crp[iLen - 2], y: +crp[iLen - 1]};
       } else if (iLen - 4 === i) {
-        p[3] = { x: +crp[0], y: +crp[1] };
+        p[3] = {x: +crp[0], y: +crp[1]};
       } else if (iLen - 2 === i) {
-        p[2] = { x: +crp[0], y: +crp[1] };
-        p[3] = { x: +crp[2], y: +crp[3] };
+        p[2] = {x: +crp[0], y: +crp[1]};
+        p[3] = {x: +crp[2], y: +crp[3]};
       }
     } else if (iLen - 4 === i) {
       p[3] = p[2];
     } else if (!i) {
-      p[0] = { x: +crp[i], y: +crp[i + 1] };
+      p[0] = {x: +crp[i], y: +crp[i + 1]};
     }
-    d.push([
-      end.x,
-      end.y,
-      (-p[0].x + 6 * p[1].x + p[2].x) / 6,
-      (-p[0].y + 6 * p[1].y + p[2].y) / 6,
-      (p[1].x + 6 * p[2].x - p[3].x) / 6,
-      (p[1].y + 6 * p[2].y - p[3].y) / 6,
-      p[2].x,
-      p[2].y,
-    ]);
+    d.push([end.x, end.y, (-p[0].x + 6 * p[1].x + p[2].x) / 6, (-p[0].y + 6 * p[1].y + p[2].y) / 6, (p[1].x + 6 * p[2].x - p[3].x) / 6, (p[1].y + 6 * p[2].y - p[3].y) / 6, p[2].x, p[2].y]);
     end = p[2];
   }
 
@@ -98,17 +83,7 @@ const bezlen2 = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
   let y0 = p1y;
   let len = 0;
   for (let i = 1; i < n; i++) {
-    const { x, y } = findDotsAtSegment(
-      p1x,
-      p1y,
-      c1x,
-      c1y,
-      c2x,
-      c2y,
-      p2x,
-      p2y,
-      i / n,
-    );
+    const {x, y} = findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, i / n);
     len += Math.hypot(x - x0, y - y0);
     x0 = x;
     y0 = y;
@@ -118,9 +93,7 @@ const bezlen2 = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
 };
 
 const prepareCurve = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
-  const len = Math.floor(
-    bezlen2(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) * 0.75,
-  );
+  const len = Math.floor(bezlen2(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) * 0.75);
   const fs = [];
   let oldi = 0;
   for (let i = 0; i <= len; i++) {
@@ -140,4 +113,4 @@ const prepareCurve = (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) => {
   return (x) => fs[Math.round(x)] || null;
 };
 
-export { bezlen, findDotsAtSegment, prepareCurve, catmullRom2bezier };
+export {bezlen, findDotsAtSegment, prepareCurve, catmullRom2bezier};

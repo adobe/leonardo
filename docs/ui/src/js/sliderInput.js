@@ -9,54 +9,42 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {
-  createOutputColors,
-  createDetailOutputColors,
-} from "./createOutputColors";
-import { createOutputParameters } from "./createOutputParameters";
-import { getThemeContrastRatios, getLuminosities } from "./getThemeData";
-import { createRatioChart, createLuminosityChart } from "./createRatioChart";
-import { _theme } from "./initialTheme";
-import { dispatchRatioInputEvents } from "./ratios";
-import { round, throttle } from "./utils";
+import {createOutputColors, createDetailOutputColors} from './createOutputColors';
+import {createOutputParameters} from './createOutputParameters';
+import {getThemeContrastRatios, getLuminosities} from './getThemeData';
+import {createRatioChart, createLuminosityChart} from './createRatioChart';
+import {_theme} from './initialTheme';
+import {dispatchRatioInputEvents} from './ratios';
+import {round, throttle} from './utils';
 
 function sliderValue(e) {
   let id = e.target.id;
   let slider = document.getElementById(id);
-  let labelId = id.replace("Slider", "Value");
+  let labelId = id.replace('Slider', 'Value');
   let label = document.getElementById(labelId);
-  let labelValue = labelId.includes("Contrast")
-    ? `${round(slider.value * 100)}%`
-    : `${slider.value}%`;
+  let labelValue = labelId.includes('Contrast') ? `${round(slider.value * 100)}%` : `${slider.value}%`;
   label.innerHTML = labelValue;
 }
 
 function sliderInput(e) {
   let value = e.target.value;
   let id = e.target.id;
-  let property =
-    id === "themeBrightnessSlider"
-      ? "lightness"
-      : id === "themeContrastSlider"
-        ? "contrast"
-        : id === "themeSaturationSlider"
-          ? "saturation"
-          : undefined;
+  let property = id === 'themeBrightnessSlider' ? 'lightness' : id === 'themeContrastSlider' ? 'contrast' : id === 'themeSaturationSlider' ? 'saturation' : undefined;
 
   const updateThemeClass = Promise.resolve((_theme[property] = Number(value)));
   updateThemeClass.then(() => {
     createOutputColors();
     createOutputParameters();
 
-    if (document.getElementById("detailJustifiedWrapper")) {
+    if (document.getElementById('detailJustifiedWrapper')) {
       const currentColorId = document.querySelector('[id$="_colorName2"]').id;
       const currentColorName = document.getElementById(currentColorId).value;
       createDetailOutputColors(currentColorName);
     }
 
-    const lineTypeSelect = document.getElementById("chartLineType");
+    const lineTypeSelect = document.getElementById('chartLineType');
     const lineType = lineTypeSelect.value;
-    let isStep = lineType === "step" ? true : false;
+    let isStep = lineType === 'step' ? true : false;
 
     let chartLuminosities = Promise.resolve(getLuminosities());
     chartLuminosities.then(function (resolve) {
@@ -70,23 +58,23 @@ function sliderInput(e) {
   });
 }
 
-const sliderB = document.getElementById("themeBrightnessSlider");
-const sliderC = document.getElementById("themeContrastSlider");
-const sliderD = document.getElementById("themeSaturationSlider");
-sliderB.addEventListener("input", sliderValue);
-sliderB.addEventListener("input", throttle(sliderInput, 10));
-sliderB.addEventListener("change", throttle(dispatchRatioInputEvents, 20));
+const sliderB = document.getElementById('themeBrightnessSlider');
+const sliderC = document.getElementById('themeContrastSlider');
+const sliderD = document.getElementById('themeSaturationSlider');
+sliderB.addEventListener('input', sliderValue);
+sliderB.addEventListener('input', throttle(sliderInput, 10));
+sliderB.addEventListener('change', throttle(dispatchRatioInputEvents, 20));
 
-sliderC.addEventListener("input", sliderValue);
-sliderC.addEventListener("input", throttle(sliderInput, 10));
+sliderC.addEventListener('input', sliderValue);
+sliderC.addEventListener('input', throttle(sliderInput, 10));
 
-sliderD.addEventListener("input", sliderValue);
-sliderD.addEventListener("input", throttle(sliderInput, 10));
+sliderD.addEventListener('input', sliderValue);
+sliderD.addEventListener('input', throttle(sliderInput, 10));
 
 window.sliderValue = sliderValue;
 window.sliderInput = sliderInput;
 
 module.exports = {
   sliderValue,
-  sliderInput,
+  sliderInput
 };

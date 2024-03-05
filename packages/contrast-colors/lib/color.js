@@ -9,19 +9,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import chroma from "chroma-js";
-import { colorSpaces, createScale } from "./utils.js";
+import chroma from 'chroma-js';
+import {colorSpaces, createScale} from './utils.js';
 
 class Color {
-  constructor({
-    name,
-    colorKeys,
-    colorspace = "RGB",
-    ratios,
-    smooth = false,
-    output = "HEX",
-    saturation = 100,
-  }) {
+  constructor({name, colorKeys, colorspace = 'RGB', ratios, smooth = false, output = 'HEX', saturation = 100}) {
     this._name = name;
     this._colorKeys = colorKeys;
     this._modifiedKeys = colorKeys;
@@ -32,10 +24,10 @@ class Color {
     this._saturation = saturation;
 
     if (!this._name) {
-      throw new Error("Color missing name");
+      throw new Error('Color missing name');
     }
     if (!this._colorKeys) {
-      throw new Error("Color Keys are undefined");
+      throw new Error('Color Keys are undefined');
     }
     if (!colorSpaces[this._colorspace]) {
       throw new Error(`Colorspace “${colorspace}” not supported`);
@@ -99,7 +91,7 @@ class Color {
   }
 
   set smooth(smooth) {
-    if (smooth === true || smooth === "true") this._smooth = smooth;
+    if (smooth === true || smooth === 'true') this._smooth = smooth;
     else this._smooth = false;
 
     this._generateColorScale();
@@ -131,11 +123,7 @@ class Color {
       let currentOklch = chroma(`${key}`).oklch();
       let currentSaturation = currentOklch[1];
       let newSaturation = currentSaturation * (this._saturation / 100);
-      let newOklch = chroma.oklch(
-        currentOklch[0],
-        newSaturation,
-        currentOklch[2],
-      );
+      let newOklch = chroma.oklch(currentOklch[0], newSaturation, currentOklch[2]);
       let newColor = chroma.rgb(newOklch).hex();
       newColorKeys.push(newColor);
     });
@@ -154,8 +142,8 @@ class Color {
       colorspace: this._colorspace,
       shift: 1,
       smooth: this._smooth,
-      asFun: true,
+      asFun: true
     });
   }
 }
-export { Color };
+export {Color};

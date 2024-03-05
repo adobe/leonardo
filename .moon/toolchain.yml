@@ -1,5 +1,5 @@
 # https://moonrepo.dev/docs/config/toolchain
-$schema: "https://moonrepo.dev/schemas/toolchain.json"
+$schema: 'https://moonrepo.dev/schemas/toolchain.json'
 
 # Extend and inherit an external configuration file. Must be a valid HTTPS URL or file system path.
 # extends: './shared/toolchain.yml'
@@ -10,15 +10,15 @@ $schema: "https://moonrepo.dev/schemas/toolchain.json"
 node:
   # The version to use. Must be a semantic version that includes major, minor, and patch.
   # We suggest using the latest active LTS version: https://nodejs.org/en/about/releases
-  version: "20.0.0"
+  version: '20.0.0'
 
   # The package manager to use when managing dependencies.
   # Accepts "npm" (default), "pnpm", or "yarn".
-  packageManager: "pnpm"
+  packageManager: 'pnpm'
 
   # The version of the package manager (above) to use.
   pnpm:
-    version: "8.15.1"
+    version: '8.15.4'
 
   # Add `node.version` as a constraint in the root `package.json` `engines`.
   addEnginesConstraint: true

@@ -9,65 +9,62 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from "@adobe/leonardo-contrast-colors";
-import { _theme } from "./initialTheme";
-import { themeUpdateParams } from "./themeUpdate";
-import { addColorScale } from "./colorScale";
-import { getContrastRatioInputs, getAllColorNames } from "./getThemeData";
-import {
-  getClosestColorName,
-  getRandomColorName,
-} from "./predefinedColorNames";
-import { groupCommonHues, removeElementsByClass } from "./utils";
-import { prominent, average } from "color.js";
+import * as Leo from '@adobe/leonardo-contrast-colors';
+import {_theme} from './initialTheme';
+import {themeUpdateParams} from './themeUpdate';
+import {addColorScale} from './colorScale';
+import {getContrastRatioInputs, getAllColorNames} from './getThemeData';
+import {getClosestColorName, getRandomColorName} from './predefinedColorNames';
+import {groupCommonHues, removeElementsByClass} from './utils';
+import {prominent, average} from 'color.js';
 
 function addColorsFromImage() {
   const imageColorAmmount = 18; // 25
   const imageColorGrouping = 100; // 30
 
-  const input = document.getElementById("image-upload");
+  const input = document.getElementById('image-upload');
   const ratios = getContrastRatioInputs();
-  const preview = document.getElementById("image-preview");
+  const preview = document.getElementById('image-preview');
   while (preview.firstChild) {
     preview.removeChild(preview.firstChild);
   }
   const curFiles = input.files;
   if (curFiles.length === 0) {
-    const para = document.createElement("p");
+    const para = document.createElement('p');
   } else {
     for (const file of curFiles) {
-      const para = document.createElement("p");
-      para.className = "spectrum-Body image-preview_text";
+      const para = document.createElement('p');
+      para.className = 'spectrum-Body image-preview_text';
 
       if (validFileType(file)) {
         para.textContent = `Color scales extracted from ${file.name}.`;
-        const image = document.createElement("img");
+        const image = document.createElement('img');
         const fileUrl = URL.createObjectURL(file);
         image.src = fileUrl;
 
         preview.appendChild(image);
         average(fileUrl)
           .then((color) => {
-            removeElementsByClass("themeColor_item");
+            removeElementsByClass('themeColor_item');
 
             const existingColorNames = getAllColorNames();
-            color = chroma(color[0], color[1], color[2], "rgb");
+            color = chroma(color[0], color[1], color[2], 'rgb');
 
             let colorName;
             let closest = getClosestColorName(color);
             let duplicateName = existingColorNames.includes(closest);
             if (closest && !duplicateName) colorName = closest;
-            if (!colorName) colorName = "Gray";
+            if (!colorName) colorName = 'Gray';
 
             // Remove gray and replace with new average color as the base
-            _theme.removeColor = { name: "Gray" };
+            _theme.removeColor = {name: 'Gray'};
 
             let newColor = new Leo.BackgroundColor({
               name: colorName,
               colorKeys: [color.hex()],
-              colorspace: "CAM02p",
+              colorspace: 'CAM02p',
               ratios: ratios,
-              smooth: true,
+              smooth: true
             });
             addColorScale(newColor, true);
 
@@ -76,8 +73,8 @@ function addColorsFromImage() {
           .then(() => {
             prominent(fileUrl, {
               amount: imageColorAmmount,
-              format: "hex",
-              group: imageColorGrouping,
+              format: 'hex',
+              group: imageColorGrouping
             }).then((colors) => {
               // First we grab a large group of colors from Prominant/color.js
               // then, we need to call our own utility function to group
@@ -99,9 +96,9 @@ function addColorsFromImage() {
                 let newColor = new Leo.BackgroundColor({
                   name: colorName,
                   colorKeys: color,
-                  colorspace: "CAM02p",
+                  colorspace: 'CAM02p',
                   ratios: ratios,
-                  smooth: true,
+                  smooth: true
                 });
                 addColorScale(newColor, true);
               });
@@ -122,18 +119,7 @@ function addColorsFromImage() {
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types
-const fileTypes = [
-  "image/apng",
-  "image/bmp",
-  "image/gif",
-  "image/jpeg",
-  "image/pjpeg",
-  "image/png",
-  "image/svg+xml",
-  "image/tiff",
-  "image/webp",
-  `image/x-icon`,
-];
+const fileTypes = ['image/apng', 'image/bmp', 'image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/svg+xml', 'image/tiff', 'image/webp', `image/x-icon`];
 
 function validFileType(file) {
   return fileTypes.includes(file.type);
@@ -142,5 +128,5 @@ function validFileType(file) {
 window.addColorsFromImage = addColorsFromImage;
 
 module.exports = {
-  addColorsFromImage,
+  addColorsFromImage
 };

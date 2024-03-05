@@ -9,39 +9,39 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { themeUpdate } from "./themeUpdate";
+import {themeUpdate} from './themeUpdate';
 
 function showToast() {
-  let toast = document.getElementById("toastCVDpreview");
-  if (toast.classList.contains("is-visible")) {
+  let toast = document.getElementById('toastCVDpreview');
+  if (toast.classList.contains('is-visible')) {
     // do nothing
   } else {
-    toast.classList.remove("spectrum-Exit");
-    toast.classList.add("spectrum-Bounce");
-    toast.classList.add("is-visible");
+    toast.classList.remove('spectrum-Exit');
+    toast.classList.add('spectrum-Bounce');
+    toast.classList.add('is-visible');
   }
 }
 
 function hideToast() {
-  let toast = document.getElementById("toastCVDpreview");
-  toast.classList.remove("spectrum-Bounce");
-  toast.classList.add("spectrum-Exit");
-  toast.classList.remove("is-visible");
+  let toast = document.getElementById('toastCVDpreview');
+  toast.classList.remove('spectrum-Bounce');
+  toast.classList.add('spectrum-Exit');
+  toast.classList.remove('is-visible');
 }
 
 function exitPreview() {
-  cvdModeDropdown.value = "None";
+  cvdModeDropdown.value = 'None';
 
   themeUpdate();
   hideToast();
 }
 
 function neverShowToast() {
-  let toast = document.getElementById("toastCVDpreview");
-  toast.classList.remove("spectrum-Bounce");
-  toast.classList.add("spectrum-Exit");
-  toast.classList.remove("is-visible");
-  toast.classList.add("hidden");
+  let toast = document.getElementById('toastCVDpreview');
+  toast.classList.remove('spectrum-Bounce');
+  toast.classList.add('spectrum-Exit');
+  toast.classList.remove('is-visible');
+  toast.classList.add('hidden');
 }
 
 window.showToast = showToast;
@@ -53,5 +53,5 @@ module.exports = {
   showToast,
   hideToast,
   exitPreview,
-  neverShowToast,
+  neverShowToast
 };

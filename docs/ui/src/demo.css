@@ -18,7 +18,7 @@ governing permissions and limitations under the License.
 // Grays:
 // http://localhost:8080/?color=707080&base=fafafb&tint=cacad0&shade=333351&ratios=1%2C1.25%2C1.94%2C3%2C3.99%2C5.22%2C6.96%2C9.3%2C12.45%2C15&mode=LAB
  */
-@import url("https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800&display=swap');
 :root {
   /* Alias global values for contextual use */
   --blueBackground: var(--blue100);
@@ -62,7 +62,7 @@ body {
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 header {
   color: #000000;
@@ -100,7 +100,7 @@ label {
   grid-template-columns: auto var(--detail-width);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  grid-template-areas: "master detail";
+  grid-template-areas: 'master detail';
   overflow: hidden;
   height: calc(100vh - 48px);
 }
@@ -413,7 +413,7 @@ label {
 }
 
 li.active::after {
-  content: " ";
+  content: ' ';
   position: absolute;
   display: block;
   width: 100%;

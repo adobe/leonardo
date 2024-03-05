@@ -9,49 +9,37 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import d3 from "./d3";
-import { filterNaN } from "./utils";
-import { getAllColorKeys, getColorClassById } from "./getThemeData";
-import { _theme } from "./initialTheme";
-import { _sequentialScale } from "./initialSequentialScale";
-import { _divergingScale } from "./initialDivergingScale";
-import { createHtmlElement, createSvgElement } from "./createHtmlElement";
-import { polarColorPath } from "./polarColorPath";
-import { convertToCartesian, removeElementsByClass, throttle } from "./utils";
-import { create3dModel } from "./create3dModel";
-const chroma = require("chroma-js");
-const { extendChroma } = require("./chroma-plus");
+import d3 from './d3';
+import {filterNaN} from './utils';
+import {getAllColorKeys, getColorClassById} from './getThemeData';
+import {_theme} from './initialTheme';
+import {_sequentialScale} from './initialSequentialScale';
+import {_divergingScale} from './initialDivergingScale';
+import {createHtmlElement, createSvgElement} from './createHtmlElement';
+import {polarColorPath} from './polarColorPath';
+import {convertToCartesian, removeElementsByClass, throttle} from './utils';
+import {create3dModel} from './create3dModel';
+const chroma = require('chroma-js');
+const {extendChroma} = require('./chroma-plus');
 extendChroma(chroma);
 
 const scaleWheelSize = 280;
 
-function updateColorDots(mode, scaleType = "theme", customColors, id) {
-  const size = scaleType === "theme" ? getColorWheelSize() : scaleWheelSize;
-  const colorClass =
-    scaleType === "theme" || scaleType === "colorScale"
-      ? _theme
-      : scaleType === "sequential"
-        ? _sequentialScale
-        : _divergingScale;
+function updateColorDots(mode, scaleType = 'theme', customColors, id) {
+  const size = scaleType === 'theme' ? getColorWheelSize() : scaleWheelSize;
+  const colorClass = scaleType === 'theme' || scaleType === 'colorScale' ? _theme : scaleType === 'sequential' ? _sequentialScale : _divergingScale;
 
   // Create dots for color wheel
   if (!mode) {
-    let colorDotsModeDropdown =
-      scaleType === "theme" ? document.getElementById("colorDotsMode") : null;
-    let colorDotsMode =
-      scaleType === "theme" ? colorDotsModeDropdown.value : "colorKeys";
+    let colorDotsModeDropdown = scaleType === 'theme' ? document.getElementById('colorDotsMode') : null;
+    let colorDotsMode = scaleType === 'theme' ? colorDotsModeDropdown.value : 'colorKeys';
     mode = colorDotsMode;
   }
 
-  let colorWheelModeDropdown =
-    scaleType === "theme" || scaleType === "colorScale"
-      ? document.getElementById("chartsMode")
-      : document.getElementById(`${scaleType}_chartsMode`);
+  let colorWheelModeDropdown = scaleType === 'theme' || scaleType === 'colorScale' ? document.getElementById('chartsMode') : document.getElementById(`${scaleType}_chartsMode`);
   let colorWheelMode, colorWheelLightness;
-  if (scaleType === "theme") {
-    let colorWheelLightnessDropdown = document.getElementById(
-      "colorWheelLightness",
-    );
+  if (scaleType === 'theme') {
+    let colorWheelLightnessDropdown = document.getElementById('colorWheelLightness');
     colorWheelLightness = colorWheelLightnessDropdown.value;
   } else {
     colorWheelLightness = 50;
@@ -59,27 +47,27 @@ function updateColorDots(mode, scaleType = "theme", customColors, id) {
   colorWheelMode = colorWheelModeDropdown.value;
 
   let allColors, dataColors;
-  if (scaleType === "theme") {
-    if (mode === "colorKeys") {
+  if (scaleType === 'theme') {
+    if (mode === 'colorKeys') {
       allColors = getAllColorKeys();
     }
-    if (mode === "colorScale") {
+    if (mode === 'colorScale') {
       allColors = [];
       _theme.colors.forEach((color) => {
         allColors.push(color.backgroundColorScale[colorWheelLightness]);
       });
     }
   }
-  if (scaleType === "qualitative") {
+  if (scaleType === 'qualitative') {
     allColors = customColors;
   }
-  if (scaleType === "sequential" || scaleType === "diverging") {
+  if (scaleType === 'sequential' || scaleType === 'diverging') {
     allColors = colorClass.colorKeys;
   }
-  if (scaleType === "colorScale") {
+  if (scaleType === 'colorScale') {
     allColors = customColors;
   }
-  if (!colorWheelMode) colorWheelMode = "CAM02p";
+  if (!colorWheelMode) colorWheelMode = 'CAM02p';
 
   let arr = getConvertedColorCoodrindates(allColors, colorWheelMode, scaleType);
   createColorWheelDots(arr, colorWheelMode, scaleType, id);
@@ -93,47 +81,42 @@ function getColorWheelSize() {
   return colorWheelSize;
 }
 
-function getConvertedColorCoodrindates(
-  colorValues,
-  mode,
-  scaleType = "theme",
-  dots = true,
-) {
+function getConvertedColorCoodrindates(colorValues, mode, scaleType = 'theme', dots = true) {
   // Cant seem to use the constant colorWheelSize or dotSize here, so we calculate it
-  const size = scaleType === "theme" ? getColorWheelSize() : scaleWheelSize;
+  const size = scaleType === 'theme' ? getColorWheelSize() : scaleWheelSize;
   let dotSize = dots ? 16 : -2;
   let defaultAchromaticDotOffset = size / 2 - dotSize / 2;
 
   let arr = [];
   colorValues.map((color) => {
     let c, h;
-    if (mode === "HSL" || mode === "RGB") {
+    if (mode === 'HSL' || mode === 'RGB') {
       c = chroma(color).hsl()[1] * 100;
       h = chroma(color).hsl()[0];
     }
-    if (mode === "HSLuv") {
+    if (mode === 'HSLuv') {
       c = chroma(color).hsluv()[1];
       h = chroma(color).hsluv()[0];
     }
-    if (mode === "HSV") {
+    if (mode === 'HSV') {
       c = chroma(color).hsv()[1] * 100;
       h = chroma(color).hsv()[0];
     }
-    if (mode === "LCH" || mode === "LAB") {
+    if (mode === 'LCH' || mode === 'LAB') {
       c = chroma(color).hcl()[1];
       h = chroma(color).hcl()[0];
     }
-    if (mode === "OKLCH" || mode === "OKLAB") {
+    if (mode === 'OKLCH' || mode === 'OKLAB') {
       c = chroma(color).oklch()[1] * 310;
       // c = chroma(color).oklch()[1];
       h = chroma(color).oklch()[2];
     }
-    if (mode === "CAM02p" || mode === "CAM02") {
+    if (mode === 'CAM02p' || mode === 'CAM02') {
       c = chroma(color).jch()[1];
       h = chroma(color).jch()[2];
     }
 
-    const conversion = convertToCartesian(c, h, "clamp");
+    const conversion = convertToCartesian(c, h, 'clamp');
     let x = conversion.x;
     let y = !dots ? conversion.y * -1 : conversion.y;
 
@@ -146,144 +129,108 @@ function getConvertedColorCoodrindates(
     arr.push({
       x: newX,
       y: newY,
-      color: color,
+      color: color
     });
   });
   return arr;
 }
 
-function createColorWheelDots(arr, colorWheelMode, scaleType = "theme", id) {
-  let colorClass =
-    scaleType === "theme"
-      ? _theme
-      : scaleType === "sequential"
-        ? _sequentialScale
-        : _divergingScale;
-  const polarPathDest =
-    scaleType === "theme" ? "colorWheelPaths" : `${scaleType}ColorWheelPaths`;
-  document.getElementById(polarPathDest).innerHTML = " ";
+function createColorWheelDots(arr, colorWheelMode, scaleType = 'theme', id) {
+  let colorClass = scaleType === 'theme' ? _theme : scaleType === 'sequential' ? _sequentialScale : _divergingScale;
+  const polarPathDest = scaleType === 'theme' ? 'colorWheelPaths' : `${scaleType}ColorWheelPaths`;
+  document.getElementById(polarPathDest).innerHTML = ' ';
 
-  const dotsClass = scaleType === "theme" ? "colorDot" : `${scaleType}ColorDot`;
-  const colorWheelId =
-    scaleType === "theme" ? "colorWheel" : `${scaleType}ColorWheel`;
-  const colorWheelLinesWrapper =
-    scaleType === "theme" ? "colorWheelLinesWrapper" : `${scaleType}ColorWheel`;
-  const canvasId =
-    scaleType === "theme" ? "colorWheelCanvas" : `${scaleType}ColorWheelCanvas`;
-  const linesId =
-    scaleType === "theme" ? "colorWheelLines" : `${scaleType}ColorWheelLines`;
+  const dotsClass = scaleType === 'theme' ? 'colorDot' : `${scaleType}ColorDot`;
+  const colorWheelId = scaleType === 'theme' ? 'colorWheel' : `${scaleType}ColorWheel`;
+  const colorWheelLinesWrapper = scaleType === 'theme' ? 'colorWheelLinesWrapper' : `${scaleType}ColorWheel`;
+  const canvasId = scaleType === 'theme' ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
+  const linesId = scaleType === 'theme' ? 'colorWheelLines' : `${scaleType}ColorWheelLines`;
   removeElementsByClass(dotsClass);
   const c = document.getElementById(canvasId);
   const existingLines = document.getElementById(linesId);
   if (existingLines) existingLines.parentNode.removeChild(existingLines);
 
-  const size = scaleType === "theme" ? getColorWheelSize() : scaleWheelSize; // 220
+  const size = scaleType === 'theme' ? getColorWheelSize() : scaleWheelSize; // 220
   let center = size / 2;
 
   let data;
-  if (scaleType === "theme") {
+  if (scaleType === 'theme') {
     // Need to loop and create many paths
     for (let i = 0; i < colorClass.colors.length; i++) {
-      data = getConvertedColorCoodrindates(
-        colorClass.colors[i].backgroundColorScale,
-        colorWheelMode,
-        scaleType,
-        false,
-      );
+      data = getConvertedColorCoodrindates(colorClass.colors[i].backgroundColorScale, colorWheelMode, scaleType, false);
 
       polarColorPath(data, size, scaleType);
     }
   }
-  if (scaleType === "qualitative") {
-    data = getConvertedColorCoodrindates(
-      colorClass.colors,
-      colorWheelMode,
-      scaleType,
-      false,
-    );
+  if (scaleType === 'qualitative') {
+    data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
   }
-  if (scaleType === "sequential" || scaleType === "diverging") {
-    data = getConvertedColorCoodrindates(
-      colorClass.colors,
-      colorWheelMode,
-      scaleType,
-      false,
-    );
+  if (scaleType === 'sequential' || scaleType === 'diverging') {
+    data = getConvertedColorCoodrindates(colorClass.colors, colorWheelMode, scaleType, false);
     polarColorPath(data, size, scaleType);
   }
-  if (scaleType === "colorScale") {
+  if (scaleType === 'colorScale') {
     colorClass = getColorClassById(id);
-    data = getConvertedColorCoodrindates(
-      colorClass.backgroundColorScale,
-      colorWheelMode,
-      scaleType,
-      false,
-    );
+    data = getConvertedColorCoodrindates(colorClass.backgroundColorScale, colorWheelMode, scaleType, false);
     polarColorPath(data, size, scaleType);
   }
 
   const svg = createSvgElement({
-    element: "svg",
+    element: 'svg',
     id: linesId,
     attributes: {
       height: size,
-      width: size,
+      width: size
     },
-    appendTo: colorWheelLinesWrapper,
+    appendTo: colorWheelLinesWrapper
   });
 
   arr.map((obj) => {
     createHtmlElement({
-      element: "div",
+      element: 'div',
       className: dotsClass,
       styles: {
         backgroundColor: obj.color,
-        top: obj.y + "px",
-        left: obj.x + "px",
+        top: obj.y + 'px',
+        left: obj.x + 'px'
       },
-      appendTo: colorWheelId,
+      appendTo: colorWheelId
     });
 
     // Create harmony lines
     createSvgElement({
-      element: "line",
-      className: "colorDot-HarmonyLine",
+      element: 'line',
+      className: 'colorDot-HarmonyLine',
       attributes: {
         height: size,
         width: size,
         x1: center,
         y1: center,
         x2: obj.x + 10,
-        y2: obj.y + 10,
+        y2: obj.y + 10
       },
       styles: {
-        stroke: "rgba(255, 255, 255, 0.75)",
+        stroke: 'rgba(255, 255, 255, 0.75)',
         strokeWidth: 2.5,
-        strokeLinecap: "round",
-        filter: "drop-shadow( 0 0 1px rgba(0, 0, 0, .5))",
-        strokeDasharray: "4 6",
+        strokeLinecap: 'round',
+        filter: 'drop-shadow( 0 0 1px rgba(0, 0, 0, .5))',
+        strokeDasharray: '4 6'
       },
-      appendTo: linesId,
+      appendTo: linesId
     });
   });
 }
 
 function createColorWheel(mode, lightness, scaleType) {
   lightness = Number(lightness);
-  const size = scaleType === "theme" ? getColorWheelSize() : scaleWheelSize;
-  const wheelId =
-    scaleType === "theme" ? "#colorWheel" : `#${scaleType}ColorWheel`;
-  const canvasId =
-    scaleType === "theme" ? "colorWheelCanvas" : `${scaleType}ColorWheelCanvas`;
+  const size = scaleType === 'theme' ? getColorWheelSize() : scaleWheelSize;
+  const wheelId = scaleType === 'theme' ? '#colorWheel' : `#${scaleType}ColorWheel`;
+  const canvasId = scaleType === 'theme' ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
 
   let container = d3.select(wheelId);
-  let canvas = container
-    .append("canvas")
-    .attr("height", size)
-    .attr("width", size)
-    .attr("id", canvasId);
+  let canvas = container.append('canvas').attr('height', size).attr('width', size).attr('id', canvasId);
 
-  const context = canvas.node().getContext("2d");
+  const context = canvas.node().getContext('2d');
   canvas.id = canvasId;
 
   var x = size / 2;
@@ -303,37 +250,37 @@ function createColorWheel(mode, lightness, scaleType) {
 
     let colorStart, colorMid1, colorMid2, colorMid3, colorStop;
 
-    if (mode === "HSL" || mode === "RGB") {
+    if (mode === 'HSL' || mode === 'RGB') {
       colorStart = chroma.hsl(angle, 0, lightness / 100).hex();
       colorMid1 = chroma.hsl(angle, 0.25, lightness / 100).hex();
       colorMid2 = chroma.hsl(angle, 0.5, lightness / 100).hex();
       colorMid3 = chroma.hsl(angle, 0.75, lightness / 100).hex();
       colorStop = chroma.hsl(angle, 1, lightness / 100).hex();
-    } else if (mode === "HSV") {
+    } else if (mode === 'HSV') {
       colorStart = chroma.hsv(angle, 0, lightness / 100).hex();
       colorMid1 = chroma.hsv(angle, 0.25, lightness / 100).hex();
       colorMid2 = chroma.hsv(angle, 0.5, lightness / 100).hex();
       colorMid3 = chroma.hsv(angle, 0.75, lightness / 100).hex();
       colorStop = chroma.hsv(angle, 1, lightness / 100).hex();
-    } else if (mode === "OKLCH" || mode === "OKLAB") {
+    } else if (mode === 'OKLCH' || mode === 'OKLAB') {
       colorStart = chroma.oklch(lightness / 100, 0, angle).hex();
       colorMid1 = chroma.oklch(lightness / 100, 0.0805, angle).hex();
       colorMid2 = chroma.oklch(lightness / 100, 0.161, angle).hex();
       colorMid3 = chroma.oklch(lightness / 100, 0.2415, angle).hex();
       colorStop = chroma.oklch(lightness / 100, 0.322, angle).hex();
-    } else if (mode === "LCH" || mode === "LAB") {
+    } else if (mode === 'LCH' || mode === 'LAB') {
       colorStart = chroma.lch(lightness, 0, angle).hex();
       colorMid1 = chroma.lch(lightness, 25, angle).hex();
       colorMid2 = chroma.lch(lightness, 50, angle).hex();
       colorMid3 = chroma.lch(lightness, 75, angle).hex();
       colorStop = chroma.lch(lightness, 100, angle).hex();
-    } else if (mode === "HSLuv") {
+    } else if (mode === 'HSLuv') {
       colorStart = chroma.hsluv(angle, 0, lightness).hex();
       colorMid1 = chroma.hsluv(angle, 25, lightness).hex();
       colorMid2 = chroma.hsluv(angle, 50, lightness).hex();
       colorMid3 = chroma.hsluv(angle, 75, lightness).hex();
       colorStop = chroma.hsluv(angle, 100, lightness).hex();
-    } else if (mode === "CAM02" || mode === "CAM02p") {
+    } else if (mode === 'CAM02' || mode === 'CAM02p') {
       colorStart = chroma.jch(lightness, 0, angle).hex();
       colorMid1 = chroma.jch(lightness, 25, angle).hex();
       colorMid2 = chroma.jch(lightness, 50, angle).hex();
@@ -358,8 +305,7 @@ function getSmallestWindowDimension() {
   let adjustedWidth = windowWidth / 2 - 386; // subtract panel width and padding from measurement
   if (windowWidth > 800) adjustedWidth = windowWidth * 0.2176;
   let adjustedHeight = windowHeight - 234; // subtract heading, tabs height and padding from measurement
-  let smallestDimension =
-    adjustedWidth < adjustedHeight ? adjustedWidth : adjustedHeight;
+  let smallestDimension = adjustedWidth < adjustedHeight ? adjustedWidth : adjustedHeight;
   return smallestDimension;
 }
 getSmallestWindowDimension();
@@ -376,17 +322,8 @@ function shiftValue(v, colorWheelSize, dotSize) {
   return centeredVal;
 }
 
-function updateColorWheel(
-  mode,
-  lightness,
-  dots,
-  dotsMode,
-  scaleType,
-  colors,
-  id,
-) {
-  const canvasId =
-    scaleType === "theme" ? "colorWheelCanvas" : `${scaleType}ColorWheelCanvas`;
+function updateColorWheel(mode, lightness, dots, dotsMode, scaleType, colors, id) {
+  const canvasId = scaleType === 'theme' ? 'colorWheelCanvas' : `${scaleType}ColorWheelCanvas`;
   let canvasDom = Promise.resolve(document.getElementById(canvasId));
   canvasDom.then((canvas) => {
     if (canvas) {
@@ -397,9 +334,9 @@ function updateColorWheel(
   });
 }
 
-const colorWheelMode = document.getElementById("chartsMode");
-const colorDotsMode = document.getElementById("colorDotsMode");
-const colorWheelLightness = document.getElementById("colorWheelLightness");
+const colorWheelMode = document.getElementById('chartsMode');
+const colorDotsMode = document.getElementById('colorDotsMode');
+const colorWheelLightness = document.getElementById('colorWheelLightness');
 
 // Not the best way to do this. Basically relying on the id's defined globally above
 // as elements present only in the Theme html file. So all these event listeners
@@ -408,70 +345,48 @@ const colorWheelLightness = document.getElementById("colorWheelLightness");
 // which until now I was able to easily, manually pass. Not sure how to
 // define this aside from manually declaring each specific ID.
 if (colorWheelMode) {
-  updateColorWheel(
-    colorWheelMode.value,
-    colorWheelLightness.value,
-    true,
-    null,
-    "theme",
-  );
+  updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true, null, 'theme');
 
-  colorWheelMode.addEventListener("input", function (e) {
+  colorWheelMode.addEventListener('input', function (e) {
     let mode = e.target.value;
-    let colorDotsModeDropdown = document.getElementById("colorDotsMode");
+    let colorDotsModeDropdown = document.getElementById('colorDotsMode');
     let dotsMode = colorDotsModeDropdown.value;
 
-    updateColorWheel(mode, colorWheelLightness.value, true, dotsMode, "theme");
+    updateColorWheel(mode, colorWheelLightness.value, true, dotsMode, 'theme');
 
-    create3dModel("paletteModelWrapper", _theme.colors, mode);
+    create3dModel('paletteModelWrapper', _theme.colors, mode);
   });
 
   window.onresize = () => {
-    updateColorWheel(
-      colorWheelMode.value,
-      colorWheelLightness.value,
-      true,
-      "theme",
-    );
+    updateColorWheel(colorWheelMode.value, colorWheelLightness.value, true, 'theme');
   };
 
-  colorWheelLightness.addEventListener("input", function (e) {
+  colorWheelLightness.addEventListener('input', function (e) {
     let lightness = e.target.value;
-    let colorDotsModeDropdown = document.getElementById("colorDotsMode");
+    let colorDotsModeDropdown = document.getElementById('colorDotsMode');
     let dotsMode = colorDotsModeDropdown.value;
-    let showDots = dotsMode === "colorScale" ? true : false;
+    let showDots = dotsMode === 'colorScale' ? true : false;
 
-    throttle(
-      updateColorWheel(
-        colorWheelMode.value,
-        lightness,
-        showDots,
-        dotsMode,
-        "theme",
-      ),
-      10,
-    );
+    throttle(updateColorWheel(colorWheelMode.value, lightness, showDots, dotsMode, 'theme'), 10);
   });
 
-  colorDotsMode.addEventListener("input", function (e) {
+  colorDotsMode.addEventListener('input', function (e) {
     let mode = e.target.value;
 
-    updateColorDots(mode, "theme");
+    updateColorDots(mode, 'theme');
   });
 
-  const colorPathsSwitch = document.getElementById("colorPathsSwitch");
-  const colorPaths = document.getElementById("colorWheelPaths");
-  colorPathsSwitch.addEventListener("change", (e) => {
+  const colorPathsSwitch = document.getElementById('colorPathsSwitch');
+  const colorPaths = document.getElementById('colorWheelPaths');
+  colorPathsSwitch.addEventListener('change', (e) => {
     let checked = e.target.checked;
     if (checked) colorPaths.style.opacity = 1;
     else colorPaths.style.opacity = 0;
   });
 
-  const colorHarmonyLinesSwitch = document.getElementById(
-    "colorHarmonyLinesSwitch",
-  );
-  const colorHarmonyLines = document.getElementById("colorWheelLinesWrapper");
-  colorHarmonyLinesSwitch.addEventListener("change", (e) => {
+  const colorHarmonyLinesSwitch = document.getElementById('colorHarmonyLinesSwitch');
+  const colorHarmonyLines = document.getElementById('colorWheelLinesWrapper');
+  colorHarmonyLinesSwitch.addEventListener('change', (e) => {
     let checked = e.target.checked;
 
     if (checked) colorHarmonyLines.style.opacity = 1;
@@ -487,5 +402,5 @@ module.exports = {
   createColorWheel,
   getSmallestWindowDimension,
   shiftValue,
-  updateColorWheel,
+  updateColorWheel
 };

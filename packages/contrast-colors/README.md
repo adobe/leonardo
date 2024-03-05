@@ -23,44 +23,40 @@ npm i @adobe/leonardo-contrast-colors
 #### CJS (Node 12.x)
 
 ```js
-const {
-  Theme,
-  Color,
-  BackgroundColor,
-} = require("@adobe/leonardo-contrast-colors");
+const {Theme, Color, BackgroundColor} = require('@adobe/leonardo-contrast-colors');
 ```
 
 #### ESM (Node 13.x)
 
 ```js
-import { Theme, Color, BackgroundColor } from "@adobe/leonardo-contrast-colors";
+import {Theme, Color, BackgroundColor} from '@adobe/leonardo-contrast-colors';
 ```
 
 ### Create and pass colors and a background color to a new Theme (see additional options below):
 
 ```js
 let gray = new BackgroundColor({
-  name: "gray",
-  colorKeys: ["#cacaca"],
-  ratios: [2, 3, 4.5, 8],
+  name: 'gray',
+  colorKeys: ['#cacaca'],
+  ratios: [2, 3, 4.5, 8]
 });
 
 let blue = new Color({
-  name: "blue",
-  colorKeys: ["#5CDBFF", "#0000FF"],
-  ratios: [3, 4.5],
+  name: 'blue',
+  colorKeys: ['#5CDBFF', '#0000FF'],
+  ratios: [3, 4.5]
 });
 
 let red = new Color({
-  name: "red",
-  colorKeys: ["#FF9A81", "#FF0000"],
-  ratios: [3, 4.5],
+  name: 'red',
+  colorKeys: ['#FF9A81', '#FF0000'],
+  ratios: [3, 4.5]
 });
 
 let theme = new Theme({
   colors: [gray, blue, red],
   backgroundColor: gray,
-  lightness: 97,
+  lightness: 97
 });
 
 // returns theme colors as JSON
@@ -198,21 +194,21 @@ For example:
 
 ```js
 new Color({
-  name: "blue",
-  colorKeys: ["#5CDBFF", "#0000FF"],
-  colorSpace: "LCH",
-  ratios: [3, 4.5],
+  name: 'blue',
+  colorKeys: ['#5CDBFF', '#0000FF'],
+  colorSpace: 'LCH',
+  ratios: [3, 4.5]
 });
 
 // Returns:
 [
   {
-    name: "blue",
+    name: 'blue',
     values: [
-      { name: "blue100", contrast: 3, value: "#8d63ff" },
-      { name: "blue200", contrast: 4.5, value: "#623aff" },
-    ],
-  },
+      {name: 'blue100', contrast: 3, value: '#8d63ff'},
+      {name: 'blue200', contrast: 4.5, value: '#623aff'}
+    ]
+  }
 ];
 ```
 
@@ -222,24 +218,24 @@ When defining ratios as an object with key-value pairs, you define what name wil
 
 ```js
 new Color({
-  name: "blue",
-  colorKeys: ["#5CDBFF", "#0000FF"],
-  colorSpace: "LCH",
+  name: 'blue',
+  colorKeys: ['#5CDBFF', '#0000FF'],
+  colorSpace: 'LCH',
   ratios: {
-    "blue--largeText": 3,
-    "blue--normalText": 4.5,
-  },
+    'blue--largeText': 3,
+    'blue--normalText': 4.5
+  }
 });
 
 // Returns:
 [
   {
-    name: "blue",
+    name: 'blue',
     values: [
-      { name: "blue--largeText", contrast: 3, value: "#8d63ff" },
-      { name: "blue--normalText", contrast: 4.5, value: "#623aff" },
-    ],
-  },
+      {name: 'blue--largeText', contrast: 3, value: '#8d63ff'},
+      {name: 'blue--normalText', contrast: 4.5, value: '#623aff'}
+    ]
+  }
 ];
 ```
 
@@ -260,25 +256,25 @@ Each color is an object named by user-defined value (eg `name: 'gray'`). "Values
 
 ```js
 [
-  { background: "#e0e0e0" },
+  {background: '#e0e0e0'},
   {
-    name: "gray",
+    name: 'gray',
     values: [
-      { name: "gray100", contrast: 1, value: "#e0e0e0" },
-      { name: "gray200", contrast: 2, value: "#a0a0a0" },
-      { name: "gray300", contrast: 3, value: "#808080" },
-      { name: "gray400", contrast: 4.5, value: "#646464" },
-    ],
+      {name: 'gray100', contrast: 1, value: '#e0e0e0'},
+      {name: 'gray200', contrast: 2, value: '#a0a0a0'},
+      {name: 'gray300', contrast: 3, value: '#808080'},
+      {name: 'gray400', contrast: 4.5, value: '#646464'}
+    ]
   },
   {
-    name: "blue",
+    name: 'blue',
     values: [
-      { name: "blue100", contrast: 2, value: "#b18cff" },
-      { name: "blue200", contrast: 3, value: "#8d63ff" },
-      { name: "blue300", contrast: 4.5, value: "#623aff" },
-      { name: "blue400", contrast: 8, value: "#1c0ad1" },
-    ],
-  },
+      {name: 'blue100', contrast: 2, value: '#b18cff'},
+      {name: 'blue200', contrast: 3, value: '#8d63ff'},
+      {name: 'blue300', contrast: 4.5, value: '#623aff'},
+      {name: 'blue400', contrast: 8, value: '#1c0ad1'}
+    ]
+  }
 ];
 ```
 
@@ -304,16 +300,7 @@ Simplified format as an object of key-value pairs. Property is equal to the [gen
 Returns all color values in a flat array.
 
 ```js
-[
-  "#e0e0e0",
-  "#a0a0a0",
-  "#808080",
-  "#646464",
-  "#b18cff",
-  "#8d63ff",
-  "#623aff",
-  "#1c0ad1",
-];
+['#e0e0e0', '#a0a0a0', '#808080', '#646464', '#b18cff', '#8d63ff', '#623aff', '#1c0ad1'];
 ```
 
 ---
@@ -325,7 +312,7 @@ Here are a few examples of how you can utilize Leonardo to dynamically create or
 ### Vanilla JS
 
 ```js
-let varPrefix = "--";
+let varPrefix = '--';
 
 // Iterate each color object
 for (let i = 0; i < myTheme.length; i++) {
@@ -347,32 +334,32 @@ for (let i = 0; i < myTheme.length; i++) {
 Create a new Theme component `Theme.js` with your parameters:
 
 ```js
-import * as Leo from "@adobe/leonardo-contrast-colors";
+import * as Leo from '@adobe/leonardo-contrast-colors';
 
 const Theme = () => {
   let gray = new Leo.BackgroundColor({
-    name: "gray",
-    colorKeys: ["#cacaca"],
-    ratios: [2, 3, 4.5, 8],
+    name: 'gray',
+    colorKeys: ['#cacaca'],
+    ratios: [2, 3, 4.5, 8]
   });
 
   let blue = new Leo.Color({
-    name: "blue",
-    colorKeys: ["#5CDBFF", "#0000FF"],
-    ratios: [3, 4.5],
+    name: 'blue',
+    colorKeys: ['#5CDBFF', '#0000FF'],
+    ratios: [3, 4.5]
   });
 
   let red = new Leo.Color({
-    name: "red",
-    colorKeys: ["#FF9A81", "#FF0000"],
-    ratios: [3, 4.5],
+    name: 'red',
+    colorKeys: ['#FF9A81', '#FF0000'],
+    ratios: [3, 4.5]
   });
 
   const adaptiveTheme = new Leo.Theme({
     colors: [gray, blue, red],
     backgroundColor: gray,
     lightness: 97,
-    contrast: 1,
+    contrast: 1
   });
 
   return adaptiveTheme;
@@ -385,13 +372,13 @@ Then import your Theme component at the top level of your application, and pass 
 
 ```js
 // index.js
-import Theme from "./components/Theme";
+import Theme from './components/Theme';
 
 ReactDOM.render(
   <React.StrictMode>
     <App adaptiveTheme={Theme()} />
   </React.StrictMode>,
-  document.getElementById("root"),
+  document.getElementById('root')
 );
 ```
 
@@ -399,7 +386,7 @@ In your App.js file, import `useTheme` from `css-vars-hook` and provide the foll
 
 ```js
 // App.js
-import { useTheme } from "css-vars-hook";
+import {useTheme} from 'css-vars-hook';
 
 function App(props) {
   const [lightness, setLightness] = useState(100);
@@ -417,7 +404,7 @@ function App(props) {
         });
       } else {
         // must be the background
-        let name = "background";
+        let name = 'background';
         let val = color.background;
         themeObj[name] = val;
       }
@@ -427,7 +414,7 @@ function App(props) {
 
   const theme = useState(_createThemeObject());
 
-  const { setRef, setVariable } = useTheme(theme);
+  const {setRef, setVariable} = useTheme(theme);
 
   return <div className="App" ref={setRef}></div>;
 }
@@ -490,14 +477,14 @@ Finally, reference this function and set the theme parameters when your users in
 Include the following in your App.js file to listen for dark mode. This will pass a different lightness value (of your choice) to Leonardo. It's recommended to restrict the lightness range based on mode in order to avoid inaccessible ranges and to provide a better overall experience
 
 ```js
-const mq = window.matchMedia("(prefers-color-scheme: dark)");
+const mq = window.matchMedia('(prefers-color-scheme: dark)');
 // Update lightness and slider min/max to be conditional:
 const [lightness, setLightness] = useState(mq.matches ? 8 : 100);
 const [sliderMin, setSliderMin] = useState(mq.matches ? 0 : 80);
 const [sliderMax, setSliderMax] = useState(mq.matches ? 30 : 100);
 
 // Listener to update when user device mode changes:
-mq.addEventListener("change", function (evt) {
+mq.addEventListener('change', function (evt) {
   props.adaptiveTheme.lightness = mq.matches ? 11 : 100;
   setLightness(mq.matches ? 11 : 100);
   setSliderMin(mq.matches ? 0 : 80);
@@ -540,7 +527,13 @@ Contributions are welcomed! Read the [Contributing Guide](../../.github/CONTRIBU
 You can run tests and watch for changes with:
 
 ```sh
-yarn dev
+pnpm dev
+```
+
+or run just tests once with:
+
+```sh
+pnpm test
 ```
 
 ## Licensing

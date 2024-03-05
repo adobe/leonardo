@@ -9,29 +9,24 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as d3 from "d3";
+import * as d3 from 'd3';
 
 function polarColorPath(data, size, scaleType) {
   const chartWidth = size;
   const chartHeight = size;
-  const dest =
-    scaleType === "theme" ? "#colorWheelPaths" : `#${scaleType}ColorWheelPaths`;
+  const dest = scaleType === 'theme' ? '#colorWheelPaths' : `#${scaleType}ColorWheelPaths`;
   const yMin = 0;
   const yMax = chartHeight; // might be wrong variable...
 
-  let xy_chart = d3_xy_chart()
-    .width(chartWidth)
-    .height(chartHeight)
-    .xlabel("xLabel")
-    .ylabel("yLabel");
+  let xy_chart = d3_xy_chart().width(chartWidth).height(chartHeight).xlabel('xLabel').ylabel('yLabel');
 
-  let svg = d3.select(dest).append("svg").datum(data).call(xy_chart);
+  let svg = d3.select(dest).append('svg').datum(data).call(xy_chart);
 
   function d3_xy_chart() {
     let width = chartWidth,
       height = chartHeight,
-      xlabel = "X Axis Label",
-      ylabel = "Y Axis Label";
+      xlabel = 'X Axis Label',
+      ylabel = 'Y Axis Label';
 
     function chart(selection) {
       selection.each(function (datasets) {
@@ -50,26 +45,20 @@ function polarColorPath(data, size, scaleType) {
           {
             x: dataX,
             y: dataY,
-            color: dataColor,
-          },
+            color: dataColor
+          }
         ];
 
-        let margin = { top: 0, right: 0, bottom: 0, left: 0 };
+        let margin = {top: 0, right: 0, bottom: 0, left: 0};
 
         let innerwidth = width - margin.left - margin.right;
         let innerheight = height - margin.top - margin.bottom;
 
-        let x_scale = d3
-          .scaleLinear()
-          .range([0, innerwidth])
-          .domain([yMin, yMax]);
+        let x_scale = d3.scaleLinear().range([0, innerwidth]).domain([yMin, yMax]);
 
-        let y_scale = d3
-          .scaleLinear()
-          .range([innerheight, 0])
-          .domain([yMin, yMax]);
+        let y_scale = d3.scaleLinear().range([innerheight, 0]).domain([yMin, yMax]);
 
-        let color = "#ffffff";
+        let color = '#ffffff';
 
         let draw_line = d3
           .line()
@@ -83,33 +72,30 @@ function polarColorPath(data, size, scaleType) {
 
         let svg = d3
           .select(this)
-          .attr("width", width)
-          .attr("height", height)
-          .append("g")
-          .attr(
-            "transform",
-            "translate(" + margin.left + "," + margin.top + ")",
-          );
+          .attr('width', width)
+          .attr('height', height)
+          .append('g')
+          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         let data_lines = svg
-          .selectAll(".d3_xy_chart_line")
+          .selectAll('.d3_xy_chart_line')
           .data(
             datasets.map(function (d) {
               return d3.zip(d.x, d.y);
-            }),
+            })
           )
           .enter()
-          .append("g")
-          .attr("class", "d3_xy_chart_line");
+          .append('g')
+          .attr('class', 'd3_xy_chart_line');
 
         data_lines
-          .append("path")
-          .attr("class", "line")
-          .attr("d", function (d) {
+          .append('path')
+          .attr('class', 'line')
+          .attr('d', function (d) {
             return draw_line(d);
           })
-          .attr("stroke", color)
-          .attr("filter", "drop-shadow( 0 0 1px rgba(0, 0, 0, .5))");
+          .attr('stroke', color)
+          .attr('filter', 'drop-shadow( 0 0 1px rgba(0, 0, 0, .5))');
       });
     }
 
@@ -142,5 +128,5 @@ function polarColorPath(data, size, scaleType) {
 }
 
 module.exports = {
-  polarColorPath,
+  polarColorPath
 };
