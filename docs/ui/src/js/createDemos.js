@@ -9,13 +9,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { heatmap } from "./demos/demo_heatmap";
-import { choropleth } from "./demos/demo_choropleth";
-import { chord } from "./demos/demo_chord";
-import { donut } from "./demos/demo_donut";
-import { stackedArea } from "./demos/demo_stackedArea";
-import { scatter } from "./demos/demo_scatter";
-import { density } from "./demos/demo_density";
+import {heatmap} from './demos/demo_heatmap';
+import {choropleth} from './demos/demo_choropleth';
+import {chord} from './demos/demo_chord';
+import {donut} from './demos/demo_donut';
+import {stackedArea} from './demos/demo_stackedArea';
+import {scatter} from './demos/demo_scatter';
+import {density} from './demos/demo_density';
 
 function createDemos(scaleType, colors) {
   const destHeatmap = document.getElementById(`${scaleType}Heatmap`);
@@ -27,7 +27,7 @@ function createDemos(scaleType, colors) {
 
   let dests;
 
-  if (scaleType === "qualitative") {
+  if (scaleType === 'qualitative') {
     dests = [destChord, destStackedArea, destDonut];
 
     chord(scaleType, colors);
@@ -51,5 +51,5 @@ function createDemos(scaleType, colors) {
 }
 
 module.exports = {
-  createDemos,
+  createDemos
 };

@@ -3,19 +3,19 @@
   padding: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: "Adobe Clean"; // local update since no typekit support currently.
+  font-family: 'Adobe Clean'; // local update since no typekit support currently.
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: var(--header-height) auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   grid-template-areas:
-    "header"
-    "main";
+    'header'
+    'main';
 }
 
 #output {
-  font-family: "Source Code Pro", monospace;
+  font-family: 'Source Code Pro', monospace;
   margin-top: 16px;
   padding: 0 4px;
   color: #000000;
@@ -53,7 +53,7 @@
   max-width: 60ch;
 }
 
-#converterGroup input[type="text"] + input[type="color"] {
+#converterGroup input[type='text'] + input[type='color'] {
   margin-left: 6px;
 }
 

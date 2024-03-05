@@ -9,40 +9,40 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as blinder from "color-blind";
+import * as blinder from 'color-blind';
 
-import d3 from "./d3";
-import { showToast, hideToast } from "./toast";
+import d3 from './d3';
+import {showToast, hideToast} from './toast';
 
 function cvdColors(colors) {
   const original = colors;
-  let cvdModeDropdown = document.getElementById("cvdMode");
+  let cvdModeDropdown = document.getElementById('cvdMode');
   let cvdMode = cvdModeDropdown.value;
 
   // if not an array
   if (!Array.isArray(colors)) {
-    if (cvdMode == "Deuteranomaly") {
+    if (cvdMode == 'Deuteranomaly') {
       colors = blinder.deuteranomaly(colors);
       showToast();
-    } else if (cvdMode == "Deuteranopia") {
+    } else if (cvdMode == 'Deuteranopia') {
       colors = blinder.deuteranopia(colors);
       showToast();
-    } else if (cvdMode == "Protanomaly") {
+    } else if (cvdMode == 'Protanomaly') {
       colors = blinder.protanomaly(colors);
       showToast();
-    } else if (cvdMode == "Protanopia") {
+    } else if (cvdMode == 'Protanopia') {
       colors = blinder.protanopia(colors);
       showToast();
-    } else if (cvdMode == "Tritanomaly") {
+    } else if (cvdMode == 'Tritanomaly') {
       colors = blinder.tritanomaly(colors);
       showToast();
-    } else if (cvdMode == "Tritanopia") {
+    } else if (cvdMode == 'Tritanopia') {
       colors = blinder.tritanopia(colors);
       showToast();
-    } else if (cvdMode == "Achromatomaly") {
+    } else if (cvdMode == 'Achromatomaly') {
       colors = blinder.achromatomaly(colors);
       showToast();
-    } else if (cvdMode == "Achromatopsia") {
+    } else if (cvdMode == 'Achromatopsia') {
       colors = blinder.achromatopsia(colors);
       showToast();
     } else {
@@ -52,21 +52,21 @@ function cvdColors(colors) {
   }
   // must be an array.
   else {
-    if (cvdMode == "Deuteranomaly") {
+    if (cvdMode == 'Deuteranomaly') {
       colors = colors.map((c) => blinder.deuteranomaly(c));
-    } else if (cvdMode == "Deuteranopia") {
+    } else if (cvdMode == 'Deuteranopia') {
       colors = colors.map((c) => blinder.deuteranopia(c));
-    } else if (cvdMode == "Protanomaly") {
+    } else if (cvdMode == 'Protanomaly') {
       colors = colors.map((c) => blinder.protanomaly(c));
-    } else if (cvdMode == "Protanopia") {
+    } else if (cvdMode == 'Protanopia') {
       colors = colors.map((c) => blinder.protanopia(c));
-    } else if (cvdMode == "Tritanomaly") {
+    } else if (cvdMode == 'Tritanomaly') {
       colors = colors.map((c) => blinder.tritanomaly(c));
-    } else if (cvdMode == "Tritanopia") {
+    } else if (cvdMode == 'Tritanopia') {
       colors = colors.map((c) => blinder.tritanopia(c));
-    } else if (cvdMode == "Achromatomaly") {
+    } else if (cvdMode == 'Achromatomaly') {
       colors = colors.map((c) => blinder.achromatomaly(c));
-    } else if (cvdMode == "Achromatopsia") {
+    } else if (cvdMode == 'Achromatopsia') {
       colors = colors.map((c) => blinder.achromatopsia(c));
     } else {
       // do nothing
@@ -77,4 +77,4 @@ function cvdColors(colors) {
   return colors;
 }
 
-module.exports = { cvdColors };
+module.exports = {cvdColors};

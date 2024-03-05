@@ -10,8 +10,8 @@ governing permissions and limitations under the License.
 */
 
 function pageLoader() {
-  const loader = document.getElementById("pageLoader");
-  const page = document.getElementById("page");
+  const loader = document.getElementById('pageLoader');
+  const page = document.getElementById('page');
   setTimeout(() => {
     page.style.opacity = 1;
   }, 50);
@@ -25,5 +25,5 @@ function pageLoader() {
 }
 
 module.exports = {
-  pageLoader,
+  pageLoader
 };

@@ -9,29 +9,15 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as Leo from "@adobe/leonardo-contrast-colors";
-import {
-  convertColorValue,
-  makePowScale,
-  round,
-  findMatchingLuminosity,
-  orderColorsByLuminosity,
-} from "./utils";
-const chroma = require("chroma-js");
-const { extendChroma } = require("./chroma-plus");
+import * as Leo from '@adobe/leonardo-contrast-colors';
+import {convertColorValue, makePowScale, round, findMatchingLuminosity, orderColorsByLuminosity} from './utils';
+const chroma = require('chroma-js');
+const {extendChroma} = require('./chroma-plus');
 
 extendChroma(chroma);
 
 class SequentialScale {
-  constructor({
-    swatches,
-    colorKeys,
-    colorspace,
-    smooth,
-    distributeLightness = "linear",
-    shift,
-    output,
-  }) {
+  constructor({swatches, colorKeys, colorspace, smooth, distributeLightness = 'linear', shift, output}) {
     (this._swatches = swatches), (this._colorKeys = colorKeys);
     this._luminosities = this._getLuminosities();
     this._colorspace = colorspace;
@@ -153,7 +139,7 @@ class SequentialScale {
     let lumsObj = this._colorKeys.map((c) => {
       return {
         color: c,
-        lum: chroma(c).jch()[0],
+        lum: chroma(c).jch()[0]
       };
     });
     lumsObj.sort((a, b) => (a.lum < b.lum ? 1 : -1));
@@ -166,11 +152,7 @@ class SequentialScale {
     if (this._colorsReversed) this._colorsReversed = null;
 
     let colorScale;
-    let generousColorLength =
-      this._distributeLightness === "parabolic" ||
-      this._distributeLightness === "polynomial"
-        ? 100
-        : 12;
+    let generousColorLength = this._distributeLightness === 'parabolic' || this._distributeLightness === 'polynomial' ? 100 : 12;
     let initialColorScale = Leo.createScale({
       swatches: generousColorLength,
       colorKeys: this._colorKeys,
@@ -179,7 +161,7 @@ class SequentialScale {
       distributeLightness: this._distributeLightness,
       smooth: this._smooth,
       fullScale: false,
-      asFun: true,
+      asFun: true
     });
 
     const minLum = Math.min(...this._luminosities);
@@ -196,24 +178,15 @@ class SequentialScale {
 
     let newLums = dataX.map((i) => round(maxLumShifted * i + minLum, 2));
 
-    let newColors = findMatchingLuminosity(
-      initialColorScale,
-      generousColorLength,
-      newLums,
-      this._smooth,
-    );
+    let newColors = findMatchingLuminosity(initialColorScale, generousColorLength, newLums, this._smooth);
 
     newColors = [...new Set(newColors)];
     const lastColorIndex = newColors.length - 1;
     // Manually ensure first and last user-input key colors
     // are part of new key colors array being passed to the
     // new color scale.
-    const first = this._smooth
-      ? chroma(initialColorScale(0))
-      : initialColorScale(0);
-    const last = this._smooth
-      ? chroma(initialColorScale(generousColorLength))
-      : initialColorScale(generousColorLength);
+    const first = this._smooth ? chroma(initialColorScale(0)) : initialColorScale(0);
+    const last = this._smooth ? chroma(initialColorScale(generousColorLength)) : initialColorScale(generousColorLength);
     newColors.splice(0, 1, first.hex());
     newColors.splice(lastColorIndex, 1);
     newColors.splice(lastColorIndex, 1, last.hex());
@@ -226,7 +199,7 @@ class SequentialScale {
       smooth: false,
       distributeLightness: this._distributeLightness,
       fullScale: false,
-      asFun: true,
+      asFun: true
     });
 
     colorScale = Leo.createScale({
@@ -237,15 +210,15 @@ class SequentialScale {
       smooth: false,
       distributeLightness: this._distributeLightness,
       fullScale: false,
-      asFun: false,
+      asFun: false
     });
 
     let formattedColors = colorScale.map((c) => {
       return convertColorValue(c, this._output);
     });
-    this._colorsReversed = orderColorsByLuminosity(formattedColors, "toLight");
+    this._colorsReversed = orderColorsByLuminosity(formattedColors, 'toLight');
 
-    let reversedColor = orderColorsByLuminosity(formattedColors, "toDark");
+    let reversedColor = orderColorsByLuminosity(formattedColors, 'toDark');
     return reversedColor;
   }
 
@@ -263,7 +236,7 @@ class SequentialScale {
     let sqrtDomains = makePowScale(Number(inverseShift));
     let domains;
 
-    if (this._distributeLightness === "parabolic") {
+    if (this._distributeLightness === 'parabolic') {
       const parabola = (x) => {
         return Math.pow(x, 2);
       };
@@ -275,7 +248,7 @@ class SequentialScale {
       });
       domains = newDomains;
     }
-    if (this._distributeLightness === "polynomial") {
+    if (this._distributeLightness === 'polynomial') {
       // Equation based on polynomial mapping of lightness values in CIECAM02
       // New polynomial from more expansive analysis of RgBu lightness
       // Inverse of actual function in order to present dots in proper location.
@@ -292,7 +265,7 @@ class SequentialScale {
       });
       domains = newDomains;
     }
-    if (this._distributeLightness === "linear") {
+    if (this._distributeLightness === 'linear') {
       domains = percLums.map((d) => {
         return sqrtDomains(d);
       });
@@ -305,17 +278,17 @@ class SequentialScale {
 
 let _sequentialScale = new SequentialScale({
   swatches: 100,
-  colorKeys: ["#002f61", "#ffff00"],
-  colorspace: "CAM02p",
+  colorKeys: ['#002f61', '#ffff00'],
+  colorspace: 'CAM02p',
   smooth: false,
-  distributeLightness: "linear",
+  distributeLightness: 'linear',
   shift: 1,
-  output: "RGB",
+  output: 'RGB'
 });
 
 window._sequentialScale = _sequentialScale;
 
 module.exports = {
   SequentialScale,
-  _sequentialScale,
+  _sequentialScale
 };

@@ -1,21 +1,22 @@
-$schema: "https://moonrepo.dev/schemas/project.json"
+$schema: 'https://moonrepo.dev/schemas/project.json'
+type: library
+
 fileGroups:
   sources:
-    - "lib/**/*"
+    - 'lib/**/*'
   tests:
-    - "test/**/*"
+    - 'test/**/*'
 
 tasks:
   test:
     command:
-      - npx
       - ava
     inputs:
-      - "tasks/**/*"
-      - "schemas/**/*.{yaml,yml,json}"
-      - "manifest.json"
-      - "@globs(tests)"
-      - "@globs(sources)"
+      - 'tasks/**/*'
+      - 'schemas/**/*.{yaml,yml,json}'
+      - 'manifest.json'
+      - '@globs(tests)'
+      - '@globs(sources)'
     platform: node
   test-watch:
     command:

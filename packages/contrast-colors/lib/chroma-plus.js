@@ -9,37 +9,34 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import chromajs from "chroma-js";
-import hsluv from "hsluv";
-import ciebase from "ciebase";
-import ciecam02 from "ciecam02";
+import chromajs from 'chroma-js';
+import hsluv from 'hsluv';
+import ciebase from 'ciebase';
+import ciecam02 from 'ciecam02';
 
 const cam = ciecam02.cam(
   {
     whitePoint: ciebase.illuminant.D65,
     adaptingLuminance: 40,
     backgroundLuminance: 20,
-    surroundType: "average",
-    discounting: false,
+    surroundType: 'average',
+    discounting: false
   },
-  ciecam02.cfs("JCh"),
+  ciecam02.cfs('JCh')
 );
 
 const xyz = ciebase.xyz(ciebase.workspace.sRGB, ciebase.illuminant.D65);
-const jch2rgb = (jch) =>
-  xyz.toRgb(cam.toXyz({ J: jch[0], C: jch[1], h: jch[2] }));
+const jch2rgb = (jch) => xyz.toRgb(cam.toXyz({J: jch[0], C: jch[1], h: jch[2]}));
 const rgb2jch = (rgb) => {
   const jch = cam.fromXyz(xyz.fromRgb(rgb));
   return [jch.J, jch.C, jch.h];
 };
 const [jch2jab, jab2jch] = (() => {
-  const coefs = { k_l: 1, c1: 0.007, c2: 0.0228 };
+  const coefs = {k_l: 1, c1: 0.007, c2: 0.0228};
   const π = Math.PI;
   const CIECAM02_la = 64 / π / 5;
   const CIECAM02_k = 1 / (5 * CIECAM02_la + 1);
-  const CIECAM02_fl =
-    0.2 * CIECAM02_k ** 4 * (5 * CIECAM02_la) +
-    0.1 * (1 - CIECAM02_k ** 4) ** 2 * (5 * CIECAM02_la) ** (1 / 3);
+  const CIECAM02_fl = 0.2 * CIECAM02_k ** 4 * (5 * CIECAM02_la) + 0.1 * (1 - CIECAM02_k ** 4) ** 2 * (5 * CIECAM02_la) ** (1 / 3);
   return [
     (jch) => {
       const [J, C, h] = jch;
@@ -59,7 +56,7 @@ const [jch2jab, jab2jch] = (() => {
       const C = newM / CIECAM02_fl ** 0.25;
       const J = j / (1 + coefs.c1 * (100 - j));
       return [J, C, h];
-    },
+    }
   ];
 })();
 
@@ -70,28 +67,17 @@ const con = console;
 
 // Usage:
 // console.color('rebeccapurple');
-con.color = (color, text = "") => {
+con.color = (color, text = '') => {
   const col = chromajs(color);
   const l = col.luminance();
-  con.log(
-    `%c${color} ${text}`,
-    `background-color: ${color};padding: 5px; border-radius: 5px; color: ${
-      l > 0.5 ? "#000" : "#fff"
-    }`,
-  );
+  con.log(`%c${color} ${text}`, `background-color: ${color};padding: 5px; border-radius: 5px; color: ${l > 0.5 ? '#000' : '#fff'}`);
 };
 
 // Usage:
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('hsluv'));
 // console.ramp(scale, 3000); // if you need to specify the length of the scale
 con.ramp = (scale, length = 1) => {
-  con.log(
-    "%c ",
-    `font-size: 1px;line-height: 16px;background: ${chromajs.getCSSGradient(
-      scale,
-      length,
-    )};padding: 0 0 0 200px; border-radius: 2px;`,
-  );
+  con.log('%c ', `font-size: 1px;line-height: 16px;background: ${chromajs.getCSSGradient(scale, length)};padding: 0 0 0 200px; border-radius: 2px;`);
 };
 
 const online = (x1, y1, x2, y2, x3, y3, ε = 0.1) => {
@@ -142,18 +128,8 @@ const getCSSGradient = (scale, length = 1, deg = 90, ε = 0.005) => {
   const ptsr = split((x) => scale(x).gl()[0], 0, length, ε);
   const ptsg = split((x) => scale(x).gl()[1], 0, length, ε);
   const ptsb = split((x) => scale(x).gl()[2], 0, length, ε);
-  const points = Array.from(
-    new Set(
-      [
-        ...ptsr.map((a) => round(a[0])),
-        ...ptsg.map((a) => round(a[0])),
-        ...ptsb.map((a) => round(a[0])),
-      ].sort((a, b) => a - b),
-    ),
-  );
-  return `linear-gradient(${deg}deg, ${points
-    .map((x) => `${scale(x).hex()} ${round(x * 100)}%`)
-    .join()});`;
+  const points = Array.from(new Set([...ptsr.map((a) => round(a[0])), ...ptsg.map((a) => round(a[0])), ...ptsb.map((a) => round(a[0]))].sort((a, b) => a - b)));
+  return `linear-gradient(${deg}deg, ${points.map((x) => `${scale(x).hex()} ${round(x * 100)}%`).join()});`;
 };
 
 const extendChroma = (chroma) => {
@@ -162,33 +138,27 @@ const extendChroma = (chroma) => {
     return rgb2jch(this._rgb.slice(0, 3).map((c) => c / 255));
   };
 
-  chroma.jch = (...args) =>
-    new chroma.Color(...jch2rgb(args).map((c) => Math.floor(c * 255)), "rgb");
+  chroma.jch = (...args) => new chroma.Color(...jch2rgb(args).map((c) => Math.floor(c * 255)), 'rgb');
 
   // JAB
   chroma.Color.prototype.jab = function () {
     return rgb2jab(this._rgb.slice(0, 3).map((c) => c / 255));
   };
 
-  chroma.jab = (...args) =>
-    new chroma.Color(...jab2rgb(args).map((c) => Math.floor(c * 255)), "rgb");
+  chroma.jab = (...args) => new chroma.Color(...jab2rgb(args).map((c) => Math.floor(c * 255)), 'rgb');
 
   // HSLuv
   chroma.Color.prototype.hsluv = function () {
     return hsluv.rgbToHsluv(this._rgb.slice(0, 3).map((c) => c / 255));
   };
 
-  chroma.hsluv = (...args) =>
-    new chroma.Color(
-      ...hsluv.hsluvToRgb(args).map((c) => Math.floor(c * 255)),
-      "rgb",
-    );
+  chroma.hsluv = (...args) => new chroma.Color(...hsluv.hsluvToRgb(args).map((c) => Math.floor(c * 255)), 'rgb');
 
   const oldInterpol = chroma.interpolate;
   const RGB2 = {
     jch: rgb2jch,
     jab: rgb2jab,
-    hsluv: hsluv.rgbToHsluv,
+    hsluv: hsluv.rgbToHsluv
   };
   const lerpH = (a, b, t) => {
     const m = 360;
@@ -203,12 +173,12 @@ const extendChroma = (chroma) => {
     return ((1 - t) * a + t * b) % m;
   };
 
-  chroma.interpolate = (col1, col2, f = 0.5, mode = "lrgb") => {
+  chroma.interpolate = (col1, col2, f = 0.5, mode = 'lrgb') => {
     if (RGB2[mode]) {
-      if (typeof col1 !== "object") {
+      if (typeof col1 !== 'object') {
         col1 = new chroma.Color(col1);
       }
-      if (typeof col2 !== "object") {
+      if (typeof col2 !== 'object') {
         col2 = new chroma.Color(col2);
       }
       const xyz1 = RGB2[mode](col1.gl());
@@ -219,7 +189,7 @@ const extendChroma = (chroma) => {
       let Y;
       let Z;
       switch (mode) {
-        case "hsluv":
+        case 'hsluv':
           if (xyz1[1] < 1e-10) {
             xyz1[0] = xyz2[0];
           }
@@ -238,7 +208,7 @@ const extendChroma = (chroma) => {
           Y = xyz1[1] + (xyz2[1] - xyz1[1]) * f;
           Z = xyz1[2] + (xyz2[2] - xyz1[2]) * f;
           break;
-        case "jch":
+        case 'jch':
           if (grey1) {
             xyz1[2] = xyz2[2];
           }
@@ -254,9 +224,7 @@ const extendChroma = (chroma) => {
           Y = xyz1[1] + (xyz2[1] - xyz1[1]) * f;
           Z = xyz1[2] + (xyz2[2] - xyz1[2]) * f;
       }
-      return chroma[mode](X, Y, Z).alpha(
-        col1.alpha() + f * (col2.alpha() - col1.alpha()),
-      );
+      return chroma[mode](X, Y, Z).alpha(col1.alpha() + f * (col2.alpha() - col1.alpha()));
     }
     return oldInterpol(col1, col2, f, mode);
   };
@@ -264,4 +232,4 @@ const extendChroma = (chroma) => {
   chroma.getCSSGradient = getCSSGradient;
 };
 
-export { extendChroma };
+export {extendChroma};

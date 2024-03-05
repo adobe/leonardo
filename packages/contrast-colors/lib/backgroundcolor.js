@@ -9,14 +9,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import {
-  hsluvArray,
-  convertColorValue,
-  createScale,
-  removeDuplicates,
-} from "./utils.js";
+import {hsluvArray, convertColorValue, createScale, removeDuplicates} from './utils.js';
 
-import { Color } from "./color.js";
+import {Color} from './color.js';
 
 class BackgroundColor extends Color {
   get backgroundColorScale() {
@@ -40,7 +35,7 @@ class BackgroundColor extends Color {
       colorKeys: this._colorKeys,
       colorspace: this._colorspace,
       shift: 1,
-      smooth: this._smooth,
+      smooth: this._smooth
     });
 
     // Inject original keycolors to ensure they are present in the background options
@@ -48,26 +43,22 @@ class BackgroundColor extends Color {
 
     const colorObj = backgroundColorScale
       // Convert to HSLuv and keep track of original indices
-      .map((c, i) => ({ value: Math.round(hsluvArray(c)[2]), index: i }));
+      .map((c, i) => ({value: Math.round(hsluvArray(c)[2]), index: i}));
 
-    const colorObjFiltered = removeDuplicates(colorObj, "value");
+    const colorObjFiltered = removeDuplicates(colorObj, 'value');
 
-    const bgColorArrayFiltered = colorObjFiltered.map(
-      (data) => backgroundColorScale[data.index],
-    );
+    const bgColorArrayFiltered = colorObjFiltered.map((data) => backgroundColorScale[data.index]);
 
     // Manually cap the background array at 100 colors, then add white back to the end
     // since it sometimes gets removed.
     if (bgColorArrayFiltered.length >= 101) {
       bgColorArrayFiltered.length = 100;
-      bgColorArrayFiltered.push("#ffffff");
+      bgColorArrayFiltered.push('#ffffff');
     }
 
-    this._backgroundColorScale = bgColorArrayFiltered.map((color) =>
-      convertColorValue(color, this._output),
-    );
+    this._backgroundColorScale = bgColorArrayFiltered.map((color) => convertColorValue(color, this._output));
 
     return this._backgroundColorScale;
   }
 }
-export { BackgroundColor };
+export {BackgroundColor};

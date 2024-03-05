@@ -3,9 +3,6 @@
 
   .spectrum-Textfield-input {
     border-color: transparent;
-    font-weight: var(
-      --spectrum-heading-m-text-font-weight,
-      var(--spectrum-alias-heading-text-font-weight-regular)
-    );
+    font-weight: var(--spectrum-heading-m-text-font-weight, var(--spectrum-alias-heading-text-font-weight-regular));
   }
 }

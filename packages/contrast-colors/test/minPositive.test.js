@@ -9,15 +9,15 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import test from "ava";
-import { minPositive } from "../index.js";
+import test from 'ava';
+import {minPositive} from '../index.js';
 
-test("should return 1", (t) => {
+test('should return 1', (t) => {
   const result = minPositive([1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]);
   t.is(result, 1);
 });
 
-test("should return 2", (t) => {
+test('should return 2', (t) => {
   const result = minPositive([-3, -2, -1.2, 2, 3, 4.5, 6, 8, 12, 21]);
   t.is(result, 2);
 });

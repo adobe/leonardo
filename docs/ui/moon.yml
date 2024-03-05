@@ -1,3 +1,108 @@
-$schema: "https://moonrepo.dev/schemas/project.json"
+# Copyright 2023 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+$schema: https://moonrepo.dev/schemas/project.json
+type: application
+fileGroups:
+  sources:
+    - 'src/**/*'
+  output:
+    - 'dist/**/*'
 dependsOn:
   - contrast-colors
+tasks:
+  makeDistDir:
+    command: 'mkdir -p dist'
+    platform: system
+    outputs:
+      - dist
+  dev:
+    command: 'parcel src/index.html src/theme.html src/scales.html src/tools.html src/demo.html --no-hmr'
+    platform: node
+    inputs:
+      - '@globs(sources)'
+    local: true
+    deps:
+      - ~:makeDistDir
+      - ~:copyWorkflowIcons
+      - ~:copyUIIcons
+  clean:
+    command: 'rm -rf dist/*'
+    platform: system
+    deps:
+      - ~:makeDistDir
+    local: true
+  copyWorkflowIcons:
+    command:
+      - cp
+      - -r
+      - node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg
+      - dist/
+    platform: system
+    deps:
+      - ~:makeDistDir
+    inputs:
+      - node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg
+    outputs:
+      - dist/spectrum-icons.svg
+  copyUIIcons:
+    command:
+      - cp
+      - -r
+      - node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg
+      - dist/
+    platform: system
+    deps:
+      - ~:makeDistDir
+    inputs:
+      - node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg
+    outputs:
+      - dist/spectrum-css-icons.svg
+  copyCNAME:
+    command:
+      - cp
+      - -r
+      - src/CNAME
+      - dist/CNAME
+    platform: system
+    deps:
+      - ~:makeDistDir
+    inputs:
+      - src/CNAME
+    outputs:
+      - dist/CNAME
+  buildSite:
+    command:
+      - parcel
+      - build
+      - --no-optimize
+      - src/index.html
+      - src/scales.html
+      - src/tools.html
+      - src/theme.html
+      - src/demo.html
+      - --public-url
+      - ./
+    platform: node
+    deps:
+      - ~:makeDistDir
+      - ~:copyCNAME
+      - ~:copyUIIcons
+      - ~:copyWorkflowIcons
+    inputs:
+      - '@globs(sources)'
+    outputs:
+      - '@globs(output)'
+  deploySite:
+    command: 'gh-pages -d dist'
+    platform: node
+    local: true
+    deps:
+      - ~:clean
+      - ~:buildSite

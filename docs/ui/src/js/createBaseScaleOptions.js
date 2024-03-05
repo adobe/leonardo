@@ -9,14 +9,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { getAllColorNames, getColorClassByName } from "./getThemeData.js";
-import { createOutputColors } from "./createOutputColors";
-import { createOutputParameters } from "./createOutputParameters";
-import { _theme } from "./initialTheme";
+import {getAllColorNames, getColorClassByName} from './getThemeData.js';
+import {createOutputColors} from './createOutputColors';
+import {createOutputParameters} from './createOutputParameters';
+import {_theme} from './initialTheme';
 
 // Create options for colors to use as base scale
 function baseScaleOptions() {
-  let baseSelect = document.getElementById("themeBase");
+  let baseSelect = document.getElementById('themeBase');
   let colorNames = getAllColorNames();
 
   // Remove all existing options and start from scratch
@@ -33,15 +33,12 @@ function baseScaleOptions() {
   }
 
   for (let index in opts) {
-    baseSelect.options[baseSelect.options.length] = new Option(
-      opts[index],
-      index,
-    );
+    baseSelect.options[baseSelect.options.length] = new Option(opts[index], index);
   }
 }
 
-let baseSelect = document.getElementById("themeBase");
-baseSelect.addEventListener("change", function (e) {
+let baseSelect = document.getElementById('themeBase');
+baseSelect.addEventListener('change', function (e) {
   let colorName = `${e.target.value}`;
   let colorClass = getColorClassByName(colorName);
   _theme.backgroundColor = colorClass;
@@ -51,5 +48,5 @@ baseSelect.addEventListener("change", function (e) {
 });
 
 module.exports = {
-  baseScaleOptions,
+  baseScaleOptions
 };

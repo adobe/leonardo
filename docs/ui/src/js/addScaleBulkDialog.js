@@ -9,71 +9,59 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import d3 from "./d3";
-import { _sequentialScale } from "./initialSequentialScale";
-import { _divergingScale } from "./initialDivergingScale";
-import { addScaleKeyColorInput } from "./scaleKeyColors";
-import { updateRamps } from "./ramps";
-import { create3dModel } from "./create3dModel";
-import { createSamples } from "./createSamples";
-import { createDemos } from "./createDemos";
-import { createPanelReportTable } from "./createPanelReportTable";
+import d3 from './d3';
+import {_sequentialScale} from './initialSequentialScale';
+import {_divergingScale} from './initialDivergingScale';
+import {addScaleKeyColorInput} from './scaleKeyColors';
+import {updateRamps} from './ramps';
+import {create3dModel} from './create3dModel';
+import {createSamples} from './createSamples';
+import {createDemos} from './createDemos';
+import {createPanelReportTable} from './createPanelReportTable';
 
 function addScaleBulk(e) {
   // id is scaleType
-  let id = e.target.id.replace("_addBulk", "");
+  let id = e.target.id.replace('_addBulk', '');
 
   // console.log(id)
-  let colorNameInputId = id.concat("_name");
+  let colorNameInputId = id.concat('_name');
   let colorNameInput = document.getElementById(colorNameInputId);
   let colorName = colorNameInput.value;
 
-  let button = document.getElementById("bulkAddButton");
-  button.addEventListener("click", bulkScaleItemColorInput);
+  let button = document.getElementById('bulkAddButton');
+  button.addEventListener('click', bulkScaleItemColorInput);
 
-  let dialog = document.getElementsByClassName("addBulkColorDialog");
+  let dialog = document.getElementsByClassName('addBulkColorDialog');
   for (let i = 0; i < dialog.length; i++) {
-    document.getElementById("addBulkDialog_ScaleName").innerHTML = colorName;
-    dialog[i].classList.add("is-open");
-    dialog[i].id = id.concat("_dialog");
+    document.getElementById('addBulkDialog_ScaleName').innerHTML = colorName;
+    dialog[i].classList.add('is-open');
+    dialog[i].id = id.concat('_dialog');
   }
-  document.getElementById("dialogOverlay").style.display = "block";
+  document.getElementById('dialogOverlay').style.display = 'block';
 }
 
 function cancelScaleBulk() {
-  let dialog = document.getElementsByClassName("addBulkColorDialog");
+  let dialog = document.getElementsByClassName('addBulkColorDialog');
   for (let i = 0; i < dialog.length; i++) {
-    dialog[i].classList.remove("is-open");
-    dialog[i].id = " ";
+    dialog[i].classList.remove('is-open');
+    dialog[i].id = ' ';
   }
-  document.getElementById("dialogOverlay").style.display = "none";
+  document.getElementById('dialogOverlay').style.display = 'none';
 }
 
 function bulkScaleItemColorInput(e) {
   let id = e.target.parentNode.parentNode.parentNode.id;
-  let itemId = id.replace("_dialog", "");
+  let itemId = id.replace('_dialog', '');
   // console.log(itemId)
-  const currentColor =
-    itemId === "sequential"
-      ? _sequentialScale
-      : itemId === "divergingScale"
-        ? _divergingScale
-        : _qualitativeScale;
+  const currentColor = itemId === 'sequential' ? _sequentialScale : itemId === 'divergingScale' ? _divergingScale : _qualitativeScale;
 
   const currentKeys = currentColor.colorKeys;
 
-  let bulkInputs = document.getElementById("bulkColors");
-  let bulkValues = bulkInputs.value
-    .replace(/\r\n/g, "\n")
-    .replace(/[,\/]/g, "\n")
-    .replace(" ", "")
-    .replace(/['\/]/g, "")
-    .replace(/["\/]/g, "")
-    .replace(" ", "")
-    .split("\n");
+  let bulkInputs = document.getElementById('bulkColors');
+  let bulkValues = bulkInputs.value.replace(/\r\n/g, '\n').replace(/[,\/]/g, '\n').replace(' ', '').replace(/['\/]/g, '').replace(/["\/]/g, '').replace(' ', '').split('\n');
   for (let i = 0; i < bulkValues.length; i++) {
-    if (!bulkValues[i].startsWith("#")) {
-      bulkValues[i] = "#" + bulkValues[i];
+    if (!bulkValues[i].startsWith('#')) {
+      bulkValues[i] = '#' + bulkValues[i];
     }
   }
 
@@ -93,17 +81,14 @@ function bulkScaleItemColorInput(e) {
   // Update gradient
   let scaleType = itemId;
   const colorClass = currentColor;
-  let chartsModeId =
-    scaleType === "sequential"
-      ? "sequential_chartsMode"
-      : "diverging_chartsMode";
+  let chartsModeId = scaleType === 'sequential' ? 'sequential_chartsMode' : 'diverging_chartsMode';
   const chartsModeSelect = document.getElementById(chartsModeId);
   let PlotDestId = `${scaleType}ModelWrapper`;
   let sampleInputId = `${scaleType}Samples`;
   const sampleNumber = document.getElementById(sampleInputId).value;
   let bgInput = document.getElementById(`scales_bgColor`);
   let bg = bgInput.value;
-  let levelSelect = document.getElementById("scales_complianceLevel");
+  let levelSelect = document.getElementById('scales_complianceLevel');
   let level = levelSelect.value;
   let colors = colorClass.samples; // samples are the ouptut, colors are the full scale
   const color2 = colors[0];
@@ -119,7 +104,7 @@ function bulkScaleItemColorInput(e) {
   cancelScaleBulk();
 
   // clear inputs on close
-  bulkInputs.value = " ";
+  bulkInputs.value = ' ';
 }
 
 window.addScaleBulk = addScaleBulk;
@@ -129,5 +114,5 @@ window.bulkScaleItemColorInput = bulkScaleItemColorInput;
 module.exports = {
   addScaleBulk,
   bulkScaleItemColorInput,
-  cancelScaleBulk,
+  cancelScaleBulk
 };
