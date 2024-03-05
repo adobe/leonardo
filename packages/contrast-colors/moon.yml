@@ -1,4 +1,6 @@
 $schema: 'https://moonrepo.dev/schemas/project.json'
+type: library
+
 fileGroups:
   sources:
     - 'lib/**/*'
@@ -8,7 +10,6 @@ fileGroups:
 tasks:
   test:
     command:
-      - npx
       - ava
     inputs:
       - 'tasks/**/*'

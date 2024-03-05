@@ -11,10 +11,6 @@
       "default": "./index.js"
     }
   },
-  "scripts": {
-    "dev": "pnpm ava --watch",
-    "test": "pnpm ava"
-  },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
   "dependencies": {
