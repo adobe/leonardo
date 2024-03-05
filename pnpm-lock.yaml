@@ -18,8 +18,8 @@ importers:
         specifier: ^18.4.3
         version: 18.4.3
       '@moonrepo/cli':
-        specifier: ^1.18.1
-        version: 1.18.1
+        specifier: ^1.22.4
+        version: 1.22.4
       '@parcel/packager-raw-url':
         specifier: 2.11.0
         version: 2.11.0(@parcel/core@2.11.0)
@@ -32,27 +32,15 @@ importers:
       ava:
         specifier: ^6.0.1
         version: 6.1.1
-      buffer:
-        specifier: ^5.5.0||^6.0.0
-        version: 5.7.1
       husky:
         specifier: ^8.0.3
         version: 8.0.3
       lint-staged:
         specifier: ^15.2.0
         version: 15.2.0
-      path-browserify:
-        specifier: ^1.0.0
-        version: 1.0.1
       prettier:
         specifier: ^3.1.1
         version: 3.1.1
-      process:
-        specifier: ^0.11.10
-        version: 0.11.10
-      vm-browserify:
-        specifier: ^1.1.2
-        version: 1.1.2
 
   docs/ui:
     dependencies:
@@ -258,12 +246,18 @@ importers:
       '@parcel/transformer-webmanifest':
         specifier: ^2.9.3
         version: 2.11.0(@parcel/core@2.11.0)
+      buffer:
+        specifier: ^5.5.0||^6.0.0
+        version: 5.7.1
       gh-pages:
         specifier: ^3.2.3
         version: 3.2.3
       parcel:
         specifier: ^2.11.0
         version: 2.11.0(typescript@5.3.3)
+      path-browserify:
+        specifier: ^1.0.0
+        version: 1.0.1
       posthtml:
         specifier: ^0.16.5
         version: 0.16.5
@@ -276,9 +270,15 @@ importers:
       posthtml-modules:
         specifier: ^0.7.4
         version: 0.7.4(posthtml@0.16.5)
+      process:
+        specifier: ^0.11.10
+        version: 0.11.10
       sass:
         specifier: ^1.23.6
         version: 1.70.0
+      vm-browserify:
+        specifier: ^1.1.2
+        version: 1.1.2
 
   packages/contrast-colors:
     dependencies:
@@ -906,72 +906,72 @@ packages:
       json5: 2.2.3
     dev: true
 
-  /@moonrepo/cli@1.18.1:
-    resolution: {integrity: sha512-Ueqd/TJ4cx29hoLyg5yMy91buet1jN7Mr9RzsfPxDEX5DX7La73CJ5KcovUHUGep3ezySgjYSrJ7YSQoKuJSdw==}
+  /@moonrepo/cli@1.22.4:
+    resolution: {integrity: sha512-/wsj6m1Gygsh8f6DdMK3IJRVdfI2i5ZIOtMyq+bistTkhmcU8zEB8RR9UV+zYRFC0rmvwgSdgvcpp/DCuGHmMw==}
     hasBin: true
     requiresBuild: true
     dependencies:
       detect-libc: 2.0.2
     optionalDependencies:
-      '@moonrepo/core-linux-arm64-gnu': 1.18.5
-      '@moonrepo/core-linux-arm64-musl': 1.18.5
-      '@moonrepo/core-linux-x64-gnu': 1.18.5
-      '@moonrepo/core-linux-x64-musl': 1.18.5
-      '@moonrepo/core-macos-arm64': 1.18.5
-      '@moonrepo/core-macos-x64': 1.18.5
-      '@moonrepo/core-windows-x64-msvc': 1.18.5
+      '@moonrepo/core-linux-arm64-gnu': 1.22.4
+      '@moonrepo/core-linux-arm64-musl': 1.22.4
+      '@moonrepo/core-linux-x64-gnu': 1.22.4
+      '@moonrepo/core-linux-x64-musl': 1.22.4
+      '@moonrepo/core-macos-arm64': 1.22.4
+      '@moonrepo/core-macos-x64': 1.22.4
+      '@moonrepo/core-windows-x64-msvc': 1.22.4
     dev: true
 
-  /@moonrepo/core-linux-arm64-gnu@1.18.5:
-    resolution: {integrity: sha512-YPZNOB2plxnfVTnfrfqDpkYuvEZB+rXDF8hv7nA+JMxvhNURNHWSRqDmH9XB1isaagJzpH7s2i1xWT5eWfbCmg==}
+  /@moonrepo/core-linux-arm64-gnu@1.22.4:
+    resolution: {integrity: sha512-Avie5592Qv+Te+Fdmt+TWvFavQ0bmIsug0YwsEnFHcQRkkri5pLEnTAVpv1timsy0gP3K+qQuM6UpJhnGSRRaw==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@moonrepo/core-linux-arm64-musl@1.18.5:
-    resolution: {integrity: sha512-5D17A+7Pt8PZzmnhQS0UOpQYMti6pGpkupCWNVhI4i92WOe6NViqRaCO8J1DqT6SVfCyGp2VwFCrL55Y+cYE0g==}
+  /@moonrepo/core-linux-arm64-musl@1.22.4:
+    resolution: {integrity: sha512-YVDD1nNhiOQkXX/hcaPESdJlTbEPhnB704KbpAfm78AT06Z9R2QtxNpMKBrGy9LwK7f/fDWkKYnIDlEpbvHbLQ==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@moonrepo/core-linux-x64-gnu@1.18.5:
-    resolution: {integrity: sha512-EQHf7Z+4WwVAfeIu65Nr92hAcBOD6ZuQSAgYZJ62juQgsQmObBx6xtIyustGxjqp3t6dsbfBo69sMpNGhdh+fQ==}
+  /@moonrepo/core-linux-x64-gnu@1.22.4:
+    resolution: {integrity: sha512-iiRXQaugZKFyziFzUFITmSPY6WKZ92GLFAy72qt3N6m3PwxicMCtaXL7U8u5bi8211+qqnx6DToIIspSInGbcQ==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@moonrepo/core-linux-x64-musl@1.18.5:
-    resolution: {integrity: sha512-9H2TXp0e9ANkfbr3He82MJhctPRSo0e4n8rvymWATrxcYdqp4LHY8ClZbzBaZTD3CHwIsyiV6zCp+qE76BmhTw==}
+  /@moonrepo/core-linux-x64-musl@1.22.4:
+    resolution: {integrity: sha512-b0rUEAJ9agjoolhYR8eYM52cdyjCaniRMEC5BlJhORg1ew5Al83EBtuviusPYdth3lenvWzqqCRZxwy1cq94Dg==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@moonrepo/core-macos-arm64@1.18.5:
-    resolution: {integrity: sha512-wpWTg/s9e23FIN6NfnUqfGCBEb/treRVHg/1wWp4rn/FNyTsz9QwPgcLKTSyUoxb2vl5xwa3Aom9YcQiUUrpWg==}
+  /@moonrepo/core-macos-arm64@1.22.4:
+    resolution: {integrity: sha512-KRUjCv/Udq29EDI7J6jaI26MKjAV6Ij8J/vO8aBYLyGGnbaLwzm1PUmhE5GHwZknDE6ARVPelJRHZRPFxd9XGw==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@moonrepo/core-macos-x64@1.18.5:
-    resolution: {integrity: sha512-Bcdb1GhahjXWQzVbRRzNGnrXaQi3T/tTXPo8fP0+/ciod36jqcM+P41tQomoJ0Cb7fBE39xVRCf6uJWTIaTvlQ==}
+  /@moonrepo/core-macos-x64@1.22.4:
+    resolution: {integrity: sha512-QyJrjJ+LHsW14Y4PnERGbLSweKCrWo6IhdreSXwUXQEu9yxfC2WP1NwLqCphGqkwMsQHmviSQTh5RQJy8RdGAQ==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@moonrepo/core-windows-x64-msvc@1.18.5:
-    resolution: {integrity: sha512-zr2c8EeQnoajEslL1GnxggkUInLio8ye2/+xn6Hs6ejjl0PXUCdPM1WShDqgiphMmoDK/MskWAlaXaqldD1bZA==}
+  /@moonrepo/core-windows-x64-msvc@1.22.4:
+    resolution: {integrity: sha512-T6hmBUPMQ3HXb/OHLRGz5758prsx4zrtlOcFIKcVegXqA3ZO2uLEkAKBcqA9bmhMjBoO9+wJ0T1VZleH7smDBQ==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -5975,9 +5975,6 @@ packages:
     resolution: {integrity: sha512-H/RI1/DmuOkL8RuG/EpNPvtzrbF+7jA/R56ydEEm+lqFbYktKB4COR7JXdHkZXRgbSJyimrFB8d0r9+SaRnj0Q==}
     engines: {node: '>= 12.0.0'}
     hasBin: true
-    peerDependenciesMeta:
-      '@parcel/core':
-        optional: true
     dependencies:
       '@parcel/config-default': 2.11.0(@parcel/core@2.11.0)(typescript@5.3.3)
       '@parcel/core': 2.11.0
