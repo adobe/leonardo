@@ -1,6 +1,3 @@
-[submodule "packages/contrast-colors/SAPC-APCA"]
-	path = packages/contrast-colors/SAPC-APCA
-	url = git@github.com:Myndex/SAPC-APCA.git
 [submodule "docs/ui/src/c3"]
 	path = docs/ui/src/c3
 	url = git@github.com:StanfordHCI/c3.git
