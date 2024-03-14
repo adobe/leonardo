@@ -19,10 +19,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: pnpm/action-setup@v3
+      - uses: moonrepo/setup-toolchain@v0
         with:
-          version: 8
-      - run: pnpm i
+          auto-install: true
       - name: Publish
         id: changesets
         uses: changesets/action@v1
