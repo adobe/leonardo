@@ -1,0 +1,4 @@
+{
+  "docs/**/*.{js,jsx,ts,tsx,json,yml,yaml,md}": ["prettier --write"],
+  "packages/**/*.{js,jsx,ts,tsx,json,yml,yaml,md}": ["prettier --write"]
+}

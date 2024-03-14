@@ -1,0 +1,51 @@
+// // Manually replacing this code
+.spectrum-Dialog {
+  background: var(--spectrum-dialog-background-color, var(--spectrum-alias-background-color-default));
+}
+.spectrum-Dialog {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%) translateY(var(--spectrum-dialog-entry-animation-distance, var(--spectrum-global-dimension-size-250)));
+  z-index: 20;
+  border-radius: var(--spectrum-dialog-border-radius, 4px);
+  transition:
+    opacity var(--spectrum-dialog-exit-animation-duration, var(--spectrum-global-animation-duration-100)) var(--spectrum-global-animation-ease-in, cubic-bezier(0.5, 0, 1, 1)) 0ms,
+    visibility 0ms linear calc(0ms + var(--spectrum-dialog-exit-animation-duration, var(--spectrum-global-animation-duration-100))),
+    transform 0ms linear calc(0ms + var(--spectrum-dialog-exit-animation-duration, var(--spectrum-global-animation-duration-100)));
+}
+.spectrum-Dialog {
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    transform var(--spectrum-global-animation-duration-100, 130ms) ease-in-out,
+    opacity var(--spectrum-global-animation-duration-100, 130ms) ease-in-out,
+    visibility 0ms linear var(--spectrum-global-animation-duration-100, 130ms);
+  pointer-events: none;
+}
+.spectrum-Dialog.is-open {
+  transition:
+    transform var(--spectrum-dialog-entry-animation-duration, var(--spectrum-global-animation-duration-500)) var(--spectrum-global-animation-ease-out, cubic-bezier(0, 0, 0.4, 1))
+      var(--spectrum-dialog-entry-animation-delay, var(--spectrum-global-animation-duration-200)),
+    opacity var(--spectrum-dialog-entry-animation-duration, var(--spectrum-global-animation-duration-500)) var(--spectrum-global-animation-ease-out, cubic-bezier(0, 0, 0.4, 1))
+      var(--spectrum-dialog-entry-animation-delay, var(--spectrum-global-animation-duration-200));
+  transform: translate(-50%, calc(-50% + -2vh));
+}
+
+.spectrum-Dialog.is-open {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0ms;
+  pointer-events: auto;
+}
+
+#dialogOverlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 15;
+}

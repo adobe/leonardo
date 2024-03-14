@@ -1,0 +1,56 @@
+<div class="sideNavContent sideNavContent--splitView" id="learnContent">
+  <div class="sideNavContent_main">
+    <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">Learn Leonardo</h1>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM" />
+
+    <h2 class="spectrum-Heading spectrum-Heading--sizeL spectrum-Heading--heavy" id="colorSystem">Color</h2>
+    <p class="spectrum-Body spectrum-Body--sizeM">The color system tab is for defining your color palette and the color scales for each color.</p>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      Your <strong>color palette</strong> represents each primary color of your system. You can evaluate the
+      <attr title="Color harmony is the relationship between colors on a color wheel"> color harmony </attr>
+      of your palette. The color wheel is available to view in a variety of
+      <a class="spectrum-Link" href="#"> color spaces </a>.
+    </p>
+    <p class="spectrum-Body spectrum-Body--sizeM">Your <strong>color scales</strong> are a full value scale for each of your palette colors. This allows you to design color as a fluid continuum of tints and shades.</p>
+    <p class="spectrum-Body spectrum-Body--sizeM">Color scales are defined by three parts: Color keys, interpolation colorspace, and smoothing.</p>
+
+    <h3 class="spectrum-Heading spectrum-Heading--sizeM spectrum-Heading--heavy" id="colorKeys">Color keys</h3>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      Color keys are specific colors that you want the include within the scale. Each color key is automatically sorted and placed on the gradient by it's lightness. This is to ensure the scale follows a consistent change in lightness from dark to light
+      colors.
+    </p>
+
+    <h3 class="spectrum-Heading spectrum-Heading--sizeM spectrum-Heading--heavy" id="interpolationColorspace">Interpolation colorspace</h3>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      This specifies which color space you wish to interpolate between your color keys, black, and white. Color is defined differently within each color space, so the resulting gradient of your color scale will appear differently for each.
+    </p>
+
+    <h3 class="spectrum-Heading spectrum-Heading--sizeM spectrum-Heading--heavy" id="smoothing">Smoothing</h3>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      Leonardo offers
+      <attr> catmull-rom </attr>
+      smoothing for all interpolation color spaces. By default, interpolation is linear. In some cases, this will yield good results. For other cases, smoothing provides an adjustment to the interpolation that makes the transition of colors within your
+      color scale appear much more balanced and smooth.
+    </p>
+  </div>
+  <div class="sideNavContent_aside">
+    <ul class="aside_links">
+      <li>
+        <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#colorSystem"> Color </a>
+        <ul class="aside_links--sublist">
+          <li>
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#colorKeys"> Color keys </a>
+          </li>
+          <li>
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#interpolationColorspace"> Interpolation color space </a>
+          </li>
+          <li>
+            <a class="spectrum-Link spectrum-Link--quiet spectrum-Link--sizeM" href="#smoothing"> Smoothing </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <include src="src/views/footer.html"></include>
+</div>

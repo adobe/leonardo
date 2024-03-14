@@ -1,0 +1,281 @@
+<!-- Palette Tab -->
+<div id="palette" class="AppTab appFramePanelLeft"> <!-- themeWorkspace -->
+    <div class="spectrum-Panel spectrum-Panel--left">
+        <div class="spectrum-Panel-ContentWrapper">
+            <div class="spectrum-Panel-Tabs">
+                <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+                    <div id="tabPanelColorScales" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0"
+                        onclick="openPanelTab(event, 'colorScales')">
+                        <label class="spectrum-Tabs-itemLabel">Color scales</label>
+                    </div>
+                    <div id="tabPanelContrastSwatches" class="spectrum-Tabs-item panel-Tabs-item" tabindex="0"
+                        onclick="openPanelTab(event, 'contrastSwatches')">
+                        <label class="spectrum-Tabs-itemLabel">Lightness stops</label>
+                    </div>
+                </div>
+            </div>
+            <div id="colorScales" class="paneltabcontent">
+                <div class="spectrum-Panel-Item" style="flex-shrink: 0;">
+                    <div class="spectrum-ActionGroup">
+                        <button class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item"
+                            onClick="addColorScaleUpdate()">
+                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS"
+                                focusable="false" aria-hidden="true" aria-label="Add Color">
+                                <use xlink:href="#spectrum-icon-18-Add" />
+                            </svg>
+                            <span class="spectrum-ActionButton-label">Add color</span>
+                        </button>
+                        <label tabindex="0" id="image-upload-button" for="image-upload"
+                            class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS"
+                                focusable="false" aria-hidden="true" aria-label="Add Color">
+                                <use xlink:href="#spectrum-icon-18-Image" />
+                            </svg>
+                            <span class="spectrum-ActionButton-label">Extract from image</span>
+                        </label>
+                        <input id="image-upload" type="file" style="display:none;" onInput="addColorsFromImage()" />
+                        <button title="Sort ratios ascending" id="sort" onclick="sortColorScales()"
+                            class="spectrum-ActionButton spectrum-ActionButton--sizeM spectrum-ActionGroup-item">
+                            <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true"
+                                aria-label="Sort">
+                                <use xlink:href="#spectrum-css-icon-Arrow100" />
+                            </svg>
+                            <span class="spectrum-ActionButton-label">Sort</span>
+                        </button>
+                    </div>
+                    <div id="image-preview"></div>
+
+                </div>
+
+                <div id="themeColorWrapper">
+                    <div id="themeColorEmptyState" class="spectrum-IllustratedMessage">
+                        <h2
+                            class="spectrum-Typography spectrum-Heading spectrum-Heading3 spectrum-IllustratedMessage-heading">
+                            Add a color scale to begin</h2>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="contrastSwatches" class="paneltabcontent">
+                <div class="spectrum-Panel-Item ">
+                    <div class="spectrum-ActionGroup spectrum-ActionGroup--spaced">
+                        <button id="addRatio" onclick="addRatio()"
+                            class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS"
+                                focusable="false" aria-hidden="true" aria-label="Add lightness stop">
+                                <use xlink:href="#spectrum-icon-18-Add" />
+                            </svg>
+                            <span class="spectrum-ActionButton-label">Add</span>
+                        </button>
+                        <button id="bulkLightnessButton" onclick="addLightnessBulk()"
+                            class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS"
+                                focusable="false" aria-hidden="true" aria-label="Import from colors">
+                                <use xlink:href="#spectrum-icon-18-BoxAdd" />
+                            </svg>
+                            <span class="spectrum-ActionButton-label">Import</span>
+                        </button>
+                        <button title="Sort ratios ascending" id="sort" onclick="sortRatios()"
+                            class="spectrum-ActionButton spectrum-ActionButton--sizeM  spectrum-ActionGroup-item">
+                            <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                class="spectrum-Icon spectrum-Icon--sizeS sortIcon" focusable="false" aria-hidden="true"
+                                aria-label="Sort">
+                                <use xlink:href="#spectrum-css-icon-Arrow100" />
+                            </svg>
+                            <span class="spectrum-ActionButton-label">Sort</span>
+                        </button>
+                        <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item"
+                            name="distribute" id="distribute">
+                            <option value="none">Distribute</option>
+                            <option value="ratios">Contrast ratios</option>
+                            <option value="luminosity">Lightness</option>
+                        </select>
+                    </div>
+
+
+                    <div class="spectrum-Panel-Item--row">
+                        <div id="luminosityGradient"></div>
+                        <div id="ratioInput-wrapper">
+                            <div class="ratioGrid">
+                                <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--ratio"
+                                    id="ratioInputLabel">WCAG 2 contrast</label>
+                                <label
+                                    class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--luminosity">Lightness</label>
+                                <label
+                                    class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM ratioGrid--status">Status</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="colorConfigPanel" class="spectrum-Panel-ContentWrapper">
+            <!-- Dynaic sidebar content will appear here -->
+        </div>
+
+    </div>
+
+    <div id="" class=""> <!-- appFramePanelRight -->
+
+        <main id="colorMainContent-Wrapper">
+
+            <div id="colorDetails">
+                <!-- Dnynamic generated content will appear here -->
+            </div>
+
+            <div id="" class="spectrum-Content-Tabs">
+                <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+                    <div id="tabColorWheel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0"
+                        onclick="openColorTab(event, 'previewWrapper')">
+                        <label class="spectrum-Tabs-itemLabel">Theme colors</label>
+                    </div>
+                    <div id="tabPaletteCharts" class="spectrum-Tabs-item color-Tabs-item" tabindex="0"
+                        onclick="openColorTab(event, 'paletteChartsWrapper')">
+                        <label class="spectrum-Tabs-itemLabel">Chromaticity</label>
+                    </div>
+                    <div id="tabPaletteContrastCharts" class="spectrum-Tabs-item color-Tabs-item" tabindex="0"
+                        onclick="openColorTab(event, 'paletteContrastChartsWrapper')">
+                        <label class="spectrum-Tabs-itemLabel">Lightness</label>
+                    </div>
+                    <div id="tabPaletteModel" class="spectrum-Tabs-item color-Tabs-item" tabindex="0"
+                        onclick="openColorTab(event, 'paletteModelWrapper')">
+                        <label class="spectrum-Tabs-itemLabel">3d model</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="previewWrapper" class="colorTabsWrapper">
+                <div id="themeOutputs">
+                    <!-- Generated colors will appear here -->
+                </div>
+            </div>
+
+            <div id="paletteContrastChartsWrapper" class="colorTabsWrapper">
+                <div class="paletteContrastChartsGrid">
+
+                    <div class="spectrum-Form spectrum-Form--row" style="justify-content: space-between;">
+                        <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Monochromatic preview (ordered by
+                            contrast ascending)</h5>
+
+                        <div class="spectrum-Form-item spectrum-Form-item--row">
+                            <label for="chartLineType"
+                                class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Chart
+                                line type</label>
+                            <select class="spectrum-Picker spectrum-Picker--sizeM" name="chartLineType"
+                                id="chartLineType">
+                                <option value="step">Steps</option>
+                                <option value="curve">Curve</option>
+                                <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                                    <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                                </svg>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="justifiedWrapper">
+                        <div id="swatchesOutputs"></div>
+                    </div>
+
+
+                    <div id="contrastChartsWrapper">
+                        <div>
+                            <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Contrast</h5>
+                            <div class="panel-SubTab-Content" id="contrastChart"></div>
+                        </div>
+                        <div>
+                            <h5 class="spectrum-Heading spectrum-Heading--sizeXXS">Lightness</h5>
+                            <div class="panel-SubTab-Content" id="luminosityChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="paletteChartsWrapper" class="colorTabsWrapper">
+                <div class="paletteChartsGrid">
+                    <div class="chartsColumn--left">
+                        <div id="colorWheel--controlsWrapper">
+                            <div id="colorWheel">
+                                <div class="polarPathsWrapper" id="colorWheelPaths"></div>
+                                <div class="polarPathsWrapper" id="colorWheelLinesWrapper"></div>
+                            </div>
+
+                            <div class="spectrum-Form" id="chartsControls">
+                                <h3 class="spectrum-Heading spectrum-Heading--sizeXXS ">Color wheel settings</h3>
+                                <div class="spectrum-Form-item">
+                                    <div id="colorWheelLightnessWrapper" class="spectrum-Slider">
+                                        <div class="spectrum-Slider-labelContainer">
+                                            <label class="spectrum-Slider-label" id="colorWheelLightnessLabel"
+                                                for="colorWheelLightness">Color wheel lightness</label>
+                                        </div>
+                                        <input class="spectrum-Slider-controls" type="range" min="0" max="100"
+                                            value="50" id="colorWheelLightness" name="colorWheelLightness"></input>
+                                    </div>
+                                </div>
+
+                                <div class="spectrum-Form-item">
+                                    <div class="spectrum-Switch">
+                                        <input type="checkbox" class="spectrum-Switch-input" id="colorPathsSwitch">
+                                        <span class="spectrum-Switch-switch"></span>
+                                        <label class="spectrum-Switch-label" for="colorPathsSwitch">Show interpolation
+                                            paths</label>
+                                    </div>
+                                </div>
+                                <div class="spectrum-Form-item">
+                                    <div class="spectrum-Switch">
+                                        <input type="checkbox" class="spectrum-Switch-input"
+                                            id="colorHarmonyLinesSwitch" checked>
+                                        <span class="spectrum-Switch-switch"></span>
+                                        <label class="spectrum-Switch-label" for="colorHarmonyLinesSwitch">Show color
+                                            harmony lines</label>
+                                    </div>
+                                </div>
+
+                                <div class="spectrum-Form-item">
+                                    <label for="colorDotsMode"
+                                        class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Color
+                                        dots display</label>
+                                    <select class="spectrum-Picker spectrum-Picker--sizeM" name="colorDotsMode"
+                                        id="colorDotsMode">
+                                        <option value="colorScale">Scale cross-sections</option>
+                                        <option value="colorKeys">All key colors</option>
+                                        <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium spectrum-Picker-icon">
+                                            <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+                                        </svg>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chartsColumn--right">
+                        <div class="chart--labelless" id="paletteInterpolationChart"></div>
+                        <div class="chart--labelless" id="paletteInterpolationChart2"></div>
+                        <div class="chart--labelless" id="paletteInterpolationChart3"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="paletteModelWrapper" class="colorTabsWrapper">
+                <div id="ModelExampleImage">
+                    <img id="ModelImage_HSL" class="ModelImage is-hidden" src="images/colorspaces/HSL.png" />
+                    <img id="ModelImage_HSV" class="ModelImage is-hidden" src="images/colorspaces/HSV.png" />
+                    <img id="ModelImage_RGB" class="ModelImage is-hidden" src="images/colorspaces/RGB.png" />
+                    <img id="ModelImage_LAB" class="ModelImage is-hidden" src="images/colorspaces/LAB.png" />
+                    <img id="ModelImage_LCH" class="ModelImage is-hidden" src="images/colorspaces/LCH.png" />
+                    <img id="ModelImage_LUV" class="ModelImage is-hidden" src="images/colorspaces/LUV.png" />
+                    <img id="ModelImage_OKLAB" class="ModelImage is-hidden" src="images/colorspaces/OKLAB.png" />
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</div>

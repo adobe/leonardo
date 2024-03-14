@@ -1,0 +1,248 @@
+/*
+Copyright 2024 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+.charts > svg {
+  color: var(--spectrum-global-color-gray-600);
+}
+.charts .spectrum-Subheading {
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+.axis path,
+.axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+}
+.axis path {
+  stroke: var(--spectrum-global-color-gray-800);
+}
+.axis line {
+  // stroke: var(--spectrum-global-color-gray-400);
+  stroke: var(--transparentGray900);
+}
+
+.x.axis path {
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.y.axis path {
+  display: none;
+}
+
+.grid path,
+.grid line {
+  // fill: var(--spectrum-global-color-gray-50);
+  stroke: var(--spectrum-global-color-gray-300);
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+.axis > text {
+  // display: none;
+  fill: var(--spectrum-global-color-gray-600);
+  font-size: 12px;
+}
+
+#colorMetrics {
+  display: none; // hidden by default
+  overflow-y: scroll;
+  height: calc(100vh - var(--header-height));
+
+  &.visible {
+    display: flex;
+  }
+}
+
+// Hack overrides for d3 category10 colors
+// #interpolationChart,
+// #interpolationChart2,
+// #interpolationChart3,
+#contrastChart {
+  g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+    stroke: #0f4f87;
+  }
+  g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+    stroke: #449cad;
+  }
+  g.d3_xy_chart_line path.line {
+    stroke: #76d0c5;
+  }
+}
+
+.chart--labelless {
+  .x.axis .tick {
+    display: none;
+  }
+}
+
+// Hack specific overrides for RGB chart only
+#RGBchart,
+#sequentialRGBchart,
+#divergingRGBchart {
+  g.d3_xy_chart_line ~ g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+    stroke: var(--spectrum-global-color-blue-400);
+  }
+  g.d3_xy_chart_line ~ g.d3_xy_chart_line path.line {
+    stroke: var(--spectrum-global-color-celery-400);
+  }
+  g.d3_xy_chart_line path.line {
+    stroke: var(--spectrum-global-color-red-400);
+  }
+
+  .tick {
+    display: none;
+  }
+}
+
+#interpolationChart,
+#interpolationChart2,
+#interpolationChart3 {
+  .x.axis text {
+    display: none;
+  }
+}
+
+// Overrides for grid
+._3d.grid,
+._3dtheme.grid,
+._3dsequential.grid,
+._3ddiverging.grid {
+  stroke: var(--spectrum-global-color-gray-300);
+  stroke-width: 0.3;
+  fill: var(--spectrum-global-color-gray-300);
+  fill-opacity: 0.075;
+}
+
+.chart3D,
+.chart3Dsequential,
+.chart3Ddiverging {
+  cursor: move;
+}
+
+._3d.yText,
+._3dtheme.yText,
+._3dsequential.yTextsequential,
+._3ddiverging.yTextdiverging {
+  color: #6e6e6e;
+}
+
+.sequentialTabsWrapper,
+.divergingTabsWrapper,
+.qualitativeTabsWrapper {
+  display: none;
+  // padding: var(--spectrum-global-dimension-size-200);
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#chartsWrapper,
+#modelWrapper {
+  background-color: var(--spectrum-global-color-gray-100, #f5f5f5);
+  display: flex;
+  flex-direction: column;
+  min-width: fit-content;
+  height: 100%;
+  padding: 16px;
+  overflow: auto;
+}
+
+.js-plotly-plot .plotly .user-select-none {
+  margin: 0 auto;
+}
+
+.chartsWrapper {
+  flex-direction: column;
+  padding-top: var(--spectrum-global-dimension-size-200);
+}
+
+.charts {
+  display: flex;
+  min-height: fit-content;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  max-width: fit-content;
+  // margin-bottom: 24px;
+  padding: 0;
+}
+.charts ~ .charts {
+  margin-left: 16px;
+}
+
+#chart1,
+#chart2,
+#chart3,
+#chart4,
+#contrastChart,
+#luminosityChart {
+  border-radius: 4px;
+
+  svg {
+    color: var(--spectrum-global-color-gray-500);
+  }
+}
+
+// #contrastChart {
+//   width: 350px;
+//   height: 300px;
+// }
+
+.chartGroup {
+  .spectrum-Heading6 {
+    height: 32px;
+    display: flex;
+    align-items: flex-end;
+  }
+}
+
+#chart3dWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  align-self: center;
+  height: 100%;
+  cursor: move;
+}
+
+// TEMPORARY WHILE WORKING THROUGH PLOTLY
+.chart3d {
+  display: none;
+}
+
+svg.main-svg {
+  background: transparent !important;
+}
+
+.chartsRow {
+  height: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: row;
+}
+
+.chartsColumn--left,
+.chartsColumn--right {
+  display: flex;
+  flex-direction: column;
+}
+.chartsColumn--left {
+  width: 40%;
+}
+.chartsColumn--right {
+  width: 60%;
+}

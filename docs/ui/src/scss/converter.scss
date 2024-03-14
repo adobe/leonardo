@@ -1,0 +1,186 @@
+.appFrame {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Adobe Clean'; // local update since no typekit support currently.
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: var(--header-height) auto;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  grid-template-areas:
+    'header'
+    'main';
+}
+
+#output {
+  font-family: 'Source Code Pro', monospace;
+  margin-top: 16px;
+  padding: 0 4px;
+  color: #000000;
+  font-size: 1rem;
+}
+
+#input {
+  margin-right: 8px;
+}
+
+#converterWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+
+#converterGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100%;
+  width: 860px;
+  height: calc(100vh - 58px);
+  max-height: 100%;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+#converterGroup h1 {
+  margin-top: 64px;
+}
+#converterGroup p {
+  max-width: 60ch;
+}
+
+#converterGroup input[type='text'] + input[type='color'] {
+  margin-left: 6px;
+}
+
+cite {
+  color: #707070;
+}
+
+h1 + cite {
+  margin-top: -4px;
+  margin-bottom: 8px;
+}
+
+.spectrum-Form-item--row {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+
+  // For some reason have to do this to retain proper width and keep from wrapping
+  .spectrum-Form-item {
+    width: 210px;
+  }
+  + .spectrum-Form-item--row {
+    margin-top: var(--spectrum-global-dimension-size-400);
+  }
+}
+
+.spectrum-Textfield {
+  width: 21ch;
+}
+
+.converter--column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.converter--row {
+  display: flex;
+  flex-direction: row;
+  gap: 64px;
+  justify-content: flex-start;
+}
+
+#demoWrapper {
+  padding: 72px 48px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  height: 218px;
+  display: flex;
+  justify-content: center;
+
+  #smallText {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+}
+#largeText {
+  font-size: 18.666px;
+  font-weight: bold;
+}
+#smallText {
+  font-size: 14px;
+}
+
+.contrastRatio {
+  font-size: 64px;
+  line-height: 1;
+  color: #000;
+  display: block;
+  margin-bottom: 3rem;
+  font-weight: 600;
+}
+
+#outputWrapper {
+  h2 {
+    margin-bottom: 0px;
+    margin-top: 2rem;
+  }
+}
+
+.badge {
+  font-size: 14px;
+  color: #ffffff;
+  padding: 6px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.badge--error {
+  background-color: #d60000;
+}
+.badge--success {
+  background-color: #158000;
+}
+
+.passFail {
+  display: inline-block;
+  & + .passFail {
+    margin-left: 24px;
+  }
+}
+.heading--passFail {
+  display: block;
+  margin-bottom: 4px;
+}
+.ratioToOne {
+  color: #6e6e6e;
+  font-weight: 400;
+}
+
+#converterGroup .footer--cta {
+  margin-bottom: 2em;
+  margin-top: 4em;
+  font-size: 14px;
+}
+
+// #contrastCheckInput {
+//   height: 340px;
+// }
+
+#alphaSlider {
+  width: 208px;
+}
+.spectrum-ColorSlider-slider {
+  z-index: 1;
+  pointer-events: all;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+}

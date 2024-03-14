@@ -1,8 +1,13 @@
 dist/
 node_modules/
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 .nyc_output/
 .cache/
 .DS_Store
+# moon
+.moon/cache
+.moon/docker
+.parcel-cache
+
+# husky
+.husky/_

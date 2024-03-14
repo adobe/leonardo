@@ -1,0 +1,13 @@
+#BackgroundScaleTooltip {
+  &.spectrum-Tooltip--top .spectrum-Tooltip-tip {
+    right: 24px;
+    left: auto;
+  }
+  &.spectrum-Tooltip--top {
+    position: absolute;
+    max-width: 30ch;
+  }
+  &.spectrum-Tooltip--top {
+    transform: translate(94px, -48px);
+  }
+}

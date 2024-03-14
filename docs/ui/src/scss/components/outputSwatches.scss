@@ -1,0 +1,269 @@
+#swatchesOutputs,
+#detailSwatchesOutputs {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 8px 14px 16px 32px;
+  // border-radius: var(--spectrum-alias-border-radius-medium);
+  // height: calc(100vh - 220px);
+  // overflow: auto;
+  // border: 1px solid var(--translucentLightBorder);
+}
+
+.themeOutputItem {
+  display: table-row;
+}
+
+.themeOutputItem--Heading {
+  display: table-cell;
+  min-width: 120px;
+  vertical-align: top;
+  padding-right: var(--spectrum-global-dimension-size-200);
+}
+
+.themeOutputColor {
+  // display: flex;
+  display: table-cell;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.themeOutputSwatch,
+.simulationSwatch {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: flex-end;
+  width: 66px;
+  height: 70px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  margin: 0 16px 32px 0;
+  cursor: pointer;
+  transition:
+    border 0.25s ease-out,
+    box-shadow 0.25s ease-out;
+  padding: 4px 6px;
+
+  &:focus {
+    border-color: var(--spectrum-alias-background-color-default);
+    box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
+    outline: none;
+  }
+  &:active {
+    border-color: var(--spectrum-alias-background-color-default);
+    box-shadow: 0 0 0 2px var(--spectrum-alias-border-color-focus);
+    transition:
+      border 0.075s ease-out,
+      box-shadow 0.075s ease-out;
+  }
+}
+
+.simulationSwatch {
+  margin: 4px 12px 8px 0;
+  height: 56px;
+  width: 56px;
+  cursor: default;
+}
+
+#qualitative_selectedColors .simulationSwatch {
+  height: 64px;
+  width: 64px;
+  padding: 0;
+  margin: 0 8px 0 0;
+}
+
+// default font size to display in theme tab
+.themeOutputSwatch_contrast {
+  font-size: 12px;
+}
+
+#justifiedWrapper .themeOutputSwatch,
+#detailJustifiedWrapper .themeOutputSwatch {
+  justify-content: space-between;
+  border-radius: 0;
+  margin: 0;
+  border: none;
+}
+
+#justifiedWrapper,
+#detailJustifiedWrapper {
+  .themeOutputItem:first-of-type {
+    .themeOutputSwatch:first-of-type {
+      border-top-left-radius: var(--spectrum-alias-border-radius-regular);
+    }
+    .themeOutputSwatch:last-of-type {
+      border-top-right-radius: var(--spectrum-alias-border-radius-regular);
+    }
+  }
+  .themeOutputItem:last-of-type {
+    .themeOutputSwatch:first-of-type {
+      border-bottom-left-radius: var(--spectrum-alias-border-radius-regular);
+    }
+    .themeOutputSwatch:last-of-type {
+      border-bottom-right-radius: var(--spectrum-alias-border-radius-regular);
+    }
+  }
+
+  .themeOutputSwatch_luminosity,
+  .themeOutputSwatch_contrast {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  #swatchesOutputs .themeOutputItem,
+  #detailSwatchesOutputs .themeOutputItem {
+    display: flex;
+    flex-direction: row;
+    /* for fluid heights */
+    height: 100%;
+    max-height: 150px;
+  }
+
+  #swatchesOutputs .themeOutputColor,
+  #detailSwatchesOutputs .themeOutputColor {
+    display: inline-flex;
+    width: calc(100% - 24px);
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    min-width: 280px;
+  }
+
+  #swatchesOutputs .themeOutputSwatch,
+  #detailSwatchesOutputs .themeOutputSwatch {
+    width: 100%;
+    min-width: 36px;
+    height: 100%;
+    min-height: 72px;
+  }
+}
+
+.themeOutputSwatch_index {
+  position: absolute;
+  top: -22px;
+  left: 0;
+}
+
+.themeOutputSwatch_luminosity,
+.themeOutputSwatch_contrast {
+  opacity: 1;
+  transition: opacity 0.125s ease-in-out;
+}
+
+.hideSwatchContrast {
+  .themeOutputSwatch_contrast {
+    opacity: 0;
+    transition: opacity 0.125s ease-in-out;
+  }
+}
+.hideSwatchLuminosity {
+  .themeOutputSwatch_luminosity {
+    opacity: 0;
+    transition: opacity 0.125s ease-in-out;
+  }
+}
+
+#swatchControls {
+  margin-bottom: var(--spectrum-global-dimension-size-200);
+}
+
+#originalColors {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0;
+  max-height: 90px;
+  overflow: auto;
+}
+.panelSwatch {
+  display: inline-flex;
+  flex-shrink: 0;
+  height: 16px;
+  width: 16px;
+  margin: 2px;
+  border-radius: 2px;
+}
+
+.tinySwatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px #f5f5f5;
+  position: absolute;
+  bottom: -4px;
+  left: -4px;
+}
+
+.sampleSwatches {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: var(--spectrum-global-dimension-size-100);
+}
+.sampleSwatch {
+  height: 64px;
+  display: inline-flex;
+  flex-grow: 1;
+  &:first-of-type {
+    border-top-left-radius: var(--spectrum-alias-border-radius-medium);
+    border-bottom-left-radius: var(--spectrum-alias-border-radius-medium);
+  }
+  &:last-of-type {
+    border-top-right-radius: var(--spectrum-alias-border-radius-medium);
+    border-bottom-right-radius: var(--spectrum-alias-border-radius-medium);
+  }
+}
+
+.swatch--large,
+input[type='color'].swatch--large {
+  margin-top: var(--spectrum-global-dimension-size-100);
+  height: 164px;
+  width: 164px;
+  border-radius: var(--spectrum-alias-border-radius-medium);
+  border: 1px solid var(--translucentLightBorder);
+}
+
+input[type='color'].swatch--large {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.contrastSwatch--outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--spectrum-alias-border-radius-medium);
+  border: 1px solid var(--translucentLightBorder);
+}
+.contrastSwatch--inner {
+  border-radius: 3px;
+  width: 38px;
+  height: 38px;
+}
+
+.dualSwatch {
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+
+  .swatch {
+    border: 1px solid var(--translucentLightBorder);
+    width: 32px;
+    height: 32px;
+  }
+
+  .swatch:first-of-type {
+    border-top-left-radius: var(--spectrum-alias-border-radius-medium);
+    border-bottom-left-radius: var(--spectrum-alias-border-radius-medium);
+  }
+  .swatch:last-of-type {
+    border-top-right-radius: var(--spectrum-alias-border-radius-medium);
+    border-bottom-right-radius: var(--spectrum-alias-border-radius-medium);
+  }
+}

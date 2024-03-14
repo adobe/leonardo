@@ -2,19 +2,41 @@
   "name": "leonardo-monorepo",
   "version": "0.0.0",
   "private": true,
-  "repository": "git@github.com:adobe/leonardo.git",
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "scripts": {
-    "release": "npx lerna publish"
+    "moon": "moon",
+    "pre-commit": "lint-staged",
+    "prepare": "husky install",
+    "release": "changeset publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/leonardo.git"
   },
   "contributors": [
-    "Larry Davis <lazdnet@gmail.com>"
+    "Larry Davis <lazdnet@gmail.com>",
+    "Frank Karstens <karstens@adobe.com>"
   ],
   "license": "Apache-2.0",
   "devDependencies": {
-    "lerna": "^3.16.4"
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@moonrepo/cli": "^1.22.7",
+    "@parcel/packager-raw-url": "2.11.0",
+    "@parcel/transformer-sass": "2.11.0",
+    "@parcel/transformer-webmanifest": "2.11.0",
+    "ava": "^6.0.1",
+    "buffer": "^5.5.0||^6.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "path-browserify": "^1.0.0",
+    "prettier": "^3.1.1",
+    "process": "^0.11.10",
+    "vm-browserify": "^1.1.2"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "packageManager": "pnpm@8.15.4",
+  "engines": {
+    "node": "~20.11"
+  }
 }

@@ -1,5 +1,5 @@
 /*
-Copyright 2019 Adobe. All rights reserved.
+Copyright 2024 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the 'License');
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE2.0
@@ -8,10 +8,11 @@ the License is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-/* global test, expect */
-import { Color } from "../index";
 
-test('should set color name of Color class', () => {
+import test from 'ava';
+import {Color} from '../index.js';
+
+test('should set color name of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
@@ -20,13 +21,13 @@ test('should set color name of Color class', () => {
     smooth: true
   });
 
-  color.name = 'newColorName'
+  color.name = 'newColorName';
   const colorName = color.name;
 
-  expect(colorName).toEqual('newColorName');
+  t.is(colorName, 'newColorName');
 });
 
-test('should set color keys of Color class', () => {
+test('should set color keys of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
@@ -35,13 +36,13 @@ test('should set color keys of Color class', () => {
     smooth: true
   });
 
-  color.colorKeys = ['#ff00ff', '#ff32ff', '#320077']
+  color.colorKeys = ['#ff00ff', '#ff32ff', '#320077'];
   const colorKeys = color.colorKeys;
 
-  expect(colorKeys).toEqual(['#ff00ff', '#ff32ff', '#320077']);
+  t.deepEqual(colorKeys, ['#ff00ff', '#ff32ff', '#320077']);
 });
 
-test('should set colorspace of Color class', () => {
+test('should set colorspace of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
@@ -50,13 +51,12 @@ test('should set colorspace of Color class', () => {
     smooth: true
   });
 
-  color.colorspace = 'HSL'
+  color.colorspace = 'HSL';
   const colorspace = color.colorspace;
-
-  expect(colorspace).toEqual('HSL');
+  t.is(colorspace, 'HSL');
 });
 
-test('should set ratios of Color class', () => {
+test('should set ratios of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
@@ -65,13 +65,12 @@ test('should set ratios of Color class', () => {
     smooth: true
   });
 
-  color.ratios = [5, 7, 12]
+  color.ratios = [5, 7, 12];
   const ratios = color.ratios;
-
-  expect(ratios).toEqual([5, 7, 12]);
+  t.deepEqual(ratios, [5, 7, 12]);
 });
 
-test('should set smooth of Color class', () => {
+test('should set smooth of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
@@ -83,5 +82,5 @@ test('should set smooth of Color class', () => {
   color.smooth = false;
   const smooth = color.smooth;
 
-  expect(smooth).toEqual(false);
+  t.false(smooth);
 });

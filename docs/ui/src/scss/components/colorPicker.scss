@@ -1,0 +1,21 @@
+.colorPicker {
+  height: 32px;
+  width: 32px;
+  overflow: visible;
+  border-radius: var(--spectrum-alias-border-radius-regular);
+  background-color: rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+input[type='color'].colorPicker-Input {
+  display: none;
+  z-index: -1;
+}
+
+.colorPicker-Popover {
+  padding: var(--spectrum-global-dimension-size-150);
+  top: 38px;
+  left: 0;
+  width: 200px;
+}

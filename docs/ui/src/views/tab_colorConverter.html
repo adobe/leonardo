@@ -1,0 +1,37 @@
+<!-- Color Converter Tab -->
+<div id="colorConverter" class="AppTab appFramePanelRight--large">
+  <main class="home-Wrapper home-Wrapper--float">
+    <div class="floating-wrapper">
+      <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">Convert color</h1>
+
+      <div class="spectrum-Form spectrum-Form--row spectrum-Form--topAlign" id="colorConvertForm">
+        <div class="spectrum-Form-item">
+          <label class="spectrum-Heading spectrum-Heading--sizeXXS" id="convertColorOne" for="convertColorOneInput"> Color </label>
+          <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
+            <input type="text" class="spectrum-Textfield-input" id="convertColorOneInput" placeholder="Enter color" value="#7AC600" aria-labelledby="convertColorOneInput" />
+          </div>
+          <div style="position: relative">
+            <input type="color" class="swatch--large" id="convertColorOne_picker" />
+            <div class="swatch--large" id="convertColorOne_swatch"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spectrum-Typography">
+        <h3 class="spectrum-Heading spectrum-Heading--sizeS" style="margin-top: 48px">Have a lot to convert?</h3>
+        <p class="spectrum-Body spectrum-Body--sizeS">Use the bulk converter to convert all your colors in the formats you need.</p>
+        <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--primary" id="bulkConvertButton" onclick="bulkConvert()">Convert bulk</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="home-Wrapper--right">
+    <div class="spectrum-Panel-Item">
+      <div id="converterOutput"></div>
+    </div>
+  </div>
+
+  <div id="dialogOverlay" style="display: none"></div>
+
+  <include src="src/views/dialog_bulkColorConverter.html"></include>
+</div>

@@ -1,0 +1,94 @@
+/*
+Copyright 2024 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+input[type='color'] {
+  -webkit-appearance: none;
+  height: 32px;
+  width: 32px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  border-collapse: collapse;
+  outline: none;
+  border-radius: 4px;
+
+  &.spectrum-Textfield-swatch {
+    margin-top: var(--spectrum-global-dimension-size-100);
+    margin-left: var(--spectrum-global-dimension-size-100);
+  }
+}
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0px;
+  border: none;
+}
+input[type='color']::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
+}
+input[type='color']:disabled {
+  // opacity: 0.4;
+  border-color: var(--spectrum-global-color-gray-200);
+}
+
+.slider:focus,
+input[type='color']:focus {
+  outline: none;
+  border: 1px solid var(--spectrum-alias-background-color-default);
+  box-shadow: 0 0 0 2px var(--spectrum-alias-focus-color);
+}
+
+input[type='color']::-webkit-color-swatch {
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+input[type='color']::-moz-color-swatch {
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+// Color Input Classes
+.keyColor > input[type='color'] {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.keyColor > input[type='color']::-webkit-color-swatch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.keyColor > input[type='color']::-moz-color-swatch {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+input[type='color'].keyColor-Item + .spectrum-ActionButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+// Middle color for diverging needs full rounding
+.keyColor-diverging-middle > input[type='color'] {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.keyColor-diverging-middle > input[type='color']::-webkit-color-swatch {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.keyColor-diverging-middle > input[type='color']::-moz-color-swatch {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.spectrum-FieldLabel--right {
+  padding: var(--spectrum-fieldlabel-side-padding-top, var(--spectrum-global-dimension-size-100)) 0 0 var(--spectrum-fieldlabel-side-padding-x, var(--spectrum-global-dimension-size-100));
+}

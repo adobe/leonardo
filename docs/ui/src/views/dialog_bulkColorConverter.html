@@ -1,0 +1,200 @@
+<div class="addBulkColorDialog spectrum-Dialog spectrum-Dialog--medium spectrum-Dialog--confirmation" id="bulkConvertDialog">
+  <div class="spectrum-Dialog-grid">
+    <h2 class="spectrum-Dialog-heading">Convert bulk</h2>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM spectrum-Divider--horizontal spectrum-Dialog-divider" />
+    <section class="spectrum-Dialog-content">
+      <span class="spectrum-Typography">
+        <p class="spectrum-Body spectrum-Body--sizeS">Enter hex colors separated by comma or new line.</p>
+        <p class="spectrum-Body spectrum-Body--sizeS">Colors will be converted into the selected color spaces and downloaded as a CSV file.</p>
+      </span>
+      <div class="spectrum-Form spectrum-Form--labelsAbove">
+        <div class="spectrum-Form-item">
+          <label for="fieldLabelExample-lifestory" class="spectrum-Form-itemLabel">Colors (hex)</label>
+          <div class="spectrum-Textfield spectrum-Textfield--multiline" style="width: 100%">
+            <textarea id="bulkConvertColors" class="spectrum-Textfield-input" placeholder="Enter colors here"></textarea>
+          </div>
+        </div>
+        <div class="spectrum-Form-item">
+          <label class="spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-Form-itemLabel" for="spectrum-textinput-instance">Color spaces / formats</label>
+          <div class="spectrum-Form-itemField">
+            <div class="spectrum-FieldGroup spectrum-FieldGroup--vertical">
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-RGB" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">RGB</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-HSL" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">HSL</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-HSV" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">HSV</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-LAB" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">LAB</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-LCH" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">LCH</span>
+              </label>
+            </div>
+            <div class="spectrum-FieldGroup spectrum-FieldGroup--vertical" style="margin-left: 16px">
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-OKLAB" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">OKLAB</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-OKLCH" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">OKLCH</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-HSLuv" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">HSLuv</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-CAM02" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">CAM02</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-CAM02p" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">CAM02-Ch</span>
+              </label>
+            </div>
+            <div class="spectrum-FieldGroup spectrum-FieldGroup--vertical" style="margin-left: 16px">
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-CMYK" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">CMYK</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-XYZ" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">XYZ</span>
+              </label>
+
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-Pantone" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">Pantone</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spectrum-Form spectrum-Form--labelsAbove">
+        <div class="spectrum-Form-item">
+          <label class="spectrum-FieldLabel spectrum-FieldLabel--sizeM spectrum-Form-itemLabel" for="spectrum-textinput-instance">Contrast</label>
+          <div class="spectrum-Form-itemField">
+            <div class="spectrum-FieldGroup">
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-wcag2" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">Relative luminance</span>
+              </label>
+            </div>
+          </div>
+          <div class="spectrum-Form-itemField">
+            <div class="spectrum-FieldGroup">
+              <label class="spectrum-Checkbox spectrum-Checkbox--sizeM spectrum-FieldGroup-item">
+                <input type="checkbox" class="spectrum-Checkbox-input convertBulkColorspace" id="checkboxConvert-wcag3" />
+                <span class="spectrum-Checkbox-box">
+                  <svg class="spectrum-Icon spectrum-UIIcon-Checkmark100 spectrum-Checkbox-checkmark" focusable="false" aria-hidden="true">
+                    <use xlink:href="#spectrum-css-icon-Checkmark100" />
+                  </svg>
+                </span>
+                <span class="spectrum-Checkbox-label">APCA</span>
+              </label>
+            </div>
+          </div>
+          <div class="spectrum-Form-itemField">
+            <div class="spectrum-Form-item spectrum-Form-item--row">
+              <label class="spectrum-FieldLabel spectrum-FieldLabel--left spectrum-Fieldlabel--sizeM">Background color</label>
+              <input type="color" id="bulkConvertBackground" class="keyColor-Item keyColor-Item--standalone" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="spectrum-ButtonGroup spectrum-Dialog-buttonGroup spectrum-Dialog-buttonGroup--noFooter">
+      <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--secondary spectrum-ButtonGroup-item" onclick="cancelBulkConvert()">Cancel</button>
+      <button class="spectrum-Button spectrum-Button--sizeM spectrum-Button--cta spectrum-ButtonGroup-item" id="bulkConvert">Convert and download</button>
+    </div>
+  </div>
+</div>
