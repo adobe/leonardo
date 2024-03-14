@@ -22,14 +22,18 @@
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "@moonrepo/cli": "^1.22.4",
+    "@moonrepo/cli": "^1.22.7",
     "@parcel/packager-raw-url": "2.11.0",
     "@parcel/transformer-sass": "2.11.0",
     "@parcel/transformer-webmanifest": "2.11.0",
     "ava": "^6.0.1",
+    "buffer": "^5.5.0||^6.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
-    "prettier": "^3.1.1"
+    "path-browserify": "^1.0.0",
+    "prettier": "^3.1.1",
+    "process": "^0.11.10",
+    "vm-browserify": "^1.1.2"
   },
   "packageManager": "pnpm@8.15.4",
   "engines": {

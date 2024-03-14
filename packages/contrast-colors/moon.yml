@@ -3,6 +3,8 @@ type: library
 
 fileGroups:
   sources:
+    - index.js
+    - index.d.ts
     - 'lib/**/*'
   tests:
     - 'test/**/*'
@@ -12,9 +14,6 @@ tasks:
     command:
       - ava
     inputs:
-      - 'tasks/**/*'
-      - 'schemas/**/*.{yaml,yml,json}'
-      - 'manifest.json'
       - '@globs(tests)'
       - '@globs(sources)'
     platform: node
