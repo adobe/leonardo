@@ -1,5 +1,14 @@
 # Change Log
 
+## 1.0.0
+
+### Patch Changes
+
+- 342c9ca: \* Migrated from Lerna to Moon for monorepo management.
+  - Setting up Changeset for release management
+  - Setting up automated releases on NPM
+  - Migrate from Jest to Ava for better module support
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

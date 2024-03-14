@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.4.5
+
+### Patch Changes
+
+- Updated dependencies [342c9ca]
+  - @adobe/leonardo-contrast-colors@1.0.0
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
