@@ -1,0 +1,44 @@
+<html dir="ltr">
+  <head>
+    <include src="src/htmlHead.html"></include>
+  </head>
+  <body class="spectrum spectrum--medium appFrame">
+    <div id="pageLoader">
+      <div class="spectrum-ProgressCircle spectrum-ProgressCircle--indeterminate spectrum-ProgressCircle--large">
+        <div class="spectrum-ProgressCircle-track"></div>
+        <div class="spectrum-ProgressCircle-fills">
+          <div class="spectrum-ProgressCircle-fillMask1">
+            <div class="spectrum-ProgressCircle-fillSubMask1">
+              <div class="spectrum-ProgressCircle-fill"></div>
+            </div>
+          </div>
+          <div class="spectrum-ProgressCircle-fillMask2">
+            <div class="spectrum-ProgressCircle-fillSubMask2">
+              <div class="spectrum-ProgressCircle-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page" style="opacity: 0">
+      <include src="src/views/header_theme.html"></include>
+
+      <include src="src/views/tab_home.html"></include>
+
+      <include src="src/views/tab_palette.html"></include>
+      <include src="src/views/tab_accessibility.html"></include>
+      <include src="src/views/tab_theme.html"></include>
+
+      <div id="dialogOverlay" style="display: none"></div>
+
+      <include src="src/views/dialog_bulkKeyColors.html"></include>
+      <include src="src/views/dialog_bulkLightnessStops.html"></include>
+      <include src="src/views/dialog_importURL.html"></include>
+
+      <include src="src/views/toast_cvdPreview.html"></include>
+    </div>
+
+    <script src="theme.js" type="module"></script>
+  </body>
+</html>

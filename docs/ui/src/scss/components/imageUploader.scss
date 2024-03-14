@@ -1,0 +1,18 @@
+#image-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  img {
+    object-fit: scale-down;
+    height: 112px;
+    margin-top: var(--spectrum-global-dimension-size-200);
+    border-radius: var(--spectrum-alias-border-radius-regular);
+  }
+
+  .image-preview_text {
+    margin-top: var(--spectrum-global-dimension-size-200);
+    margin-left: var(--spectrum-global-dimension-size-100);
+    size: var(--spectrum-global-dimension-font-size-50, 12px);
+  }
+}

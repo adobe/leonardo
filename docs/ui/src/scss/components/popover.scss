@@ -1,0 +1,40 @@
+.spectrum-Popover--padded {
+  padding: var(--spectrum-global-dimension-size-300);
+}
+
+.spectrum-Popover--paddedSmall {
+  padding-left: var(--spectrum-global-dimension-size-100);
+  padding-right: var(--spectrum-global-dimension-size-100);
+  padding-bottom: var(--spectrum-global-dimension-size-200);
+}
+
+.spectrum-Popover {
+  z-index: 100;
+
+  .spectrum-Body {
+    margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+#popoverShareOptions {
+  top: 50px;
+  right: 72px;
+  width: auto;
+  .spectrum-ActionGroup--vertical {
+    margin-top: var(--spectrum-global-dimension-size-100);
+    margin-bottom: var(--spectrum-global-dimension-size-100);
+  }
+}
+
+#popoverAdaptiveControls {
+  top: 50px;
+  right: 152px;
+  width: 336px;
+}
+
+#popoverAnalysisColorSpace {
+  top: 50px;
+  right: 190px;
+  width: 336px;
+}

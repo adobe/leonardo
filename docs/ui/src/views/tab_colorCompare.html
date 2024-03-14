@@ -1,0 +1,116 @@
+<!-- CVD Checker Tab -->
+<div id="colorCompare" class="AppTab appFramePanelRight--large">
+  <main class="home-Wrapper home-Wrapper--float">
+    <div class="floating-wrapper">
+      <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">Compare colors</h1>
+      <p class="spectrum-Body spectrum-Body--sizeM">Compare two colors to check contrast, difference, and colorblind safety.</p>
+
+      <div class="spectrum-Form spectrum-Form--row spectrum-Form--topAlign" id="colorCompareForm">
+        <div class="spectrum-Form-item">
+          <label class="spectrum-Heading spectrum-Heading--sizeXXS" id="compareColorOne" for="compareColorOneInput"> Foreground color* </label>
+          <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
+            <input type="text" class="spectrum-Textfield-input" id="compareColorOneInput" placeholder="Enter color" value="#7AC600" aria-labelledby="compareColorOneInput" />
+          </div>
+          <div style="position: relative">
+            <input type="color" class="swatch--large" id="compareColorOne_picker" />
+            <div class="swatch--large" id="compareColorOne_swatch"></div>
+          </div>
+
+          <div id="alphaSlider" class="spectrum-ColorSlider">
+            <div class="spectrum-ColorSlider-checkerboard" role="presentation">
+              <div id="alphaSliderGradient" class="spectrum-ColorSlider-gradient" role="presentation"></div>
+            </div>
+
+            <div id="alphaSliderHandleWrap" class="spectrum-ColorHandle spectrum-ColorSlider-handle">
+              <div id="alphaSliderHandle" class="spectrum-ColorHandle-color"></div>
+            </div>
+
+            <input id="alphaSliderRange" type="range" class="spectrum-ColorSlider-slider" min="0" max="100" step="1" oninput="sliderRangeInteraction(this.value)" />
+          </div>
+        </div>
+
+        <div class="spectrum-Form-item">
+          <label class="spectrum-Heading spectrum-Heading--sizeXXS" id="compareColorTwo" for="compareColorTwoInput"> Background color </label>
+          <div class="spectrum-Textfield spectrum-Textfield--fullwidth">
+            <input type="text" class="spectrum-Textfield-input" id="compareColorTwoInput" placeholder="Enter color" value="#0E55A8" aria-labelledby="compareColorTwoInput" />
+          </div>
+          <div style="position: relative">
+            <input type="color" class="swatch--large" id="compareColorTwo_picker" />
+            <div class="swatch--large" id="compareColorTwo_swatch"></div>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="spectrum-Heading spectrum-Heading--sizeXS">Supported formats</h4>
+      <table class="spectrum-Table spectrum-Table--sizeM spectrum-Table--quiet spectrum-Table--compact">
+        <thead class="spectrum-Table-head">
+          <tr>
+            <th class="spectrum-Table-headCell is-sortable is-sorted-desc" aria-sort="descending" tabindex="0">Color space</th>
+            <th class="spectrum-Table-headCell is-sortable" aria-sort="descending">Opaque</th>
+            <th class="spectrum-Table-headCell">Alpha</th>
+          </tr>
+        </thead>
+        <tbody class="spectrum-Table-body">
+          <tr class="spectrum-Table-row">
+            <td class="spectrum-Table-cell" tabindex="0">HEX</td>
+            <td class="spectrum-Table-cell" tabindex="0">#FFFFFF</td>
+            <td class="spectrum-Table-cell" tabindex="0">#FFFFFFFF</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+            <td class="spectrum-Table-cell" tabindex="0">RGB</td>
+            <td class="spectrum-Table-cell" tabindex="0">rgb(255, 255, 255)</td>
+            <td class="spectrum-Table-cell" tabindex="0">rgba(255, 255, 255, 1)</td>
+          </tr>
+          <tr class="spectrum-Table-row">
+            <td class="spectrum-Table-cell" tabindex="0">HSL</td>
+            <td class="spectrum-Table-cell" tabindex="0">hsl(360, 100%, 50%)</td>
+            <td class="spectrum-Table-cell" tabindex="0">hsla(360, 100%, 50%, 1)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <div class="home-Wrapper--right">
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Tabs spectrum-Tabs--horizontal">
+        <div id="tabSubPanelContrastChart" class="spectrum-Tabs-item compare-Tabs-item" tabindex="0" onclick="openCompareTab(event, 'contrastContent')">
+          <label class="spectrum-Tabs-itemLabel">Contrast</label>
+        </div>
+        <div id="tabSubPanelLuminosityChart" class="spectrum-Tabs-item compare-Tabs-item" tabindex="0" onclick="openCompareTab(event, 'colorDiffContent')">
+          <label class="spectrum-Tabs-itemLabel">Color difference</label>
+        </div>
+      </div>
+
+      <div class="compare-Tabs-content" id="contrastContent">
+        <div id="contrastContentRow">
+          <div id="contrastOutput"></div>
+          <div class="spectrum-Form">
+            <div class="spectrum-Form-item">
+              <label for="complianceLevel" class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel--left">Compliance level</label>
+              <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item pickerCompliance" name="complianceLevel" id="complianceLevel">
+                <option value="AA">AA</option>
+                <option value="AAA">AAA</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="contrastReport"></div>
+      </div>
+
+      <div class="compare-Tabs-content" id="colorDiffContent">
+        <div id="colorDifferenceReport"></div>
+
+        <section class="spectrum-Typography">
+          <h4 class="spectrum-Heading spectrum-Heading--sizeS">How this works</h4>
+          <p class="spectrum-Body spectrum-Body--sizeS">
+            Ratings are calculated by first converting the colors to their simulated counterparts. The simulated values approximate the colors that would be seen by fully deficient vision of each particular type. The simulated colors are then compared
+            using the DeltaE 2000 color difference formula. A color difference value of 11 or more is considered passing; anything lower is too similar to distinguish.
+          </p>
+          <p class="spectrum-Body spectrum-Body--sizeS">The color difference meters visualize the DeltaE value to give reference to how different the colors would appear for each color vision deficiency.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

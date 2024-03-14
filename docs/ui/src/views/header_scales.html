@@ -1,0 +1,45 @@
+<header class="spectrum-AppHeader">
+  <div class="spectrum-AppHeader_item">
+    <include src="src/views/LogoLink.html"></include>
+
+    <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet spectrum-Tabs--fluid">
+      <div id="tabHome" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'home')">
+        <label class="spectrum-Tabs-itemLabel">
+          <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
+            <use xlink:href="#spectrum-icon-18-Home" />
+          </svg>
+        </label>
+      </div>
+
+      <div id="tabSequential" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'sequential')">
+        <label class="spectrum-Tabs-itemLabel">Sequential</label>
+      </div>
+      <div id="tabDiverging" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'diverging')">
+        <label class="spectrum-Tabs-itemLabel">Diverging</label>
+      </div>
+      <div id="tabQualitative" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'qualitative')">
+        <label class="spectrum-Tabs-itemLabel">Qualitative</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="spectrum-Heading spectrum-Heading--XXS" id="themeTitle"></div>
+
+  <div class="spectrum-AppHeader_item">
+    <div class="spectrum-Form spectrum-Form--row">
+      <div class="spectrum-Form-item spectrum-Form-item--row">
+        <label for="scales_complianceLevel" class="spectrum-FieldLabel spectrum-FieldLabel--left spectrum-Fieldlabel--sizeM">WCAG level</label>
+        <select class="spectrum-Picker spectrum-Picker--sizeM spectrum-ActionGroup-item pickerCompliance" name="scales_complianceLevel" id="scales_complianceLevel">
+          <option value="AA">AA</option>
+          <option value="AAA">AAA</option>
+        </select>
+      </div>
+
+      <div class="spectrum-Form-item spectrum-Form-item--row">
+        <label class="spectrum-FieldLabel spectrum-FieldLabel--left spectrum-Fieldlabel--sizeM">Background color</label>
+        <input type="color" id="scales_bgColor" class="keyColor-Item keyColor-Item--standalone" />
+      </div>
+    </div>
+    <include src="src/views/GithubLink.html"></include>
+  </div>
+</header>

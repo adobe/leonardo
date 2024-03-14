@@ -1,0 +1,37 @@
+.spectrum-Panel-Item--accordion {
+  height: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: height ease-out 0.1s;
+
+  .spectrum-Accordion-Header .spectrum-Icon {
+    transform: rotate(-90deg);
+  }
+
+  &.is-open {
+    height: auto;
+    transition: height ease-out 0.1s;
+
+    .spectrum-Accordion-Header .spectrum-Icon {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.spectrum-Accordion-Header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.spectrum-Accordion-Body .spectrum-Panel-Item {
+  padding-left: 0;
+  padding-right: 0;
+  border-width: 1px;
+}
+
+.spectrum-Accordion-Body .spectrum-Panel-Item:first-of-type {
+  padding-top: 0;
+}

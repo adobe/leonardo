@@ -1,0 +1,57 @@
+.selectBox--row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spectrum-global-dimension-size-200);
+  width: 100%;
+}
+
+.selectBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spectrum-global-dimension-size-400) var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
+  border-radius: var(--spectrum-alias-border-radius-medium);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--spectrum-global-color-gray-300);
+  background-color: var(--spectrum-global-color-gray-50);
+  min-width: 180px;
+  width: calc(33% - 58px);
+  text-decoration: none;
+  transition:
+    border-color var(--spectrum-global-animation-duration-100, 130ms) ease-out,
+    background-color var(--spectrum-global-animation-duration-100, 130ms) ease-out;
+
+  &:hover {
+    border-color: var(--spectrum-global-color-gray-400);
+    background-color: var(--spectrum-global-color-gray-50);
+  }
+  &:active {
+    border-color: var(--spectrum-global-color-gray-500);
+    background-color: var(--spectrum-global-color-gray-50);
+  }
+}
+
+.selectBox_Content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selectBox_Button {
+  margin-top: var(--spectrum-global-dimension-size-150);
+}
+
+.selectBox_image {
+  width: 100px;
+  height: 100px;
+}
+
+.spectrum-Body--sizeS.selectBox_content {
+  margin-bottom: 0;
+  text-align: center;
+  line-height: 1.3;
+  color: var(--spectrum-global-color-gray-700);
+}

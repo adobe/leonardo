@@ -1,0 +1,53 @@
+.articleCards-Wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spectrum-global-dimension-size-200);
+}
+
+.articleCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: var(--spectrum-alias-border-radius-medium);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--spectrum-global-color-gray-300);
+  background-color: var(--spectrum-global-color-gray-75);
+  flex-shrink: 1;
+  min-width: 240px;
+  width: 100%;
+  max-width: 360px;
+  text-decoration: none;
+  transition:
+    border-color var(--spectrum-global-animation-duration-100, 130ms) ease-out,
+    background-color var(--spectrum-global-animation-duration-100, 130ms) ease-out;
+
+  &:hover {
+    border-color: var(--spectrum-global-color-gray-400);
+    background-color: var(--spectrum-global-color-gray-50);
+  }
+  &:active {
+    border-color: var(--spectrum-global-color-gray-500);
+    background-color: var(--spectrum-global-color-gray-50);
+  }
+}
+
+.articleCard_content {
+  padding: 0 var(--spectrum-global-dimension-size-300) var(--spectrum-global-dimension-size-300);
+}
+
+.articleCard_image {
+  width: 100%;
+  height: 100px;
+  margin: 0;
+  border-top-left-radius: var(--spectrum-alias-border-radius-medium);
+  border-top-right-radius: var(--spectrum-alias-border-radius-medium);
+  object-fit: cover;
+}
+
+.spectrum-Body.articleCard_ref {
+  margin-bottom: 0;
+  font-style: italic;
+  color: var(--spectrum-global-color-gray-700);
+}

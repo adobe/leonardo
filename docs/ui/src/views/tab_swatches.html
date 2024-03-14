@@ -1,0 +1,75 @@
+<!-- Swatches Tab -->
+<div id="swatches" class="AppTab appFramePanelRight">
+  <div id="swatchMainContent-Wrapper">
+    <!-- <div id="swatchControls" class="spectrum-Form spectrum-Form--row">
+      <div class="spectrum-Switch" id="swatchContrastSwitch-Wrapper">
+        <input type="checkbox" class="spectrum-Switch-input" id="swatchContrastSwitch">
+        <span class="spectrum-Switch-switch"></span>
+        <label class="spectrum-Switch-label" for="swatchContrastSwitch">Show contrast</label>
+      </div>
+      <div class="spectrum-Switch" id="swatchLuminositySwitch-Wrapper">
+        <input type="checkbox" class="spectrum-Switch-input" id="swatchLuminositySwitch">
+        <span class="spectrum-Switch-switch"></span>
+        <label class="spectrum-Switch-label" for="swatchLuminositySwitch">Show luminosity</label>
+      </div>
+    </div> -->
+    <div class="spectrum-Content-Tabs">
+      <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet">
+        <div id="tabJustifiedSwatches" class="spectrum-Tabs-item swatch-Tabs-item" tabindex="0" onclick="openSwatchTab(event, 'justifiedWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Contrast</label>
+        </div>
+        <div id="tabFormattedSwatches" class="spectrum-Tabs-item swatch-Tabs-item" tabindex="0" onclick="openSwatchTab(event, 'formattedWrapper')">
+          <label class="spectrum-Tabs-itemLabel">Color difference (CVD)</label>
+        </div>
+      </div>
+    </div>
+
+    <div id="justifiedWrapper" class="swatch-Tabs-content">
+      <!-- <div id="swatchesOutputs">
+      </div> -->
+    </div>
+    <div id="formattedWrapper" class="swatch-Tabs-content"></div>
+  </div>
+
+  <div class="spectrum-Panel spectrum-Panel--right">
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">WCAG compliance settings</h3>
+      </div>
+      <div class="spectrum-Form spectrum-Form--row">
+        <div class="spectrum-Form-item spectrum-Form-item">
+          <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel" for="contrastMethod">Contrast formula</label>
+          <select class="spectrum-Picker" name="contrastMethod" id="contrastMethod">
+            <option value="WCAG">Relative Luminance</option>
+            <option value="APCA">APCA (Coming soon)</option>
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </select>
+        </div>
+        <div class="spectrum-Form-item spectrum-Form-item">
+          <label class="spectrum-FieldLabel spectrum-Fieldlabel--sizeM spectrum-FieldLabel" for="complianceLevel">WCAG level</label>
+          <select class="spectrum-Picker pickerCompliance" name="complianceLevel" id="complianceLevel">
+            <option value="AA">AA</option>
+            <option value="AAA">AAA</option>
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Picker-icon spectrum-UIIcon-ChevronDownMedium">
+              <use xlink:href="#spectrum-css-icon-ChevronDownMedium"></use>
+            </svg>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Color vision deficiencies to support</h3>
+      </div>
+    </div>
+
+    <div class="spectrum-Panel-Item">
+      <div class="spectrum-Panel-Title">
+        <h3 class="spectrum-Typography spectrum-Heading spectrum-Heading--sizeXXS">Color difference</h3>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+.spectrum-AppHeader {
+  grid-area: header;
+  display: flex;
+  flex-direction: row;
+  max-height: var(--spectrum-global-dimension-size-400); // 32px
+  border-bottom: 2px solid var(--panelBorder);
+  background-color: var(--headerBackground);
+  margin: 0;
+  padding: var(--spectrum-global-dimension-size-150) var(--spectrum-global-dimension-size-200);
+  align-items: center;
+  justify-content: space-between;
+
+  .spectrum-ActionGroup {
+    flex-shrink: 0;
+  }
+  .spectrum-Form--row {
+    margin-right: 8px;
+  }
+}
+
+.spectrum-AppHeader_item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .spectrum-Tabs {
+    height: 57px;
+    margin-left: 48px;
+  }
+}
+
+.spectrum-AppHeader_item--last {
+  width: auto;
+  justify-content: flex-end;
+
+  @media screen and (min-width: 1160px) {
+    width: 350px;
+  }
+}
+
+.spectrum-AppHeader-Title {
+  margin: 0;
+  font-weight: 400;
+  cursor: default;
+}
+
+#headerLogo {
+  height: 24px;
+  width: 24px;
+}
+#logoTitle {
+  display: inline-flex;
+  text-decoration: none;
+}
+#headerLogo ~ .spectrum-AppHeader-Title {
+  margin-left: 8px;
+}
+#octo-link {
+  margin-left: 16px;
+  padding: 4px;
+}

@@ -1,0 +1,41 @@
+<html dir="ltr">
+  <head>
+    <include src="src/htmlHead.html"></include>
+  </head>
+
+  <body class="spectrum spectrum--medium appFrame">
+    <div id="pageLoader">
+      <div class="spectrum-ProgressCircle spectrum-ProgressCircle--indeterminate spectrum-ProgressCircle--large">
+        <div class="spectrum-ProgressCircle-track"></div>
+        <div class="spectrum-ProgressCircle-fills">
+          <div class="spectrum-ProgressCircle-fillMask1">
+            <div class="spectrum-ProgressCircle-fillSubMask1">
+              <div class="spectrum-ProgressCircle-fill"></div>
+            </div>
+          </div>
+          <div class="spectrum-ProgressCircle-fillMask2">
+            <div class="spectrum-ProgressCircle-fillSubMask2">
+              <div class="spectrum-ProgressCircle-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page" style="opacity: 0">
+      <include src="src/views/header_scales.html"></include>
+
+      <include src="src/views/tab_home.html"></include>
+      <!-- <include src="src/views/tab_sequential.html"></include>
+    <include src="src/views/tab_diverging.html"></include>
+    <include src="src/views/tab_qualitative.html"></include> -->
+      <include src="src/views/tab_sequentialScale.html" locals='{ "scaleType": "sequential" }'></include>
+      <include src="src/views/tab_divergingScale.html" locals='{ "scaleType": "diverging" }'></include>
+      <include src="src/views/tab_qualitativeScale.html" locals='{ "scaleType": "qualitative" }'></include>
+      <include src="src/views/dialog_bulkKeyColors.html"></include>
+      <div id="dialogOverlay" style="display: none"></div>
+    </div>
+
+    <script src="scales.js" type="module"></script>
+  </body>
+</html>

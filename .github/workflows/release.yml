@@ -1,0 +1,35 @@
+name: Release
+
+permissions:
+  id-token: write
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: moonrepo/setup-toolchain@v0
+        with:
+          auto-install: true
+      - run: moon run :build --query "projectSource~packages/*"
+      - name: Publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          commit: 'chore: release'
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

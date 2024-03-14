@@ -1,0 +1,34 @@
+<html dir="ltr">
+  <head>
+    <include src="src/htmlHead.html"></include>
+  </head>
+
+  <body class="spectrum spectrum--medium appFrame">
+    <div id="pageLoader">
+      <div class="spectrum-ProgressCircle spectrum-ProgressCircle--indeterminate spectrum-ProgressCircle--large">
+        <div class="spectrum-ProgressCircle-track"></div>
+        <div class="spectrum-ProgressCircle-fills">
+          <div class="spectrum-ProgressCircle-fillMask1">
+            <div class="spectrum-ProgressCircle-fillSubMask1">
+              <div class="spectrum-ProgressCircle-fill"></div>
+            </div>
+          </div>
+          <div class="spectrum-ProgressCircle-fillMask2">
+            <div class="spectrum-ProgressCircle-fillSubMask2">
+              <div class="spectrum-ProgressCircle-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page" style="opacity: 0">
+      <include src="src/views/header_tools.html"></include>
+      <include src="src/views/tab_home.html"></include>
+      <include src="src/views/tab_colorCompare.html"></include>
+      <include src="src/views/tab_colorConverter.html"></include>
+    </div>
+
+    <script src="tools.js" type="module"></script>
+  </body>
+</html>
