@@ -1,9 +1,9 @@
 ---
 name: "\U0001F41B Bug [npm packages] "
 about: Report a problem with the @leonardo-contrast-colors module
-title: ""
+title: ''
 labels: bug
-assignees: ""
+assignees: ''
 ---
 
 ## Description

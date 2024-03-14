@@ -1,9 +1,9 @@
 ---
 name: "\U0001F41B Bug [Web Tool] "
 about: Report a problem with the Leonardo web interface
-title: ""
+title: ''
 labels: UI, bug
-assignees: ""
+assignees: ''
 ---
 
 ## Description

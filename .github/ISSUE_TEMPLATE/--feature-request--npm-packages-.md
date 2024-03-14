@@ -1,9 +1,9 @@
 ---
-name: "✨ Feature request [npm packages]"
+name: '✨ Feature request [npm packages]'
 about: Suggest a new feature for the Leonardo npm modules
-title: ""
+title: ''
 labels: enhancement, npm packages
-assignees: ""
+assignees: ''
 ---
 
 ## Description

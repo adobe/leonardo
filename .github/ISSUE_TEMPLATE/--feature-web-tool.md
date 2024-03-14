@@ -1,9 +1,9 @@
 ---
-name: "✨ Feature request [Web Tool]"
+name: '✨ Feature request [Web Tool]'
 about: Suggest a new feature for the Leonardo web interface
-title: ""
+title: ''
 labels: UI, enhancement
-assignees: ""
+assignees: ''
 ---
 
 ## Description
