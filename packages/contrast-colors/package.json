@@ -24,6 +24,7 @@
     "ava": "^6.1.1"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   }
 }
