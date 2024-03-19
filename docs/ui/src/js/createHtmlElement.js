@@ -41,7 +41,7 @@ function createSvgElement({element, id, className, attributes, styles, textConte
   const svgns = 'http://www.w3.org/2000/svg';
   const el = document.createElementNS(svgns, element);
   if (id) el.id = id;
-  if (className) el.className = className;
+  if (className) el.setAttribute('class', className);
   if (styles) {
     for (const [prop, value] of Object.entries(styles)) {
       el.style[prop] = value;

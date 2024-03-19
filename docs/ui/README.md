@@ -17,7 +17,7 @@ To get started developing Leonardo's UI:
 pnpm install
 
 # Run local server
-pnpm dev
+pnpm moon run dev
 ```
 
 Then, visit the live reloading web UIs here:
@@ -28,7 +28,7 @@ http://localhost:1234/tools.html
 
 ### Cross-package development
 
-When making updates to `@adobe/leonardo-contrast-colors` while also developing the user interface, some issues may occur while linking the local dependency. 
+When making updates to `@adobe/leonardo-contrast-colors` while also developing the user interface, some issues may occur while linking the local dependency.
 Follow these steps **every time you install or update an npm dependency**:
 
 1. Install your new dependency
@@ -41,6 +41,7 @@ pnpm add my-new-package
 
 ```
 rm -rf <leonardo-root>/.parcel-cache
+rm -rf <leonardo-root>/.moon/cache
 ```
 
 3. Link local Leonardo

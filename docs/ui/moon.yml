@@ -82,6 +82,7 @@ tasks:
       - parcel
       - build
       - --no-optimize
+      - --no-cache
       - src/index.html
       - src/scales.html
       - src/tools.html
