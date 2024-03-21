@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.6
+
+### Patch Changes
+
+- b5dbb3d: \* Fix scales.html not loading in production
+
 ## 1.4.5
 
 ### Patch Changes
