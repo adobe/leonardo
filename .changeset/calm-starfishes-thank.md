@@ -2,4 +2,4 @@
 "@adobe/leonardo-ui": patch
 ---
 
-fix createSVGElement
+* Fix scales.html not loading in production
