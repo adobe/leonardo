@@ -10,6 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import {addColorScaleUpdate} from './colorScale';
+import {sanitizeQueryString} from './utils';
 
 function addFromURLDialog() {
   let button = document.getElementById('addFromURLButton');
@@ -33,7 +34,7 @@ function addFromURL() {
   let value = input.value;
 
   let url = new URL(value);
-  let params = new URLSearchParams(url.search.slice(1));
+  let params = new URLSearchParams(sanitizeQueryString(url.search.slice(1)));
   let pathName = url.pathname;
 
   let crs, ratios, mode;

@@ -75,7 +75,7 @@ import ClipboardJS from 'clipboard';
 // Import local Javascript functions
 import {_theme} from './js/initialTheme';
 import {paramSetup} from './js/params';
-import {throttle} from './js/utils';
+import {throttle, sanitizeQueryString} from './js/utils';
 import {getThemeContrastRatios, getContrastRatioInputs} from './js/getThemeData';
 import {addColorScale, addColorScaleUpdate} from './js/colorScale';
 import {addColorsFromImage} from './js/addColorsFromImage';
@@ -132,7 +132,7 @@ function updateParams() {
     formula: _theme.formula
   };
   let url = new URL(window.location);
-  let params = new URLSearchParams(url.search.slice(1));
+  let params = new URLSearchParams(sanitizeQueryString(url.search.slice(1)));
 
   params.set('name', name); // Theme name
   params.set('config', JSON.stringify(theme)); // Configurations

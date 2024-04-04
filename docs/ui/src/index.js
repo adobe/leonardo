@@ -70,7 +70,7 @@ loadIcons('./spectrum-css-icons.svg');
 loadIcons('./spectrum-icons.svg');
 
 // Import local Javascript functions
-import {throttle} from './js/utils';
+import {throttle, sanitizeQueryString} from './js/utils';
 import {openPanelTab, openTab, openAppTab, openSideNavItem} from './js/tabs';
 import toggleTooltip from './js/tooltip';
 
@@ -87,7 +87,7 @@ posthtml()
 
 // Redirect for URL parameters
 let url = new URL(window.location);
-let params = new URLSearchParams(url.search.slice(1));
+let params = new URLSearchParams(sanitizeQueryString(url.search.slice(1)));
 
 if (params.has('colorKeys') || params.has('name')) {
   let newURL;
