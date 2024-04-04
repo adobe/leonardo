@@ -14,13 +14,13 @@ import {addColorScale} from './colorScale';
 import {addRatioInputs, sortRatios} from './ratios';
 import {getRandomColorName, getClosestColorName} from './predefinedColorNames';
 import {baseScaleOptions} from './createBaseScaleOptions';
-import {round} from './utils';
+import {round, sanitizeQueryString} from './utils';
 import {_theme, tempGray} from './initialTheme';
 
 function paramSetup() {
   let setFirstColorSmoothing = false;
   let url = new URL(window.location);
-  let params = new URLSearchParams(url.search.slice(1));
+  let params = new URLSearchParams(sanitizeQueryString(url.search.slice(1)));
   let themeBase = document.getElementById('themeBase');
   let RATIOS;
   let RATIOCOLORS;
