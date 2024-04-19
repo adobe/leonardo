@@ -19,7 +19,7 @@ test('should return color object for HSL color', (t) => {
 
 test('should return string format for HSL color', (t) => {
   let result = convertColorValue('#2c66f1', 'HSL');
-  t.is(result, 'hsl(222deg, 88%, 56%)');
+  t.is(result, 'hsl(222, 88%, 56%)');
 });
 
 test('should return color object for RGB color', (t) => {
@@ -49,7 +49,7 @@ test('should return color object for HSV color', (t) => {
 
 test('should return string format for HSV color', (t) => {
   let result = convertColorValue('#2c66f1', 'HSV');
-  t.is(result, 'hsv(222deg, 82%, 95%)');
+  t.is(result, 'hsv(222, 82%, 95%)');
 });
 
 test('should return color object for HSLuv color', (t) => {
@@ -79,7 +79,7 @@ test('should return color object for LCH color', (t) => {
 
 test('should return string format for LCH color', (t) => {
   let result = convertColorValue('#2c66f1', 'LCH');
-  t.is(result, 'lch(47%, 81, 293deg)');
+  t.is(result, 'lch(47%, 81, 293)');
 });
 
 test('should return color object for CAM02 color', (t) => {
@@ -99,7 +99,7 @@ test('should return color object for CAM02 (polar) color', (t) => {
 
 test('should return string format for CAM02 (polar) color', (t) => {
   let result = convertColorValue('#2c66f1', 'CAM02p');
-  t.is(result, 'jch(36%, 75, 258deg)');
+  t.is(result, 'jch(36%, 75, 258)');
 });
 
 test('should throw error for missing output format', (t) => {
