@@ -780,14 +780,13 @@ function colorPickerInput(e) {
 
 function sanitizeQueryString(string) {
   const map = {
-    '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
     '"': '&quot;',
     "'": '&#x27;',
     '/': '&#x2F;'
   };
-  const reg = /[&<>"'/]/gi;
+  const reg = /[<>"'/]/gi;
   return string.replace(reg, (match) => map[match]);
 }
 
