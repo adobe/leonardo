@@ -157,40 +157,40 @@ test('should generate theme for three colors in LCH format', (t) => {
   const themeColors = theme.contrastColors;
 
   t.deepEqual(themeColors, [
-    {background: 'lch(90%, 0, 0deg)'},
+    {background: 'lch(90%, 0, 0)'},
     {
       name: 'gray',
       values: [
-        {name: 'gray100', contrast: 1, value: 'lch(90%, 0, 0deg)'},
-        {name: 'gray200', contrast: 1.2, value: 'lch(83%, 0, 0deg)'},
-        {name: 'gray300', contrast: 1.4, value: 'lch(77%, 0, 0deg)'},
-        {name: 'gray400', contrast: 2, value: 'lch(66%, 0, 0deg)'},
-        {name: 'gray500', contrast: 3, value: 'lch(54%, 0, 0deg)'},
-        {name: 'gray600', contrast: 4.5, value: 'lch(42%, 0, 0deg)'},
-        {name: 'gray700', contrast: 6, value: 'lch(34%, 0, 0deg)'},
-        {name: 'gray800', contrast: 8, value: 'lch(27%, 0, 0deg)'},
-        {name: 'gray900', contrast: 12, value: 'lch(14%, 0, 0deg)'},
-        {name: 'gray1000', contrast: 21, value: 'lch(0%, 0, 0deg)'}
+        {name: 'gray100', contrast: 1, value: 'lch(90%, 0, 0)'},
+        {name: 'gray200', contrast: 1.2, value: 'lch(83%, 0, 0)'},
+        {name: 'gray300', contrast: 1.4, value: 'lch(77%, 0, 0)'},
+        {name: 'gray400', contrast: 2, value: 'lch(66%, 0, 0)'},
+        {name: 'gray500', contrast: 3, value: 'lch(54%, 0, 0)'},
+        {name: 'gray600', contrast: 4.5, value: 'lch(42%, 0, 0)'},
+        {name: 'gray700', contrast: 6, value: 'lch(34%, 0, 0)'},
+        {name: 'gray800', contrast: 8, value: 'lch(27%, 0, 0)'},
+        {name: 'gray900', contrast: 12, value: 'lch(14%, 0, 0)'},
+        {name: 'gray1000', contrast: 21, value: 'lch(0%, 0, 0)'}
       ]
     },
     {
       name: 'blue',
       values: [
-        {name: 'blue100', contrast: 2, value: 'lch(66%, 66, 307deg)'},
-        {name: 'blue200', contrast: 3, value: 'lch(54%, 90, 306deg)'},
-        {name: 'blue300', contrast: 4.5, value: 'lch(42%, 113, 306deg)'},
-        {name: 'blue400', contrast: 8, value: 'lch(27%, 111, 306deg)'},
-        {name: 'blue500', contrast: 12, value: 'lch(14%, 57, 306deg)'}
+        {name: 'blue100', contrast: 2, value: 'lch(66%, 66, 307)'},
+        {name: 'blue200', contrast: 3, value: 'lch(54%, 90, 306)'},
+        {name: 'blue300', contrast: 4.5, value: 'lch(42%, 113, 306)'},
+        {name: 'blue400', contrast: 8, value: 'lch(27%, 111, 306)'},
+        {name: 'blue500', contrast: 12, value: 'lch(14%, 57, 306)'}
       ]
     },
     {
       name: 'red',
       values: [
-        {name: 'red100', contrast: 2, value: 'lch(66%, 59, 26deg)'},
-        {name: 'red200', contrast: 3, value: 'lch(54%, 101, 39deg)'},
-        {name: 'red300', contrast: 4.5, value: 'lch(43%, 88, 40deg)'},
-        {name: 'red400', contrast: 8, value: 'lch(27%, 63, 39deg)'},
-        {name: 'red500', contrast: 12, value: 'lch(14%, 40, 32deg)'}
+        {name: 'red100', contrast: 2, value: 'lch(66%, 59, 26)'},
+        {name: 'red200', contrast: 3, value: 'lch(54%, 101, 39)'},
+        {name: 'red300', contrast: 4.5, value: 'lch(43%, 88, 40)'},
+        {name: 'red400', contrast: 8, value: 'lch(27%, 63, 39)'},
+        {name: 'red500', contrast: 12, value: 'lch(14%, 40, 32)'}
       ]
     }
   ]);
@@ -1181,7 +1181,7 @@ test('should generate 2 colors in HSL format', (t) => {
   });
   const themeColors = theme.contrastColorValues;
 
-  t.deepEqual(themeColors, ['hsl(215deg, 69%, 60%)', 'hsl(222deg, 87%, 55%)']);
+  t.deepEqual(themeColors, ['hsl(215, 69%, 60%)', 'hsl(222, 87%, 55%)']);
 });
 test('should generate 2 colors in HSV format', (t) => {
   const color = new Color({
@@ -1197,7 +1197,7 @@ test('should generate 2 colors in HSV format', (t) => {
   });
   const themeColors = theme.contrastColorValues;
 
-  t.deepEqual(themeColors, ['hsv(215deg, 63%, 88%)', 'hsv(222deg, 82%, 94%)']);
+  t.deepEqual(themeColors, ['hsv(215, 63%, 88%)', 'hsv(222, 82%, 94%)']);
 });
 test('should generate 2 colors in LAB format', (t) => {
   const color = new Color({
@@ -1230,7 +1230,7 @@ test('should generate 2 colors in LCH format', (t) => {
 
   const themeColors = theme.contrastColorValues;
 
-  t.deepEqual(themeColors, ['lch(59%, 47, 277deg)', 'lch(47%, 81, 293deg)']);
+  t.deepEqual(themeColors, ['lch(59%, 47, 277)', 'lch(47%, 81, 293)']);
 });
 
 // Add color to theme

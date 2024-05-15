@@ -59,7 +59,7 @@ test('should set theme output to HSL', (t) => {
   });
   theme.output = 'HSL';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ['hsl(215deg, 69%, 60%)', 'hsl(222deg, 87%, 55%)']);
+  t.deepEqual(themeColors, ['hsl(215, 69%, 60%)', 'hsl(222, 87%, 55%)']);
 });
 test('should set theme output to HSV', (t) => {
   const color = new Color({
@@ -75,7 +75,7 @@ test('should set theme output to HSV', (t) => {
   });
   theme.output = 'HSV';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ['hsv(215deg, 63%, 88%)', 'hsv(222deg, 82%, 94%)']);
+  t.deepEqual(themeColors, ['hsv(215, 63%, 88%)', 'hsv(222, 82%, 94%)']);
 });
 test('should set theme output to LAB', (t) => {
   const color = new Color({
@@ -107,7 +107,7 @@ test('should set theme output to LCH', (t) => {
   });
   theme.output = 'LCH';
   const themeColors = theme.contrastColorValues;
-  t.deepEqual(themeColors, ['lch(59%, 47, 277deg)', 'lch(47%, 81, 293deg)']);
+  t.deepEqual(themeColors, ['lch(59%, 47, 277)', 'lch(47%, 81, 293)']);
 });
 
 // Saturation
