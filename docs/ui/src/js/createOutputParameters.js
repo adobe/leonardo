@@ -59,13 +59,13 @@ function createJSOutput() {
 
   let paramOutputString = `${joinedDeclarations}
 
-let ${themeName.replace(/\s/g, '')} = new Leo.Theme({
+let ${themeName.replace(/[^a-zA-Z0-9_$]/g, '_')} = new Leo.Theme({
   colors: [${colorNames.map((n) => camelCase(n))}],
   backgroundColor: ${camelCase(_theme.backgroundColor.name)},
   lightness: ${_theme.lightness},
   contrast: ${_theme.contrast},
   saturation: ${_theme.saturation},
-  output: "${_theme.output}"
+  output: "${_theme.output},"
   formula: "${_theme.formula}"
 });`;
 
