@@ -138,6 +138,4 @@ function violinJitter(scaleType) {
   });
 }
 
-module.exports = {
-  violinJitter
-};
+export {violinJitter};

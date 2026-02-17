@@ -65,6 +65,4 @@ function scatter(scaleType) {
   });
 }
 
-module.exports = {
-  scatter
-};
+export {scatter};

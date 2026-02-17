@@ -111,8 +111,4 @@ window.addScaleBulk = addScaleBulk;
 window.cancelScaleBulk = cancelScaleBulk;
 window.bulkScaleItemColorInput = bulkScaleItemColorInput;
 
-module.exports = {
-  addScaleBulk,
-  bulkScaleItemColorInput,
-  cancelScaleBulk
-};
+export {addScaleBulk, bulkScaleItemColorInput, cancelScaleBulk};

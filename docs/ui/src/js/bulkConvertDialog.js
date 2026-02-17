@@ -14,9 +14,8 @@ import {round} from './utils';
 import {contrast} from '@adobe/leonardo-contrast-colors';
 import {saveAs} from 'file-saver';
 
-const simpleColorConverter = require('simple-color-converter');
-
-const chroma = require('chroma-js');
+import simpleColorConverter from 'simple-color-converter';
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
@@ -185,8 +184,4 @@ window.bulkConvert = bulkConvert;
 window.cancelBulkConvert = cancelBulkConvert;
 window.bulkItemConvertColorInput = bulkItemConvertColorInput;
 
-module.exports = {
-  bulkConvert,
-  bulkItemConvertColorInput,
-  cancelBulkConvert
-};
+export {bulkConvert, bulkItemConvertColorInput, cancelBulkConvert};

@@ -71,6 +71,4 @@ function choropleth(scaleType) {
   colorClass.swatches = originalSwatches;
 }
 
-module.exports = {
-  choropleth
-};
+export {choropleth};

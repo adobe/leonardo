@@ -78,17 +78,6 @@ import {compareColors} from './js/compareColors';
 import {convertColors} from './js/convertColors';
 import {bulkConvert, bulkItemConvertColorInput, cancelBulkConvert} from './js/bulkConvertDialog';
 
-const {readFileSync} = require('fs');
-const posthtml = require('posthtml');
-const options = {
-  /* see available options below */
-};
-
-posthtml()
-  .use(require('posthtml-modules')(options))
-  .process(readFileSync('src/index.html', 'utf8'))
-  .then((result) => result);
-
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
   if (event.matches) {
     //dark mode

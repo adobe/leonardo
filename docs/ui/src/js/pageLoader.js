@@ -24,6 +24,4 @@ function pageLoader() {
   }, 1000);
 }
 
-module.exports = {
-  pageLoader
-};
+export {pageLoader};

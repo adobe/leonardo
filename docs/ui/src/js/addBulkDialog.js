@@ -82,8 +82,4 @@ window.addBulk = addBulk;
 window.cancelBulk = cancelBulk;
 window.bulkItemColorInput = bulkItemColorInput;
 
-module.exports = {
-  addBulk,
-  bulkItemColorInput,
-  cancelBulk
-};
+export {addBulk, bulkItemColorInput, cancelBulk};

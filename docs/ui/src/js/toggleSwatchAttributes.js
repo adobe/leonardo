@@ -34,7 +34,4 @@ function toggleSwatchLuminosity(e) {
 window.toggleSwatchContrast = toggleSwatchContrast;
 window.toggleSwatchLuminosity = toggleSwatchLuminosity;
 
-module.exports = {
-  toggleSwatchContrast,
-  toggleSwatchLuminosity
-};
+export {toggleSwatchContrast, toggleSwatchLuminosity};

@@ -71,6 +71,4 @@ function donut(scaleType, colors) {
     .style('stroke-width', '1px');
 }
 
-module.exports = {
-  donut
-};
+export {donut};

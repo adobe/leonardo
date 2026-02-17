@@ -50,6 +50,4 @@ function createDemos(scaleType, colors) {
   }, 300);
 }
 
-module.exports = {
-  createDemos
-};
+export {createDemos};

@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import {createTable} from './createTable';
 import {round, getDifference} from './utils';
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 
 function createPanelReportTable(colors, background, scaleType, level) {
   if (!colors) {
@@ -186,6 +186,4 @@ function createPanelReportTable(colors, background, scaleType, level) {
   createTable(headers, rows, `${scaleType}_a11yTable`);
 }
 
-module.exports = {
-  createPanelReportTable
-};
+export {createPanelReportTable};

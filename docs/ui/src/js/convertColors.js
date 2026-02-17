@@ -12,9 +12,8 @@ governing permissions and limitations under the License.
 import {round, colorPickerInput} from './utils';
 import {createTable} from './createTable';
 
-const simpleColorConverter = require('simple-color-converter');
-
-const chroma = require('chroma-js');
+import simpleColorConverter from 'simple-color-converter';
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
@@ -143,6 +142,4 @@ document.getElementById('convertColorOne_picker').addEventListener('input', colo
 window.convertColor = convertColor;
 window.colorPickerInput = colorPickerInput;
 
-module.exports = {
-  convertColor
-};
+export {convertColor};

@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as d3 from './d3';
+import d3 from './d3';
 import {filterNaN} from './utils';
 import {createChart} from './createChart';
 
@@ -62,4 +62,4 @@ function createRGBchannelChart(colors, id = 'RGBchart') {
   createChart(data, ' ', ' ', `#${id}`, 0, 255);
 }
 
-module.exports = {createRGBchannelChart};
+export {createRGBchannelChart};

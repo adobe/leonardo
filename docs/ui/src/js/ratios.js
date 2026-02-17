@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
-import * as d3 from './d3';
+import d3 from './d3';
 import {getContrastRatioInputs, getThemeContrastRatios, getLuminosities} from './getThemeData';
 import {_theme} from './initialTheme';
 import {createOutputColors} from './createOutputColors';
@@ -542,15 +542,4 @@ window.sortRatios = sortRatios;
 window.distributeRatios = distributeRatios;
 window.dispatchRatioInputEvents = dispatchRatioInputEvents;
 
-module.exports = {
-  addRatio,
-  createRatioInput,
-  addRatioInputs,
-  sort,
-  sortRatios,
-  dispatchRatioInputEvents,
-  syncRatioInputs,
-  distributeRatios,
-  checkRatioStepModifiers,
-  deleteRatio
-};
+export {addRatio, createRatioInput, addRatioInputs, sort, sortRatios, dispatchRatioInputEvents, syncRatioInputs, distributeRatios, checkRatioStepModifiers, deleteRatio};

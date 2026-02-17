@@ -82,6 +82,4 @@ function hexbin(scaleType) {
   });
 }
 
-module.exports = {
-  hexbin
-};
+export {hexbin};

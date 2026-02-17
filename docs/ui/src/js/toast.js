@@ -49,9 +49,4 @@ window.hideToast = hideToast;
 window.exitPreview = exitPreview;
 window.neverShowToast = neverShowToast;
 
-module.exports = {
-  showToast,
-  hideToast,
-  exitPreview,
-  neverShowToast
-};
+export {showToast, hideToast, exitPreview, neverShowToast};

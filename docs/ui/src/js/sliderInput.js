@@ -74,7 +74,4 @@ sliderD.addEventListener('input', throttle(sliderInput, 10));
 window.sliderValue = sliderValue;
 window.sliderInput = sliderInput;
 
-module.exports = {
-  sliderValue,
-  sliderInput
-};
+export {sliderValue, sliderInput};

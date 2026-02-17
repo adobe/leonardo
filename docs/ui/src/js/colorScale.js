@@ -172,8 +172,4 @@ window.addColorScale = addColorScale;
 window.addColorScaleUpdate = addColorScaleUpdate;
 window.themeDeleteItem = themeDeleteItem;
 
-module.exports = {
-  addColorScale,
-  addColorScaleUpdate,
-  themeDeleteItem
-};
+export {addColorScale, addColorScaleUpdate, themeDeleteItem};

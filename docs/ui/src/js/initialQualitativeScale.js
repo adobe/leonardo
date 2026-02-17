@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import {convertColorValue} from './utils';
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
@@ -125,6 +125,4 @@ let _qualitativeScale = new QualitativeScale({
   cvdSupport: ['protanopia', 'deuteranopia', 'tritanopia', 'achromatopsia']
 });
 
-module.exports = {
-  _qualitativeScale
-};
+export {_qualitativeScale};

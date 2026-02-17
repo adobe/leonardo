@@ -72,6 +72,4 @@ function createSamples(samples, scaleType) {
   colorClass.output = originalOutput;
 }
 
-module.exports = {
-  createSamples
-};
+export {createSamples};

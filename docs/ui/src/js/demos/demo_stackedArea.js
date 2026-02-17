@@ -82,6 +82,4 @@ function stackedArea(scaleType, colors) {
   });
 }
 
-module.exports = {
-  stackedArea
-};
+export {stackedArea};

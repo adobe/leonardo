@@ -16,7 +16,7 @@ import {createSamples} from './createSamples';
 import {createDemos} from './createDemos';
 import {create3dModel} from './create3dModel';
 import {createPanelReportTable} from './createPanelReportTable';
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 
 function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosition) {
@@ -298,8 +298,4 @@ function clearAllColors(e) {
 
 window.clearAllColors = clearAllColors;
 
-module.exports = {
-  addScaleKeyColor,
-  addScaleKeyColorInput,
-  clearAllColors
-};
+export {addScaleKeyColor, addScaleKeyColorInput, clearAllColors};

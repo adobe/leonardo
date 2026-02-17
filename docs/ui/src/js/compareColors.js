@@ -13,7 +13,7 @@ import * as Leo from '@adobe/leonardo-contrast-colors';
 import {round, simulateCvd, getDifference, capitalizeFirstLetter, alphaBlend, colorPickerInput} from './utils';
 import {createTable} from './createTable';
 
-const DeltaE = require('delta-e');
+import DeltaE from 'delta-e';
 
 const minimumThreshold = 11;
 
@@ -244,6 +244,4 @@ document.getElementById('compareColorOne_picker').addEventListener('input', colo
 document.getElementById('compareColorTwo_picker').addEventListener('input', colorPickerInput);
 document.getElementById('complianceLevel').addEventListener('change', levelSelect);
 
-module.exports = {
-  compareColors
-};
+export {compareColors};

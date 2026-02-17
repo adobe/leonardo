@@ -259,15 +259,4 @@ window.openScaleTab = openScaleTab;
 window.openPanelSubTab = openPanelSubTab;
 window.openCompareTab = openCompareTab;
 
-module.exports = {
-  openPanelTab,
-  openTab,
-  openAccessibilityTab,
-  openDetailTab,
-  openPanelSubTab,
-  openAppTab,
-  openSideNavItem,
-  openScaleTab,
-  openCompareTab,
-  openColorTab
-};
+export {openPanelTab, openTab, openAccessibilityTab, openDetailTab, openPanelSubTab, openAppTab, openSideNavItem, openScaleTab, openCompareTab, openColorTab};
