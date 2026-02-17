@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
-import * as d3 from './d3';
+import d3 from './d3';
 import {SequentialScale} from './initialSequentialScale';
 import {convertColorValue, round, orderColorsByLuminosity} from './utils';
 import chroma from 'chroma-js';

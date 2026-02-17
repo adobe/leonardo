@@ -9,7 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import * as d3 from './d3';
+import d3 from './d3';
 import {_theme} from './initialTheme';
 import {createScale} from '@adobe/leonardo-contrast-colors';
 import {createColorChart} from './createChart';
