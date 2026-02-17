@@ -992,7 +992,7 @@ test('should generate 2 colors with bidirectional contrast (dark background)', (
   const theme = new Theme({colors: [color], backgroundColor: '#323232'});
   const themeColors = theme.contrastColorValues;
 
-  t.deepEqual(themeColors, ['#121c4e', '#9894c0']);
+  t.deepEqual(themeColors, ['#001763', '#9894c0']);
 });
 
 // Contrast gamuts

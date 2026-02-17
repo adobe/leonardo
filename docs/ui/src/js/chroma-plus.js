@@ -11,9 +11,27 @@ governing permissions and limitations under the License.
 */
 
 const chromajs = require('chroma-js');
-const hsluv = require('hsluv');
+const {Hsluv} = require('hsluv');
 const ciebase = require('ciebase');
 const ciecam02 = require('ciecam02');
+
+function rgbToHsluv(rgb) {
+  const conv = new Hsluv();
+  conv.rgb_r = rgb[0];
+  conv.rgb_g = rgb[1];
+  conv.rgb_b = rgb[2];
+  conv.rgbToHsluv();
+  return [conv.hsluv_h, conv.hsluv_s, conv.hsluv_l];
+}
+
+function hsluvToRgb(hsl) {
+  const conv = new Hsluv();
+  conv.hsluv_h = hsl[0];
+  conv.hsluv_s = hsl[1];
+  conv.hsluv_l = hsl[2];
+  conv.hsluvToRgb();
+  return [conv.rgb_r, conv.rgb_g, conv.rgb_b];
+}
 
 const cam = ciecam02.cam(
   {
@@ -150,16 +168,16 @@ exports.extendChroma = (chroma) => {
 
   // HSLuv
   chroma.Color.prototype.hsluv = function () {
-    return hsluv.rgbToHsluv(this._rgb.slice(0, 3).map((c) => c / 255));
+    return rgbToHsluv(this._rgb.slice(0, 3).map((c) => c / 255));
   };
 
-  chroma.hsluv = (...args) => new chroma.Color(...hsluv.hsluvToRgb(args).map((c) => Math.floor(c * 255)), 'rgb');
+  chroma.hsluv = (...args) => new chroma.Color(...hsluvToRgb(args).map((c) => Math.floor(c * 255)), 'rgb');
 
   const oldInterpol = chroma.interpolate;
   const RGB2 = {
     jch: rgb2jch,
     jab: rgb2jab,
-    hsluv: hsluv.rgbToHsluv
+    hsluv: rgbToHsluv
   };
   const lerpH = (a, b, t) => {
     const m = 360;
