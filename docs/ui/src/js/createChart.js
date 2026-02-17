@@ -493,7 +493,4 @@ function createColorChart(data, yLabel, xLabel, dest, yMin, yMax, colors, scaleT
   }
 }
 
-module.exports = {
-  createChart,
-  createColorChart
-};
+export {createChart, createColorChart};

@@ -295,6 +295,4 @@ function createMinMaxDataForPlot(mode) {
   return dataArray;
 }
 
-module.exports = {
-  create3dModel
-};
+export {create3dModel};

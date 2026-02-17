@@ -74,17 +74,6 @@ import {throttle, sanitizeQueryString} from './js/utils';
 import {openPanelTab, openTab, openAppTab, openSideNavItem} from './js/tabs';
 import toggleTooltip from './js/tooltip';
 
-const {readFileSync} = require('fs');
-const posthtml = require('posthtml');
-const options = {
-  /* see available options below */
-};
-
-posthtml()
-  .use(require('posthtml-modules')(options))
-  .process(readFileSync('src/index.html', 'utf8'))
-  .then((result) => result);
-
 // Redirect for URL parameters
 let url = new URL(window.location);
 let params = new URLSearchParams(sanitizeQueryString(url.search.slice(1)));

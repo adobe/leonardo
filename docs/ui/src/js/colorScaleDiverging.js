@@ -22,7 +22,7 @@ import {createSamples} from './createSamples';
 import {createDemos} from './createDemos';
 import {createPanelReportTable} from './createPanelReportTable';
 
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 
 function colorScaleDiverging(scaleType = 'diverging') {
   /**
@@ -212,6 +212,4 @@ function colorScaleDiverging(scaleType = 'diverging') {
   });
 }
 
-module.exports = {
-  colorScaleDiverging
-};
+export {colorScaleDiverging};

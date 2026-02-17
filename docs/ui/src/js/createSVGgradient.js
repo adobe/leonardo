@@ -97,7 +97,4 @@ function downloadSVGgradient(colors, mode, gradientName) {
 
 window.downloadSVGgradient = downloadSVGgradient;
 
-module.exports = {
-  createSVGgradient,
-  downloadSVGgradient
-};
+export {createSVGgradient, downloadSVGgradient};

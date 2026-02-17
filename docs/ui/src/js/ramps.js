@@ -134,9 +134,4 @@ function createAllColorRamps() {
   });
 }
 
-module.exports = {
-  themeRamp,
-  themeRampKeyColors,
-  createAllColorRamps,
-  updateRamps
-};
+export {themeRamp, themeRampKeyColors, createAllColorRamps, updateRamps};

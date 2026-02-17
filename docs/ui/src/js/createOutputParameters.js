@@ -152,6 +152,4 @@ function createTokensOutput() {
 outputFormatPicker.addEventListener('change', createOutputParameters);
 createOutputParameters();
 
-module.exports = {
-  createOutputParameters
-};
+export {createOutputParameters};

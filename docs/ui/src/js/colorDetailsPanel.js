@@ -653,4 +653,4 @@ function showColorDetails(e, colorId) {
   });
 }
 
-module.exports = {showColorDetails};
+export {showColorDetails};

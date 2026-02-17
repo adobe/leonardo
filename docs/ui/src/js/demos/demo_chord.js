@@ -82,6 +82,4 @@ function chord(scaleType, colors) {
   colorClass.swatches = originalSwatches;
 }
 
-module.exports = {
-  chord
-};
+export {chord};

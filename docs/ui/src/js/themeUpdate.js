@@ -96,8 +96,4 @@ document.getElementById('themeBase').addEventListener('input', throttle(themeUpd
 window.themeUpdate = themeUpdate;
 window.themeUpdateParams = themeUpdateParams;
 
-module.exports = {
-  themeUpdate,
-  themeUpdateParams,
-  toggleControls
-};
+export {themeUpdate, themeUpdateParams, toggleControls};

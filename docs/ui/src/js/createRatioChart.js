@@ -14,7 +14,7 @@ import {createChart} from './createChart';
 import {getThemeContrastRatios, getLuminosities} from './getThemeData';
 import {_theme} from './initialTheme';
 
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
@@ -103,7 +103,4 @@ function createLuminosityChart(chartLuminosities, bool) {
   createChart(dataLuminosity, 'Lightness', 'Swatches', '#detailLightnessChart', yMin, yMax, true, undefined, undefined, bool);
 }
 
-module.exports = {
-  createRatioChart,
-  createLuminosityChart
-};
+export {createRatioChart, createLuminosityChart};

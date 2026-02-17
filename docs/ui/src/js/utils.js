@@ -10,11 +10,10 @@ governing permissions and limitations under the License.
 */
 import * as d3 from './d3';
 import {simulate} from '@bjornlu/colorblind';
-const blinder = require('color-blind');
-
-const chroma = require('chroma-js');
+import blinder from 'color-blind';
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
-const DeltaE = require('delta-e');
+import DeltaE from 'delta-e';
 
 extendChroma(chroma);
 
@@ -789,7 +788,7 @@ function sanitizeQueryString(string) {
   return string.replace(reg, (match) => map[match]);
 }
 
-module.exports = {
+export {
   randomId,
   throttle,
   convertToCartesian,

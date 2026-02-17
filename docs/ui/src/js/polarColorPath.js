@@ -127,6 +127,4 @@ function polarColorPath(data, size, scaleType) {
   }
 }
 
-module.exports = {
-  polarColorPath
-};
+export {polarColorPath};

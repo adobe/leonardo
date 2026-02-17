@@ -19,7 +19,7 @@ import {createHtmlElement, createSvgElement} from './createHtmlElement';
 import {polarColorPath} from './polarColorPath';
 import {convertToCartesian, removeElementsByClass, throttle} from './utils';
 import {create3dModel} from './create3dModel';
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
@@ -394,13 +394,4 @@ if (colorWheelMode) {
   });
 }
 
-module.exports = {
-  updateColorDots,
-  getColorWheelSize,
-  getConvertedColorCoodrindates,
-  createColorWheelDots,
-  createColorWheel,
-  getSmallestWindowDimension,
-  shiftValue,
-  updateColorWheel
-};
+export {updateColorDots, getColorWheelSize, getConvertedColorCoodrindates, createColorWheelDots, createColorWheel, getSmallestWindowDimension, shiftValue, updateColorWheel};

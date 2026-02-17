@@ -12,7 +12,7 @@ import {_theme} from './initialTheme';
 import {addColorScale} from './colorScale';
 import {themeUpdate} from './themeUpdate';
 import {removeElementsByClass} from './utils';
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
@@ -74,6 +74,4 @@ function sortColorScales() {
   }, 50);
 }
 
-module.exports = {
-  sortColorScales
-};
+export {sortColorScales};

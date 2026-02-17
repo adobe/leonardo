@@ -20,4 +20,4 @@ function toggleTooltip(targetId) {
 
 window.toggleTooltip = toggleTooltip;
 
-module.exports = {toggleTooltip};
+export {toggleTooltip};

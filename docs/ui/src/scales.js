@@ -90,7 +90,7 @@ import {create3dModel} from './js/create3dModel';
 import {createSVGswatches, downloadSwatches} from './js/createSVGswatches';
 import {createXML, downloadXML} from './js/createXML';
 
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 import {extendChroma} from './js/chroma-plus';
 
 extendChroma(chroma);

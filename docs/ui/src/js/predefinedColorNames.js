@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 import {getAllColorNames} from './getThemeData';
 import {getColorDifference, capitalizeFirstLetter} from './utils';
-const colorNames = require('./colornames');
+import colorNames from './colornames.json';
 
 const predefinedColorNames = [
   'Azure',
@@ -72,8 +72,4 @@ function getRandomColorName() {
   return capitalizeFirstLetter(colorNameOptions[Math.floor(Math.random() * colorNameOptions.length)]);
 }
 
-module.exports = {
-  predefinedColorNames,
-  getClosestColorName,
-  getRandomColorName
-};
+export {predefinedColorNames, getClosestColorName, getRandomColorName};

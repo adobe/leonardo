@@ -77,4 +77,4 @@ function cvdColors(colors) {
   return colors;
 }
 
-module.exports = {cvdColors};
+export {cvdColors};

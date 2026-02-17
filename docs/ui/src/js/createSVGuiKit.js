@@ -169,11 +169,7 @@ window.downloadUiKit = downloadUiKit;
 document.getElementById('downloadThemeColorsSvg').addEventListener('click', () => {
   setTimeout(function () {
     downloadUiKit();
-  }),
-    1000;
+  }, 1000);
 });
 
-module.exports = {
-  createSVGuiKit,
-  downloadUiKit
-};
+export {createSVGuiKit, downloadUiKit};

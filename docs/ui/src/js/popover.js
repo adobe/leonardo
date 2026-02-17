@@ -61,6 +61,4 @@ document.getElementById('closeAnalysisColorSpace').addEventListener('click', tog
 document.getElementById('buttonShareOptions').addEventListener('click', togglePopover);
 document.getElementById('closeShareOptions').addEventListener('click', togglePopover);
 
-module.exports = {
-  togglePopover
-};
+export {togglePopover};

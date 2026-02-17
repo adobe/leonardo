@@ -156,7 +156,4 @@ if (modePicker) {
   });
 }
 
-module.exports = {
-  createPaletteCharts,
-  createPaletteInterpolationCharts
-};
+export {createPaletteCharts, createPaletteInterpolationCharts};

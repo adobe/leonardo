@@ -159,9 +159,4 @@ function clearAllColors(e) {
 
 window.clearAllColors = clearAllColors;
 
-module.exports = {
-  addKeyColor,
-  deleteColor,
-  addKeyColorInput,
-  clearAllColors
-};
+export {addKeyColor, deleteColor, addKeyColorInput, clearAllColors};

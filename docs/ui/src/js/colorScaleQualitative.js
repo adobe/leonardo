@@ -15,9 +15,9 @@ import {throttle, capitalizeFirstLetter, cssColorToRgb, simulateCvd, getDifferen
 import {createColorWheel, updateColorWheel, updateColorDots} from './colorWheel';
 import {createDemos} from './createDemos';
 
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
-const DeltaE = require('delta-e');
+import DeltaE from 'delta-e';
 
 extendChroma(chroma);
 
@@ -448,7 +448,8 @@ function showColors(arr, dest, panel = false) {
       if (dest === 'cvdSafeColors') {
         swatch.innerHTML = `${color}`;
         let button = document.createElement('button');
-        ((button.className = _qualitativeScale.keeperColors.indexOf(color) >= 0 ? 'saveColorToKeepers showSvg' : 'saveColorToKeepers'), (button.style.color = contrast < 4.5 ? '#ffffff' : '#000000'));
+        button.className = _qualitativeScale.keeperColors.indexOf(color) >= 0 ? 'saveColorToKeepers showSvg' : 'saveColorToKeepers';
+        button.style.color = contrast < 4.5 ? '#ffffff' : '#000000';
         button.innerHTML =
           _qualitativeScale.keeperColors.indexOf(color) >= 0
             ? `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Locked">
@@ -471,7 +472,8 @@ function showColors(arr, dest, panel = false) {
       }
       if (dest === 'qualitative_selectedColors') {
         let button = document.createElement('button');
-        ((button.className = 'saveColorToKeepers'), (button.style.color = contrast < 4.5 ? '#ffffff' : '#000000'));
+        button.className = 'saveColorToKeepers';
+        button.style.color = contrast < 4.5 ? '#ffffff' : '#000000';
         button.innerHTML = `<svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Delete">
           <use xlink:href="#spectrum-icon-18-Delete"></use>
         </svg>`;
@@ -627,6 +629,4 @@ function eliminateLowContrastFromSet(set, background, ratio) {
   return newSet;
 }
 
-module.exports = {
-  colorScaleQualitative
-};
+export {colorScaleQualitative};

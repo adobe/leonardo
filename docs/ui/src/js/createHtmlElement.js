@@ -57,7 +57,4 @@ function createSvgElement({element, id, className, attributes, styles, textConte
   dest.appendChild(el);
 }
 
-module.exports = {
-  createHtmlElement,
-  createSvgElement
-};
+export {createHtmlElement, createSvgElement};

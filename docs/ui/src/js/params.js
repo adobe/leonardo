@@ -240,7 +240,4 @@ function clearParams() {
   window.history.replaceState({}, document.title, cleanURL);
 }
 
-module.exports = {
-  paramSetup,
-  clearParams
-};
+export {paramSetup, clearParams};

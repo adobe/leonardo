@@ -21,7 +21,7 @@ import {createSamples} from './createSamples';
 import {createDemos} from './createDemos';
 import {createPanelReportTable} from './createPanelReportTable';
 
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 
 function colorScaleSequential(scaleType = 'sequential') {
   let defaultBackgroundColor;
@@ -187,6 +187,4 @@ function colorScaleSequential(scaleType = 'sequential') {
   });
 }
 
-module.exports = {
-  colorScaleSequential
-};
+export {colorScaleSequential};

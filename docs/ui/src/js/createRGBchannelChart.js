@@ -62,4 +62,4 @@ function createRGBchannelChart(colors, id = 'RGBchart') {
   createChart(data, ' ', ' ', `#${id}`, 0, 255);
 }
 
-module.exports = {createRGBchannelChart};
+export {createRGBchannelChart};

@@ -290,7 +290,4 @@ function createDetailOutputColors(colorName) {
   dest.appendChild(wrapper);
 }
 
-module.exports = {
-  createOutputColors,
-  createDetailOutputColors
-};
+export {createOutputColors, createDetailOutputColors};

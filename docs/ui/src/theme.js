@@ -100,17 +100,6 @@ import {sortColorScales} from './js/sortColorScales';
 import {togglePopover} from './js/popover';
 import {forceSimulation} from 'd3';
 
-const {readFileSync} = require('fs');
-const posthtml = require('posthtml');
-const options = {
-  /* see available options below */
-};
-
-posthtml()
-  .use(require('posthtml-modules')(options))
-  .process(readFileSync('src/theme.html', 'utf8'))
-  .then((result) => result);
-
 window.updateParams = updateParams;
 function updateParams() {
   let name = document.getElementById('themeNameInput').value;

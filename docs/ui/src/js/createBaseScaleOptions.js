@@ -47,6 +47,4 @@ baseSelect.addEventListener('change', function (e) {
   createOutputParameters();
 });
 
-module.exports = {
-  baseScaleOptions
-};
+export {baseScaleOptions};

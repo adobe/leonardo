@@ -80,6 +80,4 @@ function density(scaleType) {
   });
 }
 
-module.exports = {
-  density
-};
+export {density};

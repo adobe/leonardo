@@ -13,7 +13,7 @@ import * as Leo from '@adobe/leonardo-contrast-colors';
 import * as d3 from './d3';
 import {SequentialScale} from './initialSequentialScale';
 import {convertColorValue, round, orderColorsByLuminosity} from './utils';
-const chroma = require('chroma-js');
+import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
@@ -28,17 +28,17 @@ class DivergingScale {
     this._shift = shift;
     this._smooth = smooth;
     this._output = output;
-    ((this._swatches = swatches),
-      (this._scaleSwatches = swatches / 2),
-      (this._startScale = new SequentialScale({
-        swatches: this._scaleSwatches,
-        colorKeys: this._startKeys,
-        colorspace: this._colorspace,
-        distributeLightness: this._distributeLightness,
-        smooth: this._smooth,
-        shift: this._shift,
-        output: this._output
-      })));
+    this._swatches = swatches;
+    this._scaleSwatches = swatches / 2;
+    this._startScale = new SequentialScale({
+      swatches: this._scaleSwatches,
+      colorKeys: this._startKeys,
+      colorspace: this._colorspace,
+      distributeLightness: this._distributeLightness,
+      smooth: this._smooth,
+      shift: this._shift,
+      output: this._output
+    });
 
     this._endScale = new SequentialScale({
       swatches: this._scaleSwatches,
@@ -322,6 +322,4 @@ let _divergingScale = new DivergingScale({
 
 window._divergingScale = _divergingScale;
 
-module.exports = {
-  _divergingScale
-};
+export {_divergingScale};

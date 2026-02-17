@@ -542,15 +542,4 @@ window.sortRatios = sortRatios;
 window.distributeRatios = distributeRatios;
 window.dispatchRatioInputEvents = dispatchRatioInputEvents;
 
-module.exports = {
-  addRatio,
-  createRatioInput,
-  addRatioInputs,
-  sort,
-  sortRatios,
-  dispatchRatioInputEvents,
-  syncRatioInputs,
-  distributeRatios,
-  checkRatioStepModifiers,
-  deleteRatio
-};
+export {addRatio, createRatioInput, addRatioInputs, sort, sortRatios, dispatchRatioInputEvents, syncRatioInputs, distributeRatios, checkRatioStepModifiers, deleteRatio};

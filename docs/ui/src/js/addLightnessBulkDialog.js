@@ -61,8 +61,4 @@ window.addLightnessBulk = addLightnessBulk;
 window.cancelLightnessBulk = cancelLightnessBulk;
 window.bulkLightnessInput = bulkLightnessInput;
 
-module.exports = {
-  addLightnessBulk,
-  bulkLightnessInput,
-  cancelLightnessBulk
-};
+export {addLightnessBulk, bulkLightnessInput, cancelLightnessBulk};

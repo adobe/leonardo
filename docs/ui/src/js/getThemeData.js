@@ -112,14 +112,4 @@ function getAllColorNames() {
   return colorNames;
 }
 
-module.exports = {
-  getColorClassById,
-  getContrastRatioInputs,
-  getThemeContrastRatios,
-  getThemeName,
-  getThemeData,
-  getAllColorNames,
-  getLuminosities,
-  getColorClassByName,
-  getAllColorKeys
-};
+export {getColorClassById, getContrastRatioInputs, getThemeContrastRatios, getThemeName, getThemeData, getAllColorNames, getLuminosities, getColorClassByName, getAllColorKeys};

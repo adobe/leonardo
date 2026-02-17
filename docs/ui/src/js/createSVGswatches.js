@@ -76,25 +76,19 @@ window.downloadSwatches = downloadSwatches;
 document.getElementById('downloadSequentialSwatches').addEventListener('click', () => {
   setTimeout(function () {
     downloadSwatches('sequential');
-  }),
-    1000;
+  }, 1000);
 });
 
 document.getElementById('downloadDivergingSwatches').addEventListener('click', () => {
   setTimeout(function () {
     downloadSwatches('diverging');
-  }),
-    1000;
+  }, 1000);
 });
 
 document.getElementById('downloadQualitativeSwatches').addEventListener('click', () => {
   setTimeout(function () {
     downloadSwatches('qualitative');
-  }),
-    1000;
+  }, 1000);
 });
 
-module.exports = {
-  createSVGswatches,
-  downloadSwatches
-};
+export {createSVGswatches, downloadSwatches};

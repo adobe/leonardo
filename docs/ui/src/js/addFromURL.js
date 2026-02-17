@@ -76,8 +76,4 @@ window.addFromURLDialog = addFromURLDialog;
 window.cancelURL = cancelURL;
 window.addFromURL = addFromURL;
 
-module.exports = {
-  addFromURL,
-  addFromURLDialog,
-  cancelURL
-};
+export {addFromURL, addFromURLDialog, cancelURL};

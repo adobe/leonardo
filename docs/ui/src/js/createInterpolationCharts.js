@@ -122,4 +122,4 @@ function createInterpolationCharts(colors, mode, scaleType = 'theme') {
   });
 }
 
-module.exports = {createInterpolationCharts};
+export {createInterpolationCharts};

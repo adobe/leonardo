@@ -68,6 +68,4 @@ function heatmap(scaleType) {
   });
 }
 
-module.exports = {
-  heatmap
-};
+export {heatmap};

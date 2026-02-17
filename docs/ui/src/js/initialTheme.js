@@ -30,7 +30,4 @@ let _theme = new Leo.Theme({
 
 window._theme = _theme;
 
-module.exports = {
-  tempGray,
-  _theme
-};
+export {tempGray, _theme};

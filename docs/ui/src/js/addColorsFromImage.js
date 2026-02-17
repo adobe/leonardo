@@ -127,6 +127,4 @@ function validFileType(file) {
 
 window.addColorsFromImage = addColorsFromImage;
 
-module.exports = {
-  addColorsFromImage
-};
+export {addColorsFromImage};

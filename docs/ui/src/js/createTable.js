@@ -50,6 +50,4 @@ function createTable(headers, rows, destId, quiet = false) {
   dest.appendChild(table);
 }
 
-module.exports = {
-  createTable
-};
+export {createTable};

@@ -57,25 +57,19 @@ window.downloadXML = downloadXML;
 document.getElementById('sequential_downloadXml').addEventListener('click', () => {
   setTimeout(function () {
     downloadXML('sequential');
-  }),
-    1000;
+  }, 1000);
 });
 
 document.getElementById('diverging_downloadXml').addEventListener('click', () => {
   setTimeout(function () {
     downloadXML('diverging');
-  }),
-    1000;
+  }, 1000);
 });
 
 document.getElementById('qualitative_downloadXml').addEventListener('click', () => {
   setTimeout(function () {
     downloadXML('qualitative');
-  }),
-    1000;
+  }, 1000);
 });
 
-module.exports = {
-  createXML,
-  downloadXML
-};
+export {createXML, downloadXML};
