@@ -15,6 +15,7 @@ jobs:
     permissions:
       contents: write
       id-token: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -34,4 +35,4 @@ jobs:
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm release
         env:
-          GITHUB_TOKEN: ${{ secrets.MOON_GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
