@@ -5,14 +5,14 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: moonrepo/setup-toolchain@v0
+      - uses: moonrepo/setup-toolchain@v0.6.2
         with:
           auto-install: true
       - run: moon ci
-      - uses: 'moonrepo/run-report-action@v1'
+      - uses: 'moonrepo/run-report-action@v1.9.0'
         if: success() || failure()
         with:
           access-token: ${{ secrets.MOON_GH_TOKEN }}

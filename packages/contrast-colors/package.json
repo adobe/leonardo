@@ -9,22 +9,26 @@
   "exports": {
     ".": {
       "default": "./index.js"
-    }
+    },
+    "./lib/chroma-plus.js": "./lib/chroma-plus.js"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "apca-w3": "^0.1.9",
-    "chroma-js": "^2.4.2",
+    "chroma-js": "^3.2.0",
     "ciebase": "^0.1.1",
     "ciecam02": "^0.4.6",
-    "hsluv": "^0.1.0"
+    "hsluv": "^1.0.1"
   },
   "devDependencies": {
-    "ava": "^6.1.1"
+    "ava": "^6.4.1"
   },
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "alias": {
+    "hsluv": "hsluv/dist/hsluv.mjs"
   }
 }

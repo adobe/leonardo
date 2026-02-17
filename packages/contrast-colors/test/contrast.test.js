@@ -73,5 +73,6 @@ test('should provide APCA contrast of ~ 106', (t) => {
 
 test('should provide APCA contrast less than APCA officially supports', (t) => {
   const contrastValue = contrast([238, 238, 238], [255, 255, 255], undefined, 'wcag3'); // Leonardo needs more than just 7.5+ for contrast values
-  t.is(contrastValue, 7.567424744881627);
+  // 12th-decimal-place variance from chroma-js v2 → v3 internal math
+  t.is(contrastValue, 7.567424744881615);
 });

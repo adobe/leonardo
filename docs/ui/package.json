@@ -65,7 +65,7 @@
     "fs": "0.0.1-security",
     "get-image-colors": "^4.0.0",
     "highlight.js": "^11.2.0",
-    "hsluv": "^0.1.0",
+    "hsluv": "^1.0.1",
     "js": "^0.1.0",
     "loadicons": "^1.0.0",
     "node-vibrant": "^3.2.1-alpha.1",
@@ -93,6 +93,9 @@
     "color-contrast-generator"
   ],
   "license": "Apache-2.0",
+  "alias": {
+    "hsluv": "hsluv/dist/hsluv.mjs"
+  },
   "devDependencies": {
     "buffer": "^5.5.0||^6.0.0",
     "gh-pages": "^3.2.3",

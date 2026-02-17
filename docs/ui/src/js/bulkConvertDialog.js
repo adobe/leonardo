@@ -17,7 +17,7 @@ import {saveAs} from 'file-saver';
 const simpleColorConverter = require('simple-color-converter');
 
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 function bulkConvert(e) {

@@ -12,13 +12,13 @@ governing permissions and limitations under the License.
 import * as Leo from '@adobe/leonardo-contrast-colors';
 import {convertColorValue, makePowScale, round, findMatchingLuminosity, orderColorsByLuminosity} from './utils';
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 
 extendChroma(chroma);
 
 class SequentialScale {
   constructor({swatches, colorKeys, colorspace, smooth, distributeLightness = 'linear', shift, output}) {
-    (this._swatches = swatches), (this._colorKeys = colorKeys);
+    ((this._swatches = swatches), (this._colorKeys = colorKeys));
     this._luminosities = this._getLuminosities();
     this._colorspace = colorspace;
     this._shift = shift;

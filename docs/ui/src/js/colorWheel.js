@@ -20,7 +20,7 @@ import {polarColorPath} from './polarColorPath';
 import {convertToCartesian, removeElementsByClass, throttle} from './utils';
 import {create3dModel} from './create3dModel';
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 const scaleWheelSize = 280;
