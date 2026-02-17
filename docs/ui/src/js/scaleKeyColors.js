@@ -17,7 +17,7 @@ import {createDemos} from './createDemos';
 import {create3dModel} from './create3dModel';
 import {createPanelReportTable} from './createPanelReportTable';
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 
 function addScaleKeyColorInput(c, thisId = this.id, scaleType, index, scalePosition) {
   let sampleNumber = document.getElementById(`${scaleType}Samples`);

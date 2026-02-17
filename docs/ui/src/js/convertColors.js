@@ -15,7 +15,7 @@ import {createTable} from './createTable';
 const simpleColorConverter = require('simple-color-converter');
 
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 function convertColor(e) {

@@ -14,7 +14,7 @@ import * as d3 from './d3';
 import {SequentialScale} from './initialSequentialScale';
 import {convertColorValue, round, orderColorsByLuminosity} from './utils';
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 class DivergingScale {
@@ -28,7 +28,7 @@ class DivergingScale {
     this._shift = shift;
     this._smooth = smooth;
     this._output = output;
-    (this._swatches = swatches),
+    ((this._swatches = swatches),
       (this._scaleSwatches = swatches / 2),
       (this._startScale = new SequentialScale({
         swatches: this._scaleSwatches,
@@ -38,7 +38,7 @@ class DivergingScale {
         smooth: this._smooth,
         shift: this._shift,
         output: this._output
-      }));
+      })));
 
     this._endScale = new SequentialScale({
       swatches: this._scaleSwatches,

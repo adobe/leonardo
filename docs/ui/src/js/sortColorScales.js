@@ -13,7 +13,7 @@ import {addColorScale} from './colorScale';
 import {themeUpdate} from './themeUpdate';
 import {removeElementsByClass} from './utils';
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 window.sortColorScales = sortColorScales;

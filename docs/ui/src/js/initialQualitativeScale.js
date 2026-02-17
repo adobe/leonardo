@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 
 import {convertColorValue} from './utils';
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 class QualitativeScale {

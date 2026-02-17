@@ -9,13 +9,11 @@
   "exports": {
     ".": {
       "default": "./index.js"
-    }
+    },
+    "./lib/chroma-plus.js": "./lib/chroma-plus.js"
   },
   "author": "Nate Baldwin <nbaldwin@adobe.com>",
   "license": "Apache-2.0",
-  "alias": {
-    "hsluv": "hsluv/dist/hsluv.mjs"
-  },
   "dependencies": {
     "apca-w3": "^0.1.9",
     "chroma-js": "^3.2.0",
@@ -29,5 +27,8 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "alias": {
+    "hsluv": "hsluv/dist/hsluv.mjs"
   }
 }

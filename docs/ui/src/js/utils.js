@@ -13,7 +13,7 @@ import {simulate} from '@bjornlu/colorblind';
 const blinder = require('color-blind');
 
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 const DeltaE = require('delta-e');
 
 extendChroma(chroma);
@@ -346,17 +346,16 @@ function groupCommonHues(colors) {
     const currentColor = filteredColors[i];
     const lastColor = filteredColors[lastIndex];
     const hueDiff = chroma(currentColor).jch()[2] - chroma(lastColor).jch()[2];
+    const absHueDiff = Math.abs(hueDiff);
 
-    if (hueDiff < 0) hueDiff = hueDiff * -1;
-
-    if (hueDiff >= hueGroupThreshold || bucketedColors.length === 0) {
+    if (absHueDiff >= hueGroupThreshold || bucketedColors.length === 0) {
       const newArr = [];
       newArr.push(currentColor);
       bucketedColors.push(newArr);
       // console.log(`Adding new array with color ${currentColor}`)
     }
     // Find the right bucket to place the color if it's within the hue threshold
-    if (hueDiff < hueGroupThreshold && bucketedColors.length > 0) {
+    if (absHueDiff < hueGroupThreshold && bucketedColors.length > 0) {
       // Loop the bucketed colors
       for (let z = 0; z < bucketedColors.length; z++) {
         const currentBucket = bucketedColors[z];

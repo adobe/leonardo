@@ -15,7 +15,7 @@ import {getThemeContrastRatios, getLuminosities} from './getThemeData';
 import {_theme} from './initialTheme';
 
 const chroma = require('chroma-js');
-const {extendChroma} = require('./chroma-plus');
+import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 const lineTypeSelect = document.getElementById('chartLineType');
