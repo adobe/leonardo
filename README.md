@@ -94,7 +94,7 @@ pnpm install
 cd docs/ui/
 
 # Run local server
-pnpm dev
+pnpm moon run dev
 ```
 
 To get started [developing Leonardo `contrast-colors` package](packages/contrast-colors#development):
