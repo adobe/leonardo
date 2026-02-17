@@ -35,4 +35,3 @@ jobs:
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.MOON_GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.ADOBE_BOT_NPM_TOKEN }}
