@@ -114,6 +114,19 @@ function paramSetup() {
     contrastSliderVal.innerHTML = `${round(contrast * 100)}%`;
     _theme.contrast = contrast;
 
+    // handle saturation parameter
+    let saturation;
+    if (!config.saturation && config.saturation !== 0) {
+      saturation = 100;
+    } else {
+      saturation = config.saturation;
+    }
+    let saturationSlider = document.getElementById('themeSaturationSlider');
+    let saturationSliderVal = document.getElementById('themeSaturationValue');
+    saturationSlider.value = saturation;
+    saturationSliderVal.innerHTML = `${round(saturation)}%`;
+    _theme.saturation = saturation;
+
     // generate the options for the base scale,
     // then select the option defined in parameters
     baseScaleOptions();
