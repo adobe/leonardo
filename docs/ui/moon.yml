@@ -106,10 +106,3 @@ tasks:
     inputs:
       - 'src/**/*.js'
       - eslint.config.js
-  deploySite:
-    command: 'gh-pages -d dist'
-    platform: node
-    local: true
-    deps:
-      - ~:clean
-      - ~:buildSite

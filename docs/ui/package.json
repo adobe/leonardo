@@ -100,7 +100,6 @@
     "buffer": "^5.5.0||^6.0.0",
     "eslint": "^10.0.0",
     "eslint-plugin-import": "^2.32.0",
-    "gh-pages": "^3.2.3",
     "highlight.js": "^11.2.0",
     "parcel": "^2.12.0",
     "path-browserify": "^1.0.0",
