@@ -11,6 +11,7 @@ jobs:
       - uses: moonrepo/setup-toolchain@v0.6.2
         with:
           auto-install: true
+      - run: pnpm install --frozen-lockfile
       - run: moon ci 2>&1 | tee moon-ci.log; exit ${PIPESTATUS[0]}
       - uses: actions/upload-artifact@v4
         if: failure()

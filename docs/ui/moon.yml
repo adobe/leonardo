@@ -26,7 +26,7 @@ tasks:
     command: 'parcel src/index.html src/theme.html src/scales.html src/tools.html src/demo.html --no-hmr'
     platform: node
     inputs:
-      - '@globs(sources)'
+      - '@group(sources)'
     local: true
     deps:
       - ~:makeDistDir
@@ -97,9 +97,9 @@ tasks:
       - ~:copyUIIcons
       - ~:copyWorkflowIcons
     inputs:
-      - '@globs(sources)'
+      - '@group(sources)'
     outputs:
-      - '@globs(output)'
+      - '@group(output)'
   lint:
     command: 'eslint src/'
     platform: node
