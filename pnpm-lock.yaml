@@ -310,9 +310,6 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
     devDependencies:
-      '@types/chroma-js':
-        specifier: ^3.1.2
-        version: 3.1.2
       ava:
         specifier: ^6.4.1
         version: 6.4.1
@@ -1373,9 +1370,6 @@ packages:
   '@tsd/typescript@5.4.5':
     resolution: {integrity: sha512-saiCxzHRhUrRxQV2JhH580aQUZiKQUXI38FcAcikcfOomAil4G4lxT0RfrrKywoAYP/rqAdYXYmNRLppcd+hQQ==}
     engines: {node: '>=14.17'}
-
-  '@types/chroma-js@3.1.2':
-    resolution: {integrity: sha512-YBTQqArPN8A0niHXCwrO1z5x++a+6l0mLBykncUpr23oIPW7L4h39s6gokdK/bDrPmSh8+TjMmrhBPnyiaWPmQ==}
 
   '@types/eslint@7.29.0':
     resolution: {integrity: sha512-VNcvioYDH8/FxaeTKkM4/TiTwt6pBV9E3OfGmvaw8tPl0rrHCJ4Ll15HRT+pMiFAf/MLQvAzC+6RzUMEL9Ceng==}
@@ -5963,8 +5957,6 @@ snapshots:
   '@trysound/sax@0.2.0': {}
 
   '@tsd/typescript@5.4.5': {}
-
-  '@types/chroma-js@3.1.2': {}
 
   '@types/eslint@7.29.0':
     dependencies:
