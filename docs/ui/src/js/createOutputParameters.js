@@ -125,10 +125,6 @@ function createTokensOutput() {
   let largeText = _theme.formula === 'wcag3' ? 60 : 3;
   let smallText = _theme.formula === 'wcag3' ? 75 : 4.5;
 
-  let formulaString = _theme.formula === 'wcag2' ? 'WCAG 2.x (relative luminance)' : 'WCAG 3 (APCA)';
-  let largeText = _theme.formula === 'wcag3' ? 60 : 3;
-  let smallText = _theme.formula === 'wcag3' ? 75 : 4.5;
-
   for (let i = 1; i < contrastColors.length; i++) {
     let thisColor = contrastColors[i];
     for (let j = 0; j < thisColor.values.length; j++) {
