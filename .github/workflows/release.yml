@@ -35,11 +35,10 @@ jobs:
           auth-method: oidc
       - name: Publish
         id: changesets
-        uses: GarthDB/changesets-action@v1.6.8
+        uses: changesets/action@v1.7.0
         with:
           commit: 'chore: release'
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm release
-          oidcAuth: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
