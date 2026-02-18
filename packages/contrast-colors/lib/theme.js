@@ -142,6 +142,9 @@ class Theme {
         if (param[i].colorKeys) currentColor.colorKeys = param[i].colorKeys;
         if (param[i].ratios) currentColor.ratios = param[i].ratios;
         if (param[i].colorSpace !== undefined || param[i].colorspace !== undefined) {
+          if (param[i].colorspace !== undefined && param[i].colorSpace === undefined) {
+            console.warn('Leonardo: `colorspace` is deprecated. Use `colorSpace` instead.');
+          }
           currentColor.colorSpace = param[i].colorSpace ?? param[i].colorspace;
         }
         if (param[i].smooth) currentColor.smooth = param[i].smooth;
@@ -165,6 +168,9 @@ class Theme {
       if (param.colorKeys) currentColor.colorKeys = param.colorKeys;
       if (param.ratios) currentColor.ratios = param.ratios;
       if (param.colorSpace !== undefined || param.colorspace !== undefined) {
+        if (param.colorspace !== undefined && param.colorSpace === undefined) {
+          console.warn('Leonardo: `colorspace` is deprecated. Use `colorSpace` instead.');
+        }
         currentColor.colorSpace = param.colorSpace ?? param.colorspace;
       }
       if (param.smooth) currentColor.smooth = param.smooth;

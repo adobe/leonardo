@@ -36,7 +36,7 @@ class Color {
       throw new Error(`Colorspace “${colorSpace}” not supported`);
     }
     if (!colorSpaces[this._output]) {
-      throw new Error(`Output “${colorSpace}” not supported`);
+      throw new Error(`Output “${this._output}” not supported`);
     }
     // validate color keys
     for (let i = 0; i < this._colorKeys.length; i++) {
@@ -154,7 +154,7 @@ class Color {
     this._colorScale = createScale({
       swatches: 3000,
       colorKeys: this._modifiedKeys,
-      colorspace: this._colorspace,
+      colorSpace: this._colorspace,
       shift: 1,
       smooth: this._smooth,
       asFun: true

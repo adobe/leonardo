@@ -69,7 +69,7 @@ function paramSetup() {
         let ratios = color.ratios;
         let smooth = i === 0 ? false : color.smooth;
         if (color.smooth === 'true') {
-          if (color.colorSpace === 'OKLAB' || color.colorSpace === 'OKLCH') setFirstColorSmoothing = true;
+          if (colorSpaceVal === 'OKLAB' || colorSpaceVal === 'OKLCH') setFirstColorSmoothing = true;
         }
 
         // Create color scale item
