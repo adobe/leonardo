@@ -15,6 +15,7 @@ fileGroups:
   sources:
     - index.js
     - index.d.ts
+    - chroma-js.d.ts
     - 'lib/**/*'
   tests:
     - 'test/**/*'
@@ -32,4 +33,12 @@ tasks:
       - ava
       - --watch
     local: true
+    platform: node
+  test-types:
+    command:
+      - pnpm
+      - test:types
+    inputs:
+      - '@globs(sources)'
+      - test/index.test-d.ts
     platform: node
