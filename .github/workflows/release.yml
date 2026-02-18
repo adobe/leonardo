@@ -20,11 +20,13 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: moonrepo/setup-toolchain@v0.6.2
+      - uses: actions/setup-node@v4
         with:
-          auto-install: true
-      - run: moon setup
-      - run: moon ci
+          node-version: '20'
+      - name: Install npm 11.5.1+ for OIDC support
+        run: npm install -g npm@latest
+      - name: Install pnpm
+        run: npm install -g pnpm@10
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Validate publishing prerequisites
