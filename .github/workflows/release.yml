@@ -33,9 +33,10 @@ jobs:
           auth-method: oidc
       - name: Publish
         id: changesets
-        uses: changesets/action@v1.7.0
+        uses: GarthDB/changesets-action@v1.6.8
         with:
           commit: 'chore: release'
           publish: pnpm release
+          oidcAuth: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
