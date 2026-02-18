@@ -110,7 +110,7 @@ function updateParams() {
       return {
         name: c.name,
         colorKeys: c.colorKeys,
-        colorspace: c.colorspace,
+        colorSpace: c.colorSpace,
         ratios: ratios,
         smooth: c.smooth
       };

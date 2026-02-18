@@ -214,7 +214,7 @@ function showColorDetails(e, colorId) {
   interpSelect.name = thisId.concat('_mode');
   interpSelect.oninput = throttle(themeUpdateParams, 20);
   interpSelect.addEventListener('change', (e) => {
-    _theme.updateColor = {color: colorData.name, colorspace: e.target.value};
+    _theme.updateColor = {color: colorData.name, colorSpace: e.target.value};
     updateRamps(colorData, thisId);
     updateColorDots(chartsModeSelect.value, scaleType, colorData.colorKeys, id);
     create3dModel('tabModelContent', colorData, chartsModeSelect.value);
@@ -252,7 +252,7 @@ function showColorDetails(e, colorId) {
   for (let index in opts) {
     interpSelect.options[interpSelect.options.length] = new Option(opts[index], index);
   }
-  interpSelect.value = colorData.colorspace;
+  interpSelect.value = colorData.colorSpace;
 
   // Smoothing
   let smoothFormItem = document.createElement('div');
@@ -307,7 +307,7 @@ function showColorDetails(e, colorId) {
 </svg>
 <span class="spectrum-ActionButton-label">Download SVG gradient</span>`;
   downloadGradient.addEventListener('click', (e) => {
-    downloadSVGgradient(colorData.backgroundColorScale, colorData.colorspace, colorData.name);
+    downloadSVGgradient(colorData.backgroundColorScale, colorData.colorSpace, colorData.name);
   });
 
   let panelExport = document.createElement('div');

@@ -10,14 +10,15 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import type ChromaJs from 'chroma-js';
+/// <reference path="./chroma-js.d.ts" />
+import ChromaJs from 'chroma-js';
 
 type ColorTuple = [number, number, number];
 
 declare module 'chroma-js' {
   interface ChromaStatic {
-    jch(...args: ColorTuple): ChromaJs.Color;
-    jab(...args: ColorTuple): ChromaJs.Color;
+    jch(...args: ColorTuple): (typeof ChromaJs)['Color'];
+    jab(...args: ColorTuple): (typeof ChromaJs)['Color'];
     getCSSGradient(
       scale: Scale,
       /**
@@ -55,7 +56,7 @@ declare module 'chroma-js' {
  * @example 'jab(100% 0 0)' // CAM02
  * @example 'jch(100% 0 360deg)' // CAM02p
  */
-type Colorspace = 'HEX' | 'RGB' | 'HSL' | 'HSV' | 'HSLuv' | 'LAB' | 'LCH' | 'OKLAB' | 'OKLCH' | 'CAM02' | 'CAM02p';
+export type Colorspace = 'HEX' | 'RGB' | 'HSL' | 'HSV' | 'HSLuv' | 'LAB' | 'LCH' | 'OKLAB' | 'OKLCH' | 'CAM02' | 'CAM02p';
 
 /**
  * Supported interpolation colorspaces from the {@link https://www.w3.org/TR/css-color-4/ W3C CSS Color Module Level 4} spec.
@@ -70,7 +71,7 @@ type Colorspace = 'HEX' | 'RGB' | 'HSL' | 'HSV' | 'HSLuv' | 'LAB' | 'LCH' | 'OKL
  * @example 'jab(100% 0 0)' // CAM02
  * @example 'jch(100% 0 360deg)' // CAM02p
  */
-type InterpolationColorspace = Exclude<Colorspace, 'HEX'>;
+export type InterpolationColorspace = Exclude<Colorspace, 'HEX'>;
 
 type RGBArray = ColorTuple;
 
@@ -86,8 +87,13 @@ interface ColorBase {
   colorKeys: CssColor[];
   /**
    * The colorspace in which the key colors will be interpolated.
+   * @deprecated Use `colorSpace` instead.
    */
   colorspace?: InterpolationColorspace;
+  /**
+   * The colorspace in which the key colors will be interpolated.
+   */
+  colorSpace?: InterpolationColorspace;
   /**
    * List of target contrast ratios, or object with named keys for each value.
    * @see {@link RatiosArray}, {@link RatiosObject}
@@ -105,55 +111,51 @@ interface ColorBase {
 }
 
 export class Color implements Required<ColorBase> {
-  constructor({name, colorKeys, colorspace, ratios, smooth, output, saturation}: ColorBase);
+  constructor({name, colorKeys, colorspace, colorSpace, ratios, smooth, output, saturation}: ColorBase);
   name: string;
   colorKeys: CssColor[];
+  /** @deprecated Use `colorSpace` instead. */
   colorspace: InterpolationColorspace;
+  colorSpace: InterpolationColorspace;
   ratios: RatiosArray | RatiosObject;
   smooth: boolean;
   output: Colorspace;
   saturation: number;
-  readonly colorScale: ChromaJs.Scale;
+  readonly colorScale: (typeof ChromaJs)['Scale'];
 }
 
 export class BackgroundColor extends Color {
-  readonly backgroundColorScale: ChromaJs.Scale;
+  readonly backgroundColorScale: (typeof ChromaJs)['Scale'];
 }
 /**
  * @see {@link https://www.w3.org/TR/WCAG22/#contrast-minimum}
  * @see {@link https://www.w3.org/TR/wcag-3.0/#visual-contrast-of-text}
  */
-type ContrastFormula = 'wcag2' | 'wcag3';
-type LightnessDistribution = 'linear' | 'polynomial';
+export type ContrastFormula = 'wcag2' | 'wcag3';
+export type LightnessDistribution = 'linear' | 'polynomial';
 
 /**
  * Helper function for rounding color values to whole numbers.
+ * When `object` is `true`, returns a plain object of channel key-value pairs (e.g. `{ r: 255, g: 0, b: 0 }`).
+ * When `object` is `false` (default), returns a CSS color string (e.g. `"hsl(120, 50%, 100%)"` or `"#ff0000"`).
  */
-export function convertColorValue(
-  color: string,
-  format: Colorspace,
-  /** @default false */
-  object?: boolean
-): number;
+export function convertColorValue(color: string, format: Colorspace, object: true): Record<string, number>;
+export function convertColorValue(color: string, format: Colorspace, object?: false): string;
+export function convertColorValue(color: string, format: Colorspace, object?: boolean): string | Record<string, number>;
 
-export function createScale({
-  swatches,
-  colorKeys,
-  colorspace,
-  shift,
-  fullScale,
-  smooth,
-  distributeLightness,
-  sortColor,
-  asFun
-}?: {
+export interface CreateScaleOptions {
   /** The number of swatches/steps in the scale. */
   swatches: number;
   colorKeys: CssColor[];
   /**
    * The colorspace used to interpolate the color scale.
-   * @default 'LAB' */
+   * @default 'LAB'
+   * @deprecated Use `colorSpace` instead. */
   colorspace?: InterpolationColorspace;
+  /**
+   * The colorspace used to interpolate the color scale.
+   * @default 'LAB' */
+  colorSpace?: InterpolationColorspace;
   /** @default 1 */
   shift?: number;
   /** @default true */
@@ -166,7 +168,15 @@ export function createScale({
   sortColor?: boolean;
   /** @default false */
   asFun?: boolean;
-}): ChromaJs.Scale;
+}
+
+/**
+ * When `asFun` is `true`, returns the raw `ChromaJs.Scale` function for custom sampling.
+ * When `asFun` is `false` (default), returns an array of CSS color strings.
+ */
+export function createScale(options: CreateScaleOptions & {asFun: true}): (typeof ChromaJs)['Scale'];
+export function createScale(options?: CreateScaleOptions & {asFun?: false}): CssColor[];
+export function createScale(options?: CreateScaleOptions): (typeof ChromaJs)['Scale'] | CssColor[];
 
 export function luminance(r: number, g: number, b: number): number;
 
@@ -334,7 +344,7 @@ export class Theme implements Required<ThemeBase> {
   ]
   ```
  */
-type RatiosArray = number[];
+export type RatiosArray = number[];
 
 /**
  * When defining ratios as an object with key-value pairs, you define what name will be output in your Leonardo theme.
@@ -360,18 +370,18 @@ type RatiosArray = number[];
   ]
  * ```
  */
-type RatiosObject = Record<string, number>;
+export type RatiosObject = Record<string, number>;
 
 interface ContrastColorBackground {
   background: CssColor;
 }
 
-interface ContrastColor {
+export interface ContrastColor {
   name: string;
   values: ContrastColorValue[];
 }
 
-interface ContrastColorValue {
+export interface ContrastColorValue {
   name: string;
   contrast: number;
   value: CssColor;
@@ -409,7 +419,7 @@ interface ThemeBase {
  * A valid CSS color.
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/color_value}
  */
-type CssColor = RgbHexColor | RgbColor | HslColor | HsvColor | HsluvColor | LabColor | LchColor | OkLabColor | OkLchColor | Cam02Color | Cam02pColor | CssColorName;
+export type CssColor = RgbHexColor | RgbColor | HslColor | HsvColor | HsluvColor | LabColor | LchColor | OkLabColor | OkLchColor | Cam02Color | Cam02pColor | CssColorName;
 
 /**
  * A string representing a CSS hexadecimal RGB color.

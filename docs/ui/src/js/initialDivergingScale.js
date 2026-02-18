@@ -18,13 +18,13 @@ import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 class DivergingScale {
-  constructor({swatches, startKeys, endKeys, middleKey, colorspace, smooth, distributeLightness = 'polynomial', shift = 1, output}) {
+  constructor({swatches, startKeys, endKeys, middleKey, colorSpace, smooth, distributeLightness = 'polynomial', shift = 1, output}) {
     this._startKeys = startKeys;
     this._endKeys = endKeys;
     this._middleKey = middleKey;
     this._colorKeys = this._combineColorKeys();
     this._distributeLightness = distributeLightness;
-    this._colorspace = colorspace;
+    this._colorspace = colorSpace;
     this._shift = shift;
     this._smooth = smooth;
     this._output = output;
@@ -33,7 +33,7 @@ class DivergingScale {
     this._startScale = new SequentialScale({
       swatches: this._scaleSwatches,
       colorKeys: this._startKeys,
-      colorspace: this._colorspace,
+      colorSpace: this._colorspace,
       distributeLightness: this._distributeLightness,
       smooth: this._smooth,
       shift: this._shift,
@@ -43,7 +43,7 @@ class DivergingScale {
     this._endScale = new SequentialScale({
       swatches: this._scaleSwatches,
       colorKeys: this._endKeys,
-      colorspace: this._colorspace,
+      colorSpace: this._colorspace,
       distributeLightness: this._distributeLightness,
       smooth: this._smooth,
       shift: this._shift,
@@ -125,16 +125,16 @@ class DivergingScale {
     return this._samples;
   }
 
-  set colorspace(colorspace) {
-    this._colorspace = colorspace;
-    this._startScale.colorspace = colorspace;
-    this._endScale.colorspace = colorspace;
+  set colorSpace(colorSpace) {
+    this._colorspace = colorSpace;
+    this._startScale.colorSpace = colorSpace;
+    this._endScale.colorSpace = colorSpace;
 
     this._colors = null;
     this._colors = this._createColorScale();
   }
 
-  get colorspace() {
+  get colorSpace() {
     return this._colorspace;
   }
 
@@ -235,7 +235,7 @@ class DivergingScale {
     this._colorFunction = Leo.createScale({
       swatches: this._swatches,
       colorKeys: newColors,
-      colorspace: this._colorspace,
+      colorSpace: this._colorspace,
       sortColor: false,
 
       distributeLightness: 'linear',
@@ -314,7 +314,7 @@ let _divergingScale = new DivergingScale({
   startKeys: ['#580000', '#DD8629'],
   endKeys: ['#3EA8A6', '#003233'],
   middleKey: '#FFFFE0',
-  colorspace: 'CAM02',
+  colorSpace: 'CAM02',
   distributeLightness: 'polynomial', // 'linear' | 'parabolic' | 'polynomial'
   smooth: false,
   output: 'RGB'

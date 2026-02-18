@@ -50,7 +50,7 @@ function createJSOutput() {
   name: "${thisColor.name}",
   colorKeys: [${thisColor.colorKeys.map((c) => `'${c}'`)}],
   ratios: [${thisColor.ratios}],
-  colorspace: "${thisColor.colorspace}",
+  colorSpace: "${thisColor.colorSpace}",
   smooth: ${thisColor.smooth}
 });`;
     colorDeclarations.push(colorString);
@@ -120,10 +120,6 @@ function createTokensOutput() {
     $description: `UI background color. All color contrasts evaluated and generated against this color.`
   };
   themeObj['Background'] = backgroundColorObj;
-
-  let formulaString = _theme.formula === 'wcag2' ? 'WCAG 2.x (relative luminance)' : 'WCAG 3 (APCA)';
-  let largeText = _theme.formula === 'wcag3' ? 60 : 3;
-  let smallText = _theme.formula === 'wcag3' ? 75 : 4.5;
 
   let formulaString = _theme.formula === 'wcag2' ? 'WCAG 2.x (relative luminance)' : 'WCAG 3 (APCA)';
   let largeText = _theme.formula === 'wcag3' ? 60 : 3;

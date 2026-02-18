@@ -65,18 +65,18 @@ function paramSetup() {
       colorScales.map((color, i) => {
         let colorName = color.name;
         let keyColors = color.colorKeys;
-        let colorSpace = color.colorspace;
+        let colorSpaceVal = color.colorSpace ?? color.colorspace;
         let ratios = color.ratios;
         let smooth = i === 0 ? false : color.smooth;
         if (color.smooth === 'true') {
-          if (color.colorspace === 'OKLAB' || color.colorspace === 'OKLCH') setFirstColorSmoothing = true;
+          if (colorSpaceVal === 'OKLAB' || colorSpaceVal === 'OKLCH') setFirstColorSmoothing = true;
         }
 
         // Create color scale item
         let newColor = new Leo.BackgroundColor({
           name: colorName,
           colorKeys: keyColors,
-          colorspace: colorSpace,
+          colorSpace: colorSpaceVal,
           ratios: ratios,
           smooth: smooth
         });
@@ -185,7 +185,7 @@ function paramSetup() {
         let newColor = new Leo.BackgroundColor({
           name: getClosestColorName(values[0][0]),
           colorKeys: values[0],
-          colorspace: values[1],
+          colorSpace: values[1],
           ratios: values[2],
           smooth: false
         });
