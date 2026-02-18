@@ -86,8 +86,13 @@ interface ColorBase {
   colorKeys: CssColor[];
   /**
    * The colorspace in which the key colors will be interpolated.
+   * @deprecated Use `colorSpace` instead.
    */
   colorspace?: InterpolationColorspace;
+  /**
+   * The colorspace in which the key colors will be interpolated.
+   */
+  colorSpace?: InterpolationColorspace;
   /**
    * List of target contrast ratios, or object with named keys for each value.
    * @see {@link RatiosArray}, {@link RatiosObject}
@@ -105,10 +110,12 @@ interface ColorBase {
 }
 
 export class Color implements Required<ColorBase> {
-  constructor({name, colorKeys, colorspace, ratios, smooth, output, saturation}: ColorBase);
+  constructor({name, colorKeys, colorspace, colorSpace, ratios, smooth, output, saturation}: ColorBase);
   name: string;
   colorKeys: CssColor[];
+  /** @deprecated Use `colorSpace` instead. */
   colorspace: InterpolationColorspace;
+  colorSpace: InterpolationColorspace;
   ratios: RatiosArray | RatiosObject;
   smooth: boolean;
   output: Colorspace;
@@ -140,6 +147,7 @@ export function createScale({
   swatches,
   colorKeys,
   colorspace,
+  colorSpace,
   shift,
   fullScale,
   smooth,
@@ -152,8 +160,13 @@ export function createScale({
   colorKeys: CssColor[];
   /**
    * The colorspace used to interpolate the color scale.
-   * @default 'LAB' */
+   * @default 'LAB'
+   * @deprecated Use `colorSpace` instead. */
   colorspace?: InterpolationColorspace;
+  /**
+   * The colorspace used to interpolate the color scale.
+   * @default 'LAB' */
+  colorSpace?: InterpolationColorspace;
   /** @default 1 */
   shift?: number;
   /** @default true */

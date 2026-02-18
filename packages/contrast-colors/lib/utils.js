@@ -154,10 +154,13 @@ function makePowScale(exp = 1, domains = [0, 1], range = [0, 1]) {
   return (x) => m * x ** exp + c;
 }
 
-function createScale({swatches, colorKeys, colorspace = 'LAB', shift = 1, fullScale = true, smooth = false, distributeLightness = 'linear', sortColor = true, asFun = false} = {}) {
-  const space = colorSpaces[colorspace];
+function createScale({swatches, colorKeys, colorspace, colorSpace = colorspace ?? 'LAB', shift = 1, fullScale = true, smooth = false, distributeLightness = 'linear', sortColor = true, asFun = false} = {}) {
+  if (colorspace !== undefined) {
+    console.warn('Leonardo: `colorspace` is deprecated. Use `colorSpace` instead.');
+  }
+  const space = colorSpaces[colorSpace];
   if (!space) {
-    throw new Error(`Colorspace “${colorspace}” not supported`);
+    throw new Error(`Colorspace “${colorSpace}” not supported`);
   }
   if (!colorKeys) {
     throw new Error(`Colorkeys missing: returned “${colorKeys}”`);

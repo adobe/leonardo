@@ -17,11 +17,11 @@ import {extendChroma} from './chroma-plus';
 extendChroma(chroma);
 
 class SequentialScale {
-  constructor({swatches, colorKeys, colorspace, smooth, distributeLightness = 'linear', shift, output}) {
+  constructor({swatches, colorKeys, colorSpace, smooth, distributeLightness = 'linear', shift, output}) {
     this._swatches = swatches;
     this._colorKeys = colorKeys;
     this._luminosities = this._getLuminosities();
-    this._colorspace = colorspace;
+    this._colorspace = colorSpace;
     this._shift = shift;
     this._smooth = smooth;
     this._distributeLightness = distributeLightness;
@@ -51,14 +51,14 @@ class SequentialScale {
     return this._samples;
   }
 
-  set colorspace(colorspace) {
-    this._colorspace = colorspace;
+  set colorSpace(colorSpace) {
+    this._colorspace = colorSpace;
     this._colors = null;
     this._colorsReversed = null;
     this._colors = this._createColorScale();
   }
 
-  get colorspace() {
+  get colorSpace() {
     return this._colorspace;
   }
 
@@ -157,7 +157,7 @@ class SequentialScale {
     let initialColorScale = Leo.createScale({
       swatches: generousColorLength,
       colorKeys: this._colorKeys,
-      colorspace: this._colorspace,
+      colorSpace: this._colorspace,
       shift: this._shift,
       distributeLightness: this._distributeLightness,
       smooth: this._smooth,
@@ -195,7 +195,7 @@ class SequentialScale {
     this._colorFunction = Leo.createScale({
       swatches: this._swatches,
       colorKeys: newColors,
-      colorspace: this._colorspace,
+      colorSpace: this._colorspace,
       shift: this._shift,
       smooth: false,
       distributeLightness: this._distributeLightness,
@@ -206,7 +206,7 @@ class SequentialScale {
     colorScale = Leo.createScale({
       swatches: this._swatches,
       colorKeys: newColors,
-      colorspace: this._colorspace,
+      colorSpace: this._colorspace,
       shift: this._shift,
       smooth: false,
       distributeLightness: this._distributeLightness,
@@ -280,7 +280,7 @@ class SequentialScale {
 let _sequentialScale = new SequentialScale({
   swatches: 100,
   colorKeys: ['#002f61', '#ffff00'],
-  colorspace: 'CAM02p',
+  colorSpace: 'CAM02p',
   smooth: false,
   distributeLightness: 'linear',
   shift: 1,

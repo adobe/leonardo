@@ -133,7 +133,7 @@ function createPaletteCharts(mode) {
     return createScale({
       swatches: 31,
       colorKeys: c.colorKeys,
-      colorspace: c.colorspace,
+      colorSpace: c.colorSpace,
       smooth: c.smooth
     });
   });

@@ -62,7 +62,7 @@ function addColorsFromImage() {
             let newColor = new Leo.BackgroundColor({
               name: colorName,
               colorKeys: [color.hex()],
-              colorspace: 'CAM02p',
+              colorSpace: 'CAM02p',
               ratios: ratios,
               smooth: true
             });
@@ -96,7 +96,7 @@ function addColorsFromImage() {
                 let newColor = new Leo.BackgroundColor({
                   name: colorName,
                   colorKeys: color,
-                  colorspace: 'CAM02p',
+                  colorSpace: 'CAM02p',
                   ratios: ratios,
                   smooth: true
                 });

@@ -63,7 +63,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
   // If class is preset to smooth, check the smooth switch in the UI
   if (colorClass.smooth === true) smooth.checked = true;
 
-  interpolationMode.value = colorClass.colorspace;
+  interpolationMode.value = colorClass.colorSpace;
 
   let gradientId = `${scaleType}_gradient`;
   let buttonId = `${scaleType}_addKeyColor`;
@@ -136,8 +136,8 @@ function colorScaleDiverging(scaleType = 'diverging') {
   });
 
   interpolationMode.addEventListener('change', (e) => {
-    let colorspace = e.target.value;
-    colorClass.colorspace = colorspace;
+    let colorSpaceVal = e.target.value;
+    colorClass.colorSpace = colorSpaceVal;
 
     updateRamps(colorClass, scaleType, scaleType);
     createSamples(sampleNumber.value, scaleType);
@@ -169,7 +169,7 @@ function colorScaleDiverging(scaleType = 'diverging') {
 
     const gradientColors = colorClass.colors;
     setTimeout(() => {
-      downloadSVGgradient(gradientColors, colorClass.colorspace, filename);
+      downloadSVGgradient(gradientColors, colorClass.colorSpace, filename);
       colorClass.swatches = originalSwatches;
     }, 500);
   });

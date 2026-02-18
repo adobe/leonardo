@@ -141,7 +141,9 @@ class Theme {
         if (param[i].name) currentColor.name = param[i].name;
         if (param[i].colorKeys) currentColor.colorKeys = param[i].colorKeys;
         if (param[i].ratios) currentColor.ratios = param[i].ratios;
-        if (param[i].colorspace) currentColor.colorspace = param[i].colorspace;
+        if (param[i].colorSpace !== undefined || param[i].colorspace !== undefined) {
+          currentColor.colorSpace = param[i].colorSpace ?? param[i].colorspace;
+        }
         if (param[i].smooth) currentColor.smooth = param[i].smooth;
         // call _generateColorScale to ensure scale is updated with new params
         currentColor._generateColorScale();
@@ -162,7 +164,9 @@ class Theme {
       if (param.name) currentColor.name = param.name;
       if (param.colorKeys) currentColor.colorKeys = param.colorKeys;
       if (param.ratios) currentColor.ratios = param.ratios;
-      if (param.colorspace) currentColor.colorspace = param.colorspace;
+      if (param.colorSpace !== undefined || param.colorspace !== undefined) {
+        currentColor.colorSpace = param.colorSpace ?? param.colorspace;
+      }
       if (param.smooth) currentColor.smooth = param.smooth;
       // call _generateColorScale to ensure scale is updated with new params
       currentColor._generateColorScale();

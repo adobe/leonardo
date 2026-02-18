@@ -20,41 +20,41 @@ let uiRatios = [1, 1.12, 1.3, 2, 3.01, 4.52, 7, 11, 16];
 let purpleScale = new Leo.Color({
   name: 'purple',
   colorKeys: ['#7a4beb', '#ac80f4', '#2f0071'],
-  colorspace: 'LAB',
+  colorSpace: 'LAB',
   ratios: uiRatios
 });
 
 let blueScale = new Leo.Color({
   name: 'blue',
   colorKeys: ['#0272d4', '#b2f0ff', '#55cfff', '#0037d7'],
-  colorspace: 'CAM02',
+  colorSpace: 'CAM02',
   ratios: uiRatios
 });
 
 let greenScale = new Leo.Color({
   name: 'green',
   colorKeys: ['#4eb076', '#2a5a45', '#a7e3b4'],
-  colorspace: 'HSL',
+  colorSpace: 'HSL',
   ratios: uiRatios
 });
 let redScale = new Leo.Color({
   name: 'red',
   colorKeys: ['#ea2825', '#ffc1ad', '#fd937e'],
-  colorspace: 'LAB',
+  colorSpace: 'LAB',
   ratios: uiRatios
 });
 
 let goldScale = new Leo.Color({
   name: 'gold',
   colorKeys: ['#e8b221', '#a06a00', '#ffdd7c'],
-  colorspace: 'HSL',
+  colorSpace: 'HSL',
   ratios: uiRatios
 });
 
 let grayScale = new Leo.BackgroundColor({
   name: 'gray',
   colorKeys: ['#4a5b7b', '#72829c', '#a6b2c6'],
-  colorspace: 'HSL',
+  colorSpace: 'HSL',
   ratios: baseRatios
 });
 
