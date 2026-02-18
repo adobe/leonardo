@@ -65,7 +65,7 @@ let ${themeName.replace(/[^a-zA-Z0-9_$]/g, '_')} = new Leo.Theme({
   lightness: ${_theme.lightness},
   contrast: ${_theme.contrast},
   saturation: ${_theme.saturation},
-  output: "${_theme.output},"
+  output: "${_theme.output}",
   formula: "${_theme.formula}"
 });`;
 
@@ -115,11 +115,15 @@ function createTokensOutput() {
   let backgroundColor = _theme.contrastColors[0].background;
 
   let backgroundColorObj = {
-    value: backgroundColor,
-    type: 'color',
-    description: `UI background color. All color contrasts evaluated and generated against this color.`
+    $value: backgroundColor,
+    $type: 'color',
+    $description: `UI background color. All color contrasts evaluated and generated against this color.`
   };
   themeObj['Background'] = backgroundColorObj;
+
+  let formulaString = _theme.formula === 'wcag2' ? 'WCAG 2.x (relative luminance)' : 'WCAG 3 (APCA)';
+  let largeText = _theme.formula === 'wcag3' ? 60 : 3;
+  let smallText = _theme.formula === 'wcag3' ? 75 : 4.5;
 
   let formulaString = _theme.formula === 'wcag2' ? 'WCAG 2.x (relative luminance)' : 'WCAG 3 (APCA)';
   let largeText = _theme.formula === 'wcag3' ? 60 : 3;
@@ -132,9 +136,9 @@ function createTokensOutput() {
       let descriptionText = color.contrast < largeText ? textLowContrast : color.contrast >= largeText && color.contrast < smallText ? textLarge : textSmall;
 
       let colorObj = {
-        value: color.value,
-        type: 'color',
-        description: `${descriptionText} ${formulaString} contrast is ${color.contrast}:1 against background ${backgroundColor}`
+        $value: color.value,
+        $type: 'color',
+        $description: `${descriptionText} ${formulaString} contrast is ${color.contrast}:1 against background ${backgroundColor}`
       };
       themeObj[color.name] = colorObj;
     }
