@@ -21,7 +21,7 @@ node:
     version: '10.29.3'
 
   # Add `node.version` as a constraint in the root `package.json` `engines`.
-  addEnginesConstraint: true
+  addEnginesConstraint: false
 
   # Dedupe dependencies after the lockfile has changed.
   dedupeOnLockfileChange: true
