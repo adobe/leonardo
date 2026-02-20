@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html dir="ltr">
   <head>
-    <include src="src/htmlHead.html"></include>
+    {{> htmlHead }}
   </head>
 
   <body class="spectrum spectrum--medium appFrame">
@@ -23,16 +24,14 @@
     </div>
 
     <div id="page" style="opacity: 0">
-      <include src="src/views/header_scales.html"></include>
+      {{> header_scales }}
 
-      <include src="src/views/tab_home.html"></include>
-      <!-- <include src="src/views/tab_sequential.html"></include>
-    <include src="src/views/tab_diverging.html"></include>
-    <include src="src/views/tab_qualitative.html"></include> -->
-      <include src="src/views/tab_sequentialScale.html" locals='{ "scaleType": "sequential" }'></include>
-      <include src="src/views/tab_divergingScale.html" locals='{ "scaleType": "diverging" }'></include>
-      <include src="src/views/tab_qualitativeScale.html" locals='{ "scaleType": "qualitative" }'></include>
-      <include src="src/views/dialog_bulkKeyColors.html"></include>
+      {{> tab_home }}
+
+      {{> tab_sequentialScale scaleType="sequential" }}
+      {{> tab_divergingScale scaleType="diverging" }}
+      {{> tab_qualitativeScale scaleType="qualitative" }}
+      {{> dialog_bulkKeyColors }}
       <div id="dialogOverlay" style="display: none"></div>
     </div>
 

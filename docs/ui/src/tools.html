@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html dir="ltr">
   <head>
-    <include src="src/htmlHead.html"></include>
+    {{> htmlHead }}
   </head>
 
   <body class="spectrum spectrum--medium appFrame">
@@ -23,10 +24,10 @@
     </div>
 
     <div id="page" style="opacity: 0">
-      <include src="src/views/header_tools.html"></include>
-      <include src="src/views/tab_home.html"></include>
-      <include src="src/views/tab_colorCompare.html"></include>
-      <include src="src/views/tab_colorConverter.html"></include>
+      {{> header_tools }}
+      {{> tab_home }}
+      {{> tab_colorCompare }}
+      {{> tab_colorConverter }}
     </div>
 
     <script src="tools.js" type="module"></script>

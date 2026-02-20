@@ -12,90 +12,25 @@ type: application
 fileGroups:
   sources:
     - 'src/**/*'
+    - 'public/**/*'
   output:
     - 'dist/**/*'
 dependsOn:
   - contrast-colors
 tasks:
-  makeDistDir:
-    command: 'mkdir -p dist'
-    platform: system
-    outputs:
-      - dist
   dev:
-    command: 'parcel src/index.html src/theme.html src/scales.html src/tools.html src/demo.html --no-hmr'
+    command: 'vite'
     platform: node
     inputs:
       - '@group(sources)'
     local: true
-    deps:
-      - ~:makeDistDir
-      - ~:copyWorkflowIcons
-      - ~:copyUIIcons
   clean:
     command: 'rm -rf dist/*'
     platform: system
-    deps:
-      - ~:makeDistDir
     local: true
-  copyWorkflowIcons:
-    command:
-      - cp
-      - -r
-      - node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg
-      - dist/
-    platform: node
-    deps:
-      - ~:makeDistDir
-    inputs:
-      - node_modules/@adobe/spectrum-css-workflow-icons/dist/spectrum-icons.svg
-    outputs:
-      - dist/spectrum-icons.svg
-  copyUIIcons:
-    command:
-      - cp
-      - -r
-      - node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg
-      - dist/
-    platform: node
-    deps:
-      - ~:makeDistDir
-    inputs:
-      - node_modules/@spectrum-css/icon/dist/spectrum-css-icons.svg
-    outputs:
-      - dist/spectrum-css-icons.svg
-  copyCNAME:
-    command:
-      - cp
-      - -r
-      - src/CNAME
-      - dist/CNAME
-    platform: system
-    deps:
-      - ~:makeDistDir
-    inputs:
-      - src/CNAME
-    outputs:
-      - dist/CNAME
   buildSite:
-    command:
-      - parcel
-      - build
-      - --no-optimize
-      - --no-cache
-      - src/index.html
-      - src/scales.html
-      - src/tools.html
-      - src/theme.html
-      - src/demo.html
-      - --public-url
-      - ./
+    command: 'vite build'
     platform: node
-    deps:
-      - ~:makeDistDir
-      - ~:copyCNAME
-      - ~:copyUIIcons
-      - ~:copyWorkflowIcons
     inputs:
       - '@group(sources)'
     outputs:

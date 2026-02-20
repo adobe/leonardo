@@ -50,7 +50,7 @@
              <th  class="spectrum-Table-headCell">Type</th>
              <th  class="spectrum-Table-headCell">Description</th>
           </tr>
-       </thead class="spectrum-Table-head">
+       </thead>
        <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>colors</code></td>
@@ -78,7 +78,7 @@
              <td class="spectrum-Table-cell" tabindex="0">Desired color output format</td>
           </tr>
        </tbody>
-    </table class="spectrum-Table spectrum-Table--sizeM">
+    </table>
     <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="docs-setters">Setters</h4>
     <table class="spectrum-Table spectrum-Table--sizeM">
        <thead class="spectrum-Table-head">
@@ -86,7 +86,7 @@
              <th  class="spectrum-Table-headCell">Setter</th>
              <th  class="spectrum-Table-headCell">Description of output</th>
           </tr>
-       </thead class="spectrum-Table-head">
+       </thead>
        <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>Theme.lightness</code></td>
@@ -125,7 +125,7 @@
              <td class="spectrum-Table-cell" tabindex="0">Update a <code>Color</code> via its setters from the theme</td>
           </tr>
        </tbody>
-    </table class="spectrum-Table spectrum-Table--sizeM">
+    </table>
     <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="docs-theme-addcolor-color"><code>Theme.addColor = color</code></h4>
     <p>Add a <code>Color</code> to an existing theme</p>
     <pre><code class="lang-js"><span class="hljs-keyword">let</span> red = <span class="hljs-keyword">new</span> Color({
@@ -173,7 +173,7 @@ theme.updateColor = {<span class="hljs-string">color:</span> <span class="hljs-s
              <th  class="spectrum-Table-headCell">Output option</th>
              <th  class="spectrum-Table-headCell">Sample value</th>
           </tr>
-       </thead class="spectrum-Table-head">
+       </thead>
        <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>&#39;HEX&#39;</code>  <em>(default)</em></td>
@@ -212,7 +212,7 @@ theme.updateColor = {<span class="hljs-string">color:</span> <span class="hljs-s
              <td class="spectrum-Table-cell" tabindex="0"><code>jch(100%, 0, 360deg)</code></td>
           </tr>
        </tbody>
-    </table class="spectrum-Table spectrum-Table--sizeM">
+    </table>
     <hr class="spectrum-Divider spectrum-Divider--sizeM">
     <h3 class="spectrum-Heading spectrum-Heading--sizeS" id="docs-color"><code>Color</code></h3>
     <p>Class function used to define colors for a theme. Parameters are destructured and need to be explicitly called.</p>
@@ -223,7 +223,7 @@ theme.updateColor = {<span class="hljs-string">color:</span> <span class="hljs-s
              <th  class="spectrum-Table-headCell">Type</th>
              <th  class="spectrum-Table-headCell">Description</th>
           </tr>
-       </thead class="spectrum-Table-head">
+       </thead>
        <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>name</code></td>
@@ -256,7 +256,7 @@ theme.updateColor = {<span class="hljs-string">color:</span> <span class="hljs-s
              <td class="spectrum-Table-cell" tabindex="0">Desired color output format</td>
           </tr>
        </tbody>
-    </table class="spectrum-Table spectrum-Table--sizeM">
+    </table>
     <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="docs-setters">Setters</h4>
     <table class="spectrum-Table spectrum-Table--sizeM">
        <thead class="spectrum-Table-head">
@@ -264,7 +264,7 @@ theme.updateColor = {<span class="hljs-string">color:</span> <span class="hljs-s
              <th  class="spectrum-Table-headCell">Setter</th>
              <th  class="spectrum-Table-headCell">Description of output</th>
           </tr>
-       </thead class="spectrum-Table-head">
+       </thead>
        <tbody class="spectrum-Table-body">
           <tr class="spectrum-Table-row">
              <td class="spectrum-Table-cell" tabindex="0"><code>Color.colorKeys</code></td>
@@ -291,7 +291,7 @@ theme.updateColor = {<span class="hljs-string">color:</span> <span class="hljs-s
              <td class="spectrum-Table-cell" tabindex="0">Sets the output format</td>
           </tr>
        </tbody>
-    </table class="spectrum-Table spectrum-Table--sizeM">
+    </table>
     <h4 class="spectrum-Heading spectrum-Heading--sizeXS" id="docs-supported-interpolation-colorspaces">Supported interpolation colorspaces:</h4>
     <p>Below are the available options for interpolation in Leonardo:</p>
     <ul>
@@ -609,5 +609,5 @@ theme.updateColor = {<span class="hljs-string">color:</span> <span class="hljs-s
   </div>
 
 
-  <include src="src/views/footer.html"></include>
+  {{> footer }}
 </div>
