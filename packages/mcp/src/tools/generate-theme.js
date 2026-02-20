@@ -25,33 +25,37 @@ import {Theme, Color, BackgroundColor} from '@adobe/leonardo-contrast-colors';
  * @returns {import('@adobe/leonardo-contrast-colors').Theme['contrastColors']}
  */
 export function generateTheme(args) {
-  const {colors: colorDefs, backgroundColor: bgDef, lightness, contrast = 1, saturation = 100, output = 'HEX', formula = 'wcag2'} = args;
+  try {
+    const {colors: colorDefs, backgroundColor: bgDef, lightness, contrast = 1, saturation = 100, output = 'HEX', formula = 'wcag2'} = args;
 
-  const bg = new BackgroundColor({
-    name: bgDef.name,
-    colorKeys: bgDef.colorKeys,
-    ratios: bgDef.ratios,
-    colorSpace: bgDef.colorspace || bgDef.colorSpace || 'RGB'
-  });
-
-  const colorInstances = colorDefs.map((def) => {
-    return new Color({
-      name: def.name,
-      colorKeys: def.colorKeys,
-      ratios: def.ratios,
-      colorSpace: def.colorspace || def.colorSpace || 'RGB'
+    const bg = new BackgroundColor({
+      name: bgDef.name,
+      colorKeys: bgDef.colorKeys,
+      ratios: bgDef.ratios,
+      colorSpace: bgDef.colorspace || bgDef.colorSpace || 'RGB'
     });
-  });
 
-  const theme = new Theme({
-    colors: [bg, ...colorInstances],
-    backgroundColor: bg,
-    lightness,
-    contrast,
-    saturation,
-    output,
-    formula
-  });
+    const colorInstances = colorDefs.map((def) => {
+      return new Color({
+        name: def.name,
+        colorKeys: def.colorKeys,
+        ratios: def.ratios,
+        colorSpace: def.colorspace || def.colorSpace || 'RGB'
+      });
+    });
 
-  return theme.contrastColors;
+    const theme = new Theme({
+      colors: [bg, ...colorInstances],
+      backgroundColor: bg,
+      lightness,
+      contrast,
+      saturation,
+      output,
+      formula
+    });
+
+    return theme.contrastColors;
+  } catch (err) {
+    throw new Error(`Failed to generate theme: ${err.message}`);
+  }
 }

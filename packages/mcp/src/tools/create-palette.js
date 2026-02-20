@@ -17,11 +17,20 @@ import {createScale} from '@adobe/leonardo-contrast-colors';
  * @returns {{ colors: string[] }}
  */
 export function createPalette(args) {
-  const {colorKeys, colorspace = 'LAB', steps} = args;
-  const colors = createScale({
-    swatches: steps,
-    colorKeys,
-    colorSpace: colorspace
-  });
-  return {colors};
+  try {
+    const {colorKeys, colorspace = 'LAB', steps, smooth = false, shift = 1, fullScale = true, distributeLightness = 'linear', sortColor = true} = args;
+    const colors = createScale({
+      swatches: steps,
+      colorKeys,
+      colorSpace: colorspace,
+      smooth,
+      shift,
+      fullScale,
+      distributeLightness,
+      sortColor
+    });
+    return {colors};
+  } catch (err) {
+    throw new Error(`Failed to create palette: ${err.message}`);
+  }
 }

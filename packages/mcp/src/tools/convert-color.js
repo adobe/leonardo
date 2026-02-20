@@ -17,7 +17,11 @@ import {convertColorValue} from '@adobe/leonardo-contrast-colors';
  * @returns {{ value: string }}
  */
 export function convertColor(args) {
-  const {color, format} = args;
-  const value = convertColorValue(color, format, false);
-  return {value};
+  try {
+    const {color, format} = args;
+    const value = convertColorValue(color, format, false);
+    return {value};
+  } catch (err) {
+    throw new Error(`Failed to convert color: ${err.message}`);
+  }
 }

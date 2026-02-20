@@ -14,33 +14,37 @@ import {contrast, convertColorValue} from '@adobe/leonardo-contrast-colors';
 
 /**
  * @param {{ foreground: string, background: string, method?: 'wcag2' | 'wcag3' }} args
- * @returns {{ ratio: number, method: string, wcag2?: { aa: boolean, aaa: boolean }, wcag3?: { lc: number } }}
+ * @returns {{ ratio: number, method: string, wcag2?: { aa: boolean, aaa: boolean, largeText: boolean }, wcag3?: { lc: number } }}
  */
 export function checkContrast(args) {
-  const {foreground, background, method = 'wcag2'} = args;
+  try {
+    const {foreground, background, method = 'wcag2'} = args;
 
-  const fgObj = convertColorValue(foreground, 'HEX', true);
-  const bgObj = convertColorValue(background, 'HEX', true);
-  const fgRgb = [fgObj.r, fgObj.g, fgObj.b];
-  const bgRgb = [bgObj.r, bgObj.g, bgObj.b];
+    const fgObj = convertColorValue(foreground, 'HEX', true);
+    const bgObj = convertColorValue(background, 'HEX', true);
+    const fgRgb = [fgObj.r, fgObj.g, fgObj.b];
+    const bgRgb = [bgObj.r, bgObj.g, bgObj.b];
 
-  const ratio = contrast(fgRgb, bgRgb, undefined, method);
+    const ratio = contrast(fgRgb, bgRgb, undefined, method);
 
-  const out = {
-    ratio: Math.round(ratio * 100) / 100,
-    method
-  };
-
-  if (method === 'wcag2') {
-    const absRatio = Math.abs(ratio);
-    out.wcag2 = {
-      aa: absRatio >= 4.5,
-      aaa: absRatio >= 7,
-      largeText: absRatio >= 3
+    const out = {
+      ratio: Math.round(ratio * 100) / 100,
+      method
     };
-  } else {
-    out.wcag3 = {lc: ratio};
-  }
 
-  return out;
+    if (method === 'wcag2') {
+      const absRatio = Math.abs(ratio);
+      out.wcag2 = {
+        aa: absRatio >= 4.5,
+        aaa: absRatio >= 7,
+        largeText: absRatio >= 3
+      };
+    } else {
+      out.wcag3 = {lc: ratio};
+    }
+
+    return out;
+  } catch (err) {
+    throw new Error(`Failed to check contrast: ${err.message}`);
+  }
 }

@@ -10,6 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+import {readFileSync} from 'fs';
 import {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import {StdioServerTransport} from '@modelcontextprotocol/sdk/server/stdio.js';
 import {z} from 'zod';
@@ -18,9 +19,11 @@ import {checkContrast} from './tools/check-contrast.js';
 import {convertColor} from './tools/convert-color.js';
 import {createPalette} from './tools/create-palette.js';
 
+const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+
 const server = new McpServer({
   name: 'leonardo',
-  version: '0.1.0'
+  version: pkg.version
 });
 
 const colorDefSchema = z.object({
@@ -39,12 +42,7 @@ server.registerTool(
     description: 'Generate a contrast-based color theme. Returns theme.contrastColors JSON ready for design tokens.',
     inputSchema: z.object({
       colors: z.array(colorDefSchema),
-      backgroundColor: z.object({
-        name: z.string(),
-        colorKeys: z.array(z.string()),
-        ratios: z.union([z.array(z.number()), z.record(z.string(), z.number())]),
-        colorspace: z.enum(['LCH', 'LAB', 'RGB', 'HSL', 'HSV', 'HSLuv', 'CAM02', 'CAM02p', 'OKLAB', 'OKLCH']).optional()
-      }),
+      backgroundColor: colorDefSchema,
       lightness: z.number().min(0).max(100),
       contrast: z.number().optional(),
       saturation: z.number().min(0).max(100).optional(),
@@ -53,11 +51,15 @@ server.registerTool(
     })
   },
   async (args) => {
-    const result = generateTheme(args);
-    return {
-      content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
-      structuredContent: result
-    };
+    try {
+      const result = generateTheme(args);
+      return {
+        content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
+        structuredContent: result
+      };
+    } catch (err) {
+      return {content: [{type: 'text', text: err.message}], isError: true};
+    }
   }
 );
 
@@ -73,11 +75,15 @@ server.registerTool(
     })
   },
   async (args) => {
-    const result = checkContrast(args);
-    return {
-      content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
-      structuredContent: result
-    };
+    try {
+      const result = checkContrast(args);
+      return {
+        content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
+        structuredContent: result
+      };
+    } catch (err) {
+      return {content: [{type: 'text', text: err.message}], isError: true};
+    }
   }
 );
 
@@ -92,11 +98,15 @@ server.registerTool(
     })
   },
   async (args) => {
-    const result = convertColor(args);
-    return {
-      content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
-      structuredContent: result
-    };
+    try {
+      const result = convertColor(args);
+      return {
+        content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
+        structuredContent: result
+      };
+    } catch (err) {
+      return {content: [{type: 'text', text: err.message}], isError: true};
+    }
   }
 );
 
@@ -108,15 +118,24 @@ server.registerTool(
     inputSchema: z.object({
       colorKeys: z.array(z.string()),
       colorspace: z.enum(['LCH', 'LAB', 'RGB', 'HSL', 'HSV', 'HSLuv', 'CAM02', 'CAM02p', 'OKLAB', 'OKLCH']).optional(),
-      steps: z.number().int().min(2)
+      steps: z.number().int().min(2),
+      smooth: z.boolean().optional(),
+      shift: z.number().optional(),
+      fullScale: z.boolean().optional(),
+      distributeLightness: z.enum(['linear', 'polynomial']).optional(),
+      sortColor: z.boolean().optional()
     })
   },
   async (args) => {
-    const result = createPalette(args);
-    return {
-      content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
-      structuredContent: result
-    };
+    try {
+      const result = createPalette(args);
+      return {
+        content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
+        structuredContent: result
+      };
+    } catch (err) {
+      return {content: [{type: 'text', text: err.message}], isError: true};
+    }
   }
 );
 
