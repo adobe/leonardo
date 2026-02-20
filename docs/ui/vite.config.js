@@ -48,6 +48,8 @@ export default {
     rollupOptions: {
       input: {
         index: resolve(__dirname, 'src/index.html'),
+        api: resolve(__dirname, 'src/api.html'),
+        articles: resolve(__dirname, 'src/articles.html'),
         theme: resolve(__dirname, 'src/theme.html'),
         scales: resolve(__dirname, 'src/scales.html'),
         tools: resolve(__dirname, 'src/tools.html'),
