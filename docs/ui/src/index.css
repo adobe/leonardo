@@ -1,0 +1,42 @@
+/*
+Copyright 2024 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+
+/* Spectrum CSS foundation */
+@import '@spectrum-css/vars/dist/spectrum-global.css';
+@import '@spectrum-css/vars/dist/spectrum-medium.css';
+@import '@spectrum-css/vars/dist/spectrum-light.css';
+@import '@spectrum-css/vars/dist/spectrum-darkest.css';
+
+/* Only the Spectrum components used on the home page */
+@import '@spectrum-css/page/dist/index-vars.css';
+@import '@spectrum-css/icon/dist/index-vars.css';
+@import '@spectrum-css/link/dist/index-vars.css';
+@import '@spectrum-css/button/dist/index-vars.css';
+@import '@spectrum-css/divider/dist/index-vars.css';
+@import '@spectrum-css/sidenav/dist/index-vars.css';
+@import '@spectrum-css/table/dist/index-vars.css';
+@import '@spectrum-css/typography/dist/index-vars.css';
+
+/* App styles needed for home page */
+@import './scss/style.scss';
+@import './scss/components/header.scss';
+@import './scss/components/sections.scss';
+@import './scss/components/selectBox.scss';
+@import './scss/components/articleCard.scss';
+@import './scss/components/highlightCode.scss';
+
+/* Doc static pages: single content section visible without JS */
+#homeContent,
+#getstartedContent,
+#articlesContent {
+  display: block;
+}
