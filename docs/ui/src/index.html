@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <html dir="ltr">
-<include src="src/htmlHead.html"></include>
-
+<head>
+{{> htmlHead }}
+</head>
 <body class="spectrum spectrum--medium appFrame">
     <div id="pageLoader">
         <div class="spectrum-ProgressCircle spectrum-ProgressCircle--indeterminate spectrum-ProgressCircle--large">
@@ -21,8 +23,8 @@
     </div>
 
     <div id="page" style="opacity: 0;">
-        <include src="src/views/header.html"></include>
-        <include src="src/views/tab_home.html"></include>
+        {{> header }}
+        {{> tab_home }}
     </div>
 
     <script src="index.js" type="module"></script>
