@@ -12,6 +12,13 @@ governing permissions and limitations under the License.
 
 import './index.css';
 import {pageLoader} from './js/pageLoader';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import bash from 'highlight.js/lib/languages/bash';
+import json from 'highlight.js/lib/languages/json';
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('json', json);
 
 // Dark mode: match system preference
 const mq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -22,12 +29,27 @@ function applyColorScheme() {
 mq.addEventListener('change', applyColorScheme);
 applyColorScheme();
 
+// Header tab: set aria-current and is-selected only when on index
+function highlightHeaderTab() {
+  const headerTab = document.querySelector('.spectrum-AppHeader a[href="index.html"]');
+  if (!headerTab) return;
+  const pathname = window.location.pathname;
+  const isIndex = pathname.endsWith('/') || pathname.endsWith('index.html') || pathname === '' || pathname.endsWith('/index');
+  if (isIndex) {
+    headerTab.setAttribute('aria-current', 'page');
+    headerTab.classList.add('is-selected');
+  } else {
+    headerTab.removeAttribute('aria-current');
+    headerTab.classList.remove('is-selected');
+  }
+}
+
 // Side nav: highlight current page based on pathname
 function highlightDocsSideNav() {
   const nav = document.getElementById('docsSideNav');
   if (!nav) return;
   const pathname = window.location.pathname;
-  const page = pathname.endsWith('api.html') ? 'api' : pathname.endsWith('articles.html') ? 'articles' : 'index';
+  const page = pathname.endsWith('api.html') ? 'api' : pathname.endsWith('articles.html') ? 'articles' : pathname.endsWith('ai-tools.html') ? 'ai-tools' : 'index';
   const currentLink = nav.querySelector(`a[data-page="${page}"]`);
   if (currentLink) {
     const item = currentLink.closest('.spectrum-SideNav-item');
@@ -36,6 +58,8 @@ function highlightDocsSideNav() {
 }
 
 window.addEventListener('load', () => {
+  highlightHeaderTab();
   highlightDocsSideNav();
+  hljs.highlightAll();
   pageLoader();
 });

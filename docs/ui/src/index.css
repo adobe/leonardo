@@ -37,6 +37,7 @@ governing permissions and limitations under the License.
 /* Doc static pages: single content section visible without JS */
 #homeContent,
 #getstartedContent,
-#articlesContent {
+#articlesContent,
+#aiToolsContent {
   display: block;
 }

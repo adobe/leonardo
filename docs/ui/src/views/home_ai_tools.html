@@ -1,0 +1,51 @@
+<div class="sideNavContent" id="aiToolsContent">
+  <div class="spectrum-Typography">
+    <h1 class="spectrum-Heading spectrum-Heading--sizeXXL spectrum-Heading--heavy">AI tooling</h1>
+    <hr class="spectrum-Divider spectrum-Divider--sizeM" />
+    <p class="spectrum-Body spectrum-Body--sizeL">
+      Leonardo provides three layers of AI tooling so developers and LLMs can get contextual help building accessible color systems.
+    </p>
+
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="ai-tools-llms-txt"><code>llms.txt</code></h2>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      A lightweight file at the repository root that lets any LLM orient itself to Leonardo’s purpose, package structure, and API without reading source. It covers the public API, supported colorspaces and output formats, contrast methods (WCAG 2 and APCA), and a quick usage example.
+    </p>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      <strong>Location:</strong> <code>llms.txt</code> at the repo root. See the <a href="https://github.com/adobe/leonardo/blob/main/llms.txt" class="spectrum-Link" target="_blank" rel="noopener">file on GitHub</a>.
+    </p>
+
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="ai-tools-agent-skill">Agent Skill</h2>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      A structured skill following the <a href="https://agentskills.io/specification" class="spectrum-Link" target="_blank" rel="noopener">agentskills.io</a> spec so tools like Cursor can activate targeted guidance when helping with <code>@adobe/leonardo-contrast-colors</code>. The skill covers installation, creating colors and themes, reading output, mutating themes at runtime, utility functions, and common accessibility recipes (AA, AAA, large text, APCA).
+    </p>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      <strong>Location:</strong> <code>skills/leonardo-colors/</code> in the repo (<code>SKILL.md</code> and <code>references/api.md</code>). Install with:
+    </p>
+    <pre><code class="lang-bash">npx skills add https://github.com/adobe/leonardo
+    </code></pre>
+
+    <h2 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy" id="ai-tools-mcp">MCP server</h2>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      <code>@adobe/leonardo-mcp</code> is a runtime MCP (Model Context Protocol) server that wraps the library. AI assistants can call tools to generate themes, check contrast, convert colors, and create palettes—producing verified, runnable output instead of guessing from docs.
+    </p>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      <strong>Tools:</strong>
+    </p>
+    <ul class="spectrum-Body spectrum-Body--sizeM">
+      <li><strong>generate-theme</strong> — Color definitions + background, lightness, contrast, etc. → <code>theme.contrastColors</code> JSON</li>
+      <li><strong>check-contrast</strong> — Foreground and background colors → ratio and WCAG 2 AA/AAA pass/fail or APCA Lc</li>
+      <li><strong>convert-color</strong> — Color value + target format → converted string</li>
+      <li><strong>create-palette</strong> — Color keys + colorspace + steps → interpolated color array</li>
+    </ul>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      <strong>Run locally (from repo root):</strong>
+    </p>
+    <pre><code class="lang-bash">npx @adobe/leonardo-mcp
+    </code></pre>
+    <p class="spectrum-Body spectrum-Body--sizeM">
+      For Cursor, add the Leonardo MCP server in <code>.cursor/mcp.json</code>; see the repo’s <a href="https://github.com/adobe/leonardo/blob/main/.cursor/mcp.json" class="spectrum-Link" target="_blank" rel="noopener">example config</a>.
+    </p>
+  </div>
+
+  {{> footer }}
+</div>

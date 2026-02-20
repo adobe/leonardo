@@ -1,0 +1,31 @@
+{
+  "name": "@adobe/leonardo-mcp",
+  "version": "0.0.1",
+  "description": "MCP server for @adobe/leonardo-contrast-colors — generate themes, check contrast, convert colors",
+  "type": "module",
+  "main": "./src/server.js",
+  "bin": {
+    "leonardo-mcp": "./src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@adobe/leonardo-contrast-colors": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "zod": "^3.23.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adobe/leonardo.git"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "leonardo": {
+      "command": "node",
+      "args": ["packages/mcp/src/cli.js"]
+    }
+  }
+}

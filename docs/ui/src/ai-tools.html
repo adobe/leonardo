@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html dir="ltr">
+<head>
+{{> htmlHead }}
+</head>
+<body class="spectrum spectrum--medium appFrame">
+    <div id="pageLoader">
+        <div class="spectrum-ProgressCircle spectrum-ProgressCircle--indeterminate spectrum-ProgressCircle--large">
+            <div class="spectrum-ProgressCircle-track"></div>
+            <div class="spectrum-ProgressCircle-fills">
+                <div class="spectrum-ProgressCircle-fillMask1">
+                    <div class="spectrum-ProgressCircle-fillSubMask1">
+                        <div class="spectrum-ProgressCircle-fill"></div>
+                    </div>
+                </div>
+                <div class="spectrum-ProgressCircle-fillMask2">
+                    <div class="spectrum-ProgressCircle-fillSubMask2">
+                        <div class="spectrum-ProgressCircle-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page" style="opacity: 0;">
+        {{> header_home }}
+
+        <div id="home" class="AppTab appFrameSideNav">
+            {{> home_sidenav_links }}
+
+            <main class="home-Wrapper spectrum-Typography">
+                {{> home_ai_tools }}
+            </main>
+        </div>
+    </div>
+
+    <script src="home.js" type="module"></script>
+</body>
+</html>
