@@ -3,6 +3,7 @@ $schema: 'https://moonrepo.dev/schemas/workspace.json'
 projects:
   ui: 'docs/ui'
   contrast-colors: 'packages/contrast-colors'
+  mcp: 'packages/mcp'
 vcs:
   manager: 'git'
   defaultBranch: 'main'

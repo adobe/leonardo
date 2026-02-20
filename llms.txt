@@ -1,0 +1,83 @@
+# Leonardo
+
+Leonardo is a tool for creating adaptive color palettes using target contrast ratios. It helps designers and developers build accessible color systems that meet WCAG requirements and supports both WCAG 2 and WCAG 3 (APCA) contrast methods.
+
+License: Apache-2.0
+
+## Links
+
+- GitHub: https://github.com/adobe/leonardo
+- npm: https://www.npmjs.com/package/@adobe/leonardo-contrast-colors
+- Web app: https://leonardocolor.io
+- Demo: https://leonardocolor.io/demo.html
+
+## Monorepo structure
+
+- packages/contrast-colors/ — @adobe/leonardo-contrast-colors (core library; the main API described below)
+- docs/ui/ — @adobe/leonardo-ui (Vite web app for leonardocolor.io)
+
+## Public API (@adobe/leonardo-contrast-colors)
+
+### Classes
+
+- Theme — Generates adaptive contrast-based colors. Constructor: { colors, backgroundColor, lightness, contrast?, saturation?, output?, formula? }. Getters: contrastColors, contrastColorPairs, contrastColorValues. Setters: lightness, contrast, saturation, backgroundColor, colors, output. Methods (via setters): addColor, removeColor, updateColor.
+- Color — Defines a color for a theme. Constructor: { name, colorKeys, colorspace?, colorSpace?, ratios, smooth?, output?, saturation? }. Used for foreground colors with target contrast ratios.
+- BackgroundColor — Extends Color; defines the theme background. One BackgroundColor is required per Theme.
+
+### Functions
+
+- createScale(options) — Create an interpolated color scale. Options: { swatches, colorKeys, colorSpace?, shift?, fullScale?, smooth?, distributeLightness?, sortColor?, asFun? }. Returns array of color strings (or scale function if asFun: true).
+- contrast(color, base, baseV?, method?) — Get contrast ratio between two RGB arrays. method: 'wcag2' (default) or 'wcag3' (APCA).
+- convertColorValue(color, format, object?) — Convert a color string to another format. format is a Colorspace; if object is true returns channel key-value pairs.
+- luminance(r, g, b) — Relative luminance of sRGB channels (0–1).
+- minPositive(r, formula) — Minimum positive value in ratio array for given formula.
+- ratioName(r, formula) — Map ratio array to named values for formula.
+
+## Supported interpolation colorspaces
+
+LCH, LAB, CAM02, CAM02p, HSL, HSLuv, HSV, RGB, OKLAB, OKLCH.
+
+(Used for Color/BackgroundColor colorSpace and for createScale. HEX is not used for interpolation.)
+
+## Supported output formats
+
+HEX (default), RGB, HSL, HSV, HSLuv, LAB, LCH, OKLAB, OKLCH, CAM02, CAM02p.
+
+(Used for Theme output and Color output. Conforms to W3C CSS Color Module Level 4.)
+
+## Contrast methods
+
+- wcag2 — WCAG 2.x contrast ratio (default).
+- wcag3 — APCA (WCAG 3 / Accessible Perceptual Contrast Algorithm). Set Theme formula to 'wcag3' or pass method to contrast().
+
+## Quick usage example
+
+```js
+import { Theme, Color, BackgroundColor } from '@adobe/leonardo-contrast-colors';
+
+const gray = new BackgroundColor({
+  name: 'gray',
+  colorKeys: ['#cacaca'],
+  ratios: [2, 3, 4.5, 8]
+});
+
+const blue = new Color({
+  name: 'blue',
+  colorKeys: ['#5CDBFF', '#0000FF'],
+  ratios: [3, 4.5]
+});
+
+const theme = new Theme({
+  colors: [blue],
+  backgroundColor: gray,
+  lightness: 97
+});
+
+const colors = theme.contrastColors;  // array of { background } and { name, values: [{ name, contrast, value }] }
+const pairs = theme.contrastColorPairs;  // { gray100: '#...', blue100: '#...', ... }
+```
+
+## Ratios
+
+- ratios can be an array of numbers (e.g. [3, 4.5, 7]) or an object mapping names to ratios (e.g. { 'blue--largeText': 3, 'blue--normalText': 4.5 }).
+- Positive ratios (e.g. 4.5) produce darker text on a light background; negative ratios produce lighter text on a dark background.
