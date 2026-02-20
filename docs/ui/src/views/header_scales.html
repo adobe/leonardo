@@ -1,6 +1,6 @@
 <header class="spectrum-AppHeader">
   <div class="spectrum-AppHeader_item">
-    <include src="src/views/LogoLink.html"></include>
+    {{> LogoLink }}
 
     <div class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet spectrum-Tabs--fluid">
       <div id="tabHome" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'home')">
@@ -40,6 +40,6 @@
         <input type="color" id="scales_bgColor" class="keyColor-Item keyColor-Item--standalone" />
       </div>
     </div>
-    <include src="src/views/GithubLink.html"></include>
+    {{> GithubLink }}
   </div>
 </header>

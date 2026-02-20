@@ -12,16 +12,18 @@ governing permissions and limitations under the License.
 function pageLoader() {
   const loader = document.getElementById('pageLoader');
   const page = document.getElementById('page');
-  setTimeout(() => {
-    page.style.opacity = 1;
-  }, 50);
+  const transitionMs = 200;
 
-  setTimeout(() => {
-    loader.style.opacity = 0;
-    setTimeout(() => {
-      loader.remove();
-    }, 150);
-  }, 1000);
+  if (page) {
+    page.style.transition = `opacity ${transitionMs}ms ease-out`;
+    page.style.opacity = '1';
+  }
+
+  if (loader) {
+    loader.style.transition = `opacity ${transitionMs}ms ease-out`;
+    loader.style.opacity = '0';
+    setTimeout(() => loader.remove(), transitionMs + 50);
+  }
 }
 
 export {pageLoader};

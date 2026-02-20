@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <html dir="ltr">
   <head>
-    <include src="src/htmlHead.html"></include>
+    {{> htmlHead }}
   </head>
   <body class="spectrum spectrum--medium appFrame">
     <div id="pageLoader">
@@ -22,21 +23,21 @@
     </div>
 
     <div id="page" style="opacity: 0">
-      <include src="src/views/header_theme.html"></include>
+      {{> header_theme }}
 
-      <include src="src/views/tab_home.html"></include>
+      {{> tab_home }}
 
-      <include src="src/views/tab_palette.html"></include>
-      <include src="src/views/tab_accessibility.html"></include>
-      <include src="src/views/tab_theme.html"></include>
+      {{> tab_palette }}
+      {{> tab_accessibility }}
+      {{> tab_theme }}
 
       <div id="dialogOverlay" style="display: none"></div>
 
-      <include src="src/views/dialog_bulkKeyColors.html"></include>
-      <include src="src/views/dialog_bulkLightnessStops.html"></include>
-      <include src="src/views/dialog_importURL.html"></include>
+      {{> dialog_bulkKeyColors }}
+      {{> dialog_bulkLightnessStops }}
+      {{> dialog_importURL }}
 
-      <include src="src/views/toast_cvdPreview.html"></include>
+      {{> toast_cvdPreview }}
     </div>
 
     <script src="theme.js" type="module"></script>
