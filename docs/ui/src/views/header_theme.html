@@ -3,13 +3,13 @@
     {{> LogoLink }}
 
     <div role="tablist" class="spectrum-Tabs spectrum-Tabs--horizontal spectrum-Tabs--quiet spectrum-Tabs--fluid">
-      <div role="tab" id="tabHome" aria-controls="home" tabindex="0" class="spectrum-Tabs-item app-Tabs-item" onclick="openAppTab(event, 'home')">
-        <label class="spectrum-Tabs-itemLabel">
+      <a href="/" class="spectrum-Tabs-item app-Tabs-item" id="tabHome" aria-label="Home">
+        <span class="spectrum-Tabs-itemLabel">
           <svg xmlns:xlink="http://www.w3.org/1999/xlink" class="spectrum-Icon spectrum-Icon--sizeS" focusable="false" aria-hidden="true" aria-label="Edit">
             <use xlink:href="#spectrum-icon-18-Home" />
           </svg>
-        </label>
-      </div>
+        </span>
+      </a>
 
       <div role="tab" aria-controls="palette" id="tabPalette" class="spectrum-Tabs-item app-Tabs-item" tabindex="0" onclick="openAppTab(event, 'palette')">
         <label class="spectrum-Tabs-itemLabel">Create</label>
