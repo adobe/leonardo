@@ -79,7 +79,7 @@ import {_divergingScale} from './js/initialDivergingScale';
 import {_qualitativeScale} from './js/initialQualitativeScale';
 
 import {throttle} from './js/utils';
-import {openPanelTab, openTab, openAppTab, openScaleTab, openSideNavItem} from './js/tabs';
+import {openPanelTab, openTab, openAppTab, openScaleTab} from './js/tabs';
 
 import {colorScaleDiverging} from './js/colorScaleDiverging';
 import {colorScaleSequential} from './js/colorScaleSequential';
@@ -120,8 +120,6 @@ document.getElementById('tabSequential').click();
 document.getElementById('tabsequentialDemo').click();
 document.getElementById('tabdivergingDemo').click();
 document.getElementById('tabqualitativeDemo').click();
-
-document.getElementById('welcome').click();
 
 colorScaleSequential();
 colorScaleDiverging();
