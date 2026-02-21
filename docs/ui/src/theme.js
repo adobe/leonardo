@@ -89,7 +89,7 @@ import {showToast, hideToast, exitPreview, neverShowToast} from './js/toast';
 import {addFromURL, addFromURLDialog, cancelURL} from './js/addFromURL';
 import updateThemeTitle from './js/themeTitle';
 import {addRatio, sortRatios} from './js/ratios';
-import {openPanelTab, openTab, openDetailTab, openAppTab, openSideNavItem, openColorTab} from './js/tabs';
+import {openPanelTab, openTab, openDetailTab, openAppTab, openColorTab} from './js/tabs';
 import toggleTooltip from './js/tooltip';
 import {downloadUiKit, createSVGuiKit} from './js/createSVGuiKit';
 import {toggleSwatchAttributes} from './js/toggleSwatchAttributes';
@@ -174,7 +174,6 @@ document.getElementById('tabPanelColorScales').click();
 document.getElementById('tabJSParameters').click();
 document.getElementById('tabPalette').click();
 document.getElementById('tabContrastingPairs').click();
-document.getElementById('welcome').click();
 document.getElementById('tabColorWheel').click();
 
 window.onload = function () {

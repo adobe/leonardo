@@ -72,7 +72,7 @@ loadIcons('./spectrum-icons.svg');
 
 // Import local Javascript functions
 import {throttle} from './js/utils';
-import {openPanelTab, openTab, openAppTab, openSideNavItem} from './js/tabs';
+import {openPanelTab, openTab, openAppTab} from './js/tabs';
 import toggleTooltip from './js/tooltip';
 import {compareColors} from './js/compareColors';
 import {convertColors} from './js/convertColors';
@@ -100,7 +100,6 @@ if (mq.matches) {
 
 document.getElementById('tabContrast').click();
 document.getElementById('tabSubPanelContrastChart').click();
-document.getElementById('welcome').click();
 
 document.getElementById('compareColorOneInput').dispatchEvent(new Event('input'));
 document.getElementById('compareColorTwoInput').dispatchEvent(new Event('input'));
