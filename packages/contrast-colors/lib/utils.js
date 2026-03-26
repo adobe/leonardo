@@ -470,7 +470,7 @@ const searchColors = (color, bgRgbArray, baseV, ratioValues, formula) => {
   const colorScale = createScale({
     swatches: colorLen,
     colorKeys: color._modifiedKeys,
-    colorspace: color._colorspace,
+    colorSpace: color._colorSpace,
     shift: 1,
     smooth: color._smooth,
     asFun: true

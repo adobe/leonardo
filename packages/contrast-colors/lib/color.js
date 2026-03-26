@@ -20,7 +20,7 @@ class Color {
     this._name = name;
     this._colorKeys = colorKeys;
     this._modifiedKeys = colorKeys;
-    this._colorspace = colorSpace;
+    this._colorSpace = colorSpace;
     this._ratios = ratios;
     this._smooth = smooth;
     this._output = output;
@@ -32,7 +32,7 @@ class Color {
     if (!this._colorKeys) {
       throw new Error('Color Keys are undefined');
     }
-    if (!colorSpaces[this._colorspace]) {
+    if (!colorSpaces[this._colorSpace]) {
       throw new Error(`Colorspace “${colorSpace}” not supported`);
     }
     if (!colorSpaces[this._output]) {
@@ -69,12 +69,12 @@ class Color {
   }
 
   set colorSpace(colorSpace) {
-    this._colorspace = colorSpace;
+    this._colorSpace = colorSpace;
     this._generateColorScale();
   }
 
   get colorSpace() {
-    return this._colorspace;
+    return this._colorSpace;
   }
 
   /** @deprecated Use `colorSpace` instead. */
@@ -154,7 +154,7 @@ class Color {
     this._colorScale = createScale({
       swatches: 3000,
       colorKeys: this._modifiedKeys,
-      colorSpace: this._colorspace,
+      colorSpace: this._colorSpace,
       shift: 1,
       smooth: this._smooth,
       asFun: true
