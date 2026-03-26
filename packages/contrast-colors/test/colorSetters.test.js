@@ -16,7 +16,7 @@ test('should set color name of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });
@@ -31,7 +31,7 @@ test('should set color keys of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });
@@ -46,7 +46,7 @@ test('should set colorspace of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });
@@ -60,7 +60,7 @@ test('should set ratios of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });
@@ -74,7 +74,7 @@ test('should set smooth of Color class', (t) => {
   const color = new Color({
     name: 'colorName',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'CAM02',
+    colorSpace: 'CAM02',
     ratios: [3, 4.5],
     smooth: true
   });

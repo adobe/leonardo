@@ -125,7 +125,7 @@ test('should generate 101 blue toned grayscale colors in HSL space', (t) => {
   const colors = new BackgroundColor({
     name: 'Color',
     colorKeys: ['#4a5b7b', '#72829c', '#a6b2c6'],
-    colorspace: 'HSL'
+    colorSpace: 'HSL'
   }).backgroundColorScale;
 
   t.deepEqual(colors, [
@@ -237,7 +237,7 @@ test('should generate 101 blue toned grayscale colors in LAB space', (t) => {
   const colors = new BackgroundColor({
     name: 'Color',
     colorKeys: ['#4a5b7b', '#72829c', '#a6b2c6'],
-    colorspace: 'LAB'
+    colorSpace: 'LAB'
   }).backgroundColorScale;
 
   t.deepEqual(colors, [
@@ -349,7 +349,7 @@ test('should generate 101 blue colors in HSLuv space', (t) => {
   const colors = new BackgroundColor({
     name: 'Color',
     colorKeys: ['#6FA7FF', '#B5E6FF'],
-    colorspace: 'HSLuv'
+    colorSpace: 'HSLuv'
   }).backgroundColorScale;
 
   t.deepEqual(colors, [

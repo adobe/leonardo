@@ -16,7 +16,7 @@ test('should generate 8 colors in Lab', (t) => {
   const scale = createScale({
     swatches: 8,
     colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'],
-    colorspace: 'LAB',
+    colorSpace: 'LAB',
     shift: 1,
     fullScale: true
   });
@@ -27,7 +27,7 @@ test('should generate 8 colors in OKlab', (t) => {
   const scale = createScale({
     swatches: 8,
     colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'],
-    colorspace: 'OKLAB',
+    colorSpace: 'OKLAB',
     shift: 1,
     fullScale: true
   });
@@ -38,7 +38,7 @@ test('should generate 8 colors in OKLCh', (t) => {
   const scale = createScale({
     swatches: 8,
     colorKeys: ['#CCFFA9', '#FEFEC5', '#5F0198'],
-    colorspace: 'OKLCH',
+    colorSpace: 'OKLCH',
     shift: 1,
     fullScale: true
   });
