@@ -97,15 +97,15 @@
   },
   "devDependencies": {
     "buffer": "^5.5.0||^6.0.0",
-    "eslint": "^10.0.0",
+    "eslint": "^10.2.1",
     "eslint-plugin-import": "^2.32.0",
-    "globals": "^15.0.0",
+    "globals": "^17.5.0",
     "highlight.js": "^11.11.1",
     "path-browserify": "^1.0.0",
     "process": "^0.11.10",
-    "sass": "^1.23.6",
-    "vite": "^6.0.0",
-    "vite-plugin-handlebars": "^2.0.0",
+    "sass": "^1.99.0",
+    "vite": "^8.0.8",
+    "vite-plugin-handlebars": "^2.0.2",
     "vm-browserify": "^1.1.2"
   }
 }
