@@ -69,7 +69,7 @@
     "js": "^0.1.0",
     "loadicons": "^1.0.0",
     "node-vibrant": "^4.0.4",
-    "plotly.js-dist-min": "^3.4.0",
+    "plotly.js-dist-min": "^3.5.1",
     "simple-color-converter": "^2.1.13"
   },
   "keywords": [
