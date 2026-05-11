@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Leonardo UI",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "cd /Users/amarvirsandhu/Documents/GitHub/leonardo/docs/ui && npx vite --port 5173"],
+      "port": 5173
+    }
+  ]
+}

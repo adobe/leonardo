@@ -17,14 +17,14 @@ governing permissions and limitations under the License.
 @import '@spectrum-css/vars/dist/spectrum-darkest.css';
 
 /* Only the Spectrum components used on the home page */
-@import '@spectrum-css/page/dist/index-vars.css';
-@import '@spectrum-css/icon/dist/index-vars.css';
-@import '@spectrum-css/link/dist/index-vars.css';
-@import '@spectrum-css/button/dist/index-vars.css';
-@import '@spectrum-css/divider/dist/index-vars.css';
-@import '@spectrum-css/sidenav/dist/index-vars.css';
-@import '@spectrum-css/table/dist/index-vars.css';
-@import '@spectrum-css/typography/dist/index-vars.css';
+@import '@spectrum-css/page/dist/index.css';
+@import '@spectrum-css/icon/dist/index.css';
+@import '@spectrum-css/link/dist/index.css';
+@import '@spectrum-css/button/dist/index.css';
+@import '@spectrum-css/divider/dist/index.css';
+@import '@spectrum-css/sidenav/dist/index.css';
+@import '@spectrum-css/table/dist/index.css';
+@import '@spectrum-css/typography/dist/index.css';
 
 /* App styles needed for home page */
 @import './scss/style.scss';
