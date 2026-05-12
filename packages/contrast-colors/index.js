@@ -17,10 +17,11 @@ import {convertColorValue, createScale, getContrast as contrast, luminance, minP
 import {Color} from './lib/color.js';
 import {BackgroundColor} from './lib/backgroundcolor.js';
 import {Theme} from './lib/theme.js';
+import {auditPalette} from './lib/auditPalette.js';
 
 extendChroma(chroma);
 
 // console.color('#6fa7ff');
 // console.ramp(chroma.scale(['yellow', 'navy']).mode('hsl'))
 
-export {Color, BackgroundColor, Theme, createScale, luminance, contrast, minPositive, ratioName, convertColorValue};
+export {Color, BackgroundColor, Theme, createScale, luminance, contrast, minPositive, ratioName, convertColorValue, auditPalette};

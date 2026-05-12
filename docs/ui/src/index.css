@@ -25,6 +25,7 @@ governing permissions and limitations under the License.
 @import '@spectrum-css/sidenav/dist/index.css';
 @import '@spectrum-css/table/dist/index.css';
 @import '@spectrum-css/typography/dist/index.css';
+@import '@spectrum-css/tabs/dist/index.css';
 
 /* App styles needed for home page */
 @import './scss/style.scss';

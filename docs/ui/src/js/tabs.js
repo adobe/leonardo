@@ -180,7 +180,9 @@ function openAppTab(evt, tabName) {
   }
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = 'grid';
+  const tabEl = document.getElementById(tabName);
+  // Palette auditor uses its own inner grid; outer `display: grid` breaks two-column layout.
+  tabEl.style.display = tabName === 'paletteAuditor' ? 'block' : 'grid';
   evt.currentTarget.className += ' is-selected';
 }
 

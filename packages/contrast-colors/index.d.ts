@@ -188,6 +188,26 @@ export function contrast(
   method?: ContrastFormula
 ): number;
 
+export interface PaletteAuditCell {
+  /** Hex string of the foreground (text) color for this cell. */
+  foreground: string;
+  /** Hex string of the background color for this cell. */
+  background: string;
+  /** Unsigned WCAG 2.1 contrast ratio (always `>= 1`). */
+  ratio: number;
+  /** `true` when `ratio >= 4.5` (WCAG 2.1 AA, normal text). */
+  aaPass: boolean;
+  /** `true` when `ratio >= 7` (WCAG 2.1 AAA, normal text). */
+  aaaPass: boolean;
+}
+
+/**
+ * Audit every color in a palette against every other color and return a
+ * WCAG 2.1 contrast matrix. `matrix[i][j]` is foreground `colors[i]` on
+ * background `colors[j]`. Invalid or empty entries are skipped silently.
+ */
+export function auditPalette(colors: string[]): PaletteAuditCell[][];
+
 interface UpdateColorOptions extends Partial<ColorBase> {
   /**
    * The current name of the color to be updated.

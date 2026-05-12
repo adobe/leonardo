@@ -73,10 +73,11 @@ loadIcons('./spectrum-icons.svg');
 // Import local Javascript functions
 import {throttle} from './js/utils';
 import {openPanelTab, openTab, openAppTab} from './js/tabs';
-import toggleTooltip from './js/tooltip';
+import './js/tooltip';
 import {compareColors} from './js/compareColors';
-import {convertColors} from './js/convertColors';
+import './js/convertColors';
 import {bulkConvert, bulkItemConvertColorInput, cancelBulkConvert} from './js/bulkConvertDialog';
+import './js/paletteAuditor';
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
   if (event.matches) {
@@ -98,8 +99,14 @@ if (mq.matches) {
   document.querySelector('body').classList.add('spectrum--light');
 }
 
-document.getElementById('tabContrast').click();
-document.getElementById('tabSubPanelContrastChart').click();
+const toolsAppTabId = (() => {
+  const raw = (window.location.hash || '').replace(/^#/, '').toLowerCase();
+  if (raw === 'colorconverter' || raw === 'convert') return 'tabConverter';
+  if (raw === 'paletteauditor') return 'tabPaletteAuditor';
+  return 'tabContrast';
+})();
+document.getElementById(toolsAppTabId)?.click();
+document.getElementById('tabSubPanelContrastChart')?.click();
 
 document.getElementById('compareColorOneInput').dispatchEvent(new Event('input'));
 document.getElementById('compareColorTwoInput').dispatchEvent(new Event('input'));

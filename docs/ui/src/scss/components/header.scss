@@ -24,9 +24,39 @@
   align-items: center;
 
   .spectrum-Tabs {
-    height: 57px;
+    height: auto;
+    min-height: 32px;
+    max-height: none;
     margin-left: 48px;
+    align-items: center;
+    column-gap: 8px;
+    flex-wrap: wrap;
   }
+}
+
+/* Workflow icon size tokens are missing in some dev installs — constrain header SVGs */
+.spectrum-AppHeader svg.spectrum-Icon,
+.spectrum-AppHeader a#tabHome svg,
+.spectrum-AppHeader a[href='index.html'].spectrum-Tabs-item svg {
+  width: 18px !important;
+  height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  display: block;
+  flex-shrink: 0;
+}
+
+.spectrum-AppHeader .spectrum-Tabs--fluid .spectrum-Tabs-item {
+  flex: 0 0 auto;
+}
+
+.spectrum-AppHeader .spectrum-Tabs-item {
+  padding: 0 18px;
+}
+
+.spectrum-AppHeader .spectrum-Tabs-itemLabel {
+  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 .spectrum-AppHeader_item--last {

@@ -1,0 +1,55 @@
+<!-- Palette Auditor Tab -->
+<div id="paletteAuditor" class="AppTab paletteAuditor-tab">
+  <div class="paletteAuditor-inner spectrum-Typography">
+    <div class="paletteAuditor-layout">
+      <aside class="paletteAuditor-controls">
+        <header class="paletteAuditor-intro">
+          <h1 class="spectrum-Heading spectrum-Heading--sizeXL spectrum-Heading--heavy">Palette auditor</h1>
+          <p class="spectrum-Body spectrum-Body--sizeS">
+            One hex per line. Rows = text color, columns = background. AA needs ≥ 4.5:1, AAA needs ≥ 7:1 (WCAG 2.1 normal text).
+          </p>
+        </header>
+        <label class="spectrum-FieldLabel spectrum-FieldLabel--sizeM" id="paletteAuditorColorsLabel" for="paletteAuditorColors">Palette colors</label>
+        <div class="spectrum-Textfield spectrum-Textfield--multiline paletteAuditor-textfield">
+          <textarea
+            id="paletteAuditorColors"
+            class="spectrum-Textfield-input"
+            placeholder="Hex colors, one per line"
+            aria-labelledby="paletteAuditorColorsLabel"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            rows="10"
+          ></textarea>
+        </div>
+        <p class="spectrum-Body spectrum-Body--sizeS paletteAuditor-hint">
+          Each row uses the color as a foreground; each column uses it as a background. Invalid or empty lines are ignored.
+        </p>
+
+        <section class="paletteAuditor-legend" aria-label="WCAG 2.1 thresholds">
+          <h3 class="spectrum-Heading spectrum-Heading--sizeXXS">WCAG 2.1 thresholds</h3>
+          <dl>
+            <div class="paletteAuditor-legendItem">
+              <dt><span class="paletteAuditor-badge paletteAuditor-badge--pass" aria-hidden="true">AA</span></dt>
+              <dd class="spectrum-Body spectrum-Body--sizeS">≥ 4.5:1 — normal text</dd>
+            </div>
+            <div class="paletteAuditor-legendItem">
+              <dt><span class="paletteAuditor-badge paletteAuditor-badge--pass" aria-hidden="true">AAA</span></dt>
+              <dd class="spectrum-Body spectrum-Body--sizeS">≥ 7:1 — normal text (enhanced)</dd>
+            </div>
+          </dl>
+          <p class="spectrum-Body spectrum-Body--sizeXS paletteAuditor-legendFoot">Anything lower fails that level for normal text.</p>
+        </section>
+      </aside>
+
+      <section class="paletteAuditor-results">
+        <div class="paletteAuditor-resultsHeader">
+          <h2 class="spectrum-Heading spectrum-Heading--sizeS spectrum-Heading--heavy">Contrast matrix</h2>
+        </div>
+        <div id="paletteAuditorSummary" class="paletteAuditor-summaryBar" aria-live="polite" hidden></div>
+        <p class="spectrum-Body spectrum-Body--sizeS paletteAuditor-empty" id="paletteAuditorEmpty">Enter at least two valid hex colors to build a matrix.</p>
+        <div id="paletteAuditorMatrix" class="paletteAuditor-matrix" role="grid" aria-label="Palette contrast matrix"></div>
+      </section>
+    </div>
+  </div>
+</div>
