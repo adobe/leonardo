@@ -33,7 +33,7 @@ class BackgroundColor extends Color {
     const backgroundColorScale = createScale({
       swatches: 1000,
       colorKeys: this._colorKeys,
-      colorspace: this._colorspace,
+      colorSpace: this.colorSpace,
       shift: 1,
       smooth: this._smooth
     });

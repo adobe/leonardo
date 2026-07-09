@@ -18,7 +18,7 @@ test('should set theme output to HEX', (t) => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'CAM02'
+    colorSpace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
@@ -34,7 +34,7 @@ test('should set theme output to RGB', (t) => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'CAM02'
+    colorSpace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
@@ -50,7 +50,7 @@ test('should set theme output to HSL', (t) => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'CAM02'
+    colorSpace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
@@ -66,7 +66,7 @@ test('should set theme output to HSV', (t) => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'CAM02'
+    colorSpace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
@@ -82,7 +82,7 @@ test('should set theme output to LAB', (t) => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'CAM02'
+    colorSpace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
@@ -98,7 +98,7 @@ test('should set theme output to LCH', (t) => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'CAM02'
+    colorSpace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
@@ -116,7 +116,7 @@ test('should set theme saturation to 60%', (t) => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'CAM02'
+    colorSpace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
@@ -132,7 +132,7 @@ test('should set theme saturation to 60% (updated)', (t) => {
     name: 'Color',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
     ratios: [3, 4.5],
-    colorspace: 'CAM02'
+    colorSpace: 'CAM02'
   });
   const theme = new Theme({
     colors: [color],
@@ -149,7 +149,7 @@ test('should set colorspace for one color in theme to CAM02', (t) => {
   const gray = new Color({
     name: 'gray',
     colorKeys: ['#2451FF', '#C9FEFE', '#012676'],
-    colorspace: 'RGB',
+    colorSpace: 'RGB',
     ratios: [3, 4.5]
   });
   gray.colorspace = 'CAM02';
@@ -163,19 +163,19 @@ test('should remove a color by its class', (t) => {
   const gray = new BackgroundColor({
     name: 'gray',
     colorKeys: ['#cacaca'],
-    colorspace: 'HSL',
+    colorSpace: 'HSL',
     ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
   });
   const blue = new Color({
     name: 'blue',
     colorKeys: ['#0000ff'],
-    colorspace: 'LAB',
+    colorSpace: 'LAB',
     ratios: [2, 3, 4.5, 8, 12]
   });
   const red = new Color({
     name: 'red',
     colorKeys: ['#ff0000'],
-    colorspace: 'RGB',
+    colorSpace: 'RGB',
     ratios: [2, 3, 4.5, 8, 12]
   });
   const theme = new Theme({
@@ -224,19 +224,19 @@ test('should remove a color by its name', (t) => {
   const gray = new BackgroundColor({
     name: 'gray',
     colorKeys: ['#cacaca'],
-    colorspace: 'HSL',
+    colorSpace: 'HSL',
     ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
   });
   const blue = new Color({
     name: 'blue',
     colorKeys: ['#0000ff'],
-    colorspace: 'LAB',
+    colorSpace: 'LAB',
     ratios: [2, 3, 4.5, 8, 12]
   });
   const red = new Color({
     name: 'red',
     colorKeys: ['#ff0000'],
-    colorspace: 'RGB',
+    colorSpace: 'RGB',
     ratios: [2, 3, 4.5, 8, 12]
   });
   const theme = new Theme({
@@ -285,19 +285,19 @@ test('should set contrast multiple times', (t) => {
   const gray = new BackgroundColor({
     name: 'gray',
     colorKeys: ['#cacaca'],
-    colorspace: 'HSL',
+    colorSpace: 'HSL',
     ratios: [-1.8, -1.2, 1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21]
   });
   const blue = new Color({
     name: 'blue',
     colorKeys: ['#0000ff'],
-    colorspace: 'LAB',
+    colorSpace: 'LAB',
     ratios: [2, 3, 4.5, 8, 12]
   });
   const red = new Color({
     name: 'red',
     colorKeys: ['#ff0000'],
-    colorspace: 'RGB',
+    colorSpace: 'RGB',
     ratios: [2, 3, 4.5, 8, 12]
   });
   const theme = new Theme({
@@ -361,7 +361,7 @@ test('should update predefined color keys', (t) => {
     name: 'Color',
     colorKeys: ['#cacaca'],
     ratios: [1.2, -1.2],
-    colorspace: 'LCH'
+    colorSpace: 'LCH'
   }); // positive & negative ratios
   const theme = new Theme({colors: [color], backgroundColor: '#537b9d'});
 
@@ -378,7 +378,7 @@ test('should update predefined color keys as object return', (t) => {
     name: 'Color',
     colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
     ratios: [1, 1.2, 1.4, 2, 3, 4.5, 6, 8, 12, 21],
-    colorspace: 'RGB'
+    colorSpace: 'RGB'
   }); // positive & negative ratios
   const theme = new Theme({colors: [color], backgroundColor: '#e1e1e1'});
   theme.updateColor = {color: 'Color', colorKeys: ['#ff00ff']};
@@ -410,18 +410,18 @@ test('should update predefined colors interpolation', (t) => {
     name: 'Color',
     colorKeys: ['#ff8602', '#ab3c00', '#ffd88b'],
     ratios: [1.2, -1.2],
-    colorspace: 'RGB'
+    colorSpace: 'RGB'
   }); // positive & negative ratios
   const theme = new Theme({colors: [color], backgroundColor: '#537b9d'});
 
-  theme.updateColor = {color: 'Color', colorspace: 'LCH'};
+  theme.updateColor = {color: 'Color', colorSpace: 'LCH'};
   const themeColors = theme.contrastColorValues;
   t.deepEqual(themeColors, ['#d86202', '#b84601']);
 });
 
 // // Formula setter
 // test('should set formula to wcag3 with updated contrast values', t => {
-//   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorspace: 'CAM02' });
+//   const color = new Color({ name: 'Color', colorKeys: ['#2451FF', '#C9FEFE', '#012676'], ratios: [3, 4.5], colorSpace: 'CAM02' });
 //   const theme = new Theme({ colors: [color], backgroundColor: '#f5f5f5', output: 'HEX' });
 //   theme.formula = 'wcag3';
 //   const themeColors = theme.contrastColors;
