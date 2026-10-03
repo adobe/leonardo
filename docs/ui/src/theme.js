@@ -115,6 +115,7 @@ function updateParams() {
         smooth: c.smooth
       };
     }),
+    lightnessStops: Array.from(document.getElementsByClassName('luminosity-Field'), (input) => (input.value === '' ? null : Number(input.value))),
     lightness: _theme.lightness,
     contrast: _theme.contrast,
     saturation: _theme.saturation,

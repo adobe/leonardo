@@ -66,7 +66,9 @@ function paramSetup() {
         let colorName = color.name;
         let keyColors = color.colorKeys;
         let colorSpaceVal = color.colorSpace ?? color.colorspace;
-        let ratios = color.ratios;
+        // BackgroundColor sorts its ratios. Keep the URL order intact so each
+        // ratio stays paired with its saved lightness stop until the UI sorts.
+        let ratios = [...color.ratios];
         let smooth = i === 0 ? false : color.smooth;
         if (color.smooth === 'true') {
           if (colorSpaceVal === 'OKLAB' || colorSpaceVal === 'OKLCH') setFirstColorSmoothing = true;
@@ -142,7 +144,7 @@ function paramSetup() {
           let label = document.getElementById('ratioInputLabel');
           label.innerHTML = formula === 'wcag2' ? 'WCAG 2 contrast' : formula === 'wcag3' ? 'APCA contrast' : 'Contrast';
 
-          sortRatios();
+          sortRatios(config.lightnessStops);
         }, 500);
       });
   } else if (params.has('colorKeys')) {

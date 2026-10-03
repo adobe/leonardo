@@ -296,35 +296,38 @@ document.getElementById('distribute').addEventListener('input', function (e) {
 });
 
 // Sort swatches in UI
-function sort() {
+function sort(lightnessStops) {
   let ratioFields = document.getElementsByClassName('ratio-Field');
   let ratioInputs = [];
   for (let i = 0; i < ratioFields.length; i++) {
-    ratioInputs.push(ratioFields[i].value);
+    ratioInputs.push({
+      ratio: ratioFields[i].value,
+      lightness: Array.isArray(lightnessStops) && lightnessStops.length === ratioFields.length ? lightnessStops[i] : undefined
+    });
   }
   // console.log(ratioInputs)
 
   ratioInputs.sort(function (a, b) {
-    return a - b;
+    return a.ratio - b.ratio;
   });
 
   // Update ratio inputs with new values
   for (let i = 0; i < ratioInputs.length; i++) {
-    ratioFields[i].value = ratioInputs[i];
+    ratioFields[i].value = ratioInputs[i].ratio;
   }
   setTimeout(() => {
     for (let i = 0; i < ratioInputs.length; i++) {
-      ratioFields[i].dispatchEvent(new Event('input'));
+      syncRatioInputs({target: ratioFields[i]}, ratioInputs[i].lightness);
     }
   }, 200);
 }
 
-function sortRatios() {
-  sort();
+function sortRatios(lightnessStops) {
+  sort(lightnessStops);
   // ratioUpdate();
 }
 
-function syncRatioInputs(e) {
+function syncRatioInputs(e, savedLightness) {
   let thisId = e.target.id;
   let baseId = thisId.includes('_luminosity') ? thisId.replace('_luminosity', '') : thisId;
   let swatchId = baseId.concat('-sw');
@@ -387,7 +390,9 @@ function syncRatioInputs(e) {
       // Must calculate luminosity of respective contrast value
 
       let tempColor = _theme.contrastColors[1].values[index].value;
-      luminosity = d3.lch(tempColor).l;
+      // Shared URLs retain the authored stop instead of deriving it from a
+      // quantized color. Later ratio edits still calculate a new lightness.
+      luminosity = Number.isFinite(savedLightness) && savedLightness >= 0 && savedLightness <= 100 ? savedLightness : d3.lch(tempColor).l;
       luminosityInput.value = round(luminosity, 2);
 
       swatchColor = d3.lch(luminosity, 0, 0).formatHex();
