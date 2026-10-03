@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 
 import * as Leo from '@adobe/leonardo-contrast-colors';
-import {convertColorValue, makePowScale, round, findMatchingLuminosity, orderColorsByLuminosity} from './utils';
+import {convertColorValue, makePowScale, round, findMatchingLuminosity} from './utils';
 import chroma from 'chroma-js';
 import {extendChroma} from './chroma-plus';
 
@@ -32,10 +32,10 @@ class SequentialScale {
 
   set colorKeys(colors) {
     this._colorKeys = colors;
+    this._luminosities = this._getLuminosities();
     this._colors = null;
     this._colorsReversed = null;
     this._colors = this._createColorScale();
-    this._luminosities = this._getLuminosities();
     this._domains = this._getDomains();
   }
 
@@ -217,10 +217,10 @@ class SequentialScale {
     let formattedColors = colorScale.map((c) => {
       return convertColorValue(c, this._output);
     });
-    this._colorsReversed = orderColorsByLuminosity(formattedColors, 'toLight');
-
-    let reversedColor = orderColorsByLuminosity(formattedColors, 'toDark');
-    return reversedColor;
+    // Preserve the interpolation path. Sorting individual samples by measured
+    // lightness can interleave distant hues when that path is not monotonic.
+    this._colorsReversed = formattedColors;
+    return [...formattedColors].reverse();
   }
 
   _getDomains() {
