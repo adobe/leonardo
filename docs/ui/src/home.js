@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 */
 
 import './index.css';
+import '@adobe/focus-ring-polyfill';
 import {pageLoader} from './js/pageLoader';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
