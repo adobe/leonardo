@@ -21,7 +21,8 @@ import {createPalette} from './tools/create-palette.js';
 
 const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 
-const server = new McpServer({
+// Exported so tests can connect a client over an in-memory transport; runServer() connects stdio.
+export const server = new McpServer({
   name: 'leonardo',
   version: pkg.version
 });
@@ -55,7 +56,8 @@ server.registerTool(
       const result = generateTheme(args);
       return {
         content: [{type: 'text', text: JSON.stringify(result, null, 2)}],
-        structuredContent: result
+        // MCP requires structuredContent to be an object; contrastColors is an array, so it goes under one key.
+        structuredContent: {contrastColors: result}
       };
     } catch (err) {
       return {content: [{type: 'text', text: err.message}], isError: true};
